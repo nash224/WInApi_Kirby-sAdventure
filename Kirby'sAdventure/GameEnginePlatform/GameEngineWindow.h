@@ -20,13 +20,18 @@ public:
 	void Open(const std::string& _Title, HINSTANCE hInstance);
 	static void MessageLoop(HINSTANCE hInstance, void (*_Start)(HINSTANCE), void (*_Update)(), void (*_End)());
 
+	HDC GetHDC()
+	{
+		return Hdc;
+	}
+
 protected:
 
 private:
 	static HINSTANCE Instance;
 	std::string Title = " ";
 	HWND hWnd = nullptr;
-
+	HDC Hdc = nullptr;
 
 
 	void MyRegisterClass();

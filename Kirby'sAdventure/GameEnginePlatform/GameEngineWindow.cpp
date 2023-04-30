@@ -45,7 +45,7 @@ void GameEngineWindow::MyRegisterClass()
     wcex.hInstance = Instance;
     wcex.hIcon = nullptr;
     wcex.hCursor = LoadCursor(nullptr, IDC_ARROW);
-    wcex.hbrBackground = (HBRUSH)(COLOR_WINDOW + 3);
+    wcex.hbrBackground = (HBRUSH)(COLOR_WINDOW + 2);
     wcex.lpszMenuName = nullptr;
     wcex.lpszClassName = "DefaultWindow";
     wcex.hIconSm = nullptr;
@@ -95,6 +95,8 @@ void GameEngineWindow::InitInstance()
         MsgBoxAssert("윈도우 생성에 실패했습니다.");
         return;
     }
+
+    Hdc = ::GetDC(hWnd);
 
     ShowWindow(hWnd, SW_SHOW);
     UpdateWindow(hWnd);

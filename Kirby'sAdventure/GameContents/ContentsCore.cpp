@@ -18,6 +18,8 @@ void ContentsCore::Start()
 	GameEngineCore::CreateLevel<TitleLevel>("TitleLevel");
 	GameEngineCore::CreateLevel<PlayLevel>("PlayLevel");
 	GameEngineCore::CreateLevel<EndingLevel>("EndingLevel");
+
+	GameEngineCore::ChangeLevel("PlayLevel");
 }
 
 void ContentsCore::Update()

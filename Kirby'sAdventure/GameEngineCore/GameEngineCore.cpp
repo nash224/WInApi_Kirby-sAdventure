@@ -5,6 +5,8 @@
 std::string GameEngineCore::WindowTitle = "";
 std::map<std::string, class GameEngineLevel*> GameEngineCore::AllLevel;
 CoreProcess* GameEngineCore::Process = nullptr;
+GameEngineLevel* GameEngineCore::NextLevel = nullptr;
+GameEngineLevel* GameEngineCore::CurLevel = nullptr;
 
 GameEngineCore::GameEngineCore()
 {
@@ -40,12 +42,38 @@ void GameEngineCore::CoreStart(HINSTANCE _Inst)
 
 void GameEngineCore::CoreUpdate()
 {
+	if (nullptr != NextLevel)
+	{
+		CurLevel = NextLevel;
+		NextLevel = nullptr;
+	}
 
+	CurLevel->Update();
+	// 다른 클래스임에도 불구하고 GameEngineLevel의 함수를 사용할 수 있는 이유
+	// => GameEngineLevel에서 프랜드를 선언해 사용할 수 있게 해줌
+	CurLevel->ActorUpdate();
+	CurLevel->Render();
+	CurLevel->ActorRender();
 }
 
 void GameEngineCore::CoreEnd()
 {
+	Process->Release();
 
+	if (nullptr != Process)
+	{
+		delete Process;
+		Process = nullptr;
+	}
+
+	for (std::pair<std::string, GameEngineLevel*> _Ptr : AllLevel)
+	{
+		if (nullptr != _Ptr.second)
+		{
+			delete _Ptr.second;
+			_Ptr.second = nullptr;
+		}
+	}
 }
 
 

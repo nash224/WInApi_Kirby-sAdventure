@@ -56,15 +56,31 @@ public:
 		//	= AllLevel.insert(std::make_pair(_Name, nullptr));
 	}
 
+	static void ChangeLevel(const std::string& _Name)
+	{
+		std::string Upper = GameEngineString::ToUpperReturn(_Name);
+		
+		std::map<std::string, GameEngineLevel*>::iterator FindIter = AllLevel.find(Upper);
+
+		if (AllLevel.end() == FindIter)
+		{
+			MsgBoxAssert(_Name + "의 이름을 가진 GameEngineLevel은 존재하지 않습니다.");
+			return;
+		}
+
+		NextLevel = FindIter->second;
+	}
+
 protected:
 
 private:
 	static CoreProcess* Process;
 
-
 	static std::string WindowTitle;
 	static std::map<std::string, GameEngineLevel*> AllLevel;
 
+	static GameEngineLevel* NextLevel;
+	static GameEngineLevel* CurLevel;
 
 	static void EngineStart(const std::string& _Title, HINSTANCE _Inst, CoreProcess* _Ptr);
 
