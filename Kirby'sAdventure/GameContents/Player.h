@@ -1,5 +1,7 @@
 #pragma once
-class Player
+#include <GameEngineCore/GameEngineActor.h>
+
+class Player : public GameEngineActor
 {
 public:
 	// constructor desstructor

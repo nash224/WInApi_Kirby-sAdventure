@@ -1,11 +1,17 @@
 #pragma once
 #include <GameEngineBase/GameEngineString.h>
-#include <GameEngineCore/GameEngineLevel.h>
 #include <GameEngineBase/GameEngineDebug.h>
 #include <Windows.h>
 #include <string>
 #include <map>
+#include "GameEngineObject.h"
 
+class CoreProcess : public GameEngineObject
+{
+
+};
+
+class GameEngineLevel;
 class GameEngineCore
 {
 public:
@@ -19,10 +25,14 @@ public:
 	GameEngineCore& operator=(const GameEngineCore& _Other) = delete;
 	GameEngineCore& operator=(GameEngineCore&& _Other) noexcept = delete;
 
-	static void EngineStart(const std::string& _Title, HINSTANCE _Inst);
+	template<typename CoreProcessType>
+	static void EngineStart(const std::string& _Title, HINSTANCE _Inst)
+	{
+		EngineStart(_Title, _Inst, new CoreProcessType());
+	}
 
 	template<typename LevelType>
-	static void Create(const std::string& _Name)
+	static void CreateLevel(const std::string& _Name)
 	{
 		std::string Upper = GameEngineString::ToUpperReturn(_Name);
 
@@ -33,7 +43,12 @@ public:
 			return;
 		}
 
+		// C2240 : 초기화 중 자식에서 부모로 변환할 수 없습니다.
+		//		   => 자식 클래스에 상속을 하지 않았음
+		// 자식의 객체를 업케스팅하여 객체를 저장함
 		GameEngineLevel* NewLevel = new LevelType();
+
+		LevelInit(NewLevel);
 
 		AllLevel.insert(std::make_pair(Upper, NewLevel));
 
@@ -44,11 +59,18 @@ public:
 protected:
 
 private:
-	static std::string Title;
+	static CoreProcess* Process;
+
+
+	static std::string WindowTitle;
 	static std::map<std::string, GameEngineLevel*> AllLevel;
 
+
+	static void EngineStart(const std::string& _Title, HINSTANCE _Inst, CoreProcess* _Ptr);
 
 	static void CoreStart(HINSTANCE _Inst);
 	static void CoreUpdate();
 	static void CoreEnd();
+
+	static void LevelInit(GameEngineLevel* _Level);
 };

@@ -122,6 +122,7 @@
     <ClInclude Include="StarStickEffectFrame.h">
       <Filter>Level\Object\Item</Filter>
     </ClInclude>
+    <ClInclude Include="ContentsCore.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Player.cpp" />
@@ -245,6 +246,7 @@
     <ClCompile Include="StarStickEffectFrame.cpp">
       <Filter>Level\Object\Item</Filter>
     </ClCompile>
+    <ClCompile Include="ContentsCore.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Level">

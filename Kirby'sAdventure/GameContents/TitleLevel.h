@@ -1,7 +1,10 @@
 #pragma once
+#include <GameEngineCore/GameEngineLevel.h>
 
+// ErrorCode : C2504 : 클래스를 지정할 때 기본 클래스가 지정되지 않으면 발생함
+// 부모 헤더를 추가해주지 않았음
 // 설명 :
-class TitleLevel
+class TitleLevel : public GameEngineLevel
 {
 public:
 	// constrcuter destructer
