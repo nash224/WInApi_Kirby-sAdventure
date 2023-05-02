@@ -25,6 +25,11 @@ public:
 		return Hdc;
 	}
 
+	static void WIndowOff()
+	{
+		IsWindowUpdate = false;
+	}
+
 protected:
 
 private:
@@ -32,6 +37,8 @@ private:
 	std::string Title = " ";
 	HWND hWnd = nullptr;
 	HDC Hdc = nullptr;
+
+	static bool IsWindowUpdate;
 
 
 	void MyRegisterClass();

@@ -1,4 +1,5 @@
 #include <GameEnginePlatform/GameEngineWindow.h>
+#include <GameEngineBase/GameEngineTime.h>
 #include "Player.h"
 
 
@@ -18,7 +19,9 @@ void Player::Start()
 
 void Player::Update()
 {
-	AddPos({ 0.0f , 1.0f });
+	float TIme = GameEngineTime::MainTimer.GetDeltaTime();
+
+	AddPos({ 0.0001f , 0.0f });
 }
 
 void Player::Render() 

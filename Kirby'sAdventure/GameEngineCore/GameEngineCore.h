@@ -28,6 +28,7 @@ public:
 	template<typename CoreProcessType>
 	static void EngineStart(const std::string& _Title, HINSTANCE _Inst)
 	{
+		// ContentsCore 객체를 생성한 이유 : 
 		EngineStart(_Title, _Inst, new CoreProcessType());
 	}
 

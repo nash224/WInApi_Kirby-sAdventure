@@ -48,6 +48,8 @@ void GameEngineCore::CoreUpdate()
 		NextLevel = nullptr;
 	}
 
+	// 만약 CurLevel의 타입이 부모 클래스 타입이라면 호출 시 부모 클래스의 Update함수()가 호출된다
+	// 그러나 CurLevel이 자식 클래스 타입의 객체를 가리키고 있다면 자식클래스에서 오버라이드된 함수로 대체된다.
 	CurLevel->Update();
 	// 다른 클래스임에도 불구하고 GameEngineLevel의 함수를 사용할 수 있는 이유
 	// => GameEngineLevel에서 프랜드를 선언해 사용할 수 있게 해줌

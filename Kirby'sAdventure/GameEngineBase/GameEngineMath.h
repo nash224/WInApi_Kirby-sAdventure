@@ -9,6 +9,8 @@ class GameEngineMath
 class float4
 {
 public:
+	// 실수는 부동소수점 방식을 사용하고 있어 표현방식에 미세한 오차가 있을 수 있음으로
+	// 등호연산자를 사용하면 원하는 결과가 나오지 않을 수 있다.
 	float X;
 	float Y;
 	float Z;
