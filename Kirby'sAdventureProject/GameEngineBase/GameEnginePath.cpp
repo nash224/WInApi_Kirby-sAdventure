@@ -5,6 +5,12 @@ GameEnginePath::GameEnginePath()
 {
 }
 
+GameEnginePath::GameEnginePath(const std::string& _Path)
+	: Path(_Path)
+{
+
+}
+
 GameEnginePath::~GameEnginePath() 
 {
 }
@@ -58,4 +64,9 @@ void GameEnginePath::MoveChild(const std::string& _ChildPath)
 	}
 
 	Path = CheckPath;
+}
+
+std::string GameEnginePath::GetFileName()
+{
+	return Path.filename().string();
 }

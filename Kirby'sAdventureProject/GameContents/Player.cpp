@@ -2,6 +2,8 @@
 #include <GameEngineBase/GameEngineTime.h>
 #include <GameEnginePlatform/GameEngineWindow.h>
 #include <GameEngineCore/ResourceManager.h>
+#include <GameEngineCore/GameEngineTexture.h>
+#include <Windows.h>
 #include "Player.h"
 
 
@@ -32,7 +34,7 @@ void Player::Start()
 		FilePath.MoveParentToExistsChild("Resources");
 
 		// Kirby.bmp가 있는 폴더에 접근한다.
-		FilePath.MoveChild("Resources\\KirbyTest");
+		FilePath.MoveChild("Resources\\KirbyTest\\Kirby.bmp");
 
 		// 텍스쳐를 받는다.
 		ResourceManager::GetInst().TextureLoad(FilePath.GetStringPath());
@@ -50,14 +52,19 @@ void Player::Update(float _Delta)
 void Player::Render() 
 {
 	HDC WindowHDC = GameEngineWindow::MainWindow.GetHDC();
+	GameEngineTexture* FindTexture = ResourceManager::GetInst().FindTexture("Kirby.bmp");
+	HDC ImageDC = FindTexture->GetImageDC();
 
-	Rectangle(WindowHDC,
-		GetPos().iX() - GetScale().ihX(),
-		GetPos().iY() - GetScale().ihY(),
-		GetPos().iX() + GetScale().ihX(),
-		GetPos().iY() + GetScale().ihY()
-	);
+	// hdcDest 출력 대상의 핸들
+	// hdcSrc 출력할 비트맵이 저장된 핸들
+	BitBlt(WindowHDC, 100, 100, 500, 500, ImageDC, 0, 0, SRCCOPY);
 
+	//Rectangle(WindowHDC,
+	//	GetPos().iX() - GetScale().ihX(),
+	//	GetPos().iY() - GetScale().ihY(),
+	//	GetPos().iX() + GetScale().ihX(),
+	//	GetPos().iY() + GetScale().ihY()
+	//);
 }
 
 void Player::Release() 
