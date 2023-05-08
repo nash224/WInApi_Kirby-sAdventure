@@ -9,12 +9,13 @@ class GameEngineMath
 class float4
 {
 public:
+	static const float4 Zero;
 	// 실수는 부동소수점 방식을 사용하고 있어 표현방식에 미세한 오차가 있을 수 있음으로
 	// 등호연산자를 사용하면 원하는 결과가 나오지 않을 수 있다.
-	float X;
-	float Y;
-	float Z;
-	float W;
+	float X = 0.0f;
+	float Y = 0.0f;
+	float Z = 0.0f;
+	float W = 1.0f;
 
 	// 내 위치
 	inline int iX() const

@@ -1,18 +1,20 @@
+#include "GameEngineWindowTexture.h"
+
 #include <GameEngineBase/GameEngineDebug.h>
-#include "GameEngineTexture.h"
+
 #include <Windows.h>
 #include <string>
 
-GameEngineTexture::GameEngineTexture() 
+GameEngineWindowTexture::GameEngineWindowTexture() 
 {
 }
 
-GameEngineTexture::~GameEngineTexture() 
+GameEngineWindowTexture::~GameEngineWindowTexture() 
 {
 }
 
 
-void GameEngineTexture::LoadResource(const std::string& _FilePath)
+void GameEngineWindowTexture::ResLoad(const std::string& _FilePath)
 {
 	// MSLearn : Loads an icon, cursor, animated cursor, or bitmap.
 	// LoadImageA() 첫번째 인자는 이미지를 로드하는 모듈의 인스턴스 핸들값을 나타내는데,
@@ -41,12 +43,38 @@ void GameEngineTexture::LoadResource(const std::string& _FilePath)
 	ScaleCheck();
 }
 
-void GameEngineTexture::ScaleCheck()
+void GameEngineWindowTexture::ScaleCheck()
 {
 	// GetObject()는 개체의 크기, 모양, 비트 단위, 색상 들을 가져온다.
 	// Info에 구조체를 저장할 메모리 주소를 전달한다.
 	GetObject(BitMap, sizeof(BITMAP), &Info);
 	
 	BITMAP OldInfo = {0};
-	GetObject(BitMap, sizeof(BITMAP), &OldInfo);
+	GetObject(OldBitMap, sizeof(BITMAP), &OldInfo);
+}
+
+
+void GameEngineWindowTexture::BitCopy(GameEngineWindowTexture* _CopyTexture, const float4& _Pos)
+{
+	BitCopy(_CopyTexture, _Pos, _CopyTexture->GetScale());
+}
+
+void GameEngineWindowTexture::BitCopy(
+	GameEngineWindowTexture* _CopyTexture, 
+	const float4& _Pos, 
+	const float4& _Scale)
+{
+	HDC CopyImageDC = _CopyTexture->GetImageDC();
+
+	// hdcDest 출력 대상의 핸들 (윈도우의 HDC)
+	// hdcSrc 출력할 비트맵이 저장된 핸들(리소스의 HDC)
+	BitBlt(ImageDC,
+		_Pos.iX() - _Scale.iX(),
+		_Pos.iY() - _Scale.iY(),
+		_Scale.iX(),
+		_Scale.iY(),
+		CopyImageDC,
+		0,
+		0,
+		SRCCOPY);
 }

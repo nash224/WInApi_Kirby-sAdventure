@@ -49,7 +49,7 @@ void GameEngineCore::CoreUpdate()
 		NextLevel = nullptr;
 	}
 
-	// 이 줄에 오는데 Cpu시간을 반환한다. 
+	// 한줄이 다시 실행하는 Cpu시간을 반환한다. 
 	GameEngineTime::MainTimer.Update();
 	float Delta = GameEngineTime::MainTimer.GetDeltaTime();
 

@@ -1,6 +1,8 @@
 #include "ResourceManager.h"
-#include "GameEngineTexture.h"
+
+#include <GameEnginePlatform/GameEngineWindowTexture.h>
 #include <GameEngineBase/GameEngineString.h>
+
 #include <string>
 
 
@@ -11,9 +13,9 @@ ResourceManager::ResourceManager()
 
 ResourceManager::~ResourceManager() 
 {
-	for (const std::pair<std::string, GameEngineTexture*>& Pair : AllTexture)
+	for (const std::pair<std::string, GameEngineWindowTexture*>& Pair : AllTexture)
 	{
-		GameEngineTexture* Texture = Pair.second;
+		GameEngineWindowTexture* Texture = Pair.second;
 
 		if (nullptr != Texture)
 		{
@@ -29,11 +31,11 @@ bool ResourceManager::IsLoadTexture(const std::string& _Name)
 	return FindTexture(_Name) != nullptr;
 }
 
-GameEngineTexture* ResourceManager::FindTexture(const std::string& _Name)
+GameEngineWindowTexture* ResourceManager::FindTexture(const std::string& _Name)
 {
 	std::string UpperName = GameEngineString::ToUpperReturn(_Name);
 
-	std::map<std::string, GameEngineTexture*>::iterator FindIter = AllTexture.find(UpperName);
+	std::map<std::string, GameEngineWindowTexture*>::iterator FindIter = AllTexture.find(UpperName);
 
 	if (FindIter == AllTexture.end())
 	{
@@ -44,14 +46,16 @@ GameEngineTexture* ResourceManager::FindTexture(const std::string& _Name)
 }
 
 
-void ResourceManager::TextureLoad(const std::string& _Name, const std::string& _Path)
+GameEngineWindowTexture* ResourceManager::TextureLoad(const std::string& _Name, const std::string& _Path)
 {
 	std::string UpperString = GameEngineString::ToUpperReturn(_Name);
 
-	GameEngineTexture* NewTexture = new GameEngineTexture();
+	GameEngineWindowTexture* NewTexture = new GameEngineWindowTexture();
 
 	// 객체에 경로를 담음
-	NewTexture->LoadResource(_Path);
+	NewTexture->ResLoad(_Path);
 
 	AllTexture.insert(std::make_pair(UpperString, NewTexture));
+
+	return NewTexture;
 }

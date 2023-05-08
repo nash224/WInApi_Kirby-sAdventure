@@ -17,12 +17,12 @@ public:
 	GameEngineActor& operator=(const GameEngineActor& _Other) = delete;
 	GameEngineActor& operator=(GameEngineActor&& _Other) noexcept = delete;
 
-	void SetPos(const float4 _Pos)
+	void SetPos(const float4& _Pos)
 	{
 		Pos = _Pos;
 	}
 
-	void AddPos(const float4 _Pos)
+	void AddPos(const float4& _Pos)
 	{
 		Pos += _Pos;
 	}
@@ -33,7 +33,7 @@ public:
 	}
 
 
-	void SetScale(const float4 _Scale)
+	void SetScale(const float4& _Scale)
 	{
 		Scale = _Scale;
 	}
@@ -46,6 +46,6 @@ public:
 protected:
 
 private:
-	float4 Pos = { 0 , 0 };
-	float4 Scale = { 0 , 0 }; // 상대적인 위치만 필요하는 객체들은 scale이 필요 없을 수도 있다.
+	float4 Pos = float4::Zero;
+	float4 Scale = float4::Zero; // 상대적인 위치만 필요하는 객체들은 scale이 필요 없을 수도 있다.
 };

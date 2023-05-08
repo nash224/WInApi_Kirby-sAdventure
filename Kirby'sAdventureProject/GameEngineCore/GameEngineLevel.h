@@ -24,13 +24,15 @@ public:
 
 	// AllActors의 특정 액터 그룹을 불러와서 새롭게 만들 액터 
 	template<typename ActorType>
-	void CreateActor(int _Order = 0)
+	ActorType* CreateActor(int _Order = 0)
 	{
 		// 암묵적인 형변환이 일어났음 (lvalue참조로 형변환)
 		std::list<GameEngineActor*>& GroupList = AllActors[_Order];
 		GameEngineActor* NewActor = new ActorType();
 		ActorInit(NewActor);
 		GroupList.push_back(NewActor);
+
+		return dynamic_cast<ActorType*>(NewActor);
 	}
 
 protected:

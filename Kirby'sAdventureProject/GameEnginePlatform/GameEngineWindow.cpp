@@ -10,6 +10,11 @@ GameEngineWindow::GameEngineWindow()
 
 GameEngineWindow::~GameEngineWindow()
 {
+    if (nullptr != BackBuffer)
+    {
+        delete BackBuffer;
+        BackBuffer = nullptr;
+    }
 }
 
 void GameEngineWindow::Open(const std::string& _Title, HINSTANCE hInstance)
@@ -100,6 +105,9 @@ void GameEngineWindow::InitInstance()
 
     Hdc = ::GetDC(hWnd);
 
+    BackBuffer = new GameEngineWindowTexture();
+    BackBuffer->ResCreate(Hdc);
+
     ShowWindow(hWnd, SW_SHOW);
     UpdateWindow(hWnd);
 }
@@ -159,4 +167,15 @@ void GameEngineWindow::MessageLoop(HINSTANCE hInstance, void (*_Start)(HINSTANCE
     }
 
     return;
+}
+
+void GameEngineWindow::SetPosAndScale(const float4& _Pos, const float4& _Scale)
+{
+    Scale = _Scale;
+
+    RECT Rc = { 0,0,Scale.iX(), Scale.iY() };
+
+    AdjustWindowRect(&Rc, WS_OVERLAPPEDWINDOW, FALSE);
+
+    SetWindowPos(hWnd, nullptr, _Pos.iX(), _Pos.iY(), Rc.right - Rc.left, Rc.bottom - Rc.top, SWP_NOZORDER);
 }

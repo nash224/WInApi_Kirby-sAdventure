@@ -1,7 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClInclude Include="Player.h" />
     <ClInclude Include="TitleLevel.h">
       <Filter>Level</Filter>
     </ClInclude>
@@ -12,91 +11,91 @@
       <Filter>Level</Filter>
     </ClInclude>
     <ClInclude Include="CraneFever.h">
-      <Filter>Level\BonusLevel</Filter>
+      <Filter>Global\BonusGame</Filter>
     </ClInclude>
     <ClInclude Include="EggCatcher.h">
-      <Filter>Level\BonusLevel</Filter>
+      <Filter>Global\BonusGame</Filter>
     </ClInclude>
     <ClInclude Include="Museums.h">
-      <Filter>Level\BonusLevel</Filter>
+      <Filter>Global\BonusGame</Filter>
     </ClInclude>
     <ClInclude Include="BonusGameSubScreens.h">
-      <Filter>Level\BonusLevel</Filter>
+      <Filter>Global\BonusGame</Filter>
     </ClInclude>
     <ClInclude Include="Kirby.h">
-      <Filter>Level\Object</Filter>
+      <Filter>Global\Object</Filter>
     </ClInclude>
     <ClInclude Include="KirbySAbillity.h">
-      <Filter>Level\Object</Filter>
+      <Filter>Global\Object</Filter>
     </ClInclude>
     <ClInclude Include="Boss.h">
-      <Filter>Level\Object\Enemy\Boss</Filter>
+      <Filter>Global\Object\Enemy\Boss</Filter>
     </ClInclude>
     <ClInclude Include="MrSunMrMoon.h">
-      <Filter>Level\Object\Enemy\Boss</Filter>
+      <Filter>Global\Object\Enemy\Boss</Filter>
     </ClInclude>
     <ClInclude Include="WhispyWood.h">
-      <Filter>Level\Object\Enemy\Boss</Filter>
+      <Filter>Global\Object\Enemy\Boss</Filter>
     </ClInclude>
     <ClInclude Include="WaddleDee.h">
-      <Filter>Level\Object\Enemy\NomalEnemy</Filter>
+      <Filter>Global\Object\Enemy\NomalEnemy</Filter>
     </ClInclude>
     <ClInclude Include="Cappy.h">
-      <Filter>Level\Object\Enemy\NomalEnemy</Filter>
+      <Filter>Global\Object\Enemy\NomalEnemy</Filter>
     </ClInclude>
     <ClInclude Include="Kabu.h">
-      <Filter>Level\Object\Enemy\NomalEnemy</Filter>
+      <Filter>Global\Object\Enemy\NomalEnemy</Filter>
     </ClInclude>
     <ClInclude Include="NomalEnemies.h">
-      <Filter>Level\Object\Enemy\NomalEnemy</Filter>
+      <Filter>Global\Object\Enemy\NomalEnemy</Filter>
     </ClInclude>
     <ClInclude Include="PoppyBrosJr.h">
-      <Filter>Level\Object\Enemy\NomalEnemy</Filter>
+      <Filter>Global\Object\Enemy\NomalEnemy</Filter>
     </ClInclude>
     <ClInclude Include="BroomHatter.h">
-      <Filter>Level\Object\Enemy\NomalEnemy</Filter>
+      <Filter>Global\Object\Enemy\NomalEnemy</Filter>
     </ClInclude>
     <ClInclude Include="Enemy.h">
-      <Filter>Level\Object\Enemy</Filter>
+      <Filter>Global\Object\Enemy</Filter>
     </ClInclude>
     <ClInclude Include="PowerEnemy.h">
-      <Filter>Level\Object\Enemy\PowerEnemy</Filter>
+      <Filter>Global\Object\Enemy\PowerEnemy</Filter>
     </ClInclude>
     <ClInclude Include="Parasol.h">
-      <Filter>Level\Object\Enemy\PowerEnemy</Filter>
+      <Filter>Global\Object\Enemy\PowerEnemy</Filter>
     </ClInclude>
     <ClInclude Include="Sparky.h">
-      <Filter>Level\Object\Enemy\PowerEnemy</Filter>
+      <Filter>Global\Object\Enemy\PowerEnemy</Filter>
     </ClInclude>
     <ClInclude Include="LaserBall.h">
-      <Filter>Level\Object\Enemy\PowerEnemy</Filter>
+      <Filter>Global\Object\Enemy\PowerEnemy</Filter>
     </ClInclude>
     <ClInclude Include="Bomber.h">
-      <Filter>Level\Object\Enemy\PowerEnemy</Filter>
+      <Filter>Global\Object\Enemy\PowerEnemy</Filter>
     </ClInclude>
     <ClInclude Include="UFO.h">
-      <Filter>Level\Object\Enemy\PowerEnemy</Filter>
+      <Filter>Global\Object\Enemy\PowerEnemy</Filter>
     </ClInclude>
     <ClInclude Include="WaddleDoo.h">
-      <Filter>Level\Object\Enemy\PowerEnemy</Filter>
+      <Filter>Global\Object\Enemy\PowerEnemy</Filter>
     </ClInclude>
     <ClInclude Include="SirKibble.h">
-      <Filter>Level\Object\Enemy\PowerEnemy</Filter>
+      <Filter>Global\Object\Enemy\PowerEnemy</Filter>
     </ClInclude>
     <ClInclude Include="IceCreamIslandsHub.h">
-      <Filter>Level\MapLevel\HubWorldMap</Filter>
+      <Filter>Global\Map\HubWorldMap</Filter>
     </ClInclude>
     <ClInclude Include="VegetableValleyHub.h">
-      <Filter>Level\MapLevel\HubWorldMap</Filter>
+      <Filter>Global\Map\HubWorldMap</Filter>
     </ClInclude>
     <ClInclude Include="VegetableValleyMap.h">
-      <Filter>Level\MapLevel</Filter>
+      <Filter>Global\Map</Filter>
     </ClInclude>
     <ClInclude Include="IceCreamIslandsMap.h">
-      <Filter>Level\MapLevel</Filter>
+      <Filter>Global\Map</Filter>
     </ClInclude>
     <ClInclude Include="HubSprites.h">
-      <Filter>Level\Object</Filter>
+      <Filter>Global\Object</Filter>
     </ClInclude>
     <ClInclude Include="PauseLevel.h">
       <Filter>Level</Filter>
@@ -105,27 +104,32 @@
       <Filter>Level</Filter>
     </ClInclude>
     <ClInclude Include="HpLadyBug.h">
-      <Filter>Level\Object\Item</Filter>
+      <Filter>Global\Object\Item</Filter>
     </ClInclude>
     <ClInclude Include="OneCoinUp.h">
-      <Filter>Level\Object\Item</Filter>
+      <Filter>Global\Object\Item</Filter>
     </ClInclude>
     <ClInclude Include="HealthJuice.h">
-      <Filter>Level\Object\Item</Filter>
+      <Filter>Global\Object\Item</Filter>
     </ClInclude>
     <ClInclude Include="StarStick.h">
-      <Filter>Level\Object\Item</Filter>
+      <Filter>Global\Object\Item</Filter>
     </ClInclude>
     <ClInclude Include="AbillityEffect.h">
-      <Filter>Level\Object\Enemy</Filter>
+      <Filter>Global\Object\Enemy</Filter>
     </ClInclude>
     <ClInclude Include="StarStickEffectFrame.h">
-      <Filter>Level\Object\Item</Filter>
+      <Filter>Global\Object\Item</Filter>
     </ClInclude>
     <ClInclude Include="ContentsCore.h" />
+    <ClInclude Include="Player.h">
+      <Filter>Global</Filter>
+    </ClInclude>
+    <ClInclude Include="BackGround.h">
+      <Filter>Global</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Player.cpp" />
     <ClCompile Include="TitleLevel.cpp">
       <Filter>Level</Filter>
     </ClCompile>
@@ -136,91 +140,91 @@
       <Filter>Level</Filter>
     </ClCompile>
     <ClCompile Include="CraneFever.cpp">
-      <Filter>Level\BonusLevel</Filter>
+      <Filter>Global\BonusGame</Filter>
     </ClCompile>
     <ClCompile Include="EggCatcher.cpp">
-      <Filter>Level\BonusLevel</Filter>
+      <Filter>Global\BonusGame</Filter>
     </ClCompile>
     <ClCompile Include="Museums.cpp">
-      <Filter>Level\BonusLevel</Filter>
+      <Filter>Global\BonusGame</Filter>
     </ClCompile>
     <ClCompile Include="BonusGameSubScreens.cpp">
-      <Filter>Level\BonusLevel</Filter>
+      <Filter>Global\BonusGame</Filter>
     </ClCompile>
     <ClCompile Include="Kirby.cpp">
-      <Filter>Level\Object</Filter>
+      <Filter>Global\Object</Filter>
     </ClCompile>
     <ClCompile Include="KirbySAbillity.cpp">
-      <Filter>Level\Object</Filter>
+      <Filter>Global\Object</Filter>
     </ClCompile>
     <ClCompile Include="Boss.cpp">
-      <Filter>Level\Object\Enemy\Boss</Filter>
+      <Filter>Global\Object\Enemy\Boss</Filter>
     </ClCompile>
     <ClCompile Include="MrSunMrMoon.cpp">
-      <Filter>Level\Object\Enemy\Boss</Filter>
+      <Filter>Global\Object\Enemy\Boss</Filter>
     </ClCompile>
     <ClCompile Include="WhispyWood.cpp">
-      <Filter>Level\Object\Enemy\Boss</Filter>
+      <Filter>Global\Object\Enemy\Boss</Filter>
     </ClCompile>
     <ClCompile Include="Cappy.cpp">
-      <Filter>Level\Object\Enemy\NomalEnemy</Filter>
+      <Filter>Global\Object\Enemy\NomalEnemy</Filter>
     </ClCompile>
     <ClCompile Include="Kabu.cpp">
-      <Filter>Level\Object\Enemy\NomalEnemy</Filter>
+      <Filter>Global\Object\Enemy\NomalEnemy</Filter>
     </ClCompile>
     <ClCompile Include="NomalEnemies.cpp">
-      <Filter>Level\Object\Enemy\NomalEnemy</Filter>
+      <Filter>Global\Object\Enemy\NomalEnemy</Filter>
     </ClCompile>
     <ClCompile Include="PoppyBrosJr.cpp">
-      <Filter>Level\Object\Enemy\NomalEnemy</Filter>
+      <Filter>Global\Object\Enemy\NomalEnemy</Filter>
     </ClCompile>
     <ClCompile Include="WaddleDee.cpp">
-      <Filter>Level\Object\Enemy\NomalEnemy</Filter>
+      <Filter>Global\Object\Enemy\NomalEnemy</Filter>
     </ClCompile>
     <ClCompile Include="BroomHatter.cpp">
-      <Filter>Level\Object\Enemy\NomalEnemy</Filter>
+      <Filter>Global\Object\Enemy\NomalEnemy</Filter>
     </ClCompile>
     <ClCompile Include="Enemy.cpp">
-      <Filter>Level\Object\Enemy</Filter>
+      <Filter>Global\Object\Enemy</Filter>
     </ClCompile>
     <ClCompile Include="PowerEnemy.cpp">
-      <Filter>Level\Object\Enemy\PowerEnemy</Filter>
+      <Filter>Global\Object\Enemy\PowerEnemy</Filter>
     </ClCompile>
     <ClCompile Include="Parasol.cpp">
-      <Filter>Level\Object\Enemy\PowerEnemy</Filter>
+      <Filter>Global\Object\Enemy\PowerEnemy</Filter>
     </ClCompile>
     <ClCompile Include="Sparky.cpp">
-      <Filter>Level\Object\Enemy\PowerEnemy</Filter>
+      <Filter>Global\Object\Enemy\PowerEnemy</Filter>
     </ClCompile>
     <ClCompile Include="LaserBall.cpp">
-      <Filter>Level\Object\Enemy\PowerEnemy</Filter>
+      <Filter>Global\Object\Enemy\PowerEnemy</Filter>
     </ClCompile>
     <ClCompile Include="Bomber.cpp">
-      <Filter>Level\Object\Enemy\PowerEnemy</Filter>
+      <Filter>Global\Object\Enemy\PowerEnemy</Filter>
     </ClCompile>
     <ClCompile Include="UFO.cpp">
-      <Filter>Level\Object\Enemy\PowerEnemy</Filter>
+      <Filter>Global\Object\Enemy\PowerEnemy</Filter>
     </ClCompile>
     <ClCompile Include="WaddleDoo.cpp">
-      <Filter>Level\Object\Enemy\PowerEnemy</Filter>
+      <Filter>Global\Object\Enemy\PowerEnemy</Filter>
     </ClCompile>
     <ClCompile Include="SirKibble.cpp">
-      <Filter>Level\Object\Enemy\PowerEnemy</Filter>
+      <Filter>Global\Object\Enemy\PowerEnemy</Filter>
     </ClCompile>
     <ClCompile Include="IceCreamIslandsHub.cpp">
-      <Filter>Level\MapLevel\HubWorldMap</Filter>
+      <Filter>Global\Map\HubWorldMap</Filter>
     </ClCompile>
     <ClCompile Include="VegetableValleyHub.cpp">
-      <Filter>Level\MapLevel\HubWorldMap</Filter>
+      <Filter>Global\Map\HubWorldMap</Filter>
     </ClCompile>
     <ClCompile Include="VegetableValleyMap.cpp">
-      <Filter>Level\MapLevel</Filter>
+      <Filter>Global\Map</Filter>
     </ClCompile>
     <ClCompile Include="IceCreamIslandsMap.cpp">
-      <Filter>Level\MapLevel</Filter>
+      <Filter>Global\Map</Filter>
     </ClCompile>
     <ClCompile Include="HubSprites.cpp">
-      <Filter>Level\Object</Filter>
+      <Filter>Global\Object</Filter>
     </ClCompile>
     <ClCompile Include="PauseLevel.cpp">
       <Filter>Level</Filter>
@@ -229,55 +233,64 @@
       <Filter>Level</Filter>
     </ClCompile>
     <ClCompile Include="HpLadyBug.cpp">
-      <Filter>Level\Object\Item</Filter>
+      <Filter>Global\Object\Item</Filter>
     </ClCompile>
     <ClCompile Include="HealthJuice.cpp">
-      <Filter>Level\Object\Item</Filter>
+      <Filter>Global\Object\Item</Filter>
     </ClCompile>
     <ClCompile Include="OneCoinUp.cpp">
-      <Filter>Level\Object\Item</Filter>
+      <Filter>Global\Object\Item</Filter>
     </ClCompile>
     <ClCompile Include="StarStick.cpp">
-      <Filter>Level\Object\Item</Filter>
+      <Filter>Global\Object\Item</Filter>
     </ClCompile>
     <ClCompile Include="AbillityEffect.cpp">
-      <Filter>Level\Object\Enemy</Filter>
+      <Filter>Global\Object\Enemy</Filter>
     </ClCompile>
     <ClCompile Include="StarStickEffectFrame.cpp">
-      <Filter>Level\Object\Item</Filter>
+      <Filter>Global\Object\Item</Filter>
     </ClCompile>
     <ClCompile Include="ContentsCore.cpp" />
+    <ClCompile Include="Player.cpp">
+      <Filter>Global</Filter>
+    </ClCompile>
+    <ClCompile Include="BackGround.cpp">
+      <Filter>Global</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Level">
       <UniqueIdentifier>{c48bda09-ac6f-4661-a193-86efece953e9}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Level\BonusLevel">
-      <UniqueIdentifier>{d1136692-8bb9-4d94-8eaf-f74616439112}</UniqueIdentifier>
+    <Filter Include="Global">
+      <UniqueIdentifier>{9155d0da-b218-4246-b62f-a8460b5af5aa}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Level\MapLevel">
-      <UniqueIdentifier>{dfe21694-0b7a-4e50-a873-1fc0b5ad1a85}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Level\Object">
+    <Filter Include="Global\Object">
       <UniqueIdentifier>{29561cda-51c6-4eff-815f-9904e90b2c67}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Level\Object\Enemy">
+    <Filter Include="Global\Object\Enemy">
       <UniqueIdentifier>{197cd24b-4378-466d-acfc-309cb48a1c97}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Level\Object\Enemy\Boss">
+    <Filter Include="Global\Object\Enemy\Boss">
       <UniqueIdentifier>{973dc45e-61ac-4909-959a-a6dfd6445fb6}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Level\Object\Enemy\NomalEnemy">
+    <Filter Include="Global\Object\Enemy\NomalEnemy">
       <UniqueIdentifier>{8121d90c-1636-4ed1-b51c-71564d1dc27d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Level\Object\Enemy\PowerEnemy">
+    <Filter Include="Global\Object\Enemy\PowerEnemy">
       <UniqueIdentifier>{f61bc0d8-4dc1-447d-a8d0-3b52c77e5879}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Level\MapLevel\HubWorldMap">
-      <UniqueIdentifier>{7bd31b3f-1ac0-4809-9104-4df6df0ab8c9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Level\Object\Item">
+    <Filter Include="Global\Object\Item">
       <UniqueIdentifier>{2577c5c7-4942-4c18-9258-ec0786673c07}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Global\BonusGame">
+      <UniqueIdentifier>{d1136692-8bb9-4d94-8eaf-f74616439112}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Global\Map">
+      <UniqueIdentifier>{dfe21694-0b7a-4e50-a873-1fc0b5ad1a85}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Global\Map\HubWorldMap">
+      <UniqueIdentifier>{7bd31b3f-1ac0-4809-9104-4df6df0ab8c9}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
