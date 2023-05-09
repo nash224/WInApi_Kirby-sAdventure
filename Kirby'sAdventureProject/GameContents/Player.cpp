@@ -52,7 +52,7 @@ void Player::Render()
 {
 	GameEngineWindowTexture* BackBuffer = GameEngineWindow::MainWindow.GetBackBuffer();
 	GameEngineWindowTexture* FindTexture = ResourceManager::GetInst().FindTexture("Kirby.bmp");
-	BackBuffer->BitCopy(FindTexture, GetPos(), GetScale());
+	BackBuffer->TransCopy(FindTexture, GetPos(), { 100, 100 }, {0,0}, FindTexture->GetScale());
 }
 
 void Player::Release() 

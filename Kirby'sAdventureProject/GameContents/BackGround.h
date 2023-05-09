@@ -22,7 +22,7 @@ public:
 protected:
 
 private:
-	std::string FileName = " ";
+	std::string FileName = "";
 
 	void Start() override;
 	void Update(float _Delta) override;

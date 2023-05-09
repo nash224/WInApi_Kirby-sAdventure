@@ -4,6 +4,7 @@
 #include <GameEnginePlatform/GameEngineWindowTexture.h>
 #include <GameEngineCore/ResourceManager.h>
 
+#pragma comment(lib, "msimg32.lib")
 
 BackGround::BackGround() 
 {
@@ -26,9 +27,21 @@ void BackGround::Update(float _Delta)
 
 void BackGround::Render()
 {
-	GameEngineWindowTexture* BackBuffer = GameEngineWindow::MainWindow.GetBackBuffer();
 	GameEngineWindowTexture* FindTexture = ResourceManager::GetInst().FindTexture(FileName);
-	BackBuffer->BitCopy(FindTexture, GetPos());
+
+	if (nullptr == FindTexture)
+	{
+		return;
+	}
+
+	GameEngineWindowTexture* BackBuffer = GameEngineWindow::MainWindow.GetBackBuffer();
+	
+	float4 Scale = FindTexture->GetScale();
+
+	Scale *= 2.0f;
+
+	//                    그림의 HDC , 위치    , 확대  , 입력장치의 시작위치, 입력 장치의 끝위치
+	BackBuffer->TransCopy(FindTexture, GetPos(), Scale, { 0,0 }, FindTexture->GetScale());
 }
 
 void BackGround::Release()
@@ -50,6 +63,9 @@ void BackGround::init(const std::string& _FileName)
 		GameEngineWindowTexture* Texture = ResourceManager::GetInst().TextureLoad(FilePath.GetStringPath());
 
 		float4 Scale = Texture->GetScale();
+
+		Scale.X *= 8.0f;
+		Scale.Y *= 8.0f;
 
 		SetScale(Scale);
 	}

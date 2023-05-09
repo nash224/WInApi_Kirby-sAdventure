@@ -22,7 +22,10 @@ public:
 	void ResCreate(HDC _ImageDC)
 	{
 		ImageDC = _ImageDC;
+		ScaleCheck();
 	}
+
+	void ResCreate(const float4& _Scale);
 
 	HDC GetImageDC() const
 	{
@@ -36,6 +39,9 @@ public:
 
 	void BitCopy(GameEngineWindowTexture* _CopyTexture, const float4& _Pos);
 	void BitCopy(GameEngineWindowTexture* _CopyTexture, const float4& _Pos, const float4& _Scale);
+
+	void TransCopy(GameEngineWindowTexture* _CopyTexture, const float4& _Pos, const float4& _Scale, 
+		const float4& _OtherPos, const float4& _OtherScale, int _TransColor = RGB(255,0,255));
 
 
 protected:

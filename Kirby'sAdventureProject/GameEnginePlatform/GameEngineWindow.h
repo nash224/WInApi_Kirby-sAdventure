@@ -28,6 +28,11 @@ public:
 		return Hdc;
 	}
 
+	GameEngineWindowTexture* GetWindowBuffer()
+	{
+		return WindowBuffer;
+	}
+
 	GameEngineWindowTexture* GetBackBuffer()
 	{
 		return BackBuffer;
@@ -38,6 +43,8 @@ public:
 	{
 		IsWindowUpdate = false;
 	}
+
+	void DoubleBuffering();
 
 protected:
 
@@ -50,6 +57,7 @@ private:
 	HDC Hdc = nullptr;
 
 	float4 Scale = {0};
+	GameEngineWindowTexture* WindowBuffer = nullptr;
 	GameEngineWindowTexture* BackBuffer = nullptr;
 
 	void MyRegisterClass();

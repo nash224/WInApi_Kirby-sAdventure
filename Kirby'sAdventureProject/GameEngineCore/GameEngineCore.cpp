@@ -1,7 +1,8 @@
 #include "GameEngineCore.h"
-#include <GameEnginePlatform/GameEngineWindow.h>
-#include <GameEngineBase/GameEngineTime.h>
 #include "GameEngineLevel.h"
+
+#include <GameEngineBase/GameEngineTime.h>
+#include <GameEnginePlatform/GameEngineWindow.h>
 
 std::string GameEngineCore::WindowTitle = "";
 std::map<std::string, class GameEngineLevel*> GameEngineCore::AllLevel;
@@ -60,6 +61,8 @@ void GameEngineCore::CoreUpdate()
 	// => GameEngineLevel에서 프랜드를 선언해 사용할 수 있게 해줌
 	CurLevel->ActorUpdate(Delta);
 	CurLevel->Render();
+	GameEngineWindow::MainWindow.DoubleBuffering();
+
 	CurLevel->ActorRender();
 }
 

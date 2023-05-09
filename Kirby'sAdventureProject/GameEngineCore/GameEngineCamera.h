@@ -1,0 +1,25 @@
+#pragma once
+#include <map>
+#include <list>
+
+// Ό³Έν :
+class GameEngineRenderer;
+class GameEngineCamera
+{
+public:
+	// constrcuter destructer
+	GameEngineCamera();
+	~GameEngineCamera();
+
+	// delete Function
+	GameEngineCamera(const GameEngineCamera& _Other) = delete;
+	GameEngineCamera(GameEngineCamera&& _Other) noexcept = delete;
+	GameEngineCamera& operator=(const GameEngineCamera& _Other) = delete;
+	GameEngineCamera& operator=(GameEngineCamera&& _Other) noexcept = delete;
+
+protected:
+
+private:
+	std::map<int, std::list<GameEngineRenderer*>> Renderers;
+};
+

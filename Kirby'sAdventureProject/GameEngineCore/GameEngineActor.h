@@ -1,15 +1,23 @@
 #pragma once
 #include "GameEngineObject.h"
+
 #include <GameEngineBase/GameEngineMath.h>
+
+#include <list>
+#include <string>
 
 // 설명 : 위치가 있는 모든 객체들
 //        ex) 플레이어, 에너미, UI, 오브젝트, 등등..
+class GameEngineLevel;
+class GameEngineRenderer;
 class GameEngineActor : public GameEngineObject
 {
 public:
+	friend class GameEngineLevel;
+
 	// constrcuter destructer
 	GameEngineActor();
-	~GameEngineActor();
+	virtual ~GameEngineActor();
 
 	// delete Function
 	GameEngineActor(const GameEngineActor& _Other) = delete;
@@ -43,9 +51,21 @@ public:
 		return Scale;
 	}
 
+	GameEngineRenderer* CreateRenderer(const std::string& _ImageName);
+
+	GameEngineLevel* GetLevel()
+	{
+		return Level;
+	}
+
 protected:
 
 private:
+	GameEngineLevel* Level;
 	float4 Pos = float4::Zero;
 	float4 Scale = float4::Zero; // 상대적인 위치만 필요하는 객체들은 scale이 필요 없을 수도 있다.
+
+	std::list<GameEngineRenderer*> AllRenderer;
+
+
 };

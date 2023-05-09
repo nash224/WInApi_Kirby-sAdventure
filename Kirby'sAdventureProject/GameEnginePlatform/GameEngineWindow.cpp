@@ -1,5 +1,8 @@
 #include "GameEngineWindow.h"
+#include "GameEngineWindowTexture.h"
+
 #include <GameEngineBase/GameEngineDebug.h>
+
 
 HINSTANCE GameEngineWindow::Instance = nullptr;
 GameEngineWindow GameEngineWindow::MainWindow;
@@ -10,12 +13,24 @@ GameEngineWindow::GameEngineWindow()
 
 GameEngineWindow::~GameEngineWindow()
 {
+    if (nullptr != WindowBuffer)
+    {
+        delete WindowBuffer;
+        WindowBuffer = nullptr;
+    }
+
     if (nullptr != BackBuffer)
     {
         delete BackBuffer;
         BackBuffer = nullptr;
     }
 }
+
+void GameEngineWindow::DoubleBuffering()
+{
+    WindowBuffer->BitCopy(BackBuffer, Scale.GetHalf(), BackBuffer->GetScale());
+}
+
 
 void GameEngineWindow::Open(const std::string& _Title, HINSTANCE hInstance)
 {
@@ -30,7 +45,6 @@ void GameEngineWindow::Open(const std::string& _Title, HINSTANCE hInstance)
     MyRegisterClass();
     InitInstance();
 }
-
 
 void GameEngineWindow::MyRegisterClass()
 {
@@ -68,6 +82,32 @@ void GameEngineWindow::MyRegisterClass()
 
 }
 
+void GameEngineWindow::InitInstance()
+{
+    hWnd = CreateWindowA(
+        "DefaultWindow", Title.c_str(), WS_OVERLAPPEDWINDOW,
+        CW_USEDEFAULT, 0, CW_USEDEFAULT, 0, nullptr, nullptr, Instance, nullptr);
+
+    if (!hWnd)
+    {
+        MsgBoxAssert("윈도우 생성에 실패했습니다.");
+        return;
+    }
+
+    Hdc = ::GetDC(hWnd);
+
+    // 윈도우의 그림판
+    WindowBuffer = new GameEngineWindowTexture();
+    WindowBuffer->ResCreate(Hdc);
+
+    // 도화지
+    BackBuffer = new GameEngineWindowTexture();
+    BackBuffer->ResCreate(WindowBuffer->GetScale());
+
+    ShowWindow(hWnd, SW_SHOW);
+    UpdateWindow(hWnd);
+}
+
 LRESULT CALLBACK GameEngineWindow::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
     switch (message)
@@ -89,28 +129,6 @@ LRESULT CALLBACK GameEngineWindow::WndProc(HWND hWnd, UINT message, WPARAM wPara
     return 0;
 }
 
-
-
-void GameEngineWindow::InitInstance()
-{
-    hWnd = CreateWindowA(
-        "DefaultWindow", Title.c_str(), WS_OVERLAPPEDWINDOW,
-        CW_USEDEFAULT, 0, CW_USEDEFAULT, 0, nullptr, nullptr, Instance, nullptr);
-
-    if (!hWnd)
-    {
-        MsgBoxAssert("윈도우 생성에 실패했습니다.");
-        return;
-    }
-
-    Hdc = ::GetDC(hWnd);
-
-    BackBuffer = new GameEngineWindowTexture();
-    BackBuffer->ResCreate(Hdc);
-
-    ShowWindow(hWnd, SW_SHOW);
-    UpdateWindow(hWnd);
-}
 
 void GameEngineWindow::MessageLoop(HINSTANCE hInstance, void (*_Start)(HINSTANCE), void (*_Update)(), void (*_End)())
 {
@@ -173,7 +191,14 @@ void GameEngineWindow::SetPosAndScale(const float4& _Pos, const float4& _Scale)
 {
     Scale = _Scale;
 
-    RECT Rc = { 0,0,Scale.iX(), Scale.iY() };
+    if (nullptr != BackBuffer)
+    {
+        delete BackBuffer;
+        BackBuffer = new GameEngineWindowTexture();
+        BackBuffer->ResCreate(Scale);
+    }
+
+    RECT Rc = { 0,0,_Scale.iX(), _Scale.iY() };
 
     AdjustWindowRect(&Rc, WS_OVERLAPPEDWINDOW, FALSE);
 

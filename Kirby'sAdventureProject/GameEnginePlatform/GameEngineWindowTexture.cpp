@@ -1,4 +1,5 @@
 #include "GameEngineWindowTexture.h"
+#include "GameEngineWindow.h"
 
 #include <GameEngineBase/GameEngineDebug.h>
 
@@ -43,13 +44,34 @@ void GameEngineWindowTexture::ResLoad(const std::string& _FilePath)
 	ScaleCheck();
 }
 
+void GameEngineWindowTexture::ResCreate(const float4& _Scale)
+{
+
+	HANDLE ImageHandle = CreateCompatibleBitmap(GameEngineWindow::MainWindow.GetHDC(), _Scale.iX(), _Scale.iY());
+
+	if (nullptr == ImageHandle)
+	{
+		MsgBoxAssert("이미지 생성에 실패했습니다.");
+		return;
+	}
+
+	BitMap = static_cast<HBITMAP>(ImageHandle);
+
+	ImageDC = CreateCompatibleDC(nullptr);
+
+	OldBitMap = static_cast<HBITMAP>(SelectObject(ImageDC, BitMap));
+
+	ScaleCheck();
+}
+
+
 void GameEngineWindowTexture::ScaleCheck()
 {
 	// GetObject()는 개체의 크기, 모양, 비트 단위, 색상 들을 가져온다.
 	// Info에 구조체를 저장할 메모리 주소를 전달한다.
 	GetObject(BitMap, sizeof(BITMAP), &Info);
 	
-	BITMAP OldInfo = {0};
+	BITMAP OldInfo;
 	GetObject(OldBitMap, sizeof(BITMAP), &OldInfo);
 }
 
@@ -69,12 +91,36 @@ void GameEngineWindowTexture::BitCopy(
 	// hdcDest 출력 대상의 핸들 (윈도우의 HDC)
 	// hdcSrc 출력할 비트맵이 저장된 핸들(리소스의 HDC)
 	BitBlt(ImageDC,
-		_Pos.iX() - _Scale.iX(),
-		_Pos.iY() - _Scale.iY(),
+		_Pos.iX() - _Scale.ihX(),
+		_Pos.iY() - _Scale.ihY(),
 		_Scale.iX(),
 		_Scale.iY(),
 		CopyImageDC,
 		0,
 		0,
 		SRCCOPY);
+}
+
+
+void GameEngineWindowTexture::TransCopy(
+	GameEngineWindowTexture* _CopyTexture,
+	const float4& _Pos,
+	const float4& _Scale,
+	const float4& _OtherPos, 
+	const float4& _OtherScale,
+	int _TransColor)
+{
+	HDC CopyImageDC = _CopyTexture->GetImageDC();
+
+	TransparentBlt(ImageDC,
+		_Pos.iX() - _Scale.ihX(),
+		_Pos.iY() - _Scale.ihY(),
+		_Scale.iX(),
+		_Scale.iY(),
+		CopyImageDC,
+		_OtherPos.iX(), // 복사하려는 이미지의 좌상단X
+		_OtherPos.iY(), // 복사하려는 이미지의 좌상단Y
+		_OtherScale.iX(), // _OtherPos의 너비 
+		_OtherScale.iY(), // _OtherPos의 높이
+		_TransColor);
 }
