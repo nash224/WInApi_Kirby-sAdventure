@@ -12,8 +12,8 @@ class GameEngineLevel;
 class GameEngineRenderer;
 class GameEngineActor : public GameEngineObject
 {
-public:
 	friend class GameEngineLevel;
+public:
 
 	// constrcuter destructer
 	GameEngineActor();
@@ -51,7 +51,13 @@ public:
 		return Scale;
 	}
 
-	GameEngineRenderer* CreateRenderer(const std::string& _ImageName);
+	template<typename EnumType>
+	GameEngineRenderer* CreateRenderer(const std::string& _ImageName, EnumType _Order)
+	{
+		return CreateRenderer(_ImageName, static_cast<int>(_Order));
+	}
+
+	GameEngineRenderer* CreateRenderer(const std::string& _ImageName, int _Order);
 
 	GameEngineLevel* GetLevel()
 	{
@@ -62,8 +68,8 @@ protected:
 
 private:
 	GameEngineLevel* Level;
-	float4 Pos = float4::Zero;
-	float4 Scale = float4::Zero; // 상대적인 위치만 필요하는 객체들은 scale이 필요 없을 수도 있다.
+	float4 Pos = float4::ZERO;
+	float4 Scale = float4::ZERO; // 상대적인 위치만 필요하는 객체들은 scale이 필요 없을 수도 있다.
 
 	std::list<GameEngineRenderer*> AllRenderer;
 

@@ -6,6 +6,8 @@
 #include <Windows.h>
 #include <string>
 
+#pragma comment(lib, "msimg32.lib")
+
 GameEngineWindowTexture::GameEngineWindowTexture() 
 {
 }

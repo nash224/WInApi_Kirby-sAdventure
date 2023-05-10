@@ -60,10 +60,11 @@ void GameEngineCore::CoreUpdate()
 	// 다른 클래스임에도 불구하고 GameEngineLevel의 함수를 사용할 수 있는 이유
 	// => GameEngineLevel에서 프랜드를 선언해 사용할 수 있게 해줌
 	CurLevel->ActorUpdate(Delta);
+	GameEngineWindow::MainWindow.ClearBackBuffer();
+	CurLevel->ActorRender();
 	CurLevel->Render();
 	GameEngineWindow::MainWindow.DoubleBuffering();
 
-	CurLevel->ActorRender();
 }
 
 void GameEngineCore::CoreEnd()

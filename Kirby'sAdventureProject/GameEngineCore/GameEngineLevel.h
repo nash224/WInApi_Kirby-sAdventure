@@ -1,6 +1,7 @@
 #pragma once
 #include "GameEngineObject.h"
 #include "GameEngineActor.h"
+
 #include <list>
 #include <map>
 
@@ -10,6 +11,7 @@ class GameEngineCamera;
 class GameEngineLevel : public GameEngineObject
 {
 	friend class GameEngineCore;
+	friend class GameEngineActor;
 
 public:
 	// constrcuter destructer
@@ -30,10 +32,15 @@ public:
 		// 암묵적인 형변환이 일어났음 (lvalue참조로 형변환)
 		std::list<GameEngineActor*>& GroupList = AllActors[_Order];
 		GameEngineActor* NewActor = new ActorType();
-		ActorInit(NewActor);
+		ActorInit(NewActor, _Order);
 		GroupList.push_back(NewActor);
 
 		return dynamic_cast<ActorType*>(NewActor);
+	}
+
+	GameEngineCamera* GetMainCamera()
+	{
+		return MainCamera;
 	}
 
 protected:
@@ -45,7 +52,7 @@ private:
 
 	std::map<int, std::list<GameEngineActor*>> AllActors;
 
-	void ActorInit(GameEngineActor* _Actor);
+	void ActorInit(GameEngineActor* _Actor, int _Order);
 	
 	void ActorUpdate(float _Delta);
 	void ActorRender();

@@ -26,6 +26,11 @@ GameEngineWindow::~GameEngineWindow()
     }
 }
 
+void GameEngineWindow::ClearBackBuffer()
+{
+    Rectangle(BackBuffer->GetImageDC(), 0, 0, BackBuffer->GetScale().iX(), BackBuffer->GetScale().iY());
+}
+
 void GameEngineWindow::DoubleBuffering()
 {
     WindowBuffer->BitCopy(BackBuffer, Scale.GetHalf(), BackBuffer->GetScale());

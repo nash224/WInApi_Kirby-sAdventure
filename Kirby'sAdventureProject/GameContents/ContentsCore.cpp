@@ -19,7 +19,7 @@ ContentsCore::~ContentsCore()
 
 void ContentsCore::Start()
 {
-	GameEngineWindow::MainWindow.SetPosAndScale({ 100, 100 }, { 1280, 720 });
+	GameEngineWindow::MainWindow.SetPosAndScale({ 100, 100 }, { 720, 768});
 
 	GameEngineCore::CreateLevel<TitleLevel>("TitleLevel");
 	GameEngineCore::CreateLevel<PlayLevel>("PlayLevel");

@@ -1,10 +1,14 @@
 #include "Player.h"
+#include "ContentsEnum.h"
 
 #include <GameEngineBase/GameEnginePath.h>
 #include <GameEngineBase/GameEngineTime.h>
 #include <GameEnginePlatform/GameEngineWindow.h>
 #include <GameEnginePlatform/GameEngineWindowTexture.h>
 #include <GameEngineCore/ResourceManager.h>
+#include <GameEngineCore/GameEngineRenderer.h>
+#include <GameEngineCore/GameEngineLevel.h>
+#include <GameEngineCore/GameEngineCamera.h>
 
 #include <Windows.h>
 
@@ -33,26 +37,55 @@ void Player::Start()
 		FilePath.MoveParentToExistsChild("Resources");
 
 		// Kirby.bmp가 있는 폴더에 접근한다.
-		FilePath.MoveChild("Resources\\KirbyTest\\Kirby.bmp");
+		FilePath.MoveChild("Resources\\KirbyTest\\");
 
 		// 텍스쳐를 받는다.
-		ResourceManager::GetInst().TextureLoad(FilePath.GetStringPath());
+		ResourceManager::GetInst().TextureLoad(FilePath.PlusFilePath("Kirby.bmp"));
 	}
 
-	SetPos({ 200, 300 });
-	SetScale({ 100, 100 });
+	GameEngineRenderer* KirbyRender = CreateRenderer("Kirby.bmp", RenderOrder::Play);
+	KirbyRender->SetRenderScale({ 200, 200 });
+	KirbyRender->SetTexture("Kirby.bmp");
+
+	float4 WinScale = GameEngineWindow::MainWindow.GetScale();
+	SetPos(WinScale.GetHalf());
 }
 
 void Player::Update(float _Delta)
 {
-	AddPos({ 100.0f * _Delta , 0.0f });
+	float Speed = 200.0f;
+
+	float4 MovePos = float4::ZERO;
+
+	if (0 != GetAsyncKeyState('A'))
+	{
+		MovePos = { -Speed * _Delta, 0.0f };
+	}
+
+	if (0 != GetAsyncKeyState('D'))
+	{
+		MovePos = { Speed * _Delta, 0.0f };
+	}
+
+	if (0 != GetAsyncKeyState('W'))
+	{
+		MovePos = { 0.0f ,-Speed * _Delta };
+	}
+
+	if (0 != GetAsyncKeyState('S'))
+	{
+		MovePos = { 0.0f , Speed * _Delta };
+	}
+
+	AddPos(MovePos);
+	GetLevel()->GetMainCamera()->AddPos(MovePos);
 }
 
 void Player::Render() 
 {
-	GameEngineWindowTexture* BackBuffer = GameEngineWindow::MainWindow.GetBackBuffer();
-	GameEngineWindowTexture* FindTexture = ResourceManager::GetInst().FindTexture("Kirby.bmp");
-	BackBuffer->TransCopy(FindTexture, GetPos(), { 100, 100 }, {0,0}, FindTexture->GetScale());
+	//GameEngineWindowTexture* BackBuffer = GameEngineWindow::MainWindow.GetBackBuffer();
+	//GameEngineWindowTexture* FindTexture = ResourceManager::GetInst().FindTexture("Kirby.bmp");
+	//BackBuffer->TransCopy(FindTexture, GetPos(), { 100, 100 }, {0,0}, FindTexture->GetScale());
 }
 
 void Player::Release() 
