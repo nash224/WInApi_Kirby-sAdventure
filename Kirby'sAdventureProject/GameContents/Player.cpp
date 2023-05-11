@@ -44,11 +44,11 @@ void Player::Start()
 	}
 
 	GameEngineRenderer* KirbyRender = CreateRenderer("Kirby.bmp", RenderOrder::Play);
-	KirbyRender->SetRenderScale({ 200, 200 });
-	KirbyRender->SetTexture("Kirby.bmp");
+	//KirbyRender->SetRenderScale({ 200, 200 });
+	//KirbyRender->SetTexture("Kirby.bmp");
 
 	float4 WinScale = GameEngineWindow::MainWindow.GetScale();
-	SetPos(WinScale.GetHalf());
+	//SetPos(WinScale.GetHalf());
 }
 
 void Player::Update(float _Delta)

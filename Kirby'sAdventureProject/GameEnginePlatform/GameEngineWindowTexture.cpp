@@ -114,15 +114,21 @@ void GameEngineWindowTexture::TransCopy(
 {
 	HDC CopyImageDC = _CopyTexture->GetImageDC();
 
+	int PosX = _Pos.iX() - _Scale.ihX(); // 출력위치 시작점
+	int PosY = _Pos.iY() - _Scale.ihY();
+	int ScaleX = _Scale.iX();
+	int ScaleY = _Scale.iY();
+	
+
 	TransparentBlt(ImageDC,
-		_Pos.iX() - _Scale.ihX(),
-		_Pos.iY() - _Scale.ihY(),
-		_Scale.iX(),
-		_Scale.iY(),
+		_Pos.iX() - _Scale.ihX(), // 출력위치 시작점X
+		_Pos.iY() - _Scale.ihY(), // 출력위치 시작점Y
+		_Scale.iX(), // 출력 범위X
+		_Scale.iY(), // 출력 범위Y
 		CopyImageDC,
-		_OtherPos.iX(), // 복사하려는 이미지의 좌상단X
-		_OtherPos.iY(), // 복사하려는 이미지의 좌상단Y
-		_OtherScale.iX(), // _OtherPos의 너비 
-		_OtherScale.iY(), // _OtherPos의 높이
+		_OtherPos.iX(), // 소스 이미지의 시작점X
+		_OtherPos.iY(), // 소스 이미지의 시작점Y
+		_OtherScale.iX(), // 소스 이미지의 끝점X
+		_OtherScale.iY(), // 소스 이미지의 끝점Y
 		_TransColor);
 }

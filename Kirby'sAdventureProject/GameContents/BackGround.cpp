@@ -20,7 +20,7 @@ BackGround::~BackGround()
 
 void BackGround::Start()
 {
-	SetPos(GameEngineWindow::MainWindow.GetScale().GetHalf());
+	SetPos({ 1714, 792 });
 }
 
 void BackGround::Update(float _Delta)

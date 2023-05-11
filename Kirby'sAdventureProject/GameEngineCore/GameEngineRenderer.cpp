@@ -52,4 +52,3 @@ void GameEngineRenderer::Render(class GameEngineCamera* _Camera)
 
 	BackBuffer->TransCopy(Texture, Master->GetPos() + RenderPos - _Camera->GetPos(), RenderScale, CopyPos, CopyScale);
 }
-
