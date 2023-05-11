@@ -3,6 +3,7 @@
 // 설명 : 모든 기본적인 행동을 제안하는 클래스
 class GameEngineObject
 {
+	friend class GameEngineLevel;
 public:
 	// constrcuter destructer
 	GameEngineObject();
@@ -43,7 +44,7 @@ public:
 		return true == IsUpdateValue && false == IsDeathValue;
 	}
 
-	bool IsDeath() const
+	virtual bool IsDeath()
 	{
 		return IsDeathValue;
 	}
@@ -53,12 +54,30 @@ public:
 		Order = _Order;
 	}
 
+	float GetLiveTime() const
+	{
+		return LiveTime;
+	}
+
+	void ResetLiveTIme()
+	{
+		LiveTime = 0.0f;
+	}
+
+
+
 protected:
 
 private:
+	float LiveTime = 0.0f;
 	int Order = 0;
 	bool IsUpdateValue = true;
 	bool IsDeathValue = false;
+
+	void AddLiveTime(float _DeltaTime)
+	{
+		LiveTime += _DeltaTime;
+	}
 
 };
 

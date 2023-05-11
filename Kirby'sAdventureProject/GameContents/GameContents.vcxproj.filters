@@ -131,6 +131,9 @@
     <ClInclude Include="ContentsEnum.h">
       <Filter>Global</Filter>
     </ClInclude>
+    <ClInclude Include="Projectile.h">
+      <Filter>Global</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="TitleLevel.cpp">
@@ -258,6 +261,9 @@
       <Filter>Global</Filter>
     </ClCompile>
     <ClCompile Include="BackGround.cpp">
+      <Filter>Global</Filter>
+    </ClCompile>
+    <ClCompile Include="Projectile.cpp">
       <Filter>Global</Filter>
     </ClCompile>
   </ItemGroup>

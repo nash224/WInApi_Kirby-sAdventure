@@ -1,8 +1,10 @@
 #include "Player.h"
 #include "ContentsEnum.h"
+#include "Projectile.h"
 
 #include <GameEngineBase/GameEnginePath.h>
 #include <GameEngineBase/GameEngineTime.h>
+#include <GameEngineBase/GameEngineMath.h>
 #include <GameEnginePlatform/GameEngineWindow.h>
 #include <GameEnginePlatform/GameEngineWindowTexture.h>
 #include <GameEngineCore/ResourceManager.h>
@@ -27,19 +29,10 @@ void Player::Start()
 	// 비트맵 파일이 없으면 하나 만들어줘야한다.
 	if (false == ResourceManager::GetInst().IsLoadTexture("Kirby.bmp"))
 	{
-		// 현재 실행중인 위치가 된다.
 		GameEnginePath FilePath;
-
 		FilePath.GetCurrentPath();
-		//FilePath = {Path=L"C:\\C\\WInApi_Kirby-sAdventure\\Kirby'sAdventureProject\\Kirby'sAdventure" }
-
-		// Resources의 폴더가 있는 위치로 이동한다.
 		FilePath.MoveParentToExistsChild("Resources");
-
-		// Kirby.bmp가 있는 폴더에 접근한다.
 		FilePath.MoveChild("Resources\\KirbyTest\\");
-
-		// 텍스쳐를 받는다.
 		ResourceManager::GetInst().TextureLoad(FilePath.PlusFilePath("Kirby.bmp"));
 	}
 
@@ -48,7 +41,7 @@ void Player::Start()
 	//KirbyRender->SetTexture("Kirby.bmp");
 
 	float4 WinScale = GameEngineWindow::MainWindow.GetScale();
-	//SetPos(WinScale.GetHalf());
+	SetPos(WinScale.GetHalf());
 }
 
 void Player::Update(float _Delta)
@@ -75,6 +68,15 @@ void Player::Update(float _Delta)
 	if (0 != GetAsyncKeyState('S'))
 	{
 		MovePos = { 0.0f , Speed * _Delta };
+	}
+
+	if (0 != GetAsyncKeyState('F'))
+	{
+		Projectile* NewRazer = GetLevel()->CreateActor<Projectile>();
+		NewRazer->Renderer->SetTexture("Kirby.bmp");
+		NewRazer->SetDir(float4::RIGHT);
+		NewRazer->SetPos(GetPos());
+		NewRazer->SetSpeed(300.0f);
 	}
 
 	AddPos(MovePos);

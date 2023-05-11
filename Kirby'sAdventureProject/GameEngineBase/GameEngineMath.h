@@ -10,6 +10,10 @@ class float4
 {
 public:
 	static const float4 ZERO;
+	static const float4 LEFT;
+	static const float4 RIGHT;
+	static const float4 UP;
+	static const float4 DOWN;
 	// 실수는 부동소수점 방식을 사용하고 있어 표현방식에 미세한 오차가 있을 수 있음으로
 	// 등호연산자를 사용하면 원하는 결과가 나오지 않을 수 있다.
 	float X = 0.0f;

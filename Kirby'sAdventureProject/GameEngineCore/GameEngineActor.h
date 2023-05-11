@@ -25,6 +25,7 @@ public:
 	GameEngineActor& operator=(const GameEngineActor& _Other) = delete;
 	GameEngineActor& operator=(GameEngineActor&& _Other) noexcept = delete;
 
+
 	void SetPos(const float4& _Pos)
 	{
 		Pos = _Pos;
@@ -38,6 +39,17 @@ public:
 	float4 GetPos() const
 	{
 		return Pos;
+	}
+
+	template<typename EnumType>
+	GameEngineRenderer* CreateRenderer(EnumType _Order)
+	{
+		return CreateRenderer("", static_cast<int>(_Order));
+	}
+
+	GameEngineRenderer* CreateRenderer(int _Order = 0)
+	{
+		return CreateRenderer("", static_cast<int>(_Order));
 	}
 
 	template<typename EnumType>

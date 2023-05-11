@@ -44,7 +44,7 @@ private:
 	std::map<int, std::list<GameEngineRenderer*>> Renderers;
 
 	void PushRenderer(GameEngineRenderer* _Renderer, int _Order);
-
+	void Release();
 	void Render();
 };
 

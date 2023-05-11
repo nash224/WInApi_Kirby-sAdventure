@@ -11,6 +11,11 @@ GameEngineActor::~GameEngineActor()
 {
 	for (GameEngineRenderer* Renderer : AllRenderer)
 	{
+		if (true)
+		{
+
+		}
+
 		if (nullptr != Renderer)
 		{
 			delete Renderer;
@@ -25,7 +30,10 @@ GameEngineRenderer* GameEngineActor::CreateRenderer(const std::string& _ImageNam
 	GetLevel()->MainCamera->PushRenderer(NewRenderer, _Order);
 
 	NewRenderer->Master = this;
-	NewRenderer->SetTexture(_ImageName);
+	if (_ImageName != "")
+	{
+		NewRenderer->SetTexture(_ImageName);
+	}
 	AllRenderer.push_back(NewRenderer);
 
 	return NewRenderer;

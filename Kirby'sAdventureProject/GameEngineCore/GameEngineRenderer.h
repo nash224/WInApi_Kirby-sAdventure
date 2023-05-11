@@ -25,7 +25,7 @@ public:
 
 	void SetTexture(const std::string& _Name);
 	void SetRenderScaleToTexture();
-
+	bool IsDeath() override;
 
 
 	void SetCopyPos(const float4& _Value)

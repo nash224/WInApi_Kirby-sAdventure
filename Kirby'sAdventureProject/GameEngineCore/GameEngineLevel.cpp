@@ -1,5 +1,6 @@
 #include "GameEngineLevel.h"
 #include "GameEngineCamera.h"
+#include <GameEngineBase/GameEngineDebug.h>
 
 GameEngineLevel::GameEngineLevel() 
 {
@@ -51,6 +52,12 @@ void GameEngineLevel::ActorUpdate(float _Delta)
 
 		for (GameEngineActor* _Actor : Group)
 		{
+			if (false == _Actor->IsUpdate())
+			{
+				continue;
+			}
+
+			_Actor->AddLiveTime(_Delta);
 			_Actor->Update(_Delta);
 		}
 	}
@@ -67,7 +74,52 @@ void GameEngineLevel::ActorRender()
 
 		for (GameEngineActor* _Actor : Group)
 		{
+			if (false == _Actor->IsUpdate())
+			{
+				continue;
+			}
+
 			_Actor->Render();
 		}
 	}
+}
+
+
+void GameEngineLevel::ActorRelease()
+{
+	MainCamera->Release();
+
+	std::map<int, std::list<GameEngineActor*>>::iterator GroupStartIter = AllActors.begin();
+	std::map<int, std::list<GameEngineActor*>>::iterator GroupEndIter = AllActors.end();
+
+	std::list<GameEngineActor*>::iterator ActorStartIter;
+	std::list<GameEngineActor*>::iterator ActorEndIter;
+
+	for (; GroupStartIter != GroupEndIter; ++GroupStartIter)
+	{
+		std::list<GameEngineActor*>& Group = GroupStartIter->second;
+
+		ActorStartIter = Group.begin();
+		ActorEndIter = Group.end();
+
+		for (; ActorStartIter != ActorEndIter;)
+		{
+			GameEngineActor* Object = *ActorStartIter;
+
+			if (nullptr == Object)
+			{
+				MsgBoxAssert("nullptr인 객체가 레벨의 리스트에 들어가 있습니다.");
+				return;
+			}
+
+			if (false == Object->IsDeath())
+			{
+				++ActorStartIter;
+				continue;
+			}
+
+			ActorStartIter = Group.erase(ActorStartIter);
+		}
+	}
+
 }

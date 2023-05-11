@@ -44,3 +44,40 @@ void GameEngineCamera::PushRenderer(GameEngineRenderer* _Renderer, int _Order)
 
 	Renderers[_Order].push_back(_Renderer);
 }
+
+
+void GameEngineCamera::Release()
+{
+	std::map<int, std::list<GameEngineRenderer*>>::iterator GroupStartIter = Renderers.begin();
+	std::map<int, std::list<GameEngineRenderer*>>::iterator GroupEndIter = Renderers.end();
+
+	std::list<GameEngineRenderer*>::iterator ActorStartIter;
+	std::list<GameEngineRenderer*>::iterator ActorEndIter;
+
+	for (; GroupStartIter != GroupEndIter; ++GroupStartIter)
+	{
+		std::list<GameEngineRenderer*>& Group = GroupStartIter->second;
+
+		ActorStartIter = Group.begin();
+		ActorEndIter = Group.end();
+
+		for (; ActorStartIter != ActorEndIter;)
+		{
+			GameEngineRenderer* Object = *ActorStartIter;
+
+			if (nullptr == Object)
+			{
+				MsgBoxAssert("nullptr인 객체가 레벨의 리스트에 들어가 있습니다.");
+				return;
+			}
+
+			if (false == Object->IsDeath())
+			{
+				++ActorStartIter;
+				continue;
+			}
+
+			ActorStartIter = Group.erase(ActorStartIter);
+		}
+	}
+}
