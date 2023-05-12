@@ -25,6 +25,8 @@ public:
 	GameEngineActor& operator=(const GameEngineActor& _Other) = delete;
 	GameEngineActor& operator=(GameEngineActor&& _Other) noexcept = delete;
 
+	void ActorRelease();
+
 
 	void SetPos(const float4& _Pos)
 	{

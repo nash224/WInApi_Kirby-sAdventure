@@ -13,6 +13,7 @@ Projectile::~Projectile()
 void Projectile::Start() 
 {
 	Renderer = CreateRenderer();
+	Renderer->SetRenderScale({ 60, 20 });
 }
 
 void Projectile::Update(float _Delta) 
@@ -21,7 +22,11 @@ void Projectile::Update(float _Delta)
 
 	if (1.0f < GetLiveTime())
 	{
-		Renderer->Death();
+		if (nullptr != Renderer)
+		{
+			Renderer->Death();
+			Renderer = nullptr;
+		}
 	}
 }
 

@@ -7,10 +7,12 @@
 #include <GameEngineBase/GameEngineMath.h>
 #include <GameEnginePlatform/GameEngineWindow.h>
 #include <GameEnginePlatform/GameEngineWindowTexture.h>
+#include <GameEnginePlatform/GameEngineInput.h>
 #include <GameEngineCore/ResourceManager.h>
 #include <GameEngineCore/GameEngineRenderer.h>
 #include <GameEngineCore/GameEngineLevel.h>
 #include <GameEngineCore/GameEngineCamera.h>
+#include <GameEngineCore/GameEngineCore.h>
 
 #include <Windows.h>
 
@@ -50,33 +52,39 @@ void Player::Update(float _Delta)
 
 	float4 MovePos = float4::ZERO;
 
-	if (0 != GetAsyncKeyState('A'))
+	if (true == GameEngineInput::IsPress('A'))
 	{
 		MovePos = { -Speed * _Delta, 0.0f };
 	}
 
-	if (0 != GetAsyncKeyState('D'))
+	if (true == GameEngineInput::IsPress('D'))
 	{
 		MovePos = { Speed * _Delta, 0.0f };
 	}
 
-	if (0 != GetAsyncKeyState('W'))
+	if (true == GameEngineInput::IsPress('W'))
 	{
 		MovePos = { 0.0f ,-Speed * _Delta };
 	}
 
-	if (0 != GetAsyncKeyState('S'))
+	if (true == GameEngineInput::IsPress('S'))
 	{
 		MovePos = { 0.0f , Speed * _Delta };
 	}
 
-	if (0 != GetAsyncKeyState('F'))
+	if (true == GameEngineInput::IsDown('F'))
 	{
 		Projectile* NewRazer = GetLevel()->CreateActor<Projectile>();
 		NewRazer->Renderer->SetTexture("Kirby.bmp");
 		NewRazer->SetDir(float4::RIGHT);
 		NewRazer->SetPos(GetPos());
 		NewRazer->SetSpeed(300.0f);
+	}
+
+
+	if (0 != GetAsyncKeyState('P'))
+	{
+		GameEngineCore::ChangeLevel("PauseLevel");
 	}
 
 	AddPos(MovePos);

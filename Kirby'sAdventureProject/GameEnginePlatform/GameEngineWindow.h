@@ -51,11 +51,17 @@ public:
 		IsWindowUpdate = false;
 	}
 
+	static bool IsFocus()
+	{
+		return IsFocusValue;
+	}
+
 
 protected:
 
 private:
 	static bool IsWindowUpdate;
+	static bool IsFocusValue;
 
 	static HINSTANCE Instance;
 	std::string Title = " ";

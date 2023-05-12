@@ -9,6 +9,8 @@ class GameEngineInput
 private:
 	class GameEngineKey
 	{
+		friend class GameEngineInput;
+
 		bool Down = false;
 		bool Press = false;
 		bool Up = false;
@@ -23,8 +25,41 @@ private:
 			return 0 != GetAsyncKeyState(Key);
 		}
 
+		void Reset()
+		{
+			if (true == Press)
+			{
+				Down = false;
+				Press = false;
+				Up = true;
+				Free = true;
+			}
+			else if (true == Up)
+			{
+				Down = false;
+				Press = false;
+				Up = false;
+				Free = true;
+			}
+		}
+
 		void Update(float _DeltaTime);
+
+	public:
+		GameEngineKey(int _Key)
+			: Key(_Key)
+		{
+
+		}
+
+		GameEngineKey()
+			: Key(-1)
+		{
+
+		}
 	};
+
+
 
 public:
 	// constrcuter destructer
@@ -37,9 +72,17 @@ public:
 	GameEngineInput& operator=(const GameEngineInput& _Other) = delete;
 	GameEngineInput& operator=(GameEngineInput&& _Other) noexcept = delete;
 
+	static void InputInit();
+	static void Update(float _DeltaTime);
+	static void Reset();
+
+	static bool IsDown(int _Key);
+	static bool IsUp(int _Key);
+	static bool IsPress(int _Key);
+	static bool IsFree(int _Key);
+
 protected:
 
 private:
-	static std::map<std::string, GameEngineKey> AllKeys;
+	static std::map<int, GameEngineKey> AllKeys;
 };
-

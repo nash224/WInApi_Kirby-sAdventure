@@ -1,7 +1,8 @@
 #pragma once
+#include <GameEngineCore/GameEngineLevel.h>
 
 // Ό³Έν :
-class PauseLevel
+class PauseLevel : public GameEngineLevel
 {
 public:
 	// constrcuter destructer
@@ -17,6 +18,7 @@ public:
 protected:
 
 private:
+	void Update(float _Delta) override;
 
 };
 

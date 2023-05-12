@@ -20,8 +20,8 @@ BackGround::~BackGround()
 
 void BackGround::Start()
 {
-	SetPos(GameEngineWindow::MainWindow.GetScale().GetHalf());
-	//SetPos({ 1714, 792 });
+	//SetPos(GameEngineWindow::MainWindow.GetScale().GetHalf());
+	SetPos({ 1524, 252 });
 }
 
 void BackGround::Update(float _Delta)
@@ -66,15 +66,20 @@ void BackGround::init(const std::string& _FileName)
 		FilePath.MoveChild("Resources\\KirbyTest\\" + _FileName);
 		GameEngineWindowTexture* Texture = ResourceManager::GetInst().TextureLoad(FilePath.GetStringPath());
 
-		float4 Scale = Texture->GetScale();
+		float4 Scale = { 1016, 168 };
 
 		Scale.X *= 3.0f;
 		Scale.Y *= 3.0f;
 
 		//SetScale(Scale);
 
-		GameEngineRenderer* Render = CreateRenderer(_FileName, RenderOrder::BackGround);
-		Render->SetRenderScale(Scale);
+		//GameEngineRenderer* Render = CreateRenderer(_FileName, RenderOrder::BackGround);
+		//Render->SetRenderScale(Scale);
+
+		Renderer = CreateRenderer(_FileName, RenderOrder::BackGround);
+		Renderer->SetCopyPos({ 2 , 2 });
+		Renderer->SetCopyScale({ 1016, 168 });
+		Renderer->SetRenderScale(Scale);
 
 	}
 }

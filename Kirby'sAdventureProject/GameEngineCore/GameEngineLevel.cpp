@@ -104,22 +104,25 @@ void GameEngineLevel::ActorRelease()
 
 		for (; ActorStartIter != ActorEndIter;)
 		{
-			GameEngineActor* Object = *ActorStartIter;
+			GameEngineActor* Actor = *ActorStartIter;
 
-			if (nullptr == Object)
+			if (nullptr == Actor)
 			{
 				MsgBoxAssert("nullptr인 객체가 레벨의 리스트에 들어가 있습니다.");
 				return;
 			}
 
-			if (false == Object->IsDeath())
+			if (false == Actor->IsDeath())
 			{
+				Actor->ActorRelease();
 				++ActorStartIter;
 				continue;
 			}
 
+			delete Actor;
+			Actor = nullptr;
+
 			ActorStartIter = Group.erase(ActorStartIter);
 		}
 	}
-
 }

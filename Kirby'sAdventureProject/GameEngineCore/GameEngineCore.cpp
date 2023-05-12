@@ -3,6 +3,7 @@
 
 #include <GameEngineBase/GameEngineTime.h>
 #include <GameEnginePlatform/GameEngineWindow.h>
+#include <GameEnginePlatform/GameEngineInput.h>
 
 std::string GameEngineCore::WindowTitle = "";
 std::map<std::string, class GameEngineLevel*> GameEngineCore::AllLevel;
@@ -35,10 +36,9 @@ void GameEngineCore::EngineStart(const std::string& _Title, HINSTANCE _Inst, Cor
 
 void GameEngineCore::CoreStart(HINSTANCE _Inst)
 {
-	// 창의 띄운다
     GameEngineWindow::MainWindow.Open(WindowTitle, _Inst);
+	GameEngineInput::InputInit();
 
-	// 구조를 생성한다
 	Process->Start();
 }
 
@@ -46,19 +46,31 @@ void GameEngineCore::CoreUpdate()
 {
 	if (nullptr != NextLevel)
 	{
+		if (nullptr != CurLevel)
+		{
+			CurLevel->LevelEnd(NextLevel);
+		}
+
+		NextLevel->LevelStart(NextLevel);
+
 		CurLevel = NextLevel;
 		NextLevel = nullptr;
+		GameEngineTime::MainTimer.Reset();
 	}
 
-	// 한줄이 다시 실행하는 Cpu시간을 반환한다. 
 	GameEngineTime::MainTimer.Update();
 	float Delta = GameEngineTime::MainTimer.GetDeltaTime();
 
-	// 만약 CurLevel의 타입이 부모 클래스 타입이라면 호출 시 부모 클래스의 Update함수()가 호출된다
-	// 그러나 CurLevel이 자식 클래스 타입의 객체를 가리키고 있다면 자식클래스에서 오버라이드된 함수로 대체된다.
+	if (true == GameEngineWindow::IsFocus())
+	{
+		GameEngineInput::Update(Delta);
+	}
+	else
+	{
+		GameEngineInput::Reset();
+	}
+
 	CurLevel->Update(Delta);
-	// 다른 클래스임에도 불구하고 GameEngineLevel의 함수를 사용할 수 있는 이유
-	// => GameEngineLevel에서 프랜드를 선언해 사용할 수 있게 해줌
 	CurLevel->ActorUpdate(Delta);
 	GameEngineWindow::MainWindow.ClearBackBuffer();
 	CurLevel->ActorRender();
