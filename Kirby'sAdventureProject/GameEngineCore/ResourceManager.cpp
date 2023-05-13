@@ -52,7 +52,6 @@ GameEngineWindowTexture* ResourceManager::TextureLoad(const std::string& _Name, 
 
 	GameEngineWindowTexture* NewTexture = new GameEngineWindowTexture();
 
-	// 객체에 경로를 담음
 	NewTexture->ResLoad(_Path);
 
 	AllTexture.insert(std::make_pair(UpperString, NewTexture));

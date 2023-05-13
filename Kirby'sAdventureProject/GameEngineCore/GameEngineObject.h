@@ -78,6 +78,5 @@ private:
 	{
 		LiveTime += _DeltaTime;
 	}
-
 };
 

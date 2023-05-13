@@ -17,9 +17,9 @@ public:
 	BackGround& operator=(const BackGround& _Other) = delete;
 	BackGround& operator=(BackGround&& _Other) noexcept = delete;
 
-	class GameEngineRenderer* Renderer;
+	class GameEngineRenderer* Renderer = nullptr;
 
-	void init(const std::string& _FileName);
+	void init(const std::string& _FileName, float4 _CopyPos, float4 _CopyScale);
 
 protected:
 

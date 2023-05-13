@@ -27,6 +27,10 @@ public:
 
 	void ActorRelease();
 
+	float4 GetPos() const
+	{
+		return Pos;
+	}
 
 	void SetPos(const float4& _Pos)
 	{
@@ -38,9 +42,9 @@ public:
 		Pos += _Pos;
 	}
 
-	float4 GetPos() const
+	GameEngineLevel* GetLevel()
 	{
-		return Pos;
+		return Level;
 	}
 
 	template<typename EnumType>
@@ -62,18 +66,11 @@ public:
 
 	GameEngineRenderer* CreateRenderer(const std::string& _ImageName, int _Order);
 
-	GameEngineLevel* GetLevel()
-	{
-		return Level;
-	}
-
 protected:
 
 private:
-	GameEngineLevel* Level;
+	GameEngineLevel* Level = nullptr;
 	float4 Pos = float4::ZERO;
 
 	std::list<GameEngineRenderer*> AllRenderer;
-
-
 };

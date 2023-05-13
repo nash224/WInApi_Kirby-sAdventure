@@ -1,9 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClInclude Include="TitleLevel.h">
-      <Filter>Level</Filter>
-    </ClInclude>
     <ClInclude Include="EndingLevel.h">
       <Filter>Level</Filter>
     </ClInclude>
@@ -83,16 +80,10 @@
       <Filter>Global\Object\Enemy\PowerEnemy</Filter>
     </ClInclude>
     <ClInclude Include="IceCreamIslandsHub.h">
-      <Filter>Global\Map\HubWorldMap</Filter>
+      <Filter>Level\Map\HubWorldMap</Filter>
     </ClInclude>
     <ClInclude Include="VegetableValleyHub.h">
-      <Filter>Global\Map\HubWorldMap</Filter>
-    </ClInclude>
-    <ClInclude Include="VegetableValleyMap.h">
-      <Filter>Global\Map</Filter>
-    </ClInclude>
-    <ClInclude Include="IceCreamIslandsMap.h">
-      <Filter>Global\Map</Filter>
+      <Filter>Level\Map\HubWorldMap</Filter>
     </ClInclude>
     <ClInclude Include="HubSprites.h">
       <Filter>Global\Object</Filter>
@@ -133,6 +124,12 @@
     </ClInclude>
     <ClInclude Include="Projectile.h">
       <Filter>Global</Filter>
+    </ClInclude>
+    <ClInclude Include="VegetableValley2.h">
+      <Filter>Level\Map\VegetableValley</Filter>
+    </ClInclude>
+    <ClInclude Include="TitleLevel.h">
+      <Filter>Level</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -218,16 +215,10 @@
       <Filter>Global\Object\Enemy\PowerEnemy</Filter>
     </ClCompile>
     <ClCompile Include="IceCreamIslandsHub.cpp">
-      <Filter>Global\Map\HubWorldMap</Filter>
+      <Filter>Level\Map\HubWorldMap</Filter>
     </ClCompile>
     <ClCompile Include="VegetableValleyHub.cpp">
-      <Filter>Global\Map\HubWorldMap</Filter>
-    </ClCompile>
-    <ClCompile Include="VegetableValleyMap.cpp">
-      <Filter>Global\Map</Filter>
-    </ClCompile>
-    <ClCompile Include="IceCreamIslandsMap.cpp">
-      <Filter>Global\Map</Filter>
+      <Filter>Level\Map\HubWorldMap</Filter>
     </ClCompile>
     <ClCompile Include="HubSprites.cpp">
       <Filter>Global\Object</Filter>
@@ -266,6 +257,9 @@
     <ClCompile Include="Projectile.cpp">
       <Filter>Global</Filter>
     </ClCompile>
+    <ClCompile Include="VegetableValley2.cpp">
+      <Filter>Level\Map\VegetableValley</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Level">
@@ -295,11 +289,14 @@
     <Filter Include="Global\BonusGame">
       <UniqueIdentifier>{d1136692-8bb9-4d94-8eaf-f74616439112}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Global\Map">
+    <Filter Include="Level\Map">
       <UniqueIdentifier>{dfe21694-0b7a-4e50-a873-1fc0b5ad1a85}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Global\Map\HubWorldMap">
+    <Filter Include="Level\Map\HubWorldMap">
       <UniqueIdentifier>{7bd31b3f-1ac0-4809-9104-4df6df0ab8c9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Level\Map\VegetableValley">
+      <UniqueIdentifier>{4cd6af2d-814d-44c5-a5c0-bc0554558c9e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

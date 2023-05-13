@@ -12,5 +12,6 @@ enum class RenderOrder
 {
 	BackGround,
 	Play,
+	Projectile,
 	PlayUI,
 };

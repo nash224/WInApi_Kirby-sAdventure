@@ -59,8 +59,6 @@ private:
 		}
 	};
 
-
-
 public:
 	// constrcuter destructer
 	GameEngineInput();

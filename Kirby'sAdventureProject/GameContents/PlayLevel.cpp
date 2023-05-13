@@ -22,8 +22,8 @@ PlayLevel::~PlayLevel()
 
 void PlayLevel::Start() 
 {
-	BackGround* VegetableValley1 = GameEngineLevel::CreateActor<BackGround>();
-	VegetableValley1->init("VegetableValley1.bmp");
+	VegetableValley1 = GameEngineLevel::CreateActor<BackGround>();
+	VegetableValley1->init("VegetableValley1.bmp", float4{ 2 , 2 }, float4{ 1016 , 168 });
 
 	LevelPlayer = GameEngineLevel::CreateActor<Player>();
 }
@@ -34,6 +34,12 @@ void PlayLevel::Update(float _Delta)
 	{
 		GameEngineCore::ChangeLevel("TitleLevel");
 	}
+
+	if (LevelPlayer->GetPos().iX() == 0)
+	{
+		;
+	}
+	
 }
 
 void PlayLevel::Render() 
@@ -45,7 +51,6 @@ void PlayLevel::Release()
 {
 
 }
-
 
 void PlayLevel::LevelStart(GameEngineLevel* _PrevLevel)
 {

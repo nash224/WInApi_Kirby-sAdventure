@@ -21,7 +21,6 @@ public:
 	void MoveParent();
 	void MoveParentToExistsChild(const std::string& _ChildPath);
 	void MoveChild(const std::string& _ChildPath);
-	void SelectFile(const std::string& _ChildPath);
 	std::string PlusFilePath(const std::string& _ChildPath);
 
 	std::string GetFileName();

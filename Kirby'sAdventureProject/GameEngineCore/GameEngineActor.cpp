@@ -22,17 +22,20 @@ GameEngineActor::~GameEngineActor()
 }
 
 
-
 GameEngineRenderer* GameEngineActor::CreateRenderer(const std::string& _ImageName, int _Order)
 {
 	GameEngineRenderer* NewRenderer = new GameEngineRenderer();
+
+	// 현재 레벨의 메인카메라에 복사할 요소를 랜더러에 삽입
 	GetLevel()->MainCamera->PushRenderer(NewRenderer, _Order);
 
+	// 넣는 대상을 참조
 	NewRenderer->Master = this;
 	if (_ImageName != "")
 	{
 		NewRenderer->SetTexture(_ImageName);
 	}
+
 	AllRenderer.push_back(NewRenderer);
 
 	return NewRenderer;

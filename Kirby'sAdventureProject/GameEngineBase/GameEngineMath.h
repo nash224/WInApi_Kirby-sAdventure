@@ -57,6 +57,15 @@ public:
 		return { hX(), hY(), Z, W };
 	}
 
+	static float4 XValue(const float _Value)
+	{
+		return float4{ _Value, 0.0f, 0.0f, 0.0f };
+	}
+
+	static float4 YValue(const float _Value)
+	{
+		return float4{ 0.0f, _Value, 0.0f, 0.0f };
+	}
 
 	float4 operator+(const float4& _Other) const
 	{

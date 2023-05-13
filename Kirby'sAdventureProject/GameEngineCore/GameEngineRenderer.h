@@ -49,20 +49,17 @@ public:
 		ScaleCheck = true;
 	}
 
-	
-
 protected:
 
 private:
 	GameEngineWindowTexture* Texture = nullptr;
 	GameEngineActor* Master = nullptr;
-	bool ScaleCheck = false;
 	
-	float4 CopyPos;
-	float4 CopyScale;
-
-	float4 RenderPos;
-	float4 RenderScale;
+	float4 RenderPos = float4::ZERO;
+	float4 RenderScale = float4::ZERO;
+	float4 CopyPos = float4::ZERO;
+	float4 CopyScale = float4::ZERO;
+	bool ScaleCheck = false;
 
 	void Render(class GameEngineCamera* _Camera);
 };

@@ -5,6 +5,8 @@
 #include <GameEnginePlatform/GameEngineWindowTexture.h>
 #include <GameEngineCore/ResourceManager.h>
 #include <GameEngineCore/GameEngineRenderer.h>
+#include <GameEngineCore/GameEngineCore.h>
+#include <GameEngineCore/GameEngineLevel.h>
 
 
 #pragma comment(lib, "msimg32.lib")
@@ -20,13 +22,11 @@ BackGround::~BackGround()
 
 void BackGround::Start()
 {
-	//SetPos(GameEngineWindow::MainWindow.GetScale().GetHalf());
-	SetPos({ 1524, 252 });
+
 }
 
 void BackGround::Update(float _Delta)
 {
-
 }
 
 void BackGround::Render()
@@ -54,7 +54,7 @@ void BackGround::Release()
 }
 
 
-void BackGround::init(const std::string& _FileName)
+void BackGround::init(const std::string& _FileName, float4 _CopyPos, float4 _CopyScale)
 {
 	FileName = _FileName;
 
@@ -64,22 +64,19 @@ void BackGround::init(const std::string& _FileName)
 		FilePath.GetCurrentPath();
 		FilePath.MoveParentToExistsChild("Resources");
 		FilePath.MoveChild("Resources\\KirbyTest\\" + _FileName);
-		GameEngineWindowTexture* Texture = ResourceManager::GetInst().TextureLoad(FilePath.GetStringPath());
+		ResourceManager::GetInst().TextureLoad(FilePath.GetStringPath());
 
-		float4 Scale = { 1016, 168 };
+		float4 Scale = _CopyScale;
+
+		//GameEngineRenderer* Render = CreateRenderer(_FileName, RenderOrder::BackGround);
+		Renderer = CreateRenderer(_FileName, RenderOrder::BackGround);
+		Renderer->SetCopyPos(_CopyPos);
+		Renderer->SetCopyScale(Scale);
 
 		Scale.X *= 3.0f;
 		Scale.Y *= 3.0f;
-
-		//SetScale(Scale);
-
-		//GameEngineRenderer* Render = CreateRenderer(_FileName, RenderOrder::BackGround);
-		//Render->SetRenderScale(Scale);
-
-		Renderer = CreateRenderer(_FileName, RenderOrder::BackGround);
-		Renderer->SetCopyPos({ 2 , 2 });
-		Renderer->SetCopyScale({ 1016, 168 });
+		
+		SetPos(Scale.GetHalf());
 		Renderer->SetRenderScale(Scale);
-
 	}
 }

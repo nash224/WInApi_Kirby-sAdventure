@@ -20,10 +20,11 @@ public:
 	GameEngineWindow& operator=(GameEngineWindow&& _Other) noexcept = delete;
 
 	void Open(const std::string& _Title, HINSTANCE hInstance);
+	void ClearBackBuffer();
 	void DoubleBuffering();
 	static void MessageLoop(HINSTANCE hInstance, void (*_Start)(HINSTANCE), void (*_Update)(), void (*_End)());
 	void SetPosAndScale(const float4& _Pos, const float4& _Scale); 
-	void ClearBackBuffer();
+
 
 	HDC GetHDC()
 	{
@@ -45,7 +46,6 @@ public:
 		return BackBuffer;
 	}
 
-
 	static void WIndowOff()
 	{
 		IsWindowUpdate = false;
@@ -55,7 +55,6 @@ public:
 	{
 		return IsFocusValue;
 	}
-
 
 protected:
 
@@ -74,7 +73,7 @@ private:
 	GameEngineWindowTexture* BackBuffer = nullptr;
 
 	void MyRegisterClass();
-	static LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 	void InitInstance();
+	static LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 
 };

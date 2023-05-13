@@ -34,7 +34,7 @@ void Player::Start()
 		GameEnginePath FilePath;
 		FilePath.GetCurrentPath();
 		FilePath.MoveParentToExistsChild("Resources");
-		FilePath.MoveChild("Resources\\KirbyTest\\");
+		FilePath.MoveChild("Resources\\KirbyTest");
 		ResourceManager::GetInst().TextureLoad(FilePath.PlusFilePath("Kirby.bmp"));
 	}
 
@@ -48,7 +48,7 @@ void Player::Start()
 
 void Player::Update(float _Delta)
 {
-	float Speed = 200.0f;
+	float Speed = 600.0f;
 
 	float4 MovePos = float4::ZERO;
 
@@ -77,7 +77,7 @@ void Player::Update(float _Delta)
 		Projectile* NewRazer = GetLevel()->CreateActor<Projectile>();
 		NewRazer->Renderer->SetTexture("Kirby.bmp");
 		NewRazer->SetDir(float4::RIGHT);
-		NewRazer->SetPos(GetPos());
+		NewRazer->SetPos(GetPos() + float4::XValue(60.0f));
 		NewRazer->SetSpeed(300.0f);
 	}
 

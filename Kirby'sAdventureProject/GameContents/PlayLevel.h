@@ -21,7 +21,7 @@ protected:
 
 private:
 	class Player* LevelPlayer = nullptr;
-
+	class BackGround* VegetableValley1 = nullptr;
 
 	void Start() override;
 	void Update(float _Delta) override;

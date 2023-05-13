@@ -1,4 +1,6 @@
 #include "Projectile.h"
+#include "ContentsEnum.h"
+
 #include <GameEngineCore/GameEngineRenderer.h>
 
 Projectile::Projectile() 
@@ -12,7 +14,7 @@ Projectile::~Projectile()
 
 void Projectile::Start() 
 {
-	Renderer = CreateRenderer();
+	Renderer = CreateRenderer(RenderOrder::Projectile);
 	Renderer->SetRenderScale({ 60, 20 });
 }
 

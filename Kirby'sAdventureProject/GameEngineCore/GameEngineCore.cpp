@@ -4,6 +4,7 @@
 #include <GameEngineBase/GameEngineTime.h>
 #include <GameEnginePlatform/GameEngineWindow.h>
 #include <GameEnginePlatform/GameEngineInput.h>
+#include "GameEngineCamera.h"
 
 std::string GameEngineCore::WindowTitle = "";
 std::map<std::string, class GameEngineLevel*> GameEngineCore::AllLevel;
@@ -99,7 +100,6 @@ void GameEngineCore::CoreEnd()
 		}
 	}
 }
-
 
 void GameEngineCore::LevelInit(GameEngineLevel* _Level)
 {
