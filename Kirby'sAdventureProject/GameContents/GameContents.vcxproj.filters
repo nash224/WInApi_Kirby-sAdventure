@@ -4,9 +4,6 @@
     <ClInclude Include="EndingLevel.h">
       <Filter>Level</Filter>
     </ClInclude>
-    <ClInclude Include="PlayLevel.h">
-      <Filter>Level</Filter>
-    </ClInclude>
     <ClInclude Include="CraneFever.h">
       <Filter>Global\BonusGame</Filter>
     </ClInclude>
@@ -125,11 +122,17 @@
     <ClInclude Include="Projectile.h">
       <Filter>Global</Filter>
     </ClInclude>
-    <ClInclude Include="VegetableValley2.h">
+    <ClInclude Include="VegetableValley12.h">
       <Filter>Level\Map\VegetableValley</Filter>
     </ClInclude>
     <ClInclude Include="TitleLevel.h">
       <Filter>Level</Filter>
+    </ClInclude>
+    <ClInclude Include="VegetableValley11.h">
+      <Filter>Level\Map\VegetableValley</Filter>
+    </ClInclude>
+    <ClInclude Include="VegetableValley13.h">
+      <Filter>Level\Map\VegetableValley</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -137,9 +140,6 @@
       <Filter>Level</Filter>
     </ClCompile>
     <ClCompile Include="EndingLevel.cpp">
-      <Filter>Level</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayLevel.cpp">
       <Filter>Level</Filter>
     </ClCompile>
     <ClCompile Include="CraneFever.cpp">
@@ -257,7 +257,13 @@
     <ClCompile Include="Projectile.cpp">
       <Filter>Global</Filter>
     </ClCompile>
-    <ClCompile Include="VegetableValley2.cpp">
+    <ClCompile Include="VegetableValley12.cpp">
+      <Filter>Level\Map\VegetableValley</Filter>
+    </ClCompile>
+    <ClCompile Include="VegetableValley11.cpp">
+      <Filter>Level\Map\VegetableValley</Filter>
+    </ClCompile>
+    <ClCompile Include="VegetableValley13.cpp">
       <Filter>Level\Map\VegetableValley</Filter>
     </ClCompile>
   </ItemGroup>

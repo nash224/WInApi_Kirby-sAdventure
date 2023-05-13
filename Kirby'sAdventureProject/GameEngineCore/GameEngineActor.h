@@ -42,6 +42,17 @@ public:
 		Pos += _Pos;
 	}
 
+	float4 GetScale() const
+	{
+		return Scale;
+	}
+
+	void SetScale(const float4& _Scale)
+	{
+		Scale = _Scale;
+	}
+	
+
 	GameEngineLevel* GetLevel()
 	{
 		return Level;
@@ -71,6 +82,7 @@ protected:
 private:
 	GameEngineLevel* Level = nullptr;
 	float4 Pos = float4::ZERO;
+	float4 Scale = float4::ZERO;
 
 	std::list<GameEngineRenderer*> AllRenderer;
 };

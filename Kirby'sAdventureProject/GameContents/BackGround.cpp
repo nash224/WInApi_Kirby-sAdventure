@@ -65,18 +65,19 @@ void BackGround::init(const std::string& _FileName, float4 _CopyPos, float4 _Cop
 		FilePath.MoveParentToExistsChild("Resources");
 		FilePath.MoveChild("Resources\\KirbyTest\\" + _FileName);
 		ResourceManager::GetInst().TextureLoad(FilePath.GetStringPath());
-
-		float4 Scale = _CopyScale;
-
-		//GameEngineRenderer* Render = CreateRenderer(_FileName, RenderOrder::BackGround);
-		Renderer = CreateRenderer(_FileName, RenderOrder::BackGround);
-		Renderer->SetCopyPos(_CopyPos);
-		Renderer->SetCopyScale(Scale);
-
-		Scale.X *= 3.0f;
-		Scale.Y *= 3.0f;
-		
-		SetPos(Scale.GetHalf());
-		Renderer->SetRenderScale(Scale);
 	}
+
+	float4 Scale = _CopyScale;
+
+	//GameEngineRenderer* Render = CreateRenderer(_FileName, RenderOrder::BackGround);
+	Renderer = CreateRenderer(_FileName, RenderOrder::BackGround);
+	Renderer->SetCopyPos(_CopyPos);
+	Renderer->SetCopyScale(Scale);
+
+	Scale.X *= 3.0f;
+	Scale.Y *= 3.0f;
+		
+	SetPos(Scale.GetHalf());
+	SetScale(Scale);
+	Renderer->SetRenderScale(Scale);
 }
