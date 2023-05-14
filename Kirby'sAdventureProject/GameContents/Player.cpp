@@ -48,28 +48,36 @@ void Player::Start()
 
 void Player::Update(float _Delta)
 {
-	float Speed = 600.0f;
+	SetSpeed(600.0f);
 
 	float4 MovePos = float4::ZERO;
 
 	if (true == GameEngineInput::IsPress('A'))
 	{
-		MovePos = { -Speed * _Delta, 0.0f };
+		//MovePos = { -GetSpeed() * _Delta, 0.0f };
+		SetDir(float4::LEFT);
+		MovePos = GetDir() * GetSpeed() * _Delta;
 	}
 
 	if (true == GameEngineInput::IsPress('D'))
 	{
-		MovePos = { Speed * _Delta, 0.0f };
+		//MovePos = { GetSpeed() * _Delta, 0.0f };
+		SetDir(float4::RIGHT);
+		MovePos = GetDir() * GetSpeed() * _Delta;
 	}
 
 	if (true == GameEngineInput::IsPress('W'))
 	{
-		MovePos = { 0.0f ,-Speed * _Delta };
+		//MovePos = { 0.0f ,-GetSpeed() * _Delta };
+		SetDir(float4::UP);
+		MovePos = GetDir() * GetSpeed() * _Delta;
 	}
 
 	if (true == GameEngineInput::IsPress('S'))
 	{
-		MovePos = { 0.0f , Speed * _Delta };
+		//MovePos = { 0.0f , GetSpeed() * _Delta };
+		SetDir(float4::DOWN);
+		MovePos = GetDir() * GetSpeed() * _Delta;
 	}
 
 	if (true == GameEngineInput::IsDown('F'))
@@ -88,7 +96,15 @@ void Player::Update(float _Delta)
 	}
 
 	AddPos(MovePos);
-	GetLevel()->GetMainCamera()->AddPos(MovePos);
+	//if (GetPos().iX() >= GameEngineWindow::MainWindow.GetScale().GetHalf().iX())
+	//{
+	//	GetLevel()->GetMainCamera()->AddPos(float4::XValue(MovePos));
+	//}
+
+	//if (GetPos().iY() >= GameEngineWindow::MainWindow.GetScale().GetHalf().iY())
+	//{
+	//	GetLevel()->GetMainCamera()->AddPos(float4::YValue(MovePos));
+	//}
 }
 
 void Player::Render() 

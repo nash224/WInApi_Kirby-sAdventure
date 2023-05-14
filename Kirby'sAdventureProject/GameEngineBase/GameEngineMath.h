@@ -67,6 +67,16 @@ public:
 		return float4{ 0.0f, _Value, 0.0f, 0.0f };
 	}
 
+	static float4 XValue(const float4& _Pos)
+	{
+		return float4{ _Pos.X, 0.0f, 0.0f, 0.0f };
+	}
+
+	static float4 YValue(const float4& _Pos)
+	{
+		return float4{ 0.0f, _Pos.Y, 0.0f, 0.0f };
+	}
+
 	float4 operator+(const float4& _Other) const
 	{
 		float4 ReturnValue;
