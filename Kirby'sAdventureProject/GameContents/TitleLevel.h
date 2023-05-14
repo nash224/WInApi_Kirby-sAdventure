@@ -18,9 +18,13 @@ public:
 	TitleLevel& operator=(TitleLevel&& _Other) noexcept = delete;
 
 protected:
-	void Update(float _DeltaTime) override;
 
 private:
+	class Player* LevelPlayer = nullptr;
+	class BackGround* LevelBackGround = nullptr;
+
+	void Start() override;
+	void Update(float _DeltaTime) override;
 
 };
 

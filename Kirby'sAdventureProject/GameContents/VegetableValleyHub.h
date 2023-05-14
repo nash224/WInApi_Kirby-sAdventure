@@ -1,7 +1,8 @@
 #pragma once
+#include <GameEngineCore/GameEngineLevel.h>
 
 // Ό³Έν :
-class VegetableValleyHub
+class VegetableValleyHub : public GameEngineLevel
 {
 public:
 	// constrcuter destructer
@@ -15,8 +16,16 @@ public:
 	VegetableValleyHub& operator=(VegetableValleyHub&& _Other) noexcept = delete;
 
 protected:
+	void LevelStart(GameEngineLevel* _PrevLevel) override;
+	void LevelEnd(GameEngineLevel* _NextLevel) override;
 
 private:
+	class Player* LevelPlayer = nullptr;
+	class BackGround* LevelBackGround = nullptr;
 
+	void Start() override;
+	void Update(float _Delta) override;
+	void Render() override;
+	void Release() override;
 };
 

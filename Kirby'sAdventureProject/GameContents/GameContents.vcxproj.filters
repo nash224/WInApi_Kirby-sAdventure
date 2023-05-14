@@ -76,12 +76,6 @@
     <ClInclude Include="SirKibble.h">
       <Filter>Global\Object\Enemy\PowerEnemy</Filter>
     </ClInclude>
-    <ClInclude Include="IceCreamIslandsHub.h">
-      <Filter>Level\Map\HubWorldMap</Filter>
-    </ClInclude>
-    <ClInclude Include="VegetableValleyHub.h">
-      <Filter>Level\Map\HubWorldMap</Filter>
-    </ClInclude>
     <ClInclude Include="HubSprites.h">
       <Filter>Global\Object</Filter>
     </ClInclude>
@@ -132,6 +126,15 @@
       <Filter>Level\Map\VegetableValley</Filter>
     </ClInclude>
     <ClInclude Include="VegetableValley13.h">
+      <Filter>Level\Map\VegetableValley</Filter>
+    </ClInclude>
+    <ClInclude Include="VegetableValleyHub.h">
+      <Filter>Level\Map\VegetableValley</Filter>
+    </ClInclude>
+    <ClInclude Include="VegetableValleyIntro.h">
+      <Filter>Level\Map\VegetableValley</Filter>
+    </ClInclude>
+    <ClInclude Include="VegetableValleyBoss.h">
       <Filter>Level\Map\VegetableValley</Filter>
     </ClInclude>
   </ItemGroup>
@@ -214,12 +217,6 @@
     <ClCompile Include="SirKibble.cpp">
       <Filter>Global\Object\Enemy\PowerEnemy</Filter>
     </ClCompile>
-    <ClCompile Include="IceCreamIslandsHub.cpp">
-      <Filter>Level\Map\HubWorldMap</Filter>
-    </ClCompile>
-    <ClCompile Include="VegetableValleyHub.cpp">
-      <Filter>Level\Map\HubWorldMap</Filter>
-    </ClCompile>
     <ClCompile Include="HubSprites.cpp">
       <Filter>Global\Object</Filter>
     </ClCompile>
@@ -266,6 +263,15 @@
     <ClCompile Include="VegetableValley13.cpp">
       <Filter>Level\Map\VegetableValley</Filter>
     </ClCompile>
+    <ClCompile Include="VegetableValleyHub.cpp">
+      <Filter>Level\Map\VegetableValley</Filter>
+    </ClCompile>
+    <ClCompile Include="VegetableValleyIntro.cpp">
+      <Filter>Level\Map\VegetableValley</Filter>
+    </ClCompile>
+    <ClCompile Include="VegetableValleyBoss.cpp">
+      <Filter>Level\Map\VegetableValley</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Level">
@@ -297,9 +303,6 @@
     </Filter>
     <Filter Include="Level\Map">
       <UniqueIdentifier>{dfe21694-0b7a-4e50-a873-1fc0b5ad1a85}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Level\Map\HubWorldMap">
-      <UniqueIdentifier>{7bd31b3f-1ac0-4809-9104-4df6df0ab8c9}</UniqueIdentifier>
     </Filter>
     <Filter Include="Level\Map\VegetableValley">
       <UniqueIdentifier>{4cd6af2d-814d-44c5-a5c0-bc0554558c9e}</UniqueIdentifier>

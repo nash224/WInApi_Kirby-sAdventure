@@ -18,6 +18,10 @@ public:
 protected:
 
 private:
+	class Player* LevelPlayer = nullptr;
+	class BackGround* LevelBackGround = nullptr;
+
+	void Start() override;
 	void Update(float _Delta) override;
 
 };

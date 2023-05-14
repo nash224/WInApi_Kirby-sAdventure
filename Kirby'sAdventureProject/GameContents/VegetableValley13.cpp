@@ -32,10 +32,10 @@ void VegetableValley13::Update(float _Delta)
 		GameEngineCore::ChangeLevel("PauseLevel");
 	}
 
-	/*if (LevelPlayer->GetPos().iX() >= LevelBackGround->GetScale().iX())
+	if (LevelPlayer->GetPos().iX() >= LevelBackGround->GetScale().iX())
 	{
-		GameEngineCore::ChangeLevel("PauseLevel");
-	}*/
+		GameEngineCore::ChangeLevel("EndingLevel");
+	}
 }
 
 void VegetableValley13::Render()

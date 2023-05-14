@@ -1,4 +1,5 @@
 #include "PauseLevel.h"
+#include "BackGround.h"
 
 #include <GameEnginePlatform/GameEngineInput.h>
 #include <GameEngineCore/GameEngineCore.h>
@@ -13,6 +14,11 @@ PauseLevel::~PauseLevel()
 {
 }
 
+void PauseLevel::Start()
+{
+	LevelBackGround = GameEngineLevel::CreateActor<BackGround>();
+	LevelBackGround->init("PauseScreens.bmp", float4{ 2 , 2 }, float4{ 256 , 240 });
+}
 
 void PauseLevel::Update(float _Delta)
 {

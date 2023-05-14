@@ -227,10 +227,6 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="IceCreamIslandsHub.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
     <ClInclude Include="Kabu.h">
       <SubType>
       </SubType>
@@ -323,7 +319,15 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="VegetableValleyBoss.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="VegetableValleyHub.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="VegetableValleyIntro.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -402,10 +406,6 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="HubSprites.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
-    <ClCompile Include="IceCreamIslandsHub.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -501,7 +501,15 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="VegetableValleyBoss.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="VegetableValleyHub.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="VegetableValleyIntro.cpp">
       <SubType>
       </SubType>
     </ClCompile>
