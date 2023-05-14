@@ -95,6 +95,7 @@ void Player::Update(float _Delta)
 		GameEngineCore::ChangeLevel("PauseLevel");
 	}
 
+	SetMovePos(MovePos);
 	AddPos(MovePos);
 	//if (GetPos().iX() >= GameEngineWindow::MainWindow.GetScale().GetHalf().iX())
 	//{

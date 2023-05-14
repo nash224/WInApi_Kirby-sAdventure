@@ -14,9 +14,21 @@ public:
 	Player& operator=(const Player& _Other) = delete;
 	Player& operator=(Player&& _Other) noexcept = delete;
 
+	float4 GetMovePos() const
+	{
+		return MovePos;
+	}
+
+	void SetMovePos(const float4& _MovePos)
+	{
+		MovePos = _MovePos;
+	}
+
 protected:
 
 private:
+	float4 MovePos = float4::ZERO;
+
 	void Start() override;
 	void Update(float _Delta) override;
 	void Render() override;
