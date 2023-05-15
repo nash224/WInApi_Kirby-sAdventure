@@ -24,6 +24,8 @@ public:
 		MovePos = _MovePos;
 	}
 
+	GameEngineRenderer* MainRenderer = nullptr;
+
 protected:
 
 private:

@@ -1,5 +1,8 @@
 #include "ResourceManager.h"
+#include "GameEngineSprite.h"
 
+#include <GameEngineBase/GameEngineDebug.h>
+#include <GameEngineBase/GameEngineDirectory.h>
 #include <GameEnginePlatform/GameEngineWindowTexture.h>
 #include <GameEngineBase/GameEngineString.h>
 
@@ -23,6 +26,17 @@ ResourceManager::~ResourceManager()
 			Texture = nullptr;
 		}
 	}
+
+	for (const std::pair<std::string, GameEngineSprite*>& Pair : AllSprite)
+	{
+		GameEngineSprite* Sprite = Pair.second;
+
+		if (nullptr != Sprite)
+		{
+			delete Sprite;
+			Sprite = nullptr;
+		}
+	}
 }
 
 
@@ -37,7 +51,7 @@ GameEngineWindowTexture* ResourceManager::FindTexture(const std::string& _Name)
 
 	std::map<std::string, GameEngineWindowTexture*>::iterator FindIter = AllTexture.find(UpperName);
 
-	if (FindIter == AllTexture.end())
+	if (FindIter  == AllTexture.end())
 	{
 		return nullptr;
 	}
@@ -57,4 +71,61 @@ GameEngineWindowTexture* ResourceManager::TextureLoad(const std::string& _Name, 
 	AllTexture.insert(std::make_pair(UpperString, NewTexture));
 
 	return NewTexture;
+}
+
+GameEngineSprite* ResourceManager::FindSprite(const std::string& _Name)
+{
+	std::string UpperString = GameEngineString::ToUpperReturn(_Name);
+
+	std::map<std::string, GameEngineSprite*>::iterator FindIter = AllSprite.find(UpperString);
+
+	if (FindIter == AllSprite.end())
+	{
+		return nullptr;
+	}
+
+	return FindIter->second;
+}
+
+GameEngineSprite* ResourceManager::CreateSpriteSheet(const std::string& _SpriteName,
+	const std::string& _TexturePath,
+	int _XCount,
+	int _YCount)
+{
+	std::string UpperString = GameEngineString::ToUpperReturn(_SpriteName);
+
+	if (nullptr != FindSprite(UpperString))
+	{
+		MsgBoxAssert("이미 로드된 스프라이트입니다." + _SpriteName);
+		return nullptr;
+	}
+
+	GameEnginePath Path = _TexturePath;
+	GameEngineWindowTexture* Texture = ResourceManager::FindTexture(Path.GetFileName());
+
+	if (nullptr == Texture)
+	{
+		Texture = ResourceManager::TextureLoad(_TexturePath);
+	}
+
+	float4 Scale = Texture->GetScale();
+
+	GameEngineSprite* NewSprite = new GameEngineSprite();
+	NewSprite->CreateSpriteSheet(Texture, _XCount, _YCount);
+
+	AllSprite.insert(std::make_pair(UpperString, NewSprite));
+
+	return NewSprite;
+}
+
+GameEngineSprite* ResourceManager::CreateSpriteFolder(const std::string& _SpriteName, const std::string& _Path)
+{
+	GameEngineDirectory Directory = _Path;
+
+	//for (size_t i = 0; i < length; i++)
+	//{
+		// LoadTexture();
+	//}
+
+	return nullptr;
 }

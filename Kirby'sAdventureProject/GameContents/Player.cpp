@@ -29,18 +29,21 @@ Player::~Player()
 void Player::Start()
 {
 	// 비트맵 파일이 없으면 하나 만들어줘야한다.
-	if (false == ResourceManager::GetInst().IsLoadTexture("Kirby.bmp"))
+	if (false == ResourceManager::GetInst().IsLoadTexture("MetaKnightsSoldiersStand.bmp"))
 	{
 		GameEnginePath FilePath;
 		FilePath.GetCurrentPath();
 		FilePath.MoveParentToExistsChild("Resources");
+		//GameEnginePath FolderPath = FilePath;
 		FilePath.MoveChild("Resources\\KirbyTest");
-		ResourceManager::GetInst().TextureLoad(FilePath.PlusFilePath("Kirby.bmp"));
+		ResourceManager::GetInst().TextureLoad(FilePath.PlusFilePath("MetaKnightsSoldiersStand.bmp"));
+		ResourceManager::GetInst().CreateSpriteSheet("MetaKnightsSoldiersStand.bmp" ,FilePath.PlusFilePath("MetaKnightsSoldiersStand.bmp"), 3, 2);
 	}
 
-	GameEngineRenderer* KirbyRender = CreateRenderer("Kirby.bmp", RenderOrder::Play);
-	//KirbyRender->SetRenderScale({ 200, 200 });
-	//KirbyRender->SetTexture("Kirby.bmp");
+	MainRenderer = CreateRenderer("MetaKnightsSoldiersStand.bmp", RenderOrder::Play);
+	MainRenderer->CreateAnimation("Run", "MetaKnightsSoldiersStand.bmp", 0, 5, 0.1f, true);
+	MainRenderer->CreateAnimation("Idle", "MetaKnightsSoldiersStand.bmp", 0, 0, 0.1f, false);
+	MainRenderer->ChangeAnimation("Idle");
 
 	float4 WinScale = GameEngineWindow::MainWindow.GetScale();
 	SetPos(WinScale.GetHalf());
@@ -54,28 +57,24 @@ void Player::Update(float _Delta)
 
 	if (true == GameEngineInput::IsPress('A'))
 	{
-		//MovePos = { -GetSpeed() * _Delta, 0.0f };
 		SetDir(float4::LEFT);
 		MovePos = GetDir() * GetSpeed() * _Delta;
 	}
 
 	if (true == GameEngineInput::IsPress('D'))
 	{
-		//MovePos = { GetSpeed() * _Delta, 0.0f };
 		SetDir(float4::RIGHT);
 		MovePos = GetDir() * GetSpeed() * _Delta;
 	}
 
 	if (true == GameEngineInput::IsPress('W'))
 	{
-		//MovePos = { 0.0f ,-GetSpeed() * _Delta };
 		SetDir(float4::UP);
 		MovePos = GetDir() * GetSpeed() * _Delta;
 	}
 
 	if (true == GameEngineInput::IsPress('S'))
 	{
-		//MovePos = { 0.0f , GetSpeed() * _Delta };
 		SetDir(float4::DOWN);
 		MovePos = GetDir() * GetSpeed() * _Delta;
 	}
@@ -83,10 +82,19 @@ void Player::Update(float _Delta)
 	if (true == GameEngineInput::IsDown('F'))
 	{
 		Projectile* NewRazer = GetLevel()->CreateActor<Projectile>();
-		NewRazer->Renderer->SetTexture("Kirby.bmp");
+		NewRazer->Renderer->SetTexture("MetaKnightsSoldiersStand.bmp");
 		NewRazer->SetDir(float4::RIGHT);
 		NewRazer->SetPos(GetPos() + float4::XValue(60.0f));
 		NewRazer->SetSpeed(300.0f);
+	}
+
+	if (MovePos.X != 0.0f || MovePos.Y != 0.0f)
+	{
+		MainRenderer->ChangeAnimation("Run");
+	}
+	else
+	{
+		MainRenderer->ChangeAnimation("Idle");
 	}
 
 
@@ -110,9 +118,6 @@ void Player::Update(float _Delta)
 
 void Player::Render() 
 {
-	//GameEngineWindowTexture* BackBuffer = GameEngineWindow::MainWindow.GetBackBuffer();
-	//GameEngineWindowTexture* FindTexture = ResourceManager::GetInst().FindTexture("Kirby.bmp");
-	//BackBuffer->TransCopy(FindTexture, GetPos(), { 100, 100 }, {0,0}, FindTexture->GetScale());
 }
 
 void Player::Release() 

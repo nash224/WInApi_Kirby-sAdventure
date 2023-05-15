@@ -11,7 +11,8 @@ enum class UpdateOrder
 enum class RenderOrder
 {
 	BackGround,
+	BackGroundEffect,
 	Play,
-	Projectile,
+	AbillityEffect,
 	PlayUI,
 };

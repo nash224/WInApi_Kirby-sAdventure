@@ -35,25 +35,6 @@ void VegetableValleyIntro::Update(float _Delta)
 		GameEngineCore::ChangeLevel("PauseLevel");
 	}
 
-	if (LevelPlayer->GetPos().iX() > GameEngineWindow::MainWindow.GetScale().GetHalf().iX() &&
-		LevelPlayer->GetPos().iX() <
-		LevelBackGround->GetScale().iX() - GameEngineWindow::MainWindow.GetScale().GetHalf().iX())
-	{
-		GetMainCamera()->AddPos(float4::XValue(LevelPlayer->GetMovePos()));
-	}
-
-	if (LevelPlayer->GetPos().iY() > GameEngineWindow::MainWindow.GetScale().GetHalf().iY() &&
-		LevelPlayer->GetPos().iY() <
-		LevelBackGround->GetScale().iY() - GameEngineWindow::MainWindow.GetScale().GetHalf().iY())
-	{
-		GetMainCamera()->AddPos(float4::YValue(LevelPlayer->GetMovePos()));
-	}
-
-	//if (LevelPlayer->GetPos().iY() <= GameEngineWindow::MainWindow.GetScale().GetHalf().iY())
-	//{
-	//	GetMainCamera()->AddPos(float4::YValue(MovePos));
-	//}
-
 	if (LevelPlayer->GetPos().iX() >= LevelBackGround->GetScale().iX() - LevelPlayer->GetScale().iX())
 	{
 		GameEngineCore::ChangeLevel("VegetableValleyHub");

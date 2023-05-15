@@ -14,7 +14,7 @@ Projectile::~Projectile()
 
 void Projectile::Start() 
 {
-	Renderer = CreateRenderer(RenderOrder::Projectile);
+	Renderer = CreateRenderer(RenderOrder::AbillityEffect);
 	Renderer->SetRenderScale({ 60, 20 });
 }
 

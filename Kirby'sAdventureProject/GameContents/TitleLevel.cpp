@@ -20,7 +20,10 @@ void TitleLevel::Start()
 
 void TitleLevel::Update(float _DeltaTime)
 {
-	if (true == GameEngineInput::IsDown('Y'))
+	if (true == GameEngineInput::IsDown('W') ||
+		GameEngineInput::IsDown('S') || 
+		GameEngineInput::IsDown('A') || 
+		GameEngineInput::IsDown('D'))
 	{
 		GameEngineCore::ChangeLevel("VegetableValleyIntro");
 	}

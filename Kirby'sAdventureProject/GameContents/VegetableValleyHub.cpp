@@ -31,7 +31,7 @@ void VegetableValleyHub::Start()
 void VegetableValleyHub::Update(float _Delta)
 {
 
-	if (true == GameEngineInput::IsPress('A') || true == GameEngineInput::IsPress('D'))
+	if (true == GameEngineInput::IsPress('A') || GameEngineInput::IsPress('D'))
 	{
 		if (LevelPlayer->GetPos().iX() > GameEngineWindow::MainWindow.GetScale().GetHalf().iX() &&
 			LevelPlayer->GetPos().iX() <
@@ -40,7 +40,7 @@ void VegetableValleyHub::Update(float _Delta)
 			GetMainCamera()->AddPos(float4::XValue(LevelPlayer->GetMovePos()));
 		}
 	}
-	if (true == GameEngineInput::IsPress('W') || true == GameEngineInput::IsPress('S'))
+	if (true == GameEngineInput::IsPress('W') || GameEngineInput::IsPress('S'))
 	{
 		if (LevelPlayer->GetPos().iY() > GameEngineWindow::MainWindow.GetScale().GetHalf().iY() &&
 			LevelPlayer->GetPos().iY() <

@@ -7,6 +7,7 @@
 #include <map>
 
 // 설명 :
+class GameEngineSprite;
 class ResourceManager
 {
 public:
@@ -19,6 +20,7 @@ public:
 
 	bool IsLoadTexture(const std::string& _Name);
 	GameEngineWindowTexture* FindTexture(const std::string& _Name);
+	GameEngineSprite* FindSprite(const std::string& _Name);
 
 	// ResourceManager의 싱글톤 객체
 	static ResourceManager& GetInst()
@@ -34,6 +36,23 @@ public:
 
 	GameEngineWindowTexture* TextureLoad(const std::string& _Name, const std::string& _Path);
 
+	GameEngineSprite* CreateSpriteSheet(const std::string& _TexturePath, int _XCount, int _YCount)
+	{
+		GameEnginePath Path = _TexturePath;
+		return CreateSpriteSheet(Path.GetFileName(), _TexturePath, _XCount, _YCount);
+	}
+
+	GameEngineSprite* CreateSpriteSheet(const std::string& _SpriteName, const std::string& _TexturePath, int _XCount, int _YCount);
+
+
+	GameEngineSprite* CreateSpriteFolder(const std::string& _Path)
+	{
+		GameEnginePath FolderPath = _Path;
+		return CreateSpriteFolder(FolderPath.GetFileName(), _Path);
+	}
+
+	GameEngineSprite* CreateSpriteFolder(const std::string& _SpriteName, const std::string& _Path);
+
 protected:
 
 private:
@@ -41,6 +60,7 @@ private:
 	static ResourceManager Inst;
 	// Texture를 저장하는 변수
 	std::map<std::string, GameEngineWindowTexture*> AllTexture;
+	std::map<std::string, GameEngineSprite*> AllSprite;
 
 	ResourceManager();
 	~ResourceManager();

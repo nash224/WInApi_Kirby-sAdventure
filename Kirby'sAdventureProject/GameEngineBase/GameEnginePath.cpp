@@ -83,3 +83,8 @@ std::string GameEnginePath::GetFileName()
 {
 	return Path.filename().string();
 }
+
+bool GameEnginePath::IsDirectory()
+{
+	return std::filesystem::is_directory(Path);
+}
