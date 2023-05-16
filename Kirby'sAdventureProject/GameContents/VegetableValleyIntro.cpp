@@ -23,7 +23,7 @@ VegetableValleyIntro::~VegetableValleyIntro()
 void VegetableValleyIntro::Start()
 {
 	LevelBackGround = GameEngineLevel::CreateActor<BackGround>();
-	LevelBackGround->init("CutsceneBackgrounds.bmp", float4{ 4 , 21 }, float4{ 256 , 240 });
+	LevelBackGround->init("CutsceneBackgrounds.bmp", "Resources\\KirbyTest\\", float4{ 4 , 21 }, float4{ 256 , 240 });
 
 	LevelPlayer = GameEngineLevel::CreateActor<Player>();
 }

@@ -19,7 +19,7 @@ public:
 
 	class GameEngineRenderer* Renderer = nullptr;
 
-	void init(const std::string& _FileName, float4 _CopyPos, float4 _CopyScale);
+	void init(const std::string& _FileName, const std::string& _Path, float4 _CopyPos, float4 _CopyScale);
 
 protected:
 

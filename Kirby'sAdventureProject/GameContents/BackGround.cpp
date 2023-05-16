@@ -54,18 +54,18 @@ void BackGround::Release()
 }
 
 
-void BackGround::init(const std::string& _FileName, float4 _CopyPos, float4 _CopyScale)
+void BackGround::init(const std::string& _FileName, const std::string& _Path, float4 _CopyPos, float4 _CopyScale)
 {
-	FileName = _FileName;
+	ResourceManager::GetInst().LoadTextureFile(_FileName, _Path);
 
-	if (false == ResourceManager::GetInst().IsLoadTexture(_FileName))
-	{
-		GameEnginePath FilePath;
-		FilePath.SetCurrentPath();
-		FilePath.MoveParentToExistsChild("Resources");
-		FilePath.MoveChild("Resources\\KirbyTest\\" + _FileName);
-		ResourceManager::GetInst().TextureLoad(FilePath.GetStringPath());
-	}
+	//if (false == ResourceManager::GetInst().IsLoadTexture(_FileName))
+	//{
+	//	GameEnginePath FilePath;
+	//	FilePath.SetCurrentPath();
+	//	FilePath.MoveParentToExistsChild("Resources");
+	//	FilePath.MoveChild("Resources\\KirbyTest\\" + _FileName);
+	//	ResourceManager::GetInst().TextureLoad(FilePath.GetStringPath());
+	//}
 
 	float4 Scale = _CopyScale;
 

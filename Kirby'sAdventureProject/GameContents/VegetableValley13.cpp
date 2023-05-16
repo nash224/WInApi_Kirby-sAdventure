@@ -20,27 +20,29 @@ VegetableValley13::~VegetableValley13()
 void VegetableValley13::Start()
 {
 	LevelBackGround = GameEngineLevel::CreateActor<BackGround>();
-	LevelBackGround->init("VegetableValley1.bmp", float4{ 2 , 342 }, float4{ 1016 , 168 });
+	LevelBackGround->init("VegetableValley1.bmp", "Resources\\KirbyTest\\", float4{ 2 , 342 }, float4{ 1016 , 168 });
 
 	LevelPlayer = GameEngineLevel::CreateActor<Player>();
 }
 
 void VegetableValley13::Update(float _Delta)
 {
+	float4 CameraHalfSize = GameEngineWindow::MainWindow.GetScale().GetHalf();
+
 	if (true == GameEngineInput::IsPress('A') || GameEngineInput::IsPress('D'))
 	{
-		if (LevelPlayer->GetPos().iX() > GameEngineWindow::MainWindow.GetScale().GetHalf().iX() &&
+		if (LevelPlayer->GetPos().iX() > CameraHalfSize.iX() &&
 			LevelPlayer->GetPos().iX() <
-			LevelBackGround->GetScale().iX() - GameEngineWindow::MainWindow.GetScale().GetHalf().iX())
+			LevelBackGround->GetScale().iX() - CameraHalfSize.iX())
 		{
 			GetMainCamera()->AddPos(float4::XValue(LevelPlayer->GetMovePos()));
 		}
 	}
 	if (true == GameEngineInput::IsPress('W') || GameEngineInput::IsPress('S'))
 	{
-		if (LevelPlayer->GetPos().iY() > GameEngineWindow::MainWindow.GetScale().GetHalf().iY() &&
+		if (LevelPlayer->GetPos().iY() > CameraHalfSize.iY() &&
 			LevelPlayer->GetPos().iY() <
-			LevelBackGround->GetScale().iY() - GameEngineWindow::MainWindow.GetScale().GetHalf().iY())
+			LevelBackGround->GetScale().iY() - CameraHalfSize.iY())
 		{
 			GetMainCamera()->AddPos(float4::YValue(LevelPlayer->GetMovePos()));
 		}

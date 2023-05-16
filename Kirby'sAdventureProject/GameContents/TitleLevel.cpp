@@ -15,7 +15,7 @@ TitleLevel::~TitleLevel()
 void TitleLevel::Start()
 {
 	LevelBackGround = GameEngineLevel::CreateActor<BackGround>();
-	LevelBackGround->init("TitleScreen.bmp", float4{ 0 , 0 }, float4{ 256 , 240 });
+	LevelBackGround->init("TitleScreen.bmp", "Resources\\KirbyTest\\", float4{ 0 , 0 }, float4{ 256 , 240 });
 }
 
 void TitleLevel::Update(float _DeltaTime)

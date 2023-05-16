@@ -77,6 +77,13 @@ public:
 		return float4{ 0.0f, _Pos.Y, 0.0f, 0.0f };
 	}
 
+	bool operator==(const float4& _Value) const
+	{
+		return X == _Value.X &&
+			Y == _Value.Y&&
+			Z == _Value.Z;
+	}
+
 	float4 operator+(const float4& _Other) const
 	{
 		float4 ReturnValue;

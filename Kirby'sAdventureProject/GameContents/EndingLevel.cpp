@@ -23,7 +23,7 @@ EndingLevel::~EndingLevel()
 void EndingLevel::Start()
 {
 	LevelBackGround = GameEngineLevel::CreateActor<BackGround>();
-	LevelBackGround->init("MrShineMrBright.bmp", float4{ 4 , 4 }, float4{ 248 , 176 });
+	LevelBackGround->init("MrShineMrBright.bmp", "Resources\\KirbyTest\\", float4{ 4 , 4 }, float4{ 248 , 176 });
 
 	LevelPlayer = GameEngineLevel::CreateActor<Player>();
 }

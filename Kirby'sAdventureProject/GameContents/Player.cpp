@@ -28,17 +28,18 @@ Player::~Player()
 
 void Player::Start()
 {
+	ResourceManager::GetInst().LoadSpriteFile("MetaKnightsSoldiersStand.bmp", "Resources\\KirbyTest", 3, 2);
+
 	// 비트맵 파일이 없으면 하나 만들어줘야한다.
-	if (false == ResourceManager::GetInst().IsLoadTexture("MetaKnightsSoldiersStand.bmp"))
-	{
-		GameEnginePath FilePath;
-		FilePath.SetCurrentPath();
-		FilePath.MoveParentToExistsChild("Resources");
-		//GameEnginePath FolderPath = FilePath;
-		FilePath.MoveChild("Resources\\KirbyTest");
-		ResourceManager::GetInst().TextureLoad(FilePath.PlusFilePath("MetaKnightsSoldiersStand.bmp"));
-		ResourceManager::GetInst().CreateSpriteSheet("MetaKnightsSoldiersStand.bmp" ,FilePath.PlusFilePath("MetaKnightsSoldiersStand.bmp"), 3, 2);
-	}
+	//if (false == ResourceManager::GetInst().IsLoadTexture("MetaKnightsSoldiersStand.bmp"))
+	//{
+	//	GameEnginePath FilePath;
+	//	FilePath.SetCurrentPath();
+	//	FilePath.MoveParentToExistsChild("Resources");
+	//	FilePath.MoveChild("Resources\\KirbyTest");
+
+	//	ResourceManager::GetInst().CreateSpriteSheet(FilePath.PlusFilePath("MetaKnightsSoldiersStand.bmp"), 3, 2);
+	//}
 
 	MainRenderer = CreateRenderer("MetaKnightsSoldiersStand.bmp", RenderOrder::Play);
 	MainRenderer->CreateAnimation("Run", "MetaKnightsSoldiersStand.bmp", 0, 5, 0.1f, true);
@@ -46,7 +47,7 @@ void Player::Start()
 	MainRenderer->ChangeAnimation("Idle");
 	MainRenderer->SetRenderScaleToTexture();
 
-	MainRenderer->SetScaleRatio(4.0f);
+	MainRenderer->SetScaleRatio(3.0f);
 
 
 	float4 WinScale = GameEngineWindow::MainWindow.GetScale();

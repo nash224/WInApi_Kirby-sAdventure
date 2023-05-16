@@ -135,3 +135,35 @@ GameEngineSprite* ResourceManager::CreateSpriteFolder(const std::string& _Sprite
 
 	return NewSprite;
 }
+
+
+void ResourceManager::LoadTextureFile(const std::string& _FileName, const std::string& _Path)
+{
+	if (false == ResourceManager::GetInst().IsLoadTexture(_FileName))
+	{
+		GameEnginePath FilePath;
+		FilePath.SetCurrentPath();
+		
+		std::string ParentPath = GameEnginePath::GetParentString(_Path);
+		FilePath.MoveParentToExistsChild(ParentPath);
+		FilePath.MoveChild(_Path + _FileName);
+		TextureLoad(FilePath.GetStringPath());
+	}
+}
+
+void ResourceManager::LoadSpriteFile(const std::string& _FileName, const std::string& _Path, int _XCount, int _YCount)
+{
+	if (true == ResourceManager::GetInst().IsLoadTexture(_FileName))
+	{
+		return;
+	}
+
+	GameEnginePath FilePath;
+	FilePath.SetCurrentPath();
+
+	std::string ParentPath = GameEnginePath::GetParentString(_Path);
+	FilePath.MoveParentToExistsChild(ParentPath);
+	FilePath.MoveChild(_Path);
+
+	ResourceManager::GetInst().CreateSpriteSheet(FilePath.PlusFilePath(_FileName), _XCount, _YCount);
+}

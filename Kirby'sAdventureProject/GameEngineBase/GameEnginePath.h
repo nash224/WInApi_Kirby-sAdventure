@@ -19,7 +19,8 @@ public:
 
 	void SetCurrentPath();
 	void MoveParent();
-	void MoveParentToExistsChild(const std::string& _ChildPath);
+	void MoveParentToExistsChild(const std::string& _ChildPath); 
+	static std::string GetParentString(const std::string& _ChildPath);
 	void MoveChild(const std::string& _ChildPath);
 	std::string PlusFilePath(const std::string& _ChildPath);
 	bool IsDirectory();

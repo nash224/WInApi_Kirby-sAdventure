@@ -53,7 +53,6 @@ void GameEngineRenderer::SetSprite(const std::string& _Name, size_t _Index/* = 0
 
 	SetCopyPos(SpriteInfo.RenderPos);
 	SetCopyScale(SpriteInfo.RenderScale);
-
 }
 
 void GameEngineRenderer::SetRenderScaleToTexture()
