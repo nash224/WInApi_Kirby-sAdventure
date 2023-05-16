@@ -14,5 +14,6 @@ enum class RenderOrder
 	BackGroundEffect,
 	Play,
 	AbillityEffect,
+	HitEffect,
 	PlayUI,
 };

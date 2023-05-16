@@ -61,7 +61,7 @@ void BackGround::init(const std::string& _FileName, float4 _CopyPos, float4 _Cop
 	if (false == ResourceManager::GetInst().IsLoadTexture(_FileName))
 	{
 		GameEnginePath FilePath;
-		FilePath.GetCurrentPath();
+		FilePath.SetCurrentPath();
 		FilePath.MoveParentToExistsChild("Resources");
 		FilePath.MoveChild("Resources\\KirbyTest\\" + _FileName);
 		ResourceManager::GetInst().TextureLoad(FilePath.GetStringPath());

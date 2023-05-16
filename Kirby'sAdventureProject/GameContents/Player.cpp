@@ -32,7 +32,7 @@ void Player::Start()
 	if (false == ResourceManager::GetInst().IsLoadTexture("MetaKnightsSoldiersStand.bmp"))
 	{
 		GameEnginePath FilePath;
-		FilePath.GetCurrentPath();
+		FilePath.SetCurrentPath();
 		FilePath.MoveParentToExistsChild("Resources");
 		//GameEnginePath FolderPath = FilePath;
 		FilePath.MoveChild("Resources\\KirbyTest");
@@ -44,6 +44,10 @@ void Player::Start()
 	MainRenderer->CreateAnimation("Run", "MetaKnightsSoldiersStand.bmp", 0, 5, 0.1f, true);
 	MainRenderer->CreateAnimation("Idle", "MetaKnightsSoldiersStand.bmp", 0, 0, 0.1f, false);
 	MainRenderer->ChangeAnimation("Idle");
+	MainRenderer->SetRenderScaleToTexture();
+
+	MainRenderer->SetScaleRatio(4.0f);
+
 
 	float4 WinScale = GameEngineWindow::MainWindow.GetScale();
 	SetPos(WinScale.GetHalf());
@@ -105,22 +109,4 @@ void Player::Update(float _Delta)
 
 	SetMovePos(MovePos);
 	AddPos(MovePos);
-	//if (GetPos().iX() >= GameEngineWindow::MainWindow.GetScale().GetHalf().iX())
-	//{
-	//	GetLevel()->GetMainCamera()->AddPos(float4::XValue(MovePos));
-	//}
-
-	//if (GetPos().iY() >= GameEngineWindow::MainWindow.GetScale().GetHalf().iY())
-	//{
-	//	GetLevel()->GetMainCamera()->AddPos(float4::YValue(MovePos));
-	//}
-}
-
-void Player::Render() 
-{
-}
-
-void Player::Release() 
-{
-
 }

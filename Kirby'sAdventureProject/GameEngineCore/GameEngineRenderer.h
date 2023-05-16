@@ -52,6 +52,11 @@ public:
 		ScaleCheck = true;
 	}
 
+	void SetScaleRatio(const float& _Scale)
+	{
+		ScaleRatio = _Scale;
+	}
+
 protected:
 
 private:
@@ -63,6 +68,7 @@ private:
 	float4 RenderScale = float4::ZERO;
 	float4 CopyPos = float4::ZERO;
 	float4 CopyScale = float4::ZERO;
+	float ScaleRatio = 1.0f;
 	bool ScaleCheck = false;
 
 	void Render(class GameEngineCamera* _Camera, float _Delta);
