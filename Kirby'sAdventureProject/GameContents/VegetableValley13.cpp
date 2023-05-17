@@ -29,27 +29,6 @@ void VegetableValley13::Update(float _Delta)
 {
 	float4 CameraHalfSize = GameEngineWindow::MainWindow.GetScale().GetHalf();
 
-	if (true == GameEngineInput::IsPress('A') || GameEngineInput::IsPress('D'))
-	{
-		if (LevelPlayer->GetPos().iX() > CameraHalfSize.iX() &&
-			LevelPlayer->GetPos().iX() <
-			LevelBackGround->GetScale().iX() - CameraHalfSize.iX())
-		{
-			GetMainCamera()->AddPos(float4::XValue(LevelPlayer->GetMovePos()));
-		}
-	}
-	if (true == GameEngineInput::IsPress('W') || GameEngineInput::IsPress('S'))
-	{
-		if (LevelPlayer->GetPos().iY() > CameraHalfSize.iY() &&
-			LevelPlayer->GetPos().iY() <
-			LevelBackGround->GetScale().iY() - CameraHalfSize.iY())
-		{
-			GetMainCamera()->AddPos(float4::YValue(LevelPlayer->GetMovePos()));
-		}
-	}
-
-
-
 	if (true == GameEngineInput::IsDown('P'))
 	{
 		GameEngineCore::ChangeLevel("PauseLevel");

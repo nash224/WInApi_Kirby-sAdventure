@@ -28,86 +28,126 @@ Player::~Player()
 
 void Player::Start()
 {
-	ResourceManager::GetInst().LoadSpriteFile("MetaKnightsSoldiersStand.bmp", "Resources\\KirbyTest", 3, 2);
-
 	// 비트맵 파일이 없으면 하나 만들어줘야한다.
-	//if (false == ResourceManager::GetInst().IsLoadTexture("MetaKnightsSoldiersStand.bmp"))
-	//{
-	//	GameEnginePath FilePath;
-	//	FilePath.SetCurrentPath();
-	//	FilePath.MoveParentToExistsChild("Resources");
-	//	FilePath.MoveChild("Resources\\KirbyTest");
+	{
+		ResourceManager::GetInst().LoadSpriteFile("SpitStar_1x4_16x16.bmp", "Resources\\Effect\\KirbyBaseEffect", 4, 1);
+	}
 
-	//	ResourceManager::GetInst().CreateSpriteSheet(FilePath.PlusFilePath("MetaKnightsSoldiersStand.bmp"), 3, 2);
-	//}
+	ResourceManager::GetInst().LoadSpriteFile("Left_Kirby.bmp", "Resources\\Unit\\Kirby", 7, 2);
+	ResourceManager::GetInst().LoadSpriteFile("RIght_Kirby.bmp", "Resources\\Unit\\Kirby", 7, 2);
 
-	MainRenderer = CreateRenderer("MetaKnightsSoldiersStand.bmp", RenderOrder::Play);
-	MainRenderer->CreateAnimation("Run", "MetaKnightsSoldiersStand.bmp", 0, 5, 0.1f, true);
-	MainRenderer->CreateAnimation("Idle", "MetaKnightsSoldiersStand.bmp", 0, 0, 0.1f, false);
+	MainRenderer = CreateRenderer(RenderOrder::Play);
+
+	{
+		MainRenderer->CreateAnimation("KirbyExhaleStartAttack", "SpitStar_1x4_16x16.bmp", 0, 3, 0.2f, true);
+	}
+
+	MainRenderer->CreateAnimation("Left_Idle", "Left_Kirby.bmp", 0, 1, 0.5f, true);
+	MainRenderer->CreateAnimation("Right_Idle", "RIght_Kirby.bmp", 0, 1, 0.5f, true);
+
+	MainRenderer->CreateAnimation("Left_Run", "Left_Kirby.bmp", 2, 5, 0.15f, true);
+	MainRenderer->CreateAnimation("Right_Run", "RIght_Kirby.bmp", 2, 5, 0.15f, true);
+
 	MainRenderer->ChangeAnimation("Idle");
-	MainRenderer->SetRenderScaleToTexture();
 
+	MainRenderer->SetRenderScaleToTexture();
 	MainRenderer->SetScaleRatio(3.0f);
 
 
 	float4 WinScale = GameEngineWindow::MainWindow.GetScale();
 	SetPos(WinScale.GetHalf());
+
+	ChangeState(PlayerState::Idle);
+	Dir = PlayerDir::Right;
 }
 
 void Player::Update(float _Delta)
 {
-	SetSpeed(600.0f);
+	StateUpdate(_Delta);
+}
 
-	float4 MovePos = float4::ZERO;
-
-	if (true == GameEngineInput::IsPress('A'))
+void Player::StateUpdate(float _Delta)
+{
+	switch (State)
 	{
-		SetDir(float4::LEFT);
-		MovePos = GetDir() * GetSpeed() * _Delta;
+	case PlayerState::Idle:
+		return IdleUpdate(_Delta);
+	case PlayerState::Run:
+		return RunUpdate(_Delta);
+	default:
+		break;
+	}
+}
+
+void Player::ChangeState(PlayerState _State)
+{
+	if (_State != State)
+	{
+		switch (_State)
+		{
+		case PlayerState::Idle:
+			IdleStart();
+			break;
+		case PlayerState::Run:
+			RunStart();
+			break;
+		default:
+			break;
+		}
 	}
 
-	if (true == GameEngineInput::IsPress('D'))
+	State = _State;
+}
+
+void Player::DirCheck()
+{
+	PlayerDir CheckDir = PlayerDir::Max;
+
+	if (true == GameEngineInput::IsDown('A'))
 	{
-		SetDir(float4::RIGHT);
-		MovePos = GetDir() * GetSpeed() * _Delta;
+		CheckDir = PlayerDir::Left;
+	}
+	else if (true == GameEngineInput::IsDown('D'))
+	{
+		CheckDir = PlayerDir::Left;
 	}
 
-	if (true == GameEngineInput::IsPress('W'))
+	bool ChangeDir = false;
+
+	if (CheckDir != PlayerDir::Max)
 	{
-		SetDir(float4::UP);
-		MovePos = GetDir() * GetSpeed() * _Delta;
+		Dir = CheckDir;
+		ChangeDir = true;
 	}
 
-	if (true == GameEngineInput::IsPress('S'))
+	if (CheckDir != PlayerDir::Max && true == ChangeDir)
 	{
-		SetDir(float4::DOWN);
-		MovePos = GetDir() * GetSpeed() * _Delta;
+		ChangeAnimationState(CurState);
 	}
-
-	if (true == GameEngineInput::IsDown('F'))
-	{
-		Projectile* NewRazer = GetLevel()->CreateActor<Projectile>();
-		NewRazer->Renderer->SetTexture("MetaKnightsSoldiersStand.bmp");
-		NewRazer->SetDir(float4::RIGHT);
-		NewRazer->SetPos(GetPos() + float4::XValue(60.0f));
-		NewRazer->SetSpeed(300.0f);
-	}
-
-	if (MovePos.X != 0.0f || MovePos.Y != 0.0f)
-	{
-		MainRenderer->ChangeAnimation("Run");
-	}
-	else
-	{
-		MainRenderer->ChangeAnimation("Idle");
-	}
+}
 
 
-	if (0 != GetAsyncKeyState('P'))
+void Player::ChangeAnimationState(const std::string& _StateName)
+{
+	std::string AnimationName;
+
+	switch (Dir)
 	{
-		GameEngineCore::ChangeLevel("PauseLevel");
+	case PlayerDir::Right:
+		AnimationName = "Left_";
+		break;
+	case PlayerDir::Left:
+		AnimationName = "Right_";
+		break;
+	case PlayerDir::Max:
+		break;
+	default:
+		break;
 	}
 
-	SetMovePos(MovePos);
-	AddPos(MovePos);
+	AnimationName += _StateName;
+
+	CurState = _StateName;
+
+	MainRenderer->ChangeAnimation(AnimationName);
 }

@@ -72,8 +72,10 @@ void GameEngineRenderer::Render(class GameEngineCamera* _Camera, float _Delta)
 		CurAnimation->CurInter -= _Delta;
 		if (0.0f >= CurAnimation->CurInter)
 		{
+			CurAnimation->CurInter
+				= CurAnimation->Inters[CurAnimation->CurFrame - CurAnimation->StartFrame];
+
 			++CurAnimation->CurFrame;
-			CurAnimation->CurInter = CurAnimation->Inter;
 
 			if (CurAnimation->CurFrame > CurAnimation->EndFrame)
 			{
@@ -157,7 +159,6 @@ void GameEngineRenderer::CreateAnimation(
 	GameEngineRenderer::Animation& Animation = AllAnimation[UpperName];
 
 	Animation.Sprite = Sprite;
-	Animation.Inter = _Inter;
 
 	if (_Start != -1)
 	{
@@ -175,6 +176,13 @@ void GameEngineRenderer::CreateAnimation(
 	else
 	{
 		Animation.EndFrame = Animation.Sprite->GetSpriteCount() - 1;
+	}
+
+	Animation.Inters.resize((Animation.EndFrame - Animation.StartFrame) + 1);
+
+	for (size_t i = 0; i < Animation.Inters.size(); i++)
+	{
+		Animation.Inters[i] = _Inter;
 	}
 
 	Animation.Loop = _Loop;
@@ -197,6 +205,6 @@ void GameEngineRenderer::ChangeAnimation(const std::string& _AnimationName, bool
 		return;
 	}
 
-	CurAnimation->CurInter = CurAnimation->Inter;
+	CurAnimation->CurInter = CurAnimation->Inters[0];
 	CurAnimation->CurFrame = CurAnimation->StartFrame;
 }

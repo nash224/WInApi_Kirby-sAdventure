@@ -2,18 +2,18 @@
 #include <GameEngineCore/GameEngineActor.h>
 
 // Ό³Έν :
-class BackgroundEffect : public GameEngineActor
+class GameEffect : public GameEngineActor
 {
 public:
 	// constrcuter destructer
-	BackgroundEffect();
-	~BackgroundEffect();
+	GameEffect();
+	~GameEffect();
 
 	// delete Function
-	BackgroundEffect(const BackgroundEffect& _Other) = delete;
-	BackgroundEffect(BackgroundEffect&& _Other) noexcept = delete;
-	BackgroundEffect& operator=(const BackgroundEffect& _Other) = delete;
-	BackgroundEffect& operator=(BackgroundEffect&& _Other) noexcept = delete;
+	GameEffect(const GameEffect& _Other) = delete;
+	GameEffect(GameEffect&& _Other) noexcept = delete;
+	GameEffect& operator=(const GameEffect& _Other) = delete;
+	GameEffect& operator=(GameEffect&& _Other) noexcept = delete;
 
 protected:
 

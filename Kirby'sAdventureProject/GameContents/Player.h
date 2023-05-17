@@ -1,6 +1,20 @@
 #pragma once
 #include <GameEngineCore/GameEngineActor.h>
 
+enum class PlayerState
+{
+	Idle,
+	Run,
+	Max,
+};
+
+enum class PlayerDir
+{
+	Right,
+	Left,
+	Max,
+};
+
 class Player : public GameEngineActor
 {
 public:
@@ -14,24 +28,26 @@ public:
 	Player& operator=(const Player& _Other) = delete;
 	Player& operator=(Player&& _Other) noexcept = delete;
 
-	float4 GetMovePos() const
-	{
-		return MovePos;
-	}
-
-	void SetMovePos(const float4& _MovePos)
-	{
-		MovePos = _MovePos;
-	}
-
 	GameEngineRenderer* MainRenderer = nullptr;
 
 protected:
+	PlayerState State = PlayerState::Max;
+	PlayerDir Dir = PlayerDir::Right;
+	std::string CurState = "";
+
+
+	void StateUpdate(float _Delta);
+	void IdleStart();
+	void RunStart();
+
+	void IdleUpdate(float _Delta);
+	void RunUpdate(float _Delta);
+
+	void DirCheck();
+	void ChangeState(PlayerState State);
+	void ChangeAnimationState(const std::string& _StateName);
 
 private:
-	float4 MovePos = float4::ZERO;
-
 	void Start() override;
 	void Update(float _Delta) override;
-
 };

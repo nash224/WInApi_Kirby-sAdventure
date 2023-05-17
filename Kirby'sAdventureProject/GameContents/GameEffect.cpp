@@ -1,10 +1,10 @@
-#include "BackgroundEffect.h"
+#include "GameEffect.h"
 
-BackgroundEffect::BackgroundEffect() 
+GameEffect::GameEffect()
 {
 }
 
-BackgroundEffect::~BackgroundEffect() 
+GameEffect::~GameEffect()
 {
 }
 

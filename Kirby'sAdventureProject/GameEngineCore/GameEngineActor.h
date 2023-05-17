@@ -62,16 +62,6 @@ public:
 		Speed = _Speed;
 	}
 
-	float4 GetDir() const
-	{
-		return Dir;
-	}
-	
-	void SetDir(const float4& _Dir)
-	{
-		Dir = _Dir;
-	}
-
 	GameEngineLevel* GetLevel()
 	{
 		return Level;
@@ -102,7 +92,6 @@ private:
 	GameEngineLevel* Level = nullptr;
 	float4 Pos = float4::ZERO;
 	float4 Scale = float4::ZERO;
-	float4 Dir = float4::RIGHT;
 	
 	float Speed = 0.0f;
 

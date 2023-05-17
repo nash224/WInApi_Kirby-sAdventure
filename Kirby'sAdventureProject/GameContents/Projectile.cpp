@@ -15,7 +15,7 @@ Projectile::~Projectile()
 void Projectile::Start() 
 {
 	Renderer = CreateRenderer(RenderOrder::AbillityEffect);
-	Renderer->SetRenderScale({ 60, 20 });
+	Renderer->SetRenderScale({ 16, 16 });
 }
 
 void Projectile::Update(float _Delta) 
