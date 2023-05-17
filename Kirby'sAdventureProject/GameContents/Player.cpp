@@ -103,11 +103,17 @@ void Player::DirCheck()
 {
 	PlayerDir CheckDir = PlayerDir::Max;
 
-	if (true == GameEngineInput::IsDown('A'))
+	if (GameEngineInput::IsPress('A') && GameEngineInput::IsPress('D'))
+	{
+		return;
+	}
+
+	if (true == GameEngineInput::IsPress('A'))
 	{
 		CheckDir = PlayerDir::Left;
 	}
-	else if (true == GameEngineInput::IsDown('D'))
+
+	if (true == GameEngineInput::IsPress('D'))
 	{
 		CheckDir = PlayerDir::Right;
 	}
@@ -120,10 +126,10 @@ void Player::DirCheck()
 		ChangeDir = true;
 	}
 
-	if (CheckDir != PlayerDir::Max && true == ChangeDir)
-	{
-		ChangeAnimationState(CurState);
-	}
+	//if (CheckDir != PlayerDir::Max && true == ChangeDir)
+	//{
+	//	ChangeAnimationState(CurState);
+	//}
 }
 
 

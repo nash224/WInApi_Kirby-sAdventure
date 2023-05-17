@@ -18,10 +18,8 @@ void Player::RunStart()
 
 void Player::IdleUpdate(float _Delta)
 {
-	if (true == GameEngineInput::IsDown('A')
-		|| true == GameEngineInput::IsDown('D')
-		|| true == GameEngineInput::IsDown('S')
-		|| true == GameEngineInput::IsDown('W'))
+	if (true == (GameEngineInput::IsPress('A') || GameEngineInput::IsPress('D')) &&
+		false == (GameEngineInput::IsPress('A') && GameEngineInput::IsPress('D')))
 	{
 		DirCheck();
 		ChangeState(PlayerState::Run);
@@ -30,17 +28,22 @@ void Player::IdleUpdate(float _Delta)
 
 void Player::RunUpdate(float _Delta)
 {
-	DirCheck();
+	//DirCheck();
 
 	float Speed = 600.0f;
 
 	float4 MovePos = float4::ZERO;
 
-	if (true == GameEngineInput::IsPress('A') && Dir == PlayerDir::Left)
+
+	if (GameEngineInput::IsPress('A') && GameEngineInput::IsPress('D'))
+	{
+		MovePos = { 0.0f, MovePos.Y };
+	}
+	else if (true == GameEngineInput::IsPress('A'))
 	{
 		MovePos = { -Speed * _Delta, 0.0f };
 	}
-	else if (true == GameEngineInput::IsPress('D') && Dir == PlayerDir::Right)
+	else if (true == GameEngineInput::IsPress('D'))
 	{
 		MovePos = { Speed * _Delta, 0.0f };
 	}
@@ -54,21 +57,21 @@ void Player::RunUpdate(float _Delta)
 		MovePos = { 0.0f, Speed * _Delta };
 	}
 
-	if (true == GameEngineInput::IsDown('F'))
-	{
-		//Projectile* NewRazer = GetLevel()->CreateActor<Projectile>();
-		//NewRazer->Renderer->SetTexture("MetaKnightsSoldiersStand.bmp");
-		//NewRazer->SetDir(float4::RIGHT);
-		//NewRazer->SetPos(GetPos() + float4::XValue(60.0f));
-		//NewRazer->SetSpeed(300.0f);
-	}
-
-	if (MovePos == float4::ZERO)
+	if (MovePos.X == 0.0f)
 	{
 		DirCheck();
 		ChangeState(PlayerState::Idle);
 	}
 
+
 	AddPos(MovePos);
 	GetLevel()->GetMainCamera()->AddPos(MovePos);
 }
+
+
+
+	//Projectile* NewRazer = GetLevel()->CreateActor<Projectile>();
+	//NewRazer->Renderer->SetTexture("MetaKnightsSoldiersStand.bmp");
+	//NewRazer->SetDir(float4::RIGHT);
+	//NewRazer->SetPos(GetPos() + float4::XValue(60.0f));
+	//NewRazer->SetSpeed(300.0f);
