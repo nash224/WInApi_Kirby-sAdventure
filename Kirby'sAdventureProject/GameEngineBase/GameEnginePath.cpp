@@ -3,6 +3,7 @@
 
 GameEnginePath::GameEnginePath() 
 {
+	SetCurrentPath();
 }
 
 GameEnginePath::GameEnginePath(const std::string& _Path)

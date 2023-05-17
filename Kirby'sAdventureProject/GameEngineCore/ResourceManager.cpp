@@ -142,7 +142,6 @@ void ResourceManager::LoadTextureFile(const std::string& _FileName, const std::s
 	if (false == ResourceManager::GetInst().IsLoadTexture(_FileName))
 	{
 		GameEnginePath FilePath;
-		FilePath.SetCurrentPath();
 		
 		std::string ParentPath = GameEnginePath::GetParentString(_Path);
 		FilePath.MoveParentToExistsChild(ParentPath);
@@ -159,7 +158,6 @@ void ResourceManager::LoadSpriteFile(const std::string& _FileName, const std::st
 	}
 
 	GameEnginePath FilePath;
-	FilePath.SetCurrentPath();
 
 	std::string ParentPath = GameEnginePath::GetParentString(_Path);
 	FilePath.MoveParentToExistsChild(ParentPath);
