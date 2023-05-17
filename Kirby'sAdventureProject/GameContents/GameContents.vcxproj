@@ -170,7 +170,7 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="BackgroundEffect.h">
+    <ClInclude Include="GameEffect.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -357,7 +357,7 @@
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="BackgroundEffect.cpp">
+    <ClCompile Include="GameEffect.cpp">
       <SubType>
       </SubType>
     </ClCompile>

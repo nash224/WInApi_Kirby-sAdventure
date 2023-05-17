@@ -20,8 +20,8 @@ public:
 
 	bool IsLoadTexture(const std::string& _Name);
 	GameEngineWindowTexture* FindTexture(const std::string& _Name);
-	void LoadTextureFile(const std::string& _FileName, const std::string& _Path);
-	void LoadSpriteFile(const std::string& _FileName, const std::string& _Path, int _XCount, int _YCount);
+	GameEngineWindowTexture* LoadTextureFile(const std::string& _FileName, const std::string& _Path);
+	GameEngineSprite* LoadSpriteFile(const std::string& _FileName, const std::string& _Path, int _XCount, int _YCount);
 
 	GameEngineSprite* FindSprite(const std::string& _Name);
 

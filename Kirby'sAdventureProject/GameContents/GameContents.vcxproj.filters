@@ -137,7 +137,7 @@
     <ClInclude Include="VegetableValleyBoss.h">
       <Filter>Level\Map\VegetableValley</Filter>
     </ClInclude>
-    <ClInclude Include="BackgroundEffect.h">
+    <ClInclude Include="GameEffect.h">
       <Filter>Global</Filter>
     </ClInclude>
   </ItemGroup>
@@ -275,7 +275,7 @@
     <ClCompile Include="VegetableValleyBoss.cpp">
       <Filter>Level\Map\VegetableValley</Filter>
     </ClCompile>
-    <ClCompile Include="BackgroundEffect.cpp">
+    <ClCompile Include="GameEffect.cpp">
       <Filter>Global</Filter>
     </ClCompile>
   </ItemGroup>
