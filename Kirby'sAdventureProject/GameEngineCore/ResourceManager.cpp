@@ -151,8 +151,8 @@ GameEngineWindowTexture* ResourceManager::LoadTextureFile(const std::string& _Fi
 		
 	std::string ParentPath = GameEnginePath::GetParentString(_Path);
 	FilePath.MoveParentToExistsChild(ParentPath);
-	FilePath.MoveChild(_Path + _FileName);
-	Texture = TextureLoad(FilePath.GetStringPath());
+	FilePath.MoveChild(_Path);
+	Texture = TextureLoad(FilePath.PlusFilePath(_FileName));
 
 	return Texture;
 }

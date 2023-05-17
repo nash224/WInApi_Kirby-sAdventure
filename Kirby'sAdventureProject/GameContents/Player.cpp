@@ -109,7 +109,7 @@ void Player::DirCheck()
 	}
 	else if (true == GameEngineInput::IsDown('D'))
 	{
-		CheckDir = PlayerDir::Left;
+		CheckDir = PlayerDir::Right;
 	}
 
 	bool ChangeDir = false;
@@ -129,17 +129,15 @@ void Player::DirCheck()
 
 void Player::ChangeAnimationState(const std::string& _StateName)
 {
-	std::string AnimationName;
+	std::string AnimationName = "";
 
 	switch (Dir)
 	{
 	case PlayerDir::Right:
-		AnimationName = "Left_";
-		break;
-	case PlayerDir::Left:
 		AnimationName = "Right_";
 		break;
-	case PlayerDir::Max:
+	case PlayerDir::Left:
+		AnimationName = "Left_";
 		break;
 	default:
 		break;

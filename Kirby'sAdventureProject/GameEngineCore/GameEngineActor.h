@@ -52,16 +52,6 @@ public:
 		Scale = _Scale;
 	}
 
-	float GetSpeed() const
-	{
-		return Speed;
-	}
-
-	void SetSpeed(const float _Speed)
-	{
-		Speed = _Speed;
-	}
-
 	GameEngineLevel* GetLevel()
 	{
 		return Level;
@@ -92,8 +82,6 @@ private:
 	GameEngineLevel* Level = nullptr;
 	float4 Pos = float4::ZERO;
 	float4 Scale = float4::ZERO;
-	
-	float Speed = 0.0f;
 
 	std::list<GameEngineRenderer*> AllRenderer;
 };
