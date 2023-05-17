@@ -18,11 +18,10 @@ VegetableValleyHub::~VegetableValleyHub()
 {
 
 }
-
-
 /// <summary>
-/// /////
+/// /
 /// </summary>
+/// ////
 
 void VegetableValleyHub::Start()
 {
