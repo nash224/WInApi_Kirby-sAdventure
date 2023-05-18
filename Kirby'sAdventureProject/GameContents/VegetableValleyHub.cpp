@@ -68,10 +68,6 @@ void VegetableValleyHub::LevelStart(GameEngineLevel* _PrevLevel)
 	{
 		MsgBoxAssert("플레이어를 세팅해주지 않았습니다.");
 	}
-
-	float4 WinScale = GameEngineWindow::MainWindow.GetScale();
-
-	GetMainCamera()->SetPos(LevelPlayer->GetPos() - WinScale.GetHalf());
 }
 
 void VegetableValleyHub::LevelEnd(GameEngineLevel* _NextLevel) { }
