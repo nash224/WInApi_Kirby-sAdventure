@@ -140,6 +140,10 @@
     <ClInclude Include="GameEffect.h">
       <Filter>Global</Filter>
     </ClInclude>
+    <ClInclude Include="Grunt.h">
+      <Filter>Global</Filter>
+    </ClInclude>
+    <ClInclude Include="ContentUtils.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="TitleLevel.cpp">
@@ -281,6 +285,10 @@
     <ClCompile Include="Kirby_State.cpp">
       <Filter>Global</Filter>
     </ClCompile>
+    <ClCompile Include="Grunt.cpp">
+      <Filter>Global</Filter>
+    </ClCompile>
+    <ClCompile Include="ContentUtils.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Level">

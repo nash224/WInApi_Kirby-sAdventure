@@ -1,5 +1,5 @@
 #pragma once
-#include <GameEngineCore/GameEngineActor.h>
+#include "ContentUtils.h"
 
 enum class PlayerState
 {
@@ -15,7 +15,7 @@ enum class PlayerDir
 	Max,
 };
 
-class Player : public GameEngineActor
+class Player : public ContentUtils
 {
 public:
 	// constructor desstructor
@@ -30,7 +30,14 @@ public:
 
 	GameEngineRenderer* MainRenderer = nullptr;
 
+	static Player* GetMainPlayer()
+	{
+		return MainPlayer;
+	}
+
 protected:
+	static Player* MainPlayer;
+
 	PlayerState State = PlayerState::Max;
 	PlayerDir Dir = PlayerDir::Right;
 	std::string CurState = "";
@@ -48,6 +55,8 @@ protected:
 	void ChangeAnimationState(const std::string& _StateName);
 
 private:
+	void LevelStart() override;
+
 	void Start() override;
 	void Update(float _Delta) override;
 };

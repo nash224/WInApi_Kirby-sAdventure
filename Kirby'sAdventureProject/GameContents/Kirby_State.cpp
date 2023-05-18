@@ -69,7 +69,7 @@ void Player::RunUpdate(float _Delta)
 
 
 	AddPos(MovePos);
-	GetLevel()->GetMainCamera()->AddPos(MovePos);
+	//GetLevel()->GetMainCamera()->AddPos(MovePos);
 }
 
 

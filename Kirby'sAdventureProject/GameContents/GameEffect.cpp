@@ -19,13 +19,6 @@ void GameEffect::init(const std::string& _FileName, const std::string& _Path, in
 	ResourceManager::GetInst().LoadSpriteFile(_FileName, _Path, _XCount, _YCount);
 }
 
-GameEngineRenderer* GameEffect::CreateEffectRenderer(int _Order)
-{
-	EffectRenderer = CreateRenderer(_Order);
-
-	return EffectRenderer;
-}
-
 
 void GameEffect::Start() 
 {

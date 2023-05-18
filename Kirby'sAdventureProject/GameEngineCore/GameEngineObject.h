@@ -3,6 +3,7 @@
 // 설명 : 모든 기본적인 행동을 제안하는 클래스
 class GameEngineObject
 {
+	friend class GameEngineCore;
 	friend class GameEngineLevel;
 public:
 	// constrcuter destructer
@@ -54,16 +55,15 @@ public:
 		Order = _Order;
 	}
 
-	float GetLiveTime() const
+	float GetLiveTime()
 	{
 		return LiveTime;
 	}
 
-	void ResetLiveTIme()
+	void ResetLiveTime()
 	{
 		LiveTime = 0.0f;
 	}
-
 
 
 protected:

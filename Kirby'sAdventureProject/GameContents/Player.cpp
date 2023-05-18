@@ -1,6 +1,5 @@
 #include "Player.h"
 #include "ContentsEnum.h"
-#include "Projectile.h"
 
 #include <GameEngineBase/GameEnginePath.h>
 #include <GameEngineBase/GameEngineTime.h>
@@ -14,8 +13,13 @@
 #include <GameEngineCore/GameEngineCamera.h>
 #include <GameEngineCore/GameEngineCore.h>
 
+#include "Grunt.h"
+#include "Projectile.h"
+
 #include <Windows.h>
 
+
+Player* Player::MainPlayer = nullptr;
 
 
 Player::Player()
@@ -48,8 +52,6 @@ void Player::Start()
 	MainRenderer->CreateAnimation("Left_Run", "Left_Kirby.bmp", 2, 5, 0.15f, true);
 	MainRenderer->CreateAnimation("Right_Run", "RIght_Kirby.bmp", 2, 5, 0.15f, true);
 
-	MainRenderer->ChangeAnimation("Idle");
-
 	MainRenderer->SetRenderScaleToTexture();
 	MainRenderer->SetScaleRatio(3.0f);
 
@@ -63,7 +65,14 @@ void Player::Start()
 
 void Player::Update(float _Delta)
 {
+	if (true == GameEngineInput::IsDown('L'))
+	{
+		Grunt::AllMonsterDeath();
+	}
+
 	StateUpdate(_Delta);
+
+	CameraFocus();
 }
 
 void Player::StateUpdate(float _Delta)
@@ -103,7 +112,8 @@ void Player::DirCheck()
 {
 	PlayerDir CheckDir = PlayerDir::Max;
 
-	if (GameEngineInput::IsPress('A') && GameEngineInput::IsPress('D'))
+	if (true == GameEngineInput::IsPress('A') &&
+		true == GameEngineInput::IsPress('D'))
 	{
 		return;
 	}
@@ -118,18 +128,11 @@ void Player::DirCheck()
 		CheckDir = PlayerDir::Right;
 	}
 
-	//bool ChangeDir = false;
 
 	if (CheckDir != PlayerDir::Max)
 	{
 		Dir = CheckDir;
-		//ChangeDir = true;
 	}
-
-	//if (CheckDir != PlayerDir::Max && true == ChangeDir)
-	//{
-	//	ChangeAnimationState(CurState);
-	//}
 }
 
 
@@ -154,4 +157,9 @@ void Player::ChangeAnimationState(const std::string& _StateName)
 	CurState = _StateName;
 
 	MainRenderer->ChangeAnimation(AnimationName);
+}
+
+void Player::LevelStart()
+{
+	MainPlayer = this;
 }

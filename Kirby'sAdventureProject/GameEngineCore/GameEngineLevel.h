@@ -55,6 +55,9 @@ private:
 	std::map<int, std::list<GameEngineActor*>> AllActors;
 
 	void ActorInit(GameEngineActor* _Actor, int _Order);
+
+	void ActorLevelStart();
+	void ActorLevelEnd();
 	
 	void ActorUpdate(float _Delta);
 	void ActorRender(float _Delta);

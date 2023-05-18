@@ -22,7 +22,7 @@ void VegetableValley13::Start()
 	LevelBackGround = GameEngineLevel::CreateActor<BackGround>();
 	LevelBackGround->init("VegetableValley1.bmp", "Resources\\KirbyTest\\", float4{ 2 , 342 }, float4{ 1016 , 168 });
 
-	LevelPlayer = GameEngineLevel::CreateActor<Player>();
+	//LevelPlayer = GameEngineLevel::CreateActor<Player>();
 }
 
 void VegetableValley13::Update(float _Delta)
@@ -32,6 +32,11 @@ void VegetableValley13::Update(float _Delta)
 	if (true == GameEngineInput::IsDown('P'))
 	{
 		GameEngineCore::ChangeLevel("PauseLevel");
+	}
+
+	if (true == GameEngineInput::IsDown('N'))
+	{
+		GameEngineCore::ChangeLevel("EndingLevel");
 	}
 
 	if (LevelPlayer->GetPos().iX() >= LevelBackGround->GetScale().iX())
@@ -50,6 +55,19 @@ void VegetableValley13::Release()
 
 }
 
-void VegetableValley13::LevelStart(GameEngineLevel* _PrevLevel) { }
+void VegetableValley13::LevelStart(GameEngineLevel* _PrevLevel)
+{
+	LevelPlayer = Player::GetMainPlayer();
+
+	if (nullptr == LevelPlayer)
+	{
+		MsgBoxAssert("플레이어를 세팅해주지 않았습니다.");
+	}
+
+	float4 WinScale = GameEngineWindow::MainWindow.GetScale();
+
+	GetMainCamera()->SetPos(LevelPlayer->GetPos() - WinScale.GetHalf());
+}
+
 
 void VegetableValley13::LevelEnd(GameEngineLevel* _NextLevel) { }

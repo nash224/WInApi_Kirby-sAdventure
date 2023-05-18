@@ -163,5 +163,6 @@ void ResourceManager::LoadSpriteFile(const std::string& _FileName, const std::st
 
 	std::string ParentPath = GameEnginePath::GetParentString(_Path);
 	FilePath.MoveParentToExistsChild(ParentPath);
-	FilePath.MoveChild(_Path);ResourceManager::GetInst().CreateSpriteSheet(FilePath.PlusFilePath(_FileName), _XCount, _YCount);
+	FilePath.MoveChild(_Path);
+	ResourceManager::GetInst().CreateSpriteSheet(FilePath.PlusFilePath(_FileName), _XCount, _YCount);
 }

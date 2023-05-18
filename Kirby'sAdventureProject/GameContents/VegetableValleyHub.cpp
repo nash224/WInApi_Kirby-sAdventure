@@ -28,7 +28,7 @@ void VegetableValleyHub::Start()
 	LevelBackGround = GameEngineLevel::CreateActor<BackGround>();
 	LevelBackGround->init("VegetableValley.bmp", "Resources\\KirbyTest\\", float4{ 0 , 0 }, float4{ 470 , 360 });
 
-	LevelPlayer = GameEngineLevel::CreateActor<Player>();
+	//LevelPlayer = GameEngineLevel::CreateActor<Player>();
 }
 
 void VegetableValleyHub::Update(float _Delta)
@@ -37,6 +37,11 @@ void VegetableValleyHub::Update(float _Delta)
 	if (true == GameEngineInput::IsDown('P'))
 	{
 		GameEngineCore::ChangeLevel("PauseLevel");
+	}
+
+	if (true == GameEngineInput::IsDown('N'))
+	{
+		GameEngineCore::ChangeLevel("VegetableValley11");
 	}
 
 	if (LevelPlayer->GetPos().iX() >= LevelBackGround->GetScale().iX() - LevelPlayer->GetScale().iX())
@@ -57,6 +62,8 @@ void VegetableValleyHub::Release()
 
 void VegetableValleyHub::LevelStart(GameEngineLevel* _PrevLevel)
 {
+	LevelPlayer = Player::GetMainPlayer();
+
 	if (nullptr == LevelPlayer)
 	{
 		MsgBoxAssert("플레이어를 세팅해주지 않았습니다.");

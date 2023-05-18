@@ -53,6 +53,8 @@ void VegetableValleyIntro::Release()
 
 void VegetableValleyIntro::LevelStart(GameEngineLevel* _PrevLevel)
 {
+	LevelPlayer = Player::GetMainPlayer();
+
 	if (nullptr == LevelPlayer)
 	{
 		MsgBoxAssert("플레이어를 세팅해주지 않았습니다.");

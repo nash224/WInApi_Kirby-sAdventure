@@ -1,6 +1,4 @@
 #include "VegetableValley12.h"
-#include "Player.h"
-#include "BackGround.h"
 
 #include <GameEngineBase/GameEngineMath.h>
 #include <GameEnginePlatform/GameEngineWindow.h>
@@ -8,6 +6,9 @@
 #include <GameEngineCore/GameEngineCore.h>
 #include <GameEngineCore/GameEngineCamera.h>
 
+#include "Player.h"
+#include "Grunt.h"
+#include "BackGround.h"
 
 VegetableValley12::VegetableValley12() 
 {
@@ -22,18 +23,25 @@ void VegetableValley12::Start()
 	LevelBackGround = GameEngineLevel::CreateActor<BackGround>();
 	LevelBackGround->init("VegetableValley1.bmp", "Resources\\KirbyTest\\", float4{ 2 , 172 }, float4{ 1016 , 168 });
 
-	LevelPlayer = GameEngineLevel::CreateActor<Player>();
+	//LevelPlayer = GameEngineLevel::CreateActor<Player>();
 }
 
 void VegetableValley12::Update(float _Delta)
 {
-
-
-
-
 	if (true == GameEngineInput::IsDown('P'))
 	{
 		GameEngineCore::ChangeLevel("PauseLevel");
+	}
+
+	if (true == GameEngineInput::IsDown('N'))
+	{
+		GameEngineCore::ChangeLevel("VegetableValley13");
+	}
+
+	if (2.0f <= GetLiveTime())
+	{
+		Grunt* NewGrunt = CreateActor<Grunt>();
+		ResetLiveTime();
 	}
 
 	if (LevelPlayer->GetPos().iX() >= LevelBackGround->GetScale().iX() - LevelPlayer->GetScale().iX())
@@ -52,6 +60,18 @@ void VegetableValley12::Release()
 
 }
 
-void VegetableValley12::LevelStart(GameEngineLevel* _PrevLevel) { }
+void VegetableValley12::LevelStart(GameEngineLevel* _PrevLevel)
+{
+	LevelPlayer = Player::GetMainPlayer();
+
+	if (nullptr == LevelPlayer)
+	{
+		MsgBoxAssert("플레이어를 세팅해주지 않았습니다.");
+	}
+
+	float4 WinScale = GameEngineWindow::MainWindow.GetScale();
+
+	GetMainCamera()->SetPos(LevelPlayer->GetPos() - WinScale.GetHalf());
+}
 
 void VegetableValley12::LevelEnd(GameEngineLevel* _NextLevel) { }

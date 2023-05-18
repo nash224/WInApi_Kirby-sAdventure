@@ -25,7 +25,7 @@ void EndingLevel::Start()
 	LevelBackGround = GameEngineLevel::CreateActor<BackGround>();
 	LevelBackGround->init("MrShineMrBright.bmp", "Resources\\KirbyTest\\", float4{ 4 , 4 }, float4{ 248 , 176 });
 
-	LevelPlayer = GameEngineLevel::CreateActor<Player>();
+	/*LevelPlayer = GameEngineLevel::CreateActor<Player>();*/
 }
 
 void EndingLevel::Update(float _Delta)
@@ -48,6 +48,8 @@ void EndingLevel::Release()
 
 void EndingLevel::LevelStart(GameEngineLevel* _PrevLevel)
 {
+	LevelPlayer = Player::GetMainPlayer();
+
 	if (nullptr == LevelPlayer)
 	{
 		MsgBoxAssert("플레이어를 세팅해주지 않았습니다.");
@@ -57,5 +59,6 @@ void EndingLevel::LevelStart(GameEngineLevel* _PrevLevel)
 
 	GetMainCamera()->SetPos(LevelPlayer->GetPos() - WinScale.GetHalf());
 }
+
 
 void EndingLevel::LevelEnd(GameEngineLevel* _NextLevel) { }

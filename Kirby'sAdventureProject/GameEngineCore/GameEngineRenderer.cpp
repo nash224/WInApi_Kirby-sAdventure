@@ -179,7 +179,6 @@ void GameEngineRenderer::CreateAnimation(
 	}
 
 	Animation.Inters.resize((Animation.EndFrame - Animation.StartFrame) + 1);
-
 	for (size_t i = 0; i < Animation.Inters.size(); i++)
 	{
 		Animation.Inters[i] = _Inter;

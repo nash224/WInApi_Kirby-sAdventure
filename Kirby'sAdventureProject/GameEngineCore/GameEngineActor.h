@@ -77,6 +77,8 @@ public:
 	GameEngineRenderer* CreateRenderer(const std::string& _ImageName, int _Order);
 
 protected:
+	virtual void LevelStart() {}
+	virtual void LevelEnd() {}
 
 private:
 	GameEngineLevel* Level = nullptr;
