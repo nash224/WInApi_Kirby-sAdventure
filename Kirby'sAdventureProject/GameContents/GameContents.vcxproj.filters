@@ -289,6 +289,9 @@
       <Filter>Global</Filter>
     </ClCompile>
     <ClCompile Include="ContentUtils.cpp" />
+    <ClCompile Include="BackGroundEffectList.cpp">
+      <Filter>Level\Map\VegetableValley</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Level">

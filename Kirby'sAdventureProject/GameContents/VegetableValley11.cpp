@@ -21,34 +21,24 @@ VegetableValley11::~VegetableValley11()
 
 }
 
-
-void VegetableValley11::Start() 
-{
-	LevelBackGround = GameEngineLevel::CreateActor<BackGround>();
-	LevelBackGround->init("VegetableValley1.bmp", "Resources\\KirbyTest\\", float4{ 2 , 2 }, float4{ 1016 , 168 });
-
-	LevelEffect = GameEngineLevel::CreateActor<GameEffect>();
-	LevelEffect->init("CloudAndWater12x3_8x8.bmp", "Resources\\Effect\\MapEffect", 12, 4);
-
-	GameEngineRenderer* Render1 = LevelEffect->CreateRenderer(RenderOrder::BackGroundEffect);
-	Render1->CreateAnimation("ForestProjectionEffect", "CloudAndWater12x3_8x8.bmp", 12, 14, 0.15f, true);
-	Render1->SetRenderPos({ 20 , 20 });
-	Render1->SetScaleRatio(3.0f);
-	Render1->ChangeAnimation("ForestProjectionEffect");
-
-	GameEngineRenderer* Render2 = LevelEffect->CreateRenderer(RenderOrder::BackGroundEffect);
-	Render2->CreateAnimation("HillProjectionEffect", "CloudAndWater12x3_8x8.bmp", 0, 2, 0.15f, true);
-	Render2->SetRenderPos({ 40 , 20 });
-	Render2->SetScaleRatio(3.0f);
-	Render2->ChangeAnimation("HillProjectionEffect");
-
-
-
 	//CreateAnimation("HillProjectionEffect", "CloudAndWater12x3_8x8.bmp", 0, 2, 0.15f, true);
 	//CreateAnimation("ForestProjectionEffect", "CloudAndWater12x3_8x8.bmp", 12, 14, 0.15f, true);
 	//CreateAnimation("WaterProjectionEffect", "CloudAndWater12x3_8x8.bmp", 24, 26, 0.15f, true);
 
-	//LevelPlayer = GameEngineLevel::CreateActor<Player>();
+void VegetableValley11::Start() 
+{
+	LevelBackGround = GameEngineLevel::CreateActor<BackGround>();
+	LevelBackGround->init("VegetableValley1.bmp", "Resources\\Map", float4{ 2 , 2 }, float4{ 1016 , 168 });
+
+	LevelEffect = GameEngineLevel::CreateActor<GameEffect>();
+	LevelEffect->init("CloudAndWater12x3_8x8.bmp", "Resources\\Effect\\MapEffect", 12, 4);
+
+	VegetableValley11BackGroundEffect(3.0f, 0.15f, true);
+
+
+
+
+	LevelPlayer = GameEngineLevel::CreateActor<Player>();
 }
 
 void VegetableValley11::Update(float _Delta)
@@ -112,3 +102,18 @@ void VegetableValley11::LevelStart(GameEngineLevel* _PrevLevel)
 
 
 void VegetableValley11::LevelEnd(GameEngineLevel* _NextLevel) { }
+
+
+//void VegetableValley11::CreateAndSetupBackgroundEffectRenderer(
+//	const std::string& _AnimationName,
+//	const std::string& _FileName,
+//	int _StartFrame, int _EndFrame,
+//	float4 _Pos, float _Ratio,
+//	float _Inter/* = 0.1f*/, bool _Loop/* = true*/)
+//{
+//	GameEngineRenderer* Render = LevelEffect->CreateRenderer(RenderOrder::BackGroundEffect);
+//	Render->CreateAnimation(_AnimationName, _FileName, _StartFrame, _EndFrame, _Inter, _Loop);
+//	Render->SetRenderPos(_Pos);
+//	Render->SetScaleRatio(_Ratio);
+//	Render->ChangeAnimation(_AnimationName);
+//}

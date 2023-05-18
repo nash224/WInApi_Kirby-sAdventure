@@ -200,7 +200,7 @@ void GameEngineRenderer::ChangeAnimation(const std::string& _AnimationName, bool
 
 	if (nullptr == CurAnimation)
 	{
-		MsgBoxAssert(" 존재하지 않는 애니메이션으로 바꿀려고 했습니다." + _AnimationName);
+		MsgBoxAssert("존재하지 않는 애니메이션으로 바꿀려고 했습니다." + _AnimationName);
 		return;
 	}
 

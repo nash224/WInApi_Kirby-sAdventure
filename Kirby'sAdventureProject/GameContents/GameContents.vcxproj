@@ -369,6 +369,7 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="BackGroundEffectList.cpp" />
     <ClCompile Include="ContentUtils.cpp">
       <SubType>
       </SubType>

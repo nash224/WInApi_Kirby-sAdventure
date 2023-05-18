@@ -23,11 +23,11 @@ private:
 	class Player* LevelPlayer = nullptr;
 	class BackGround* LevelBackGround = nullptr;
 
+	bool ISGetLevelPlayer = false;
+
 	void Start() override;
 	void Update(float _Delta) override;
 	void Render() override;
 	void Release() override;
-
-	void PushLevelPlayer(Player* _LevelPlayer);
 };
 
