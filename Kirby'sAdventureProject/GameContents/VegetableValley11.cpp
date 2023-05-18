@@ -1,12 +1,14 @@
 #include "VegetableValley11.h"
-#include "Player.h"
-#include "BackGround.h"
 
 #include <GameEngineBase/GameEngineMath.h>
 #include <GameEnginePlatform/GameEngineWindow.h>
 #include <GameEnginePlatform/GameEngineInput.h>
 #include <GameEngineCore/GameEngineCore.h>
 #include <GameEngineCore/GameEngineCamera.h>
+
+#include "Player.h"
+#include "BackGround.h"
+#include "GameEffect.h"
 
 
 VegetableValley11::VegetableValley11() 
@@ -23,6 +25,13 @@ void VegetableValley11::Start()
 {
 	LevelBackGround = GameEngineLevel::CreateActor<BackGround>();
 	LevelBackGround->init("VegetableValley1.bmp", "Resources\\KirbyTest\\", float4{ 2 , 2 }, float4{ 1016 , 168 });
+
+	LevelEffect = GameEngineLevel::CreateActor<GameEffect>();
+	GameEngineRenderer* BackEffect = LevelEffect->init("CloudAndWater12x3_8x8.bmp", "Resources\\Effect\\MapEffect", 12, 3);
+
+	BackEffect->CreateAnimation("HillProjectionEffect", "CloudAndWater12x3_8x8.bmp", 0, 2, 0.15f, true);
+	BackEffect->CreateAnimation("ForestProjectionEffect", "CloudAndWater12x3_8x8.bmp", 12, 14, 0.15f, true);
+	BackEffect->CreateAnimation("WaterProjectionEffect", "CloudAndWater12x3_8x8.bmp", 24, 26, 0.15f, true);
 
 	LevelPlayer = GameEngineLevel::CreateActor<Player>();
 }

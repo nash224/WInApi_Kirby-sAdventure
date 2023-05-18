@@ -137,14 +137,11 @@ GameEngineSprite* ResourceManager::CreateSpriteFolder(const std::string& _Sprite
 }
 
 
-GameEngineWindowTexture* ResourceManager::LoadTextureFile(const std::string& _FileName, const std::string& _Path)
+ void ResourceManager::LoadTextureFile(const std::string& _FileName, const std::string& _Path)
 {
-	GameEngineWindowTexture* Texture = nullptr;
-
 	if (true == ResourceManager::GetInst().IsLoadTexture(_FileName))
 	{
-		Texture =  FindTexture(_FileName);
-		return Texture;
+		return;
 	}
 
 	GameEnginePath FilePath;
@@ -152,28 +149,19 @@ GameEngineWindowTexture* ResourceManager::LoadTextureFile(const std::string& _Fi
 	std::string ParentPath = GameEnginePath::GetParentString(_Path);
 	FilePath.MoveParentToExistsChild(ParentPath);
 	FilePath.MoveChild(_Path);
-	Texture = TextureLoad(FilePath.PlusFilePath(_FileName));
-
-	return Texture;
+	TextureLoad(FilePath.PlusFilePath(_FileName));
 }
 
-GameEngineSprite* ResourceManager::LoadSpriteFile(const std::string& _FileName, const std::string& _Path, int _XCount, int _YCount)
+void ResourceManager::LoadSpriteFile(const std::string& _FileName, const std::string& _Path, int _XCount, int _YCount)
 {
-	GameEngineSprite* Sprite = nullptr;
-
 	if (true == ResourceManager::GetInst().IsLoadTexture(_FileName))
 	{
-		Sprite = FindSprite(_FileName);
-		return Sprite;
+		return;
 	}
 
 	GameEnginePath FilePath;
 
 	std::string ParentPath = GameEnginePath::GetParentString(_Path);
 	FilePath.MoveParentToExistsChild(ParentPath);
-	FilePath.MoveChild(_Path);
-
-	Sprite = ResourceManager::GetInst().CreateSpriteSheet(FilePath.PlusFilePath(_FileName), _XCount, _YCount);
-
-	return Sprite;
+	FilePath.MoveChild(_Path);ResourceManager::GetInst().CreateSpriteSheet(FilePath.PlusFilePath(_FileName), _XCount, _YCount);
 }
