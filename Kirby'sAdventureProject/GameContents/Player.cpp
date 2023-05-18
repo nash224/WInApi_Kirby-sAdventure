@@ -118,12 +118,12 @@ void Player::DirCheck()
 		CheckDir = PlayerDir::Right;
 	}
 
-	bool ChangeDir = false;
+	//bool ChangeDir = false;
 
 	if (CheckDir != PlayerDir::Max)
 	{
 		Dir = CheckDir;
-		ChangeDir = true;
+		//ChangeDir = true;
 	}
 
 	//if (CheckDir != PlayerDir::Max && true == ChangeDir)

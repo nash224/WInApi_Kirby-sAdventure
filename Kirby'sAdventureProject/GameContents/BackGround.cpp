@@ -20,25 +20,6 @@ BackGround::~BackGround()
 }
 
 
-void BackGround::Start()
-{
-
-}
-
-void BackGround::Update(float _Delta)
-{
-}
-
-void BackGround::Render()
-{
-}
-
-void BackGround::Release()
-{
-
-}
-
-
 void BackGround::init(const std::string& _FileName, const std::string& _Path, float4 _CopyPos, float4 _CopyScale)
 {
 	ResourceManager::GetInst().LoadTextureFile(_FileName, _Path);
@@ -56,4 +37,14 @@ void BackGround::init(const std::string& _FileName, const std::string& _Path, fl
 	SetPos(Scale.GetHalf());
 	SetScale(Scale);
 	Renderer->SetRenderScale(Scale);
+}
+
+
+void BackGround::Start()
+{
+
+}
+
+void BackGround::Update(float _Delta)
+{
 }

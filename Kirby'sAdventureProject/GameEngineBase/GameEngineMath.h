@@ -57,26 +57,6 @@ public:
 		return { hX(), hY(), Z, W };
 	}
 
-	static float4 XValue(const float _Value)
-	{
-		return float4{ _Value, 0.0f, 0.0f, 0.0f };
-	}
-
-	static float4 YValue(const float _Value)
-	{
-		return float4{ 0.0f, _Value, 0.0f, 0.0f };
-	}
-
-	static float4 XValue(const float4& _Pos)
-	{
-		return float4{ _Pos.X, 0.0f, 0.0f, 0.0f };
-	}
-
-	static float4 YValue(const float4& _Pos)
-	{
-		return float4{ 0.0f, _Pos.Y, 0.0f, 0.0f };
-	}
-
 	bool operator==(const float4& _Value) const
 	{
 		return X == _Value.X &&
@@ -164,4 +144,3 @@ public:
 private:
 
 };
-

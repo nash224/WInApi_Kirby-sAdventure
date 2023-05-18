@@ -30,6 +30,10 @@ void Player::RunUpdate(float _Delta)
 {
 	//DirCheck();
 
+	// RunUpdate중에 A와 D가 프레임사이로 연속적으로 입력됐을 경우
+	// 좌우 애니메이션이 전환되지 않는 버그가 있음
+
+
 	float Speed = 600.0f;
 
 	float4 MovePos = float4::ZERO;
