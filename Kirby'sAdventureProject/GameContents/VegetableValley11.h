@@ -1,6 +1,8 @@
 #pragma once
 #include <GameEngineCore/GameEngineLevel.h>
 
+#include <map>
+
 // Ό³Έν :
 class VegetableValley11 : public GameEngineLevel
 {
@@ -23,6 +25,9 @@ private:
 	class Player* LevelPlayer = nullptr;
 	class BackGround* LevelBackGround = nullptr;
 	class GameEffect* LevelEffect = nullptr;
+
+	
+
 
 	void Start() override;
 	void Update(float _Delta) override;

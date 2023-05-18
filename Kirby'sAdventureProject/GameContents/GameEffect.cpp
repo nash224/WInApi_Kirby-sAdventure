@@ -14,11 +14,14 @@ GameEffect::~GameEffect()
 }
 
 
-GameEngineRenderer* GameEffect::init(const std::string& _FileName, const std::string& _Path, int _XCount, int _YCount)
+void GameEffect::init(const std::string& _FileName, const std::string& _Path, int _XCount, int _YCount)
 {
 	ResourceManager::GetInst().LoadSpriteFile(_FileName, _Path, _XCount, _YCount);
+}
 
-	EffectRenderer = CreateRenderer(RenderOrder::BackGroundEffect);
+GameEngineRenderer* GameEffect::CreateEffectRenderer(int _Order)
+{
+	EffectRenderer = CreateRenderer(_Order);
 
 	return EffectRenderer;
 }

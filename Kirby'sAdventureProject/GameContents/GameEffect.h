@@ -16,9 +16,14 @@ public:
 	GameEffect& operator=(GameEffect&& _Other) noexcept = delete;
 
 
-	GameEngineRenderer* init(const std::string& _FileName, const std::string& _Path, int _XCount, int _YCount);
+	void init(const std::string& _FileName, const std::string& _Path, int _XCount, int _YCount);
 
-
+	template<typename Enumtype>
+	GameEngineRenderer* CreateEffectRenderer(Enumtype _Order)
+	{
+		return CreateEffectRenderer(static_cast<int>(_Order));
+	}
+	GameEngineRenderer* CreateEffectRenderer(int _Order);
 
 protected:
 
