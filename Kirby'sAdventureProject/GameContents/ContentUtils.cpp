@@ -18,6 +18,30 @@ void ContentUtils::CameraFocus()
 {
 	float4 WinScale = GameEngineWindow::MainWindow.GetScale();
 	GetLevel()->GetMainCamera()->SetPos(GetPos() - WinScale.GetHalf());
+
+
+
+
+	//if (true == GameEngineInput::IsPress('A') || GameEngineInput::IsPress('D'))
+//{
+//	if (LevelPlayer->GetPos().iX() > GameEngineWindow::MainWindow.GetScale().GetHalf().iX() &&
+//		LevelPlayer->GetPos().iX() <
+//		LevelBackGround->GetScale().iX() - GameEngineWindow::MainWindow.GetScale().GetHalf().iX())
+//	{
+//		GetMainCamera()->AddPos(float4::XValue(LevelPlayer->GetMovePos()));
+//	}
+//}
+//if (true == GameEngineInput::IsPress('W') || GameEngineInput::IsPress('S'))
+//{
+//	if (LevelPlayer->GetPos().iY() > GameEngineWindow::MainWindow.GetScale().GetHalf().iY() &&
+//		LevelPlayer->GetPos().iY() <
+//		LevelBackGround->GetScale().iY() - GameEngineWindow::MainWindow.GetScale().GetHalf().iY())
+//	{
+//		GetMainCamera()->AddPos(float4::YValue(LevelPlayer->GetMovePos()));
+//	}
+//}
+
+
 }
 
 void ContentUtils::Gravity()

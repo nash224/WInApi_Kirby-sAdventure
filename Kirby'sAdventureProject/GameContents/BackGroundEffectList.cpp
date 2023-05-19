@@ -79,6 +79,17 @@ void VegetableValley11::VegetableValley11BackGroundEffect(float _Ratio, float _I
 	CreateAndSetupBackgroundEffectRenderer("WaterProjectionEffect", "CloudAndWater12x3_8x8.bmp", 24, 26, { 300,252 }, _Ratio, _Inter, _Loop);
 	CreateAndSetupBackgroundEffectRenderer("WaterProjectionEffect", "CloudAndWater12x3_8x8.bmp", 24, 26, { 372,252 }, _Ratio, _Inter, _Loop);
 	CreateAndSetupBackgroundEffectRenderer("WaterProjectionEffect", "CloudAndWater12x3_8x8.bmp", 24, 26, { 396,252 }, _Ratio, _Inter, _Loop);
+
+
+	CreateAndSetupBackgroundEffectRenderer("WaterProjectionEffect", "CloudAndWater12x3_8x8.bmp", 24, 26, { 568,276 }, _Ratio, _Inter, _Loop);
+	CreateAndSetupBackgroundEffectRenderer("WaterProjectionEffect", "CloudAndWater12x3_8x8.bmp", 24, 26, { 492,276 }, _Ratio, _Inter, _Loop);
+
+	CreateAndSetupBackgroundEffectRenderer("WaterProjectionEffect", "CloudAndWater12x3_8x8.bmp", 24, 26, { 564,276 }, _Ratio, _Inter, _Loop);
+	CreateAndSetupBackgroundEffectRenderer("WaterProjectionEffect", "CloudAndWater12x3_8x8.bmp", 24, 26, { 588,276 }, _Ratio, _Inter, _Loop);
+	CreateAndSetupBackgroundEffectRenderer("WaterProjectionEffect", "CloudAndWater12x3_8x8.bmp", 24, 26, { 612,276 }, _Ratio, _Inter, _Loop);
+	CreateAndSetupBackgroundEffectRenderer("WaterProjectionEffect", "CloudAndWater12x3_8x8.bmp", 24, 26, { 636,276 }, _Ratio, _Inter, _Loop);
+
+
 	CreateAndSetupBackgroundEffectRenderer("WaterProjectionEffect", "CloudAndWater12x3_8x8.bmp", 24, 26, { 660,252 }, _Ratio, _Inter, _Loop);
 	CreateAndSetupBackgroundEffectRenderer("WaterProjectionEffect", "CloudAndWater12x3_8x8.bmp", 24, 26, { 684,252 }, _Ratio, _Inter, _Loop);
 	CreateAndSetupBackgroundEffectRenderer("WaterProjectionEffect", "CloudAndWater12x3_8x8.bmp", 24, 26, { 708,252 }, _Ratio, _Inter, _Loop);
@@ -121,10 +132,8 @@ void VegetableValley11::VegetableValley11BackGroundEffect(float _Ratio, float _I
 	CreateAndSetupBackgroundEffectRenderer("WaterProjectionEffect", "CloudAndWater12x3_8x8.bmp", 24, 26, { 2676,252 }, _Ratio, _Inter, _Loop);
 	CreateAndSetupBackgroundEffectRenderer("WaterProjectionEffect", "CloudAndWater12x3_8x8.bmp", 24, 26, { 2700,252 }, _Ratio, _Inter, _Loop);
 	CreateAndSetupBackgroundEffectRenderer("WaterProjectionEffect", "CloudAndWater12x3_8x8.bmp", 24, 26, { 2724,252 }, _Ratio, _Inter, _Loop);
-	CreateAndSetupBackgroundEffectRenderer("WaterProjectionEffect", "CloudAndWater12x3_8x8.bmp", 24, 26, { 2748,252 }, _Ratio, _Inter, _Loop);
-	CreateAndSetupBackgroundEffectRenderer("WaterProjectionEffect", "CloudAndWater12x3_8x8.bmp", 24, 26, { 2772,252 }, _Ratio, _Inter, _Loop);
-	CreateAndSetupBackgroundEffectRenderer("WaterProjectionEffect", "CloudAndWater12x3_8x8.bmp", 24, 26, { 2796,252 }, _Ratio, _Inter, _Loop);
-	CreateAndSetupBackgroundEffectRenderer("WaterProjectionEffect", "CloudAndWater12x3_8x8.bmp", 24, 26, { 2820,252 }, _Ratio, _Inter, _Loop);
+	CreateAndSetupBackgroundEffectRenderer("WaterProjectionEffect", "CloudAndWater12x3_8x8.bmp", 24, 26, { 2749,252 }, _Ratio, _Inter, _Loop);
+	CreateAndSetupBackgroundEffectRenderer("WaterProjectionEffect", "CloudAndWater12x3_8x8.bmp", 24, 26, { 2821,252 }, _Ratio, _Inter, _Loop);
 	CreateAndSetupBackgroundEffectRenderer("WaterProjectionEffect", "CloudAndWater12x3_8x8.bmp", 24, 26, { 2845,252 }, _Ratio, _Inter, _Loop);
 
 

@@ -39,6 +39,7 @@ void Player::Start()
 
 	ResourceManager::GetInst().LoadSpriteFile("Left_Kirby.bmp", "Resources\\Unit\\Kirby", 7, 2);
 	ResourceManager::GetInst().LoadSpriteFile("RIght_Kirby.bmp", "Resources\\Unit\\Kirby", 7, 2);
+	ResourceManager::GetInst().LoadSpriteFile("Right_KirbyFly.bmp", "Resources\\Unit\\Kirby", 10, 2);
 
 	MainRenderer = CreateRenderer(RenderOrder::Play);
 
@@ -47,7 +48,7 @@ void Player::Start()
 	}
 
 	MainRenderer->CreateAnimation("Left_Idle", "Left_Kirby.bmp", 0, 1, 0.5f, true);
-	MainRenderer->CreateAnimation("Right_Idle", "RIght_Kirby.bmp", 0, 1, 0.5f, true);
+	MainRenderer->CreateAnimation("Right_Idle", "RIght_Kirby.bmp", 0, 2, 0.5f, true);
 
 	MainRenderer->CreateAnimation("Left_Run", "Left_Kirby.bmp", 2, 5, 0.15f, true);
 	MainRenderer->CreateAnimation("Right_Run", "RIght_Kirby.bmp", 2, 5, 0.15f, true);

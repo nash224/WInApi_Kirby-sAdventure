@@ -7,10 +7,10 @@
 #include <GameEngineCore/GameEngineCore.h>
 #include <GameEngineCore/GameEngineCamera.h>
 
+// contents
 #include "Player.h"
 #include "BackGround.h"
 #include "GameEffect.h"
-
 
 VegetableValley11::VegetableValley11() 
 {
@@ -21,9 +21,12 @@ VegetableValley11::~VegetableValley11()
 
 }
 
-	//CreateAnimation("HillProjectionEffect", "CloudAndWater12x3_8x8.bmp", 0, 2, 0.15f, true);
-	//CreateAnimation("ForestProjectionEffect", "CloudAndWater12x3_8x8.bmp", 12, 14, 0.15f, true);
-	//CreateAnimation("WaterProjectionEffect", "CloudAndWater12x3_8x8.bmp", 24, 26, 0.15f, true);
+/* texture type
+	CreateAnimation("HillProjectionEffect", "CloudAndWater12x3_8x8.bmp", 0, 2, 0.15f, true);
+	CreateAnimation("ForestProjectionEffect", "CloudAndWater12x3_8x8.bmp", 12, 14, 0.15f, true);
+	CreateAnimation("WaterProjectionEffect", "CloudAndWater12x3_8x8.bmp", 24, 26, 0.15f, true);
+
+*/
 
 void VegetableValley11::Start() 
 {
@@ -43,26 +46,6 @@ void VegetableValley11::Start()
 
 void VegetableValley11::Update(float _Delta)
 {
-	//if (true == GameEngineInput::IsPress('A') || GameEngineInput::IsPress('D'))
-	//{
-	//	if (LevelPlayer->GetPos().iX() > GameEngineWindow::MainWindow.GetScale().GetHalf().iX() &&
-	//		LevelPlayer->GetPos().iX() <
-	//		LevelBackGround->GetScale().iX() - GameEngineWindow::MainWindow.GetScale().GetHalf().iX())
-	//	{
-	//		GetMainCamera()->AddPos(float4::XValue(LevelPlayer->GetMovePos()));
-	//	}
-	//}
-	//if (true == GameEngineInput::IsPress('W') || GameEngineInput::IsPress('S'))
-	//{
-	//	if (LevelPlayer->GetPos().iY() > GameEngineWindow::MainWindow.GetScale().GetHalf().iY() &&
-	//		LevelPlayer->GetPos().iY() <
-	//		LevelBackGround->GetScale().iY() - GameEngineWindow::MainWindow.GetScale().GetHalf().iY())
-	//	{
-	//		GetMainCamera()->AddPos(float4::YValue(LevelPlayer->GetMovePos()));
-	//	}
-	//}
-
-
 
 	if (true == GameEngineInput::IsDown('P'))
 	{
