@@ -23,7 +23,7 @@ VegetableValleyIntro::~VegetableValleyIntro()
 void VegetableValleyIntro::Start()
 {
 	LevelBackGround = GameEngineLevel::CreateActor<BackGround>();
-	LevelBackGround->init("CutsceneBackgrounds.bmp", "Resources\\Map", float4{ 4 , 21 }, float4{ 256 , 240 });
+	LevelBackGround->init("VegetableValleyIntro.bmp", "Resources\\Map");
 
 	//LevelPlayer = GameEngineLevel::CreateActor<Player>();
 }
@@ -36,9 +36,12 @@ void VegetableValleyIntro::Update(float _Delta)
 	}
 
 
-	if (true == GameEngineInput::IsDown('A'))
+	if (true == GameEngineInput::IsDown('A') ||
+		true == GameEngineInput::IsDown('D') || 
+		true == GameEngineInput::IsDown('S') || 
+		true == GameEngineInput::IsDown('W'))
 	{
-		GameEngineCore::ChangeLevel("VegetableValley11");
+		GameEngineCore::ChangeLevel("VegetableValleyHub");
 	}
 }
 
@@ -54,10 +57,7 @@ void VegetableValleyIntro::Release()
 
 void VegetableValleyIntro::LevelStart(GameEngineLevel* _PrevLevel)
 {
-	//if (nullptr == LevelPlayer)
-	//{
-	//	MsgBoxAssert("플레이어를 세팅해주지 않았습니다.");
-	//}
+
 }
 
 void VegetableValleyIntro::LevelEnd(GameEngineLevel* _NextLevel) { }

@@ -17,7 +17,7 @@ PauseLevel::~PauseLevel()
 void PauseLevel::Start()
 {
 	LevelBackGround = GameEngineLevel::CreateActor<BackGround>();
-	LevelBackGround->init("PauseScreens.bmp", "Resources\\KirbyTest\\", float4{ 2 , 2 }, float4{ 256 , 240 });
+	LevelBackGround->init("PauseScreens.bmp", "Resources\\KirbyTest\\");
 }
 
 void PauseLevel::Update(float _Delta)

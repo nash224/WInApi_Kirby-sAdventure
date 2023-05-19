@@ -32,7 +32,7 @@ VegetableValley11::~VegetableValley11()
 void VegetableValley11::Start() 
 {
 	LevelBackGround = GameEngineLevel::CreateActor<BackGround>();
-	LevelBackGround->init("VegetableValley1-1.bmp", "Resources\\Map", float4{ 0 , 0 }, float4{ 1016 , 168 });
+	LevelBackGround->init("VegetableValley1-1.bmp", "Resources\\Map");
 
 	LevelEffect = GameEngineLevel::CreateActor<GameEffect>();
 	LevelEffect->init("CloudAndWater12x3_8x8.bmp", "Resources\\Effect\\MapEffect", 12, 4);

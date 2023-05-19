@@ -20,10 +20,10 @@ VegetableValley13::~VegetableValley13()
 
 void VegetableValley13::Start()
 {
-	LevelBackGround = GameEngineLevel::CreateActor<BackGround>();
-	LevelBackGround->init("VegetableValley1-3.bmp", "Resources\\Map", float4{ 0 , 0 }, float4{ 1016 , 168 });
-
 	LevelPlayer = GameEngineLevel::CreateActor<Player>();
+	LevelBackGround = GameEngineLevel::CreateActor<BackGround>();
+	LevelBackGround->init("VegetableValley1-3.bmp", "Resources\\Map");
+
 }
 
 void VegetableValley13::Update(float _Delta)

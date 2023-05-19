@@ -27,7 +27,7 @@ VegetableValleyHub::~VegetableValleyHub()
 void VegetableValleyHub::Start()
 {
 	LevelBackGround = GameEngineLevel::CreateActor<BackGround>();
-	LevelBackGround->init("VegetableValley.bmp", "Resources\\Map", float4{ 0 , 0 }, float4{ 470 , 360 });
+	LevelBackGround->init("VegetableValley.bmp", "Resources\\Map");
 
 	LevelPlayer = GameEngineLevel::CreateActor<Player>();
 }
@@ -45,9 +45,7 @@ void VegetableValleyHub::Update(float _Delta)
 		GameEngineCore::ChangeLevel("VegetableValley11");
 	}
 
-	GameEngineWindowTexture* Texture = ResourceManager::GetInst().FindTexture("VegetableValley.bmp");
-	float4 Scale = Texture->GetScale();
-	if (LevelPlayer->GetPos().iX() >= Scale.iX() - LevelPlayer->GetScale().iX())
+	if (LevelPlayer->GetPos().iX() >= 1440 - LevelPlayer->GetScale().iX())
 	{
 		GameEngineCore::ChangeLevel("VegetableValley11");
 	}
