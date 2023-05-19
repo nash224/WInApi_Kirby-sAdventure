@@ -27,7 +27,7 @@ void BackGround::init(const std::string& _FileName, const std::string& _Path, fl
 	float4 Scale = _CopyScale;
 
 	//GameEngineRenderer* Render = CreateRenderer(_FileName, RenderOrder::BackGround);
-	Renderer = CreateRenderer(_FileName, RenderOrder::BackGround);
+	Renderer->SetTexture(_FileName);
 	Renderer->SetCopyPos(_CopyPos);
 	Renderer->SetCopyScale(Scale);
 
@@ -42,6 +42,7 @@ void BackGround::init(const std::string& _FileName, const std::string& _Path, fl
 
 void BackGround::Start()
 {
+	Renderer = CreateRenderer(RenderOrder::BackGround);
 
 }
 
