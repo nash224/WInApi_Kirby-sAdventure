@@ -7,6 +7,7 @@
 #include <GameEnginePlatform/GameEngineInput.h>
 #include <GameEngineCore/GameEngineCore.h>
 #include <GameEngineCore/GameEngineCamera.h>
+#include <GameEngineCore/ResourceManager.h>
 
 
 VegetableValley13::VegetableValley13()
@@ -39,7 +40,9 @@ void VegetableValley13::Update(float _Delta)
 		GameEngineCore::ChangeLevel("EndingLevel");
 	}
 
-	if (LevelPlayer->GetPos().iX() >= LevelBackGround->GetScale().iX())
+	//GameEngineWindowTexture* Texture = ResourceManager::GetInst().FindTexture("VegetableValley1");
+	//float4 Scale = Texture->GetScale();
+	if (LevelPlayer->GetPos().iX() >= 3048.0f - LevelPlayer->GetScale().iX())
 	{
 		GameEngineCore::ChangeLevel("EndingLevel");
 	}

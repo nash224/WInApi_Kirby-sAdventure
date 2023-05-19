@@ -77,6 +77,13 @@ void GameEngineWindowTexture::ScaleCheck()
 	GetObject(OldBitMap, sizeof(BITMAP), &OldInfo);
 }
 
+float4 GameEngineWindowTexture::GameEngineWindowTexture::GetScale()
+{
+
+	return { static_cast<float>(Info.bmWidth), static_cast<float>(Info.bmHeight) };
+}
+
+
 
 void GameEngineWindowTexture::BitCopy(GameEngineWindowTexture* _CopyTexture, const float4& _Pos)
 {

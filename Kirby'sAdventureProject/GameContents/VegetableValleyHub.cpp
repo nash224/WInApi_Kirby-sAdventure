@@ -8,6 +8,7 @@
 #include <GameEnginePlatform/GameEngineInput.h>
 #include <GameEngineCore/GameEngineCore.h>
 #include <GameEngineCore/GameEngineCamera.h>
+#include <GameEngineCore/ResourceManager.h>
 
 
 VegetableValleyHub::VegetableValleyHub()
@@ -26,7 +27,7 @@ VegetableValleyHub::~VegetableValleyHub()
 void VegetableValleyHub::Start()
 {
 	LevelBackGround = GameEngineLevel::CreateActor<BackGround>();
-	LevelBackGround->init("VegetableValley.bmp", "Resources\\KirbyTest\\", float4{ 0 , 0 }, float4{ 470 , 360 });
+	LevelBackGround->init("VegetableValley.bmp", "Resources\\Map", float4{ 0 , 0 }, float4{ 470 , 360 });
 
 	LevelPlayer = GameEngineLevel::CreateActor<Player>();
 }
@@ -44,7 +45,9 @@ void VegetableValleyHub::Update(float _Delta)
 		GameEngineCore::ChangeLevel("VegetableValley11");
 	}
 
-	if (LevelPlayer->GetPos().iX() >= LevelBackGround->GetScale().iX() - LevelPlayer->GetScale().iX())
+	GameEngineWindowTexture* Texture = ResourceManager::GetInst().FindTexture("VegetableValley.bmp");
+	float4 Scale = Texture->GetScale();
+	if (LevelPlayer->GetPos().iX() >= Scale.iX() - LevelPlayer->GetScale().iX())
 	{
 		GameEngineCore::ChangeLevel("VegetableValley11");
 	}

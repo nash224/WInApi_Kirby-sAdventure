@@ -37,9 +37,8 @@ void Player::Start()
 		ResourceManager::GetInst().LoadSpriteFile("SpitStar_1x4_16x16.bmp", "Resources\\Effect\\KirbyBaseEffect", 4, 1);
 	}
 
-	ResourceManager::GetInst().LoadSpriteFile("Left_Kirby.bmp", "Resources\\Unit\\Kirby", 7, 2);
-	ResourceManager::GetInst().LoadSpriteFile("RIght_Kirby.bmp", "Resources\\Unit\\Kirby", 7, 2);
-	ResourceManager::GetInst().LoadSpriteFile("Right_KirbyFly.bmp", "Resources\\Unit\\Kirby", 10, 2);
+	ResourceManager::GetInst().LoadSpriteFile("Left_Kirby.bmp", "Resources\\Unit\\Kirby", 10, 10);
+	ResourceManager::GetInst().LoadSpriteFile("Right_Kirby.bmp", "Resources\\Unit\\Kirby", 10, 10);
 
 	MainRenderer = CreateRenderer(RenderOrder::Play);
 
@@ -48,13 +47,16 @@ void Player::Start()
 	}
 
 	MainRenderer->CreateAnimation("Left_Idle", "Left_Kirby.bmp", 0, 1, 0.5f, true);
-	MainRenderer->CreateAnimation("Right_Idle", "RIght_Kirby.bmp", 0, 2, 0.5f, true);
+	MainRenderer->CreateAnimation("Right_Idle", "RIght_Kirby.bmp", 0, 1, 0.5f, true);
 
 	MainRenderer->CreateAnimation("Left_Run", "Left_Kirby.bmp", 2, 5, 0.15f, true);
 	MainRenderer->CreateAnimation("Right_Run", "RIght_Kirby.bmp", 2, 5, 0.15f, true);
 
 	MainRenderer->SetRenderScaleToTexture();
 	MainRenderer->SetScaleRatio(3.0f);
+
+	MainRenderer->FindAnimation("Left_Idle")->Inters = { 0.1f, 0.5f };
+	MainRenderer->FindAnimation("Right_Idle")->Inters = { 0.1f, 0.5f };
 
 
 	float4 WinScale = GameEngineWindow::MainWindow.GetScale();

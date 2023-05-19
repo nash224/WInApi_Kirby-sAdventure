@@ -6,6 +6,7 @@
 #include <GameEnginePlatform/GameEngineInput.h>
 #include <GameEngineCore/GameEngineCore.h>
 #include <GameEngineCore/GameEngineCamera.h>
+#include <GameEngineCore/ResourceManager.h>
 
 // contents
 #include "Player.h"
@@ -57,7 +58,9 @@ void VegetableValley11::Update(float _Delta)
 		GameEngineCore::ChangeLevel("VegetableValley12");
 	}
 
-	if (LevelPlayer->GetPos().iX() >= LevelBackGround->GetScale().iX() - LevelPlayer->GetScale().iX())
+
+
+	if (LevelPlayer->GetPos().iX() >= 3048.0f - LevelPlayer->GetScale().iX())
 	{
 		GameEngineCore::ChangeLevel("VegetableValley12");
 	}

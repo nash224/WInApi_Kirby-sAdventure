@@ -17,14 +17,19 @@ public:
 	BackGround& operator=(const BackGround& _Other) = delete;
 	BackGround& operator=(BackGround&& _Other) noexcept = delete;
 
-	class GameEngineRenderer* Renderer = nullptr;
-
 	void init(const std::string& _FileName, const std::string& _Path, float4 _CopyPos, float4 _CopyScale);
+	void init(const std::string& _FileName, const std::string& _DebugFileName, const std::string& _Path, float4 _CopyPos, float4 _CopyScale);
+
+	void SwitchRender();
 
 protected:
 
 private:
+	bool SwitchRenderValue = true;
 	std::string FileName = "";
+
+	class GameEngineRenderer* Renderer = nullptr;
+	class GameEngineRenderer* DebugRenderer = nullptr;
 
 	void Start() override;
 	void Update(float _Delta) override;

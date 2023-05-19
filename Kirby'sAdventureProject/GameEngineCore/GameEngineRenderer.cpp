@@ -90,6 +90,7 @@ void GameEngineRenderer::Render(class GameEngineCamera* _Camera, float _Delta)
 			}
 		}
 
+
 		Sprite = CurAnimation->Sprite;
 		const GameEngineSprite::Sprite& SpriteInfo = Sprite->GetSprite(CurAnimation->CurFrame);
 		Texture = SpriteInfo.BaseTexture;

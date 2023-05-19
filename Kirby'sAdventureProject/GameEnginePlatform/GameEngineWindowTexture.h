@@ -23,7 +23,7 @@ public:
 	void BitCopy(GameEngineWindowTexture* _CopyTexture, const float4& _Pos, const float4& _Scale);
 
 	void TransCopy(GameEngineWindowTexture* _CopyTexture, const float4& _Pos, const float4& _Scale, 
-		const float4& _OtherPos, const float4& _OtherScale, int _TransColor = RGB(254,0,255));
+		const float4& _OtherPos, const float4& _OtherScale, int _TransColor = RGB(255,0,255));
 
 
 	void ResCreate(const float4& _Scale);
@@ -38,10 +38,7 @@ public:
 		return ImageDC;
 	}
 
-	float4 GetScale() const
-	{
-		return { static_cast<float>(Info.bmWidth), static_cast<float>(Info.bmHeight) };
-	}
+	float4 GetScale();
 
 protected:
 

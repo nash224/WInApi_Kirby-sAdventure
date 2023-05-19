@@ -16,8 +16,13 @@ public:
 	ContentUtils& operator=(ContentUtils&& _Other) noexcept = delete;
 
 	void CameraFocus();
-
 	void Gravity();
+
+	void GraviyReset()
+	{
+		GravityVector = float4::ZERO;
+	}
+
 	void GravityOff()
 	{
 		IsGravity = false;
