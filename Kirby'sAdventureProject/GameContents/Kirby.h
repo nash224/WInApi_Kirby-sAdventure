@@ -12,6 +12,7 @@ enum class KirbyState
 {
 	Idle,
 	Run,
+	Jump,
 	Max,
 };
 
@@ -51,9 +52,11 @@ protected:
 	void StateUpdate(float _Delta);
 	void IdleStart();
 	void RunStart();
+	void JumpStart();
 
 	void IdleUpdate(float _Delta);
 	void RunUpdate(float _Delta);
+	void JumpUpdate(float _Delta);
 
 	void DirCheck();
 	void ChangeState(KirbyState State);
@@ -65,6 +68,8 @@ private:
 	KirbyState State = KirbyState::Max;
 	KirbyDir Dir = KirbyDir::Right;
 	std::string CurState = "";
+
+	bool IsJump = false;
 
 	void Start() override;
 	void Update(float _Delta) override;

@@ -16,6 +16,11 @@ void Kirby::RunStart()
 	ChangeAnimationState("Run");
 }
 
+void Kirby::JumpStart()
+{
+	ChangeAnimationState("Jump");
+}
+
 
 void Kirby::IdleUpdate(float _Delta)
 {
@@ -37,6 +42,11 @@ void Kirby::IdleUpdate(float _Delta)
 		GravityReset();
 	}
 
+	if (true == (GameEngineInput::IsDown('X')))
+	{
+		ChangeState(KirbyState::Jump);
+		return;
+	}
 
 	if (true == (GameEngineInput::IsPress('A') || GameEngineInput::IsPress('D')) &&
 		false == (GameEngineInput::IsPress('A') && GameEngineInput::IsPress('D')))
@@ -100,6 +110,35 @@ void Kirby::RunUpdate(float _Delta)
 			AddPos(MovePos);
 		}
 	}
+
+}
+
+void Kirby::JumpUpdate(float _Delta)
+{
+
+	float4 MovePos = float4::ZERO;
+	float JumpPower = 600.0f;
+
+
+	if (GameEngineInput::IsPress('X') && 3.0f >= GameEngineInput::GetPressTime('X'))
+	{
+		IsJump = true;
+		MovePos = { 0.0f, - JumpPower * _Delta };
+	}
+
+
+	AddPos(MovePos);
+
+	if (false == GetGroundState() && false == IsJump)
+	{
+		Gravity(_Delta);
+	}
+
+	if (true == GetGroundState() && false == IsJump)
+	{
+		ChangeState(KirbyState::Idle);
+	}
+
 
 }
 

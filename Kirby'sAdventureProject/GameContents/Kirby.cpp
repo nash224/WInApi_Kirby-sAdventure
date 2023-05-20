@@ -71,6 +71,8 @@ void Kirby::Start()
 	MainRenderer->CreateAnimation("Left_Run", "Left_Kirby.bmp", 2, 5, 0.15f, true);
 	MainRenderer->CreateAnimation("Right_Run", "RIght_Kirby.bmp", 2, 5, 0.15f, true);
 
+	MainRenderer->CreateAnimation("Left_Jump", "Left_Kirby.bmp", 9, 14, 0.5f, true);
+	MainRenderer->CreateAnimation("Right_Jump", "Right_Kirby.bmp", 9, 14, 0.5f, true);
 	MainRenderer->SetRenderScaleToTexture();
 	MainRenderer->SetScaleRatio(3.0f);
 
@@ -108,6 +110,8 @@ void Kirby::StateUpdate(float _Delta)
 		return IdleUpdate(_Delta);
 	case KirbyState::Run:
 		return RunUpdate(_Delta);
+	case KirbyState::Jump:
+		return JumpUpdate(_Delta);
 	default:
 		break;
 	}
@@ -125,6 +129,8 @@ void Kirby::ChangeState(KirbyState _State)
 		case KirbyState::Run:
 			RunStart();
 			break;
+		case KirbyState::Jump:
+			JumpStart();
 		default:
 			break;
 		}
@@ -188,7 +194,7 @@ void Kirby::ChangeAnimationState(const std::string& _StateName)
 // 발끝 중앙 기준
 float4 Kirby::GetKirbyScale()
 {
-	if (KirbyMode::Basic == Mode)
+	if (Mode == KirbyMode::Basic)
 	{
 		return float4{ 24.0f, 48.0f };
 	}
@@ -197,6 +203,8 @@ float4 Kirby::GetKirbyScale()
 	{
 		return float4{ 33.0f, 63.0f };
 	}
+
+	return float4{ 0.0f, 0.0f };
 }
 
 void Kirby::LevelStart()

@@ -71,5 +71,5 @@ void GameEngineActor::ActorRelease()
 
 GameEngineRenderer* GameEngineActor::CreateCollision(int _Order/* = 0*/)
 {
-
+	return nullptr;
 }

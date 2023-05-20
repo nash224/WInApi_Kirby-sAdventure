@@ -185,6 +185,15 @@ void GameEngineInput::GameEngineKey::Update(float _DeltaTime)
 	}
 }
 
+float GameEngineInput::GetPressTime(int _Key)
+{
+	if (AllKeys.end() == AllKeys.find(_Key))
+	{
+		MsgBoxAssert("처리되지 않은 키입니다." + std::to_string(_Key));
+	}
+
+	return AllKeys[_Key].PressTime;
+}
 
 bool GameEngineInput::IsDown(int _Key)
 {
