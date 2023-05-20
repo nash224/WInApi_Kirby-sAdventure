@@ -75,6 +75,7 @@ public:
 	}
 
 	GameEngineRenderer* CreateRenderer(const std::string& _ImageName, int _Order);
+	GameEngineRenderer* CreateCollision(int _Order = 0);
 
 protected:
 	virtual void LevelStart() {}

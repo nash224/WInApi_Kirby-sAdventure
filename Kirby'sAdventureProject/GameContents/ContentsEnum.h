@@ -17,3 +17,11 @@ enum class RenderOrder
 	HitEffect,
 	PlayUI,
 };
+
+enum class CollisionOrder
+{
+	Map,
+	Potal,
+	PlayerBody,
+	MonsterBody,
+};

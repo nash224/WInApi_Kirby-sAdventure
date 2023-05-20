@@ -26,6 +26,14 @@ void Kirby::IdleUpdate(float _Delta)
 	}
 	else
 	{
+		unsigned int CheckColor = GetGroundColor(RGB(255, 255, 255), float4::UP * 3);
+
+		while (CheckColor != RGB(255, 255, 255))
+		{
+			CheckColor = GetGroundColor(RGB(255, 255, 255), float4::UP * 3);
+			AddPos(float4::UP*3);
+		}
+
 		GravityReset();
 	}
 
@@ -43,15 +51,21 @@ void Kirby::IdleUpdate(float _Delta)
 // 좌우 애니메이션이 전환되지 않는 버그가 있음
 void Kirby::RunUpdate(float _Delta)
 {
+	if (false == GetGroundState())
 	{
-		if (false == GetGroundState())
+		Gravity(_Delta);
+	}
+	else
+	{
+		unsigned int CheckColor = GetGroundColor(RGB(255, 255, 255), float4::UP * 3);
+
+		while (CheckColor != RGB(255, 255, 255))
 		{
-			Gravity(_Delta);
+			CheckColor = GetGroundColor(RGB(255, 255, 255), float4::UP * 3);
+			AddPos(float4::UP * 3);
 		}
-		else
-		{
-			GravityReset();
-		}
+
+		GravityReset();
 	}
 
 
@@ -76,7 +90,6 @@ void Kirby::RunUpdate(float _Delta)
 
 	if (MovePos.X == 0.0f)
 	{
-		DirCheck();
 		ChangeState(KirbyState::Idle);
 	}
 

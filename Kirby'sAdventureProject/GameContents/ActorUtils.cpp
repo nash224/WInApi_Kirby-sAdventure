@@ -86,9 +86,8 @@ void ActorUtils::GroundCheck(float _XScaleSize)
 		RGB(255, 255, 255) == RightBottomColor)
 	{
 		isGround = false;
+		return;
 	}
-	else
-	{
-		isGround = true;
-	}
+
+	isGround = true;
 }

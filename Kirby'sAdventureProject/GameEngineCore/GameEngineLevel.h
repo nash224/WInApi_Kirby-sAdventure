@@ -8,6 +8,7 @@
 // 설명 : 화면 또는 씬을 포현함
 //        ex) 타이틀 장면, 플레이 장면, 엔딩 장연
 class GameEngineCamera;
+class GameEngineCollision;
 class GameEngineLevel : public GameEngineObject
 {
 	friend class GameEngineCore;
@@ -57,6 +58,9 @@ private:
 	// 맵, 오브젝트, 플레이어, 몬스터
 
 	std::map<int, std::list<GameEngineActor*>> AllActors;
+	std::map<int, std::list<GameEngineCollision*>> AllCollision;
+
+	void PushCollision(GameEngineCollision* _Collision) {};
 
 	void ActorInit(GameEngineActor* _Actor, int _Order);
 
