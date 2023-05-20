@@ -20,7 +20,6 @@ protected:
 	void LevelEnd(GameEngineLevel* _NextLevel) override;
 
 private:
-	class Player* LevelPlayer = nullptr;
 	class BackGround* LevelBackGround = nullptr;
 
 	void Start() override;

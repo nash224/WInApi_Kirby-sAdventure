@@ -1,6 +1,6 @@
 #include "VegetableValleyHub.h"
 
-#include "Player.h"
+#include "Kirby.h"
 #include "BackGround.h"
 
 #include <GameEngineBase/GameEngineMath.h>
@@ -29,7 +29,7 @@ void VegetableValleyHub::Start()
 	LevelBackGround = GameEngineLevel::CreateActor<BackGround>();
 	LevelBackGround->init("VegetableValley.bmp", "Resources\\Map");
 
-	LevelPlayer = GameEngineLevel::CreateActor<Player>();
+	LevelPlayer = GameEngineLevel::CreateActor<Kirby>();
 }
 
 void VegetableValleyHub::Update(float _Delta)
@@ -63,7 +63,7 @@ void VegetableValleyHub::Release()
 
 void VegetableValleyHub::LevelStart(GameEngineLevel* _PrevLevel)
 {
-	LevelPlayer = Player::GetMainPlayer();
+	LevelPlayer = Kirby::GetMainKirby();
 
 	if (nullptr == LevelPlayer)
 	{

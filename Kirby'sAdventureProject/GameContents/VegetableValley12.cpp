@@ -7,7 +7,7 @@
 #include <GameEngineCore/GameEngineCamera.h>
 #include <GameEngineCore/ResourceManager.h>
 
-#include "Player.h"
+#include "Kirby.h"
 #include "Grunt.h"
 #include "BackGround.h"
 
@@ -24,7 +24,7 @@ void VegetableValley12::Start()
 	LevelBackGround = GameEngineLevel::CreateActor<BackGround>();
 	LevelBackGround->init("VegetableValley1-2.bmp", "Resources\\Map");
 
-	LevelPlayer = GameEngineLevel::CreateActor<Player>();
+	LevelPlayer = GameEngineLevel::CreateActor<Kirby>();
 }
 
 void VegetableValley12::Update(float _Delta)
@@ -64,7 +64,7 @@ void VegetableValley12::Release()
 
 void VegetableValley12::LevelStart(GameEngineLevel* _PrevLevel)
 {
-	LevelPlayer = Player::GetMainPlayer();
+	LevelPlayer = Kirby::GetMainKirby();
 
 	if (nullptr == LevelPlayer)
 	{

@@ -4,7 +4,7 @@
 #include <GameEngineCore/ResourceManager.h>
 #include <GameEngineCore/GameEngineRenderer.h>
 
-#include "Player.h"
+#include "Kirby.h"
 
 
 std::list<Grunt*> Grunt::AllGrunt;
@@ -40,7 +40,7 @@ void Grunt::Start()
 
 void Grunt::Update(float _Delta)
 {
-	float4 Dir = Player::GetMainPlayer()->GetPos() - GetPos();
+	float4 Dir = Kirby::GetMainKirby()->GetPos() - GetPos();
 
 	Dir.Normalize();
 

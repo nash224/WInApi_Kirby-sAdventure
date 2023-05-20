@@ -16,9 +16,6 @@
     <ClInclude Include="BonusGameSubScreens.h">
       <Filter>Global\BonusGame</Filter>
     </ClInclude>
-    <ClInclude Include="Kirby.h">
-      <Filter>Global\Object</Filter>
-    </ClInclude>
     <ClInclude Include="KirbySAbillity.h">
       <Filter>Global\Object</Filter>
     </ClInclude>
@@ -104,7 +101,7 @@
       <Filter>Global\Object\Item</Filter>
     </ClInclude>
     <ClInclude Include="ContentsCore.h" />
-    <ClInclude Include="Player.h">
+    <ClInclude Include="Kirby.h">
       <Filter>Global</Filter>
     </ClInclude>
     <ClInclude Include="BackGround.h">
@@ -163,9 +160,6 @@
     </ClCompile>
     <ClCompile Include="BonusGameSubScreens.cpp">
       <Filter>Global\BonusGame</Filter>
-    </ClCompile>
-    <ClCompile Include="Kirby.cpp">
-      <Filter>Global\Object</Filter>
     </ClCompile>
     <ClCompile Include="KirbySAbillity.cpp">
       <Filter>Global\Object</Filter>
@@ -252,7 +246,7 @@
       <Filter>Global\Object\Item</Filter>
     </ClCompile>
     <ClCompile Include="ContentsCore.cpp" />
-    <ClCompile Include="Player.cpp">
+    <ClCompile Include="Kirby.cpp">
       <Filter>Global</Filter>
     </ClCompile>
     <ClCompile Include="BackGround.cpp">

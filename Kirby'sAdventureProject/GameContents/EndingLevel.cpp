@@ -1,6 +1,6 @@
 #include "EndingLevel.h"
 
-#include "Player.h"
+#include "Kirby.h"
 #include "BackGround.h"
 
 #include <GameEngineBase/GameEngineMath.h>
@@ -25,7 +25,7 @@ void EndingLevel::Start()
 	LevelBackGround = GameEngineLevel::CreateActor<BackGround>();
 	LevelBackGround->init("MrShineMrBright.bmp", "Resources\\KirbyTest\\");
 
-	LevelPlayer = GameEngineLevel::CreateActor<Player>();
+	LevelPlayer = GameEngineLevel::CreateActor<Kirby>();
 }
 
 void EndingLevel::Update(float _Delta)
@@ -48,7 +48,7 @@ void EndingLevel::Release()
 
 void EndingLevel::LevelStart(GameEngineLevel* _PrevLevel)
 {
-	LevelPlayer = Player::GetMainPlayer();
+	LevelPlayer = Kirby::GetMainKirby();
 
 	if (nullptr == LevelPlayer)
 	{

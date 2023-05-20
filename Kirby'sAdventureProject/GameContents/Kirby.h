@@ -1,10 +1,24 @@
 #pragma once
+#include "ContentUtils.h"
 
-// Ό³Έν :
-class Kirby
+enum class KirbyState
+{
+	Idle,
+	Run,
+	Max,
+};
+
+enum class KirbyDir
+{
+	Right,
+	Left,
+	Max,
+};
+
+class Kirby : public ContentUtils
 {
 public:
-	// constrcuter destructer
+	// constructor desstructor
 	Kirby();
 	~Kirby();
 
@@ -14,9 +28,36 @@ public:
 	Kirby& operator=(const Kirby& _Other) = delete;
 	Kirby& operator=(Kirby&& _Other) noexcept = delete;
 
+	GameEngineRenderer* MainRenderer = nullptr;
+
+	static Kirby* GetMainKirby()
+	{
+		return MainKirby;
+	}
+
 protected:
+	static Kirby* MainKirby;
+
+	KirbyState State = KirbyState::Max;
+	KirbyDir Dir = KirbyDir::Right;
+	std::string CurState = "";
+
+
+	void StateUpdate(float _Delta);
+	void IdleStart();
+	void RunStart();
+
+	void IdleUpdate(float _Delta);
+	void RunUpdate(float _Delta);
+
+	void DirCheck();
+	void ChangeState(KirbyState State);
+	void ChangeAnimationState(const std::string& _StateName);
 
 private:
+	void Start() override;
+	void Update(float _Delta) override;
+
+	void LevelStart() override;
 
 };
-

@@ -62,6 +62,6 @@ void ContentUtils::SetGroundTexture(const std::string& _GroundTextureName)
 
 	if (nullptr == GroundTexture)
 	{
-		MsgBoxAssert(_GroundTextureName + "는 픽셀충돌로 사용할 수 없습니다.");
+		MsgBoxAssert(" 픽셀충돌 맵을 찾을 수 없습니다. "+ _GroundTextureName);
 	}
 }

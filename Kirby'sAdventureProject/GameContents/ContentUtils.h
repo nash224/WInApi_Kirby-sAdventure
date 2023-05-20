@@ -16,6 +16,9 @@ public:
 	ContentUtils& operator=(ContentUtils&& _Other) noexcept = delete;
 
 	void CameraFocus();
+	void SetGroundTexture(const std::string& _GroundTextureName);
+
+
 	void Gravity();
 
 	void GraviyReset()
@@ -23,12 +26,16 @@ public:
 		GravityVector = float4::ZERO;
 	}
 
+	void GravityOn()
+	{
+		IsGravity = true;
+	}
+
 	void GravityOff()
 	{
 		IsGravity = false;
 	}
 
-	void SetGroundTexture(const std::string& _GroundTextureName);
 
 protected:
 
@@ -36,7 +43,7 @@ private:
 	class GameEngineWindowTexture* GroundTexture = nullptr;
 
 	bool IsGravity = true;
-	float GravityPower = 100.f;
+	float GravityPower = 1.f;
 	float4 GravityVector = float4::ZERO;
 
 

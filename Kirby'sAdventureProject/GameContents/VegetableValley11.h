@@ -20,9 +20,17 @@ protected:
 	void LevelEnd(GameEngineLevel* _NextLevel) override;
 
 private:
-	class Player* LevelPlayer = nullptr;
+	class Kirby* LevelPlayer = nullptr;
 	class BackGround* LevelBackGround = nullptr;
 	class GameEffect* LevelEffect = nullptr;
+
+
+	void Start() override;
+	void Update(float _Delta) override;
+	void Render() override;
+	void Release() override;
+
+
 
 	void VegetableValley11BackGroundEffect(float _Ratio, float _Inter, bool _Loop);
 	void CreateAndSetupBackgroundEffectRenderer(
@@ -31,12 +39,5 @@ private:
 		int _StartFrame, int _EndFrame,
 		float4 _Pos, float _Ratio,
 		float _Inter = 0.1f, bool _Loop = true);
-	
-
-
-	void Start() override;
-	void Update(float _Delta) override;
-	void Render() override;
-	void Release() override;
 };
 

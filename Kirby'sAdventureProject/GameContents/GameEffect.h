@@ -24,7 +24,6 @@ private:
 	GameEngineRenderer* EffectRenderer = nullptr;
 	std::string FileName = "";
 
-	void Start() override;
 	void Update(float _Delta) override;
 
 };

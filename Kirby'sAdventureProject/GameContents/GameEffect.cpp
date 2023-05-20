@@ -19,12 +19,6 @@ void GameEffect::init(const std::string& _FileName, const std::string& _Path, in
 	ResourceManager::GetInst().LoadSpriteFile(_FileName, _Path, _XCount, _YCount);
 }
 
-
-void GameEffect::Start() 
-{
-
-}
-
 void GameEffect::Update(float _Delta)
 {
 

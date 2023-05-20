@@ -9,7 +9,7 @@
 #include <GameEngineCore/ResourceManager.h>
 
 // contents
-#include "Player.h"
+#include "Kirby.h"
 #include "BackGround.h"
 #include "GameEffect.h"
 
@@ -32,7 +32,7 @@ VegetableValley11::~VegetableValley11()
 void VegetableValley11::Start() 
 {
 	LevelBackGround = GameEngineLevel::CreateActor<BackGround>();
-	LevelBackGround->init("VegetableValley1-1.bmp", "Resources\\Map");
+	LevelBackGround->init("VegetableValley1-1.bmp","VegetableValley1-1Pixel.bmp", "Resources\\Map");
 
 	LevelEffect = GameEngineLevel::CreateActor<GameEffect>();
 	LevelEffect->init("CloudAndWater12x3_8x8.bmp", "Resources\\Effect\\MapEffect", 12, 4);
@@ -42,8 +42,10 @@ void VegetableValley11::Start()
 
 
 
-	LevelPlayer = GameEngineLevel::CreateActor<Player>();
+	LevelPlayer = GameEngineLevel::CreateActor<Kirby>();
+	LevelPlayer->SetGroundTexture("VegetableValley1-1Pixel.bmp");
 }
+
 
 void VegetableValley11::Update(float _Delta)
 {
@@ -56,6 +58,11 @@ void VegetableValley11::Update(float _Delta)
 	if (true == GameEngineInput::IsDown('N'))
 	{
 		GameEngineCore::ChangeLevel("VegetableValley12");
+	}
+
+	if (true == GameEngineInput::IsDown('M'))
+	{
+		LevelBackGround->SwitchRender();
 	}
 
 
@@ -78,7 +85,7 @@ void VegetableValley11::Release()
 
 void VegetableValley11::LevelStart(GameEngineLevel* _PrevLevel)
 {
-	LevelPlayer = Player::GetMainPlayer();
+	LevelPlayer = Kirby::GetMainKirby();
 
 	if (nullptr == LevelPlayer)
 	{
@@ -88,18 +95,3 @@ void VegetableValley11::LevelStart(GameEngineLevel* _PrevLevel)
 
 
 void VegetableValley11::LevelEnd(GameEngineLevel* _NextLevel) { }
-
-
-//void VegetableValley11::CreateAndSetupBackgroundEffectRenderer(
-//	const std::string& _AnimationName,
-//	const std::string& _FileName,
-//	int _StartFrame, int _EndFrame,
-//	float4 _Pos, float _Ratio,
-//	float _Inter/* = 0.1f*/, bool _Loop/* = true*/)
-//{
-//	GameEngineRenderer* Render = LevelEffect->CreateRenderer(RenderOrder::BackGroundEffect);
-//	Render->CreateAnimation(_AnimationName, _FileName, _StartFrame, _EndFrame, _Inter, _Loop);
-//	Render->SetRenderPos(_Pos);
-//	Render->SetScaleRatio(_Ratio);
-//	Render->ChangeAnimation(_AnimationName);
-//}

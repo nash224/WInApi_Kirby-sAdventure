@@ -20,7 +20,7 @@ protected:
 	void LevelEnd(GameEngineLevel* _NextLevel) override;
 
 private:
-	class Player* LevelPlayer = nullptr;
+	class Kirby* LevelPlayer = nullptr;
 	class BackGround* LevelBackGround = nullptr;
 
 	bool ISGetLevelPlayer = false;

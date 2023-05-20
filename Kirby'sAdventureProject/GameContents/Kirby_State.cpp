@@ -1,32 +1,32 @@
-#include "Player.h"
+#include "Kirby.h"
 #include <GameEnginePlatform/GameEngineInput.h>
 #include <GameEngineCore/GameEngineRenderer.h>
 #include <GameEngineCore/GameEngineCore.h>
 #include <GameEngineCore/GameEngineCamera.h>
 #include <GameEngineCore/GameEngineLevel.h>
 
-void Player::IdleStart()
+void Kirby::IdleStart()
 {
 	ChangeAnimationState("Idle");
 }
 
-void Player::RunStart()
+void Kirby::RunStart()
 {
 	ChangeAnimationState("Run");
 }
 
 
-void Player::IdleUpdate(float _Delta)
+void Kirby::IdleUpdate(float _Delta)
 {
 	if (true == (GameEngineInput::IsPress('A') || GameEngineInput::IsPress('D')) &&
 		false == (GameEngineInput::IsPress('A') && GameEngineInput::IsPress('D')))
 	{
 		DirCheck();
-		ChangeState(PlayerState::Run);
+		ChangeState(KirbyState::Run);
 	}
 }
 
-void Player::RunUpdate(float _Delta)
+void Kirby::RunUpdate(float _Delta)
 {
 	//DirCheck();
 
@@ -64,7 +64,7 @@ void Player::RunUpdate(float _Delta)
 	if (MovePos.X == 0.0f)
 	{
 		DirCheck();
-		ChangeState(PlayerState::Idle);
+		ChangeState(KirbyState::Idle);
 	}
 
 
