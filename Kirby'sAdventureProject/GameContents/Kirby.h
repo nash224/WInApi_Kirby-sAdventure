@@ -1,5 +1,12 @@
 #pragma once
-#include "ContentUtils.h"
+#include "ActorUtils.h"
+
+enum class KirbyMode
+{
+	Basic,
+	Fat,
+	Max,
+};
 
 enum class KirbyState
 {
@@ -15,7 +22,7 @@ enum class KirbyDir
 	Max,
 };
 
-class Kirby : public ContentUtils
+class Kirby : public ActorUtils
 {
 public:
 	// constructor desstructor
@@ -30,6 +37,7 @@ public:
 
 	GameEngineRenderer* MainRenderer = nullptr;
 
+
 	static Kirby* GetMainKirby()
 	{
 		return MainKirby;
@@ -38,9 +46,6 @@ public:
 protected:
 	static Kirby* MainKirby;
 
-	KirbyState State = KirbyState::Max;
-	KirbyDir Dir = KirbyDir::Right;
-	std::string CurState = "";
 
 
 	void StateUpdate(float _Delta);
@@ -53,11 +58,16 @@ protected:
 	void DirCheck();
 	void ChangeState(KirbyState State);
 	void ChangeAnimationState(const std::string& _StateName);
+	float4 GetKirbyScale();
 
 private:
+	KirbyMode Mode = KirbyMode::Max;
+	KirbyState State = KirbyState::Max;
+	KirbyDir Dir = KirbyDir::Right;
+	std::string CurState = "";
+
 	void Start() override;
 	void Update(float _Delta) override;
 
 	void LevelStart() override;
-
 };

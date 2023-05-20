@@ -27,9 +27,10 @@ VegetableValleyHub::~VegetableValleyHub()
 void VegetableValleyHub::Start()
 {
 	LevelBackGround = GameEngineLevel::CreateActor<BackGround>();
-	LevelBackGround->init("VegetableValley.bmp", "Resources\\Map");
+	LevelBackGround->init("VegetableValley.bmp", "VegetableValleyPixel.bmp", "Resources\\Map");
 
 	LevelPlayer = GameEngineLevel::CreateActor<Kirby>();
+	LevelPlayer->SetGroundTexture("VegetableValleyPixel.bmp");
 }
 
 void VegetableValleyHub::Update(float _Delta)
@@ -43,6 +44,11 @@ void VegetableValleyHub::Update(float _Delta)
 	if (true == GameEngineInput::IsDown('N'))
 	{
 		GameEngineCore::ChangeLevel("VegetableValley11");
+	}
+
+	if (true == GameEngineInput::IsDown('M'))
+	{
+		LevelBackGround->SwitchRender();
 	}
 
 	if (LevelPlayer->GetPos().iX() >= 1440 - LevelPlayer->GetScale().iX())

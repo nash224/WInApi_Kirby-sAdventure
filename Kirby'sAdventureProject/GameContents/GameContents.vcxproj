@@ -174,7 +174,7 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="ContentUtils.h">
+    <ClInclude Include="ActorUtils.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -239,15 +239,7 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="HubSprites.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
     <ClInclude Include="Kabu.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
-    <ClInclude Include="KirbySAbillity.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -366,7 +358,7 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="BackGroundEffectList.cpp" />
-    <ClCompile Include="ContentUtils.cpp">
+    <ClCompile Include="ActorUtils.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -430,15 +422,7 @@
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="HubSprites.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
     <ClCompile Include="Kabu.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
-    <ClCompile Include="KirbySAbillity.cpp">
       <SubType>
       </SubType>
     </ClCompile>

@@ -4,6 +4,7 @@
 #include <GameEngineCore/GameEngineCore.h>
 #include <GameEngineCore/GameEngineCamera.h>
 #include <GameEngineCore/GameEngineLevel.h>
+#include <GameEngineCore/ResourceManager.h>
 
 void Kirby::IdleStart()
 {
@@ -18,6 +19,17 @@ void Kirby::RunStart()
 
 void Kirby::IdleUpdate(float _Delta)
 {
+
+	if(false == GetGroundState())
+	{
+		Gravity(_Delta);
+	}
+	else
+	{
+		GravityReset();
+	}
+
+
 	if (true == (GameEngineInput::IsPress('A') || GameEngineInput::IsPress('D')) &&
 		false == (GameEngineInput::IsPress('A') && GameEngineInput::IsPress('D')))
 	{
@@ -26,18 +38,26 @@ void Kirby::IdleUpdate(float _Delta)
 	}
 }
 
+
+// RunUpdate중에 A와 D가 프레임사이로 연속적으로 입력됐을 경우
+// 좌우 애니메이션이 전환되지 않는 버그가 있음
 void Kirby::RunUpdate(float _Delta)
 {
-	//DirCheck();
-
-	// RunUpdate중에 A와 D가 프레임사이로 연속적으로 입력됐을 경우
-	// 좌우 애니메이션이 전환되지 않는 버그가 있음
+	{
+		if (false == GetGroundState())
+		{
+			Gravity(_Delta);
+		}
+		else
+		{
+			GravityReset();
+		}
+	}
 
 
 	float Speed = 600.0f;
-
+	float4 CheckPos = float4::ZERO;
 	float4 MovePos = float4::ZERO;
-
 
 	if (GameEngineInput::IsPress('A') && GameEngineInput::IsPress('D'))
 	{
@@ -45,20 +65,13 @@ void Kirby::RunUpdate(float _Delta)
 	}
 	else if (true == GameEngineInput::IsPress('A'))
 	{
+		CheckPos = { -24.0f , -30.0f };
 		MovePos = { -Speed * _Delta, 0.0f };
 	}
 	else if (true == GameEngineInput::IsPress('D'))
 	{
+		CheckPos = { 24.0f , -30.0f };
 		MovePos = { Speed * _Delta, 0.0f };
-	}
-
-	if (true == GameEngineInput::IsPress('W'))
-	{
-		MovePos = { 0.0f, -Speed * _Delta };
-	}
-	if (true == GameEngineInput::IsPress('S'))
-	{
-		MovePos = { 0.0f, Speed * _Delta };
 	}
 
 	if (MovePos.X == 0.0f)
@@ -67,15 +80,20 @@ void Kirby::RunUpdate(float _Delta)
 		ChangeState(KirbyState::Idle);
 	}
 
+	{
+		unsigned int Color = GetGroundColor(RGB(255, 255, 255), CheckPos);
+		if (Color == RGB(255,255,255))
+		{
+			AddPos(MovePos);
+		}
+	}
 
-	AddPos(MovePos);
-	//GetLevel()->GetMainCamera()->AddPos(MovePos);
 }
 
 
 
-	//Projectile* NewRazer = GetLevel()->CreateActor<Projectile>();
-	//NewRazer->Renderer->SetTexture("MetaKnightsSoldiersStand.bmp");
-	//NewRazer->SetDir(float4::RIGHT);
-	//NewRazer->SetPos(GetPos() + float4::XValue(60.0f));
-	//NewRazer->SetSpeed(300.0f);
+//Projectile* NewRazer = GetLevel()->CreateActor<Projectile>();
+//NewRazer->Renderer->SetTexture("MetaKnightsSoldiersStand.bmp");
+//NewRazer->SetDir(float4::RIGHT);
+//NewRazer->SetPos(GetPos() + float4::XValue(60.0f));
+//NewRazer->SetSpeed(300.0f);

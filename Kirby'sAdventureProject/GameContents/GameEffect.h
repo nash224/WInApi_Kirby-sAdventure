@@ -16,7 +16,7 @@ public:
 	GameEffect& operator=(GameEffect&& _Other) noexcept = delete;
 
 
-	void init(const std::string& _FileName, const std::string& _Path, int _XCount, int _YCount);
+	void LoadBackGroundEffect(const std::string& _FileName, const std::string& _Path, int _XCount, int _YCount);
 
 protected:
 

@@ -40,6 +40,8 @@ public:
 
 	float4 GetScale();
 
+	unsigned int GetColor(unsigned int _DefaultColor, float4 _Pos);
+
 protected:
 
 private:
@@ -47,6 +49,7 @@ private:
 	HBITMAP OldBitMap = nullptr;
 	HDC ImageDC = nullptr;
 	BITMAP Info = {0};
+
 
 	void ScaleCheck();
 };

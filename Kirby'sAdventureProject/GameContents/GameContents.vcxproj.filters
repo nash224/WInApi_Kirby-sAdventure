@@ -16,9 +16,6 @@
     <ClInclude Include="BonusGameSubScreens.h">
       <Filter>Global\BonusGame</Filter>
     </ClInclude>
-    <ClInclude Include="KirbySAbillity.h">
-      <Filter>Global\Object</Filter>
-    </ClInclude>
     <ClInclude Include="Boss.h">
       <Filter>Global\Object\Enemy\Boss</Filter>
     </ClInclude>
@@ -73,9 +70,6 @@
     <ClInclude Include="SirKibble.h">
       <Filter>Global\Object\Enemy\PowerEnemy</Filter>
     </ClInclude>
-    <ClInclude Include="HubSprites.h">
-      <Filter>Global\Object</Filter>
-    </ClInclude>
     <ClInclude Include="PauseLevel.h">
       <Filter>Level</Filter>
     </ClInclude>
@@ -101,13 +95,7 @@
       <Filter>Global\Object\Item</Filter>
     </ClInclude>
     <ClInclude Include="ContentsCore.h" />
-    <ClInclude Include="Kirby.h">
-      <Filter>Global</Filter>
-    </ClInclude>
     <ClInclude Include="BackGround.h">
-      <Filter>Global</Filter>
-    </ClInclude>
-    <ClInclude Include="ContentsEnum.h">
       <Filter>Global</Filter>
     </ClInclude>
     <ClInclude Include="Projectile.h">
@@ -137,10 +125,16 @@
     <ClInclude Include="GameEffect.h">
       <Filter>Global</Filter>
     </ClInclude>
-    <ClInclude Include="Grunt.h">
+    <ClInclude Include="ContentsEnum.h" />
+    <ClInclude Include="ActorUtils.h">
       <Filter>Global</Filter>
     </ClInclude>
-    <ClInclude Include="ContentUtils.h" />
+    <ClInclude Include="Grunt.h">
+      <Filter>Global\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Kirby.h">
+      <Filter>Global\Object</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="TitleLevel.cpp">
@@ -160,9 +154,6 @@
     </ClCompile>
     <ClCompile Include="BonusGameSubScreens.cpp">
       <Filter>Global\BonusGame</Filter>
-    </ClCompile>
-    <ClCompile Include="KirbySAbillity.cpp">
-      <Filter>Global\Object</Filter>
     </ClCompile>
     <ClCompile Include="Boss.cpp">
       <Filter>Global\Object\Enemy\Boss</Filter>
@@ -218,9 +209,6 @@
     <ClCompile Include="SirKibble.cpp">
       <Filter>Global\Object\Enemy\PowerEnemy</Filter>
     </ClCompile>
-    <ClCompile Include="HubSprites.cpp">
-      <Filter>Global\Object</Filter>
-    </ClCompile>
     <ClCompile Include="PauseLevel.cpp">
       <Filter>Level</Filter>
     </ClCompile>
@@ -246,9 +234,6 @@
       <Filter>Global\Object\Item</Filter>
     </ClCompile>
     <ClCompile Include="ContentsCore.cpp" />
-    <ClCompile Include="Kirby.cpp">
-      <Filter>Global</Filter>
-    </ClCompile>
     <ClCompile Include="BackGround.cpp">
       <Filter>Global</Filter>
     </ClCompile>
@@ -276,15 +261,20 @@
     <ClCompile Include="GameEffect.cpp">
       <Filter>Global</Filter>
     </ClCompile>
-    <ClCompile Include="Kirby_State.cpp">
-      <Filter>Global</Filter>
-    </ClCompile>
-    <ClCompile Include="Grunt.cpp">
-      <Filter>Global</Filter>
-    </ClCompile>
-    <ClCompile Include="ContentUtils.cpp" />
     <ClCompile Include="BackGroundEffectList.cpp">
       <Filter>Level\Map\VegetableValley</Filter>
+    </ClCompile>
+    <ClCompile Include="ActorUtils.cpp">
+      <Filter>Global</Filter>
+    </ClCompile>
+    <ClCompile Include="Kirby.cpp">
+      <Filter>Global\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Grunt.cpp">
+      <Filter>Global\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Kirby_State.cpp">
+      <Filter>Global\Object</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

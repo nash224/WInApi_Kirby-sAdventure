@@ -22,7 +22,7 @@ void VegetableValley13::Start()
 {
 	LevelPlayer = GameEngineLevel::CreateActor<Kirby>();
 	LevelBackGround = GameEngineLevel::CreateActor<BackGround>();
-	LevelBackGround->init("VegetableValley1-3.bmp", "Resources\\Map");
+	LevelBackGround->init("VegetableValley1_3.bmp", "Resources\\Map");
 
 }
 

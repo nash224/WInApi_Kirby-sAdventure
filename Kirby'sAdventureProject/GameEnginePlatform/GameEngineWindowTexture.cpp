@@ -77,9 +77,8 @@ void GameEngineWindowTexture::ScaleCheck()
 	GetObject(OldBitMap, sizeof(BITMAP), &OldInfo);
 }
 
-float4 GameEngineWindowTexture::GameEngineWindowTexture::GetScale()
+float4 GameEngineWindowTexture::GetScale()
 {
-
 	return { static_cast<float>(Info.bmWidth), static_cast<float>(Info.bmHeight) };
 }
 
@@ -138,4 +137,30 @@ void GameEngineWindowTexture::TransCopy(
 		_OtherScale.iX(), // 소스 이미지의 끝점X
 		_OtherScale.iY(), // 소스 이미지의 끝점Y
 		_TransColor);
+}
+
+
+unsigned int GameEngineWindowTexture::GetColor(unsigned int _DefaultColor, float4 _Pos)
+{
+	if (0 > _Pos.iX())
+	{
+		return _DefaultColor;
+	}
+
+	if (0 > _Pos.iY())
+	{
+		return _DefaultColor;
+	}
+
+	if (GetScale().iX() <= _Pos.iX())
+	{
+		return _DefaultColor;
+	}
+
+	if (GetScale().iY() <= _Pos.iY())
+	{
+		return _DefaultColor;
+	}
+
+	return GetPixel(ImageDC, _Pos.iX(), _Pos.iY());
 }

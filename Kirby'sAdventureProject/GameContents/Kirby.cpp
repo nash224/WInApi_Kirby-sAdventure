@@ -34,6 +34,7 @@ void Kirby::Start()
 {
 	// 비트맵 파일이 없으면 하나 만들어줘야한다.
 	{
+		ResourceManager::GetInst().LoadSpriteFile("DebugPixel.bmp", "Resources\\Debug", 10, 10);
 		ResourceManager::GetInst().LoadSpriteFile("SpitStar_1x4_16x16.bmp", "Resources\\Effect\\KirbyBaseEffect", 4, 1);
 	}
 
@@ -41,6 +42,24 @@ void Kirby::Start()
 	ResourceManager::GetInst().LoadSpriteFile("Right_Kirby.bmp", "Resources\\Unit\\Kirby", 10, 10);
 
 	MainRenderer = CreateRenderer(RenderOrder::Play);
+
+	{
+		GameEngineRenderer* DebugRendererBottomCenterPos = nullptr;
+		DebugRendererBottomCenterPos = CreateRenderer(RenderOrder::HitEffect);
+		DebugRendererBottomCenterPos->SetTexture("DebugPixel.bmp");
+		DebugRendererBottomCenterPos->SetRenderPos(GetPos());
+
+		GameEngineRenderer* DebugRendererBottomLeftPos = nullptr;
+		DebugRendererBottomLeftPos = CreateRenderer(RenderOrder::HitEffect);
+		DebugRendererBottomLeftPos->SetTexture("DebugPixel.bmp");
+		DebugRendererBottomLeftPos->SetRenderPos(GetPos() + float4{ -21.0f, 0.0f });
+
+		GameEngineRenderer* DebugRendererBottomRightPos = nullptr;
+		DebugRendererBottomRightPos = CreateRenderer(RenderOrder::HitEffect);
+		DebugRendererBottomRightPos->SetTexture("DebugPixel.bmp");
+		DebugRendererBottomRightPos->SetRenderPos(GetPos());
+		DebugRendererBottomRightPos->SetRenderPos(GetPos() + float4{ 21.0f, 0.0f });
+	}
 
 	{
 		MainRenderer->CreateAnimation("KirbyExhaleStartAttack", "SpitStar_1x4_16x16.bmp", 0, 3, 0.2f, true);
@@ -64,6 +83,7 @@ void Kirby::Start()
 
 	ChangeState(KirbyState::Idle);
 	Dir = KirbyDir::Right;
+	Mode = KirbyMode::Basic;
 }
 
 void Kirby::Update(float _Delta)
@@ -80,6 +100,8 @@ void Kirby::Update(float _Delta)
 
 void Kirby::StateUpdate(float _Delta)
 {
+	GroundCheck(GetKirbyScale().X);
+
 	switch (State)
 	{
 	case KirbyState::Idle:
@@ -160,6 +182,21 @@ void Kirby::ChangeAnimationState(const std::string& _StateName)
 	CurState = _StateName;
 
 	MainRenderer->ChangeAnimation(AnimationName);
+}
+
+
+// 발끝 중앙 기준
+float4 Kirby::GetKirbyScale()
+{
+	if (KirbyMode::Basic == Mode)
+	{
+		return float4{ 24.0f, 48.0f };
+	}
+
+	if (Mode == KirbyMode::Fat)
+	{
+		return float4{ 33.0f, 63.0f };
+	}
 }
 
 void Kirby::LevelStart()
