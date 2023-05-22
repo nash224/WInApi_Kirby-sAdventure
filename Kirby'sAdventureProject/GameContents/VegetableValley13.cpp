@@ -20,10 +20,11 @@ VegetableValley13::~VegetableValley13()
 
 void VegetableValley13::Start()
 {
-	LevelPlayer = GameEngineLevel::CreateActor<Kirby>();
 	LevelBackGround = GameEngineLevel::CreateActor<BackGround>();
-	LevelBackGround->init("VegetableValley1_3.bmp", "Resources\\Map");
+	LevelBackGround->init("VegetableValley1_3.bmp", "VegetableValley1_3Pixel.bmp", "Resources\\Map");
 
+	LevelPlayer = GameEngineLevel::CreateActor<Kirby>();
+	LevelPlayer->SetGroundTexture("VegetableValley1_3Pixel.bmp");
 }
 
 void VegetableValley13::Update(float _Delta)
@@ -39,6 +40,12 @@ void VegetableValley13::Update(float _Delta)
 	{
 		GameEngineCore::ChangeLevel("EndingLevel");
 	}
+
+	if (true == GameEngineInput::IsDown('M'))
+	{
+		LevelBackGround->SwitchRender();
+	}
+
 
 	//GameEngineWindowTexture* Texture = ResourceManager::GetInst().FindTexture("VegetableValley1");
 	//float4 Scale = Texture->GetScale();

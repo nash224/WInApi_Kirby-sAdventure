@@ -45,6 +45,7 @@ void BackGround::init(const std::string& _FileName, const std::string& _Path)
 	Renderer->SetRenderScale(Scale);
 }
 
+
 void BackGround::init(const std::string& _FileName, const std::string& _DebugFileName, const std::string& _Path)
 {
 	ResourceManager::GetInst().LoadTextureFile(_FileName, _Path);
@@ -61,6 +62,24 @@ void BackGround::init(const std::string& _FileName, const std::string& _DebugFil
 	SetPos(Scale.Half());
 }
 
+GameEngineRenderer* BackGround::SpriteInit(const std::string& _FileName, const std::string& _DebugFileName, const std::string& _Path, int _XCount, int _YCount)
+{
+	ResourceManager::GetInst().LoadSpriteFile(_FileName, _Path, _XCount, _YCount);
+	ResourceManager::GetInst().LoadTextureFile(_DebugFileName, _Path);
+
+
+	GameEngineWindowTexture* Texture = ResourceManager::GetInst().FindTexture(_DebugFileName);
+	float4 Scale = Texture->GetScale();
+
+	Renderer->SetSprite(_FileName);
+	Renderer->SetRenderScale(Scale);
+	DebugRenderer->SetTexture(_DebugFileName);
+	DebugRenderer->SetRenderScale(Scale);
+
+	SetPos(Scale.Half());
+
+	return Renderer;
+}
 
 
 void BackGround::Update(float _Delta)

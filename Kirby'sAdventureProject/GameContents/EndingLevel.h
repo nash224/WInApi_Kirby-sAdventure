@@ -22,6 +22,7 @@ protected:
 private:
 	class Kirby* LevelPlayer = nullptr;
 	class BackGround* LevelBackGround = nullptr;
+	GameEngineRenderer* BackRenderer = nullptr;
 
 	void Start() override;
 	void Update(float _Delta) override;

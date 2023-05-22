@@ -23,9 +23,14 @@ EndingLevel::~EndingLevel()
 void EndingLevel::Start()
 {
 	LevelBackGround = GameEngineLevel::CreateActor<BackGround>();
-	LevelBackGround->init("MrShineMrBright.bmp", "Resources\\KirbyTest\\");
+	BackRenderer = LevelBackGround->SpriteInit("MrShine&MrBright.bmp","MrShine&MrBrightPixel.bmp", "Resources\\Map", 3, 2);
+
+	BackRenderer->CreateAnimation("NightToDay", "MrShine&MrBright.bmp", 0, 5, 0.05f, false);
+	BackRenderer->CreateAnimation("DayToNight", "MrShine&MrBright.bmp", 5, 0, 0.05f, false);
+	BackRenderer->ChangeAnimation("DayToNight");
 
 	LevelPlayer = GameEngineLevel::CreateActor<Kirby>();
+	LevelPlayer->SetGroundTexture("MrShine&MrBrightPixel.bmp");
 }
 
 void EndingLevel::Update(float _Delta)
