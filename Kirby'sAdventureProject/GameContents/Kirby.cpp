@@ -121,6 +121,10 @@ void Kirby::StateUpdate(float _Delta)
 		return RunUpdate(_Delta);
 	case KirbyState::Jump:
 		return JumpUpdate(_Delta);
+	case KirbyState::AerialMotion:
+		return AerialMotionUpdate(_Delta);
+	case KirbyState::Fall:
+		return FallUpdate(_Delta);
 	default:
 		break;
 	}
@@ -140,6 +144,13 @@ void Kirby::ChangeState(KirbyState _State)
 			break;
 		case KirbyState::Jump:
 			JumpStart();
+			break;
+		case KirbyState::AerialMotion:
+			AerialMotionStart();
+			break;
+		case KirbyState::Fall:
+			FallStart();
+			break;
 		default:
 			break;
 		}

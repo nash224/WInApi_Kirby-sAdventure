@@ -6,6 +6,9 @@
 #include <GameEngineCore/GameEngineLevel.h>
 #include <GameEngineCore/ResourceManager.h>
 
+
+
+
 void Kirby::IdleStart()
 {
 	ChangeAnimationState("Idle");
@@ -13,6 +16,7 @@ void Kirby::IdleStart()
 
 void Kirby::RunStart()
 {
+	DirCheck();
 	ChangeAnimationState("Run");
 }
 
@@ -21,6 +25,17 @@ void Kirby::JumpStart()
 	ChangeAnimationState("Jump");
 }
 
+void Kirby::AerialMotionStart()
+{
+	ChangeAnimationState("AerialMotion");
+}
+
+void Kirby::FallStart()
+{
+	ChangeAnimationState("Fall");
+}
+
+// =============================================//
 
 void Kirby::IdleUpdate(float _Delta)
 {
@@ -51,7 +66,6 @@ void Kirby::IdleUpdate(float _Delta)
 	if (true == (GameEngineInput::IsPress('A') || GameEngineInput::IsPress('D')) &&
 		false == (GameEngineInput::IsPress('A') && GameEngineInput::IsPress('D')))
 	{
-		DirCheck();
 		ChangeState(KirbyState::Run);
 	}
 }
@@ -141,6 +155,24 @@ void Kirby::JumpUpdate(float _Delta)
 
 
 }
+
+
+void Kirby::AerialMotionUpdate(float _Delta)
+{
+
+}
+
+void Kirby::FallUpdate(float _Delta)
+{
+
+}
+
+// ============================================
+
+
+
+
+
 
 
 

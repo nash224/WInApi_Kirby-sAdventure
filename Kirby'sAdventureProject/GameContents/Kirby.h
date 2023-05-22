@@ -13,6 +13,8 @@ enum class KirbyState
 	Idle,
 	Run,
 	Jump,
+	AerialMotion,
+	Fall,
 	Max,
 };
 
@@ -53,10 +55,14 @@ protected:
 	void IdleStart();
 	void RunStart();
 	void JumpStart();
+	void AerialMotionStart();
+	void FallStart();
 
 	void IdleUpdate(float _Delta);
 	void RunUpdate(float _Delta);
 	void JumpUpdate(float _Delta);
+	void AerialMotionUpdate(float _Delta);
+	void FallUpdate(float _Delta);
 
 	void DirCheck();
 	void ChangeState(KirbyState State);
