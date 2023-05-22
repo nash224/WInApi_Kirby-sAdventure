@@ -42,6 +42,7 @@ void GameEngineCamera::PushRenderer(GameEngineRenderer* _Renderer, int _Order)
 		MsgBoxAssert("NULL인 랜더러는 그룹에 속할 수 없습니다.");
 	}
 
+	_Renderer->Camera = this;
 	Renderers[_Order].push_back(_Renderer);
 }
 

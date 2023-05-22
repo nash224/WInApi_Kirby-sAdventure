@@ -50,12 +50,17 @@ public:
 		return IsDeathValue;
 	}
 
-	void SetOrder(int _Order)
+	int GetOrder() const
+	{
+		return Order;
+	}
+
+	virtual void SetOrder(int _Order)
 	{
 		Order = _Order;
 	}
 
-	float GetLiveTime()
+	float GetLiveTime() const
 	{
 		return LiveTime;
 	}
@@ -74,7 +79,7 @@ private:
 	bool IsUpdateValue = true;
 	bool IsDeathValue = false;
 
-	void AddLiveTime(float _DeltaTime)
+	void AddLiveTime(const float _DeltaTime)
 	{
 		LiveTime += _DeltaTime;
 	}

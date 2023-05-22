@@ -9,6 +9,7 @@
 #include "GameEngineActor.h"
 #include "GameEngineCamera.h"
 #include "GameEngineSprite.h"
+#include "GameEngineLevel.h"
 
 #include <math.h>
 
@@ -92,7 +93,7 @@ void GameEngineRenderer::Render(class GameEngineCamera* _Camera, float _Delta)
 			}
 		}
 
-		int Frame = CurAnimation->Frames[CurAnimation->CurFrame];
+		size_t Frame = CurAnimation->Frames[CurAnimation->CurFrame];
 
 		Sprite = CurAnimation->Sprite;
 		const GameEngineSprite::Sprite& SpriteInfo = Sprite->GetSprite(Frame);
@@ -224,4 +225,26 @@ void GameEngineRenderer::ChangeAnimation(const std::string& _AnimationName, bool
 
 	CurAnimation->CurInter = CurAnimation->Inters[0];
 	CurAnimation->CurFrame = 0;
+}
+
+void GameEngineRenderer::Start()
+{
+	Camera = Master->GetLevel()->GetMainCamera();
+}
+
+void GameEngineRenderer::SetOrder(int _Order)
+{
+	if (nullptr == Camera)
+	{
+		MsgBoxAssert("카메라가 세팅되지 않았는데 오더를 지정하려고 했습니다.");
+		return;
+	}
+
+	std::list<GameEngineRenderer*>& PrevRenders = Camera->Renderers[GetOrder()];
+	PrevRenders.remove(this);
+
+	GameEngineObject::SetOrder(_Order);
+
+	std::list<GameEngineRenderer*>& NextRenders = Camera->Renderers[GetOrder()];
+	NextRenders.push_back(this);
 }
