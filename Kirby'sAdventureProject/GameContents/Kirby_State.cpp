@@ -57,7 +57,8 @@ void Kirby::LandingStart()
 
 void Kirby::IdleUpdate(float _Delta)
 {
-
+	MoveUpdate(_Delta);
+	// 서있는 위치에 발판이 있는가
 	if(false == GetGroundState())
 	{
 		Gravity(_Delta);
@@ -118,35 +119,36 @@ void Kirby::RunUpdate(float _Delta)
 
 	float Speed = 600.0f;
 	float4 CheckPos = float4::ZERO;
-	float4 MovePos = float4::ZERO;
 
 	if (GameEngineInput::IsPress('A') && GameEngineInput::IsPress('D'))
 	{
-		MovePos = { 0.0f, MovePos.Y };
+		//MovePos = { 0.0f, MovePos.Y };
 	}
 	else if (true == GameEngineInput::IsPress('A'))
 	{
 		CheckPos = { -18.0f , -30.0f };
-		MovePos = { -Speed * _Delta, 0.0f };
+		//MovePos = { -Speed * _Delta, 0.0f };
 	}
 	else if (true == GameEngineInput::IsPress('D'))
 	{
 		CheckPos = { 18.0f , -30.0f };
-		MovePos = { Speed * _Delta, 0.0f };
+		//MovePos = { Speed * _Delta, 0.0f };
 	}
 
-	if (MovePos.X == 0.0f)
+	MoveUpdate(_Delta);
+
+	if (CurrentSpeed == 0.0f)
 	{
 		ChangeState(KirbyState::Idle);
 	}
 
-	{
-		unsigned int Color = GetGroundColor(RGB(255, 255, 255), CheckPos);
-		if (Color == RGB(255,255,255))
-		{
-			AddPos(MovePos);
-		}
-	}
+	
+	//unsigned int Color = GetGroundColor(RGB(255, 255, 255), CheckPos);
+	//if (Color == RGB(255,255,255))
+	//{
+	//	AddPos(MovePos);
+	//}
+	
 
 }
 

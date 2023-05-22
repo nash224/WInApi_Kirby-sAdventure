@@ -66,11 +66,11 @@ void Kirby::Start()
 	MainRenderer->CreateAnimation("Left_Idle", "Left_Kirby.bmp", 0, 1, 0.5f, true);
 	MainRenderer->CreateAnimation("Right_Idle", "RIght_Kirby.bmp", 0, 1, 0.5f, true);
 
-	MainRenderer->CreateAnimation("Left_Walk", "Left_Kirby.bmp", 2, 5, 0.15f, true);
-	MainRenderer->CreateAnimation("Right_Walk", "RIght_Kirby.bmp", 2, 5, 0.15f, true);
+	MainRenderer->CreateAnimation("Left_Walk", "Left_Kirby.bmp", 2, 5, 0.3f, true);
+	MainRenderer->CreateAnimation("Right_Walk", "RIght_Kirby.bmp", 2, 5, 0.3f, true);
 
-	MainRenderer->CreateAnimation("Left_Run", "Left_Kirby.bmp", 2, 5, 0.15f, true);
-	MainRenderer->CreateAnimation("Right_Run", "RIght_Kirby.bmp", 2, 5, 0.15f, true);
+	MainRenderer->CreateAnimation("Left_Run", "Left_Kirby.bmp", 2, 5, 0.3f, true);
+	MainRenderer->CreateAnimation("Right_Run", "RIght_Kirby.bmp", 2, 5, 0.3f, true);
 
 	MainRenderer->CreateAnimation("Left_Turn", "Left_Kirby.bmp", 6, 6, 0.05f, false);
 	MainRenderer->CreateAnimation("Right_Turn", "RIght_Kirby.bmp", 6, 6, 0.05f, false);
@@ -251,6 +251,55 @@ float4 Kirby::GetKirbyScale()
 
 	return float4{ 0.0f, 0.0f };
 }
+
+
+// 커비의 위치 동기화
+void Kirby::MoveUpdate(float _Delta)
+{
+	if (true == GameEngineInput::IsPress('A') && false == GameEngineInput::IsPress('D'))
+	{
+		CurrentSpeed -= 2.0f * _Delta;
+	}
+	else if (false == GameEngineInput::IsPress('A') && true == GameEngineInput::IsPress('D'))
+	{
+		CurrentSpeed += 2.0f * _Delta;
+	}
+	else if ((GameEngineInput::IsPress('A') && GameEngineInput::IsPress('D')) || (GameEngineInput::IsFree('A') && GameEngineInput::IsFree('D')))
+	{
+		if (CurrentSpeed < 0.0f)
+		{
+			CurrentSpeed += 2.0f * _Delta;
+
+			if (CurrentSpeed > 0.0f)
+			{
+				CurrentSpeed = 0.0f;
+			}
+		}
+		else if (CurrentSpeed > 0.0f)
+		{
+			CurrentSpeed -= 2.0f * _Delta;
+
+			if (CurrentSpeed < 0.0f)
+			{
+				CurrentSpeed = 0.0f;
+			}
+		}
+	}
+
+
+	if (CurrentSpeed <= -300.0f * _Delta)
+	{
+		CurrentSpeed = -300.0f * _Delta;
+	}
+
+	if (CurrentSpeed >= 300.0f * _Delta)
+	{
+		CurrentSpeed = 300.0f * _Delta;
+	}
+
+	AddPos({ CurrentSpeed, 0.0f});
+}
+
 
 void Kirby::LevelStart()
 {

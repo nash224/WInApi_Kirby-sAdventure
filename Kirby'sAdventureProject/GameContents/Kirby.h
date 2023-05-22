@@ -1,6 +1,7 @@
 #pragma once
 #include "ActorUtils.h"
 
+
 enum class KirbyBodyState
 {
 	Basic,
@@ -74,9 +75,14 @@ protected:
 	void LandingUpdate(float _Delta);
 
 	void DirCheck();
+	void MoveUpdate(float _Delta);
+	float4 GetKirbyScale();
+
+
+
+
 	void ChangeState(KirbyState State);
 	void ChangeAnimationState(const std::string& _StateName);
-	float4 GetKirbyScale();
 
 private:
 	KirbyBodyState BodyState = KirbyBodyState::Max;
@@ -87,7 +93,7 @@ private:
 	bool IsAbleJump = false;
 	bool IsChangeState = true;
 
-	float speed = 0.0f;
+	float CurrentSpeed = 0.0f;
 
 	void Start() override;
 	void Update(float _Delta) override;
