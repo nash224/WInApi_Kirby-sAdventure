@@ -10,6 +10,8 @@
 #include "GameEngineCamera.h"
 #include "GameEngineSprite.h"
 
+#include <math.h>
+
 
 GameEngineRenderer::GameEngineRenderer() 
 {
@@ -73,15 +75,15 @@ void GameEngineRenderer::Render(class GameEngineCamera* _Camera, float _Delta)
 		if (0.0f >= CurAnimation->CurInter)
 		{
 			CurAnimation->CurInter
-				= CurAnimation->Inters[CurAnimation->CurFrame - CurAnimation->StartFrame];
+				= CurAnimation->Inters[CurAnimation->CurFrame];
 
 			++CurAnimation->CurFrame;
 
-			if (CurAnimation->CurFrame > CurAnimation->EndFrame)
+			if (CurAnimation->CurFrame > abs(static_cast<int>(CurAnimation->EndFrame - CurAnimation->StartFrame)))
 			{
 				if (true == CurAnimation->Loop)
 				{
-					CurAnimation->CurFrame = CurAnimation->StartFrame;
+					CurAnimation->CurFrame = 0;
 				}
 				else
 				{
@@ -90,9 +92,10 @@ void GameEngineRenderer::Render(class GameEngineCamera* _Camera, float _Delta)
 			}
 		}
 
+		int Frame = CurAnimation->Frames[CurAnimation->CurFrame];
 
 		Sprite = CurAnimation->Sprite;
-		const GameEngineSprite::Sprite& SpriteInfo = Sprite->GetSprite(CurAnimation->CurFrame);
+		const GameEngineSprite::Sprite& SpriteInfo = Sprite->GetSprite(Frame);
 		Texture = SpriteInfo.BaseTexture;
 		SetCopyPos(SpriteInfo.RenderPos);
 		SetCopyScale(SpriteInfo.RenderScale);
@@ -179,10 +182,24 @@ void GameEngineRenderer::CreateAnimation(
 		Animation.EndFrame = Animation.Sprite->GetSpriteCount() - 1;
 	}
 
-	Animation.Inters.resize((Animation.EndFrame - Animation.StartFrame) + 1);
+
+	Animation.Inters.resize(abs(static_cast<int>(Animation.EndFrame - Animation.StartFrame)) + 1);
+	Animation.Frames.resize(abs(static_cast<int>(Animation.EndFrame - Animation.StartFrame)) + 1);
+
+	int FrameDir = 1;
+
+	if (_Start > _End)
+	{
+		FrameDir = -1;
+	}
+
+	size_t Start = _Start;
+
 	for (size_t i = 0; i < Animation.Inters.size(); i++)
 	{
+		Animation.Frames[i] = Start;
 		Animation.Inters[i] = _Inter;
+		Start += FrameDir;
 	}
 
 	Animation.Loop = _Loop;
@@ -206,5 +223,5 @@ void GameEngineRenderer::ChangeAnimation(const std::string& _AnimationName, bool
 	}
 
 	CurAnimation->CurInter = CurAnimation->Inters[0];
-	CurAnimation->CurFrame = CurAnimation->StartFrame;
+	CurAnimation->CurFrame = 0;
 }

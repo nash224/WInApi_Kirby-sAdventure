@@ -63,7 +63,7 @@ void Kirby::Start()
 
 	{
 		MainRenderer->CreateAnimation("KirbyExhaleStartAttack", "SpitStar_1x4_16x16.bmp", 0, 3, 0.2f, true);
-	}
+	} 
 
 	MainRenderer->CreateAnimation("Left_Idle", "Left_Kirby.bmp", 0, 1, 0.5f, true);
 	MainRenderer->CreateAnimation("Right_Idle", "RIght_Kirby.bmp", 0, 1, 0.5f, true);
@@ -71,8 +71,11 @@ void Kirby::Start()
 	MainRenderer->CreateAnimation("Left_Run", "Left_Kirby.bmp", 2, 5, 0.15f, true);
 	MainRenderer->CreateAnimation("Right_Run", "RIght_Kirby.bmp", 2, 5, 0.15f, true);
 
-	MainRenderer->CreateAnimation("Left_Jump", "Left_Kirby.bmp", 9, 14, 0.5f, true);
-	MainRenderer->CreateAnimation("Right_Jump", "Right_Kirby.bmp", 9, 14, 0.5f, true);
+	MainRenderer->CreateAnimation("Left_Jump", "Left_Kirby.bmp", 9, 14, 0.05f, false);
+	MainRenderer->CreateAnimation("Right_Jump", "Right_Kirby.bmp", 9, 14, 0.05f, false);
+
+	MainRenderer->CreateAnimation("Right_Fall", "Right_Kirby.bmp", 14, 14, 0.05f, false);
+
 	MainRenderer->SetRenderScaleToTexture();
 	MainRenderer->SetScaleRatio(3.0f);
 
