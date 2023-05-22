@@ -122,19 +122,19 @@ void Kirby::JumpUpdate(float _Delta)
 
 	if (GameEngineInput::IsPress('X') && 3.0f >= GameEngineInput::GetPressTime('X'))
 	{
-		IsJump = true;
+		AbleJump = true;
 		MovePos = { 0.0f, - JumpPower * _Delta };
 	}
 
 
 	AddPos(MovePos);
 
-	if (false == GetGroundState() && false == IsJump)
+	if (false == GetGroundState() && false == AbleJump)
 	{
 		Gravity(_Delta);
 	}
 
-	if (true == GetGroundState() && false == IsJump)
+	if (true == GetGroundState() && false == AbleJump)
 	{
 		ChangeState(KirbyState::Idle);
 	}

@@ -10,6 +10,7 @@
 //        ex) 플레이어, 에너미, UI, 오브젝트, 등등..
 class GameEngineLevel;
 class GameEngineRenderer;
+class GameEngineCollision;
 class GameEngineActor : public GameEngineObject
 {
 	friend class GameEngineLevel;
@@ -26,6 +27,7 @@ public:
 	GameEngineActor& operator=(GameEngineActor&& _Other) noexcept = delete;
 
 	void ActorRelease();
+
 
 	float4 GetPos() const
 	{
@@ -57,6 +59,8 @@ public:
 		return Level;
 	}
 
+
+
 	template<typename EnumType>
 	GameEngineRenderer* CreateRenderer(EnumType _Order)
 	{
@@ -75,7 +79,15 @@ public:
 	}
 
 	GameEngineRenderer* CreateRenderer(const std::string& _ImageName, int _Order);
-	GameEngineRenderer* CreateCollision(int _Order = 0);
+
+
+
+	template<typename EnumType>
+	GameEngineCollision* CreateCollision(EnumType _Order)
+	{
+		return CreateCollision(static_cast<int>(_Order));
+	}
+	GameEngineCollision* CreateCollision(int _Order = 0);
 
 protected:
 	virtual void LevelStart() {}
@@ -87,4 +99,5 @@ private:
 	float4 Scale = float4::ZERO;
 
 	std::list<GameEngineRenderer*> AllRenderer;
+	std::list<GameEngineCollision*> AllCollision;
 };

@@ -1,7 +1,7 @@
 #pragma once
 #include "ActorUtils.h"
 
-enum class KirbyMode
+enum class KirbyBodyState
 {
 	Basic,
 	Fat,
@@ -64,12 +64,12 @@ protected:
 	float4 GetKirbyScale();
 
 private:
-	KirbyMode Mode = KirbyMode::Max;
+	KirbyBodyState BodyState = KirbyBodyState::Max;
 	KirbyState State = KirbyState::Max;
 	KirbyDir Dir = KirbyDir::Right;
 	std::string CurState = "";
 
-	bool IsJump = false;
+	bool AbleJump = false;
 
 	void Start() override;
 	void Update(float _Delta) override;

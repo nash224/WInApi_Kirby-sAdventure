@@ -28,7 +28,7 @@ void VegetableValley13::Start()
 
 void VegetableValley13::Update(float _Delta)
 {
-	float4 CameraHalfSize = GameEngineWindow::MainWindow.GetScale().GetHalf();
+	float4 CameraHalfSize = GameEngineWindow::MainWindow.GetScale().Half();
 
 	if (true == GameEngineInput::IsDown('P'))
 	{

@@ -13,6 +13,7 @@ class GameEngineLevel : public GameEngineObject
 {
 	friend class GameEngineCore;
 	friend class GameEngineActor;
+	friend class GameEngineCollision;
 
 public:
 	// constrcuter destructer

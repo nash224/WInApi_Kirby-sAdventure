@@ -34,7 +34,7 @@ void GameEngineWindow::ClearBackBuffer()
 
 void GameEngineWindow::DoubleBuffering()
 {
-    WindowBuffer->BitCopy(BackBuffer, Scale.GetHalf(), BackBuffer->GetScale());
+    WindowBuffer->BitCopy(BackBuffer, Scale.Half(), BackBuffer->GetScale());
 }
 
 
@@ -62,7 +62,7 @@ void GameEngineWindow::MyRegisterClass()
         return;
     }
 
-    WNDCLASSEXA wcex;
+    WNDCLASSEXA wcex = {};
     wcex.cbSize = sizeof(WNDCLASSEX);
     wcex.style = CS_HREDRAW | CS_VREDRAW;
     wcex.lpfnWndProc = GameEngineWindow::WndProc;

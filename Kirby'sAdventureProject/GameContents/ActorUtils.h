@@ -40,6 +40,9 @@ public:
 
 
 protected:
+	GameEngineCollision* BodyCollision = nullptr;
+
+
 	void GroundCheck(float _XScaleSize);
 
 	bool GetGroundState() const
@@ -54,7 +57,6 @@ private:
 	bool IsGravity = true;
 	float GravityPower = 0.8f;
 	float4 GravityVector = float4::ZERO;
-
 
 };
 

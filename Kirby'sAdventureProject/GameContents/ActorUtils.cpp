@@ -17,7 +17,7 @@ ActorUtils::~ActorUtils()
 void ActorUtils::CameraFocus()
 {
 	float4 WinScale = GameEngineWindow::MainWindow.GetScale();
-	GetLevel()->GetMainCamera()->SetPos(GetPos() - WinScale.GetHalf());
+	GetLevel()->GetMainCamera()->SetPos(GetPos() - WinScale.Half());
 
 
 

@@ -40,7 +40,7 @@ void BackGround::init(const std::string& _FileName, const std::string& _Path)
 	Renderer->SetTexture(_FileName);
 	Renderer->SetCopyScale(Scale);
 	
-	SetPos(Scale.GetHalf());
+	SetPos(Scale.Half());
 	SetScale(Scale);
 	Renderer->SetRenderScale(Scale);
 }
@@ -58,7 +58,7 @@ void BackGround::init(const std::string& _FileName, const std::string& _DebugFil
 	DebugRenderer->SetTexture(_DebugFileName);
 	DebugRenderer->SetRenderScale(Scale);
 
-	SetPos(Scale.GetHalf());
+	SetPos(Scale.Half());
 }
 
 

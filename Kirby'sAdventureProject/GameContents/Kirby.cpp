@@ -7,11 +7,12 @@
 #include <GameEnginePlatform/GameEngineWindow.h>
 #include <GameEnginePlatform/GameEngineWindowTexture.h>
 #include <GameEnginePlatform/GameEngineInput.h>
-#include <GameEngineCore/ResourceManager.h>
-#include <GameEngineCore/GameEngineRenderer.h>
+#include <GameEngineCore/GameEngineCore.h>
 #include <GameEngineCore/GameEngineLevel.h>
 #include <GameEngineCore/GameEngineCamera.h>
-#include <GameEngineCore/GameEngineCore.h>
+#include <GameEngineCore/GameEngineRenderer.h>
+#include <GameEngineCore/GameEngineCollision.h>
+#include <GameEngineCore/ResourceManager.h>
 
 #include "Grunt.h"
 #include "Projectile.h"
@@ -83,12 +84,17 @@ void Kirby::Start()
 	MainRenderer->FindAnimation("Right_Idle")->Inters = { 0.2f, 2.5f };
 
 
+
 	float4 WinScale = GameEngineWindow::MainWindow.GetScale();
-	SetPos(WinScale.GetHalf());
+	SetPos(WinScale.Half());
 
 	ChangeState(KirbyState::Idle);
 	Dir = KirbyDir::Right;
-	Mode = KirbyMode::Basic;
+	BodyState = KirbyBodyState::Basic;
+
+
+	BodyCollision = CreateCollision(CollisionOrder::PlayerBody);
+	BodyCollision->SetCollisionScale(GetKirbyScale());
 }
 
 void Kirby::Update(float _Delta)
@@ -197,12 +203,12 @@ void Kirby::ChangeAnimationState(const std::string& _StateName)
 // 발끝 중앙 기준
 float4 Kirby::GetKirbyScale()
 {
-	if (Mode == KirbyMode::Basic)
+	if (BodyState == KirbyBodyState::Basic)
 	{
 		return float4{ 24.0f, 48.0f };
 	}
 
-	if (Mode == KirbyMode::Fat)
+	if (BodyState == KirbyBodyState::Fat)
 	{
 		return float4{ 33.0f, 63.0f };
 	}

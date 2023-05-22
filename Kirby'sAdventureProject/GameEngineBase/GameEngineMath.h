@@ -53,7 +53,7 @@ public:
 		return static_cast<int>(Y * 0.5f);
 	}
 
-	float4 GetHalf() const
+	float4 Half() const
 	{
 		return { hX(), hY(), Z, W };
 	}
