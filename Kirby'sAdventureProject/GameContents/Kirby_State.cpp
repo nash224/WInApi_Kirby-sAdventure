@@ -14,14 +14,27 @@ void Kirby::IdleStart()
 	ChangeAnimationState("Idle");
 }
 
+void Kirby::WalkStart()
+{
+	DirCheck();
+	ChangeAnimationState("Walk");
+}
+
 void Kirby::RunStart()
 {
 	DirCheck();
 	ChangeAnimationState("Run");
 }
 
+void Kirby::TurnStart()
+{
+
+	ChangeAnimationState("Turn");
+}
+
 void Kirby::JumpStart()
 {
+	IsAbleJump = false;
 	ChangeAnimationState("Jump");
 }
 
@@ -33,6 +46,11 @@ void Kirby::AerialMotionStart()
 void Kirby::FallStart()
 {
 	ChangeAnimationState("Fall");
+}
+
+void Kirby::LandingStart()
+{
+	ChangeAnimationState("Landing");
 }
 
 // =============================================//
@@ -71,6 +89,11 @@ void Kirby::IdleUpdate(float _Delta)
 }
 
 
+void Kirby::WalkUpdate(float _Delta)
+{
+
+}
+
 // RunUpdate중에 A와 D가 프레임사이로 연속적으로 입력됐을 경우
 // 좌우 애니메이션이 전환되지 않는 버그가 있음
 void Kirby::RunUpdate(float _Delta)
@@ -103,12 +126,12 @@ void Kirby::RunUpdate(float _Delta)
 	}
 	else if (true == GameEngineInput::IsPress('A'))
 	{
-		CheckPos = { -24.0f , -30.0f };
+		CheckPos = { -18.0f , -30.0f };
 		MovePos = { -Speed * _Delta, 0.0f };
 	}
 	else if (true == GameEngineInput::IsPress('D'))
 	{
-		CheckPos = { 24.0f , -30.0f };
+		CheckPos = { 18.0f , -30.0f };
 		MovePos = { Speed * _Delta, 0.0f };
 	}
 
@@ -127,6 +150,12 @@ void Kirby::RunUpdate(float _Delta)
 
 }
 
+
+void Kirby::TurnUpdate(float _Delta)
+{
+
+}
+
 void Kirby::JumpUpdate(float _Delta)
 {
 
@@ -136,19 +165,19 @@ void Kirby::JumpUpdate(float _Delta)
 
 	if (GameEngineInput::IsPress('X') && 3.0f >= GameEngineInput::GetPressTime('X'))
 	{
-		AbleJump = true;
+		IsAbleJump = true;
 		MovePos = { 0.0f, - JumpPower * _Delta };
 	}
 
 
 	AddPos(MovePos);
 
-	if (false == GetGroundState() && false == AbleJump)
+	if (false == GetGroundState() && false == IsAbleJump)
 	{
 		Gravity(_Delta);
 	}
 
-	if (true == GetGroundState() && false == AbleJump)
+	if (true == GetGroundState() && false == IsAbleJump)
 	{
 		ChangeState(KirbyState::Idle);
 	}
@@ -166,6 +195,13 @@ void Kirby::FallUpdate(float _Delta)
 {
 
 }
+
+
+void Kirby::LandingUpdate(float _Delta)
+{
+
+}
+
 
 // ============================================
 

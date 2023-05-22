@@ -35,9 +35,9 @@ void EndingLevel::Start()
 
 void EndingLevel::Update(float _Delta)
 {
-	if (20.0f <= GetLiveTime())
+	if (5.0f <= GetLiveTime())
 	{
-		GameEngineWindow::MainWindow.WIndowOff();
+		int a = 0;
 	}
 }
 

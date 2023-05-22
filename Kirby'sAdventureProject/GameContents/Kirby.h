@@ -11,10 +11,13 @@ enum class KirbyBodyState
 enum class KirbyState
 {
 	Idle,
+	Walk,
 	Run,
+	Turn,
 	Jump,
 	AerialMotion,
 	Fall,
+	Landing,
 	Max,
 };
 
@@ -53,16 +56,22 @@ protected:
 
 	void StateUpdate(float _Delta);
 	void IdleStart();
+	void WalkStart();
 	void RunStart();
+	void TurnStart();
 	void JumpStart();
 	void AerialMotionStart();
 	void FallStart();
+	void LandingStart();
 
 	void IdleUpdate(float _Delta);
+	void WalkUpdate(float _Delta);
 	void RunUpdate(float _Delta);
+	void TurnUpdate(float _Delta);
 	void JumpUpdate(float _Delta);
 	void AerialMotionUpdate(float _Delta);
 	void FallUpdate(float _Delta);
+	void LandingUpdate(float _Delta);
 
 	void DirCheck();
 	void ChangeState(KirbyState State);
@@ -75,7 +84,10 @@ private:
 	KirbyDir Dir = KirbyDir::Right;
 	std::string CurState = "";
 
-	bool AbleJump = false;
+	bool IsAbleJump = false;
+	bool IsChangeState = true;
+
+	float speed = 0.0f;
 
 	void Start() override;
 	void Update(float _Delta) override;

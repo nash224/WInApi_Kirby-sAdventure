@@ -80,8 +80,8 @@ int ActorUtils::GetGroundColor(unsigned int _DefaultColor, float4 _Pos/* = float
 
 void ActorUtils::GroundCheck(float _XScaleSize)
 {
-	unsigned int LeftBottomColor = GetGroundColor(RGB(255, 255, 255), float4{ -_XScaleSize + 3.0f , 0.0f });
-	unsigned int RightBottomColor = GetGroundColor(RGB(255, 255, 255), float4{ _XScaleSize + -3.0f , 0.0f });
+	unsigned int LeftBottomColor = GetGroundColor(RGB(255, 255, 255), float4{ -_XScaleSize + 9.0f , 0.0f });
+	unsigned int RightBottomColor = GetGroundColor(RGB(255, 255, 255), float4{ _XScaleSize + -9.0f , 0.0f });
 	if (RGB(255, 255, 255) == LeftBottomColor &&
 		RGB(255, 255, 255) == RightBottomColor)
 	{

@@ -62,20 +62,30 @@ void Kirby::Start()
 		DebugRendererBottomRightPos->SetRenderPos(GetPos() + float4{ 21.0f, 0.0f });
 	}
 
-	{
-		MainRenderer->CreateAnimation("KirbyExhaleStartAttack", "SpitStar_1x4_16x16.bmp", 0, 3, 0.2f, true);
-	} 
 
 	MainRenderer->CreateAnimation("Left_Idle", "Left_Kirby.bmp", 0, 1, 0.5f, true);
 	MainRenderer->CreateAnimation("Right_Idle", "RIght_Kirby.bmp", 0, 1, 0.5f, true);
 
+	MainRenderer->CreateAnimation("Left_Walk", "Left_Kirby.bmp", 2, 5, 0.15f, true);
+	MainRenderer->CreateAnimation("Right_Walk", "RIght_Kirby.bmp", 2, 5, 0.15f, true);
+
 	MainRenderer->CreateAnimation("Left_Run", "Left_Kirby.bmp", 2, 5, 0.15f, true);
 	MainRenderer->CreateAnimation("Right_Run", "RIght_Kirby.bmp", 2, 5, 0.15f, true);
 
-	MainRenderer->CreateAnimation("Left_Jump", "Left_Kirby.bmp", 9, 14, 0.05f, false);
-	MainRenderer->CreateAnimation("Right_Jump", "Right_Kirby.bmp", 9, 14, 0.05f, false);
+	MainRenderer->CreateAnimation("Left_Turn", "Left_Kirby.bmp", 6, 6, 0.05f, false);
+	MainRenderer->CreateAnimation("Right_Turn", "RIght_Kirby.bmp", 6, 6, 0.05f, false);
 
-	MainRenderer->CreateAnimation("Right_Fall", "Right_Kirby.bmp", 14, 14, 0.05f, false);
+	MainRenderer->CreateAnimation("Left_Jump", "Left_Kirby.bmp", 9, 9, 0.1f, false);
+	MainRenderer->CreateAnimation("Right_Jump", "Right_Kirby.bmp", 9, 9, 0.1f, false);
+
+	MainRenderer->CreateAnimation("Left_AerialMotion", "Left_Kirby.bmp", 10, 13, 0.1f, false);
+	MainRenderer->CreateAnimation("Right_AerialMotion", "Right_Kirby.bmp", 10, 13, 0.1f, false);
+
+	MainRenderer->CreateAnimation("Left_Fall", "Left_Kirby.bmp", 14, 14, 0.1f, false);
+	MainRenderer->CreateAnimation("Right_Fall", "Right_Kirby.bmp", 14, 14, 0.1f, false);
+
+	MainRenderer->CreateAnimation("Left_Landing", "Left_Kirby.bmp", 7, 7, 0.1f, false);
+	MainRenderer->CreateAnimation("Right_Landing", "Right_Kirby.bmp", 7, 7, 0.1f, false);
 
 	MainRenderer->SetRenderScaleToTexture();
 	MainRenderer->SetScaleRatio(3.0f);
@@ -117,14 +127,20 @@ void Kirby::StateUpdate(float _Delta)
 	{
 	case KirbyState::Idle:
 		return IdleUpdate(_Delta);
+	case KirbyState::Walk:
+		return WalkUpdate(_Delta);
 	case KirbyState::Run:
 		return RunUpdate(_Delta);
+	case KirbyState::Turn:
+		return TurnUpdate(_Delta);
 	case KirbyState::Jump:
 		return JumpUpdate(_Delta);
 	case KirbyState::AerialMotion:
 		return AerialMotionUpdate(_Delta);
 	case KirbyState::Fall:
 		return FallUpdate(_Delta);
+	case KirbyState::Landing:
+		return LandingUpdate(_Delta);
 	default:
 		break;
 	}
@@ -139,8 +155,14 @@ void Kirby::ChangeState(KirbyState _State)
 		case KirbyState::Idle:
 			IdleStart();
 			break;
+		case KirbyState::Walk:
+			WalkStart();
+			break;
 		case KirbyState::Run:
 			RunStart();
+			break;
+		case KirbyState::Turn:
+			TurnStart();
 			break;
 		case KirbyState::Jump:
 			JumpStart();
@@ -150,6 +172,9 @@ void Kirby::ChangeState(KirbyState _State)
 			break;
 		case KirbyState::Fall:
 			FallStart();
+			break;
+		case KirbyState::Landing:
+			LandingStart();
 			break;
 		default:
 			break;
