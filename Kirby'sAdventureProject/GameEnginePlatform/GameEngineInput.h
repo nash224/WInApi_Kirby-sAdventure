@@ -1,7 +1,8 @@
 #pragma once
 #include <Windows.h>
-#include <string>
 #include <map>
+#include <string>
+#include <GameEngineBase/GameEngineMath.h>
 
 // 설명 :
 class GameEngineInput
@@ -9,16 +10,17 @@ class GameEngineInput
 private:
 	class GameEngineKey
 	{
-		friend class GameEngineInput;
+		friend GameEngineInput;
 
 		bool Down = false;
 		bool Press = false;
 		bool Up = false;
 		bool Free = true;
 
-		int Key = -1;
-
+		// 의미가 없다고 봐요.
 		float PressTime = 0.0f;
+
+		int Key = -1;
 
 		bool KeyCheck()
 		{
@@ -46,14 +48,14 @@ private:
 		void Update(float _DeltaTime);
 
 	public:
-		GameEngineKey(int _Key)
-			: Key(_Key)
+		GameEngineKey()
+			: Key(-1)
 		{
 
 		}
 
-		GameEngineKey()
-			: Key(-1)
+		GameEngineKey(int _Key)
+			: Key(_Key)
 		{
 
 		}
@@ -70,6 +72,8 @@ public:
 	GameEngineInput& operator=(const GameEngineInput& _Other) = delete;
 	GameEngineInput& operator=(GameEngineInput&& _Other) noexcept = delete;
 
+	static float4 MousePos();
+
 	static void InputInit();
 	static void Update(float _DeltaTime);
 	static void Reset();
@@ -79,10 +83,13 @@ public:
 	static bool IsPress(int _Key);
 	static bool IsFree(int _Key);
 
+	/////////////////////////
 	static float GetPressTime(int _Key);
+	/////////////////////////
 
 protected:
 
 private:
 	static std::map<int, GameEngineKey> AllKeys;
 };
+

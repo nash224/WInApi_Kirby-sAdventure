@@ -1,14 +1,13 @@
 #include "GameEngineInput.h"
 #include <GameEngineBase/GameEngineDebug.h>
 
-
 std::map<int, GameEngineInput::GameEngineKey> GameEngineInput::AllKeys;
 
-GameEngineInput::GameEngineInput() 
+GameEngineInput::GameEngineInput()
 {
 }
 
-GameEngineInput::~GameEngineInput() 
+GameEngineInput::~GameEngineInput()
 {
 }
 
@@ -20,6 +19,7 @@ void GameEngineInput::InputInit()
 	{
 		return;
 	}
+
 
 	AllKeys[VK_LBUTTON] = GameEngineKey(VK_LBUTTON);
 	AllKeys[VK_RBUTTON] = GameEngineKey(VK_RBUTTON);
@@ -109,7 +109,6 @@ void GameEngineInput::InputInit()
 	AllKeys[VK_F23] = GameEngineKey(VK_F23);
 	AllKeys[VK_F24] = GameEngineKey(VK_F24);
 
-
 	for (int i = 'A'; i <= 'Z'; i++)
 	{
 		AllKeys[i] = GameEngineKey(i);
@@ -119,37 +118,19 @@ void GameEngineInput::InputInit()
 	{
 		AllKeys[i] = GameEngineKey(i);
 	}
+
 }
 
-
-void GameEngineInput::Reset()
-{
-	std::map<int, GameEngineKey>::iterator StartIter = AllKeys.begin();
-	std::map<int, GameEngineKey>::iterator EndtIter = AllKeys.end();
-
-	for (; StartIter != EndtIter; ++StartIter)
-	{
-		StartIter->second.Reset();
-	}
-}
-
-void GameEngineInput::Update(float _DeltaTime)
-{
-	std::map<int, GameEngineKey>::iterator StartIter = AllKeys.begin();
-	std::map<int, GameEngineKey>::iterator EndtIter = AllKeys.end();
-
-	for (; StartIter != EndtIter; ++StartIter)
-	{
-		StartIter->second.Update(_DeltaTime);
-	}
-}
 
 void GameEngineInput::GameEngineKey::Update(float _DeltaTime)
 {
 	if (true == KeyCheck())
 	{
+		// 키가 눌렸다.
+
 		PressTime += _DeltaTime;
 
+		// 여태까지 키가 눌렸던적이 없다는 거죠.
 		if (true == Free)
 		{
 			Down = true;
@@ -164,10 +145,12 @@ void GameEngineInput::GameEngineKey::Update(float _DeltaTime)
 			Up = false;
 			Free = false;
 		}
+
 	}
 	else
 	{
 		PressTime = 0.0f;
+		// 키가 눌리지 않았다.
 		if (true == Press)
 		{
 			Down = false;
@@ -185,6 +168,69 @@ void GameEngineInput::GameEngineKey::Update(float _DeltaTime)
 	}
 }
 
+void GameEngineInput::Reset()
+{
+	std::map<int, GameEngineKey>::iterator StartIter = AllKeys.begin();
+	std::map<int, GameEngineKey>::iterator EndIter = AllKeys.end();
+
+	for (; StartIter != EndIter; ++StartIter)
+	{
+		StartIter->second.Reset();
+	}
+
+}
+
+void GameEngineInput::Update(float _DeltaTime)
+{
+	std::map<int, GameEngineKey>::iterator StartIter = AllKeys.begin();
+	std::map<int, GameEngineKey>::iterator EndIter = AllKeys.end();
+
+	for (; StartIter != EndIter; ++StartIter)
+	{
+		StartIter->second.Update(_DeltaTime);
+	}
+
+}
+
+bool GameEngineInput::IsDown(int _Key)
+{
+	if (AllKeys.end() == AllKeys.find(_Key))
+	{
+		MsgBoxAssert("아직 처리하지 못하는 키입니다." + std::to_string(_Key));
+	}
+
+	return AllKeys[_Key].Down;
+}
+bool GameEngineInput::IsUp(int _Key)
+{
+	if (AllKeys.end() == AllKeys.find(_Key))
+	{
+		MsgBoxAssert("아직 처리하지 못하는 키입니다." + std::to_string(_Key));
+	}
+
+	return AllKeys[_Key].Up;
+}
+bool GameEngineInput::IsPress(int _Key)
+{
+	if (AllKeys.end() == AllKeys.find(_Key))
+	{
+		MsgBoxAssert("아직 처리하지 못하는 키입니다." + std::to_string(_Key));
+	}
+
+	return AllKeys[_Key].Press;
+}
+bool GameEngineInput::IsFree(int _Key)
+{
+	if (AllKeys.end() == AllKeys.find(_Key))
+	{
+		MsgBoxAssert("아직 처리하지 못하는 키입니다." + std::to_string(_Key));
+	}
+
+	return AllKeys[_Key].Free;
+}
+
+//====================
+
 float GameEngineInput::GetPressTime(int _Key)
 {
 	if (AllKeys.end() == AllKeys.find(_Key))
@@ -193,45 +239,4 @@ float GameEngineInput::GetPressTime(int _Key)
 	}
 
 	return AllKeys[_Key].PressTime;
-}
-
-bool GameEngineInput::IsDown(int _Key)
-{
-	if (AllKeys.end() == AllKeys.find(_Key))
-	{
-		MsgBoxAssert("처리되지 않은 키입니다." + std::to_string(_Key));
-	}
-
-	return AllKeys[_Key].Down;
-}
-
-bool GameEngineInput::IsUp(int _Key)
-{
-	if (AllKeys.end() == AllKeys.find(_Key))
-	{
-		MsgBoxAssert("처리되지 않은 키입니다." + std::to_string(_Key));
-	}
-
-	return AllKeys[_Key].Up;
-}
-
-bool GameEngineInput::IsPress(int _Key)
-{
-	if (AllKeys.end() == AllKeys.find(_Key))
-	{
-		MsgBoxAssert("처리되지 않은 키입니다." + std::to_string(_Key));
-	}
-
-	return AllKeys[_Key].Press;
-}
-
-bool GameEngineInput::IsFree(int _Key)
-{
-
-	if (AllKeys.end() == AllKeys.find(_Key))
-	{
-		MsgBoxAssert("처리되지 않은 키입니다." + std::to_string(_Key));
-	}
-
-	return AllKeys[_Key].Free;
 }

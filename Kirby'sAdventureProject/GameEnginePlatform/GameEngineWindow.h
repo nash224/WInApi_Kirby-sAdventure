@@ -1,15 +1,15 @@
 #pragma once
-#include "GameEngineWindowTexture.h"
-
 #include <Windows.h>
 #include <string>
+#include "GameEngineWindowTexture.h"
 
+// 설명 :
 class GameEngineWindow
 {
 public:
 	static GameEngineWindow MainWindow;
 
-	// constructor desstructor
+	// constrcuter destructer
 	GameEngineWindow();
 	~GameEngineWindow();
 
@@ -19,19 +19,16 @@ public:
 	GameEngineWindow& operator=(const GameEngineWindow& _Other) = delete;
 	GameEngineWindow& operator=(GameEngineWindow&& _Other) noexcept = delete;
 
-	void Open(const std::string& _Title, HINSTANCE hInstance);
-	void ClearBackBuffer();
-	void DoubleBuffering();
-	static void MessageLoop(HINSTANCE hInstance, void (*_Start)(HINSTANCE), void (*_Update)(), void (*_End)());
-	void SetPosAndScale(const float4& _Pos, const float4& _Scale); 
+	void Open(const std::string& _Title, HINSTANCE _hInstance);
 
+	static void MessageLoop(HINSTANCE _Inst, void(*_Start)(HINSTANCE), void(*_Update)(), void(*_End)());
 
 	HDC GetHDC()
 	{
 		return Hdc;
 	}
 
-	float4 GetScale() const
+	float4 GetScale()
 	{
 		return Scale;
 	}
@@ -46,10 +43,17 @@ public:
 		return BackBuffer;
 	}
 
-	static void WIndowOff()
+	float4 GetMousePos();
+
+	void SetPosAndScale(const float4& _Pos, const float4& _Scale);
+
+	static void WindowLoopOff()
 	{
 		IsWindowUpdate = false;
 	}
+
+	void ClearBackBuffer();
+	void DoubleBuffering();
 
 	static bool IsFocus()
 	{
@@ -61,19 +65,22 @@ protected:
 private:
 	static bool IsWindowUpdate;
 	static bool IsFocusValue;
-
 	static HINSTANCE Instance;
-	std::string Title = " ";
+	std::string Title = "";
 	HWND hWnd = nullptr;
-	HDC Hdc = nullptr;
 
-	float4 Scale = {0};
 
+	float4 Scale;
 	GameEngineWindowTexture* WindowBuffer = nullptr;
+
 	GameEngineWindowTexture* BackBuffer = nullptr;
 
-	void MyRegisterClass();
-	void InitInstance();
-	static LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
+	// 2차원 배열 형식의 색깔들의 집합이 존재하고
+	// 거기에 그림을 그리거나 수정할수 있는 권한을 HDC
+	HDC Hdc = nullptr;
 
+	static LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
+	void InitInstance();
+	void MyRegisterClass();
 };
+
