@@ -6,7 +6,7 @@
 
 enum class KirbyBodyState
 {
-	Basic,
+	Little,
 	Fat,
 	Max,
 };
@@ -84,6 +84,8 @@ protected:
 
 	void DirCheck();
 	void MoveUpdate(float _Delta);
+	void GrivityUpdate(float _Delta);
+
 	float4 GetKirbyScale();
 
 
@@ -95,7 +97,6 @@ protected:
 private:
 	KirbyBodyState BodyState = KirbyBodyState::Max;
 	KirbyState State = KirbyState::Max;
-	KirbyDir Dir = KirbyDir::Right;
 	std::string CurState = "";
 
 	bool IsAbleJump = false;
@@ -103,6 +104,8 @@ private:
 	
 
 	float CurrentSpeed = 0.0f;
+	float CurrentFallSpeed = 0.0f;
+	float CurrentJumpPower = 0.0f;
 	float FallTime = 0.0f;
 
 	void Start() override;

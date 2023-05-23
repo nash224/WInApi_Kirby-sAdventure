@@ -51,7 +51,12 @@ void ActorUtils::Gravity(float _Delta)
 		return;
 	}
 
-	GravityVector = float4::DOWN * GravityPower * _Delta;
+	GravityVector += float4::DOWN * GravityPower * _Delta;
+
+	if (GravityPower >= GrivityMaxPower * _Delta)
+	{
+		GravityPower = GrivityMaxPower * _Delta;
+	}
 
 	AddPos(GravityVector);
 }
@@ -90,4 +95,31 @@ void ActorUtils::GroundCheck(float _XScaleSize)
 	}
 
 	isGround = true;
+}
+
+bool ActorUtils::CheckWall(float4 _ScaleSize)
+{
+	float4 CheckPosBottom = float4::ZERO;
+	float4 CheckPosTop = float4::ZERO;
+	if (Dir == ActorDir::Left)
+	{
+		CheckPosBottom = { -_ScaleSize.X + 9.0f , -6.0f };
+		CheckPosTop = { -_ScaleSize.X + 9.0f , 6.0f - _ScaleSize.Y };
+	}
+	if (Dir == ActorDir::Right)
+	{
+		CheckPosBottom = { _ScaleSize.X - 9.0f , -6.0f };
+		CheckPosTop = { _ScaleSize.X - 9.0f , 6.0f - _ScaleSize.Y };
+	}
+
+	unsigned int ColorBottom = GetGroundColor(RGB(255, 255, 255), CheckPosBottom);
+	unsigned int ColorTop = GetGroundColor(RGB(255, 255, 255), CheckPosTop);
+	if (ColorBottom == RGB(255, 255, 255) && ColorTop == RGB(255, 255, 255))
+	{
+		return false;
+	}
+
+	return true;
+
+	//unsigned int Color = GetGroundColor(RGB(255, 255, 255), CheckPos);
 }

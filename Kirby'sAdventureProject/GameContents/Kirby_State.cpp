@@ -86,13 +86,24 @@ void Kirby::IdleUpdate(float _Delta)
 		ChangeState(KirbyState::LowerPosture);
 		return;
 	}
+	else if (true == (GameEngineInput::IsDown('Z')))
+	{
+		// 스킬 미구현
+	}
 	else if (true == (GameEngineInput::IsDown('X')))
 	{
 		ChangeState(KirbyState::Jump);
 		return;
 	}
-	else if (true == (GameEngineInput::IsPress('A') || GameEngineInput::IsPress('D')) &&
-		false == (GameEngineInput::IsPress('A') && GameEngineInput::IsPress('D')))
+	else if (true == (GameEngineInput::IsDown('W')))
+	{
+		// Fly
+	}
+	else if (false)
+	{
+
+	}
+	else if (true == (GameEngineInput::IsPress('A') || GameEngineInput::IsPress('D')) && false == (GameEngineInput::IsPress('A') && GameEngineInput::IsPress('D')))
 	{
 		ChangeState(KirbyState::Walk);
 	}
@@ -122,6 +133,17 @@ void Kirby::IdleUpdate(float _Delta)
 
 void Kirby::WalkUpdate(float _Delta)
 {
+
+
+	if (true == CheckWall(GetKirbyScale()))
+	{
+		int a = 0;
+	}
+	if (CurrentSpeed == 0.0f)
+	{
+		ChangeState(KirbyState::Idle);
+	}
+
 	if (false == GetGroundState())
 	{
 		Gravity(_Delta);
@@ -140,30 +162,7 @@ void Kirby::WalkUpdate(float _Delta)
 	}
 
 
-	float Speed = 600.0f;
-	float4 CheckPos = float4::ZERO;
-
-	if (GameEngineInput::IsPress('A') && GameEngineInput::IsPress('D'))
-	{
-		//MovePos = { 0.0f, MovePos.Y };
-	}
-	else if (true == GameEngineInput::IsPress('A'))
-	{
-		CheckPos = { -18.0f , -30.0f };
-		//MovePos = { -Speed * _Delta, 0.0f };
-	}
-	else if (true == GameEngineInput::IsPress('D'))
-	{
-		CheckPos = { 18.0f , -30.0f };
-		//MovePos = { Speed * _Delta, 0.0f };
-	}
-
 	MoveUpdate(_Delta);
-
-	if (CurrentSpeed == 0.0f)
-	{
-		ChangeState(KirbyState::Idle);
-	}
 
 
 	//unsigned int Color = GetGroundColor(RGB(255, 255, 255), CheckPos);

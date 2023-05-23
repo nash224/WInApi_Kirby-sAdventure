@@ -34,33 +34,11 @@ Kirby::~Kirby()
 void Kirby::Start()
 {
 	// 비트맵 파일이 없으면 하나 만들어줘야한다.
-	{
-		ResourcesManager::GetInst().SpriteFileLoad("DebugPixel.bmp", "Resources\\Debug", 10, 10);
-		ResourcesManager::GetInst().SpriteFileLoad("SpitStar_1x4_16x16.bmp", "Resources\\Effect\\KirbyBaseEffect", 4, 1);
-	}
 
 	ResourcesManager::GetInst().SpriteFileLoad("Left_Kirby.bmp", "Resources\\Unit\\Kirby", 10, 10);
 	ResourcesManager::GetInst().SpriteFileLoad("Right_Kirby.bmp", "Resources\\Unit\\Kirby", 10, 10);
 
 	MainRenderer = CreateRenderer(RenderOrder::Play);
-
-	{
-		GameEngineRenderer* DebugRendererBottomCenterPos = nullptr;
-		DebugRendererBottomCenterPos = CreateRenderer(RenderOrder::HitEffect);
-		DebugRendererBottomCenterPos->SetTexture("DebugPixel.bmp");
-		DebugRendererBottomCenterPos->SetRenderPos(GetPos());
-
-		GameEngineRenderer* DebugRendererBottomLeftPos = nullptr;
-		DebugRendererBottomLeftPos = CreateRenderer(RenderOrder::HitEffect);
-		DebugRendererBottomLeftPos->SetTexture("DebugPixel.bmp");
-		DebugRendererBottomLeftPos->SetRenderPos(GetPos() + float4{ -21.0f, 0.0f });
-
-		GameEngineRenderer* DebugRendererBottomRightPos = nullptr;
-		DebugRendererBottomRightPos = CreateRenderer(RenderOrder::HitEffect);
-		DebugRendererBottomRightPos->SetTexture("DebugPixel.bmp");
-		DebugRendererBottomRightPos->SetRenderPos(GetPos());
-		DebugRendererBottomRightPos->SetRenderPos(GetPos() + float4{ 21.0f, 0.0f });
-	}
 
 
 	MainRenderer->CreateAnimation("Left_Idle", "Left_Kirby.bmp", 0, 1, 0.5f, true);
@@ -105,9 +83,9 @@ void Kirby::Start()
 	float4 WinScale = GameEngineWindow::MainWindow.GetScale();
 	SetPos(WinScale.Half());
 
+	Dir = ActorDir::Right;
 	ChangeState(KirbyState::Idle);
-	Dir = KirbyDir::Right;
-	BodyState = KirbyBodyState::Basic;
+	BodyState = KirbyBodyState::Little;
 
 
 	BodyCollision = CreateCollision(CollisionOrder::PlayerBody);
@@ -117,18 +95,18 @@ void Kirby::Start()
 
 void Kirby::Update(float _Delta)
 {
-	std::vector<GameEngineCollision*> _Col;
-	if (true == BodyCollision->Collision(CollisionOrder::MonsterBody, _Col
-		, CollisionType::CirCle
-		, CollisionType::CirCle))
-	{
-		for (size_t i = 0; i < _Col.size(); i++)
-		{
-			GameEngineCollision* Collision = _Col[i];
-			GameEngineActor* Actor = Collision->GetActor();
-			Actor->Death();
-		}
-	}
+	//std::vector<GameEngineCollision*> _Col;
+	//if (true == BodyCollision->Collision(CollisionOrder::MonsterBody, _Col
+	//	, CollisionType::CirCle
+	//	, CollisionType::CirCle))
+	//{
+	//	for (size_t i = 0; i < _Col.size(); i++)
+	//	{
+	//		GameEngineCollision* Collision = _Col[i];
+	//		GameEngineActor* Actor = Collision->GetActor();
+	//		Actor->Death();
+	//	}
+	//}
 
 
 
@@ -214,7 +192,7 @@ void Kirby::ChangeState(KirbyState _State)
 
 void Kirby::DirCheck()
 {
-	KirbyDir CheckDir = KirbyDir::Max;
+	ActorDir CheckDir = ActorDir::Max;
 
 	if (true == GameEngineInput::IsPress('A') &&
 		true == GameEngineInput::IsPress('D'))
@@ -224,16 +202,16 @@ void Kirby::DirCheck()
 
 	if (true == GameEngineInput::IsPress('A'))
 	{
-		CheckDir = KirbyDir::Left;
+		CheckDir = ActorDir::Left;
 	}
 
 	if (true == GameEngineInput::IsPress('D'))
 	{
-		CheckDir = KirbyDir::Right;
+		CheckDir = ActorDir::Right;
 	}
 
 
-	if (CheckDir != KirbyDir::Max)
+	if (CheckDir != ActorDir::Max)
 	{
 		Dir = CheckDir;
 	}
@@ -246,10 +224,10 @@ void Kirby::ChangeAnimationState(const std::string& _StateName)
 
 	switch (Dir)
 	{
-	case KirbyDir::Right:
+	case ActorDir::Right:
 		AnimationName = "Right_";
 		break;
-	case KirbyDir::Left:
+	case ActorDir::Left:
 		AnimationName = "Left_";
 		break;
 	default:
@@ -267,7 +245,7 @@ void Kirby::ChangeAnimationState(const std::string& _StateName)
 // 발끝 중앙 기준
 float4 Kirby::GetKirbyScale()
 {
-	if (BodyState == KirbyBodyState::Basic)
+	if (BodyState == KirbyBodyState::Little)
 	{
 		return float4{ 24.0f, 48.0f };
 	}
@@ -325,6 +303,29 @@ void Kirby::MoveUpdate(float _Delta)
 	}
 
 	AddPos({ CurrentSpeed, 0.0f});
+}
+
+void Kirby::GrivityUpdate(float _Delta)
+{
+	CurrentFallSpeed += 1.f * _Delta;
+
+
+	if (true == GetGroundState())
+	{
+		CurrentFallSpeed = 0.0f;
+	}
+
+	if (CurrentJumpPower <= -700.0f * _Delta)
+	{
+		CurrentJumpPower = -700.0f * _Delta;
+	}
+
+	if (CurrentFallSpeed >= 700.0f * _Delta)
+	{
+		CurrentFallSpeed = 700.0f * _Delta;
+	}
+
+	AddPos({ 0.0f , CurrentFallSpeed });
 }
 
 

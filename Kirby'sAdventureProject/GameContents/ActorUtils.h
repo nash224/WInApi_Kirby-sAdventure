@@ -1,6 +1,15 @@
 #pragma once
 #include <GameEngineCore/GameEngineActor.h>
 
+
+enum class ActorDir
+{
+	Right,
+	Left,
+	Max,
+};
+
+
 // Ό³Έν :
 class ActorUtils : public GameEngineActor
 {
@@ -42,8 +51,11 @@ public:
 protected:
 	GameEngineCollision* BodyCollision = nullptr;
 
+	ActorDir Dir = ActorDir::Max;
+
 
 	void GroundCheck(float _XScaleSize);
+	bool CheckWall(float4 _ScaleSize);
 
 	bool GetGroundState() const
 	{
@@ -55,7 +67,8 @@ private:
 
 	bool isGround = false;
 	bool IsGravity = true;
-	float GravityPower = 300.0f;
+	float GravityPower = 1.0f;
+	const float GrivityMaxPower = 700.0f;
 	float4 GravityVector = float4::ZERO;
 
 };
