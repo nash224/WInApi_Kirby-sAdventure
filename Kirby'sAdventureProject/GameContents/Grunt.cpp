@@ -3,6 +3,7 @@
 
 #include <GameEngineCore/ResourceManager.h>
 #include <GameEngineCore/GameEngineRenderer.h>
+#include <GameEngineCore/GameEngineCollision.h>
 
 #include "Kirby.h"
 
@@ -36,6 +37,11 @@ void Grunt::Start()
 	GameEngineRenderer* TestGrunt = CreateRenderer(RenderOrder::HitEffect);
 	TestGrunt->CreateAnimation("MetalKnight", "MetaKnightsSoldiersStand.bmp", 0, 5, 0.15f, true);
 	TestGrunt->ChangeAnimation("MetalKnight");
+
+	GameEngineCollision* BodyCollision = CreateCollision(CollisionOrder::MonsterBody);
+	BodyCollision->SetCollisionScale({ 64 , 64 });
+	BodyCollision->SetCollisionType(CollisionType::CirCle);
+
 }
 
 void Grunt::Update(float _Delta)

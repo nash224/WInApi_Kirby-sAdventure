@@ -5,24 +5,72 @@
 #include <map>
 #include <vector>
 
-
 enum class CollisionType
 {
-	Point,
-	Rect,
-	Circle,
-	Max,
+	Point, // 점
+	Rect, // 사각형
+	CirCle, // 원
+	Max, // 원
+};
+
+class CollisionData
+{
+public:
+	float4 Pos;
+	float4 Scale;
+
+	float Left()
+	{
+		return Pos.X - Scale.hX();
+	}
+	float Right()
+	{
+		return Pos.X + Scale.hX();
+	}
+	float Top()
+	{
+		return Pos.Y - Scale.hY();
+	}
+	float Bot()
+	{
+		return Pos.Y + Scale.hY();
+	}
+
+	int iLeft()
+	{
+		return static_cast<int>(Left());
+	}
+	int iRight()
+	{
+		return static_cast<int>(Right());
+	}
+	int iTop()
+	{
+		return static_cast<int>(Top());
+	}
+	int iBot()
+	{
+		return static_cast<int>(Bot());
+	}
+
 };
 
 
-// 설명 : 충돌에 관한 클래스입니다. 각 충돌에 대한 정보를 변경할 수 있습니다.
+// 설명 :
 class GameEngineActor;
+class CollisionInitClass;
 class GameEngineCollision : public GameEngineObject
 {
-	friend class GameEngineActor;
 
 
-private:
+	// 함수 포인터
+	static bool (*CollisionFunction[static_cast<int>(CollisionType::Max)][static_cast<int>(CollisionType::Max)])(GameEngineCollision* _Left, GameEngineCollision* _Right);
+
+	friend CollisionInitClass;
+	friend GameEngineActor;
+
+
+public:
 	static bool PointToPoint(GameEngineCollision* _Left, GameEngineCollision* _Right);
 	static bool PointToRect(GameEngineCollision* _Left, GameEngineCollision* _Right);
 	static bool PointToCirCle(GameEngineCollision* _Left, GameEngineCollision* _Right);
@@ -46,51 +94,62 @@ public:
 	GameEngineCollision& operator=(const GameEngineCollision& _Other) = delete;
 	GameEngineCollision& operator=(GameEngineCollision&& _Other) noexcept = delete;
 
-	void SetOrder(int _Order) override;
-
-
-
 	void SetCollisionScale(const float4& _Value)
 	{
 		CollisionScale = _Value;
 	}
 
+	// 플레이어 위치기준.
 	void SetCollisionPos(const float4& _Value)
 	{
 		CollisionPos = _Value;
 	}
 
+	// 몇가지 문제가 있는데. 
+	// 1. 몬스터데 몬스터랑
+
+	// 나는 사각형
+	// int _Order => 나는 _Order 랑 충돌할거야
+	// CollisionType _ThisType 나를 점으로 봐도 사각형으로 봐죠
+	// CollisionType _OtherType 상대는 원으로 봐죠 사각형으로 봐줘
+	// std::vector<GameEngineCollision*>& _Result 충돌한 애들 여기에 담아줘.
+
+	template<typename EnumType>
+	bool Collision(EnumType _Order, std::vector<GameEngineCollision*>& _Result
+		, CollisionType _ThisType = CollisionType::CirCle
+		, CollisionType _OtherType = CollisionType::CirCle)
+	{
+		return Collision(static_cast<int>(_Order), _Result, _ThisType, _OtherType);
+	}
+
+	bool Collision(int _Order, std::vector<GameEngineCollision*>& _Result
+		, CollisionType _ThisType = CollisionType::CirCle
+		, CollisionType _OtherType = CollisionType::CirCle);
+
+	void SetOrder(int _Order) override;
 
 	GameEngineActor* GetActor()
 	{
 		return Master;
 	}
 
+	bool CollisonCheck(GameEngineCollision* _Other
+		, CollisionType _ThisType
+		, CollisionType _OtherType);
 
-	template<typename EnumType>
-	bool Collision(EnumType _Order, std::vector<GameEngineCollision*>& _Result
-		, CollisionType _ThisType = CollisionType::Circle
-		, CollisionType _OtherType = CollisionType::Circle)
+
+	void SetCollisionType(CollisionType _ColType)
 	{
-		return Collision(static_cast<int>(_Order), _Result, _ThisType, _OtherType);
+		ColType = _ColType;
 	}
-
-	bool Collision(int _Order, std::vector<GameEngineCollision*>& _Result
-		, CollisionType _ThisType = CollisionType::Circle
-		, CollisionType _OtherType = CollisionType::Circle);
-
-
-
-	bool CollisionCheck(GameEngineCollision* _Other,
-		CollisionType _ThisType = CollisionType::Circle,
-		CollisionType _OtherType = CollisionType::Circle);
 
 protected:
 
 private:
-	GameEngineActor* Master = nullptr;
-	float4 CollisionPos = float4::ZERO;
-	float4 CollisionScale = float4::ZERO;
+	CollisionType ColType = CollisionType::Rect;
 
+	GameEngineActor* Master = nullptr;
+	float4 CollisionPos;
+	float4 CollisionScale;
 };
 

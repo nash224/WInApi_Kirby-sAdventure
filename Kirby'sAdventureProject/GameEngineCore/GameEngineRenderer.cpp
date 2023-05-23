@@ -194,7 +194,7 @@ void GameEngineRenderer::CreateAnimation(
 		FrameDir = -1;
 	}
 
-	size_t Start = _Start;
+	size_t Start = Animation.StartFrame;
 
 	for (size_t i = 0; i < Animation.Inters.size(); i++)
 	{

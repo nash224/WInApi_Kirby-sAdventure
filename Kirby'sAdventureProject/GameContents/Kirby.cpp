@@ -112,10 +112,26 @@ void Kirby::Start()
 
 	BodyCollision = CreateCollision(CollisionOrder::PlayerBody);
 	BodyCollision->SetCollisionScale(GetKirbyScale());
+	BodyCollision->SetCollisionType(CollisionType::CirCle);
 }
 
 void Kirby::Update(float _Delta)
 {
+	std::vector<GameEngineCollision*> _Col;
+	if (true == BodyCollision->Collision(CollisionOrder::MonsterBody, _Col
+		, CollisionType::CirCle
+		, CollisionType::CirCle))
+	{
+		for (size_t i = 0; i < _Col.size(); i++)
+		{
+			GameEngineCollision* Collision = _Col[i];
+			GameEngineActor* Actor = Collision->GetActor();
+			Actor->Death();
+		}
+	}
+
+
+
 	if (true == GameEngineInput::IsDown('L'))
 	{
 		Grunt::AllMonsterDeath();
