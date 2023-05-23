@@ -81,11 +81,18 @@ void Kirby::Start()
 	MainRenderer->CreateAnimation("Left_AerialMotion", "Left_Kirby.bmp", 10, 13, 0.1f, false);
 	MainRenderer->CreateAnimation("Right_AerialMotion", "Right_Kirby.bmp", 10, 13, 0.1f, false);
 
-	MainRenderer->CreateAnimation("Left_Fall", "Left_Kirby.bmp", 14, 14, 0.1f, false);
-	MainRenderer->CreateAnimation("Right_Fall", "Right_Kirby.bmp", 14, 14, 0.1f, false);
+	MainRenderer->CreateAnimation("Left_Fall", "Left_Kirby.bmp", 13, 13, 0.1f, false);
+	MainRenderer->CreateAnimation("Right_Fall", "Right_Kirby.bmp", 13, 13, 0.1f, false);
 
 	MainRenderer->CreateAnimation("Left_Landing", "Left_Kirby.bmp", 7, 7, 0.1f, false);
 	MainRenderer->CreateAnimation("Right_Landing", "Right_Kirby.bmp", 7, 7, 0.1f, false);
+
+	MainRenderer->CreateAnimation("Left_LowerPosture", "Left_Kirby.bmp", 7, 7, 0.1f, false);
+	MainRenderer->CreateAnimation("Right_LowerPosture", "Right_Kirby.bmp", 7, 7, 0.1f, false);
+
+	MainRenderer->CreateAnimation("Left_LowerAttack", "Left_Kirby.bmp", 7, 7, 0.1f, false);
+	MainRenderer->CreateAnimation("Right_LowerAttack", "Right_Kirby.bmp", 7, 7, 0.1f, false);
+
 
 	MainRenderer->SetRenderScaleToTexture();
 	MainRenderer->SetScaleRatio(3.0f);
@@ -141,6 +148,8 @@ void Kirby::StateUpdate(float _Delta)
 		return FallUpdate(_Delta);
 	case KirbyState::Landing:
 		return LandingUpdate(_Delta);
+	case KirbyState::LowerPosture:
+		return LowerPostureUpdate(_Delta);
 	default:
 		break;
 	}
@@ -175,6 +184,9 @@ void Kirby::ChangeState(KirbyState _State)
 			break;
 		case KirbyState::Landing:
 			LandingStart();
+			break;
+		case KirbyState::LowerPosture:
+			LowerPostureStart();
 			break;
 		default:
 			break;
@@ -285,7 +297,6 @@ void Kirby::MoveUpdate(float _Delta)
 			}
 		}
 	}
-
 
 	if (CurrentSpeed <= -300.0f * _Delta)
 	{

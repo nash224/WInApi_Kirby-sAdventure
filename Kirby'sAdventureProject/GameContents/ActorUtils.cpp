@@ -51,7 +51,7 @@ void ActorUtils::Gravity(float _Delta)
 		return;
 	}
 
-	GravityVector = float4::DOWN * GravityPower;
+	GravityVector = float4::DOWN * GravityPower * _Delta;
 
 	AddPos(GravityVector);
 }

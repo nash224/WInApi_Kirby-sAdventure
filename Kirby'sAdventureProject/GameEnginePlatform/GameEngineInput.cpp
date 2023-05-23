@@ -110,7 +110,7 @@ void GameEngineInput::InputInit()
 	AllKeys[VK_F24] = GameEngineKey(VK_F24);
 
 
-	for (int i = 'A'; i < 'Z'; i++)
+	for (int i = 'A'; i <= 'Z'; i++)
 	{
 		AllKeys[i] = GameEngineKey(i);
 	}

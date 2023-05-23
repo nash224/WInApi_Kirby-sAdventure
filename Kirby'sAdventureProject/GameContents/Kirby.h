@@ -1,6 +1,8 @@
 #pragma once
 #include "ActorUtils.h"
 
+#define ACCELERATIONSPEED 2.0f
+#define MAXWALKSPEED 300.0f
 
 enum class KirbyBodyState
 {
@@ -19,6 +21,8 @@ enum class KirbyState
 	AerialMotion,
 	Fall,
 	Landing,
+	LowerPosture,
+	LowerAttack,
 	Max,
 };
 
@@ -64,6 +68,8 @@ protected:
 	void AerialMotionStart();
 	void FallStart();
 	void LandingStart();
+	void LowerPostureStart();
+	void LowerAttackStart();
 
 	void IdleUpdate(float _Delta);
 	void WalkUpdate(float _Delta);
@@ -73,6 +79,8 @@ protected:
 	void AerialMotionUpdate(float _Delta);
 	void FallUpdate(float _Delta);
 	void LandingUpdate(float _Delta);
+	void LowerPostureUpdate(float _Delta);
+	void LowerAttackUpdate(float _Delta);
 
 	void DirCheck();
 	void MoveUpdate(float _Delta);
@@ -92,8 +100,10 @@ private:
 
 	bool IsAbleJump = false;
 	bool IsChangeState = true;
+	
 
 	float CurrentSpeed = 0.0f;
+	float FallTime = 0.0f;
 
 	void Start() override;
 	void Update(float _Delta) override;
