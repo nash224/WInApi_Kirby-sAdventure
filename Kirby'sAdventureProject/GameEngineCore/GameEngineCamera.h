@@ -1,7 +1,5 @@
 #pragma once
 #include "GameEngineRenderer.h"
-
-#include <GameEngineBase/GameEngineMath.h>
 #include <map>
 #include <list>
 
@@ -9,9 +7,10 @@
 class GameEngineRenderer;
 class GameEngineCamera
 {
-	friend class GameEngineLevel;
-	friend class GameEngineActor;
 	friend class GameEngineRenderer;
+	friend class GameEngineActor;
+	friend class GameEngineLevel;
+
 public:
 	// constrcuter destructer
 	GameEngineCamera();
@@ -42,10 +41,13 @@ protected:
 
 private:
 	float4 Pos = float4::ZERO;
+
 	std::map<int, std::list<GameEngineRenderer*>> Renderers;
 
 	void PushRenderer(GameEngineRenderer* _Renderer, int _Order);
+
 	void Release();
+
 	void Render(float _Delta);
 };
 

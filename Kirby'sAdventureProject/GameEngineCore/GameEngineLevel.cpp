@@ -1,14 +1,15 @@
 #include "GameEngineLevel.h"
 #include "GameEngineCamera.h"
 #include <GameEngineBase/GameEngineDebug.h>
+#include "GameEngineCollision.h"
 
-GameEngineLevel::GameEngineLevel() 
+GameEngineLevel::GameEngineLevel()
 {
 	MainCamera = new GameEngineCamera();
 	UICamera = new GameEngineCamera();
 }
 
-GameEngineLevel::~GameEngineLevel() 
+GameEngineLevel::~GameEngineLevel()
 {
 	if (nullptr != MainCamera)
 	{
@@ -37,6 +38,7 @@ GameEngineLevel::~GameEngineLevel()
 	}
 }
 
+
 void GameEngineLevel::ActorInit(GameEngineActor* _Actor, int _Order)
 {
 	_Actor->Level = this;
@@ -62,11 +64,22 @@ void GameEngineLevel::ActorUpdate(float _Delta)
 		}
 	}
 }
-
 void GameEngineLevel::ActorRender(float _Delta)
 {
 	MainCamera->Render(_Delta);
 
+	for (const std::pair<int, std::list<GameEngineCollision*>>& Pair : AllCollision)
+	{
+		const std::list < GameEngineCollision*>& Group = Pair.second;
+
+		for (GameEngineCollision* Collision : Group)
+		{
+			Collision->DebugRender();
+		}
+
+	}
+
+	// for문을 돌리고 있습니다.
 	for (const std::pair<int, std::list<GameEngineActor*>>& _Pair : AllActors)
 	{
 		const std::list<GameEngineActor*>& Group = _Pair.second;
@@ -83,61 +96,79 @@ void GameEngineLevel::ActorRender(float _Delta)
 	}
 }
 
-
 void GameEngineLevel::ActorRelease()
 {
 	MainCamera->Release();
 
-	std::map<int, std::list<GameEngineActor*>>::iterator GroupStartIter = AllActors.begin();
-	std::map<int, std::list<GameEngineActor*>>::iterator GroupEndIter = AllActors.end();
-
-	std::list<GameEngineActor*>::iterator ActorStartIter;
-	std::list<GameEngineActor*>::iterator ActorEndIter;
-
-	for (; GroupStartIter != GroupEndIter; ++GroupStartIter)
 	{
-		std::list<GameEngineActor*>& Group = GroupStartIter->second;
+		std::map<int, std::list<GameEngineCollision*>>::iterator GroupStartIter = AllCollision.begin();
+		std::map<int, std::list<GameEngineCollision*>>::iterator GroupEndIter = AllCollision.end();
 
-		ActorStartIter = Group.begin();
-		ActorEndIter = Group.end();
+		// 눈꼽 만큼이라도 연산을 줄이려는 거죠.
 
-		for (; ActorStartIter != ActorEndIter;)
+		for (; GroupStartIter != GroupEndIter; ++GroupStartIter)
 		{
-			GameEngineActor* Actor = *ActorStartIter;
+			std::list<GameEngineCollision*>& Group = GroupStartIter->second;
 
-			if (nullptr == Actor)
+			std::list<GameEngineCollision*>::iterator ObjectStartIter = Group.begin();
+			std::list<GameEngineCollision*>::iterator ObjectEndIter = Group.end();
+
+			for (; ObjectStartIter != ObjectEndIter; )
 			{
-				MsgBoxAssert("nullptr인 객체가 레벨의 리스트에 들어가 있습니다.");
-				return;
+				GameEngineCollision* Object = *ObjectStartIter;
+				if (false == Object->IsDeath())
+				{
+					++ObjectStartIter;
+					continue;
+				}
+
+				ObjectStartIter = Group.erase(ObjectStartIter);
+
 			}
-
-			if (false == Actor->IsDeath())
-			{
-				Actor->ActorRelease();
-				++ActorStartIter;
-				continue;
-			}
-
-			delete Actor;
-			Actor = nullptr;
-
-			ActorStartIter = Group.erase(ActorStartIter);
 		}
 	}
-}
 
-
-void GameEngineLevel::ActorLevelStart()
-{
-	for (const std::pair<int, std::list<GameEngineActor*>>& _Pair : AllActors)
+	// 구조가 바뀔겁니다.
 	{
-		const std::list<GameEngineActor*>& Group = _Pair.second;
+		std::map<int, std::list<GameEngineActor*>>::iterator GroupStartIter = AllActors.begin();
+		std::map<int, std::list<GameEngineActor*>>::iterator GroupEndIter = AllActors.end();
 
-		for (GameEngineActor* _Actor : Group)
+		// 눈꼽 만큼이라도 연산을 줄이려는 거죠.
+
+		for (; GroupStartIter != GroupEndIter; ++GroupStartIter)
 		{
-			_Actor->LevelStart();
+			std::list<GameEngineActor*>& Group = GroupStartIter->second;
+
+			std::list<GameEngineActor*>::iterator ObjectStartIter = Group.begin();
+			std::list<GameEngineActor*>::iterator ObjectEndIter = Group.end();
+
+			for (; ObjectStartIter != ObjectEndIter; )
+			{
+				GameEngineActor* Actor = *ObjectStartIter;
+				if (false == Actor->IsDeath())
+				{
+					Actor->ActorRelease();
+					++ObjectStartIter;
+					continue;
+				}
+
+				if (nullptr == Actor)
+				{
+					MsgBoxAssert("nullptr인 액터가 레벨의 리스트에 들어가 있었습니다.");
+					continue;
+				}
+
+				delete Actor;
+				Actor = nullptr;
+
+				//                      i
+				// [s] [a] [a]     [a] [e]
+				ObjectStartIter = Group.erase(ObjectStartIter);
+
+			}
 		}
 	}
+
 }
 
 void GameEngineLevel::ActorLevelEnd()
@@ -152,4 +183,14 @@ void GameEngineLevel::ActorLevelEnd()
 		}
 	}
 }
+void GameEngineLevel::ActorLevelStart() {
+	for (const std::pair<int, std::list<GameEngineActor*>>& _Pair : AllActors)
+	{
+		const std::list<GameEngineActor*>& Group = _Pair.second;
 
+		for (GameEngineActor* _Actor : Group)
+		{
+			_Actor->LevelStart();
+		}
+	}
+}

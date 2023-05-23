@@ -3,7 +3,7 @@
 #include <GameEnginePlatform/GameEngineWindow.h>
 #include <GameEngineCore/GameEngineCamera.h>
 #include <GameEngineCore/GameEngineLevel.h>
-#include <GameEngineCore/ResourceManager.h>
+#include <GameEngineCore/ResourcesManager.h>
 
 ActorUtils::ActorUtils() 
 {
@@ -58,7 +58,7 @@ void ActorUtils::Gravity(float _Delta)
 
 void ActorUtils::SetGroundTexture(const std::string& _GroundTextureName)
 {
-	GroundTexture = ResourceManager::GetInst().FindTexture(_GroundTextureName);
+	GroundTexture = ResourcesManager::GetInst().FindTexture(_GroundTextureName);
 
 	if (nullptr == GroundTexture)
 	{

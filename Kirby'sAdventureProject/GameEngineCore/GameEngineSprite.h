@@ -1,7 +1,8 @@
 #pragma once
 #include <GameEnginePlatform/GameEngineWindowTexture.h>
-
 #include <vector>
+
+// 텍스처를 이용해서 텍스처의 일부분만 랜더링 하거나.
 
 // 설명 :
 class GameEngineSprite
@@ -27,6 +28,7 @@ public:
 	GameEngineSprite& operator=(GameEngineSprite&& _Other) noexcept = delete;
 
 	void CreateSpriteSheet(GameEngineWindowTexture* _Texture, int _XCount, int _YCount);
+
 	void CreateSpriteFolder(const std::string& _Path);
 
 	const Sprite& GetSprite(size_t _Index);
@@ -39,6 +41,7 @@ public:
 protected:
 
 private:
+
 	std::vector<Sprite> AllSprite;
 
 };

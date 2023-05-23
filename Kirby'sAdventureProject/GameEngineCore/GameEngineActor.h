@@ -1,21 +1,18 @@
 #pragma once
-#include "GameEngineObject.h"
-
 #include <GameEngineBase/GameEngineMath.h>
-
-#include <list>
+#include "GameEngineObject.h"
 #include <string>
+#include <list>
 
-// 설명 : 위치가 있는 모든 객체들
-//        ex) 플레이어, 에너미, UI, 오브젝트, 등등..
+// 설명 : 화면안에 존재하는 플레이어 몬스터 총알 등등등 존재한다고 치고
+// 위치가 있다면 이 녀석으로 표현해야 합니다.
 class GameEngineLevel;
 class GameEngineRenderer;
 class GameEngineCollision;
 class GameEngineActor : public GameEngineObject
 {
-	friend class GameEngineLevel;
+	friend GameEngineLevel;
 public:
-
 	// constrcuter destructer
 	GameEngineActor();
 	virtual ~GameEngineActor();
@@ -25,14 +22,6 @@ public:
 	GameEngineActor(GameEngineActor&& _Other) noexcept = delete;
 	GameEngineActor& operator=(const GameEngineActor& _Other) = delete;
 	GameEngineActor& operator=(GameEngineActor&& _Other) noexcept = delete;
-
-	void ActorRelease();
-
-
-	float4 GetPos() const
-	{
-		return Pos;
-	}
 
 	void SetPos(const float4& _Pos)
 	{
@@ -44,22 +33,11 @@ public:
 		Pos += _Pos;
 	}
 
-	float4 GetScale() const
+
+	float4 GetPos()
 	{
-		return Scale;
+		return Pos;
 	}
-
-	void SetScale(const float4& _Scale)
-	{
-		Scale = _Scale;
-	}
-
-	GameEngineLevel* GetLevel()
-	{
-		return Level;
-	}
-
-
 
 	template<typename EnumType>
 	GameEngineRenderer* CreateRenderer(EnumType _Order)
@@ -80,24 +58,35 @@ public:
 
 	GameEngineRenderer* CreateRenderer(const std::string& _ImageName, int _Order);
 
-
-
 	template<typename EnumType>
 	GameEngineCollision* CreateCollision(EnumType _Order)
 	{
 		return CreateCollision(static_cast<int>(_Order));
 	}
+
+
 	GameEngineCollision* CreateCollision(int _Order = 0);
+
+
+	GameEngineLevel* GetLevel()
+	{
+		return Level;
+	}
 
 protected:
 	virtual void LevelStart() {}
 	virtual void LevelEnd() {}
 
 private:
-	GameEngineLevel* Level = nullptr;
+	GameEngineLevel* Level;
+
 	float4 Pos = float4::ZERO;
-	float4 Scale = float4::ZERO;
 
 	std::list<GameEngineRenderer*> AllRenderer;
 	std::list<GameEngineCollision*> AllCollision;
+
+
+
+	void ActorRelease();
 };
+

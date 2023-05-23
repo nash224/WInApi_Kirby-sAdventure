@@ -12,7 +12,7 @@
 #include <GameEngineCore/GameEngineCamera.h>
 #include <GameEngineCore/GameEngineRenderer.h>
 #include <GameEngineCore/GameEngineCollision.h>
-#include <GameEngineCore/ResourceManager.h>
+#include <GameEngineCore/ResourcesManager.h>
 
 #include "Grunt.h"
 #include "Projectile.h"
@@ -35,12 +35,12 @@ void Kirby::Start()
 {
 	// 비트맵 파일이 없으면 하나 만들어줘야한다.
 	{
-		ResourceManager::GetInst().LoadSpriteFile("DebugPixel.bmp", "Resources\\Debug", 10, 10);
-		ResourceManager::GetInst().LoadSpriteFile("SpitStar_1x4_16x16.bmp", "Resources\\Effect\\KirbyBaseEffect", 4, 1);
+		ResourcesManager::GetInst().SpriteFileLoad("DebugPixel.bmp", "Resources\\Debug", 10, 10);
+		ResourcesManager::GetInst().SpriteFileLoad("SpitStar_1x4_16x16.bmp", "Resources\\Effect\\KirbyBaseEffect", 4, 1);
 	}
 
-	ResourceManager::GetInst().LoadSpriteFile("Left_Kirby.bmp", "Resources\\Unit\\Kirby", 10, 10);
-	ResourceManager::GetInst().LoadSpriteFile("Right_Kirby.bmp", "Resources\\Unit\\Kirby", 10, 10);
+	ResourcesManager::GetInst().SpriteFileLoad("Left_Kirby.bmp", "Resources\\Unit\\Kirby", 10, 10);
+	ResourcesManager::GetInst().SpriteFileLoad("Right_Kirby.bmp", "Resources\\Unit\\Kirby", 10, 10);
 
 	MainRenderer = CreateRenderer(RenderOrder::Play);
 

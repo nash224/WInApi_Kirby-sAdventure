@@ -6,7 +6,7 @@
 #include <GameEnginePlatform/GameEngineInput.h>
 #include <GameEngineCore/GameEngineCore.h>
 #include <GameEngineCore/GameEngineCamera.h>
-#include <GameEngineCore/ResourceManager.h>
+#include <GameEngineCore/ResourcesManager.h>
 
 // contents
 #include "Kirby.h"
@@ -65,7 +65,7 @@ void VegetableValley11::Update(float _Delta)
 
 
 
-	if (LevelPlayer->GetPos().iX() >= 3048.0f - LevelPlayer->GetScale().iX())
+	if (LevelPlayer->GetPos().iX() >= 3048.0f)
 	{
 		GameEngineCore::ChangeLevel("VegetableValley12");
 	}

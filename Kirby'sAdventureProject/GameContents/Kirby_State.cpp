@@ -4,7 +4,7 @@
 #include <GameEngineCore/GameEngineCore.h>
 #include <GameEngineCore/GameEngineCamera.h>
 #include <GameEngineCore/GameEngineLevel.h>
-#include <GameEngineCore/ResourceManager.h>
+#include <GameEngineCore/ResourcesManager.h>
 
 
 

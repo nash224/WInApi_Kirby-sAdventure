@@ -1,5 +1,5 @@
 #pragma once
-#include "GameEngineObject.h"
+#include <GameEngineCore/GameEngineActorSubObject.h>
 #include <GameEngineBase/GameEngineMath.h>
 #include <string>
 #include <map>
@@ -59,7 +59,7 @@ public:
 // Ό³Έν :
 class GameEngineActor;
 class CollisionInitClass;
-class GameEngineCollision : public GameEngineObject
+class GameEngineCollision : public GameEngineActorSubObject
 {
 
 
@@ -68,6 +68,7 @@ class GameEngineCollision : public GameEngineObject
 
 	friend CollisionInitClass;
 	friend GameEngineActor;
+	friend GameEngineLevel;
 
 
 public:
@@ -128,15 +129,26 @@ public:
 
 	void SetOrder(int _Order) override;
 
-	GameEngineActor* GetActor()
-	{
-		return Master;
-	}
 
 	bool CollisonCheck(GameEngineCollision* _Other
 		, CollisionType _ThisType
 		, CollisionType _OtherType);
 
+	float4 GetActorPivotPos();
+
+	float4 GetActorScale()
+	{
+		return CollisionScale;
+	}
+
+	CollisionData GetCollisionData()
+	{
+		CollisionData Data;
+		Data.Pos = GetActorPivotPos();
+		Data.Scale = GetActorScale();
+
+		return Data;
+	}
 
 	void SetCollisionType(CollisionType _ColType)
 	{
@@ -148,8 +160,9 @@ protected:
 private:
 	CollisionType ColType = CollisionType::Rect;
 
-	GameEngineActor* Master = nullptr;
 	float4 CollisionPos;
 	float4 CollisionScale;
+
+	void DebugRender();
 };
 

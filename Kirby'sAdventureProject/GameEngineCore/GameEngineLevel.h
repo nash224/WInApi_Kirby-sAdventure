@@ -1,19 +1,21 @@
 #pragma once
 #include "GameEngineObject.h"
 #include "GameEngineActor.h"
-
 #include <list>
+#include <string>
 #include <map>
 
-// 설명 : 화면 또는 씬을 포현함
-//        ex) 타이틀 장면, 플레이 장면, 엔딩 장연
+// 설명 : 화면혹은 장면을 표현합니다.
+// 타이틀 장면
+// 플레이 장면
+// 엔딩 장면
 class GameEngineCamera;
 class GameEngineCollision;
 class GameEngineLevel : public GameEngineObject
 {
-	friend class GameEngineCore;
-	friend class GameEngineActor;
 	friend class GameEngineCollision;
+	friend class GameEngineActor;
+	friend class GameEngineCore;
 
 public:
 	// constrcuter destructer
@@ -32,6 +34,7 @@ public:
 	{
 		return CreateActor<ActorType>(static_cast<int>(_Order));
 	}
+
 
 	template<typename ActorType>
 	ActorType* CreateActor(int _Order = 0)
@@ -56,19 +59,26 @@ protected:
 private:
 	GameEngineCamera* MainCamera;
 	GameEngineCamera* UICamera;
-	// 맵, 오브젝트, 플레이어, 몬스터
+
+	// 맵
+	// 플레이어
+	// 몬스터
+
+	// -10번 std::list<> 액터 액터 액터 액터 
+	// 0번 std::list<> 액터 액터 액터 액터
+	// 1번 std::list<> 액터 액터 액터 액터
 
 	std::map<int, std::list<GameEngineActor*>> AllActors;
-	std::map<int, std::list<GameEngineCollision*>> AllCollision;
 
-	void PushCollision(GameEngineCollision* _Collision) {};
+	std::map<int, std::list<GameEngineCollision*>> AllCollision;
 
 	void ActorInit(GameEngineActor* _Actor, int _Order);
 
-	void ActorLevelStart();
 	void ActorLevelEnd();
-	
+	void ActorLevelStart();
+
 	void ActorUpdate(float _Delta);
 	void ActorRender(float _Delta);
 	void ActorRelease();
 };
+

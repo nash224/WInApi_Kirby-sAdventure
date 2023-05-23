@@ -1,16 +1,20 @@
 #include "GameEngineCamera.h"
 #include <GameEngineBase/GameEngineDebug.h>
 
-GameEngineCamera::GameEngineCamera() 
+GameEngineCamera::GameEngineCamera()
 {
 }
 
-GameEngineCamera::~GameEngineCamera() 
+GameEngineCamera::~GameEngineCamera()
 {
 }
 
 void GameEngineCamera::Render(float _Delta)
 {
+	//for (const std::pair<int, std::list<GameEngineRenderer*>>& Pair : Renderers)
+	//{
+	//}
+
 	std::map<int, std::list<GameEngineRenderer*>>::iterator GroupStartIter = Renderers.begin();
 	std::map<int, std::list<GameEngineRenderer*>>::iterator GroupEndIter = Renderers.end();
 
@@ -20,6 +24,7 @@ void GameEngineCamera::Render(float _Delta)
 
 		std::list<GameEngineRenderer*>::iterator RenderStartIter = List.begin();
 		std::list<GameEngineRenderer*>::iterator RenderEndIter = List.end();
+
 
 		for (; RenderStartIter != RenderEndIter; ++RenderStartIter)
 		{
@@ -39,46 +44,45 @@ void GameEngineCamera::PushRenderer(GameEngineRenderer* _Renderer, int _Order)
 {
 	if (nullptr == _Renderer)
 	{
-		MsgBoxAssert("NULL인 랜더러는 그룹에 속할 수 없습니다.");
+		MsgBoxAssert("nullptr인 랜더러를 그룹에 속하게 하려고 했습니다.");
 	}
 
 	_Renderer->Camera = this;
 	Renderers[_Order].push_back(_Renderer);
 }
 
-
 void GameEngineCamera::Release()
 {
+
 	std::map<int, std::list<GameEngineRenderer*>>::iterator GroupStartIter = Renderers.begin();
 	std::map<int, std::list<GameEngineRenderer*>>::iterator GroupEndIter = Renderers.end();
 
-	std::list<GameEngineRenderer*>::iterator ActorStartIter;
-	std::list<GameEngineRenderer*>::iterator ActorEndIter;
+	// 눈꼽 만큼이라도 연산을 줄이려는 거죠.
 
 	for (; GroupStartIter != GroupEndIter; ++GroupStartIter)
 	{
 		std::list<GameEngineRenderer*>& Group = GroupStartIter->second;
 
-		ActorStartIter = Group.begin();
-		ActorEndIter = Group.end();
+		std::list<GameEngineRenderer*>::iterator ActorStartIter = Group.begin();
+		std::list<GameEngineRenderer*>::iterator ActorEndIter = Group.end();
 
-		for (; ActorStartIter != ActorEndIter;)
+		for (; ActorStartIter != ActorEndIter; )
 		{
 			GameEngineRenderer* Object = *ActorStartIter;
-
-			if (nullptr == Object)
-			{
-				MsgBoxAssert("nullptr인 객체가 레벨의 리스트에 들어가 있습니다.");
-				return;
-			}
-
 			if (false == Object->IsDeath())
 			{
 				++ActorStartIter;
 				continue;
 			}
 
+			if (nullptr == Object)
+			{
+				MsgBoxAssert("nullptr인 랜더러가 레벨의 리스트에 들어가 있었습니다.");
+				continue;
+			}
+			// [s] [a] [a]     [a] [e]
 			ActorStartIter = Group.erase(ActorStartIter);
+
 		}
 	}
 }

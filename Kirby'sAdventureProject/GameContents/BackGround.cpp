@@ -3,11 +3,10 @@
 
 #include <GameEnginePlatform/GameEngineWindow.h>
 #include <GameEnginePlatform/GameEngineWindowTexture.h>
-#include <GameEngineCore/ResourceManager.h>
+#include <GameEngineCore/ResourcesManager.h>
 #include <GameEngineCore/GameEngineRenderer.h>
 #include <GameEngineCore/GameEngineCore.h>
 #include <GameEngineCore/GameEngineLevel.h>
-#include <GameEngineCore/ResourceManager.h>
 
 
 #pragma comment(lib, "msimg32.lib")
@@ -32,26 +31,25 @@ void BackGround::Start()
 
 void BackGround::init(const std::string& _FileName, const std::string& _Path)
 {
-	ResourceManager::GetInst().LoadTextureFile(_FileName, _Path);
+	ResourcesManager::GetInst().TextureFileLoad(_FileName, _Path);
 
-	GameEngineWindowTexture* Texture = ResourceManager::GetInst().FindTexture(_FileName);
+	GameEngineWindowTexture* Texture = ResourcesManager::GetInst().FindTexture(_FileName);
 	float4 Scale = Texture->GetScale();
 
 	Renderer->SetTexture(_FileName);
 	Renderer->SetCopyScale(Scale);
 	
 	SetPos(Scale.Half());
-	SetScale(Scale);
 	Renderer->SetRenderScale(Scale);
 }
 
 
 void BackGround::init(const std::string& _FileName, const std::string& _DebugFileName, const std::string& _Path)
 {
-	ResourceManager::GetInst().LoadTextureFile(_FileName, _Path);
-	ResourceManager::GetInst().LoadTextureFile(_DebugFileName, _Path);
+	ResourcesManager::GetInst().TextureFileLoad(_FileName, _Path);
+	ResourcesManager::GetInst().TextureFileLoad(_DebugFileName, _Path);
 
-	GameEngineWindowTexture* Texture = ResourceManager::GetInst().FindTexture(_FileName);
+	GameEngineWindowTexture* Texture = ResourcesManager::GetInst().FindTexture(_FileName);
 	float4 Scale = Texture->GetScale();
 
 	Renderer->SetTexture(_FileName);
@@ -64,11 +62,11 @@ void BackGround::init(const std::string& _FileName, const std::string& _DebugFil
 
 GameEngineRenderer* BackGround::SpriteInit(const std::string& _FileName, const std::string& _DebugFileName, const std::string& _Path, int _XCount, int _YCount)
 {
-	ResourceManager::GetInst().LoadSpriteFile(_FileName, _Path, _XCount, _YCount);
-	ResourceManager::GetInst().LoadTextureFile(_DebugFileName, _Path);
+	ResourcesManager::GetInst().SpriteFileLoad(_FileName, _Path, _XCount, _YCount);
+	ResourcesManager::GetInst().TextureFileLoad(_DebugFileName, _Path);
 
 
-	GameEngineWindowTexture* Texture = ResourceManager::GetInst().FindTexture(_DebugFileName);
+	GameEngineWindowTexture* Texture = ResourcesManager::GetInst().FindTexture(_DebugFileName);
 	float4 Scale = Texture->GetScale();
 
 	Renderer->SetSprite(_FileName);

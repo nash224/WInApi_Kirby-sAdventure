@@ -1,29 +1,25 @@
 #include "GameEngineSprite.h"
-
 #include <GameEngineBase/GameEngineDebug.h>
-#include <GameEngineBase/GameEngineMath.h>
-#include <GameEngineBase/GameEngineFile.h>
 #include <GameEngineBase/GameEngineDirectory.h>
+#include "ResourcesManager.h"
 
-#include "ResourceManager.h"
-
-GameEngineSprite::GameEngineSprite() 
+GameEngineSprite::GameEngineSprite()
 {
 }
 
-GameEngineSprite::~GameEngineSprite() 
+GameEngineSprite::~GameEngineSprite()
 {
 }
-
 
 void GameEngineSprite::CreateSpriteSheet(GameEngineWindowTexture* _Texture, int _XCount, int _YCount)
 {
-	float4 TextureScale = _Texture->GetScale();
+	float4 TexScale = _Texture->GetScale();
 
 	AllSprite.resize(_XCount * _YCount);
 
 	float4 StartPos = { float4::ZERO };
-	float4 ImageSize = { TextureScale.X / _XCount , TextureScale.Y / _YCount };
+	float4 ImageSize = { TexScale.X / _XCount, TexScale.Y / _YCount };
+
 
 	for (size_t y = 0; y < _YCount; y++)
 	{
@@ -44,6 +40,8 @@ void GameEngineSprite::CreateSpriteSheet(GameEngineWindowTexture* _Texture, int 
 		StartPos.X = 0;
 		StartPos.Y += ImageSize.Y;
 	}
+
+
 }
 
 void GameEngineSprite::CreateSpriteFolder(const std::string& _Path)
@@ -56,7 +54,7 @@ void GameEngineSprite::CreateSpriteFolder(const std::string& _Path)
 
 	for (size_t i = 0; i < Files.size(); i++)
 	{
-		GameEngineWindowTexture* Texture = ResourceManager::GetInst().TextureLoad(Files[i].GetStringPath());
+		GameEngineWindowTexture* Texture = ResourcesManager::GetInst().TextureLoad(Files[i].GetStringPath());
 		AllSprite[i].BaseTexture = Texture;
 		AllSprite[i].RenderPos = float4::ZERO;
 		AllSprite[i].RenderScale = Texture->GetScale();
@@ -69,7 +67,7 @@ const GameEngineSprite::Sprite& GameEngineSprite::GetSprite(size_t _Index)
 
 	if (0 > _Index)
 	{
-		MsgBoxAssert("0보다 작은 스프라이트 인덱스입니다.");
+		MsgBoxAssert("0보다 작은 스프라이트 인덱스 입니다.");
 		return ReturnValue;
 	}
 

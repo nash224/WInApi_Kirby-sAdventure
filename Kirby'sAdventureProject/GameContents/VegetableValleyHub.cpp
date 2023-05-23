@@ -8,7 +8,7 @@
 #include <GameEnginePlatform/GameEngineInput.h>
 #include <GameEngineCore/GameEngineCore.h>
 #include <GameEngineCore/GameEngineCamera.h>
-#include <GameEngineCore/ResourceManager.h>
+#include <GameEngineCore/ResourcesManager.h>
 
 
 VegetableValleyHub::VegetableValleyHub()
@@ -51,7 +51,7 @@ void VegetableValleyHub::Update(float _Delta)
 		LevelBackGround->SwitchRender();
 	}
 
-	if (LevelPlayer->GetPos().iX() >= 1440 - LevelPlayer->GetScale().iX())
+	if (LevelPlayer->GetPos().iX() >= 1440)
 	{
 		GameEngineCore::ChangeLevel("VegetableValley11");
 	}

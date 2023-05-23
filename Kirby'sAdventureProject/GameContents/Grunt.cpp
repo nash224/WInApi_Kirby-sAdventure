@@ -1,7 +1,7 @@
 #include "Grunt.h"
 #include "ContentsEnum.h"
 
-#include <GameEngineCore/ResourceManager.h>
+#include <GameEngineCore/ResourcesManager.h>
 #include <GameEngineCore/GameEngineRenderer.h>
 #include <GameEngineCore/GameEngineCollision.h>
 
@@ -33,7 +33,7 @@ void Grunt::AllMonsterDeath()
 
 void Grunt::Start()
 {
-	ResourceManager::GetInst().LoadSpriteFile("MetaKnightsSoldiersStand.bmp", "Resources\\Unit\\Grunt", 3, 2);
+	ResourcesManager::GetInst().SpriteFileLoad("MetaKnightsSoldiersStand.bmp", "Resources\\Unit\\Grunt", 3, 2);
 	GameEngineRenderer* TestGrunt = CreateRenderer(RenderOrder::HitEffect);
 	TestGrunt->CreateAnimation("MetalKnight", "MetaKnightsSoldiersStand.bmp", 0, 5, 0.15f, true);
 	TestGrunt->ChangeAnimation("MetalKnight");
