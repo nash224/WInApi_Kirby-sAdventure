@@ -1,6 +1,5 @@
 #pragma once
-#include "GameEnginePath.h"
-#include <vector>
+#include "GameEngineFile.h"
 
 // Ό³Έν :
 class GameEngineDirectory : public GameEnginePath
@@ -8,7 +7,7 @@ class GameEngineDirectory : public GameEnginePath
 public:
 	// constrcuter destructer
 	GameEngineDirectory();
-	GameEngineDirectory(const std::string& _Path);
+	GameEngineDirectory(const std::string& _path);
 	~GameEngineDirectory();
 
 	// delete Function

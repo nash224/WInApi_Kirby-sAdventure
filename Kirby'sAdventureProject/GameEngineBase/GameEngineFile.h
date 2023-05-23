@@ -1,5 +1,6 @@
 #pragma once
 #include "GameEnginePath.h"
+#include <string>
 
 // Ό³Έν :
 class GameEngineFile : public GameEnginePath
@@ -7,10 +8,10 @@ class GameEngineFile : public GameEnginePath
 public:
 	// constrcuter destructer
 	GameEngineFile();
-	GameEngineFile(const std::string& _Path);
+	GameEngineFile(const std::string& _path);
 	~GameEngineFile();
 
-	// delete Function
+	//// delete Function
 	//GameEngineFile(const GameEngineFile& _Other) = delete;
 	//GameEngineFile(GameEngineFile&& _Other) noexcept = delete;
 	//GameEngineFile& operator=(const GameEngineFile& _Other) = delete;

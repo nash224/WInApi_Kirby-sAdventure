@@ -17,13 +17,14 @@ public:
 	GameEngineTime& operator=(const GameEngineTime& _Other) = delete;
 	GameEngineTime& operator=(GameEngineTime&& _Other) noexcept = delete;
 
-	void Update();
-	void Reset();
-
-	float GetDeltaTime() const
+	float GetDeltaTime()
 	{
 		return FloatDelta;
 	}
+
+	void Reset();
+
+	void Update();
 
 protected:
 
@@ -31,7 +32,8 @@ private:
 	LARGE_INTEGER Count = { 0 };
 	LARGE_INTEGER Cur = { 0 };
 	LARGE_INTEGER Prev = { 0 };
-	__int64 Tick = 0;
-	float FloatDelta = 0.0f;
-	double DoubleDelta = 0.0;
+	__int64 Tick;
+	double DoubleDelta;
+	float FloatDelta;
 };
+

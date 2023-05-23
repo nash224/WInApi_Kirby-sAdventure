@@ -1,26 +1,31 @@
 #include "GameEnginePath.h"
 #include "GameEngineDebug.h"
 
-GameEnginePath::GameEnginePath() 
+GameEnginePath::GameEnginePath()
 {
 	SetCurrentPath();
 }
 
-GameEnginePath::GameEnginePath(const std::string& _Path)
-	: Path(_Path)
+GameEnginePath::GameEnginePath(const std::string& _path)
+	: Path(_path)
 {
 
 }
 
-GameEnginePath::~GameEnginePath() 
+GameEnginePath::~GameEnginePath()
 {
 }
 
+std::string GameEnginePath::GetFileName()
+{
+	return Path.filename().string();
+}
 
 void GameEnginePath::SetCurrentPath()
 {
 	Path = std::filesystem::current_path();
 }
+
 
 void GameEnginePath::MoveParent()
 {
@@ -46,10 +51,45 @@ void GameEnginePath::MoveParentToExistsChild(const std::string& _ChildPath)
 
 		if (Path == Path.root_path())
 		{
-			MsgBoxAssert(_ChildPath + "의 하위 폴더를 가지고 있지 않습니다.");
-			return;
+			MsgBoxAssert("루트 경로까지 샅샅히 뒤졌지만" + _ChildPath + "파일이나 폴더를 하위로 가지고 있는 경로를 찾지 못했습니다");
 		}
 	}
+
+
+}
+
+void GameEnginePath::MoveChild(const std::string& _ChildPath)
+{
+	std::filesystem::path CheckPath = Path;
+
+	CheckPath.append(_ChildPath);
+
+	if (false == std::filesystem::exists(CheckPath))
+	{
+		MsgBoxAssert("존재하지 않는 경로로 이동하려고 했습니다." + CheckPath.string());
+	}
+
+	Path = CheckPath;
+	// Path.append(_ChildPath);
+}
+
+std::string GameEnginePath::PlusFilePath(const std::string& _ChildPath)
+{
+	std::filesystem::path CheckPath = Path;
+
+	CheckPath.append(_ChildPath);
+
+	if (false == std::filesystem::exists(CheckPath))
+	{
+		MsgBoxAssert("존재하지 않는 경로로 이동하려고 했습니다." + CheckPath.string());
+	}
+
+	return CheckPath.string();
+}
+
+bool GameEnginePath::IsDirectory()
+{
+	return std::filesystem::is_directory(Path);
 }
 
 std::string GameEnginePath::GetParentString(const std::string& _ChildPath)
@@ -73,44 +113,6 @@ std::string GameEnginePath::GetParentString(const std::string& _ChildPath)
 	{
 		ChildPath.push_back(_ChildPath[i]);
 	}
-	
+
 	return ChildPath;
-}
-
-void GameEnginePath::MoveChild(const std::string& _ChildPath)
-{
-	std::filesystem::path CheckPath = Path;
-
-	CheckPath.append(_ChildPath);
-
-	if (false == std::filesystem::exists(CheckPath))
-	{
-		MsgBoxAssert(CheckPath.string() + "은 존재하지 않는 경로입니다.");
-		return;
-	}
-
-	Path = CheckPath;
-}
-
-std::string GameEnginePath::PlusFilePath(const std::string& _ChildPath)
-{
-	std::filesystem::path CheckPath = Path;
-	CheckPath.append(_ChildPath);
-
-	if (false == std::filesystem::exists(CheckPath))
-	{
-		MsgBoxAssert(CheckPath.string() + "은 존재하지 않는 경로입니다.");
-	}
-
-	return CheckPath.string();
-}
-
-std::string GameEnginePath::GetFileName()
-{
-	return Path.filename().string();
-}
-
-bool GameEnginePath::IsDirectory()
-{
-	return std::filesystem::is_directory(Path);
 }

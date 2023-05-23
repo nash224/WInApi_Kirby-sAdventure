@@ -115,7 +115,7 @@ void GameEngineInput::InputInit()
 		AllKeys[i] = GameEngineKey(i);
 	}
 
-	for (int i = '0'; i < '9'; i++)
+	for (int i = '0'; i <= '9'; i++)
 	{
 		AllKeys[i] = GameEngineKey(i);
 	}
