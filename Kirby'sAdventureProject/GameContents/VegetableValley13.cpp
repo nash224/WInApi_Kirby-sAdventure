@@ -55,15 +55,6 @@ void VegetableValley13::Update(float _Delta)
 	}
 }
 
-void VegetableValley13::Render()
-{
-
-}
-
-void VegetableValley13::Release()
-{
-
-}
 
 void VegetableValley13::LevelStart(GameEngineLevel* _PrevLevel)
 {

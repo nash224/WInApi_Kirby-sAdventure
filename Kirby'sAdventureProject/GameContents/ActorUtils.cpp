@@ -97,29 +97,41 @@ void ActorUtils::GroundCheck(float _XScaleSize)
 	isGround = true;
 }
 
-bool ActorUtils::CheckWall(float4 _ScaleSize)
+bool ActorUtils::CheckLeftWall(float4 _ScaleSize)
 {
-	float4 CheckPosBottom = float4::ZERO;
-	float4 CheckPosTop = float4::ZERO;
 	if (Dir == ActorDir::Left)
 	{
-		CheckPosBottom = { -_ScaleSize.X + 9.0f , -6.0f };
-		CheckPosTop = { -_ScaleSize.X + 9.0f , 6.0f - _ScaleSize.Y };
+		float4 CheckPosBottom = float4::ZERO;
+		float4 CheckPosTop = float4::ZERO;
+		CheckPosBottom = { -_ScaleSize.X + 9.0f , -12.0f };
+		CheckPosTop = { -_ScaleSize.X + 9.0f , 12.0f - _ScaleSize.Y };
+
+		unsigned int ColorBottom = GetGroundColor(RGB(255, 255, 255), CheckPosBottom);
+		unsigned int ColorTop = GetGroundColor(RGB(255, 255, 255), CheckPosTop);
+		if (ColorBottom == RGB(0, 255, 255) || ColorTop == RGB(0, 255, 255))
+		{
+			return true;
+		}
 	}
+
+	return false;
+}
+
+bool ActorUtils::CheckRightWall(float4 _ScaleSize)
+{
 	if (Dir == ActorDir::Right)
 	{
-		CheckPosBottom = { _ScaleSize.X - 9.0f , -6.0f };
-		CheckPosTop = { _ScaleSize.X - 9.0f , 6.0f - _ScaleSize.Y };
+		float4 CheckPosBottom = float4::ZERO;
+		float4 CheckPosTop = float4::ZERO;
+		CheckPosBottom = { _ScaleSize.X - 9.0f , -12.0f };
+		CheckPosTop = { _ScaleSize.X - 9.0f , 12.0f - _ScaleSize.Y };
+
+		unsigned int ColorBottom = GetGroundColor(RGB(255, 255, 255), CheckPosBottom);
+		unsigned int ColorTop = GetGroundColor(RGB(255, 255, 255), CheckPosTop);
+		if (ColorBottom == RGB(0, 255, 255) || ColorTop == RGB(0, 255, 255))
+		{
+			return true;
+		}
 	}
-
-	unsigned int ColorBottom = GetGroundColor(RGB(255, 255, 255), CheckPosBottom);
-	unsigned int ColorTop = GetGroundColor(RGB(255, 255, 255), CheckPosTop);
-	if (ColorBottom == RGB(255, 255, 255) && ColorTop == RGB(255, 255, 255))
-	{
-		return false;
-	}
-
-	return true;
-
-	//unsigned int Color = GetGroundColor(RGB(255, 255, 255), CheckPos);
+	return false;
 }

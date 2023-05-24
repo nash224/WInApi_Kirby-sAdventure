@@ -55,7 +55,8 @@ protected:
 
 
 	void GroundCheck(float _XScaleSize);
-	bool CheckWall(float4 _ScaleSize);
+	bool CheckLeftWall(float4 _ScaleSize);
+	bool CheckRightWall(float4 _ScaleSize);
 
 	bool GetGroundState() const
 	{

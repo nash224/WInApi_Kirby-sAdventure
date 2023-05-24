@@ -71,6 +71,9 @@ void Kirby::Start()
 	MainRenderer->CreateAnimation("Left_LowerAttack", "Left_Kirby.bmp", 7, 7, 0.1f, false);
 	MainRenderer->CreateAnimation("Right_LowerAttack", "Right_Kirby.bmp", 7, 7, 0.1f, false);
 
+	MainRenderer->CreateAnimation("Left_HittheWall", "Left_Kirby.bmp", 92, 92, 0.1f, false);
+	MainRenderer->CreateAnimation("Right_HittheWall", "Right_Kirby.bmp", 92, 92, 0.1f, false);
+
 
 	MainRenderer->SetRenderScaleToTexture();
 	MainRenderer->SetScaleRatio(3.0f);
@@ -108,7 +111,10 @@ void Kirby::Update(float _Delta)
 	//	}
 	//}
 
-
+	if (true == GameEngineInput::IsDown('Y'))
+	{
+		GameEngineLevel::CollisionDebugRenderSwitch();
+	}
 
 	if (true == GameEngineInput::IsDown('L'))
 	{
@@ -144,6 +150,8 @@ void Kirby::StateUpdate(float _Delta)
 		return LandingUpdate(_Delta);
 	case KirbyState::LowerPosture:
 		return LowerPostureUpdate(_Delta);
+	case KirbyState::HittheWall:
+		return HittheWallUpdate(_Delta);
 	default:
 		break;
 	}
@@ -181,6 +189,9 @@ void Kirby::ChangeState(KirbyState _State)
 			break;
 		case KirbyState::LowerPosture:
 			LowerPostureStart();
+			break;
+		case KirbyState::HittheWall:
+			HittheWallStart();
 			break;
 		default:
 			break;
@@ -264,17 +275,17 @@ void Kirby::MoveUpdate(float _Delta)
 {
 	if (true == GameEngineInput::IsPress('A') && false == GameEngineInput::IsPress('D'))
 	{
-		CurrentSpeed -= 2.0f * _Delta;
+		CurrentSpeed -= 0.5f * _Delta;
 	}
 	else if (false == GameEngineInput::IsPress('A') && true == GameEngineInput::IsPress('D'))
 	{
-		CurrentSpeed += 2.0f * _Delta;
+		CurrentSpeed += 0.5f * _Delta;
 	}
 	else if ((GameEngineInput::IsPress('A') && GameEngineInput::IsPress('D')) || (GameEngineInput::IsFree('A') && GameEngineInput::IsFree('D')))
 	{
 		if (CurrentSpeed < 0.0f)
 		{
-			CurrentSpeed += 2.0f * _Delta;
+			CurrentSpeed += 0.5f * _Delta;
 
 			if (CurrentSpeed > 0.0f)
 			{
@@ -283,7 +294,7 @@ void Kirby::MoveUpdate(float _Delta)
 		}
 		else if (CurrentSpeed > 0.0f)
 		{
-			CurrentSpeed -= 2.0f * _Delta;
+			CurrentSpeed -= 0.5f * _Delta;
 
 			if (CurrentSpeed < 0.0f)
 			{

@@ -32,7 +32,3 @@ void Projectile::Update(float _Delta)
 	}
 }
 
-void Projectile::Render() 
-{
-
-}

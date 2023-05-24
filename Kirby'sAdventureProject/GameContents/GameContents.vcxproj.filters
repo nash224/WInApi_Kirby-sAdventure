@@ -135,6 +135,7 @@
     <ClInclude Include="Kirby.h">
       <Filter>Global\Object</Filter>
     </ClInclude>
+    <ClInclude Include="PlayUIManager.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="TitleLevel.cpp">
@@ -276,6 +277,7 @@
     <ClCompile Include="Kirby_State.cpp">
       <Filter>Global\Object</Filter>
     </ClCompile>
+    <ClCompile Include="PlayUIManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Level">

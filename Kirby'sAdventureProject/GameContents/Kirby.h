@@ -23,6 +23,7 @@ enum class KirbyState
 	Landing,
 	LowerPosture,
 	LowerAttack,
+	HittheWall,
 	Max,
 };
 
@@ -70,6 +71,8 @@ protected:
 	void LandingStart();
 	void LowerPostureStart();
 	void LowerAttackStart();
+	void HittheWallStart();
+
 
 	void IdleUpdate(float _Delta);
 	void WalkUpdate(float _Delta);
@@ -81,6 +84,8 @@ protected:
 	void LandingUpdate(float _Delta);
 	void LowerPostureUpdate(float _Delta);
 	void LowerAttackUpdate(float _Delta);
+	void HittheWallUpdate(float _Delta);
+
 
 	void DirCheck();
 	void MoveUpdate(float _Delta);
@@ -106,7 +111,7 @@ private:
 	float CurrentSpeed = 0.0f;
 	float CurrentFallSpeed = 0.0f;
 	float CurrentJumpPower = 0.0f;
-	float FallTime = 0.0f;
+	float StateTime = 0.0f;
 
 	void Start() override;
 	void Update(float _Delta) override;

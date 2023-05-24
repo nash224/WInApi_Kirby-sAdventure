@@ -12,6 +12,7 @@
 #include "Kirby.h"
 #include "BackGround.h"
 #include "GameEffect.h"
+#include "PlayUIManager.h"
 
 VegetableValley11::VegetableValley11() 
 {
@@ -42,6 +43,9 @@ void VegetableValley11::Start()
 
 	LevelPlayer = GameEngineLevel::CreateActor<Kirby>();
 	LevelPlayer->SetGroundTexture("VegetableValley1_1Pixel.bmp");
+
+	CreateActor<PlayUIManager>();
+
 }
 
 
@@ -71,15 +75,6 @@ void VegetableValley11::Update(float _Delta)
 	}
 }
 
-void VegetableValley11::Render() 
-{
-
-}
-
-void VegetableValley11::Release() 
-{
-
-}
 
 void VegetableValley11::LevelStart(GameEngineLevel* _PrevLevel)
 {

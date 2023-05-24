@@ -41,15 +41,6 @@ void EndingLevel::Update(float _Delta)
 	}
 }
 
-void EndingLevel::Render()
-{
-
-}
-
-void EndingLevel::Release()
-{
-
-}
 
 void EndingLevel::LevelStart(GameEngineLevel* _PrevLevel)
 {

@@ -44,16 +44,6 @@ void VegetableValleyIntro::Update(float _Delta)
 	}
 }
 
-void VegetableValleyIntro::Render()
-{
-
-}
-
-void VegetableValleyIntro::Release()
-{
-
-}
-
 void VegetableValleyIntro::LevelStart(GameEngineLevel* _PrevLevel)
 {
 

@@ -43,7 +43,7 @@ void ContentsCore::Update(float _Delta)
 
 }
 
-void ContentsCore::Render()
+void ContentsCore::Render(float _Delta)
 {
 
 }

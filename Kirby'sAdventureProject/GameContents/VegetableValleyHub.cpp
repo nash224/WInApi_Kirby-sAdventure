@@ -57,16 +57,6 @@ void VegetableValleyHub::Update(float _Delta)
 	}
 }
 
-void VegetableValleyHub::Render()
-{
-
-}
-
-void VegetableValleyHub::Release()
-{
-
-}
-
 void VegetableValleyHub::LevelStart(GameEngineLevel* _PrevLevel)
 {
 	LevelPlayer = Kirby::GetMainKirby();
