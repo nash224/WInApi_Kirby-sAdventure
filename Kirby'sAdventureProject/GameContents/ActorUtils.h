@@ -68,8 +68,8 @@ private:
 
 	bool isGround = false;
 	bool IsGravity = true;
-	float GravityPower = 1.0f;
-	const float GrivityMaxPower = 700.0f;
+	float GravityPower = 1.5f;
+	float GrivityMaxPower = 700.0f;
 	float4 GravityVector = float4::ZERO;
 
 };

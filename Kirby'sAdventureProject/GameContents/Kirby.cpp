@@ -50,8 +50,8 @@ void Kirby::Start()
 	MainRenderer->CreateAnimation("Left_Run", "Left_Kirby.bmp", 2, 5, 0.3f, true);
 	MainRenderer->CreateAnimation("Right_Run", "RIght_Kirby.bmp", 2, 5, 0.3f, true);
 
-	MainRenderer->CreateAnimation("Left_Turn", "Left_Kirby.bmp", 6, 6, 0.05f, false);
-	MainRenderer->CreateAnimation("Right_Turn", "RIght_Kirby.bmp", 6, 6, 0.05f, false);
+	MainRenderer->CreateAnimation("Left_Turn", "Left_Kirby.bmp", 12, 12, 0.05f, false);
+	MainRenderer->CreateAnimation("Right_Turn", "RIght_Kirby.bmp", 12, 12, 0.05f, false);
 
 	MainRenderer->CreateAnimation("Left_Jump", "Left_Kirby.bmp", 9, 9, 0.1f, false);
 	MainRenderer->CreateAnimation("Right_Jump", "Right_Kirby.bmp", 9, 9, 0.1f, false);
@@ -273,19 +273,11 @@ float4 Kirby::GetKirbyScale()
 // 커비의 위치 동기화
 void Kirby::MoveUpdate(float _Delta)
 {
-	if (true == GameEngineInput::IsPress('A') && false == GameEngineInput::IsPress('D'))
-	{
-		CurrentSpeed -= 0.5f * _Delta;
-	}
-	else if (false == GameEngineInput::IsPress('A') && true == GameEngineInput::IsPress('D'))
-	{
-		CurrentSpeed += 0.5f * _Delta;
-	}
-	else if ((GameEngineInput::IsPress('A') && GameEngineInput::IsPress('D')) || (GameEngineInput::IsFree('A') && GameEngineInput::IsFree('D')))
+	if ((GameEngineInput::IsPress('A') && GameEngineInput::IsPress('D')) || (GameEngineInput::IsFree('A') && GameEngineInput::IsFree('D')))
 	{
 		if (CurrentSpeed < 0.0f)
 		{
-			CurrentSpeed += 0.5f * _Delta;
+			CurrentSpeed += 1.0f * _Delta;
 
 			if (CurrentSpeed > 0.0f)
 			{
@@ -294,7 +286,7 @@ void Kirby::MoveUpdate(float _Delta)
 		}
 		else if (CurrentSpeed > 0.0f)
 		{
-			CurrentSpeed -= 0.5f * _Delta;
+			CurrentSpeed -= 1.0f * _Delta;
 
 			if (CurrentSpeed < 0.0f)
 			{
@@ -303,40 +295,17 @@ void Kirby::MoveUpdate(float _Delta)
 		}
 	}
 
-	if (CurrentSpeed <= -300.0f * _Delta)
+	if (CurrentSpeed <= -350.0f * _Delta)
 	{
-		CurrentSpeed = -300.0f * _Delta;
+		CurrentSpeed = -350.0f * _Delta;
 	}
 
-	if (CurrentSpeed >= 300.0f * _Delta)
+	if (CurrentSpeed >= 350.0f * _Delta)
 	{
-		CurrentSpeed = 300.0f * _Delta;
+		CurrentSpeed = 350.0f * _Delta;
 	}
 
 	AddPos({ CurrentSpeed, 0.0f});
-}
-
-void Kirby::GrivityUpdate(float _Delta)
-{
-	CurrentFallSpeed += 1.f * _Delta;
-
-
-	if (true == GetGroundState())
-	{
-		CurrentFallSpeed = 0.0f;
-	}
-
-	if (CurrentJumpPower <= -700.0f * _Delta)
-	{
-		CurrentJumpPower = -700.0f * _Delta;
-	}
-
-	if (CurrentFallSpeed >= 700.0f * _Delta)
-	{
-		CurrentFallSpeed = 700.0f * _Delta;
-	}
-
-	AddPos({ 0.0f , CurrentFallSpeed });
 }
 
 

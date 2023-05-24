@@ -53,9 +53,9 @@ void ActorUtils::Gravity(float _Delta)
 
 	GravityVector += float4::DOWN * GravityPower * _Delta;
 
-	if (GravityPower >= GrivityMaxPower * _Delta)
+	if (GravityVector.Y >= GrivityMaxPower * _Delta)
 	{
-		GravityPower = GrivityMaxPower * _Delta;
+		GravityVector = float4::DOWN * GrivityMaxPower * _Delta;
 	}
 
 	AddPos(GravityVector);
