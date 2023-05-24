@@ -53,14 +53,31 @@ protected:
 
 	ActorDir Dir = ActorDir::Max;
 
+	const float GravityMaxVector = 450.0f;
+
 
 	void GroundCheck(float _XScaleSize);
-	bool CheckLeftWall(float4 _ScaleSize);
-	bool CheckRightWall(float4 _ScaleSize);
+	bool CheckLeftWall(const float4& _ScaleSize);
+	bool CheckRightWall(const float4& _ScaleSize);
+
+	void SetGravityVector(const float4& _GravityVector)
+	{
+		GravityVector = _GravityVector;
+	}
+
+	void AddGravityVector(const float _GravityPower, float _Delta)
+	{
+		GravityVector += float4::UP * _GravityPower * _Delta;
+	}
 
 	bool GetGroundState() const
 	{
 		return isGround;
+	}
+
+	float4 GetGravityVector() const
+	{
+		return GravityVector;
 	}
 
 private:
@@ -69,7 +86,6 @@ private:
 	bool isGround = false;
 	bool IsGravity = true;
 	float GravityPower = 1.5f;
-	float GrivityMaxPower = 700.0f;
 	float4 GravityVector = float4::ZERO;
 
 };

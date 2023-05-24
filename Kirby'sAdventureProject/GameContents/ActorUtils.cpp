@@ -53,9 +53,9 @@ void ActorUtils::Gravity(float _Delta)
 
 	GravityVector += float4::DOWN * GravityPower * _Delta;
 
-	if (GravityVector.Y >= GrivityMaxPower * _Delta)
+	if (GravityVector.Y >= GravityMaxVector * _Delta)
 	{
-		GravityVector = float4::DOWN * GrivityMaxPower * _Delta;
+		GravityVector = float4::DOWN * GravityMaxVector * _Delta;
 	}
 
 	AddPos(GravityVector);
@@ -85,8 +85,8 @@ int ActorUtils::GetGroundColor(unsigned int _DefaultColor, float4 _Pos/* = float
 
 void ActorUtils::GroundCheck(float _XScaleSize)
 {
-	unsigned int LeftBottomColor = GetGroundColor(RGB(255, 255, 255), float4{ -_XScaleSize + 9.0f , 0.0f });
-	unsigned int RightBottomColor = GetGroundColor(RGB(255, 255, 255), float4{ _XScaleSize + -9.0f , 0.0f });
+	unsigned int LeftBottomColor = GetGroundColor(RGB(255, 255, 255), float4{ -_XScaleSize + 12.0f , 0.0f });
+	unsigned int RightBottomColor = GetGroundColor(RGB(255, 255, 255), float4{ _XScaleSize + -12.0f , 0.0f });
 	if (RGB(255, 255, 255) == LeftBottomColor &&
 		RGB(255, 255, 255) == RightBottomColor)
 	{
@@ -97,7 +97,7 @@ void ActorUtils::GroundCheck(float _XScaleSize)
 	isGround = true;
 }
 
-bool ActorUtils::CheckLeftWall(float4 _ScaleSize)
+bool ActorUtils::CheckLeftWall(const float4& _ScaleSize)
 {
 	if (Dir == ActorDir::Left)
 	{
@@ -117,7 +117,7 @@ bool ActorUtils::CheckLeftWall(float4 _ScaleSize)
 	return false;
 }
 
-bool ActorUtils::CheckRightWall(float4 _ScaleSize)
+bool ActorUtils::CheckRightWall(const float4& _ScaleSize)
 {
 	if (Dir == ActorDir::Right)
 	{

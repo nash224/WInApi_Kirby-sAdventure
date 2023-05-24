@@ -20,6 +20,8 @@ enum class KirbyState
 	Jump,
 	AerialMotion,
 	Fall,
+	AccelerateDown,
+	Bounce,
 	Landing,
 	LowerPosture,
 	LowerAttack,
@@ -68,6 +70,8 @@ protected:
 	void JumpStart();
 	void AerialMotionStart();
 	void FallStart();
+	void AccelerateDownStart();
+	void BounceStart();
 	void LandingStart();
 	void LowerPostureStart();
 	void LowerAttackStart();
@@ -81,6 +85,8 @@ protected:
 	void JumpUpdate(float _Delta);
 	void AerialMotionUpdate(float _Delta);
 	void FallUpdate(float _Delta);
+	void AccelerateDownUpdate(float _Delta);
+	void BounceUpdate(float _Delta);
 	void LandingUpdate(float _Delta);
 	void LowerPostureUpdate(float _Delta);
 	void LowerAttackUpdate(float _Delta);
@@ -89,7 +95,6 @@ protected:
 
 	void DirCheck();
 	void MoveUpdate(float _Delta);
-	void GrivityUpdate(float _Delta);
 
 	float4 GetKirbyScale();
 
@@ -106,10 +111,11 @@ private:
 
 	bool IsAbleJump = false;
 	bool IsChangeState = true;
+	bool IsBounce = false;
 	
 
 	float CurrentSpeed = 0.0f;
-	float CurrentFallSpeed = 0.0f;
+	float MaxSpeed = 350.0f;
 	float CurrentJumpPower = 0.0f;
 	float StateTime = 0.0f;
 
