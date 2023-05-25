@@ -166,3 +166,4 @@ void ActorUtils::SetCheckPoint(const float4& _ScaleSize)
 	CeilLeftCheckPoint =     { -_ScaleSize.X + CHECKGROUNDGAP , -_ScaleSize.Y };
 	CeilRightCheckPoint =    { _ScaleSize.X + -CHECKGROUNDGAP , -_ScaleSize.Y };
 }
+

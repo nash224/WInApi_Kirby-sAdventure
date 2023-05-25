@@ -55,18 +55,9 @@ public:
 
 protected:
 	GameEngineCollision* BodyCollision = nullptr;
-
 	ActorDir Dir = ActorDir::Max;
 
 	const float GravityMaxVector = 450.0f;
-
-
-	void GroundCheck();
-	bool CeilingCheck();
-	bool CheckLeftWall();
-	bool CheckRightWall();
-
-	void SetCheckPoint(const float4& _ScaleSize);
 
 	float4 GroundLeftCheckPoint = float4::ZERO;
 	float4 GroundRightCheckPoint = float4::ZERO;
@@ -76,7 +67,13 @@ protected:
 	float4 WallTopRightCheckPoint = float4::ZERO;
 	float4 CeilLeftCheckPoint = float4::ZERO;
 	float4 CeilRightCheckPoint = float4::ZERO;
-	
+
+	void GroundCheck();
+	bool CeilingCheck();
+	bool CheckLeftWall();
+	bool CheckRightWall();
+	void SetCheckPoint(const float4& _ScaleSize);
+
 
 	void SetGravityVector(const float4& _GravityVector)
 	{

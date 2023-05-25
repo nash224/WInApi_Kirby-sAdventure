@@ -56,8 +56,8 @@ void Kirby::Start()
 	MainRenderer->CreateAnimation("Left_Jump", "Left_Kirby.bmp", 9, 9, 0.1f, false);
 	MainRenderer->CreateAnimation("Right_Jump", "Right_Kirby.bmp", 9, 9, 0.1f, false);
 
-	MainRenderer->CreateAnimation("Left_AerialMotion", "Left_Kirby.bmp", 10, 13, 0.04f, false);
-	MainRenderer->CreateAnimation("Right_AerialMotion", "Right_Kirby.bmp", 10, 13, 0.04f, false);
+	MainRenderer->CreateAnimation("Left_AerialMotion", "Left_Kirby.bmp", 10, 13, 0.05f, false);
+	MainRenderer->CreateAnimation("Right_AerialMotion", "Right_Kirby.bmp", 10, 13, 0.05f, false);
 
 	MainRenderer->CreateAnimation("Left_Fall", "Left_Kirby.bmp", 13, 13, 0.1f, false);
 	MainRenderer->CreateAnimation("Right_Fall", "Right_Kirby.bmp", 13, 13, 0.1f, false);
@@ -294,15 +294,27 @@ float4 Kirby::GetKirbyScale()
 	return float4{ 0.0f, 0.0f };
 }
 
+void Kirby::MoveHorizontal(float _Speed, float _Delta)
+{
+	if (true == GameEngineInput::IsPress('A') && false == GameEngineInput::IsPress('D'))
+	{
+		Dir = ActorDir::Left;
+		CurrentSpeed -= _Speed * _Delta;
+	}
+	else if (false == GameEngineInput::IsPress('A') && true == GameEngineInput::IsPress('D'))
+	{
+		Dir = ActorDir::Right;
+		CurrentSpeed += _Speed * _Delta;
+	}
+}
 
-// 커비의 위치 동기화
-void Kirby::MoveUpdate(float _Delta)
+void Kirby::UpdateDeceleration(float _Delta)
 {
 	if ((GameEngineInput::IsPress('A') && GameEngineInput::IsPress('D')) || (GameEngineInput::IsFree('A') && GameEngineInput::IsFree('D')))
 	{
 		if (CurrentSpeed < 0.0f)
 		{
-			CurrentSpeed += 1.0f * _Delta;
+			CurrentSpeed += DECELERATIONSPEED * _Delta;
 
 			if (CurrentSpeed > 0.0f)
 			{
@@ -311,7 +323,7 @@ void Kirby::MoveUpdate(float _Delta)
 		}
 		else if (CurrentSpeed > 0.0f)
 		{
-			CurrentSpeed -= 1.0f * _Delta;
+			CurrentSpeed -= DECELERATIONSPEED * _Delta;
 
 			if (CurrentSpeed < 0.0f)
 			{
@@ -319,7 +331,11 @@ void Kirby::MoveUpdate(float _Delta)
 			}
 		}
 	}
+}
 
+// 커비의 위치 동기화
+void Kirby::MoveUpdate(float _Delta)
+{
 	if (CurrentSpeed <= -WALKMAXSPEED * _Delta)
 	{
 		CurrentSpeed = -WALKMAXSPEED * _Delta;
@@ -331,6 +347,80 @@ void Kirby::MoveUpdate(float _Delta)
 	}
 
 	AddPos({ CurrentSpeed, 0.0f});
+}
+
+void Kirby::BlockedByWall()
+{
+	{
+		unsigned int BottomWallCheckColor = GetGroundColor(RGB(255, 255, 255), WallBotLeftCheckPoint + float4{ CHECKGAP , 0.0f });
+		unsigned int TopWallCheckColor = GetGroundColor(RGB(255, 255, 255), WallTopLeftCheckPoint + float4{ CHECKGAP , 0.0f });
+
+		if ((BottomWallCheckColor == RGB(0, 255, 255)) || (TopWallCheckColor == RGB(0, 255, 255)))
+		{
+			while ((BottomWallCheckColor == RGB(0, 255, 255)) || (TopWallCheckColor == RGB(0, 255, 255)))
+			{
+				BottomWallCheckColor = GetGroundColor(RGB(255, 255, 255), WallBotLeftCheckPoint + float4{ CHECKGAP , 0.0f });
+				TopWallCheckColor = GetGroundColor(RGB(255, 255, 255), WallTopLeftCheckPoint + float4{ CHECKGAP , 0.0f });
+				AddPos(float4::RIGHT * 3);
+			}
+		}
+	}
+
+	{
+		unsigned int BottomWallCheckColor = GetGroundColor(RGB(255, 255, 255), WallBotRightCheckPoint + float4{ -CHECKGAP , 0.0f });
+		unsigned int TopWallCheckColor = GetGroundColor(RGB(255, 255, 255), WallTopRightCheckPoint + float4{ -CHECKGAP , 0.0f });
+
+		if ((BottomWallCheckColor == RGB(0, 255, 255)) || (TopWallCheckColor == RGB(0, 255, 255)))
+		{
+			while ((BottomWallCheckColor == RGB(0, 255, 255)) || (TopWallCheckColor == RGB(0, 255, 255)))
+			{
+				BottomWallCheckColor = GetGroundColor(RGB(255, 255, 255), WallBotRightCheckPoint + float4{ -CHECKGAP , 0.0f });
+				TopWallCheckColor = GetGroundColor(RGB(255, 255, 255), WallTopRightCheckPoint + float4{ -CHECKGAP , 0.0f });
+				AddPos(float4::LEFT * 3);
+			}
+		}
+	}
+
+	if (true == CheckLeftWall() && CurrentSpeed < 0.0f)
+	{
+		CurrentSpeed = 0.0f;
+	}
+	if (true == CheckRightWall() && CurrentSpeed > 0.0f)
+	{
+		CurrentSpeed = 0.0f;
+	}
+}
+
+void Kirby::BlockedByGround()
+{
+	unsigned int LeftGroundCheckColor = GetGroundColor(RGB(255, 255, 255), GroundLeftCheckPoint + float4{ CHECKGAP , -CHECKGAP });
+	unsigned int RightGroundCheckColor = GetGroundColor(RGB(255, 255, 255), GroundRightCheckPoint + float4{ -CHECKGAP , -CHECKGAP });
+
+	if ((LeftGroundCheckColor == RGB(0, 255, 255)) || (RightGroundCheckColor == RGB(0, 255, 255)))
+	{
+		while ((LeftGroundCheckColor == RGB(0, 255, 255)) || (RightGroundCheckColor == RGB(0, 255, 255)))
+		{
+			LeftGroundCheckColor = GetGroundColor(RGB(255, 255, 255), GroundLeftCheckPoint + float4{ CHECKGAP , -CHECKGAP });
+			RightGroundCheckColor = GetGroundColor(RGB(255, 255, 255), GroundRightCheckPoint + float4{ -CHECKGAP , -CHECKGAP });
+			AddPos(float4::UP * 3);
+		}
+	}
+}
+
+void Kirby::BlockedByCeiling()
+{
+	unsigned int LeftCeilingCheckColor = GetGroundColor(RGB(255, 255, 255), CeilLeftCheckPoint + float4{ CHECKGAP , CHECKGAP });
+	unsigned int RightCeilingCheckColor = GetGroundColor(RGB(255, 255, 255), CeilRightCheckPoint + float4{ -CHECKGAP , CHECKGAP });
+
+	if ((LeftCeilingCheckColor == RGB(0, 255, 255)) || (RightCeilingCheckColor == RGB(0, 255, 255)))
+	{
+		while ((LeftCeilingCheckColor == RGB(0, 255, 255)) || (RightCeilingCheckColor == RGB(0, 255, 255)))
+		{
+			LeftCeilingCheckColor = GetGroundColor(RGB(255, 255, 255), CeilLeftCheckPoint + float4{ CHECKGAP , CHECKGAP });
+			RightCeilingCheckColor = GetGroundColor(RGB(255, 255, 255), CeilRightCheckPoint + float4{ -CHECKGAP , CHECKGAP });
+			AddPos(float4::UP * 3);
+		}
+	}
 }
 
 
@@ -356,44 +446,35 @@ void Kirby::Render(float _Detla)
 	Data.Pos = ActorCameraPos();
 	Data.Scale = { 5 , 5 };
 	Rectangle(BackDC, Data.iLeft(), Data.iTop(), Data.iRight(), Data.iBot());
-
-	//GroundLeftCheckPoint =
-	//GroundRightCheckPoint =
-	//WallBotLeftCheckPoint =
-	//WallTopLeftCheckPoint =
-	//WallBotRightCheckPoint
-	//WallTopRightCheckPoint
-	//CeilLeftCheckPoint =
-	//CeilRightCheckPoint =
-
+	// 바닥 왼쪽
 	Data.Pos = ActorCameraPos() + GroundLeftCheckPoint;
 	Data.Scale = { 5 , 5 };
 	Rectangle(BackDC, Data.iLeft(), Data.iTop(), Data.iRight(), Data.iBot());
-
+	// 바닥 오른쪽
 	Data.Pos = ActorCameraPos() + GroundRightCheckPoint;
 	Data.Scale = { 5 , 5 };
 	Rectangle(BackDC, Data.iLeft(), Data.iTop(), Data.iRight(), Data.iBot());
-
+	// 벽 하단왼쪽
 	Data.Pos = ActorCameraPos() + WallBotLeftCheckPoint;
 	Data.Scale = { 5 , 5 };
 	Rectangle(BackDC, Data.iLeft(), Data.iTop(), Data.iRight(), Data.iBot());
-
+	// 벽 상단왼쪽
 	Data.Pos = ActorCameraPos() + WallTopLeftCheckPoint;
 	Data.Scale = { 5 , 5 };
 	Rectangle(BackDC, Data.iLeft(), Data.iTop(), Data.iRight(), Data.iBot());
-
+	// 벽 하단오른쪽
 	Data.Pos = ActorCameraPos() + WallBotRightCheckPoint;
 	Data.Scale = { 5 , 5 };
 	Rectangle(BackDC, Data.iLeft(), Data.iTop(), Data.iRight(), Data.iBot());
-
+	// 벽 상단오른쪽
 	Data.Pos = ActorCameraPos() + WallTopRightCheckPoint;
 	Data.Scale = { 5 , 5 };
 	Rectangle(BackDC, Data.iLeft(), Data.iTop(), Data.iRight(), Data.iBot());
-
+	// 천장 왼쪽
 	Data.Pos = ActorCameraPos() + CeilLeftCheckPoint;
 	Data.Scale = { 5 , 5 };
 	Rectangle(BackDC, Data.iLeft(), Data.iTop(), Data.iRight(), Data.iBot());
-
+	// 천장 오른쪽
 	Data.Pos = ActorCameraPos() + CeilRightCheckPoint;
 	Data.Scale = { 5 , 5 };
 	Rectangle(BackDC, Data.iLeft(), Data.iTop(), Data.iRight(), Data.iBot());

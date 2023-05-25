@@ -2,9 +2,13 @@
 #include "ActorUtils.h"
 
 #define ACCELERATIONSPEED 2.0f
-#define MAXWALKSPEED 300.0f
 #define WALKMAXSPEED 350.0f
+#define RUNMAXSPEED 525.0f
+#define DECELERATIONSPEED 1.0f
+#define WALKSPEED 0.8f
+#define RUNSPEED 1.2f
 #define HITTHEMAPTime 0.08f
+#define CHECKGAP 3.0f
 
 enum class KirbyBodyState
 {
@@ -63,6 +67,17 @@ public:
 protected:
 	static Kirby* MainKirby;
 
+	void ChangeState(KirbyState State);
+	void ChangeAnimationState(const std::string& _StateName);
+
+	void DirCheck();
+	void MoveHorizontal(float _Speed, float _Delta);
+	void UpdateDeceleration(float _Delta);
+	void MoveUpdate(float _Delta);
+	float4 GetKirbyScale();
+	void BlockedByWall();
+	void BlockedByGround();
+	void BlockedByCeiling();
 
 
 	void StateUpdate(float _Delta);
@@ -98,17 +113,6 @@ protected:
 	void HittheCeilingUpdate(float _Delta);
 
 
-	void DirCheck();
-	void MoveUpdate(float _Delta);
-
-	float4 GetKirbyScale();
-
-
-
-
-	void ChangeState(KirbyState State);
-	void ChangeAnimationState(const std::string& _StateName);
-
 private:
 	KirbyBodyState BodyState = KirbyBodyState::Max;
 	KirbyState State = KirbyState::Max;
@@ -126,12 +130,6 @@ private:
 	float CurrentJumpPower = 0.0f;
 	float FallDistance = 0.0f;
 
-
-
-	void SetDecelerationSpeed(float _DecelerationSpeed)
-	{
-		DecelerationSpeed = _DecelerationSpeed;
-	}
 
 	void Start() override;
 	void Update(float _Delta) override;
