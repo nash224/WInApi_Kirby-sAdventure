@@ -58,6 +58,7 @@ protected:
 	ActorDir Dir = ActorDir::Max;
 
 	const float GravityMaxVector = 450.0f;
+	float CurrentSpeed = 0.0f;
 
 	float4 GroundLeftCheckPoint = float4::ZERO;
 	float4 GroundRightCheckPoint = float4::ZERO;
@@ -72,6 +73,8 @@ protected:
 	bool CeilingCheck();
 	bool CheckLeftWall();
 	bool CheckRightWall();
+	bool CheckLeftWallSpeedBased();
+	bool CheckRightWallSpeedBased();
 	void SetCheckPoint(const float4& _ScaleSize);
 
 

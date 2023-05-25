@@ -44,11 +44,11 @@ void Kirby::Start()
 	MainRenderer->CreateAnimation("Left_Idle", "Left_Kirby.bmp", 0, 1, 0.5f, true);
 	MainRenderer->CreateAnimation("Right_Idle", "RIght_Kirby.bmp", 0, 1, 0.5f, true);
 
-	MainRenderer->CreateAnimation("Left_Walk", "Left_Kirby.bmp", 2, 5, 0.3f, true);
-	MainRenderer->CreateAnimation("Right_Walk", "RIght_Kirby.bmp", 2, 5, 0.3f, true);
+	MainRenderer->CreateAnimation("Left_Walk", "Left_Kirby.bmp", 2, 5, 0.2f, true);
+	MainRenderer->CreateAnimation("Right_Walk", "RIght_Kirby.bmp", 2, 5, 0.2f, true);
 
-	MainRenderer->CreateAnimation("Left_Run", "Left_Kirby.bmp", 2, 5, 0.3f, true);
-	MainRenderer->CreateAnimation("Right_Run", "RIght_Kirby.bmp", 2, 5, 0.3f, true);
+	MainRenderer->CreateAnimation("Left_Run", "Left_Kirby.bmp", 2, 5, 0.1f, true);
+	MainRenderer->CreateAnimation("Right_Run", "RIght_Kirby.bmp", 2, 5, 0.1f, true);
 
 	MainRenderer->CreateAnimation("Left_Turn", "Left_Kirby.bmp", 12, 12, 0.05f, false);
 	MainRenderer->CreateAnimation("Right_Turn", "RIght_Kirby.bmp", 12, 12, 0.05f, false);
@@ -74,8 +74,8 @@ void Kirby::Start()
 	MainRenderer->CreateAnimation("Left_LowerPosture", "Left_Kirby.bmp", 7, 7, 0.1f, false);
 	MainRenderer->CreateAnimation("Right_LowerPosture", "Right_Kirby.bmp", 7, 7, 0.1f, false);
 
-	MainRenderer->CreateAnimation("Left_LowerAttack", "Left_Kirby.bmp", 7, 7, 0.1f, false);
-	MainRenderer->CreateAnimation("Right_LowerAttack", "Right_Kirby.bmp", 7, 7, 0.1f, false);
+	MainRenderer->CreateAnimation("Left_LowerAttack", "Left_Kirby.bmp", 8, 8, 0.1f, false);
+	MainRenderer->CreateAnimation("Right_LowerAttack", "Right_Kirby.bmp", 8, 8, 0.1f, false);
 
 	MainRenderer->CreateAnimation("Left_HittheWall", "Left_Kirby.bmp", 92, 92, 0.1f, false);
 	MainRenderer->CreateAnimation("Right_HittheWall", "Right_Kirby.bmp", 92, 92, 0.1f, false);
@@ -164,6 +164,8 @@ void Kirby::StateUpdate(float _Delta)
 		return LandingUpdate(_Delta);
 	case KirbyState::LowerPosture:
 		return LowerPostureUpdate(_Delta);
+	case KirbyState::LowerAttack:
+		return LowerAttackUpdate(_Delta);
 	case KirbyState::HittheWall:
 		return HittheWallUpdate(_Delta);
 	case KirbyState::HittheCeiling:
@@ -211,6 +213,9 @@ void Kirby::ChangeState(KirbyState _State)
 			break;
 		case KirbyState::LowerPosture:
 			LowerPostureStart();
+			break;
+		case KirbyState::LowerAttack:
+			LowerAttackStart();
 			break;
 		case KirbyState::HittheWall:
 			HittheWallStart();
@@ -308,7 +313,7 @@ void Kirby::MoveHorizontal(float _Speed, float _Delta)
 	}
 }
 
-void Kirby::UpdateDeceleration(float _Delta)
+void Kirby::DecelerationUpdate(float _Delta)
 {
 	if ((GameEngineInput::IsPress('A') && GameEngineInput::IsPress('D')) || (GameEngineInput::IsFree('A') && GameEngineInput::IsFree('D')))
 	{
@@ -335,15 +340,30 @@ void Kirby::UpdateDeceleration(float _Delta)
 
 // 커비의 위치 동기화
 void Kirby::MoveUpdate(float _Delta)
-{
-	if (CurrentSpeed <= -WALKMAXSPEED * _Delta)
+{// 좌우의 속도가 다른 버그가 있음
+	if (CurrentSpeed > WALKMAXSPEED * _Delta || State == KirbyState::Run)
 	{
-		CurrentSpeed = -WALKMAXSPEED * _Delta;
-	}
+		if (CurrentSpeed <= -RUNMAXSPEED * _Delta)
+		{
+			CurrentSpeed = -RUNMAXSPEED * _Delta;
+		}
 
-	if (CurrentSpeed >= WALKMAXSPEED * _Delta)
+		if (CurrentSpeed >= RUNMAXSPEED * _Delta)
+		{
+			CurrentSpeed = RUNMAXSPEED * _Delta;
+		}
+	}
+	else if (CurrentSpeed <= WALKMAXSPEED * _Delta)
 	{
-		CurrentSpeed = WALKMAXSPEED * _Delta;
+		if (CurrentSpeed <= -WALKMAXSPEED * _Delta)
+		{
+			CurrentSpeed = -WALKMAXSPEED * _Delta;
+		}
+
+		if (CurrentSpeed >= WALKMAXSPEED * _Delta)
+		{
+			CurrentSpeed = WALKMAXSPEED * _Delta;
+		}
 	}
 
 	AddPos({ CurrentSpeed, 0.0f});
@@ -351,6 +371,15 @@ void Kirby::MoveUpdate(float _Delta)
 
 void Kirby::BlockedByWall()
 {
+	if (true == CheckLeftWallSpeedBased() && CurrentSpeed < 0.0f)
+	{
+		CurrentSpeed = 0.0f;
+	}
+	if (true == CheckRightWallSpeedBased() && CurrentSpeed > 0.0f)
+	{
+		CurrentSpeed = 0.0f;
+	}
+
 	{
 		unsigned int BottomWallCheckColor = GetGroundColor(RGB(255, 255, 255), WallBotLeftCheckPoint + float4{ CHECKGAP , 0.0f });
 		unsigned int TopWallCheckColor = GetGroundColor(RGB(255, 255, 255), WallTopLeftCheckPoint + float4{ CHECKGAP , 0.0f });
@@ -379,15 +408,6 @@ void Kirby::BlockedByWall()
 				AddPos(float4::LEFT * 3);
 			}
 		}
-	}
-
-	if (true == CheckLeftWall() && CurrentSpeed < 0.0f)
-	{
-		CurrentSpeed = 0.0f;
-	}
-	if (true == CheckRightWall() && CurrentSpeed > 0.0f)
-	{
-		CurrentSpeed = 0.0f;
 	}
 }
 

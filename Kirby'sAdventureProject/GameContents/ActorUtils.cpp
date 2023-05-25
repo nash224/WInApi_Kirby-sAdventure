@@ -155,6 +155,36 @@ bool ActorUtils::CheckRightWall()
 	return false;
 }
 
+bool ActorUtils::CheckLeftWallSpeedBased()
+{
+	if (CurrentSpeed < 0.0f)
+	{
+		unsigned int ColorBottom = GetGroundColor(RGB(255, 255, 255), WallBotLeftCheckPoint);
+		unsigned int ColorTop = GetGroundColor(RGB(255, 255, 255), WallTopLeftCheckPoint);
+		if (ColorBottom == RGB(0, 255, 255) || ColorTop == RGB(0, 255, 255))
+		{
+			return true;
+		}
+	}
+
+	return false;
+}
+
+bool ActorUtils::CheckRightWallSpeedBased()
+{
+	if (CurrentSpeed > 0.0f)
+	{
+		unsigned int ColorBottom = GetGroundColor(RGB(255, 255, 255), WallBotRightCheckPoint);
+		unsigned int ColorTop = GetGroundColor(RGB(255, 255, 255), WallTopRightCheckPoint);
+		if (ColorBottom == RGB(0, 255, 255) || ColorTop == RGB(0, 255, 255))
+		{
+			return true;
+		}
+	}
+
+	return false;
+}
+
 void ActorUtils::SetCheckPoint(const float4& _ScaleSize)
 {
 	GroundLeftCheckPoint =   { -_ScaleSize.X + CHECKGROUNDGAP , 0.0f };

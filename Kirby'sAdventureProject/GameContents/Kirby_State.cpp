@@ -18,7 +18,6 @@ void Kirby::IdleStart()
 void Kirby::WalkStart()
 {
 	StateTime = 0.0f;
-	IsAbleJump = true;
 	DirCheck();
 	ChangeAnimationState("Walk");
 }
@@ -50,7 +49,6 @@ void Kirby::TurnStart()
 void Kirby::JumpStart()
 {
 	StateTime = 0.0f;
-	IsAbleJump = false;
 	DirCheck();
 	GravityReset();
 	ChangeAnimationState("Jump");
@@ -173,7 +171,7 @@ void Kirby::IdleUpdate(float _Delta)
 	}
 
 
-	UpdateDeceleration(_Delta);
+	DecelerationUpdate(_Delta);
 	MoveUpdate(_Delta); 
 
 	//	unsigned int CheckColor = GetGroundColor(RGB(255, 255, 255), float4::UP * 3);
@@ -193,16 +191,66 @@ void Kirby::IdleUpdate(float _Delta)
 void Kirby::WalkUpdate(float _Delta)
 {
 
-	if (true == CheckLeftWall())
+	if (false == GetGroundState())
 	{
-		int a = 0;
+		GravityReset();
+		ChangeState(KirbyState::Fall);
+		return;
 	}
 
-	if (true == CheckRightWall())
+	if (CurrentSpeed < WALKMAXSPEED * 0.2f * _Delta && true == GameEngineInput::IsDown('A') && false == (GameEngineInput::IsPress('A') && GameEngineInput::IsPress('D')))
 	{
-		int a = 0;
+		ChangeState(KirbyState::Run);
+		return;
 	}
 
+	if (CurrentSpeed > WALKMAXSPEED * 0.2f * _Delta && true == GameEngineInput::IsDown('D') && false == (GameEngineInput::IsPress('A') && GameEngineInput::IsPress('D')))
+	{
+		ChangeState(KirbyState::Run);
+		return;
+	}
+
+	if (true == GameEngineInput::IsDown('X'))
+	{
+		ChangeState(KirbyState::Jump);
+		return;
+	}
+
+	if (CurrentSpeed > 0.0f && true == GameEngineInput::IsPress('A') && false == (GameEngineInput::IsPress('A') && GameEngineInput::IsPress('D')))
+	{
+		ChangeState(KirbyState::Turn);
+		return;
+	}
+
+	if (CurrentSpeed < 0.0f && true == GameEngineInput::IsPress('D') && false == (GameEngineInput::IsPress('A') && GameEngineInput::IsPress('D')))
+	{
+		ChangeState(KirbyState::Turn);
+		return;
+	}
+
+	if ((true == CheckLeftWall() || true == CheckRightWall()) && CurrentSpeed != 0.0f)
+	{
+		ChangeState(KirbyState::HittheWall);
+		return;
+	}
+
+	if (CurrentSpeed == 0.0f && 
+		((GameEngineInput::IsPress('A') && GameEngineInput::IsPress('D')) ||
+			(GameEngineInput::IsFree('A') && GameEngineInput::IsFree('D'))))
+	{
+		ChangeState(KirbyState::Idle);
+		return;
+	}
+
+	
+
+	MoveHorizontal(WALKSPEED, _Delta);
+	DecelerationUpdate(_Delta);
+	MoveUpdate(_Delta);
+}
+
+void Kirby::RunUpdate(float _Delta)
+{
 	if (false == GetGroundState())
 	{
 		GravityReset();
@@ -234,23 +282,19 @@ void Kirby::WalkUpdate(float _Delta)
 		return;
 	}
 
-	if (CurrentSpeed == 0.0f && 
-		(GameEngineInput::IsPress('A') && GameEngineInput::IsPress('D')) || 
-		(GameEngineInput::IsFree('A') && GameEngineInput::IsFree('D')))
+	if (CurrentSpeed == 0.0f &&
+		((GameEngineInput::IsPress('A') && GameEngineInput::IsPress('D')) ||
+			(GameEngineInput::IsFree('A') && GameEngineInput::IsFree('D'))))
 	{
 		ChangeState(KirbyState::Idle);
 		return;
 	}
 
-	
 
-	MoveHorizontal(WALKSPEED, _Delta);
-	UpdateDeceleration(_Delta);
+
+	MoveHorizontal(RUNSPEED, _Delta);
+	DecelerationUpdate(_Delta);
 	MoveUpdate(_Delta);
-}
-
-void Kirby::RunUpdate(float _Delta)
-{
 
 }
 
@@ -299,7 +343,7 @@ void Kirby::TurnUpdate(float _Delta)
 		}
 	}
 
-	UpdateDeceleration(_Delta);
+	DecelerationUpdate(_Delta);
 	MoveUpdate(_Delta);
 }
 
@@ -327,7 +371,7 @@ void Kirby::JumpUpdate(float _Delta)
 
 	if (true == GameEngineInput::IsPress('X') && StateTime < 0.4f)
 	{
-		SetGravityVector(float4::UP * (350.0f * _Delta));
+		SetGravityVector(float4::UP * (JUMPPOWER * _Delta));
 	}
 
 	MoveHorizontal(WALKSPEED, _Delta);
@@ -336,7 +380,7 @@ void Kirby::JumpUpdate(float _Delta)
 
 	ChangeAnimationState("Jump");
 
-	UpdateDeceleration(_Delta);
+	DecelerationUpdate(_Delta);
 	MoveUpdate(_Delta);
 	Gravity(_Delta);
 }
@@ -371,7 +415,7 @@ void Kirby::AerialMotionUpdate(float _Delta)
 	BlockedByWall();
 	BlockedByGround();
 
-	UpdateDeceleration(_Delta);
+	DecelerationUpdate(_Delta);
 	MoveUpdate(_Delta);
 	Gravity(_Delta);
 }
@@ -400,7 +444,7 @@ void Kirby::FallUpdate(float _Delta)
 
 	ChangeAnimationState("Fall");
 
-	UpdateDeceleration(_Delta);
+	DecelerationUpdate(_Delta);
 	MoveUpdate(_Delta);
 	Gravity(_Delta);
 }
@@ -469,7 +513,7 @@ void Kirby::LandingUpdate(float _Delta)
 	BlockedByWall();
 	BlockedByGround();
 
-	UpdateDeceleration(_Delta);
+	DecelerationUpdate(_Delta);
 	MoveUpdate(_Delta);
 
 }
@@ -483,7 +527,8 @@ void Kirby::LowerPostureUpdate(float _Delta)
 		return;
 	}
 	if (true == GetGroundState() && (GameEngineInput::IsDown('Z') || GameEngineInput::IsDown('X')))
-	{// 공격 예정
+	{
+		ChangeState(KirbyState::LowerAttack);
 		return;
 	}
 	if (true == GetGroundState() && true == GameEngineInput::IsFree('S') && 0.0f == CurrentSpeed)
@@ -501,23 +546,52 @@ void Kirby::LowerPostureUpdate(float _Delta)
 	BlockedByWall();
 	BlockedByGround();
 
-	UpdateDeceleration(_Delta);
+	DecelerationUpdate(_Delta);
 	MoveUpdate(_Delta);
 }
 
 void Kirby::LowerAttackUpdate(float _Delta)
 {
+	StateTime += _Delta;
+
+	if (StateTime < 0.4f)
+	{
+		if (Dir == ActorDir::Left)
+		{
+			CurrentSpeed = -RUNMAXSPEED * _Delta;
+		}
+
+		if (Dir == ActorDir::Right)
+		{
+			CurrentSpeed = RUNMAXSPEED * _Delta;
+		}
+	}
+	
+	if (true == CheckLeftWall() || true == CheckRightWall())
+	{
+		ChangeState(KirbyState::HittheWall);
+		return;
+	}
+
 	if (false == GetGroundState())
 	{
+		GravityReset();
 		ChangeState(KirbyState::Fall);
 		return;
 	}
-	// 수정
-	else if (true == GetGroundState())
+
+	if (true == GetGroundState() && 0.0f == CurrentSpeed)
 	{
 		ChangeState(KirbyState::Idle);
 		return;
 	}
+
+
+	BlockedByWall();
+	BlockedByGround();
+
+	MoveUpdate(_Delta);
+	DecelerationUpdate(_Delta);
 }
 
 void Kirby::HittheWallUpdate(float _Delta)
@@ -565,7 +639,7 @@ void Kirby::HittheCeilingUpdate(float _Delta)
 	BlockedByCeiling();
 	BlockedByWall();
 
-	UpdateDeceleration(_Delta);
+	DecelerationUpdate(_Delta);
 	MoveUpdate(_Delta);
 
 	if (false == GetGroundState())

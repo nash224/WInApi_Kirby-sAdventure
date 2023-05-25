@@ -2,9 +2,10 @@
 #include "ActorUtils.h"
 
 #define ACCELERATIONSPEED 2.0f
-#define WALKMAXSPEED 350.0f
-#define RUNMAXSPEED 525.0f
-#define DECELERATIONSPEED 1.0f
+#define WALKMAXSPEED 300.0f
+#define RUNMAXSPEED 425.0f
+#define JUMPPOWER 350.0f
+#define DECELERATIONSPEED 0.8f
 #define WALKSPEED 0.8f
 #define RUNSPEED 1.2f
 #define HITTHEMAPTime 0.08f
@@ -72,7 +73,7 @@ protected:
 
 	void DirCheck();
 	void MoveHorizontal(float _Speed, float _Delta);
-	void UpdateDeceleration(float _Delta);
+	void DecelerationUpdate(float _Delta);
 	void MoveUpdate(float _Delta);
 	float4 GetKirbyScale();
 	void BlockedByWall();
@@ -118,14 +119,12 @@ private:
 	KirbyState State = KirbyState::Max;
 	std::string CurState = "";
 
-	bool IsAbleJump = false;
 	bool IsChangeState = true;
 	bool IsBounce = false;
 	
 
 	float StateTime = 0.0f;
 	float MaxSpeed = 350.0f;
-	float CurrentSpeed = 0.0f;
 	float DecelerationSpeed = 1.0f;
 	float CurrentJumpPower = 0.0f;
 	float FallDistance = 0.0f;
