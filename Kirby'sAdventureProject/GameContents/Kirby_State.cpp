@@ -400,11 +400,11 @@ void Kirby::AerialMotionUpdate(float _Delta)
 		ChangeState(KirbyState::Landing);
 	}
 
-	if (true == CheckLeftWall() && CurrentSpeed < 0.0f)
+	if (true == CheckLeftWallBasedSpeed())
 	{
 		ChangeState(KirbyState::HittheWall);
 	}
-	if (true == CheckRightWall() && CurrentSpeed > 0.0f)
+	if (true == CheckRightWallBasedSpeed())
 	{
 		ChangeState(KirbyState::HittheWall);
 	}
@@ -435,6 +435,15 @@ void Kirby::FallUpdate(float _Delta)
 	{
 		ChangeState(KirbyState::Landing);
 		return;
+	}
+
+	if (true == CheckLeftWallBasedSpeed())
+	{
+		ChangeState(KirbyState::HittheWall);
+	}
+	if (true == CheckRightWallBasedSpeed())
+	{
+		ChangeState(KirbyState::HittheWall);
 	}
 
 

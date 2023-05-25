@@ -371,11 +371,11 @@ void Kirby::MoveUpdate(float _Delta)
 
 void Kirby::BlockedByWall()
 {
-	if (true == CheckLeftWallSpeedBased() && CurrentSpeed < 0.0f)
+	if (true == CheckLeftWallBasedSpeed() && CurrentSpeed < 0.0f)
 	{
 		CurrentSpeed = 0.0f;
 	}
-	if (true == CheckRightWallSpeedBased() && CurrentSpeed > 0.0f)
+	if (true == CheckRightWallBasedSpeed() && CurrentSpeed > 0.0f)
 	{
 		CurrentSpeed = 0.0f;
 	}

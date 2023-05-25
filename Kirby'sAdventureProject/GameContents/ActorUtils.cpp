@@ -155,7 +155,7 @@ bool ActorUtils::CheckRightWall()
 	return false;
 }
 
-bool ActorUtils::CheckLeftWallSpeedBased()
+bool ActorUtils::CheckLeftWallBasedSpeed()
 {
 	if (CurrentSpeed < 0.0f)
 	{
@@ -170,7 +170,7 @@ bool ActorUtils::CheckLeftWallSpeedBased()
 	return false;
 }
 
-bool ActorUtils::CheckRightWallSpeedBased()
+bool ActorUtils::CheckRightWallBasedSpeed()
 {
 	if (CurrentSpeed > 0.0f)
 	{

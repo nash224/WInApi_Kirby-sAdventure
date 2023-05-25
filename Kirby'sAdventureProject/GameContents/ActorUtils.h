@@ -73,8 +73,8 @@ protected:
 	bool CeilingCheck();
 	bool CheckLeftWall();
 	bool CheckRightWall();
-	bool CheckLeftWallSpeedBased();
-	bool CheckRightWallSpeedBased();
+	bool CheckLeftWallBasedSpeed();
+	bool CheckRightWallBasedSpeed();
 	void SetCheckPoint(const float4& _ScaleSize);
 
 
