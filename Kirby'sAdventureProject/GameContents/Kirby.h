@@ -3,6 +3,8 @@
 
 #define ACCELERATIONSPEED 2.0f
 #define MAXWALKSPEED 300.0f
+#define WALKMAXSPEED 350.0f
+#define HITTHEMAPTime 0.08f
 
 enum class KirbyBodyState
 {
@@ -26,6 +28,7 @@ enum class KirbyState
 	LowerPosture,
 	LowerAttack,
 	HittheWall,
+	HittheCeiling,
 	Max,
 };
 
@@ -76,6 +79,7 @@ protected:
 	void LowerPostureStart();
 	void LowerAttackStart();
 	void HittheWallStart();
+	void HittheCeilingStart();
 
 
 	void IdleUpdate(float _Delta);
@@ -91,6 +95,7 @@ protected:
 	void LowerPostureUpdate(float _Delta);
 	void LowerAttackUpdate(float _Delta);
 	void HittheWallUpdate(float _Delta);
+	void HittheCeilingUpdate(float _Delta);
 
 
 	void DirCheck();
@@ -114,13 +119,23 @@ private:
 	bool IsBounce = false;
 	
 
-	float CurrentSpeed = 0.0f;
-	float MaxSpeed = 350.0f;
-	float CurrentJumpPower = 0.0f;
 	float StateTime = 0.0f;
+	float MaxSpeed = 350.0f;
+	float CurrentSpeed = 0.0f;
+	float DecelerationSpeed = 1.0f;
+	float CurrentJumpPower = 0.0f;
+	float FallDistance = 0.0f;
+
+
+
+	void SetDecelerationSpeed(float _DecelerationSpeed)
+	{
+		DecelerationSpeed = _DecelerationSpeed;
+	}
 
 	void Start() override;
 	void Update(float _Delta) override;
+	void Render(float _Detla) override;
 
 	void LevelStart() override;
 };

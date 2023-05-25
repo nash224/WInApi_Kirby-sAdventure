@@ -44,6 +44,11 @@ void ActorUtils::CameraFocus()
 
 }
 
+float4 ActorUtils::ActorCameraPos()
+{
+	return GetPos() - GetLevel()->GetMainCamera()->GetPos();
+}
+
 void ActorUtils::Gravity(float _Delta)
 {
 	if (false == IsGravity)
@@ -51,8 +56,16 @@ void ActorUtils::Gravity(float _Delta)
 		return;
 	}
 
+	// 중력 보간법
 	GravityVector += float4::DOWN * GravityPower * _Delta;
 
+	// 최대 점프 제한
+	if (GravityVector.Y <= - GravityMaxVector * _Delta)
+	{
+		GravityVector = float4::UP * GravityMaxVector * _Delta;
+	}
+
+	// 최대 중력 제한
 	if (GravityVector.Y >= GravityMaxVector * _Delta)
 	{
 		GravityVector = float4::DOWN * GravityMaxVector * _Delta;
@@ -61,6 +74,7 @@ void ActorUtils::Gravity(float _Delta)
 	AddPos(GravityVector);
 }
 
+// 픽셀맵 세팅
 void ActorUtils::SetGroundTexture(const std::string& _GroundTextureName)
 {
 	GroundTexture = ResourcesManager::GetInst().FindTexture(_GroundTextureName);
@@ -72,6 +86,7 @@ void ActorUtils::SetGroundTexture(const std::string& _GroundTextureName)
 	}
 }
 
+// 바닥 색을 불러옴
 int ActorUtils::GetGroundColor(unsigned int _DefaultColor, float4 _Pos/* = float4::ZERO*/)
 {
 	if (nullptr == GroundTexture)
@@ -83,31 +98,40 @@ int ActorUtils::GetGroundColor(unsigned int _DefaultColor, float4 _Pos/* = float
 	return GroundTexture->GetColor(_DefaultColor, GetPos() + _Pos);
 }
 
-void ActorUtils::GroundCheck(float _XScaleSize)
+// 특정 객체의 발끝에 바닥 여부
+void ActorUtils::GroundCheck()
 {
-	unsigned int LeftBottomColor = GetGroundColor(RGB(255, 255, 255), float4{ -_XScaleSize + 12.0f , 0.0f });
-	unsigned int RightBottomColor = GetGroundColor(RGB(255, 255, 255), float4{ _XScaleSize + -12.0f , 0.0f });
-	if (RGB(255, 255, 255) == LeftBottomColor &&
-		RGB(255, 255, 255) == RightBottomColor)
+	unsigned int LeftBottomColor = GetGroundColor(RGB(255, 255, 255), GroundLeftCheckPoint);
+	unsigned int RightBottomColor = GetGroundColor(RGB(255, 255, 255), GroundRightCheckPoint);
+	if ((RGB(0, 255, 255) == LeftBottomColor || (RGB(0, 0, 255) == LeftBottomColor) ||
+		RGB(0, 255, 255) == RightBottomColor) || (RGB(0, 0, 255) == RightBottomColor))
 	{
-		isGround = false;
+		isGround = true;
 		return;
 	}
 
-	isGround = true;
+	isGround = false;
 }
 
-bool ActorUtils::CheckLeftWall(const float4& _ScaleSize)
+bool ActorUtils::CeilingCheck()
+{
+	unsigned int LeftTopColor = GetGroundColor(RGB(255, 255, 255), CeilLeftCheckPoint);
+	unsigned int RightTopColor = GetGroundColor(RGB(255, 255, 255), CeilRightCheckPoint);
+	if ((RGB(0, 255, 255) == LeftTopColor || (RGB(0, 255, 255) == RightTopColor)))
+	{
+		return true;
+	}
+
+	return false;
+}
+
+
+bool ActorUtils::CheckLeftWall()
 {
 	if (Dir == ActorDir::Left)
 	{
-		float4 CheckPosBottom = float4::ZERO;
-		float4 CheckPosTop = float4::ZERO;
-		CheckPosBottom = { -_ScaleSize.X + 9.0f , -12.0f };
-		CheckPosTop = { -_ScaleSize.X + 9.0f , 12.0f - _ScaleSize.Y };
-
-		unsigned int ColorBottom = GetGroundColor(RGB(255, 255, 255), CheckPosBottom);
-		unsigned int ColorTop = GetGroundColor(RGB(255, 255, 255), CheckPosTop);
+		unsigned int ColorBottom = GetGroundColor(RGB(255, 255, 255), WallBotLeftCheckPoint);
+		unsigned int ColorTop = GetGroundColor(RGB(255, 255, 255), WallTopLeftCheckPoint);
 		if (ColorBottom == RGB(0, 255, 255) || ColorTop == RGB(0, 255, 255))
 		{
 			return true;
@@ -117,21 +141,28 @@ bool ActorUtils::CheckLeftWall(const float4& _ScaleSize)
 	return false;
 }
 
-bool ActorUtils::CheckRightWall(const float4& _ScaleSize)
+bool ActorUtils::CheckRightWall()
 {
 	if (Dir == ActorDir::Right)
 	{
-		float4 CheckPosBottom = float4::ZERO;
-		float4 CheckPosTop = float4::ZERO;
-		CheckPosBottom = { _ScaleSize.X - 9.0f , -12.0f };
-		CheckPosTop = { _ScaleSize.X - 9.0f , 12.0f - _ScaleSize.Y };
-
-		unsigned int ColorBottom = GetGroundColor(RGB(255, 255, 255), CheckPosBottom);
-		unsigned int ColorTop = GetGroundColor(RGB(255, 255, 255), CheckPosTop);
+		unsigned int ColorBottom = GetGroundColor(RGB(255, 255, 255), WallBotRightCheckPoint);
+		unsigned int ColorTop = GetGroundColor(RGB(255, 255, 255), WallTopRightCheckPoint);
 		if (ColorBottom == RGB(0, 255, 255) || ColorTop == RGB(0, 255, 255))
 		{
 			return true;
 		}
 	}
 	return false;
+}
+
+void ActorUtils::SetCheckPoint(const float4& _ScaleSize)
+{
+	GroundLeftCheckPoint =   { -_ScaleSize.X + CHECKGROUNDGAP , 0.0f };
+	GroundRightCheckPoint =  { _ScaleSize.X + -CHECKGROUNDGAP , 0.0f };
+	WallBotLeftCheckPoint =  { -_ScaleSize.X + CHECKWALLWIDTHHGAP , -CHECKWALLHEIGHTHGAP };
+	WallTopLeftCheckPoint =  { -_ScaleSize.X + CHECKWALLWIDTHHGAP , -_ScaleSize.Y + CHECKWALLHEIGHTHGAP };
+	WallBotRightCheckPoint = { _ScaleSize.X + -CHECKWALLWIDTHHGAP , -CHECKWALLHEIGHTHGAP };
+	WallTopRightCheckPoint = { _ScaleSize.X + -CHECKWALLWIDTHHGAP , -_ScaleSize.Y + CHECKWALLHEIGHTHGAP };
+	CeilLeftCheckPoint =     { -_ScaleSize.X + CHECKGROUNDGAP , -_ScaleSize.Y };
+	CeilRightCheckPoint =    { _ScaleSize.X + -CHECKGROUNDGAP , -_ScaleSize.Y };
 }

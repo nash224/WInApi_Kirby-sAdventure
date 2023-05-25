@@ -56,8 +56,8 @@ void Kirby::Start()
 	MainRenderer->CreateAnimation("Left_Jump", "Left_Kirby.bmp", 9, 9, 0.1f, false);
 	MainRenderer->CreateAnimation("Right_Jump", "Right_Kirby.bmp", 9, 9, 0.1f, false);
 
-	MainRenderer->CreateAnimation("Left_AerialMotion", "Left_Kirby.bmp", 10, 13, 0.05f, false);
-	MainRenderer->CreateAnimation("Right_AerialMotion", "Right_Kirby.bmp", 10, 13, 0.05f, false);
+	MainRenderer->CreateAnimation("Left_AerialMotion", "Left_Kirby.bmp", 10, 13, 0.04f, false);
+	MainRenderer->CreateAnimation("Right_AerialMotion", "Right_Kirby.bmp", 10, 13, 0.04f, false);
 
 	MainRenderer->CreateAnimation("Left_Fall", "Left_Kirby.bmp", 13, 13, 0.1f, false);
 	MainRenderer->CreateAnimation("Right_Fall", "Right_Kirby.bmp", 13, 13, 0.1f, false);
@@ -80,10 +80,13 @@ void Kirby::Start()
 	MainRenderer->CreateAnimation("Left_HittheWall", "Left_Kirby.bmp", 92, 92, 0.1f, false);
 	MainRenderer->CreateAnimation("Right_HittheWall", "Right_Kirby.bmp", 92, 92, 0.1f, false);
 
+	MainRenderer->CreateAnimation("Left_HittheCeiling", "Left_Kirby.bmp", 91, 91, 0.1f, false);
+	MainRenderer->CreateAnimation("Right_HittheCeiling", "Right_Kirby.bmp", 91, 91, 0.1f, false);
+
 
 	MainRenderer->SetRenderScaleToTexture();
 	MainRenderer->SetScaleRatio(3.0f);
-
+	
 	MainRenderer->FindAnimation("Left_Idle")->Inters = { 2.5f, 0.1f };
 	MainRenderer->FindAnimation("Right_Idle")->Inters = { 2.5f, 0.1f };
 
@@ -134,7 +137,8 @@ void Kirby::Update(float _Delta)
 
 void Kirby::StateUpdate(float _Delta)
 {
-	GroundCheck(GetKirbyScale().X);
+	SetCheckPoint(GetKirbyScale());
+	GroundCheck();
 
 	switch (State)
 	{
@@ -162,6 +166,8 @@ void Kirby::StateUpdate(float _Delta)
 		return LowerPostureUpdate(_Delta);
 	case KirbyState::HittheWall:
 		return HittheWallUpdate(_Delta);
+	case KirbyState::HittheCeiling:
+		return HittheCeilingUpdate(_Delta);
 	default:
 		break;
 	}
@@ -208,6 +214,9 @@ void Kirby::ChangeState(KirbyState _State)
 			break;
 		case KirbyState::HittheWall:
 			HittheWallStart();
+			break;
+		case KirbyState::HittheCeiling:
+			HittheCeilingStart();
 			break;
 		default:
 			break;
@@ -311,14 +320,14 @@ void Kirby::MoveUpdate(float _Delta)
 		}
 	}
 
-	if (CurrentSpeed <= -350.0f * _Delta)
+	if (CurrentSpeed <= -WALKMAXSPEED * _Delta)
 	{
-		CurrentSpeed = -350.0f * _Delta;
+		CurrentSpeed = -WALKMAXSPEED * _Delta;
 	}
 
-	if (CurrentSpeed >= 350.0f * _Delta)
+	if (CurrentSpeed >= WALKMAXSPEED * _Delta)
 	{
-		CurrentSpeed = 350.0f * _Delta;
+		CurrentSpeed = WALKMAXSPEED * _Delta;
 	}
 
 	AddPos({ CurrentSpeed, 0.0f});
@@ -328,4 +337,64 @@ void Kirby::MoveUpdate(float _Delta)
 void Kirby::LevelStart()
 {
 	MainKirby = this;
+}
+
+
+void Kirby::Render(float _Detla)
+{
+	//std::string Text = "";
+	//Text += "플레이어 테스트 값 : ";
+	//Text += std::to_string();
+
+	HDC BackDC = GameEngineWindow::MainWindow.GetBackBuffer()->GetImageDC();
+
+	CollisionData Data;
+
+	float4 KirbyScale = GetKirbyScale();
+
+	// 커비 원점
+	Data.Pos = ActorCameraPos();
+	Data.Scale = { 5 , 5 };
+	Rectangle(BackDC, Data.iLeft(), Data.iTop(), Data.iRight(), Data.iBot());
+
+	//GroundLeftCheckPoint =
+	//GroundRightCheckPoint =
+	//WallBotLeftCheckPoint =
+	//WallTopLeftCheckPoint =
+	//WallBotRightCheckPoint
+	//WallTopRightCheckPoint
+	//CeilLeftCheckPoint =
+	//CeilRightCheckPoint =
+
+	Data.Pos = ActorCameraPos() + GroundLeftCheckPoint;
+	Data.Scale = { 5 , 5 };
+	Rectangle(BackDC, Data.iLeft(), Data.iTop(), Data.iRight(), Data.iBot());
+
+	Data.Pos = ActorCameraPos() + GroundRightCheckPoint;
+	Data.Scale = { 5 , 5 };
+	Rectangle(BackDC, Data.iLeft(), Data.iTop(), Data.iRight(), Data.iBot());
+
+	Data.Pos = ActorCameraPos() + WallBotLeftCheckPoint;
+	Data.Scale = { 5 , 5 };
+	Rectangle(BackDC, Data.iLeft(), Data.iTop(), Data.iRight(), Data.iBot());
+
+	Data.Pos = ActorCameraPos() + WallTopLeftCheckPoint;
+	Data.Scale = { 5 , 5 };
+	Rectangle(BackDC, Data.iLeft(), Data.iTop(), Data.iRight(), Data.iBot());
+
+	Data.Pos = ActorCameraPos() + WallBotRightCheckPoint;
+	Data.Scale = { 5 , 5 };
+	Rectangle(BackDC, Data.iLeft(), Data.iTop(), Data.iRight(), Data.iBot());
+
+	Data.Pos = ActorCameraPos() + WallTopRightCheckPoint;
+	Data.Scale = { 5 , 5 };
+	Rectangle(BackDC, Data.iLeft(), Data.iTop(), Data.iRight(), Data.iBot());
+
+	Data.Pos = ActorCameraPos() + CeilLeftCheckPoint;
+	Data.Scale = { 5 , 5 };
+	Rectangle(BackDC, Data.iLeft(), Data.iTop(), Data.iRight(), Data.iBot());
+
+	Data.Pos = ActorCameraPos() + CeilRightCheckPoint;
+	Data.Scale = { 5 , 5 };
+	Rectangle(BackDC, Data.iLeft(), Data.iTop(), Data.iRight(), Data.iBot());
 }

@@ -1,6 +1,10 @@
 #pragma once
 #include <GameEngineCore/GameEngineActor.h>
 
+#define CHECKGROUNDGAP 12.0f
+#define CHECKCEILINGDGAP 12.0f
+#define CHECKWALLWIDTHHGAP 9.0f
+#define CHECKWALLHEIGHTHGAP 12.0f
 
 enum class ActorDir
 {
@@ -46,6 +50,7 @@ public:
 		IsGravity = false;
 	}
 
+	float4 ActorCameraPos();
 
 
 protected:
@@ -56,9 +61,22 @@ protected:
 	const float GravityMaxVector = 450.0f;
 
 
-	void GroundCheck(float _XScaleSize);
-	bool CheckLeftWall(const float4& _ScaleSize);
-	bool CheckRightWall(const float4& _ScaleSize);
+	void GroundCheck();
+	bool CeilingCheck();
+	bool CheckLeftWall();
+	bool CheckRightWall();
+
+	void SetCheckPoint(const float4& _ScaleSize);
+
+	float4 GroundLeftCheckPoint = float4::ZERO;
+	float4 GroundRightCheckPoint = float4::ZERO;
+	float4 WallBotLeftCheckPoint = float4::ZERO;
+	float4 WallTopLeftCheckPoint = float4::ZERO;
+	float4 WallBotRightCheckPoint = float4::ZERO;
+	float4 WallTopRightCheckPoint = float4::ZERO;
+	float4 CeilLeftCheckPoint = float4::ZERO;
+	float4 CeilRightCheckPoint = float4::ZERO;
+	
 
 	void SetGravityVector(const float4& _GravityVector)
 	{

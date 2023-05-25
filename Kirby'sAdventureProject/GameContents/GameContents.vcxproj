@@ -178,6 +178,10 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="BasicKirby.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="GameEffect.h">
       <SubType>
       </SubType>
@@ -363,6 +367,10 @@
     </ClCompile>
     <ClCompile Include="BackGroundEffectList.cpp" />
     <ClCompile Include="ActorUtils.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="BasicKirby.cpp">
       <SubType>
       </SubType>
     </ClCompile>

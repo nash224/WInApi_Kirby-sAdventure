@@ -59,6 +59,7 @@ void Kirby::JumpStart()
 void Kirby::AerialMotionStart()
 {
 	StateTime = 0.0f;
+	IsChangeState = false;
 	DirCheck();
 	ChangeAnimationState("AerialMotion");
 }
@@ -66,6 +67,7 @@ void Kirby::AerialMotionStart()
 void Kirby::FallStart()
 {
 	StateTime = 0.0f;
+	FallDistance = 0.0f;
 	ChangeAnimationState("Fall");
 }
 
@@ -111,13 +113,21 @@ void Kirby::HittheWallStart()
 	ChangeAnimationState("HittheWall");
 }
 
+void Kirby::HittheCeilingStart()
+{
+	StateTime = 0.0f;
+	IsChangeState = false;
+	SetGravityVector(float4{ 0.0f, 0.0f });
+	ChangeAnimationState("HittheCeiling");
+}
+
 
 
 // =============================================//
 
 void Kirby::IdleUpdate(float _Delta)
 {
-	if (true == CheckLeftWall(GetKirbyScale()))
+	if (true == CheckLeftWall())
 	{
 		int a = 0;
 	}
@@ -148,15 +158,15 @@ void Kirby::IdleUpdate(float _Delta)
 		// Fly
 		return;
 	}
-	else if (true == CheckLeftWall(GetKirbyScale()) && GameEngineInput::IsPress('A') && CurrentSpeed == 0.0f)
+	else if (true == CheckLeftWall() && GameEngineInput::IsPress('A') && CurrentSpeed == 0.0f)
 	{
 		return;
 	}
-	else if (true == CheckRightWall(GetKirbyScale()) && GameEngineInput::IsPress('D') && CurrentSpeed == 0.0f)
+	else if (true == CheckRightWall() && GameEngineInput::IsPress('D') && CurrentSpeed == 0.0f)
 	{
 		return;
 	}
-	else if ((true == CheckLeftWall(GetKirbyScale()) || true == CheckRightWall(GetKirbyScale())) && CurrentSpeed != 0.0f)
+	else if ((true == CheckLeftWall() || true == CheckRightWall()) && CurrentSpeed != 0.0f)
 	{
 		ChangeState(KirbyState::HittheWall);
 		return;
@@ -194,12 +204,12 @@ void Kirby::IdleUpdate(float _Delta)
 void Kirby::WalkUpdate(float _Delta)
 {
 
-	if (true == CheckLeftWall(GetKirbyScale()))
+	if (true == CheckLeftWall())
 	{
 		int a = 0;
 	}
 
-	if (true == CheckRightWall(GetKirbyScale()))
+	if (true == CheckRightWall())
 	{
 		int a = 0;
 	}
@@ -217,19 +227,19 @@ void Kirby::WalkUpdate(float _Delta)
 		return;
 	}
 
-	if (CurrentSpeed > 0.0f && GameEngineInput::IsPress('A'))
+	if (CurrentSpeed > 0.0f && true == GameEngineInput::IsPress('A') && false == (GameEngineInput::IsPress('A') && GameEngineInput::IsPress('D')))
 	{
 		ChangeState(KirbyState::Turn);
 		return;
 	}
 
-	if (CurrentSpeed < 0.0f && GameEngineInput::IsPress('D'))
+	if (CurrentSpeed < 0.0f && true == GameEngineInput::IsPress('D') && false == (GameEngineInput::IsPress('A') && GameEngineInput::IsPress('D')))
 	{
 		ChangeState(KirbyState::Turn);
 		return;
 	}
 
-	if ((true == CheckLeftWall(GetKirbyScale()) || true == CheckRightWall(GetKirbyScale())) && CurrentSpeed != 0.0f)
+	if ((true == CheckLeftWall() || true == CheckRightWall()) && CurrentSpeed != 0.0f)
 	{
 		ChangeState(KirbyState::HittheWall);
 		return;
@@ -248,12 +258,12 @@ void Kirby::WalkUpdate(float _Delta)
 	if (true == GameEngineInput::IsPress('A') && false == GameEngineInput::IsPress('D'))
 	{
 		Dir = ActorDir::Left;
-		CurrentSpeed -= 0.5f * _Delta;
+		CurrentSpeed -= 0.8f * _Delta;
 	}
 	else if (false == GameEngineInput::IsPress('A') && true == GameEngineInput::IsPress('D'))
 	{
 		Dir = ActorDir::Right;
-		CurrentSpeed += 0.5f * _Delta;
+		CurrentSpeed += 0.8f * _Delta;
 	}
 
 	MoveUpdate(_Delta);
@@ -306,7 +316,7 @@ void Kirby::TurnUpdate(float _Delta)
 		return;
 	}
 
-	if (true == CheckLeftWall(GetKirbyScale()) || true == CheckRightWall(GetKirbyScale()))
+	if (true == CheckLeftWall() || true == CheckRightWall())
 	{
 		CurrentSpeed = 0.0f;
 		ChangeState(KirbyState::HittheWall);
@@ -314,7 +324,7 @@ void Kirby::TurnUpdate(float _Delta)
 
 	if (CurrentSpeed < 0.0f)
 	{
-		CurrentSpeed += 1.5f * _Delta;
+		CurrentSpeed += 2.0f * _Delta;
 
 		if (CurrentSpeed > 0.0f)
 		{
@@ -323,7 +333,7 @@ void Kirby::TurnUpdate(float _Delta)
 	}
 	else if (CurrentSpeed > 0.0f)
 	{
-		CurrentSpeed -= 1.5f * _Delta;
+		CurrentSpeed -= 2.0f * _Delta;
 
 		if (CurrentSpeed < 0.0f)
 		{
@@ -338,9 +348,20 @@ void Kirby::JumpUpdate(float _Delta)
 {
 	StateTime += _Delta;
 
-	if (true == GameEngineInput::IsFree('X') || 0.0f < GetGravityVector().Y)
+	if (true == GameEngineInput::IsFree('X'))
+	{
+		IsChangeState = true;
+	}
+
+	if (IsChangeState = true && 0.0f < GetGravityVector().Y)
 	{
 		ChangeState(KirbyState::AerialMotion);
+		return;
+	}
+
+	if (true == CeilingCheck())
+	{
+		ChangeState(KirbyState::HittheCeiling);
 		return;
 	}
 
@@ -348,27 +369,29 @@ void Kirby::JumpUpdate(float _Delta)
 
 
 
+
+
 	if (true == GameEngineInput::IsPress('X') && StateTime < 0.4f)
 	{
-		SetGravityVector(float4::UP* 350.0f *_Delta);
+		SetGravityVector(float4::UP * (350.0f * _Delta));
 	}
 
 	if (true == GameEngineInput::IsPress('A') && false == GameEngineInput::IsPress('D'))
 	{
 		Dir = ActorDir::Left;
-		CurrentSpeed -= 0.5f * _Delta;
+		CurrentSpeed -= 0.8f * _Delta;
 	}
 	else if (false == GameEngineInput::IsPress('A') && true == GameEngineInput::IsPress('D'))
 	{
 		Dir = ActorDir::Right;
-		CurrentSpeed += 0.5f * _Delta;
+		CurrentSpeed += 0.8f * _Delta;
 	}
 
-	if (true == CheckLeftWall(GetKirbyScale()) && Dir == ActorDir::Left)
+	if (true == CheckLeftWall() && CurrentSpeed < 0.0f)
 	{
 		CurrentSpeed = 0.0f;
 	}
-	if (true == CheckRightWall(GetKirbyScale()) && Dir == ActorDir::Right)
+	if (true == CheckRightWall() && CurrentSpeed > 0.0f)
 	{
 		CurrentSpeed = 0.0f;
 	}
@@ -377,40 +400,52 @@ void Kirby::JumpUpdate(float _Delta)
 
 	MoveUpdate(_Delta);
 	Gravity(_Delta);
-
 }
 
 
 void Kirby::AerialMotionUpdate(float _Delta)
 {
-	bool LeftEnd = MainRenderer->FindAnimation("Left_AerialMotion")->IsEnd;
-	bool RightEnd = MainRenderer->FindAnimation("Right_AerialMotion")->IsEnd;
-	if (true == LeftEnd || true == RightEnd)
+	StateTime += _Delta;
+
+	if (StateTime > 0.3f)
 	{
 		ChangeState(KirbyState::Fall);
 	}
 
+	if (true == GetGroundState())
+	{
+		ChangeState(KirbyState::Landing);
+	}
+
+	if (true == CheckLeftWall() && CurrentSpeed != 0.0f)
+	{
+		ChangeState(KirbyState::HittheWall);
+	}
+	if (true == CheckRightWall() && CurrentSpeed != 0.0f)
+	{
+		ChangeState(KirbyState::HittheWall);
+	}
 
 	if (true == GameEngineInput::IsPress('A') && false == GameEngineInput::IsPress('D'))
 	{
 		Dir = ActorDir::Left;
-		CurrentSpeed -= 0.5f * _Delta;
+		CurrentSpeed -= 0.8f * _Delta;
 	}
 	else if (false == GameEngineInput::IsPress('A') && true == GameEngineInput::IsPress('D'))
 	{
 		Dir = ActorDir::Right;
-		CurrentSpeed += 0.5f * _Delta;
+		CurrentSpeed += 0.8f * _Delta;
 	}
 
-
-	if (true == CheckLeftWall(GetKirbyScale()) && Dir == ActorDir::Left)
+	if (true == CheckLeftWall() && CurrentSpeed < 0.0f)
 	{
 		CurrentSpeed = 0.0f;
 	}
-	if (true == CheckRightWall(GetKirbyScale()) && Dir == ActorDir::Right)
+	if (true == CheckRightWall() && CurrentSpeed > 0.0f)
 	{
 		CurrentSpeed = 0.0f;
 	}
+
 
 	MoveUpdate(_Delta);
 	Gravity(_Delta);
@@ -420,8 +455,9 @@ void Kirby::AerialMotionUpdate(float _Delta)
 void Kirby::FallUpdate(float _Delta)
 {
 	StateTime += _Delta;
+	FallDistance += GetGravityVector().Y;
 
-	if (StateTime > 1.0f)
+	if (FallDistance > 150.0f)
 	{
 		ChangeState(KirbyState::AccelerateDown);
 		return;
@@ -437,19 +473,19 @@ void Kirby::FallUpdate(float _Delta)
 	if (true == GameEngineInput::IsPress('A') && false == GameEngineInput::IsPress('D'))
 	{
 		Dir = ActorDir::Left;
-		CurrentSpeed -= 0.5f * _Delta;
+		CurrentSpeed -= 0.8f * _Delta;
 	}
 	else if (false == GameEngineInput::IsPress('A') && true == GameEngineInput::IsPress('D'))
 	{
 		Dir = ActorDir::Right;
-		CurrentSpeed += 0.5f * _Delta;
+		CurrentSpeed += 0.8f * _Delta;
 	}
 
-	if (true == CheckLeftWall(GetKirbyScale()) && Dir == ActorDir::Left)
+	if (true == CheckLeftWall() && CurrentSpeed < 0.0f)
 	{
 		CurrentSpeed = 0.0f;
 	}
-	if (true == CheckRightWall(GetKirbyScale()) && Dir == ActorDir::Right)
+	if (true == CheckRightWall() && CurrentSpeed > 0.0f)
 	{
 		CurrentSpeed = 0.0f;
 	}
@@ -462,10 +498,6 @@ void Kirby::FallUpdate(float _Delta)
 
 void Kirby::AccelerateDownUpdate(float _Delta)
 {
-	if ((CheckLeftWall(GetKirbyScale())|| CheckRightWall(GetKirbyScale())) && CurrentSpeed != 0.0f)
-	{
-		CurrentSpeed = 0.0f;
-	}
 
 	if (true == GetGroundState())
 	{
@@ -474,29 +506,35 @@ void Kirby::AccelerateDownUpdate(float _Delta)
 		return;
 	}
 
+	//if (true == GameEngineInput::IsPress('A') && false == GameEngineInput::IsPress('D'))
+	//{
+	//	Dir = ActorDir::Left;
+	//	CurrentSpeed -= 0.8f * _Delta;
+	//}
+	//else if (false == GameEngineInput::IsPress('A') && true == GameEngineInput::IsPress('D'))
+	//{
+	//	Dir = ActorDir::Right;
+	//	CurrentSpeed += 0.8f * _Delta;
+	//}
 
-	if (true == GameEngineInput::IsPress('A') && false == GameEngineInput::IsPress('D'))
-	{
-		Dir = ActorDir::Left;
-		CurrentSpeed -= 0.5f * _Delta;
-	}
-	else if (false == GameEngineInput::IsPress('A') && true == GameEngineInput::IsPress('D'))
-	{
-		Dir = ActorDir::Right;
-		CurrentSpeed += 0.5f * _Delta;
-	}
-
-	if (true == CheckLeftWall(GetKirbyScale()) && Dir == ActorDir::Left)
-	{
-		CurrentSpeed = 0.0f;
-	}
-	if (true == CheckRightWall(GetKirbyScale()) && Dir == ActorDir::Right)
+	if (true == CheckLeftWall() && CurrentSpeed < 0.0f)
 	{
 		CurrentSpeed = 0.0f;
 	}
+	if (true == CheckRightWall() && CurrentSpeed > 0.0f)
+	{
+		CurrentSpeed = 0.0f;
+	}
 
+	{
+		//unsigned int CheckColor = GetGroundColor(RGB(255, 255, 255), float4::UP * 3);
 
-	ChangeAnimationState("AccelerateDown");
+		//while (CheckColor != RGB(255, 255, 255))
+		//{
+		//	CheckColor = GetGroundColor(RGB(255, 255, 255), float4::UP * 3);
+		//	AddPos(float4::UP*3);
+		//}
+	}
 
 	MoveUpdate(_Delta);
 	Gravity(_Delta);
@@ -517,11 +555,11 @@ void Kirby::BounceUpdate(float _Delta)
 		return;
 	}
 
-	if (true == CheckLeftWall(GetKirbyScale()) && Dir == ActorDir::Left)
+	if (true == CheckLeftWall() && CurrentSpeed < 0.0f)
 	{
 		CurrentSpeed = 0.0f;
 	}
-	if (true == CheckRightWall(GetKirbyScale()) && Dir == ActorDir::Right)
+	if (true == CheckRightWall() && CurrentSpeed > 0.0f)
 	{
 		CurrentSpeed = 0.0f;
 	}
@@ -536,7 +574,7 @@ void Kirby::LandingUpdate(float _Delta)
 {
 	StateTime += _Delta;
 
-	if (StateTime >= 0.08f)
+	if (StateTime >= HITTHEMAPTime)
 	{
 		IsChangeState = true;
 	}
@@ -552,16 +590,20 @@ void Kirby::LandingUpdate(float _Delta)
 		return;
 	}
 
-	if (true == CheckLeftWall(GetKirbyScale()) && Dir == ActorDir::Left)
+	if (true == CheckLeftWall() && CurrentSpeed < 0.0f)
 	{
 		CurrentSpeed = 0.0f;
 	}
-	if (true == CheckRightWall(GetKirbyScale()) && Dir == ActorDir::Right)
+	if (true == CheckRightWall() && CurrentSpeed > 0.0f)
 	{
 		CurrentSpeed = 0.0f;
 	}
 
+	SetDecelerationSpeed(4.0f);
+
 	MoveUpdate(_Delta);
+
+	SetDecelerationSpeed(1.0f);
 }
 
 void Kirby::LowerPostureUpdate(float _Delta)
@@ -587,7 +629,7 @@ void Kirby::LowerPostureUpdate(float _Delta)
 		return;
 	}
 
-	if ((CheckLeftWall(GetKirbyScale()) || CheckRightWall(GetKirbyScale())) && CurrentSpeed != 0.0f)
+	if ((CheckLeftWall() || CheckRightWall()) && CurrentSpeed != 0.0f)
 	{
 		CurrentSpeed = 0.0f;
 	}
@@ -614,7 +656,7 @@ void Kirby::HittheWallUpdate(float _Delta)
 {
 	StateTime += _Delta;
 
-	if (0.08f <= StateTime)
+	if (HITTHEMAPTime <= StateTime)
 	{
 		IsChangeState = true;
 	}
@@ -629,6 +671,35 @@ void Kirby::HittheWallUpdate(float _Delta)
 		ChangeState(KirbyState::Fall);
 		return;
 	}
+
+	if (false == GetGroundState())
+	{
+		Gravity(_Delta);
+	}
+}
+
+
+void Kirby::HittheCeilingUpdate(float _Delta)
+{
+	StateTime += _Delta;
+
+	if (HITTHEMAPTime <= StateTime)
+	{
+		IsChangeState = true;
+	}
+
+	if (true == IsChangeState)
+	{
+		ChangeState(KirbyState::Fall);
+		return;
+	}
+
+	if (false == GetGroundState())
+	{
+		Gravity(_Delta);
+	}
+
+	MoveUpdate(_Delta);
 }
 
 
