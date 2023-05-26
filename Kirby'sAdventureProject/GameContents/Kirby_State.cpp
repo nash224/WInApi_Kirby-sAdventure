@@ -115,10 +115,30 @@ void Kirby::HittheCeilingStart()
 {
 	StateTime = 0.0f;
 	IsChangeState = false;
-	SetGravityVector(float4{ 0.0f, 0.0f });
+	GravityReset();
 	ChangeAnimationState("HittheCeiling");
 }
 
+void Kirby::TakeOffStart()
+{
+	StateTime = 0.0f;
+	IsChangeState = false;
+	ChangeAnimationState("TakeOff");
+}
+
+void Kirby::FlyStart()
+{
+	StateTime = 0.0f;
+	IsChangeState = false;
+	ChangeAnimationState("Fly");
+}
+
+void Kirby::ExhaleAttackStart()
+{
+	StateTime = 0.0f;
+	IsChangeState = false;
+	ChangeAnimationState("ExhaleAttack");
+}
 
 
 // =============================================//
@@ -656,6 +676,22 @@ void Kirby::HittheCeilingUpdate(float _Delta)
 		Gravity(_Delta);
 	}
 }
+
+void Kirby::TakeOffUpdate(float _Delta)
+{
+	StateTime += _Delta;
+}
+
+void Kirby::FlyUpdate(float _Delta)
+{
+	StateTime += _Delta;
+}
+
+void Kirby::ExhaleAttackUpdate(float _Delta)
+{
+	StateTime += _Delta;
+}
+
 
 
 // ============================================

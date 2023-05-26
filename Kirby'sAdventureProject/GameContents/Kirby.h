@@ -35,6 +35,9 @@ enum class KirbyState
 	LowerAttack,
 	HittheWall,
 	HittheCeiling,
+	TakeOff,
+	Fly,
+	ExhaleAttack,
 	Max,
 };
 
@@ -98,6 +101,9 @@ protected:
 	void LowerAttackStart();
 	void HittheWallStart();
 	void HittheCeilingStart();
+	void TakeOffStart();
+	void FlyStart();
+	void ExhaleAttackStart();
 
 
 	void IdleUpdate(float _Delta);
@@ -114,6 +120,9 @@ protected:
 	void LowerAttackUpdate(float _Delta);
 	void HittheWallUpdate(float _Delta);
 	void HittheCeilingUpdate(float _Delta);
+	void TakeOffUpdate(float _Delta);
+	void FlyUpdate(float _Delta);
+	void ExhaleAttackUpdate(float _Delta);
 
 
 private:

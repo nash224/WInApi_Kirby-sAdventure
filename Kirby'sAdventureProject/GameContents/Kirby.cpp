@@ -83,6 +83,15 @@ void Kirby::Start()
 	MainRenderer->CreateAnimation("Left_HittheCeiling", "Left_Kirby.bmp", 91, 91, 0.1f, false);
 	MainRenderer->CreateAnimation("Right_HittheCeiling", "Right_Kirby.bmp", 91, 91, 0.1f, false);
 
+	MainRenderer->CreateAnimation("Left_TakeOff", "Left_Kirby.bmp", 9, 9, 0.1f, false);
+	MainRenderer->CreateAnimation("Right_TakeOff", "Right_Kirby.bmp", 9, 9, 0.1f, false);
+
+	MainRenderer->CreateAnimation("Left_Fly", "Left_Kirby.bmp", 9, 9, 0.1f, true);
+	MainRenderer->CreateAnimation("Right_Fly", "Right_Kirby.bmp", 9, 9, 0.1f, true);
+
+	MainRenderer->CreateAnimation("Left_ExhaleAttack", "Left_Kirby.bmp", 9, 9, 0.1f, false);
+	MainRenderer->CreateAnimation("Right_ExhaleAttack", "Right_Kirby.bmp", 9, 9, 0.1f, false);
+
 
 	MainRenderer->SetRenderScaleToTexture();
 	MainRenderer->SetScaleRatio(3.0f);
@@ -170,6 +179,12 @@ void Kirby::StateUpdate(float _Delta)
 		return HittheWallUpdate(_Delta);
 	case KirbyState::HittheCeiling:
 		return HittheCeilingUpdate(_Delta);
+	case KirbyState::TakeOff:
+		return TakeOffUpdate(_Delta);
+	case KirbyState::Fly:
+		return FlyUpdate(_Delta);
+	case KirbyState::ExhaleAttack:
+		return ExhaleAttackUpdate(_Delta);
 	default:
 		break;
 	}
@@ -222,6 +237,15 @@ void Kirby::ChangeState(KirbyState _State)
 			break;
 		case KirbyState::HittheCeiling:
 			HittheCeilingStart();
+			break;
+		case KirbyState::TakeOff:
+			TakeOffStart();
+			break;
+		case KirbyState::Fly:
+			FlyStart();
+			break;
+		case KirbyState::ExhaleAttack:
+			ExhaleAttackStart();
 			break;
 		default:
 			break;
