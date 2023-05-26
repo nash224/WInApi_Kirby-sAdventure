@@ -6,6 +6,7 @@
 #define RUNMAXSPEED 425.0f
 #define JUMPPOWER 350.0f
 #define DECELERATIONSPEED 0.8f
+#define BRAKESPEED 1.2f
 #define WALKSPEED 0.8f
 #define RUNSPEED 1.2f
 #define HITTHEMAPTime 0.08f
@@ -74,6 +75,7 @@ protected:
 	void DirCheck();
 	void MoveHorizontal(float _Speed, float _Delta);
 	void DecelerationUpdate(float _Delta);
+	void DecelerationUpdate(float _Delta, float _Speed);
 	void MoveUpdate(float _Delta);
 	float4 GetKirbyScale();
 	void BlockedByWall();

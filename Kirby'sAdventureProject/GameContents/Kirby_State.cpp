@@ -343,7 +343,7 @@ void Kirby::TurnUpdate(float _Delta)
 		}
 	}
 
-	DecelerationUpdate(_Delta);
+	DecelerationUpdate(_Delta, BRAKESPEED);
 	MoveUpdate(_Delta);
 }
 
