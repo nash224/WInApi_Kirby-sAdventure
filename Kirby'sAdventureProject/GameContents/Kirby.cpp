@@ -341,6 +341,7 @@ void Kirby::DecelerationUpdate(float _Delta)
 // 커비의 위치 동기화
 void Kirby::MoveUpdate(float _Delta)
 {// 좌우의 속도가 다른 버그가 있음
+
 	if (CurrentSpeed > WALKMAXSPEED * _Delta || State == KirbyState::Run)
 	{
 		if (CurrentSpeed <= -RUNMAXSPEED * _Delta)
