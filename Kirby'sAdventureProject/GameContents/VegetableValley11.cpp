@@ -46,6 +46,9 @@ void VegetableValley11::Start()
 
 	CreateActor<PlayUIManager>();
 
+	GameEngineWindowTexture* Tetxure = ResourcesManager::GetInst().FindTexture("VegetableValley1_1.bmp");
+
+	BackGroundScale = Tetxure->GetScale();
 }
 
 
@@ -68,8 +71,7 @@ void VegetableValley11::Update(float _Delta)
 	}
 
 
-
-	if (LevelPlayer->GetPos().iX() >= 3048.0f)
+	if (LevelPlayer->GetPos().X >= BackGroundScale.X)
 	{
 		GameEngineCore::ChangeLevel("VegetableValley12");
 	}

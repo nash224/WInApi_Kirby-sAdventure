@@ -24,6 +24,7 @@ private:
 	class BackGround* LevelBackGround = nullptr;
 	class GameEffect* LevelEffect = nullptr;
 
+	float4 BackGroundScale = float4::ZERO;
 
 	void Start() override;
 	void Update(float _Delta) override;
