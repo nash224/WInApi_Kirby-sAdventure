@@ -78,8 +78,6 @@ void VegetableValley11::Update(float _Delta)
 
 void VegetableValley11::LevelStart(GameEngineLevel* _PrevLevel)
 {
-	LevelPlayer = Kirby::GetMainKirby();
-
 	if (nullptr == LevelPlayer)
 	{
 		MsgBoxAssert("플레이어를 세팅해주지 않았습니다.");

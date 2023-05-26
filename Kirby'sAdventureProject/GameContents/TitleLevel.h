@@ -1,4 +1,5 @@
 #pragma once
+#include <GameEnginePlatform/GameEngineSound.h>
 #include <GameEngineCore/GameEngineLevel.h>
 
 // ErrorCode : C2504 : 클래스를 지정할 때 기본 클래스가 지정되지 않으면 발생함
@@ -23,8 +24,13 @@ private:
 	class Player* LevelPlayer = nullptr;
 	class BackGround* LevelBackGround = nullptr;
 
+	GameEngineSoundPlayer BGMPlayer;
+
 	void Start() override;
 	void Update(float _DeltaTime) override;
+
+	void LevelStart(GameEngineLevel* _PrevLevel) override;
+	void LevelEnd(GameEngineLevel* _NextLevel) override;
 
 };
 

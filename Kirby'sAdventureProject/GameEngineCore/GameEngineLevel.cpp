@@ -192,6 +192,7 @@ void GameEngineLevel::ActorLevelEnd()
 		}
 	}
 }
+
 void GameEngineLevel::ActorLevelStart() {
 	for (const std::pair<int, std::list<GameEngineActor*>>& _Pair : AllActors)
 	{
