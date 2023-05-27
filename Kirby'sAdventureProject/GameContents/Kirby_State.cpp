@@ -123,6 +123,7 @@ void Kirby::TakeOffStart()
 {
 	StateTime = 0.0f;
 	IsChangeState = false;
+	BodyState = KirbyBodyState::Fat;
 	ChangeAnimationState("TakeOff");
 }
 
@@ -137,6 +138,7 @@ void Kirby::ExhaleAttackStart()
 {
 	StateTime = 0.0f;
 	IsChangeState = false;
+	BodyState = KirbyBodyState::Little;
 	ChangeAnimationState("ExhaleAttack");
 }
 
