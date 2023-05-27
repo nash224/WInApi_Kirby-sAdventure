@@ -76,6 +76,11 @@ protected:
 	bool CheckLeftWallBasedSpeed();
 	bool CheckRightWallBasedSpeed();
 	void SetCheckPoint(const float4& _ScaleSize);
+	bool IsSolidGround();
+	bool IsPassableGround();
+
+	void GravityLimit(float _Delta);
+	void VerticalUpdate();
 
 
 	void SetGravityVector(const float4& _GravityVector)
@@ -86,6 +91,11 @@ protected:
 	void AddGravityVector(const float _GravityPower, float _Delta)
 	{
 		GravityVector += float4::UP * _GravityPower * _Delta;
+	}
+
+	void SetAirResistance(float _AirResistance)
+	{
+		AirResistance = _AirResistance;
 	}
 
 	bool GetGroundState() const
@@ -104,6 +114,7 @@ private:
 	bool isGround = false;
 	bool IsGravity = true;
 	float GravityPower = 1.5f;
+	float AirResistance = 1.0f;
 	float4 GravityVector = float4::ZERO;
 
 };

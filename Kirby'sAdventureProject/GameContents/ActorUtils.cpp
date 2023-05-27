@@ -51,24 +51,30 @@ float4 ActorUtils::ActorCameraPos()
 
 void ActorUtils::Gravity(float _Delta)
 {
-	if (false == IsGravity)
-	{
-		return;
-	}
-
 	// 중력 보간법
 	GravityVector += float4::DOWN * GravityPower * _Delta;
+}
 
+void ActorUtils::GravityLimit(float _Delta)
+{
 	// 최대 점프 제한
-	if (GravityVector.Y <= - GravityMaxVector * _Delta)
+	if (GravityVector.Y <= -GravityMaxVector * _Delta)
 	{
 		GravityVector = float4::UP * GravityMaxVector * _Delta;
 	}
 
 	// 최대 중력 제한
-	if (GravityVector.Y >= GravityMaxVector * _Delta)
+	if (GravityVector.Y >= GravityMaxVector * AirResistance * _Delta)
 	{
-		GravityVector = float4::DOWN * GravityMaxVector * _Delta;
+		GravityVector = float4::DOWN * GravityMaxVector * AirResistance * _Delta;
+	}
+}
+
+void ActorUtils::VerticalUpdate()
+{
+	if (false == IsGravity)
+	{
+		return;
 	}
 
 	AddPos(GravityVector);
@@ -197,3 +203,26 @@ void ActorUtils::SetCheckPoint(const float4& _ScaleSize)
 	CeilRightCheckPoint =    { _ScaleSize.X + -CHECKGROUNDGAP , -_ScaleSize.Y };
 }
 
+bool ActorUtils::IsSolidGround()
+{
+	unsigned int LeftBottomColor = GetGroundColor(RGB(255, 255, 255), GroundLeftCheckPoint);
+	unsigned int RightBottomColor = GetGroundColor(RGB(255, 255, 255), GroundRightCheckPoint);
+	if ((RGB(0, 255, 255) == LeftBottomColor || RGB(0, 255, 255) == RightBottomColor))
+	{
+		return true;
+	}
+
+	return false;
+}
+
+bool ActorUtils::IsPassableGround()
+{
+	unsigned int LeftBottomColor = GetGroundColor(RGB(255, 255, 255), GroundLeftCheckPoint);
+	unsigned int RightBottomColor = GetGroundColor(RGB(255, 255, 255), GroundRightCheckPoint);
+	if ((RGB(0, 0, 255) == LeftBottomColor || RGB(0, 0, 255) == RightBottomColor))
+	{
+		return true;
+	}
+
+	return false;
+}

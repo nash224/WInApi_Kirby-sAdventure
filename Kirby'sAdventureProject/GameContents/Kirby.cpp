@@ -83,14 +83,14 @@ void Kirby::Start()
 	MainRenderer->CreateAnimation("Left_HittheCeiling", "Left_Kirby.bmp", 91, 91, 0.1f, false);
 	MainRenderer->CreateAnimation("Right_HittheCeiling", "Right_Kirby.bmp", 91, 91, 0.1f, false);
 
-	MainRenderer->CreateAnimation("Left_TakeOff", "Left_Kirby.bmp", 9, 9, 0.1f, false);
-	MainRenderer->CreateAnimation("Right_TakeOff", "Right_Kirby.bmp", 9, 9, 0.1f, false);
+	MainRenderer->CreateAnimation("Left_TakeOff", "Left_Kirby.bmp", 15, 18, 0.1f, false);
+	MainRenderer->CreateAnimation("Right_TakeOff", "Right_Kirby.bmp", 15, 18, 0.1f, false);
 
-	MainRenderer->CreateAnimation("Left_Fly", "Left_Kirby.bmp", 9, 9, 0.1f, true);
-	MainRenderer->CreateAnimation("Right_Fly", "Right_Kirby.bmp", 9, 9, 0.1f, true);
+	MainRenderer->CreateAnimation("Left_Fly", "Left_Kirby.bmp", 19, 20, 0.2f, true);
+	MainRenderer->CreateAnimation("Right_Fly", "Right_Kirby.bmp", 19, 20, 0.2f, true);
 
-	MainRenderer->CreateAnimation("Left_ExhaleAttack", "Left_Kirby.bmp", 9, 9, 0.1f, false);
-	MainRenderer->CreateAnimation("Right_ExhaleAttack", "Right_Kirby.bmp", 9, 9, 0.1f, false);
+	MainRenderer->CreateAnimation("Left_ExhaleAttack", "Left_Kirby.bmp", 21, 24, 0.1f, false);
+	MainRenderer->CreateAnimation("Right_ExhaleAttack", "Right_Kirby.bmp", 21, 24, 0.1f, false);
 
 
 	MainRenderer->SetRenderScaleToTexture();
@@ -386,9 +386,21 @@ void Kirby::DecelerationUpdate(float _Delta, float _Speed)
 
 // 커비의 위치 동기화
 void Kirby::MoveUpdate(float _Delta)
-{// 좌우의 속도가 다른 버그가 있음
-	if (CurrentSpeed > WALKMAXSPEED * _Delta || CurrentSpeed < -WALKMAXSPEED * _Delta || State == KirbyState::Run)
+{
+	if (State == KirbyState::Fly || State == KirbyState::TakeOff || State == KirbyState::ExhaleAttack)
 	{
+		if (CurrentSpeed <= -FLYMAXSPEED * _Delta)
+		{
+			CurrentSpeed = -FLYMAXSPEED * _Delta;
+		}
+
+		if (CurrentSpeed >= FLYMAXSPEED * _Delta)
+		{
+			CurrentSpeed = FLYMAXSPEED * _Delta;
+		}
+	}
+	else if (true == IsRunSpeed || State == KirbyState::Run)
+	{// 수정예정
 		if (CurrentSpeed <= -RUNMAXSPEED * _Delta)
 		{
 			CurrentSpeed = -RUNMAXSPEED * _Delta;
@@ -399,7 +411,7 @@ void Kirby::MoveUpdate(float _Delta)
 			CurrentSpeed = RUNMAXSPEED * _Delta;
 		}
 	}
-	else if ((CurrentSpeed <= WALKMAXSPEED * _Delta && CurrentSpeed > 0.0f) || (CurrentSpeed >= -WALKMAXSPEED * _Delta && CurrentSpeed < 0.0f))
+	else if ((CurrentSpeed > WALKMAXSPEED * _Delta || CurrentSpeed < -WALKMAXSPEED * _Delta))
 	{
 		if (CurrentSpeed <= -WALKMAXSPEED * _Delta)
 		{
@@ -485,7 +497,7 @@ void Kirby::BlockedByCeiling()
 		{
 			LeftCeilingCheckColor = GetGroundColor(RGB(255, 255, 255), CeilLeftCheckPoint + float4{ CHECKGAP , CHECKGAP });
 			RightCeilingCheckColor = GetGroundColor(RGB(255, 255, 255), CeilRightCheckPoint + float4{ -CHECKGAP , CHECKGAP });
-			AddPos(float4::UP * 3);
+			AddPos(float4::DOWN * 3);
 		}
 	}
 }

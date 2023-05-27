@@ -1,15 +1,22 @@
 #pragma once
 #include "ActorUtils.h"
 
-#define ACCELERATIONSPEED 2.0f
 #define WALKMAXSPEED 300.0f
 #define RUNMAXSPEED 425.0f
-#define JUMPPOWER 350.0f
-#define DECELERATIONSPEED 0.8f
-#define BRAKESPEED 1.2f
+#define FLYMAXSPEED 150.0f
+
 #define WALKSPEED 0.8f
 #define RUNSPEED 1.2f
+#define FLYSPEED 0.6f
+
+#define JUMPPOWER 350.0f
+#define FLYPOWER 280.0f
+
+#define DECELERATIONSPEED 0.8f
+#define BRAKESPEED 1.2f
+
 #define HITTHEMAPTime 0.08f
+#define TAKEOFFTIME 0.4f
 #define CHECKGAP 3.0f
 
 enum class KirbyBodyState
@@ -132,6 +139,7 @@ private:
 
 	bool IsChangeState = true;
 	bool IsBounce = false;
+	bool IsRunSpeed = false;
 	
 
 	float StateTime = 0.0f;
