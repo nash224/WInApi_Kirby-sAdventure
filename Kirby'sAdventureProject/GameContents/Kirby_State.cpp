@@ -49,6 +49,7 @@ void Kirby::TurnStart()
 void Kirby::JumpStart()
 {
 	StateTime = 0.0f;
+	AbleJump = true;
 	DirCheck();
 	GravityReset();
 	ChangeAnimationState("Jump");
@@ -133,14 +134,6 @@ void Kirby::FlyStart()
 	StateTime = 0.0f;
 	IsChangeState = false;
 	ChangeAnimationState("Fly");
-}
-
-void Kirby::ExhaleAttackStart()
-{
-	StateTime = 0.0f;
-	IsChangeState = false;
-	BodyState = KirbyBodyState::Little;
-	ChangeAnimationState("ExhaleAttack");
 }
 
 
@@ -384,8 +377,12 @@ void Kirby::JumpUpdate(float _Delta)
 		return;
 	}
 
+	if (true == GameEngineInput::IsUp('X'))
+	{
+		AbleJump = false;
+	}
 
-	if (true == GameEngineInput::IsPress('X') && StateTime < 0.4f)
+	if (true == GameEngineInput::IsPress('X') && StateTime < 0.4f && true == AbleJump)
 	{
 		SetGravityVector(float4::UP * (JUMPPOWER * _Delta));
 	}
@@ -395,6 +392,7 @@ void Kirby::JumpUpdate(float _Delta)
 	BlockedByGround();
 	MoveHorizontal(WALKSPEED, _Delta);
 	BlockedByWall();
+
 
 	ChangeAnimationState("Jump");
 
@@ -410,6 +408,7 @@ void Kirby::JumpUpdate(float _Delta)
 void Kirby::AerialMotionUpdate(float _Delta)
 {
 	StateTime += _Delta;
+
 
 	if (StateTime > 0.3f)
 	{
@@ -792,6 +791,14 @@ void Kirby::FlyUpdate(float _Delta)
 	}
 	GravityLimit(_Delta);
 	VerticalUpdate();
+}
+
+void Kirby::ExhaleAttackStart()
+{
+	StateTime = 0.0f;
+	IsChangeState = false;
+	BodyState = KirbyBodyState::Little;
+	ChangeAnimationState("ExhaleAttack");
 }
 
 void Kirby::ExhaleAttackUpdate(float _Delta)

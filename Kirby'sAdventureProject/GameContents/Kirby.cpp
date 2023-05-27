@@ -399,7 +399,7 @@ void Kirby::MoveUpdate(float _Delta)
 			CurrentSpeed = FLYMAXSPEED * _Delta;
 		}
 	}
-	else if (true == IsRunSpeed || State == KirbyState::Run)
+	else if (State == KirbyState::Run)
 	{// 수정예정
 		if (CurrentSpeed <= -RUNMAXSPEED * _Delta)
 		{
