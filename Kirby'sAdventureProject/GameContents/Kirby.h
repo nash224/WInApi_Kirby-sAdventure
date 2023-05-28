@@ -15,14 +15,15 @@
 #define DECELERATIONSPEED 0.8f
 #define BRAKESPEED 1.2f
 
-#define HITTHEMAPTime 0.08f
+#define HITTHEMAPTIME 0.08f
+#define EXHALEATTACKTIME 0.08f
 #define TAKEOFFTIME 0.4f
-#define CHECKGAP 3.0f
 
 enum class KirbyBodyState
 {
 	Little,
 	Fat,
+	Lower,
 	Max,
 };
 
@@ -48,10 +49,10 @@ enum class KirbyState
 	Max,
 };
 
-enum class KirbyDir
+enum class KirbyMode
 {
-	Right,
-	Left,
+	Normal,
+	Spark,
 	Max,
 };
 
@@ -79,6 +80,9 @@ public:
 protected:
 	static Kirby* MainKirby;
 
+	KirbyMode Mode = KirbyMode::Max;
+
+
 	void ChangeState(KirbyState State);
 	void ChangeAnimationState(const std::string& _StateName);
 
@@ -88,9 +92,6 @@ protected:
 	void DecelerationUpdate(float _Delta, float _Speed);
 	void MoveUpdate(float _Delta);
 	float4 GetKirbyScale();
-	void BlockedByWall();
-	void BlockedByGround();
-	void BlockedByCeiling();
 
 
 	void StateUpdate(float _Delta);

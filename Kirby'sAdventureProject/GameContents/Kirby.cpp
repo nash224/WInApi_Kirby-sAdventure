@@ -89,8 +89,8 @@ void Kirby::Start()
 	MainRenderer->CreateAnimation("Left_Fly", "Left_Kirby.bmp", 19, 20, 0.2f, true);
 	MainRenderer->CreateAnimation("Right_Fly", "Right_Kirby.bmp", 19, 20, 0.2f, true);
 
-	MainRenderer->CreateAnimation("Left_ExhaleAttack", "Left_Kirby.bmp", 21, 24, 0.1f, false);
-	MainRenderer->CreateAnimation("Right_ExhaleAttack", "Right_Kirby.bmp", 21, 24, 0.1f, false);
+	MainRenderer->CreateAnimation("Left_ExhaleAttack", "Left_Kirby.bmp", 21, 24, EXHALEATTACKTIME, false);
+	MainRenderer->CreateAnimation("Right_ExhaleAttack", "Right_Kirby.bmp", 21, 24, EXHALEATTACKTIME, false);
 
 
 	MainRenderer->SetRenderScaleToTexture();
@@ -107,6 +107,7 @@ void Kirby::Start()
 	Dir = ActorDir::Right;
 	ChangeState(KirbyState::Idle);
 	BodyState = KirbyBodyState::Little;
+	Mode = KirbyMode::Normal;
 
 
 	BodyCollision = CreateCollision(CollisionOrder::PlayerBody);
@@ -312,12 +313,17 @@ float4 Kirby::GetKirbyScale()
 {
 	if (BodyState == KirbyBodyState::Little)
 	{
-		return float4{ 24.0f, 48.0f };
+		return float4{ 24.0f, 39.0f };
 	}
 
 	if (BodyState == KirbyBodyState::Fat)
 	{
-		return float4{ 33.0f, 63.0f };
+		return float4{ 24.0f, 42.0f };
+	}
+
+	if (BodyState == KirbyBodyState::Lower)
+	{
+		return float4{ 24.0f, 21.0f };
 	}
 
 	return float4{ 0.0f, 0.0f };
@@ -425,81 +431,6 @@ void Kirby::MoveUpdate(float _Delta)
 	}
 
 	AddPos({ CurrentSpeed, 0.0f});
-}
-
-
-void Kirby::BlockedByWall()
-{
-	if (true == CheckLeftWallBasedSpeed() && CurrentSpeed < 0.0f)
-	{
-		CurrentSpeed = 0.0f;
-	}
-	if (true == CheckRightWallBasedSpeed() && CurrentSpeed > 0.0f)
-	{
-		CurrentSpeed = 0.0f;
-	}
-
-	{
-		unsigned int BottomWallCheckColor = GetGroundColor(RGB(255, 255, 255), WallBotLeftCheckPoint + float4{ CHECKGAP , 0.0f });
-		unsigned int TopWallCheckColor = GetGroundColor(RGB(255, 255, 255), WallTopLeftCheckPoint + float4{ CHECKGAP , 0.0f });
-
-		if ((BottomWallCheckColor == RGB(0, 255, 255)) || (TopWallCheckColor == RGB(0, 255, 255)))
-		{
-			while ((BottomWallCheckColor == RGB(0, 255, 255)) || (TopWallCheckColor == RGB(0, 255, 255)))
-			{
-				BottomWallCheckColor = GetGroundColor(RGB(255, 255, 255), WallBotLeftCheckPoint + float4{ CHECKGAP , 0.0f });
-				TopWallCheckColor = GetGroundColor(RGB(255, 255, 255), WallTopLeftCheckPoint + float4{ CHECKGAP , 0.0f });
-				AddPos(float4::RIGHT * 3);
-			}
-		}
-	}
-
-	{
-		unsigned int BottomWallCheckColor = GetGroundColor(RGB(255, 255, 255), WallBotRightCheckPoint + float4{ -CHECKGAP , 0.0f });
-		unsigned int TopWallCheckColor = GetGroundColor(RGB(255, 255, 255), WallTopRightCheckPoint + float4{ -CHECKGAP , 0.0f });
-
-		if ((BottomWallCheckColor == RGB(0, 255, 255)) || (TopWallCheckColor == RGB(0, 255, 255)))
-		{
-			while ((BottomWallCheckColor == RGB(0, 255, 255)) || (TopWallCheckColor == RGB(0, 255, 255)))
-			{
-				BottomWallCheckColor = GetGroundColor(RGB(255, 255, 255), WallBotRightCheckPoint + float4{ -CHECKGAP , 0.0f });
-				TopWallCheckColor = GetGroundColor(RGB(255, 255, 255), WallTopRightCheckPoint + float4{ -CHECKGAP , 0.0f });
-				AddPos(float4::LEFT * 3);
-			}
-		}
-	}
-}
-
-void Kirby::BlockedByGround()
-{
-	unsigned int LeftGroundCheckColor = GetGroundColor(RGB(255, 255, 255), GroundLeftCheckPoint + float4{ CHECKGAP , -CHECKGAP });
-	unsigned int RightGroundCheckColor = GetGroundColor(RGB(255, 255, 255), GroundRightCheckPoint + float4{ -CHECKGAP , -CHECKGAP });
-
-	if ((LeftGroundCheckColor == RGB(0, 255, 255)) || (RightGroundCheckColor == RGB(0, 255, 255)))
-	{
-		while ((LeftGroundCheckColor == RGB(0, 255, 255)) || (RightGroundCheckColor == RGB(0, 255, 255)))
-		{
-			LeftGroundCheckColor = GetGroundColor(RGB(255, 255, 255), GroundLeftCheckPoint + float4{ CHECKGAP , -CHECKGAP });
-			RightGroundCheckColor = GetGroundColor(RGB(255, 255, 255), GroundRightCheckPoint + float4{ -CHECKGAP , -CHECKGAP });
-			AddPos(float4::UP * 3);
-		}
-	}
-}
-
-void Kirby::BlockedByCeiling()
-{
-	unsigned int LeftCeilingCheckColor = GetGroundColor(RGB(255, 255, 255), CeilLeftCheckPoint + float4{ CHECKGAP , CHECKGAP });
-	unsigned int RightCeilingCheckColor = GetGroundColor(RGB(255, 255, 255), CeilRightCheckPoint + float4{ -CHECKGAP , CHECKGAP });
-
-	if ((LeftCeilingCheckColor == RGB(0, 255, 255)) || (RightCeilingCheckColor == RGB(0, 255, 255)))
-	{
-		while ((LeftCeilingCheckColor == RGB(0, 255, 255)) || (RightCeilingCheckColor == RGB(0, 255, 255)))
-		{
-			LeftCeilingCheckColor = GetGroundColor(RGB(255, 255, 255), CeilLeftCheckPoint + float4{ CHECKGAP , CHECKGAP });
-			RightCeilingCheckColor = GetGroundColor(RGB(255, 255, 255), CeilRightCheckPoint + float4{ -CHECKGAP , CHECKGAP });
-			AddPos(float4::DOWN * 3);
-		}
-	}
 }
 
 

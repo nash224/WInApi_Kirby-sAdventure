@@ -5,6 +5,7 @@
 #define CHECKCEILINGDGAP 12.0f
 #define CHECKWALLWIDTHHGAP 9.0f
 #define CHECKWALLHEIGHTHGAP 12.0f
+#define CHECKGAP 3.0f
 
 enum class ActorDir
 {
@@ -75,6 +76,9 @@ protected:
 	bool CheckRightWall();
 	bool CheckLeftWallBasedSpeed();
 	bool CheckRightWallBasedSpeed();
+	void BlockedByWall();
+	void BlockedByGround();
+	void BlockedByCeiling();
 	void SetCheckPoint(const float4& _ScaleSize);
 	bool IsSolidGround();
 	bool IsPassableGround();
@@ -113,7 +117,7 @@ private:
 
 	bool isGround = false;
 	bool IsGravity = true;
-	float GravityPower = 1.5f;
+	float GravityPower = 1.3f;
 	float AirResistance = 1.0f;
 	float4 GravityVector = float4::ZERO;
 
