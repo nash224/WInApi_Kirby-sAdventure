@@ -436,14 +436,14 @@ void Kirby::AerialMotionUpdate(float _Delta)
 {
 	StateTime += _Delta;
 
-	bool LeftCheck = MainRenderer->FindAnimation("Left_AerialMotion")->IsEnd;
-	bool RightCheck = MainRenderer->FindAnimation("Right_AerialMotion")->IsEnd;
+	bool LeftCheck = MainRenderer->FindAnimation("Normal_Left_AerialMotion")->IsEnd;
+	bool RightCheck = MainRenderer->FindAnimation("Normal_Right_AerialMotion")->IsEnd;
 
 	if (LeftCheck || RightCheck)
 	{
 		IsChangeState = true;
-		MainRenderer->FindAnimation("Left_AerialMotion")->IsEnd = false;
-		MainRenderer->FindAnimation("Right_AerialMotion")->IsEnd = false;
+		MainRenderer->FindAnimation("Normal_Left_AerialMotion")->IsEnd = false;
+		MainRenderer->FindAnimation("Normal_Right_AerialMotion")->IsEnd = false;
 	}
 
 	if (IsChangeState == true)
@@ -757,14 +757,14 @@ void Kirby::TakeOffUpdate(float _Delta)
 {
 	StateTime += _Delta;
 
-	bool LeftCheck = MainRenderer->FindAnimation("Left_TakeOff")->IsEnd;
-	bool RightCheck = MainRenderer->FindAnimation("Right_TakeOff")->IsEnd;
+	bool LeftCheck = MainRenderer->FindAnimation("Normal_Left_TakeOff")->IsEnd;
+	bool RightCheck = MainRenderer->FindAnimation("Normal_Right_TakeOff")->IsEnd;
 
 	if (LeftCheck || RightCheck)
 	{
 		IsChangeState = true;
-		MainRenderer->FindAnimation("Left_TakeOff")->IsEnd = false;
-		MainRenderer->FindAnimation("Right_TakeOff")->IsEnd = false;
+		MainRenderer->FindAnimation("Normal_Left_TakeOff")->IsEnd = false;
+		MainRenderer->FindAnimation("Normal_Right_TakeOff")->IsEnd = false;
 	}
 
 	if (true == IsChangeState)
@@ -806,15 +806,15 @@ void Kirby::FlyUpdate(float _Delta)
 
 	if (true == GameEngineInput::IsPress('W') || true == GameEngineInput::IsPress('X'))
 	{
-		MainRenderer->FindAnimation("Left_Fly")->Inters = { 0.1f, 0.1f };
-		MainRenderer->FindAnimation("Right_Fly")->Inters = { 0.1f, 0.1f };
+		MainRenderer->FindAnimation("Normal_Left_Fly")->Inters = { 0.1f, 0.1f };
+		MainRenderer->FindAnimation("Normal_Right_Fly")->Inters = { 0.1f, 0.1f };
 		SetGravityVector(float4::UP * (FLYPOWER * _Delta));
 	}
 
 	if (false == GameEngineInput::IsPress('W') && false == GameEngineInput::IsPress('X'))
 	{
-		MainRenderer->FindAnimation("Left_Fly")->Inters = { 0.2f, 0.2f };
-		MainRenderer->FindAnimation("Right_Fly")->Inters = { 0.2f, 0.2f };
+		MainRenderer->FindAnimation("Normal_Left_Fly")->Inters = { 0.2f, 0.2f };
+		MainRenderer->FindAnimation("Normal_Right_Fly")->Inters = { 0.2f, 0.2f };
 	}
 
 	if (true == CeilingCheck())
@@ -863,14 +863,14 @@ void Kirby::ExhaleAttackUpdate(float _Delta)
 {
 	StateTime += _Delta;
 
-	bool LeftCheck = MainRenderer->FindAnimation("Left_ExhaleAttack")->IsEnd;
-	bool RightCheck = MainRenderer->FindAnimation("Right_ExhaleAttack")->IsEnd;
+	bool LeftCheck = MainRenderer->FindAnimation("Normal_Left_ExhaleAttack")->IsEnd;
+	bool RightCheck = MainRenderer->FindAnimation("Normal_Right_ExhaleAttack")->IsEnd;
 
 	if (LeftCheck || RightCheck)
 	{
 		IsChangeState = true;
-		MainRenderer->FindAnimation("Right_ExhaleAttack")->IsEnd = false;
-		MainRenderer->FindAnimation("Left_ExhaleAttack")->IsEnd = false;
+		MainRenderer->FindAnimation("Normal_Right_ExhaleAttack")->IsEnd = false;
+		MainRenderer->FindAnimation("Normal_Left_ExhaleAttack")->IsEnd = false;
 	}
 
 	if (true == IsChangeState && false == GetGroundState())

@@ -136,11 +136,11 @@
       <Filter>Global\Object</Filter>
     </ClInclude>
     <ClInclude Include="PlayUIManager.h" />
-    <ClInclude Include="BasicKirby.h">
-      <Filter>Global\Object\KirbyMode</Filter>
-    </ClInclude>
     <ClInclude Include="GlobalValue.h">
       <Filter>Global</Filter>
+    </ClInclude>
+    <ClInclude Include="NormalMode.h">
+      <Filter>Global\Object\KirbyMode</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -284,11 +284,11 @@
       <Filter>Global\Object</Filter>
     </ClCompile>
     <ClCompile Include="PlayUIManager.cpp" />
-    <ClCompile Include="BasicKirby.cpp">
-      <Filter>Global\Object\KirbyMode</Filter>
-    </ClCompile>
     <ClCompile Include="GlobalValue.cpp">
       <Filter>Global</Filter>
+    </ClCompile>
+    <ClCompile Include="NormalMode.cpp">
+      <Filter>Global\Object\KirbyMode</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

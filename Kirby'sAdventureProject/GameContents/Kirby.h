@@ -52,6 +52,7 @@ enum class KirbyState
 enum class KirbyMode
 {
 	Normal,
+	OrangeIsh,
 	Spark,
 	Max,
 };

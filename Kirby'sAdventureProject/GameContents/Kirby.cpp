@@ -41,63 +41,60 @@ void Kirby::Start()
 	MainRenderer = CreateRenderer(RenderOrder::Play);
 
 
-	MainRenderer->CreateAnimation("Left_Idle", "Normal_Left_Kirby.bmp", 0, 1, 0.5f, true);
-	MainRenderer->CreateAnimation("Right_Idle", "Normal_RIght_Kirby.bmp", 0, 1, 0.5f, true);
+	MainRenderer->CreateAnimation("Normal_Left_Idle", "Normal_Left_Kirby.bmp", 0, 1, 0.5f, true);
+	MainRenderer->CreateAnimation("Normal_Right_Idle", "Normal_RIght_Kirby.bmp", 0, 1, 0.5f, true);
 
-	MainRenderer->CreateAnimation("Left_Walk", "Normal_Left_Kirby.bmp", 2, 5, 0.2f, true);
-	MainRenderer->CreateAnimation("Right_Walk", "Normal_RIght_Kirby.bmp", 2, 5, 0.2f, true);
+	MainRenderer->CreateAnimation("Normal_Left_Walk", "Normal_Left_Kirby.bmp", 2, 5, 0.2f, true);
+	MainRenderer->CreateAnimation("Normal_Right_Walk", "Normal_RIght_Kirby.bmp", 2, 5, 0.2f, true);
 
-	MainRenderer->CreateAnimation("Left_Run", "Normal_Left_Kirby.bmp", 2, 5, 0.1f, true);
-	MainRenderer->CreateAnimation("Right_Run", "Normal_RIght_Kirby.bmp", 2, 5, 0.1f, true);
+	MainRenderer->CreateAnimation("Normal_Left_Run", "Normal_Left_Kirby.bmp", 2, 5, 0.1f, true);
+	MainRenderer->CreateAnimation("Normal_Right_Run", "Normal_RIght_Kirby.bmp", 2, 5, 0.1f, true);
 
-	MainRenderer->CreateAnimation("Left_Turn", "Normal_Left_Kirby.bmp", 12, 12, 0.05f, false);
-	MainRenderer->CreateAnimation("Right_Turn", "Normal_RIght_Kirby.bmp", 12, 12, 0.05f, false);
+	MainRenderer->CreateAnimation("Normal_Left_Turn", "Normal_Left_Kirby.bmp", 12, 12, 0.05f, false);
+	MainRenderer->CreateAnimation("Normal_Right_Turn", "Normal_RIght_Kirby.bmp", 12, 12, 0.05f, false);
 
-	MainRenderer->CreateAnimation("Left_Jump", "Normal_Left_Kirby.bmp", 9, 9, 0.1f, false);
-	MainRenderer->CreateAnimation("Right_Jump", "Normal_RIght_Kirby.bmp", 9, 9, 0.1f, false);
+	MainRenderer->CreateAnimation("Normal_Left_Jump", "Normal_Left_Kirby.bmp", 9, 9, 0.1f, false);
+	MainRenderer->CreateAnimation("Normal_Right_Jump", "Normal_RIght_Kirby.bmp", 9, 9, 0.1f, false);
 
-	MainRenderer->CreateAnimation("Left_AerialMotion", "Normal_Left_Kirby.bmp", 10, 13, 0.05f, false);
-	MainRenderer->CreateAnimation("Right_AerialMotion", "Normal_RIght_Kirby.bmp", 10, 13, 0.05f, false);
+	MainRenderer->CreateAnimation("Normal_Left_AerialMotion", "Normal_Left_Kirby.bmp", 10, 13, 0.05f, false);
+	MainRenderer->CreateAnimation("Normal_Right_AerialMotion", "Normal_RIght_Kirby.bmp", 10, 13, 0.05f, false);
 
-	MainRenderer->CreateAnimation("Left_Fall", "Normal_Left_Kirby.bmp", 13, 13, 0.1f, false);
-	MainRenderer->CreateAnimation("Right_Fall", "Normal_RIght_Kirby.bmp", 13, 13, 0.1f, false);
+	MainRenderer->CreateAnimation("Normal_Left_Fall", "Normal_Left_Kirby.bmp", 13, 13, 0.1f, false);
+	MainRenderer->CreateAnimation("Normal_Right_Fall", "Normal_RIght_Kirby.bmp", 13, 13, 0.1f, false);
 
-	MainRenderer->CreateAnimation("Left_AccelerateDown", "Normal_Left_Kirby.bmp", 10, 10, 0.1f, false);
-	MainRenderer->CreateAnimation("Right_AccelerateDown", "Normal_RIght_Kirby.bmp", 10, 10, 0.1f, false);
+	MainRenderer->CreateAnimation("Normal_Left_AccelerateDown", "Normal_Left_Kirby.bmp", 10, 10, 0.1f, false);
+	MainRenderer->CreateAnimation("Normal_Right_AccelerateDown", "Normal_RIght_Kirby.bmp", 10, 10, 0.1f, false);
 
-	MainRenderer->CreateAnimation("Left_Bounce", "Normal_Left_Kirby.bmp", 10, 10, 0.1f, false);
-	MainRenderer->CreateAnimation("Right_Bounce", "Normal_RIght_Kirby.bmp", 10, 10, 0.1f, false);
+	MainRenderer->CreateAnimation("Normal_Left_Bounce", "Normal_Left_Kirby.bmp", 10, 10, 0.1f, false);
+	MainRenderer->CreateAnimation("Normal_Right_Bounce", "Normal_RIght_Kirby.bmp", 10, 10, 0.1f, false);
 
-	MainRenderer->CreateAnimation("Left_Landing", "Normal_Left_Kirby.bmp", 7, 7, 0.1f, false);
-	MainRenderer->CreateAnimation("Right_Landing", "Normal_RIght_Kirby.bmp", 7, 7, 0.1f, false);
+	MainRenderer->CreateAnimation("Normal_Left_Landing", "Normal_Left_Kirby.bmp", 7, 7, 0.1f, false);
+	MainRenderer->CreateAnimation("Normal_Right_Landing", "Normal_RIght_Kirby.bmp", 7, 7, 0.1f, false);
 
-	MainRenderer->CreateAnimation("Left_LowerPosture", "Normal_Left_Kirby.bmp", 7, 7, 0.1f, false);
-	MainRenderer->CreateAnimation("Right_LowerPosture", "Normal_RIght_Kirby.bmp", 7, 7, 0.1f, false);
+	MainRenderer->CreateAnimation("Normal_Left_LowerPosture", "Normal_Left_Kirby.bmp", 7, 7, 0.1f, false);
+	MainRenderer->CreateAnimation("Normal_Right_LowerPosture", "Normal_RIght_Kirby.bmp", 7, 7, 0.1f, false);
 
-	MainRenderer->CreateAnimation("Left_LowerAttack", "Normal_Left_Kirby.bmp", 8, 8, 0.1f, false);
-	MainRenderer->CreateAnimation("Right_LowerAttack", "Normal_RIght_Kirby.bmp", 8, 8, 0.1f, false);
+	MainRenderer->CreateAnimation("Normal_Left_LowerAttack", "Normal_Left_Kirby.bmp", 8, 8, 0.1f, false);
+	MainRenderer->CreateAnimation("Normal_Right_LowerAttack", "Normal_RIght_Kirby.bmp", 8, 8, 0.1f, false);
 
-	MainRenderer->CreateAnimation("Left_HittheWall", "Normal_Left_Kirby.bmp", 92, 92, 0.1f, false);
-	MainRenderer->CreateAnimation("Right_HittheWall", "Normal_RIght_Kirby.bmp", 92, 92, 0.1f, false);
+	MainRenderer->CreateAnimation("Normal_Left_HittheWall", "Normal_Left_Kirby.bmp", 92, 92, 0.1f, false);
+	MainRenderer->CreateAnimation("Normal_Right_HittheWall", "Normal_RIght_Kirby.bmp", 92, 92, 0.1f, false);
 
-	MainRenderer->CreateAnimation("Left_HittheCeiling", "Normal_Left_Kirby.bmp", 91, 91, 0.1f, false);
-	MainRenderer->CreateAnimation("Right_HittheCeiling", "Normal_RIght_Kirby.bmp", 91, 91, 0.1f, false);
+	MainRenderer->CreateAnimation("Normal_Left_HittheCeiling", "Normal_Left_Kirby.bmp", 91, 91, 0.1f, false);
+	MainRenderer->CreateAnimation("Normal_Right_HittheCeiling", "Normal_RIght_Kirby.bmp", 91, 91, 0.1f, false);
 
-	MainRenderer->CreateAnimation("Left_TakeOff", "Normal_Left_Kirby.bmp", 15, 18, 0.1f, false);
-	MainRenderer->CreateAnimation("Right_TakeOff", "Normal_RIght_Kirby.bmp", 15, 18, 0.1f, false);
+	MainRenderer->CreateAnimation("Normal_Left_TakeOff", "Normal_Left_Kirby.bmp", 15, 18, 0.1f, false);
+	MainRenderer->CreateAnimation("Normal_Right_TakeOff", "Normal_RIght_Kirby.bmp", 15, 18, 0.1f, false);
 
-	MainRenderer->CreateAnimation("Left_Fly", "Normal_Left_Kirby.bmp", 19, 20, 0.2f, true);
-	MainRenderer->CreateAnimation("Right_Fly", "Normal_RIght_Kirby.bmp", 19, 20, 0.2f, true);
+	MainRenderer->CreateAnimation("Normal_Left_Fly", "Normal_Left_Kirby.bmp", 19, 20, 0.2f, true);
+	MainRenderer->CreateAnimation("Normal_Right_Fly", "Normal_RIght_Kirby.bmp", 19, 20, 0.2f, true);
 
-	MainRenderer->CreateAnimation("Left_ExhaleAttack", "Normal_Left_Kirby.bmp", 21, 24, EXHALEATTACKTIME, false);
-	MainRenderer->CreateAnimation("Right_ExhaleAttack", "Normal_RIght_Kirby.bmp", 21, 24, EXHALEATTACKTIME, false);
+	MainRenderer->CreateAnimation("Normal_Left_ExhaleAttack", "Normal_Left_Kirby.bmp", 21, 24, EXHALEATTACKTIME, false);
+	MainRenderer->CreateAnimation("Normal_Right_ExhaleAttack", "Normal_RIght_Kirby.bmp", 21, 24, EXHALEATTACKTIME, false);
 
 
 	MainRenderer->SetRenderScaleToTexture();
 	MainRenderer->SetScaleRatio(3.0f);
-	
-	MainRenderer->FindAnimation("Left_Idle")->Inters = { 2.5f, 0.1f };
-	MainRenderer->FindAnimation("Right_Idle")->Inters = { 2.5f, 0.1f };
 
 
 
@@ -286,7 +283,9 @@ void Kirby::DirCheck()
 
 void Kirby::ChangeAnimationState(const std::string& _StateName)
 {
+
 	std::string AnimationName = "";
+	std::string ModeName = "";
 
 	switch (Dir)
 	{
@@ -302,9 +301,29 @@ void Kirby::ChangeAnimationState(const std::string& _StateName)
 
 	AnimationName += _StateName;
 
+	switch (Mode)
+	{
+	case KirbyMode::Normal:
+		ModeName = "Normal_";
+		break;
+	case KirbyMode::OrangeIsh:
+		ModeName = "OrangeIsh_";
+		break;
+	case KirbyMode::Spark:
+		ModeName = "Spark_";
+		break;
+	case KirbyMode::Max:
+		break;
+	default:
+		break;
+	}
+
+	ModeName += AnimationName;
+
+
 	CurState = _StateName;
 
-	MainRenderer->ChangeAnimation(AnimationName);
+	MainRenderer->ChangeAnimation(ModeName);
 }
 
 
