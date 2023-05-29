@@ -1,7 +1,8 @@
 #pragma once
+#include "ActorUtils.h"
 
 // Ό³Έν :
-class NomalEnemies
+class NomalEnemies : public ActorUtils
 {
 public:
 	// constrcuter destructer
@@ -15,6 +16,7 @@ public:
 	NomalEnemies& operator=(NomalEnemies&& _Other) noexcept = delete;
 
 protected:
+	float4 Scale = float4::ZERO;
 
 private:
 

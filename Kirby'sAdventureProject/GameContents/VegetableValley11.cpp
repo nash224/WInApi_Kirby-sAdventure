@@ -9,9 +9,10 @@
 #include <GameEngineCore/ResourcesManager.h>
 
 // contents
-#include "Kirby.h"
 #include "BackGround.h"
 #include "GameEffect.h"
+#include "Kirby.h"
+#include "WaddleDee.h"
 #include "PlayUIManager.h"
 
 VegetableValley11::VegetableValley11() 
@@ -44,17 +45,21 @@ void VegetableValley11::Start()
 	LevelPlayer = GameEngineLevel::CreateActor<Kirby>();
 	LevelPlayer->SetGroundTexture("VegetableValley1_1Pixel.bmp");
 
-	CreateActor<PlayUIManager>();
+	// Έχ1
+	WaddleDee* WaddleDee1 = GameEngineLevel::CreateActor<WaddleDee>();
+	WaddleDee1->init("VegetableValley1_1Pixel.bmp", float4{ 600, 400 });
+	LevelEnemy.insert(std::make_pair("WaddleDee1", WaddleDee1));
+
+
+	GameEngineLevel::CreateActor<PlayUIManager>();
 
 	GameEngineWindowTexture* Tetxure = ResourcesManager::GetInst().FindTexture("VegetableValley1_1.bmp");
-
 	BackGroundScale = Tetxure->GetScale();
 }
 
 
 void VegetableValley11::Update(float _Delta)
 {
-
 	if (true == GameEngineInput::IsDown('P'))
 	{
 		GameEngineCore::ChangeLevel("PauseLevel");
@@ -70,10 +75,12 @@ void VegetableValley11::Update(float _Delta)
 		LevelBackGround->SwitchRender();
 	}
 
+	float4 WinHalfScale = GameEngineWindow::MainWindow.GetScale().Half();
 
-	if (LevelPlayer->GetPos().X >= BackGroundScale.X)
+	Enemy* Waddle1 = LevelEnemy.find("WaddleDee1")->second;
+	if (false == Waddle1->IsUpdate() && WinHalfScale.X >= LevelPlayer->GetPos().X - Waddle1->RespawnLocation.X)
 	{
-		GameEngineCore::ChangeLevel("VegetableValley12");
+		LevelEnemy.find("WaddleDee1")->second->On();
 	}
 }
 

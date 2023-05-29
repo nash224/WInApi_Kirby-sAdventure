@@ -28,9 +28,6 @@
     <ClInclude Include="WaddleDee.h">
       <Filter>Global\Object\Enemy\NomalEnemy</Filter>
     </ClInclude>
-    <ClInclude Include="Cappy.h">
-      <Filter>Global\Object\Enemy\NomalEnemy</Filter>
-    </ClInclude>
     <ClInclude Include="Kabu.h">
       <Filter>Global\Object\Enemy\NomalEnemy</Filter>
     </ClInclude>
@@ -43,13 +40,7 @@
     <ClInclude Include="BroomHatter.h">
       <Filter>Global\Object\Enemy\NomalEnemy</Filter>
     </ClInclude>
-    <ClInclude Include="Enemy.h">
-      <Filter>Global\Object\Enemy</Filter>
-    </ClInclude>
     <ClInclude Include="PowerEnemy.h">
-      <Filter>Global\Object\Enemy\PowerEnemy</Filter>
-    </ClInclude>
-    <ClInclude Include="Parasol.h">
       <Filter>Global\Object\Enemy\PowerEnemy</Filter>
     </ClInclude>
     <ClInclude Include="Sparky.h">
@@ -58,16 +49,10 @@
     <ClInclude Include="LaserBall.h">
       <Filter>Global\Object\Enemy\PowerEnemy</Filter>
     </ClInclude>
-    <ClInclude Include="Bomber.h">
-      <Filter>Global\Object\Enemy\PowerEnemy</Filter>
-    </ClInclude>
     <ClInclude Include="UFO.h">
       <Filter>Global\Object\Enemy\PowerEnemy</Filter>
     </ClInclude>
     <ClInclude Include="WaddleDoo.h">
-      <Filter>Global\Object\Enemy\PowerEnemy</Filter>
-    </ClInclude>
-    <ClInclude Include="SirKibble.h">
       <Filter>Global\Object\Enemy\PowerEnemy</Filter>
     </ClInclude>
     <ClInclude Include="PauseLevel.h">
@@ -75,24 +60,6 @@
     </ClInclude>
     <ClInclude Include="GameOverLevel.h">
       <Filter>Level</Filter>
-    </ClInclude>
-    <ClInclude Include="HpLadyBug.h">
-      <Filter>Global\Object\Item</Filter>
-    </ClInclude>
-    <ClInclude Include="OneCoinUp.h">
-      <Filter>Global\Object\Item</Filter>
-    </ClInclude>
-    <ClInclude Include="HealthJuice.h">
-      <Filter>Global\Object\Item</Filter>
-    </ClInclude>
-    <ClInclude Include="StarStick.h">
-      <Filter>Global\Object\Item</Filter>
-    </ClInclude>
-    <ClInclude Include="AbillityEffect.h">
-      <Filter>Global\Object\Enemy</Filter>
-    </ClInclude>
-    <ClInclude Include="StarStickEffectFrame.h">
-      <Filter>Global\Object\Item</Filter>
     </ClInclude>
     <ClInclude Include="ContentsCore.h" />
     <ClInclude Include="BackGround.h">
@@ -139,6 +106,30 @@
     <ClInclude Include="Kirby.h">
       <Filter>Global\Object\Kirby</Filter>
     </ClInclude>
+    <ClInclude Include="Togezo.h">
+      <Filter>Global\Object\Enemy\PowerEnemy</Filter>
+    </ClInclude>
+    <ClInclude Include="HotHead.h">
+      <Filter>Global\Object\Enemy\PowerEnemy</Filter>
+    </ClInclude>
+    <ClInclude Include="SwordKnight.h">
+      <Filter>Global\Object\Enemy\PowerEnemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Scarfy.h">
+      <Filter>Global\Object\Enemy\AerialEnemy</Filter>
+    </ClInclude>
+    <ClInclude Include="BrontoBurt.h">
+      <Filter>Global\Object\Enemy\AerialEnemy</Filter>
+    </ClInclude>
+    <ClInclude Include="MrFrosty.h">
+      <Filter>Global\Object\Enemy\Boss</Filter>
+    </ClInclude>
+    <ClInclude Include="Item.h">
+      <Filter>Global\Object\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy.h">
+      <Filter>Global\Object\Enemy</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="TitleLevel.cpp">
@@ -168,9 +159,6 @@
     <ClCompile Include="WhispyWood.cpp">
       <Filter>Global\Object\Enemy\Boss</Filter>
     </ClCompile>
-    <ClCompile Include="Cappy.cpp">
-      <Filter>Global\Object\Enemy\NomalEnemy</Filter>
-    </ClCompile>
     <ClCompile Include="Kabu.cpp">
       <Filter>Global\Object\Enemy\NomalEnemy</Filter>
     </ClCompile>
@@ -186,13 +174,7 @@
     <ClCompile Include="BroomHatter.cpp">
       <Filter>Global\Object\Enemy\NomalEnemy</Filter>
     </ClCompile>
-    <ClCompile Include="Enemy.cpp">
-      <Filter>Global\Object\Enemy</Filter>
-    </ClCompile>
     <ClCompile Include="PowerEnemy.cpp">
-      <Filter>Global\Object\Enemy\PowerEnemy</Filter>
-    </ClCompile>
-    <ClCompile Include="Parasol.cpp">
       <Filter>Global\Object\Enemy\PowerEnemy</Filter>
     </ClCompile>
     <ClCompile Include="Sparky.cpp">
@@ -201,16 +183,10 @@
     <ClCompile Include="LaserBall.cpp">
       <Filter>Global\Object\Enemy\PowerEnemy</Filter>
     </ClCompile>
-    <ClCompile Include="Bomber.cpp">
-      <Filter>Global\Object\Enemy\PowerEnemy</Filter>
-    </ClCompile>
     <ClCompile Include="UFO.cpp">
       <Filter>Global\Object\Enemy\PowerEnemy</Filter>
     </ClCompile>
     <ClCompile Include="WaddleDoo.cpp">
-      <Filter>Global\Object\Enemy\PowerEnemy</Filter>
-    </ClCompile>
-    <ClCompile Include="SirKibble.cpp">
       <Filter>Global\Object\Enemy\PowerEnemy</Filter>
     </ClCompile>
     <ClCompile Include="PauseLevel.cpp">
@@ -218,24 +194,6 @@
     </ClCompile>
     <ClCompile Include="GameOverLevel.cpp">
       <Filter>Level</Filter>
-    </ClCompile>
-    <ClCompile Include="HpLadyBug.cpp">
-      <Filter>Global\Object\Item</Filter>
-    </ClCompile>
-    <ClCompile Include="HealthJuice.cpp">
-      <Filter>Global\Object\Item</Filter>
-    </ClCompile>
-    <ClCompile Include="OneCoinUp.cpp">
-      <Filter>Global\Object\Item</Filter>
-    </ClCompile>
-    <ClCompile Include="StarStick.cpp">
-      <Filter>Global\Object\Item</Filter>
-    </ClCompile>
-    <ClCompile Include="AbillityEffect.cpp">
-      <Filter>Global\Object\Enemy</Filter>
-    </ClCompile>
-    <ClCompile Include="StarStickEffectFrame.cpp">
-      <Filter>Global\Object\Item</Filter>
     </ClCompile>
     <ClCompile Include="ContentsCore.cpp" />
     <ClCompile Include="BackGround.cpp">
@@ -287,6 +245,30 @@
     <ClCompile Include="Kirby_Contain_State.cpp">
       <Filter>Global\Object\Kirby</Filter>
     </ClCompile>
+    <ClCompile Include="Togezo.cpp">
+      <Filter>Global\Object\Enemy\PowerEnemy</Filter>
+    </ClCompile>
+    <ClCompile Include="HotHead.cpp">
+      <Filter>Global\Object\Enemy\PowerEnemy</Filter>
+    </ClCompile>
+    <ClCompile Include="SwordKnight.cpp">
+      <Filter>Global\Object\Enemy\PowerEnemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Scarfy.cpp">
+      <Filter>Global\Object\Enemy\AerialEnemy</Filter>
+    </ClCompile>
+    <ClCompile Include="BrontoBurt.cpp">
+      <Filter>Global\Object\Enemy\AerialEnemy</Filter>
+    </ClCompile>
+    <ClCompile Include="MrFrosty.cpp">
+      <Filter>Global\Object\Enemy\Boss</Filter>
+    </ClCompile>
+    <ClCompile Include="Item.cpp">
+      <Filter>Global\Object\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="Enemy.cpp">
+      <Filter>Global\Object\Enemy</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Level">
@@ -324,6 +306,9 @@
     </Filter>
     <Filter Include="Global\Object\Kirby">
       <UniqueIdentifier>{bdfde808-744d-4ee8-bfac-4aef7da2990c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Global\Object\Enemy\AerialEnemy">
+      <UniqueIdentifier>{af81762c-92bd-4695-a6c5-ec18c10d4844}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

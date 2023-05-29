@@ -96,9 +96,6 @@ enum class AbilityStar
 
 class Kirby : public ActorUtils
 {
-private:
-	std::map<KirbyMode, Kirby*> AllMode;
-
 public:
 	// constructor desstructor
 	Kirby();
@@ -109,8 +106,6 @@ public:
 	Kirby(Kirby&& _Other) noexcept = delete;
 	Kirby& operator=(const Kirby& _Other) = delete;
 	Kirby& operator=(Kirby&& _Other) noexcept = delete;
-
-	GameEngineRenderer* MainRenderer = nullptr;
 
 
 	static Kirby* GetMainKirby()
@@ -128,7 +123,7 @@ protected:
 	void ChangeAnimationState(const std::string& _StateName);
 
 	// 판정, 충돌 함수
-	void DirCheck();
+	void KirbyDirCheck();
 	void MoveHorizontal(float _Speed, float _Delta);
 	void DecelerationUpdate(float _Delta);
 	void DecelerationUpdate(float _Delta, float _Speed);
@@ -136,7 +131,7 @@ protected:
 	float4 GetKirbyScale();
 
 
-	// 행동 시작 함수
+	// 행동 시작전 함수
 	void IdleStart();
 	void WalkStart();
 	void RunStart();
@@ -229,13 +224,15 @@ private:
 
 	void LevelStart() override;
 
+	// 리소스 로드
 	void Contain_StateResourceLoad();
 	void Normal_StateResourceLoad();
 
+	// 모드별 공격 함수
 	void StarAttack();
 	void UseAbility();
-	void InhaleAbility();
 	void AcquireAbility();
+	void InhaleAbility();
 	void SparkAbility();
 
 };

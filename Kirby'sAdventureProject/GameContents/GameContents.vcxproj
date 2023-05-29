@@ -166,10 +166,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AbillityEffect.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
     <ClInclude Include="BackGround.h">
       <SubType>
       </SubType>
@@ -178,11 +174,15 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="GameEffect.h">
+    <ClInclude Include="BrontoBurt.h">
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="Bomber.h">
+    <ClInclude Include="Enemy.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="GameEffect.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -195,10 +195,6 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="BroomHatter.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
-    <ClInclude Include="Cappy.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -219,10 +215,6 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="Enemy.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
     <ClInclude Include="GameOverLevel.h">
       <SubType>
       </SubType>
@@ -235,11 +227,11 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="HealthJuice.h">
+    <ClInclude Include="HotHead.h">
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="HpLadyBug.h">
+    <ClInclude Include="Item.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -248,6 +240,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="LaserBall.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="MrFrosty.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -263,14 +259,6 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="OneCoinUp.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
-    <ClInclude Include="Parasol.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
     <ClInclude Include="PauseLevel.h">
       <SubType>
       </SubType>
@@ -280,6 +268,18 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="PlayUIManager.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Scarfy.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="SwordKnight.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Togezo.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -299,19 +299,7 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="SirKibble.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
     <ClInclude Include="Sparky.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
-    <ClInclude Include="StarStick.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
-    <ClInclude Include="StarStickEffectFrame.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -357,10 +345,6 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="AbillityEffect.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
     <ClCompile Include="BackGround.cpp">
       <SubType>
       </SubType>
@@ -370,11 +354,15 @@
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="GameEffect.cpp">
+    <ClCompile Include="BrontoBurt.cpp">
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="Bomber.cpp">
+    <ClCompile Include="Enemy.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="GameEffect.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -387,10 +375,6 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="BroomHatter.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
-    <ClCompile Include="Cappy.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -410,10 +394,6 @@
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="Enemy.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
     <ClCompile Include="GameOverLevel.cpp">
       <SubType>
       </SubType>
@@ -426,11 +406,11 @@
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="HealthJuice.cpp">
+    <ClCompile Include="HotHead.cpp">
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="HpLadyBug.cpp">
+    <ClCompile Include="Item.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -441,6 +421,10 @@
     <ClCompile Include="Kirby_Contain_State.cpp" />
     <ClCompile Include="Kirby_State.cpp" />
     <ClCompile Include="LaserBall.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="MrFrosty.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -456,14 +440,6 @@
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="OneCoinUp.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
-    <ClCompile Include="Parasol.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
     <ClCompile Include="PauseLevel.cpp">
       <SubType>
       </SubType>
@@ -473,6 +449,18 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="PlayUIManager.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Scarfy.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="SwordKnight.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Togezo.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -492,19 +480,7 @@
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="SirKibble.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
     <ClCompile Include="Sparky.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
-    <ClCompile Include="StarStick.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
-    <ClCompile Include="StarStickEffectFrame.cpp">
       <SubType>
       </SubType>
     </ClCompile>

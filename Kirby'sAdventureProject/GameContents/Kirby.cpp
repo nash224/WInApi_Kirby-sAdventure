@@ -29,15 +29,6 @@ Kirby::Kirby()
 
 Kirby::~Kirby()
 {
-	for (const std::pair<KirbyMode, Kirby*>& Pair : AllMode)
-	{
-		Kirby* Modes = Pair.second;
-		if (nullptr != Modes)
-		{
-			delete Modes;
-			Modes = nullptr;
-		}
-	}
 }
 
 
@@ -67,7 +58,7 @@ void Kirby::Start()
 
 	BodyCollision = CreateCollision(CollisionOrder::PlayerBody);
 	BodyCollision->SetCollisionScale(GetKirbyScale());
-	BodyCollision->SetCollisionType(CollisionType::CirCle);
+	BodyCollision->SetCollisionType(CollisionType::Rect);
 }
 
 void Kirby::Update(float _Delta)
@@ -182,7 +173,7 @@ void Kirby::ChangeState(KirbyState _State)
 	State = _State;
 }
 
-void Kirby::DirCheck()
+void Kirby::KirbyDirCheck()
 {
 	ActorDir CheckDir = ActorDir::Max;
 
@@ -394,8 +385,6 @@ void Kirby::Render(float _Detla)
 	HDC BackDC = GameEngineWindow::MainWindow.GetBackBuffer()->GetImageDC();
 
 	CollisionData Data;
-
-	float4 KirbyScale = GetKirbyScale();
 
 	// ¿øÁ¡
 	Data.Pos = ActorCameraPos();

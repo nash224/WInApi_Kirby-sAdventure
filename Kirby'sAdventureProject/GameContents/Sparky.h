@@ -1,7 +1,8 @@
 #pragma once
+#include "ActorUtils.h"
 
 // Ό³Έν :
-class Sparky
+class Sparky : public ActorUtils
 {
 public:
 	// constrcuter destructer

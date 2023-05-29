@@ -75,6 +75,8 @@ void Kirby::Normal_StateResourceLoad()
 
 // =============================================//
 
+
+
 void Kirby::IdleStart()
 {
 	StateTime = 0.0f;
@@ -139,7 +141,7 @@ void Kirby::IdleUpdate(float _Delta)
 void Kirby::WalkStart()
 {
 	StateTime = 0.0f;
-	DirCheck();
+	KirbyDirCheck();
 	ChangeAnimationState("Walk");
 }
 
@@ -223,7 +225,7 @@ void Kirby::WalkUpdate(float _Delta)
 void Kirby::RunStart()
 {
 	StateTime = 0.0f;
-	DirCheck();
+	KirbyDirCheck();
 	ChangeAnimationState("Run");
 }
 
@@ -344,7 +346,7 @@ void Kirby::JumpStart()
 {
 	StateTime = 0.0f;
 	AbleJump = true;
-	DirCheck();
+	KirbyDirCheck();
 	GravityReset();
 	ChangeAnimationState("Jump");
 }
@@ -414,7 +416,7 @@ void Kirby::AerialMotionStart()
 {
 	StateTime = 0.0f;
 	IsChangeState = false;
-	DirCheck();
+	KirbyDirCheck();
 	ChangeAnimationState("AerialMotion");
 }
 

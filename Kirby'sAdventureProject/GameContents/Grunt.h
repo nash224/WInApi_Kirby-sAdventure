@@ -1,9 +1,9 @@
 #pragma once
-#include <GameEngineCore/GameEngineActor.h>
+#include "ActorUtils.h"
 #include <list>
 
 // Ό³Έν :
-class Grunt : public GameEngineActor
+class Grunt : public ActorUtils
 {
 private: 
 	static std::list<Grunt*> AllGrunt;

@@ -30,6 +30,7 @@ public:
 	ActorUtils& operator=(ActorUtils&& _Other) noexcept = delete;
 
 	void CameraFocus();
+	float4 ActorCameraPos();
 	void SetGroundTexture(const std::string& _GroundTextureName);
 	int GetGroundColor(unsigned int _DefaultColor, float4 _Pos = float4::ZERO);
 
@@ -51,10 +52,15 @@ public:
 		IsGravity = false;
 	}
 
-	float4 ActorCameraPos();
+	void SetDir(ActorDir _Dir)
+	{
+		Dir = _Dir;
+	}
+
 
 
 protected:
+	GameEngineRenderer* MainRenderer = nullptr;
 	GameEngineCollision* BodyCollision = nullptr;
 	ActorDir Dir = ActorDir::Max;
 

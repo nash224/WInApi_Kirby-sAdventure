@@ -1,5 +1,6 @@
 #pragma once
 #include <GameEngineCore/GameEngineLevel.h>
+#include "Enemy.h"
 
 // Ό³Έν :
 class VegetableValley11 : public GameEngineLevel
@@ -20,6 +21,8 @@ protected:
 	void LevelEnd(GameEngineLevel* _NextLevel) override;
 
 private:
+	std::map<std::string, Enemy*> LevelEnemy;
+
 	class Kirby* LevelPlayer = nullptr;
 	class BackGround* LevelBackGround = nullptr;
 	class GameEffect* LevelEffect = nullptr;

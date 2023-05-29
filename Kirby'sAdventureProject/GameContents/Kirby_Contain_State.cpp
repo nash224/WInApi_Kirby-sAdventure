@@ -32,8 +32,8 @@ void Kirby::Contain_StateResourceLoad()
 	MainRenderer->CreateAnimation("Normal_Left_Contain_Gulp", "Contain_Left_Kirby.bmp", 9, 11, 0.1f, false);
 	MainRenderer->CreateAnimation("Normal_Right_Contain_Gulp", "Contain_Right_Kirby.bmp", 9, 11, 0.1f, false);
 
-	MainRenderer->CreateAnimation("Normal_Left_Contain_Disgorge", "Contain_Left_Kirby.bmp", 5, 8, 0.1f, false);
-	MainRenderer->CreateAnimation("Normal_Right_Contain_Disgorge", "Contain_Right_Kirby.bmp", 5, 8, 0.1f, false);
+	MainRenderer->CreateAnimation("Normal_Left_Contain_Disgorge", "Contain_Left_Kirby.bmp", 5, 8, 0.08f, false);
+	MainRenderer->CreateAnimation("Normal_Right_Contain_Disgorge", "Contain_Right_Kirby.bmp", 5, 8, 0.08f, false);
 
 	MainRenderer->FindAnimation("Normal_Left_Contain_Walk")->Inters = { 0.2f , 0.3f , 0.2f , 0.3f };
 	MainRenderer->FindAnimation("Normal_Right_Contain_Walk")->Inters = { 0.2f , 0.3f , 0.2f , 0.3f };
@@ -98,7 +98,7 @@ void Kirby::Contain_IdleUpdate(float _Delta)
 void Kirby::Contain_WalkStart()
 {
 	StateTime = 0.0f;
-	DirCheck();
+	KirbyDirCheck();
 	ChangeAnimationState("Contain_Walk");
 }
 
@@ -307,7 +307,7 @@ void Kirby::Contain_JumpStart()
 {
 	StateTime = 0.0f;
 	AbleJump = true;
-	DirCheck();
+	KirbyDirCheck();
 	GravityReset();
 	ChangeAnimationState("Contain_Jump");
 }
