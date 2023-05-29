@@ -7,73 +7,71 @@
 #include <GameEngineCore/ResourcesManager.h>
 
 
-
-void Kirby::AccelerateDownStart()
+void Kirby::Normal_StateResourceLoad()
 {
-	StateTime = 0.0f;
-	ChangeAnimationState("AccelerateDown");
-}
+	ResourcesManager::GetInst().SpriteFileLoad("Normal_Left_Kirby.bmp", "Resources\\Unit\\Kirby", 10, 10);
+	ResourcesManager::GetInst().SpriteFileLoad("Normal_RIght_Kirby.bmp", "Resources\\Unit\\Kirby", 10, 10);
 
-void Kirby::BounceStart()
-{
-	StateTime = 0.0f;
-	IsChangeState = false;
-	ChangeAnimationState("Bounce");
-}
+	MainRenderer->CreateAnimation("Normal_Left_Idle", "Normal_Left_Kirby.bmp", 0, 1, 0.5f, true);
+	MainRenderer->CreateAnimation("Normal_Right_Idle", "Normal_RIght_Kirby.bmp", 0, 1, 0.5f, true);
 
-void Kirby::LandingStart()
-{
-	StateTime = 0.0f;
-	IsChangeState = false;
-	ChangeAnimationState("Landing");
-}
+	MainRenderer->CreateAnimation("Normal_Left_Walk", "Normal_Left_Kirby.bmp", 2, 5, 0.2f, true);
+	MainRenderer->CreateAnimation("Normal_Right_Walk", "Normal_RIght_Kirby.bmp", 2, 5, 0.2f, true);
 
-void Kirby::LowerPostureStart()
-{
-	StateTime = 0.0f;
-	BodyState = KirbyBodyState::Lower;
-	ChangeAnimationState("LowerPosture");
-}
+	MainRenderer->CreateAnimation("Normal_Left_Run", "Normal_Left_Kirby.bmp", 2, 5, 0.1f, true);
+	MainRenderer->CreateAnimation("Normal_Right_Run", "Normal_RIght_Kirby.bmp", 2, 5, 0.1f, true);
 
-void Kirby::LowerAttackStart()
-{
-	StateTime = 0.0f;
-	IsChangeState = false;
-	ChangeAnimationState("LowerAttack");
-}
+	MainRenderer->CreateAnimation("Normal_Left_Turn", "Normal_Left_Kirby.bmp", 12, 12, 0.05f, false);
+	MainRenderer->CreateAnimation("Normal_Right_Turn", "Normal_RIght_Kirby.bmp", 12, 12, 0.05f, false);
 
-void Kirby::HittheWallStart()
-{
-	StateTime = 0.0f;
-	CurrentSpeed = 0.0f;
-	IsChangeState = false;
-	ChangeAnimationState("HittheWall");
-}
+	MainRenderer->CreateAnimation("Normal_Left_Jump", "Normal_Left_Kirby.bmp", 9, 9, 0.1f, false);
+	MainRenderer->CreateAnimation("Normal_Right_Jump", "Normal_RIght_Kirby.bmp", 9, 9, 0.1f, false);
 
-void Kirby::HittheCeilingStart()
-{
-	StateTime = 0.0f;
-	IsChangeState = false;
-	GravityReset();
-	ChangeAnimationState("HittheCeiling");
-}
+	MainRenderer->CreateAnimation("Normal_Left_AerialMotion", "Normal_Left_Kirby.bmp", 10, 13, 0.05f, false);
+	MainRenderer->CreateAnimation("Normal_Right_AerialMotion", "Normal_RIght_Kirby.bmp", 10, 13, 0.05f, false);
 
-void Kirby::TakeOffStart()
-{
-	StateTime = 0.0f;
-	IsChangeState = false;
-	BodyState = KirbyBodyState::Fat;
-	SetAirResistance(0.4f);
-	ChangeAnimationState("TakeOff");
-}
+	MainRenderer->CreateAnimation("Normal_Left_Fall", "Normal_Left_Kirby.bmp", 13, 13, 0.1f, false);
+	MainRenderer->CreateAnimation("Normal_Right_Fall", "Normal_RIght_Kirby.bmp", 13, 13, 0.1f, false);
 
-void Kirby::FlyStart()
-{
-	StateTime = 0.0f;
-	IsChangeState = false;
-	ChangeAnimationState("Fly");
-}
+	MainRenderer->CreateAnimation("Normal_Left_AccelerateDown", "Normal_Left_Kirby.bmp", 10, 10, 0.1f, false);
+	MainRenderer->CreateAnimation("Normal_Right_AccelerateDown", "Normal_RIght_Kirby.bmp", 10, 10, 0.1f, false);
 
+	MainRenderer->CreateAnimation("Normal_Left_Bounce", "Normal_Left_Kirby.bmp", 10, 10, 0.1f, false);
+	MainRenderer->CreateAnimation("Normal_Right_Bounce", "Normal_RIght_Kirby.bmp", 10, 10, 0.1f, false);
+
+	MainRenderer->CreateAnimation("Normal_Left_Landing", "Normal_Left_Kirby.bmp", 7, 7, 0.1f, false);
+	MainRenderer->CreateAnimation("Normal_Right_Landing", "Normal_RIght_Kirby.bmp", 7, 7, 0.1f, false);
+
+	MainRenderer->CreateAnimation("Normal_Left_LowerPosture", "Normal_Left_Kirby.bmp", 7, 7, 0.1f, false);
+	MainRenderer->CreateAnimation("Normal_Right_LowerPosture", "Normal_RIght_Kirby.bmp", 7, 7, 0.1f, false);
+
+	MainRenderer->CreateAnimation("Normal_Left_LowerAttack", "Normal_Left_Kirby.bmp", 8, 8, 0.1f, false);
+	MainRenderer->CreateAnimation("Normal_Right_LowerAttack", "Normal_RIght_Kirby.bmp", 8, 8, 0.1f, false);
+
+	MainRenderer->CreateAnimation("Normal_Left_HittheWall", "Normal_Left_Kirby.bmp", 92, 92, 0.1f, false);
+	MainRenderer->CreateAnimation("Normal_Right_HittheWall", "Normal_RIght_Kirby.bmp", 92, 92, 0.1f, false);
+
+	MainRenderer->CreateAnimation("Normal_Left_HittheCeiling", "Normal_Left_Kirby.bmp", 91, 91, 0.1f, false);
+	MainRenderer->CreateAnimation("Normal_Right_HittheCeiling", "Normal_RIght_Kirby.bmp", 91, 91, 0.1f, false);
+
+	MainRenderer->CreateAnimation("Normal_Left_TakeOff", "Normal_Left_Kirby.bmp", 15, 18, 0.1f, false);
+	MainRenderer->CreateAnimation("Normal_Right_TakeOff", "Normal_RIght_Kirby.bmp", 15, 18, 0.1f, false);
+
+	MainRenderer->CreateAnimation("Normal_Left_Fly", "Normal_Left_Kirby.bmp", 19, 20, 0.2f, true);
+	MainRenderer->CreateAnimation("Normal_Right_Fly", "Normal_RIght_Kirby.bmp", 19, 20, 0.2f, true);
+
+	MainRenderer->CreateAnimation("Normal_Left_ExhaleAttack", "Normal_Left_Kirby.bmp", 21, 24, EXHALEATTACKTIME, false);
+	MainRenderer->CreateAnimation("Normal_Right_ExhaleAttack", "Normal_RIght_Kirby.bmp", 21, 24, EXHALEATTACKTIME, false);
+
+	MainRenderer->CreateAnimation("Normal_Left_UseSpecialAbility", "Normal_Left_Kirby.bmp", 24, 26, 0.1f, false);
+	MainRenderer->CreateAnimation("Normal_Right_UseSpecialAbility", "Normal_RIght_Kirby.bmp", 24, 26, 0.1f, false);
+
+	MainRenderer->CreateAnimation("Normal_Left_ReleaseAbility", "Normal_Left_Kirby.bmp", 25, 25, 0.15f, false);
+	MainRenderer->CreateAnimation("Normal_Right_ReleaseAbility", "Normal_RIght_Kirby.bmp", 25, 25, 0.15f, false);
+
+	MainRenderer->CreateAnimation("Normal_Left_GetAbility", "Normal_Left_Kirby.bmp", 35, 37, 0.1f, false);
+	MainRenderer->CreateAnimation("Normal_Right_GetAbility", "Normal_RIght_Kirby.bmp", 35, 37, 0.1f, false);
+}
 
 // =============================================//
 
@@ -538,6 +536,13 @@ void Kirby::FallUpdate(float _Delta)
 	VerticalUpdate();
 }
 
+
+void Kirby::AccelerateDownStart()
+{
+	StateTime = 0.0f;
+	ChangeAnimationState("AccelerateDown");
+}
+
 void Kirby::AccelerateDownUpdate(float _Delta)
 {
 	BlockedByWall();
@@ -571,6 +576,14 @@ void Kirby::AccelerateDownUpdate(float _Delta)
 	VerticalUpdate();
 }
 
+
+void Kirby::BounceStart()
+{
+	StateTime = 0.0f;
+	IsChangeState = false;
+	ChangeAnimationState("Bounce");
+}
+
 void Kirby::BounceUpdate(float _Delta)
 {
 	StateTime += _Delta;
@@ -600,6 +613,13 @@ void Kirby::BounceUpdate(float _Delta)
 }
 
 
+void Kirby::LandingStart()
+{
+	StateTime = 0.0f;
+	IsChangeState = false;
+	ChangeAnimationState("Landing");
+}
+
 void Kirby::LandingUpdate(float _Delta)
 {
 	StateTime += _Delta;
@@ -627,6 +647,14 @@ void Kirby::LandingUpdate(float _Delta)
 
 	DecelerationUpdate(_Delta);
 	MoveUpdate(_Delta);
+}
+
+
+void Kirby::LowerPostureStart()
+{
+	StateTime = 0.0f;
+	BodyState = KirbyBodyState::Lower;
+	ChangeAnimationState("LowerPosture");
 }
 
 void Kirby::LowerPostureUpdate(float _Delta)
@@ -662,6 +690,14 @@ void Kirby::LowerPostureUpdate(float _Delta)
 
 	DecelerationUpdate(_Delta, DECELERATIONSPEED);
 	MoveUpdate(_Delta);
+}
+
+
+void Kirby::LowerAttackStart()
+{
+	StateTime = 0.0f;
+	IsChangeState = false;
+	ChangeAnimationState("LowerAttack");
 }
 
 void Kirby::LowerAttackUpdate(float _Delta)
@@ -711,6 +747,16 @@ void Kirby::LowerAttackUpdate(float _Delta)
 	MoveUpdate(_Delta);
 }
 
+
+
+void Kirby::HittheWallStart()
+{
+	StateTime = 0.0f;
+	CurrentSpeed = 0.0f;
+	IsChangeState = false;
+	ChangeAnimationState("HittheWall");
+}
+
 void Kirby::HittheWallUpdate(float _Delta)
 {
 	StateTime += _Delta;
@@ -739,6 +785,14 @@ void Kirby::HittheWallUpdate(float _Delta)
 	}
 }
 
+
+void Kirby::HittheCeilingStart()
+{
+	StateTime = 0.0f;
+	IsChangeState = false;
+	GravityReset();
+	ChangeAnimationState("HittheCeiling");
+}
 
 void Kirby::HittheCeilingUpdate(float _Delta)
 {
@@ -769,16 +823,19 @@ void Kirby::HittheCeilingUpdate(float _Delta)
 	}
 }
 
+
+void Kirby::TakeOffStart()
+{
+	StateTime = 0.0f;
+	IsChangeState = false;
+	BodyState = KirbyBodyState::Fat;
+	SetAirResistance(0.4f);
+	ChangeAnimationState("TakeOff");
+}
+
 void Kirby::TakeOffUpdate(float _Delta)
 {
-	bool LeftCheck = MainRenderer->FindAnimation("Normal_Left_TakeOff")->IsEnd;
-	bool RightCheck = MainRenderer->FindAnimation("Normal_Right_TakeOff")->IsEnd;
-	if (LeftCheck || RightCheck)
-	{
-		IsChangeState = true;
-		MainRenderer->FindAnimation("Normal_Left_TakeOff")->IsEnd = false;
-		MainRenderer->FindAnimation("Normal_Right_TakeOff")->IsEnd = false;
-	}
+	IsChangeState = CheckEndAnimation(MainRenderer, CurMode + "_Left_TakeOff", CurMode + "_Right_TakeOff");
 
 	if (true == IsChangeState)
 	{
@@ -804,6 +861,14 @@ void Kirby::TakeOffUpdate(float _Delta)
 	Gravity(_Delta);
 	GravityLimit(_Delta);
 	VerticalUpdate();
+}
+
+
+void Kirby::FlyStart()
+{
+	StateTime = 0.0f;
+	IsChangeState = false;
+	ChangeAnimationState("Fly");
 }
 
 void Kirby::FlyUpdate(float _Delta)
@@ -1047,6 +1112,7 @@ void Kirby::InhaleAbility()
 		swallowedObject = true;
 		Star = AbilityStar::None;
 		StarPower = 1;
+		CurMode = "Normal";
 	}
 }
 

@@ -158,7 +158,6 @@ protected:
 	void ReleaseAbilityStart();
 	void GetAbilityStart();
 
-	void Contain_StateResourceLoad();
 	void Contain_IdleStart();
 	void Contain_WalkStart();
 	void Contain_RunStart();
@@ -229,6 +228,9 @@ private:
 	void Render(float _Detla) override;
 
 	void LevelStart() override;
+
+	void Contain_StateResourceLoad();
+	void Normal_StateResourceLoad();
 
 	void StarAttack();
 	void UseAbility();
