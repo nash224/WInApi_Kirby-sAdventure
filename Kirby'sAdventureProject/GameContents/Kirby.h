@@ -1,6 +1,9 @@
 #pragma once
 #include "ActorUtils.h"
 
+#include <map>
+#include <string>
+
 #define WALKMAXSPEED 300.0f
 #define RUNMAXSPEED 425.0f
 #define FLYMAXSPEED 200.0f
@@ -13,11 +16,14 @@
 #define FLYPOWER 280.0f
 
 #define DECELERATIONSPEED 0.8f
-#define BRAKESPEED 1.2f
+#define BRAKESPEED 2.0f
 
 #define HITTHEMAPTIME 0.08f
 #define EXHALEATTACKTIME 0.08f
 #define TAKEOFFTIME 0.4f
+#define JUMPTIME 0.4f
+
+
 
 enum class KirbyBodyState
 {
@@ -46,19 +52,53 @@ enum class KirbyState
 	TakeOff,
 	Fly,
 	ExhaleAttack,
+	UseSpecialAbility,
+	ReleaseAbility,
+	Contain_Idle,
+	Contain_Walk,
+	Contain_Run,
+	Contain_Turn,
+	Contain_Jump,
+	Contain_Fall,
+	Contain_Gulp,
+	Contain_Disgorge,
+	GetAbility,
 	Max,
 };
 
 enum class KirbyMode
 {
 	Normal,
-	OrangeIsh,
+	Needle,
 	Spark,
+	Beam,
+	Laser,
+	UFO,
+	Fire,
+	Freeze,
+	Sword,
 	Max,
 };
 
+enum class AbilityStar
+{
+	None,
+	Spark,
+	Beam,
+	Laser,
+	UFO,
+	Fire,
+	Freeze,
+	Sword,
+	Max,
+};
+
+
 class Kirby : public ActorUtils
 {
+private:
+	std::map<KirbyMode, Kirby*> AllMode;
+
 public:
 	// constructor desstructor
 	Kirby();
@@ -81,12 +121,13 @@ public:
 protected:
 	static Kirby* MainKirby;
 
-	KirbyMode Mode = KirbyMode::Max;
 
-
-	void ChangeState(KirbyState State);
+	// 상태변경 함수
+	void StateUpdate(float _Delta);
+	void ChangeState(KirbyState _State);
 	void ChangeAnimationState(const std::string& _StateName);
 
+	// 판정, 충돌 함수
 	void DirCheck();
 	void MoveHorizontal(float _Speed, float _Delta);
 	void DecelerationUpdate(float _Delta);
@@ -95,7 +136,7 @@ protected:
 	float4 GetKirbyScale();
 
 
-	void StateUpdate(float _Delta);
+	// 행동 시작 함수
 	void IdleStart();
 	void WalkStart();
 	void RunStart();
@@ -113,8 +154,22 @@ protected:
 	void TakeOffStart();
 	void FlyStart();
 	void ExhaleAttackStart();
+	void UseSpecialAbilityStart();
+	void ReleaseAbilityStart();
+	void GetAbilityStart();
+
+	void Contain_StateResourceLoad();
+	void Contain_IdleStart();
+	void Contain_WalkStart();
+	void Contain_RunStart();
+	void Contain_TurnStart();
+	void Contain_JumpStart();
+	void Contain_FallStart();
+	void Contain_GulpStart();
+	void Contain_DisgorgeStart();
 
 
+	// 행동 함수
 	void IdleUpdate(float _Delta);
 	void WalkUpdate(float _Delta);
 	void RunUpdate(float _Delta);
@@ -132,20 +187,36 @@ protected:
 	void TakeOffUpdate(float _Delta);
 	void FlyUpdate(float _Delta);
 	void ExhaleAttackUpdate(float _Delta);
+	void UseSpecialAbilityUpdate(float _Delta);
+	void ReleaseAbilityUpdate(float _Delta);
+	void GetAbilityUpdate(float _Delta);
+
+	void Contain_IdleUpdate(float _Delta);
+	void Contain_WalkUpdate(float _Delta);
+	void Contain_RunUpdate(float _Delta);
+	void Contain_TurnUpdate(float _Delta);
+	void Contain_JumpUpdate(float _Delta);
+	void Contain_FallUpdate(float _Delta);
+	void Contain_GulpUpdate(float _Delta);
+	void Contain_DisgorgeUpdate(float _Delta);
 
 
 private:
 	KirbyBodyState BodyState = KirbyBodyState::Max;
 	KirbyState State = KirbyState::Max;
+	KirbyMode Mode = KirbyMode::Max;
 	std::string CurState = "";
+	std::string CurMode = "";
 
 	bool IsChangeState = true;
+	bool IstriggerOn = false;
 	bool IsBounce = false;
 	bool AbleJump = true;
+	bool swallowedObject = false;
 
 
 	float StateTime = 0.0f;
-	float MaxSpeed = 350.0f;
+	float Duration = 0.0f;
 	float DecelerationSpeed = 1.0f;
 	float CurrentJumpPower = 0.0f;
 	float FallDistance = 0.0f;
@@ -156,4 +227,26 @@ private:
 	void Render(float _Detla) override;
 
 	void LevelStart() override;
+
+	void UseAbility();
+	void InhaleAbility();
+	void AcquireAbility();
+	void SparkAbility();
+
+private:
+	class KirbyAbilityStar
+	{
+		friend class Kirby;
+	private:
+		KirbyAbilityStar();
+		KirbyAbilityStar(size_t _GruntCount, AbilityStar _StarAbility);
+		~KirbyAbilityStar();
+
+		size_t GruntCount = 0;
+		AbilityStar StartAbility = AbilityStar::Max;
+	};
+
+protected:
+	KirbyAbilityStar* CurStar = nullptr;
 };
+

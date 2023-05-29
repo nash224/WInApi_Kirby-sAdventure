@@ -8,69 +8,6 @@
 
 
 
-
-void Kirby::IdleStart()
-{
-	StateTime = 0.0f;
-	ChangeAnimationState("Idle");
-}
-
-void Kirby::WalkStart()
-{
-	StateTime = 0.0f;
-	DirCheck();
-	ChangeAnimationState("Walk");
-}
-
-void Kirby::RunStart()
-{
-	StateTime = 0.0f;
-	DirCheck();
-	ChangeAnimationState("Run");
-}
-
-void Kirby::TurnStart()
-{
-	StateTime = 0.0f;
-	IsChangeState = false;
-	if (CurrentSpeed > 0.0f)
-	{
-		Dir = ActorDir::Right;
-	}
-
-	if (CurrentSpeed < 0.0f)
-	{
-		Dir = ActorDir::Left;
-	}
-
-	ChangeAnimationState("Turn");
-}
-
-void Kirby::JumpStart()
-{
-	StateTime = 0.0f;
-	AbleJump = true;
-	DirCheck();
-	GravityReset();
-	ChangeAnimationState("Jump");
-}
-
-void Kirby::AerialMotionStart()
-{
-	StateTime = 0.0f;
-	IsChangeState = false;
-	DirCheck();
-	ChangeAnimationState("AerialMotion");
-}
-
-void Kirby::FallStart()
-{
-	StateTime = 0.0f;
-	FallDistance = 0.0f;
-	ChangeAnimationState("Fall");
-}
-
-
 void Kirby::AccelerateDownStart()
 {
 	StateTime = 0.0f;
@@ -140,6 +77,12 @@ void Kirby::FlyStart()
 
 // =============================================//
 
+void Kirby::IdleStart()
+{
+	StateTime = 0.0f;
+	ChangeAnimationState("Idle");
+}
+
 void Kirby::IdleUpdate(float _Delta)
 {
 
@@ -155,7 +98,7 @@ void Kirby::IdleUpdate(float _Delta)
 	}
 	if (true == (GameEngineInput::IsDown('Z')))
 	{
-		// 스킬 미구현
+		ChangeState(KirbyState::UseSpecialAbility);
 		return;
 	}
 	if (true == (GameEngineInput::IsDown('X')))
@@ -195,9 +138,15 @@ void Kirby::IdleUpdate(float _Delta)
 }
 
 
+void Kirby::WalkStart()
+{
+	StateTime = 0.0f;
+	DirCheck();
+	ChangeAnimationState("Walk");
+}
+
 void Kirby::WalkUpdate(float _Delta)
 {
-
 	if (false == GetGroundState())
 	{
 		GravityReset();
@@ -230,6 +179,11 @@ void Kirby::WalkUpdate(float _Delta)
 	if (true == GameEngineInput::IsDown('X'))
 	{
 		ChangeState(KirbyState::Jump);
+		return;
+	}
+	if (true == GameEngineInput::IsDown('Z'))
+	{
+		ChangeState(KirbyState::UseSpecialAbility);
 		return;
 	}
 
@@ -267,6 +221,14 @@ void Kirby::WalkUpdate(float _Delta)
 	MoveUpdate(_Delta);
 }
 
+
+void Kirby::RunStart()
+{
+	StateTime = 0.0f;
+	DirCheck();
+	ChangeAnimationState("Run");
+}
+
 void Kirby::RunUpdate(float _Delta)
 {
 	if (false == GetGroundState())
@@ -289,6 +251,11 @@ void Kirby::RunUpdate(float _Delta)
 	if (true == GameEngineInput::IsDown('X'))
 	{
 		ChangeState(KirbyState::Jump);
+		return;
+	}
+	if (true == GameEngineInput::IsDown('Z'))
+	{
+		ChangeState(KirbyState::UseSpecialAbility);
 		return;
 	}
 
@@ -319,12 +286,28 @@ void Kirby::RunUpdate(float _Delta)
 	}
 
 
-
 	MoveHorizontal(RUNSPEED, _Delta);
 	DecelerationUpdate(_Delta);
 	MoveUpdate(_Delta);
 }
 
+
+void Kirby::TurnStart()
+{
+	StateTime = 0.0f;
+	IsChangeState = false;
+	if (CurrentSpeed > 0.0f)
+	{
+		Dir = ActorDir::Right;
+	}
+
+	if (CurrentSpeed < 0.0f)
+	{
+		Dir = ActorDir::Left;
+	}
+
+	ChangeAnimationState("Turn");
+}
 
 void Kirby::TurnUpdate(float _Delta)
 {
@@ -351,30 +334,21 @@ void Kirby::TurnUpdate(float _Delta)
 		ChangeState(KirbyState::HittheWall);
 	}
 
-	if (CurrentSpeed < 0.0f)
-	{
-		CurrentSpeed += 2.0f * _Delta;
-
-		if (CurrentSpeed > 0.0f)
-		{
-			CurrentSpeed = 0.0f;
-		}
-	}
-	else if (CurrentSpeed > 0.0f)
-	{
-		CurrentSpeed -= 2.0f * _Delta;
-
-		if (CurrentSpeed < 0.0f)
-		{
-			CurrentSpeed = 0.0f;
-		}
-	}
-
 	BlockedByGround();
 	BlockedByWall();
 
 	DecelerationUpdate(_Delta, BRAKESPEED);
 	MoveUpdate(_Delta);
+}
+
+
+void Kirby::JumpStart()
+{
+	StateTime = 0.0f;
+	AbleJump = true;
+	DirCheck();
+	GravityReset();
+	ChangeAnimationState("Jump");
 }
 
 void Kirby::JumpUpdate(float _Delta)
@@ -389,6 +363,12 @@ void Kirby::JumpUpdate(float _Delta)
 	if (true == (GameEngineInput::IsDown('W')))
 	{
 		ChangeState(KirbyState::TakeOff);
+		return;
+	}
+
+	if (true == GameEngineInput::IsDown('Z'))
+	{
+		ChangeState(KirbyState::UseSpecialAbility);
 		return;
 	}
 
@@ -432,6 +412,14 @@ void Kirby::JumpUpdate(float _Delta)
 }
 
 
+void Kirby::AerialMotionStart()
+{
+	StateTime = 0.0f;
+	IsChangeState = false;
+	DirCheck();
+	ChangeAnimationState("AerialMotion");
+}
+
 void Kirby::AerialMotionUpdate(float _Delta)
 {
 	StateTime += _Delta;
@@ -444,6 +432,12 @@ void Kirby::AerialMotionUpdate(float _Delta)
 		IsChangeState = true;
 		MainRenderer->FindAnimation("Normal_Left_AerialMotion")->IsEnd = false;
 		MainRenderer->FindAnimation("Normal_Right_AerialMotion")->IsEnd = false;
+	}
+
+	if (true == GameEngineInput::IsDown('Z'))
+	{
+		ChangeState(KirbyState::UseSpecialAbility);
+		return;
 	}
 
 	if (IsChangeState == true)
@@ -484,6 +478,14 @@ void Kirby::AerialMotionUpdate(float _Delta)
 	VerticalUpdate();
 }
 
+
+void Kirby::FallStart()
+{
+	StateTime = 0.0f;
+	FallDistance = 0.0f;
+	ChangeAnimationState("Fall");
+}
+
 void Kirby::FallUpdate(float _Delta)
 {
 	StateTime += _Delta;
@@ -494,6 +496,13 @@ void Kirby::FallUpdate(float _Delta)
 		ChangeState(KirbyState::AccelerateDown);
 		return;
 	}
+
+	if (true == GameEngineInput::IsDown('Z'))
+	{
+		ChangeState(KirbyState::UseSpecialAbility);
+		return;
+	}
+
 	if (true == (GameEngineInput::IsDown('W')))
 	{
 		ChangeState(KirbyState::TakeOff);
@@ -539,6 +548,13 @@ void Kirby::AccelerateDownUpdate(float _Delta)
 		ChangeState(KirbyState::Bounce);
 		return;
 	}
+
+	if (true == GameEngineInput::IsDown('Z'))
+	{
+		ChangeState(KirbyState::UseSpecialAbility);
+		return;
+	}
+
 	if (true == (GameEngineInput::IsDown('W')))
 	{
 		ChangeState(KirbyState::TakeOff);
@@ -755,11 +771,8 @@ void Kirby::HittheCeilingUpdate(float _Delta)
 
 void Kirby::TakeOffUpdate(float _Delta)
 {
-	StateTime += _Delta;
-
 	bool LeftCheck = MainRenderer->FindAnimation("Normal_Left_TakeOff")->IsEnd;
 	bool RightCheck = MainRenderer->FindAnimation("Normal_Right_TakeOff")->IsEnd;
-
 	if (LeftCheck || RightCheck)
 	{
 		IsChangeState = true;
@@ -910,6 +923,106 @@ void Kirby::ExhaleAttackUpdate(float _Delta)
 	}
 }
 
+void Kirby::UseSpecialAbilityStart()
+{
+	StateTime = 0.0f;
+	Duration = 0.0f;
+	IsChangeState = false;
+	IstriggerOn = false;
+	ChangeAnimationState("UseSpecialAbility");
+}
+
+void Kirby::UseSpecialAbilityUpdate(float _Delta)
+{
+	StateTime += _Delta;
+
+	IsChangeState = CheckEndAnimation(MainRenderer, "Normal_Left_UseSpecialAbility","Normal_Right_UseSpecialAbility");
+
+	if (true == IsChangeState)
+	{
+		IstriggerOn = true;
+	}
+
+	if (true == IstriggerOn)
+	{
+		Duration += _Delta;
+	}
+
+	if (Duration > 0.2f && true == GameEngineInput::IsFree('Z'))
+	{
+		ChangeState(KirbyState::ReleaseAbility);
+		return;
+	}
+
+	if (KirbyMode::Normal == Mode && true == swallowedObject)
+	{
+		ChangeState(KirbyState::Contain_Idle);
+		return;
+	}
+
+	UseAbility();
+
+	BlockedByWall();
+	BlockedByGround();
+
+	DecelerationUpdate(_Delta, DECELERATIONSPEED);
+	MoveUpdate(_Delta);
+
+	if (false == GetGroundState())
+	{
+		Gravity(_Delta);
+		GravityLimit(_Delta);
+		VerticalUpdate();
+	}
+}
+
+
+void Kirby::ReleaseAbilityStart()
+{
+	StateTime = 0.0f;
+	IsChangeState = false;
+	ChangeAnimationState("ReleaseAbility");
+}
+
+void Kirby::ReleaseAbilityUpdate(float _Delta)
+{
+	IsChangeState = CheckEndAnimation(MainRenderer, CurMode + "_Left_ReleaseAbility", CurMode + "_Right_ReleaseAbility");
+
+	if (true == IsChangeState && false == GetGroundState())
+	{
+		ChangeState(KirbyState::Fall);
+		return;
+	}
+	if (true == IsChangeState && true == GetGroundState())
+	{
+		ChangeState(KirbyState::Idle);
+		return;
+	}
+
+	BlockedByWall();
+	BlockedByGround();
+
+	DecelerationUpdate(_Delta, DECELERATIONSPEED);
+	MoveUpdate(_Delta);
+
+	if (false == GetGroundState())
+	{
+		Gravity(_Delta);
+		GravityLimit(_Delta);
+		VerticalUpdate();
+	}
+}
+
+
+void Kirby::GetAbilityStart()
+{
+
+}
+
+void Kirby::GetAbilityUpdate(float _Delta)
+{
+
+}
 
 
 // ============================================
@@ -917,7 +1030,37 @@ void Kirby::ExhaleAttackUpdate(float _Delta)
 
 
 
+void Kirby::UseAbility()
+{
+	switch (Mode)
+	{
+	case KirbyMode::Normal:
+		InhaleAbility();
+		break;
+	case KirbyMode::Spark:
+		SparkAbility();
+		break;
+	case KirbyMode::Max:
+		break;
+	default:
+		break;
+	}
+}
 
+void Kirby::InhaleAbility()
+{
+	if (StateTime > 1.0f)
+	{
+		swallowedObject = true;
+		CurStar = new KirbyAbilityStar(1, AbilityStar::None);
+	}
+}
+
+
+void Kirby::SparkAbility()
+{
+
+}
 
 
 

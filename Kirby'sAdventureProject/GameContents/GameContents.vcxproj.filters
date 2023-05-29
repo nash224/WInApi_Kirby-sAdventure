@@ -132,15 +132,12 @@
     <ClInclude Include="Grunt.h">
       <Filter>Global\Object</Filter>
     </ClInclude>
-    <ClInclude Include="Kirby.h">
-      <Filter>Global\Object</Filter>
-    </ClInclude>
     <ClInclude Include="PlayUIManager.h" />
     <ClInclude Include="GlobalValue.h">
       <Filter>Global</Filter>
     </ClInclude>
-    <ClInclude Include="NormalMode.h">
-      <Filter>Global\Object\KirbyMode</Filter>
+    <ClInclude Include="Kirby.h">
+      <Filter>Global\Object\Kirby</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -274,21 +271,21 @@
     <ClCompile Include="ActorUtils.cpp">
       <Filter>Global</Filter>
     </ClCompile>
-    <ClCompile Include="Kirby.cpp">
-      <Filter>Global\Object</Filter>
-    </ClCompile>
     <ClCompile Include="Grunt.cpp">
-      <Filter>Global\Object</Filter>
-    </ClCompile>
-    <ClCompile Include="Kirby_State.cpp">
       <Filter>Global\Object</Filter>
     </ClCompile>
     <ClCompile Include="PlayUIManager.cpp" />
     <ClCompile Include="GlobalValue.cpp">
       <Filter>Global</Filter>
     </ClCompile>
-    <ClCompile Include="NormalMode.cpp">
-      <Filter>Global\Object\KirbyMode</Filter>
+    <ClCompile Include="Kirby_State.cpp">
+      <Filter>Global\Object\Kirby</Filter>
+    </ClCompile>
+    <ClCompile Include="Kirby.cpp">
+      <Filter>Global\Object\Kirby</Filter>
+    </ClCompile>
+    <ClCompile Include="Kirby_Contain_State.cpp">
+      <Filter>Global\Object\Kirby</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -325,7 +322,7 @@
     <Filter Include="Level\Map\VegetableValley">
       <UniqueIdentifier>{4cd6af2d-814d-44c5-a5c0-bc0554558c9e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Global\Object\KirbyMode">
+    <Filter Include="Global\Object\Kirby">
       <UniqueIdentifier>{bdfde808-744d-4ee8-bfac-4aef7da2990c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>

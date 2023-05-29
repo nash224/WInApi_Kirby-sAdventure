@@ -29,17 +29,42 @@ Kirby::Kirby()
 
 Kirby::~Kirby()
 {
+	for (const std::pair<KirbyMode, Kirby*>& Pair : AllMode)
+	{
+		Kirby* Modes = Pair.second;
+		if (nullptr != Modes)
+		{
+			delete Modes;
+			Modes = nullptr;
+		}
+	}
+
+	if (nullptr != CurStar)
+	{
+		delete CurStar;
+		CurStar = nullptr;
+	}
 }
+
+Kirby::KirbyAbilityStar::KirbyAbilityStar(size_t _GruntCount, AbilityStar _StarAbility)
+	:GruntCount(_GruntCount), StartAbility(_StarAbility)
+{
+
+}
+
+Kirby::KirbyAbilityStar::~KirbyAbilityStar()
+{
+
+}
+
+
 
 void Kirby::Start()
 {
-	// 비트맵 파일이 없으면 하나 만들어줘야한다.
+	MainRenderer = CreateRenderer(RenderOrder::Play);
 
 	ResourcesManager::GetInst().SpriteFileLoad("Normal_Left_Kirby.bmp", "Resources\\Unit\\Kirby", 10, 10);
 	ResourcesManager::GetInst().SpriteFileLoad("Normal_RIght_Kirby.bmp", "Resources\\Unit\\Kirby", 10, 10);
-
-	MainRenderer = CreateRenderer(RenderOrder::Play);
-
 
 	MainRenderer->CreateAnimation("Normal_Left_Idle", "Normal_Left_Kirby.bmp", 0, 1, 0.5f, true);
 	MainRenderer->CreateAnimation("Normal_Right_Idle", "Normal_RIght_Kirby.bmp", 0, 1, 0.5f, true);
@@ -88,15 +113,24 @@ void Kirby::Start()
 
 	MainRenderer->CreateAnimation("Normal_Left_Fly", "Normal_Left_Kirby.bmp", 19, 20, 0.2f, true);
 	MainRenderer->CreateAnimation("Normal_Right_Fly", "Normal_RIght_Kirby.bmp", 19, 20, 0.2f, true);
-
+	 
 	MainRenderer->CreateAnimation("Normal_Left_ExhaleAttack", "Normal_Left_Kirby.bmp", 21, 24, EXHALEATTACKTIME, false);
 	MainRenderer->CreateAnimation("Normal_Right_ExhaleAttack", "Normal_RIght_Kirby.bmp", 21, 24, EXHALEATTACKTIME, false);
+
+	MainRenderer->CreateAnimation("Normal_Left_UseSpecialAbility", "Normal_Left_Kirby.bmp", 24, 26, 0.1f, false);
+	MainRenderer->CreateAnimation("Normal_Right_UseSpecialAbility", "Normal_RIght_Kirby.bmp", 24, 26, 0.1f, false);
+
+	MainRenderer->CreateAnimation("Normal_Left_ReleaseAbility", "Normal_Left_Kirby.bmp", 25, 25, 0.15f, false);
+	MainRenderer->CreateAnimation("Normal_Right_ReleaseAbility", "Normal_RIght_Kirby.bmp", 25, 25, 0.15f, false);
+
+	Contain_StateResourceLoad();
+
+	//MainRenderer->CreateAnimation("Normal_Left_GetAbility", "Normal_Left_Kirby.bmp", 24, 26, 0.1f, false);
+	//MainRenderer->CreateAnimation("Normal_Right_GetAbility", "Normal_RIght_Kirby.bmp", 24, 26, 0.1f, false);
 
 
 	MainRenderer->SetRenderScaleToTexture();
 	MainRenderer->SetScaleRatio(3.0f);
-
-
 
 	float4 WinScale = GameEngineWindow::MainWindow.GetScale();
 	SetPos(WinScale.Half());
@@ -106,6 +140,8 @@ void Kirby::Start()
 	BodyState = KirbyBodyState::Little;
 	Mode = KirbyMode::Normal;
 
+	CurMode = "Normal";
+	
 
 	BodyCollision = CreateCollision(CollisionOrder::PlayerBody);
 	BodyCollision->SetCollisionScale(GetKirbyScale());
@@ -149,40 +185,34 @@ void Kirby::StateUpdate(float _Delta)
 
 	switch (State)
 	{
-	case KirbyState::Idle:
-		return IdleUpdate(_Delta);
-	case KirbyState::Walk:
-		return WalkUpdate(_Delta);
-	case KirbyState::Run:
-		return RunUpdate(_Delta);
-	case KirbyState::Turn:
-		return TurnUpdate(_Delta);
-	case KirbyState::Jump:
-		return JumpUpdate(_Delta);
-	case KirbyState::AerialMotion:
-		return AerialMotionUpdate(_Delta);
-	case KirbyState::Fall:
-		return FallUpdate(_Delta);
-	case KirbyState::AccelerateDown:
-		return AccelerateDownUpdate(_Delta);
-	case KirbyState::Bounce:
-		return BounceUpdate(_Delta);
-	case KirbyState::Landing:
-		return LandingUpdate(_Delta);
-	case KirbyState::LowerPosture:
-		return LowerPostureUpdate(_Delta);
-	case KirbyState::LowerAttack:
-		return LowerAttackUpdate(_Delta);
-	case KirbyState::HittheWall:
-		return HittheWallUpdate(_Delta);
-	case KirbyState::HittheCeiling:
-		return HittheCeilingUpdate(_Delta);
-	case KirbyState::TakeOff:
-		return TakeOffUpdate(_Delta);
-	case KirbyState::Fly:
-		return FlyUpdate(_Delta);
-	case KirbyState::ExhaleAttack:
-		return ExhaleAttackUpdate(_Delta);
+	case KirbyState::Idle:					return IdleUpdate(_Delta);
+	case KirbyState::Walk:					return WalkUpdate(_Delta);
+	case KirbyState::Run:					return RunUpdate(_Delta);
+	case KirbyState::Turn:					return TurnUpdate(_Delta);
+	case KirbyState::Jump:					return JumpUpdate(_Delta);
+	case KirbyState::AerialMotion:			return AerialMotionUpdate(_Delta);
+	case KirbyState::Fall:					return FallUpdate(_Delta);
+	case KirbyState::AccelerateDown:		return AccelerateDownUpdate(_Delta);
+	case KirbyState::Bounce:				return BounceUpdate(_Delta);
+	case KirbyState::Landing:				return LandingUpdate(_Delta);
+	case KirbyState::LowerPosture:			return LowerPostureUpdate(_Delta);
+	case KirbyState::LowerAttack:			return LowerAttackUpdate(_Delta);
+	case KirbyState::HittheWall:			return HittheWallUpdate(_Delta);
+	case KirbyState::HittheCeiling:			return HittheCeilingUpdate(_Delta);
+	case KirbyState::TakeOff:				return TakeOffUpdate(_Delta);
+	case KirbyState::Fly:					return FlyUpdate(_Delta);
+	case KirbyState::ExhaleAttack:			return ExhaleAttackUpdate(_Delta);
+	case KirbyState::UseSpecialAbility:		return UseSpecialAbilityUpdate(_Delta);
+	case KirbyState::ReleaseAbility:		return ReleaseAbilityUpdate(_Delta);
+	case KirbyState::Contain_Idle:			return Contain_IdleUpdate(_Delta);
+	case KirbyState::Contain_Walk:			return Contain_WalkUpdate(_Delta);
+	case KirbyState::Contain_Run:			return Contain_RunUpdate(_Delta);
+	case KirbyState::Contain_Turn:			return Contain_TurnUpdate(_Delta);
+	case KirbyState::Contain_Jump:			return Contain_JumpUpdate(_Delta);
+	case KirbyState::Contain_Fall:			return Contain_FallUpdate(_Delta);
+	case KirbyState::Contain_Gulp:			return Contain_GulpUpdate(_Delta);
+	case KirbyState::Contain_Disgorge:		return Contain_DisgorgeUpdate(_Delta);
+	case KirbyState::GetAbility:			return GetAbilityUpdate(_Delta);
 	default:
 		break;
 	}
@@ -194,57 +224,34 @@ void Kirby::ChangeState(KirbyState _State)
 	{
 		switch (_State)
 		{
-		case KirbyState::Idle:
-			IdleStart();
-			break;
-		case KirbyState::Walk:
-			WalkStart();
-			break;
-		case KirbyState::Run:
-			RunStart();
-			break;
-		case KirbyState::Turn:
-			TurnStart();
-			break;
-		case KirbyState::Jump:
-			JumpStart();
-			break;
-		case KirbyState::AerialMotion:
-			AerialMotionStart();
-			break;
-		case KirbyState::Fall:
-			FallStart();
-			break;
-		case KirbyState::AccelerateDown:
-			AccelerateDownStart();
-			break;
-		case KirbyState::Bounce:
-			BounceStart();
-			break;
-		case KirbyState::Landing:
-			LandingStart();
-			break;
-		case KirbyState::LowerPosture:
-			LowerPostureStart();
-			break;
-		case KirbyState::LowerAttack:
-			LowerAttackStart();
-			break;
-		case KirbyState::HittheWall:
-			HittheWallStart();
-			break;
-		case KirbyState::HittheCeiling:
-			HittheCeilingStart();
-			break;
-		case KirbyState::TakeOff:
-			TakeOffStart();
-			break;
-		case KirbyState::Fly:
-			FlyStart();
-			break;
-		case KirbyState::ExhaleAttack:
-			ExhaleAttackStart();
-			break;
+		case KirbyState::Idle:					IdleStart();					break;
+		case KirbyState::Walk:					WalkStart();					break;
+		case KirbyState::Run:					RunStart();						break;
+		case KirbyState::Turn:					TurnStart();					break;
+		case KirbyState::Jump:					JumpStart();					break;
+		case KirbyState::AerialMotion:			AerialMotionStart();			break;
+		case KirbyState::Fall:					FallStart();					break;
+		case KirbyState::AccelerateDown:		AccelerateDownStart();			break;
+		case KirbyState::Bounce:				BounceStart();					break;
+		case KirbyState::Landing:				LandingStart();					break;
+		case KirbyState::LowerPosture:			LowerPostureStart();			break;
+		case KirbyState::LowerAttack:			LowerAttackStart();				break;
+		case KirbyState::HittheWall:			HittheWallStart();				break;
+		case KirbyState::HittheCeiling:			HittheCeilingStart();			break;
+		case KirbyState::TakeOff:				TakeOffStart();					break;
+		case KirbyState::Fly:					FlyStart();						break;
+		case KirbyState::ExhaleAttack:			ExhaleAttackStart();			break;
+		case KirbyState::UseSpecialAbility:		UseSpecialAbilityStart();		break;
+		case KirbyState::ReleaseAbility:		ReleaseAbilityStart();			break;
+		case KirbyState::Contain_Idle:			Contain_IdleStart();			break;
+		case KirbyState::Contain_Walk:			Contain_WalkStart();			break;
+		case KirbyState::Contain_Run:			Contain_RunStart();				break;
+		case KirbyState::Contain_Turn:			Contain_TurnStart();			break;
+		case KirbyState::Contain_Jump:			Contain_JumpStart();			break;
+		case KirbyState::Contain_Fall:			Contain_FallStart();			break;
+		case KirbyState::Contain_Gulp:			Contain_GulpStart();			break;
+		case KirbyState::Contain_Disgorge:		Contain_DisgorgeStart();		break;
+		case KirbyState::GetAbility:			GetAbilityStart();				break;
 		default:
 			break;
 		}
@@ -306,9 +313,6 @@ void Kirby::ChangeAnimationState(const std::string& _StateName)
 	case KirbyMode::Normal:
 		ModeName = "Normal_";
 		break;
-	case KirbyMode::OrangeIsh:
-		ModeName = "OrangeIsh_";
-		break;
 	case KirbyMode::Spark:
 		ModeName = "Spark_";
 		break;
@@ -319,7 +323,6 @@ void Kirby::ChangeAnimationState(const std::string& _StateName)
 	}
 
 	ModeName += AnimationName;
-
 
 	CurState = _StateName;
 
@@ -424,7 +427,7 @@ void Kirby::MoveUpdate(float _Delta)
 			CurrentSpeed = FLYMAXSPEED * _Delta;
 		}
 	}
-	else if (State == KirbyState::Run)
+	else if (State == KirbyState::Run || State == KirbyState::Contain_Run)
 	{// 수정예정
 		if (CurrentSpeed <= -RUNMAXSPEED * _Delta)
 		{
@@ -451,6 +454,7 @@ void Kirby::MoveUpdate(float _Delta)
 
 	AddPos({ CurrentSpeed, 0.0f});
 }
+
 
 
 void Kirby::LevelStart()

@@ -263,10 +263,6 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="NormalMode.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
     <ClInclude Include="OneCoinUp.h">
       <SubType>
       </SubType>
@@ -442,6 +438,7 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="Kirby_Contain_State.cpp" />
     <ClCompile Include="Kirby_State.cpp" />
     <ClCompile Include="LaserBall.cpp">
       <SubType>
@@ -456,10 +453,6 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="NomalEnemies.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
-    <ClCompile Include="NormalMode.cpp">
       <SubType>
       </SubType>
     </ClCompile>

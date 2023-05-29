@@ -82,6 +82,7 @@ protected:
 	void SetCheckPoint(const float4& _ScaleSize);
 	bool IsSolidGround();
 	bool IsPassableGround();
+	bool CheckEndAnimation(GameEngineRenderer* _Renderer, const std::string& _AnimationName, const std::string& _RightAnimationName);
 
 	void GravityLimit(float _Delta);
 	void VerticalUpdate();

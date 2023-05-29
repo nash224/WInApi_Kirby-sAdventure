@@ -302,3 +302,17 @@ bool ActorUtils::IsPassableGround()
 
 	return false;
 }
+
+bool ActorUtils::CheckEndAnimation(GameEngineRenderer* _Renderer, const std::string& _LeftAnimationName, const std::string& _RightAnimationName)
+{
+	bool LeftCheck = _Renderer->FindAnimation(_LeftAnimationName)->IsEnd;
+	bool RightCheck = _Renderer->FindAnimation(_RightAnimationName)->IsEnd;
+	if (true == LeftCheck || true == RightCheck)
+	{
+		_Renderer->FindAnimation(_LeftAnimationName)->IsEnd = false;
+		_Renderer->FindAnimation(_RightAnimationName)->IsEnd = false;
+		return true;
+	}
+
+	return false;
+}
