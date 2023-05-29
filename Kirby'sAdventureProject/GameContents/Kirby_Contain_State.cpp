@@ -45,6 +45,7 @@ void Kirby::Contain_StateResourceLoad()
 void Kirby::Contain_IdleStart()
 {
 	StateTime = 0.0f;
+	BodyState = KirbyBodyState::Fat;
 	ChangeAnimationState("Contain_Idle");
 }
 
@@ -57,12 +58,12 @@ void Kirby::Contain_IdleUpdate(float _Delta)
 	}
 	if (true == GameEngineInput::IsPress('S'))
 	{
-		//ChangeState(KirbyState::Contain_Gulp);
+		ChangeState(KirbyState::Contain_Gulp);
 		return;
 	}
 	if (true == (GameEngineInput::IsDown('Z')))
 	{
-		//ChangeState(KirbyState::Contain_Disgorge);
+		ChangeState(KirbyState::Contain_Disgorge);
 		return;
 	}
 	if (true == (GameEngineInput::IsDown('X')))
@@ -423,6 +424,7 @@ void Kirby::Contain_FallUpdate(float _Delta)
 void Kirby::Contain_GulpStart()
 {
 	StateTime = 0.0f;
+	BodyState = KirbyBodyState::Little;
 	ChangeAnimationState("Contain_Gulp");
 }
 
@@ -430,29 +432,31 @@ void Kirby::Contain_GulpUpdate(float _Delta)
 {
 	IsChangeState = CheckEndAnimation(MainRenderer, "Normal_Left_Contain_Gulp", "Normal_Right_Contain_Gulp");
 
-	if (true == IsChangeState && AbilityStar::None == CurStar->StartAbility && true == GameEngineInput::IsPress('S'))
+	if (true == IsChangeState && AbilityStar::None == Star && true == GameEngineInput::IsPress('S'))
 	{
-		delete CurStar;
-		CurStar = nullptr;
-
+		Star = AbilityStar::Max;
 		ChangeState(KirbyState::LowerPosture);
 		return;
 	}
 
-	if (true == IsChangeState && AbilityStar::None == CurStar->StartAbility && false == GameEngineInput::IsPress('S'))
+	if (true == IsChangeState && AbilityStar::None == Star && false == GameEngineInput::IsPress('S'))
 	{
-		delete CurStar;
-		CurStar = nullptr;
-
-		ChangeState(KirbyState::Idle);
-		return;
+		Star = AbilityStar::Max;
+		if (CurrentSpeed == 0.0f)
+		{
+			ChangeState(KirbyState::Idle);
+			return;
+		}
+		if (CurrentSpeed != 0.0f)
+		{
+			ChangeState(KirbyState::Walk);
+			return;
+		}
 	}
 
-	if (true == IsChangeState && AbilityStar::None != CurStar->StartAbility)
+	if (true == IsChangeState && AbilityStar::None != Star)
 	{
-		delete CurStar;
-		CurStar = nullptr;
-
+		Star = AbilityStar::Max;
 		ChangeState(KirbyState::GetAbility);
 		return;
 	}
@@ -479,10 +483,48 @@ void Kirby::Contain_GulpUpdate(float _Delta)
 
 void Kirby::Contain_DisgorgeStart()
 {
-
+	StateTime = 0.0f;
+	BodyState = KirbyBodyState::Little;
+	StarAttack();
+	ChangeAnimationState("Contain_Disgorge");
 }
 
 void Kirby::Contain_DisgorgeUpdate(float _Delta)
+{
+	IsChangeState = CheckEndAnimation(MainRenderer, "Normal_Left_Contain_Disgorge", "Normal_Right_Contain_Disgorge");
+
+	if (true == IsChangeState && false == GetGroundState())
+	{
+		ChangeState(KirbyState::Fall);
+		return;
+	}
+
+	if (true == IsChangeState && true == GetGroundState())
+	{
+		ChangeState(KirbyState::Idle);
+		return;
+	}
+
+
+	BlockedByGround();
+	MoveHorizontal(WALKSPEED, _Delta);
+	BlockedByWall();
+
+	DecelerationUpdate(_Delta);
+	MoveUpdate(_Delta);
+
+	if (false == GetGroundState())
+	{
+		Gravity(_Delta);
+		GravityLimit(_Delta);
+		VerticalUpdate();
+	}
+}
+
+
+///////////////////////////////////
+
+void Kirby::StarAttack()
 {
 
 }

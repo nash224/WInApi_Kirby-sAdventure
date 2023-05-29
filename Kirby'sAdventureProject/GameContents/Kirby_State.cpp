@@ -876,15 +876,7 @@ void Kirby::ExhaleAttackUpdate(float _Delta)
 {
 	StateTime += _Delta;
 
-	bool LeftCheck = MainRenderer->FindAnimation("Normal_Left_ExhaleAttack")->IsEnd;
-	bool RightCheck = MainRenderer->FindAnimation("Normal_Right_ExhaleAttack")->IsEnd;
-
-	if (LeftCheck || RightCheck)
-	{
-		IsChangeState = true;
-		MainRenderer->FindAnimation("Normal_Right_ExhaleAttack")->IsEnd = false;
-		MainRenderer->FindAnimation("Normal_Left_ExhaleAttack")->IsEnd = false;
-	}
+	IsChangeState = CheckEndAnimation(MainRenderer, CurMode + "_Left_ExhaleAttack", CurMode + "_Right_ExhaleAttack");
 
 	if (true == IsChangeState && false == GetGroundState())
 	{
@@ -928,6 +920,7 @@ void Kirby::UseSpecialAbilityStart()
 	StateTime = 0.0f;
 	Duration = 0.0f;
 	IsChangeState = false;
+	swallowedObject = false;
 	IstriggerOn = false;
 	ChangeAnimationState("UseSpecialAbility");
 }
@@ -936,7 +929,7 @@ void Kirby::UseSpecialAbilityUpdate(float _Delta)
 {
 	StateTime += _Delta;
 
-	IsChangeState = CheckEndAnimation(MainRenderer, "Normal_Left_UseSpecialAbility","Normal_Right_UseSpecialAbility");
+	IsChangeState = CheckEndAnimation(MainRenderer, CurMode + "_Left_UseSpecialAbility", CurMode + "_Right_UseSpecialAbility");
 
 	if (true == IsChangeState)
 	{
@@ -1052,7 +1045,8 @@ void Kirby::InhaleAbility()
 	if (StateTime > 1.0f)
 	{
 		swallowedObject = true;
-		CurStar = new KirbyAbilityStar(1, AbilityStar::None);
+		Star = AbilityStar::None;
+		StarPower = 1;
 	}
 }
 

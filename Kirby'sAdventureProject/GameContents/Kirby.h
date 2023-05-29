@@ -205,6 +205,7 @@ private:
 	KirbyBodyState BodyState = KirbyBodyState::Max;
 	KirbyState State = KirbyState::Max;
 	KirbyMode Mode = KirbyMode::Max;
+	AbilityStar Star = AbilityStar::Max;
 	std::string CurState = "";
 	std::string CurMode = "";
 
@@ -219,7 +220,8 @@ private:
 	float Duration = 0.0f;
 	float DecelerationSpeed = 1.0f;
 	float CurrentJumpPower = 0.0f;
-	float FallDistance = 0.0f;
+	float FallDistance = 0.0f; 
+	int StarPower = 0;
 
 
 	void Start() override;
@@ -228,25 +230,11 @@ private:
 
 	void LevelStart() override;
 
+	void StarAttack();
 	void UseAbility();
 	void InhaleAbility();
 	void AcquireAbility();
 	void SparkAbility();
 
-private:
-	class KirbyAbilityStar
-	{
-		friend class Kirby;
-	private:
-		KirbyAbilityStar();
-		KirbyAbilityStar(size_t _GruntCount, AbilityStar _StarAbility);
-		~KirbyAbilityStar();
-
-		size_t GruntCount = 0;
-		AbilityStar StartAbility = AbilityStar::Max;
-	};
-
-protected:
-	KirbyAbilityStar* CurStar = nullptr;
 };
 

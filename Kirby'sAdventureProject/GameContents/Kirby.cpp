@@ -38,23 +38,6 @@ Kirby::~Kirby()
 			Modes = nullptr;
 		}
 	}
-
-	if (nullptr != CurStar)
-	{
-		delete CurStar;
-		CurStar = nullptr;
-	}
-}
-
-Kirby::KirbyAbilityStar::KirbyAbilityStar(size_t _GruntCount, AbilityStar _StarAbility)
-	:GruntCount(_GruntCount), StartAbility(_StarAbility)
-{
-
-}
-
-Kirby::KirbyAbilityStar::~KirbyAbilityStar()
-{
-
 }
 
 
