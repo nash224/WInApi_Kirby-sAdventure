@@ -42,6 +42,7 @@ void WaddleDee::Start()
 	Scale = float4{ 24.0f, 39.0f };
 	SetCheckPoint(Scale);
 
+
 	BodyCollision = CreateCollision(CollisionOrder::MonsterBody);
 	BodyCollision->SetCollisionScale(Scale);
 	BodyCollision->SetCollisionType(CollisionType::Rect);
@@ -51,12 +52,12 @@ void WaddleDee::SetDirectionAndFirstAnimation()
 {
 	float4 StartDir = Kirby::GetMainKirby()->GetPos() - GetPos();
 
-	if (StartDir.X < Kirby::GetMainKirby()->GetPos().X)
+	if (StartDir.X < 0.0f)
 	{
 		Dir = ActorDir::Right;
 		MainRenderer->ChangeAnimation("Right_Walk");
 	}
-	else if (StartDir.X > Kirby::GetMainKirby()->GetPos().X)
+	else if (StartDir.X >= 0.0f)
 	{
 		Dir = ActorDir::Left;
 		MainRenderer->ChangeAnimation("Left_Walk");
@@ -73,6 +74,8 @@ void WaddleDee::Update(float _Delta)
 	GroundCheck();
 
 	WaddleDeeMovement(_Delta);
+
+	CheckOverScreen();
 }
 
 
@@ -81,13 +84,11 @@ void WaddleDee::Render(float _Delta)
 
 }
 
-void WaddleDee::init(const std::string _FileName, float4 _Pos)
+void WaddleDee::init(const std::string _FileName, const float4& _Pos)
 {
 	SetGroundTexture(_FileName);
-	SetPos(_Pos);
 	RespawnLocation = _Pos;
-	// ¼öÁ¤
-	//SetDirectionAndFirstAnimation();
+	SetPos(RespawnLocation);
 	Off();
 }
 
@@ -118,7 +119,7 @@ void WaddleDee::WaddleDeeMovement(float _Delta)
 
 	if (ActorDir::Right == Dir)
 	{
-		AddPos(float4::LEFT * WaddleSpeed * _Delta);
+		AddPos(float4::RIGHT * WaddleSpeed * _Delta);
 	}
 
 	BlockedByGround();

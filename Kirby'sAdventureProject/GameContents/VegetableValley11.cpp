@@ -75,12 +75,17 @@ void VegetableValley11::Update(float _Delta)
 		LevelBackGround->SwitchRender();
 	}
 
-	float4 WinHalfScale = GameEngineWindow::MainWindow.GetScale().Half();
+	float4 WinScale = GameEngineWindow::MainWindow.GetScale();
+	float4 CameraPos = GetMainCamera()->GetPos();
 
 	Enemy* Waddle1 = LevelEnemy.find("WaddleDee1")->second;
-	if (false == Waddle1->IsUpdate() && WinHalfScale.X >= LevelPlayer->GetPos().X - Waddle1->RespawnLocation.X)
+
+	if (false == Waddle1->IsUpdate()
+		&& (Waddle1->RespawnLocation.X > CameraPos.X || Waddle1->RespawnLocation.X < CameraPos.X + WinScale.X))
 	{
-		LevelEnemy.find("WaddleDee1")->second->On();
+		Waddle1->On();
+		Waddle1->SetPos(Waddle1->RespawnLocation);
+		Waddle1->SetDirectionAndFirstAnimation();
 	}
 }
 

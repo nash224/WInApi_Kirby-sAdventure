@@ -17,14 +17,15 @@ public:
 	WaddleDee& operator=(const WaddleDee& _Other) = delete;
 	WaddleDee& operator=(WaddleDee&& _Other) noexcept = delete;
 
-	void init(const std::string _FileName, float4 _Pos);
+	void init(const std::string _FileName, const float4& _Pos);
+
+	void SetDirectionAndFirstAnimation() override;
 
 protected:
 	void WaddleDeeMovement(float _Delta);
 
 private:
 	void Start() override;
-	void SetDirectionAndFirstAnimation();
 	void Update(float _Delta) override;
 	void Render(float _Delta) override;
 

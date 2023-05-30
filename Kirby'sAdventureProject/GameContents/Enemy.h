@@ -17,6 +17,8 @@ public:
 
 	float4 RespawnLocation = float4::ZERO;
 
+	virtual void SetDirectionAndFirstAnimation() {}
+
 protected:
 	float4 Scale = float4::ZERO;
 
@@ -28,6 +30,7 @@ protected:
 	void MoveHorizontal(float _Speed, float _Delta);
 	void DecelerationUpdate(float _Speed, float _Delta);
 	void MoveUpdate(float _MaxSpeed, float _Delta);
+	void CheckOverScreen();
 
 
 private:
