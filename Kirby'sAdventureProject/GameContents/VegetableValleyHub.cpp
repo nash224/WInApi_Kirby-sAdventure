@@ -31,6 +31,8 @@ void VegetableValleyHub::Start()
 
 	LevelPlayer = GameEngineLevel::CreateActor<Kirby>();
 	LevelPlayer->SetGroundTexture("VegetableValleyPixel.bmp");
+
+	//GameEngineWindow::MainWindow.CursorOff();
 }
 
 void VegetableValleyHub::Update(float _Delta)

@@ -58,7 +58,6 @@ public:
 
 	GameEngineRenderer* CreateRenderer(const std::string& _ImageName, int _Order);
 
-
 	template<typename EnumType>
 	GameEngineRenderer* CreateUIRenderer(EnumType _Order)
 	{
@@ -78,7 +77,6 @@ public:
 
 	GameEngineRenderer* CreateUIRenderer(const std::string& _ImageName, int _Order);
 
-
 	template<typename EnumType>
 	GameEngineCollision* CreateCollision(EnumType _Order)
 	{
@@ -88,10 +86,24 @@ public:
 
 	GameEngineCollision* CreateCollision(int _Order = 0);
 
-
 	GameEngineLevel* GetLevel()
 	{
 		return Level;
+	}
+
+	bool IsLevelOver()
+	{
+		return IsOverValue;
+	}
+
+	void OverOn()
+	{
+		IsOverValue = true;
+	}
+
+	void OverOff()
+	{
+		IsOverValue = false;
 	}
 
 protected:
@@ -99,14 +111,15 @@ protected:
 	virtual void LevelEnd() {}
 
 private:
+	// ture가 되는순간. 
+	bool IsOverValue = false;
+
 	GameEngineLevel* Level;
 
 	float4 Pos = float4::ZERO;
 
 	std::list<GameEngineRenderer*> AllRenderer;
 	std::list<GameEngineCollision*> AllCollision;
-
-
 
 	void ActorRelease();
 };
