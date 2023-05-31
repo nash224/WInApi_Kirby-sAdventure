@@ -50,6 +50,13 @@ void WaddleDee::Start()
 
 void WaddleDee::SetDirectionAndFirstAnimation()
 {
+	if (nullptr == Kirby::GetMainKirby())
+	{
+		Dir = ActorDir::Left;
+		MainRenderer->ChangeAnimation("Left_Walk");
+		return;
+	}
+
 	float4 StartDir = Kirby::GetMainKirby()->GetPos() - GetPos();
 
 	if (StartDir.X < 0.0f)
@@ -79,17 +86,12 @@ void WaddleDee::Update(float _Delta)
 }
 
 
-void WaddleDee::Render(float _Delta) 
-{
-
-}
-
 void WaddleDee::init(const std::string _FileName, const float4& _Pos)
 {
 	SetGroundTexture(_FileName);
 	RespawnLocation = _Pos;
 	SetPos(RespawnLocation);
-	Off();
+	SetDirectionAndFirstAnimation();
 }
 
 void WaddleDee::WaddleDeeMovement(float _Delta)
@@ -101,12 +103,12 @@ void WaddleDee::WaddleDeeMovement(float _Delta)
 		VerticalUpdate();
 	}
 
-	if (true == CheckLeftWall())
+	if (true == CheckLeftWall() || LeftGroundIsCliff())
 	{
 		MainRenderer->ChangeAnimation("Right_Walk");
 		Dir = ActorDir::Right;
 	}
-	else if (true == CheckRightWall())
+	else if (true == CheckRightWall() || RightGroundIsCliff())
 	{
 		MainRenderer->ChangeAnimation("Left_Walk");
 		Dir = ActorDir::Left;

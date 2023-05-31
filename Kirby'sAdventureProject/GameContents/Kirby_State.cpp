@@ -346,6 +346,7 @@ void Kirby::JumpStart()
 {
 	StateTime = 0.0f;
 	AbleJump = true;
+	CurrentJumpDistance = 0.0f;
 	KirbyDirCheck();
 	GravityReset();
 	ChangeAnimationState("Jump");
@@ -384,14 +385,17 @@ void Kirby::JumpUpdate(float _Delta)
 		return;
 	}
 
-	if (true == GameEngineInput::IsUp('X'))
+	if (true == GameEngineInput::IsUp('X') || CurrentJumpDistance > 160.0f)
 	{
 		AbleJump = false;
 	}
 
-	if (true == GameEngineInput::IsPress('X') && StateTime < 0.4f && true == AbleJump)
+	float JumpMaxSpeed = JUMPPOWER / JUMPTIME * _Delta;
+	CurrentJumpDistance += JumpMaxSpeed;
+
+	if (true == GameEngineInput::IsPress('X') && CurrentJumpDistance < 160.0f && true == AbleJump)
 	{
-		SetGravityVector(float4::UP * (JUMPPOWER * _Delta));
+		SetGravityVector(float4::UP * JumpMaxSpeed);
 	}
 
 
@@ -406,7 +410,10 @@ void Kirby::JumpUpdate(float _Delta)
 	DecelerationUpdate(_Delta);
 	MoveUpdate(_Delta);
 
-	Gravity(_Delta);
+	if (false == AbleJump)
+	{
+		Gravity(_Delta);
+	}
 	GravityLimit(_Delta);
 	VerticalUpdate();
 }

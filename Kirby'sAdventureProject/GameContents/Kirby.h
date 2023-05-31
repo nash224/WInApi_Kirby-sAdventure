@@ -15,13 +15,13 @@
 #define JUMPPOWER 310.0f
 #define FLYPOWER 280.0f
 
-#define DECELERATIONSPEED 0.8f
+#define DECELERATIONSPEED  0.8f
 #define BRAKESPEED 2.0f
 
-#define HITTHEMAPTIME 0.08f
-#define EXHALEATTACKTIME 0.08f
-#define TAKEOFFTIME 0.4f
 #define JUMPTIME 0.4f
+#define HITTHEMAPTIME 0.08f
+#define TAKEOFFTIME 0.4f
+#define EXHALEATTACKTIME 0.08f
 
 
 
@@ -213,7 +213,7 @@ private:
 	float StateTime = 0.0f;
 	float Duration = 0.0f;
 	float DecelerationSpeed = 1.0f;
-	float CurrentJumpPower = 0.0f;
+	float CurrentJumpDistance = 0.0f;
 	float FallDistance = 0.0f; 
 	int StarPower = 0;
 

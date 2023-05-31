@@ -80,3 +80,78 @@ void Enemy::CheckOverScreen()
 		Off();
 	}
 }
+
+bool Enemy::LeftGroundIsCliff()
+{
+	unsigned int LeftBottomColor = GetGroundColor(RGB(255, 255, 255), GroundLeftCheckPoint);
+	unsigned int RightBottomColor = GetGroundColor(RGB(255, 255, 255), GroundRightCheckPoint);
+	if (((RGB(0, 255, 255) != LeftBottomColor) && (RGB(0, 255, 255) == RightBottomColor))
+		|| (RGB(0, 0, 255) != LeftBottomColor && (RGB(0, 0, 255) == RightBottomColor)))
+	{
+		return true;
+	}
+
+	return false;
+}
+
+bool Enemy::RightGroundIsCliff()
+{
+	unsigned int LeftBottomColor = GetGroundColor(RGB(255, 255, 255), GroundLeftCheckPoint);
+	unsigned int RightBottomColor = GetGroundColor(RGB(255, 255, 255), GroundRightCheckPoint);
+	if (((RGB(0, 255, 255) == LeftBottomColor) && (RGB(0, 255, 255) != RightBottomColor))
+		|| (RGB(0, 0, 255) == LeftBottomColor && (RGB(0, 0, 255) != RightBottomColor)))
+	{
+		return true;
+	}
+
+	return false;
+}
+
+// 화면밖으로 나가면 TriggerOn
+void Enemy::RespawnLocationOverCamera()
+{
+	float4 CameraPos = GetLevel()->GetMainCamera()->GetPos();
+
+	if (RespawnLocation.X < CameraPos.X)
+	{
+		IsRespawnLocationOverCamera = true;
+		return;
+	}
+
+	if (RespawnLocation.Y < CameraPos.Y)
+	{
+		IsRespawnLocationOverCamera = true;
+		return;
+	}
+
+	float4 WinScale = GameEngineWindow::MainWindow.GetScale();
+
+	if (RespawnLocation.X > CameraPos.X + WinScale.X)
+	{
+		IsRespawnLocationOverCamera = true;
+		return;
+	}
+
+	if (RespawnLocation.Y > CameraPos.Y + WinScale.Y)
+	{
+		IsRespawnLocationOverCamera = true;
+		return;
+	}
+
+	IsRespawnLocationOverCamera = false;
+}
+
+
+void Enemy::RespawnTrigger()
+{
+	float4 WinScale = GameEngineWindow::MainWindow.GetScale();
+	float4 CameraPos = GetLevel()->GetMainCamera()->GetPos();
+	RespawnLocationOverCamera();
+
+	if (true == IsRespawnLocationOverCamera)
+	{
+		On();
+		SetPos(RespawnLocation);
+		SetDirectionAndFirstAnimation();
+	}
+}

@@ -16,6 +16,9 @@ public:
 	Enemy& operator=(Enemy&& _Other) noexcept = delete;
 
 	float4 RespawnLocation = float4::ZERO;
+	bool IsRespawnLocationOverCamera = true;
+	void RespawnLocationOverCamera();
+	void RespawnTrigger();
 
 	virtual void SetDirectionAndFirstAnimation() {}
 
@@ -30,7 +33,11 @@ protected:
 	void MoveHorizontal(float _Speed, float _Delta);
 	void DecelerationUpdate(float _Speed, float _Delta);
 	void MoveUpdate(float _MaxSpeed, float _Delta);
+
+
 	void CheckOverScreen();
+	bool LeftGroundIsCliff();
+	bool RightGroundIsCliff();
 
 
 private:

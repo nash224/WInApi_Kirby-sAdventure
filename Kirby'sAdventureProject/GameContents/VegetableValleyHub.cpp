@@ -30,7 +30,6 @@ void VegetableValleyHub::Start()
 	LevelBackGround->init("VegetableValley.bmp", "VegetableValleyPixel.bmp", "Resources\\Map");
 
 	LevelPlayer = GameEngineLevel::CreateActor<Kirby>();
-	LevelPlayer->SetGroundTexture("VegetableValleyPixel.bmp");
 
 	//GameEngineWindow::MainWindow.CursorOff();
 }
@@ -65,6 +64,8 @@ void VegetableValleyHub::LevelStart(GameEngineLevel* _PrevLevel)
 	{
 		MsgBoxAssert("플레이어를 세팅해주지 않았습니다.");
 	}
+
+	LevelPlayer->SetGroundTexture("VegetableValleyPixel.bmp");
 }
 
 void VegetableValleyHub::LevelEnd(GameEngineLevel* _NextLevel) { }
