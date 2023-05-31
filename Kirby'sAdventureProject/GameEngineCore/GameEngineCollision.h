@@ -1,5 +1,5 @@
 #pragma once
-#include <GameEngineCore/GameEngineActorSubObject.h>
+#include "GameEngineActorSubObject.h"
 #include <GameEngineBase/GameEngineMath.h>
 #include <string>
 #include <map>
@@ -55,14 +55,11 @@ public:
 
 };
 
-
 // 설명 :
 class GameEngineActor;
 class CollisionInitClass;
 class GameEngineCollision : public GameEngineActorSubObject
 {
-
-
 	// 함수 포인터
 	static bool (*CollisionFunction[static_cast<int>(CollisionType::Max)][static_cast<int>(CollisionType::Max)])(GameEngineCollision* _Left, GameEngineCollision* _Right);
 
@@ -75,11 +72,9 @@ public:
 	static bool PointToPoint(GameEngineCollision* _Left, GameEngineCollision* _Right);
 	static bool PointToRect(GameEngineCollision* _Left, GameEngineCollision* _Right);
 	static bool PointToCirCle(GameEngineCollision* _Left, GameEngineCollision* _Right);
-
 	static bool RectToPoint(GameEngineCollision* _Left, GameEngineCollision* _Right);
 	static bool RectToRect(GameEngineCollision* _Left, GameEngineCollision* _Right);
 	static bool RectToCirCle(GameEngineCollision* _Left, GameEngineCollision* _Right);
-
 	static bool CirCleToPoint(GameEngineCollision* _Left, GameEngineCollision* _Right);
 	static bool CirCleToRect(GameEngineCollision* _Left, GameEngineCollision* _Right);
 	static bool CirCleToCirCle(GameEngineCollision* _Left, GameEngineCollision* _Right);
@@ -129,7 +124,6 @@ public:
 
 	void SetOrder(int _Order) override;
 
-
 	bool CollisonCheck(GameEngineCollision* _Other
 		, CollisionType _ThisType
 		, CollisionType _OtherType);
@@ -146,7 +140,6 @@ public:
 		CollisionData Data;
 		Data.Pos = GetActorPivotPos();
 		Data.Scale = GetActorScale();
-
 		return Data;
 	}
 
@@ -155,10 +148,24 @@ public:
 		ColType = _ColType;
 	}
 
+	void On() override
+	{
+		GameEngineActorSubObject::On();
+		CollisionRenderValue = true;
+	}
+
+	void Off() override
+	{
+		GameEngineActorSubObject::Off();
+		CollisionRenderValue = false;
+	}
+
 protected:
 
 private:
 	CollisionType ColType = CollisionType::Rect;
+
+	bool CollisionRenderValue = true;
 
 	float4 CollisionPos;
 	float4 CollisionScale;

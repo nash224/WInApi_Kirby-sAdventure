@@ -1,15 +1,16 @@
 #include "GameEngineCollision.h"
 #include "GameEngineActor.h"
 #include "GameEngineLevel.h"
-#include "GameEngineCamera.h"
+#include <GameEnginePlatform/GameEngineWindowTexture.h>
 #include <GameEnginePlatform/GameEngineWindow.h>
+#include <GameEngineCore/GameEngineCamera.h>
 #include <list>
 
 bool (*GameEngineCollision::CollisionFunction[static_cast<int>(CollisionType::Max)][static_cast<int>(CollisionType::Max)])(GameEngineCollision* _Left, GameEngineCollision* _Right) = { nullptr };
 
 bool GameEngineCollision::PointToPoint(GameEngineCollision* _Left, GameEngineCollision* _Right)
 {
-	MsgBoxAssert("충돌체크 함수를 만들지 않았습니다.");
+	MsgBoxAssert("충돌체크함수를 만들지 않았습니다.");
 	return false;
 }
 bool GameEngineCollision::PointToRect(GameEngineCollision* _Left, GameEngineCollision* _Right)
@@ -45,10 +46,10 @@ bool GameEngineCollision::PointToCirCle(GameEngineCollision* _Left, GameEngineCo
 	CollisionData RightData = _Right->GetCollisionData();
 
 	float Len = (LeftData.Pos - RightData.Pos).Size();
-	float RadiumSum = RightData.Scale.Max2D();
-	RadiumSum *= 0.5f;
+	float RadiusSum = RightData.Scale.Max2D();
+	RadiusSum *= 0.5f;
 
-	if (Len <= RadiumSum)
+	if (Len <= RadiusSum)
 	{
 		return true;
 	}
@@ -152,8 +153,6 @@ bool GameEngineCollision::CirCleToCirCle(GameEngineCollision* _Left, GameEngineC
 	return false;
 }
 
-
-
 class CollisionInitClass
 {
 public:
@@ -187,6 +186,7 @@ float4 GameEngineCollision::GetActorPivotPos()
 {
 	return GetActor()->GetPos() + CollisionPos;
 }
+
 
 bool GameEngineCollision::Collision(int _Order,
 	std::vector<GameEngineCollision*>& _Result,
@@ -264,9 +264,16 @@ bool GameEngineCollision::CollisonCheck(GameEngineCollision* _Other
 
 void GameEngineCollision::DebugRender()
 {
+
+	if (false == CollisionRenderValue)
+	{
+		return;
+	}
+
 	CollisionData Data = GetCollisionData();
 
 	Data.Pos -= GetActor()->GetLevel()->GetMainCamera()->GetPos();
+
 
 	GameEngineWindowTexture* BackBuffer = GameEngineWindow::MainWindow.GetBackBuffer();
 
