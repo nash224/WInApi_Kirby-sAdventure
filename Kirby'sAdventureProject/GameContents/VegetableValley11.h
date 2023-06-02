@@ -5,6 +5,10 @@
 // Ό³Έν :
 class VegetableValley11 : public GameEngineLevel
 {
+private:
+	static float UpdateTime;
+	float FPSText = 0.0f;
+
 public:
 	// constrcuter destructer
 	VegetableValley11();
@@ -31,6 +35,7 @@ private:
 
 	void Start() override;
 	void Update(float _Delta) override;
+	void Render(float _Delta) override;
 
 
 

@@ -13,6 +13,5 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 {
     GameEngineCore::EngineStart<ContentsCore>("Kirby's Adventure", hInstance);
 
-
     return 0;
 }

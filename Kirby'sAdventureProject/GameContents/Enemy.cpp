@@ -69,17 +69,6 @@ void Enemy::MoveUpdate(float _MaxSpeed, float _Delta)
 }
 
 
-void Enemy::CheckOverScreen()
-{
-	float4 WinScale = GameEngineWindow::MainWindow.GetScale();
-	float4 CameraPos = GetLevel()->GetMainCamera()->GetPos();
-
-	if (CameraPos.X > GetPos().X + Scale.X * 3.0f || CameraPos.X + WinScale.X < GetPos().X - Scale.X * 3.0f
-		|| CameraPos.Y > GetPos().Y + Scale.X * 3.0f || CameraPos.Y + WinScale.Y < GetPos().Y - Scale.X * 3.0f)
-	{
-		Off();
-	}
-}
 
 bool Enemy::LeftGroundIsCliff()
 {
@@ -105,6 +94,18 @@ bool Enemy::RightGroundIsCliff()
 	}
 
 	return false;
+}
+
+void Enemy::CheckOverScreen()
+{
+	float4 WinScale = GameEngineWindow::MainWindow.GetScale();
+	float4 CameraPos = GetLevel()->GetMainCamera()->GetPos();
+
+	if (CameraPos.X > GetPos().X + Scale.X * 3.0f || CameraPos.X + WinScale.X < GetPos().X - Scale.X * 3.0f
+		|| CameraPos.Y > GetPos().Y + Scale.X * 3.0f || CameraPos.Y + WinScale.Y < GetPos().Y - Scale.X * 3.0f)
+	{
+		Off(); 
+	}
 }
 
 // 화면밖으로 나가면 TriggerOn
@@ -146,8 +147,8 @@ void Enemy::RespawnTrigger()
 {
 	float4 WinScale = GameEngineWindow::MainWindow.GetScale();
 	float4 CameraPos = GetLevel()->GetMainCamera()->GetPos();
-	RespawnLocationOverCamera();
 
+	RespawnLocationOverCamera();
 	if (true == IsRespawnLocationOverCamera)
 	{
 		On();

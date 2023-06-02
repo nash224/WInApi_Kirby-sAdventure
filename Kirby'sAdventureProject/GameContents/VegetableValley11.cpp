@@ -15,6 +15,8 @@
 #include "WaddleDee.h"
 #include "PlayUIManager.h"
 
+
+float VegetableValley11::UpdateTime = 0.0f;
 VegetableValley11::VegetableValley11() 
 {
 }
@@ -94,3 +96,20 @@ void VegetableValley11::LevelStart(GameEngineLevel* _PrevLevel)
 
 
 void VegetableValley11::LevelEnd(GameEngineLevel* _NextLevel) { }
+
+void VegetableValley11::Render(float _Delta)
+{
+	UpdateTime += _Delta;
+
+	std::string Text = "";
+	Text += "현재 레벨 프레임 : ";
+	if (UpdateTime >= 1.0f)
+	{
+		UpdateTime = 0.0f;
+
+		FPSText = 1.0f / _Delta;
+	}
+	Text += std::to_string(static_cast<int>(FPSText));
+	HDC dc = GameEngineWindow::MainWindow.GetBackBuffer()->GetImageDC();
+	TextOutA(dc, 2, 3, Text.c_str(), static_cast<int>(Text.size()));
+}

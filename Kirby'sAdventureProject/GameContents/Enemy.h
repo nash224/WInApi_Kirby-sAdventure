@@ -17,7 +17,6 @@ public:
 
 	float4 RespawnLocation = float4::ZERO;
 	bool IsRespawnLocationOverCamera = true;
-	void RespawnLocationOverCamera();
 	void RespawnTrigger();
 
 	virtual void SetDirectionAndFirstAnimation() {}
@@ -34,10 +33,11 @@ protected:
 	void DecelerationUpdate(float _Speed, float _Delta);
 	void MoveUpdate(float _MaxSpeed, float _Delta);
 
-
-	void CheckOverScreen();
 	bool LeftGroundIsCliff();
 	bool RightGroundIsCliff();
+
+	void CheckOverScreen();
+	void RespawnLocationOverCamera();
 
 
 private:

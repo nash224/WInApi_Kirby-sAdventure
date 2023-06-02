@@ -99,7 +99,6 @@
     <ClInclude Include="Grunt.h">
       <Filter>Global\Object</Filter>
     </ClInclude>
-    <ClInclude Include="PlayUIManager.h" />
     <ClInclude Include="GlobalValue.h">
       <Filter>Global</Filter>
     </ClInclude>
@@ -130,6 +129,7 @@
     <ClInclude Include="Enemy.h">
       <Filter>Global\Object\Enemy</Filter>
     </ClInclude>
+    <ClInclude Include="PlayUIManager.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="TitleLevel.cpp">
@@ -232,7 +232,6 @@
     <ClCompile Include="Grunt.cpp">
       <Filter>Global\Object</Filter>
     </ClCompile>
-    <ClCompile Include="PlayUIManager.cpp" />
     <ClCompile Include="GlobalValue.cpp">
       <Filter>Global</Filter>
     </ClCompile>
@@ -269,6 +268,7 @@
     <ClCompile Include="Enemy.cpp">
       <Filter>Global\Object\Enemy</Filter>
     </ClCompile>
+    <ClCompile Include="PlayUIManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Level">

@@ -21,7 +21,6 @@ public:
 protected:
 
 private:
-	class Player* LevelPlayer = nullptr;
 	class BackGround* LevelBackGround = nullptr;
 
 	GameEngineSoundPlayer BGMPlayer;
