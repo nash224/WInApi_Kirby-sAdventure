@@ -330,42 +330,42 @@ void Kirby::MoveUpdate(float _Delta)
 {
 	if (State == KirbyState::Fly || State == KirbyState::TakeOff || State == KirbyState::ExhaleAttack)
 	{
-		if (CurrentSpeed <= -FLYMAXSPEED * _Delta)
+		if (CurrentSpeed <= -FLYMAXSPEED)
 		{
-			CurrentSpeed = -FLYMAXSPEED * _Delta;
+			CurrentSpeed = -FLYMAXSPEED;
 		}
 
-		if (CurrentSpeed >= FLYMAXSPEED * _Delta)
+		if (CurrentSpeed >= FLYMAXSPEED)
 		{
-			CurrentSpeed = FLYMAXSPEED * _Delta;
+			CurrentSpeed = FLYMAXSPEED;
 		}
 	}
 	else if (State == KirbyState::Run || State == KirbyState::Contain_Run)
 	{// 수정예정
-		if (CurrentSpeed <= -RUNMAXSPEED * _Delta)
+		if (CurrentSpeed <= -RUNMAXSPEED)
 		{
-			CurrentSpeed = -RUNMAXSPEED * _Delta;
+			CurrentSpeed = -RUNMAXSPEED;
 		}
 
-		if (CurrentSpeed >= RUNMAXSPEED * _Delta)
+		if (CurrentSpeed >= RUNMAXSPEED)
 		{
-			CurrentSpeed = RUNMAXSPEED * _Delta;
+			CurrentSpeed = RUNMAXSPEED;
 		}
 	}
-	else if ((CurrentSpeed > WALKMAXSPEED * _Delta || CurrentSpeed < -WALKMAXSPEED * _Delta))
+	else if ((CurrentSpeed > WALKMAXSPEED || CurrentSpeed < -WALKMAXSPEED))
 	{
-		if (CurrentSpeed <= -WALKMAXSPEED * _Delta)
+		if (CurrentSpeed <= -WALKMAXSPEED)
 		{
-			CurrentSpeed = -WALKMAXSPEED * _Delta;
+			CurrentSpeed = -WALKMAXSPEED;
 		}
 
-		if (CurrentSpeed >= WALKMAXSPEED * _Delta)
+		if (CurrentSpeed >= WALKMAXSPEED)
 		{
-			CurrentSpeed = WALKMAXSPEED * _Delta;
+			CurrentSpeed = WALKMAXSPEED;
 		}
 	}
 
-	AddPos({ CurrentSpeed, 0.0f});
+	AddPos({ CurrentSpeed * _Delta, 0.0f});
 }
 
 

@@ -385,17 +385,18 @@ void Kirby::JumpUpdate(float _Delta)
 		return;
 	}
 
-	if (true == GameEngineInput::IsUp('X') || CurrentJumpDistance > 160.0f)
+
+	float JumpPower = JUMPMAXDISTANCE / JUMPTIME;
+	CurrentJumpDistance += JumpPower * _Delta;
+
+	if (true == GameEngineInput::IsUp('X') || CurrentJumpDistance > JUMPMAXDISTANCE)
 	{
 		AbleJump = false;
 	}
 
-	float JumpMaxSpeed = JUMPPOWER / JUMPTIME * _Delta;
-	CurrentJumpDistance += JumpMaxSpeed;
-
-	if (true == GameEngineInput::IsPress('X') && CurrentJumpDistance < 160.0f && true == AbleJump)
+	if (true == GameEngineInput::IsPress('X') && CurrentJumpDistance < JUMPMAXDISTANCE && true == AbleJump)
 	{
-		SetGravityVector(float4::UP * JumpMaxSpeed);
+		SetGravityVector(float4::UP * JumpPower);
 	}
 
 
@@ -415,7 +416,7 @@ void Kirby::JumpUpdate(float _Delta)
 		Gravity(_Delta);
 	}
 	GravityLimit(_Delta);
-	VerticalUpdate();
+	VerticalUpdate(_Delta);
 }
 
 
@@ -474,7 +475,7 @@ void Kirby::AerialMotionUpdate(float _Delta)
 
 	Gravity(_Delta);
 	GravityLimit(_Delta);
-	VerticalUpdate();
+	VerticalUpdate(_Delta);
 }
 
 
@@ -488,9 +489,9 @@ void Kirby::FallStart()
 void Kirby::FallUpdate(float _Delta)
 {
 	StateTime += _Delta;
-	FallDistance += GetGravityVector().Y;
+	FallDistance += GetGravityVector().Y * _Delta;
 
-	if (FallDistance > 150.0f)
+	if (FallDistance > FALLDISTANCE)
 	{
 		ChangeState(KirbyState::AccelerateDown);
 		return;
@@ -534,7 +535,7 @@ void Kirby::FallUpdate(float _Delta)
 
 	Gravity(_Delta);
 	GravityLimit(_Delta);
-	VerticalUpdate();
+	VerticalUpdate(_Delta);
 }
 
 
@@ -550,7 +551,7 @@ void Kirby::AccelerateDownUpdate(float _Delta)
 
 	if (true == GetGroundState())
 	{
-		SetGravityVector(float4::UP * GravityMaxVector * _Delta);
+		SetGravityVector(float4::UP * BOUNCEPOWER);
 		ChangeState(KirbyState::Bounce);
 		return;
 	}
@@ -574,7 +575,7 @@ void Kirby::AccelerateDownUpdate(float _Delta)
 
 	Gravity(_Delta);
 	GravityLimit(_Delta);
-	VerticalUpdate();
+	VerticalUpdate(_Delta);
 }
 
 
@@ -588,8 +589,6 @@ void Kirby::BounceStart()
 void Kirby::BounceUpdate(float _Delta)
 {
 	StateTime += _Delta;
-
-	BlockedByWall();
 
 	if (StateTime >= 0.2f)
 	{
@@ -610,7 +609,7 @@ void Kirby::BounceUpdate(float _Delta)
 	MoveUpdate(_Delta);
 	Gravity(_Delta);
 	GravityLimit(_Delta);
-	VerticalUpdate();
+	VerticalUpdate(_Delta);
 }
 
 
@@ -782,7 +781,7 @@ void Kirby::HittheWallUpdate(float _Delta)
 	{
 		Gravity(_Delta);
 		GravityLimit(_Delta);
-		VerticalUpdate();
+		VerticalUpdate(_Delta);
 	}
 }
 
@@ -820,7 +819,7 @@ void Kirby::HittheCeilingUpdate(float _Delta)
 	{
 		Gravity(_Delta);
 		GravityLimit(_Delta);
-		VerticalUpdate();
+		VerticalUpdate(_Delta);
 	}
 }
 
@@ -846,7 +845,7 @@ void Kirby::TakeOffUpdate(float _Delta)
 
 	if (true == GameEngineInput::IsPress('W'))
 	{
-		SetGravityVector(float4::UP * (FLYPOWER * _Delta));
+		SetGravityVector(float4::UP * FLYPOWER);
 	}
 
 
@@ -861,7 +860,7 @@ void Kirby::TakeOffUpdate(float _Delta)
 
 	Gravity(_Delta);
 	GravityLimit(_Delta);
-	VerticalUpdate();
+	VerticalUpdate(_Delta);
 }
 
 
@@ -887,7 +886,7 @@ void Kirby::FlyUpdate(float _Delta)
 	{
 		MainRenderer->FindAnimation("Normal_Left_Fly")->Inters = { 0.1f, 0.1f };
 		MainRenderer->FindAnimation("Normal_Right_Fly")->Inters = { 0.1f, 0.1f };
-		SetGravityVector(float4::UP * (FLYPOWER * _Delta));
+		SetGravityVector(float4::UP * FLYPOWER);
 	}
 
 	if (false == GameEngineInput::IsPress('W') && false == GameEngineInput::IsPress('X'))
@@ -927,7 +926,7 @@ void Kirby::FlyUpdate(float _Delta)
 		Gravity(_Delta);
 	}
 	GravityLimit(_Delta);
-	VerticalUpdate();
+	VerticalUpdate(_Delta);
 }
 
 void Kirby::ExhaleAttackStart()
@@ -977,7 +976,7 @@ void Kirby::ExhaleAttackUpdate(float _Delta)
 	{
 		Gravity(_Delta);
 		GravityLimit(_Delta);
-		VerticalUpdate();
+		VerticalUpdate(_Delta);
 	}
 }
 
@@ -1031,7 +1030,7 @@ void Kirby::UseSpecialAbilityUpdate(float _Delta)
 	{
 		Gravity(_Delta);
 		GravityLimit(_Delta);
-		VerticalUpdate();
+		VerticalUpdate(_Delta);
 	}
 }
 
@@ -1068,7 +1067,7 @@ void Kirby::ReleaseAbilityUpdate(float _Delta)
 	{
 		Gravity(_Delta);
 		GravityLimit(_Delta);
-		VerticalUpdate();
+		VerticalUpdate(_Delta);
 	}
 }
 

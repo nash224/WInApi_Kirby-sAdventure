@@ -346,10 +346,19 @@ void Kirby::Contain_JumpUpdate(float _Delta)
 		AbleJump = false;
 	}
 
-	if (true == GameEngineInput::IsPress('X') && StateTime < JUMPTIME && true == AbleJump)
+	float JumpPower = JUMPMAXDISTANCE / JUMPTIME;
+	CurrentJumpDistance += JumpPower * _Delta;
+
+	if (true == GameEngineInput::IsUp('X') || CurrentJumpDistance > JUMPMAXDISTANCE)
 	{
-		SetGravityVector(float4::UP * (JUMPPOWER * _Delta));
+		AbleJump = false;
 	}
+
+	if (true == GameEngineInput::IsPress('X') && CurrentJumpDistance < JUMPMAXDISTANCE && true == AbleJump)
+	{
+		SetGravityVector(float4::UP * JumpPower);
+	}
+
 
 
 	BlockedByCeiling();
@@ -365,7 +374,7 @@ void Kirby::Contain_JumpUpdate(float _Delta)
 
 	Gravity(_Delta);
 	GravityLimit(_Delta);
-	VerticalUpdate();
+	VerticalUpdate(_Delta);
 }
 
 
@@ -417,7 +426,7 @@ void Kirby::Contain_FallUpdate(float _Delta)
 
 	Gravity(_Delta);
 	GravityLimit(_Delta);
-	VerticalUpdate();
+	VerticalUpdate(_Delta);
 }
 
 
@@ -517,7 +526,7 @@ void Kirby::Contain_DisgorgeUpdate(float _Delta)
 	{
 		Gravity(_Delta);
 		GravityLimit(_Delta);
-		VerticalUpdate();
+		VerticalUpdate(_Delta);
 	}
 }
 

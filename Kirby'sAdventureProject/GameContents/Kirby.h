@@ -4,21 +4,23 @@
 #include <map>
 #include <string>
 
-#define WALKMAXSPEED 300.0f
-#define RUNMAXSPEED 425.0f
+#define WALKMAXSPEED 250.0f
+#define RUNMAXSPEED 350.0f
 #define FLYMAXSPEED 200.0f
 
-#define WALKSPEED 0.8f
-#define RUNSPEED 1.2f
-#define FLYSPEED 0.6f
+#define WALKSPEED 400.0f
+#define RUNSPEED 600.0f
+#define FLYSPEED 200.0f
 
-#define JUMPPOWER 310.0f
+#define FALLDISTANCE 150.0f
+#define JUMPMAXDISTANCE 100.0f
 #define FLYPOWER 280.0f
+#define BOUNCEPOWER 250.0f
 
-#define DECELERATIONSPEED  0.8f
-#define BRAKESPEED 2.0f
+#define DECELERATIONSPEED  800.0f
+#define BRAKESPEED 800.0f
 
-#define JUMPTIME 0.4f
+#define JUMPTIME 0.3f
 #define HITTHEMAPTIME 0.08f
 #define TAKEOFFTIME 0.4f
 #define EXHALEATTACKTIME 0.08f

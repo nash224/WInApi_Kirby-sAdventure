@@ -100,7 +100,7 @@ void WaddleDee::WaddleDeeMovement(float _Delta)
 	{
 		Gravity(_Delta);
 		GravityLimit(_Delta);
-		VerticalUpdate();
+		VerticalUpdate(_Delta);
 	}
 
 	if (true == CheckLeftWall() || LeftGroundIsCliff())

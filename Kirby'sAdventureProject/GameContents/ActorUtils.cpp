@@ -58,26 +58,26 @@ void ActorUtils::Gravity(float _Delta)
 void ActorUtils::GravityLimit(float _Delta)
 {
 	// 최대 점프 제한
-	if (GravityVector.Y <= -GravityMaxVector * _Delta)
-	{
-		GravityVector = float4::UP * GravityMaxVector * _Delta;
-	}
+	//if (GravityVector.Y <= -GravityMaxVector)
+	//{
+	//	GravityVector = float4::UP * GravityMaxVector;
+	//}
 
 	// 최대 중력 제한
-	if (GravityVector.Y >= GravityMaxVector * AirResistance * _Delta)
+	if (GravityVector.Y >= GravityMaxVector * AirResistance)
 	{
-		GravityVector = float4::DOWN * GravityMaxVector * AirResistance * _Delta;
+		GravityVector = float4::DOWN * GravityMaxVector * AirResistance;
 	}
 }
 
-void ActorUtils::VerticalUpdate()
+void ActorUtils::VerticalUpdate(float _Delta)
 {
 	if (false == IsGravity)
 	{
 		return;
 	}
 
-	AddPos(GravityVector);
+	AddPos(GravityVector * _Delta);
 }
 
 // 픽셀맵 세팅

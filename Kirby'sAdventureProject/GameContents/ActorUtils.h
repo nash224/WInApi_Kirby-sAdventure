@@ -91,7 +91,7 @@ protected:
 	bool CheckEndAnimation(GameEngineRenderer* _Renderer, const std::string& _AnimationName, const std::string& _RightAnimationName);
 
 	void GravityLimit(float _Delta);
-	void VerticalUpdate();
+	void VerticalUpdate(float _Delta);
 
 
 	void SetGravityVector(const float4& _GravityVector)
@@ -124,7 +124,7 @@ private:
 
 	bool isGround = false;
 	bool IsGravity = true;
-	float GravityPower = 1.3f;
+	float GravityPower = 1000.0f;
 	float AirResistance = 1.0f;
 	float4 GravityVector = float4::ZERO;
 
