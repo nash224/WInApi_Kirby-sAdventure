@@ -298,7 +298,7 @@ void Kirby::Contain_TurnUpdate(float _Delta)
 	BlockedByGround();
 	BlockedByWall();
 
-	DecelerationUpdate(_Delta, BRAKESPEED);
+	ActorUtils::DecelerationUpdate(_Delta, BRAKESPEED);
 	MoveUpdate(_Delta);
 }
 

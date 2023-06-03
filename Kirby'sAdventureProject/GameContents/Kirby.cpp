@@ -303,27 +303,6 @@ void Kirby::DecelerationUpdate(float _Delta)
 	}
 }
 
-void Kirby::DecelerationUpdate(float _Delta, float _Speed)
-{
-	if (CurrentSpeed < 0.0f)
-	{
-		CurrentSpeed += _Speed * _Delta;
-
-		if (CurrentSpeed > 0.0f)
-		{
-			CurrentSpeed = 0.0f;
-		}
-	}
-	else if (CurrentSpeed > 0.0f)
-	{
-		CurrentSpeed -= _Speed * _Delta;
-
-		if (CurrentSpeed < 0.0f)
-		{
-			CurrentSpeed = 0.0f;
-		}
-	}
-}
 
 // 커비의 위치 동기화
 void Kirby::MoveUpdate(float _Delta)

@@ -12,7 +12,7 @@
 #define RUNSPEED 600.0f
 #define FLYSPEED 500.0f
 
-#define FALLDISTANCE 150.0f
+#define FALLDISTANCE 170.0f
 #define JUMPMAXDISTANCE 100.0f
 #define FLYPOWER 280.0f
 #define BOUNCEPOWER 250.0f
@@ -128,8 +128,7 @@ protected:
 	void KirbyDirCheck();
 	void MoveHorizontal(float _Speed, float _Delta);
 	void DecelerationUpdate(float _Delta);
-	void DecelerationUpdate(float _Delta, float _Speed);
-	void MoveUpdate(float _Delta);
+	void MoveUpdate(float _Delta) override;
 	float4 GetKirbyScale();
 
 

@@ -337,7 +337,7 @@ void Kirby::TurnUpdate(float _Delta)
 	BlockedByGround();
 	BlockedByWall();
 
-	DecelerationUpdate(_Delta, BRAKESPEED);
+	ActorUtils::DecelerationUpdate(_Delta, BRAKESPEED);
 	MoveUpdate(_Delta);
 }
 
@@ -688,7 +688,7 @@ void Kirby::LowerPostureUpdate(float _Delta)
 	BlockedByWall();
 	BlockedByGround();
 
-	DecelerationUpdate(_Delta, DECELERATIONSPEED);
+	ActorUtils::DecelerationUpdate(_Delta, DECELERATIONSPEED);
 	MoveUpdate(_Delta);
 }
 
@@ -743,7 +743,7 @@ void Kirby::LowerAttackUpdate(float _Delta)
 	BlockedByWall();
 	BlockedByGround();
 
-	DecelerationUpdate(_Delta, DECELERATIONSPEED);
+	ActorUtils::DecelerationUpdate(_Delta, DECELERATIONSPEED);
 	MoveUpdate(_Delta);
 }
 
@@ -1023,7 +1023,7 @@ void Kirby::UseSpecialAbilityUpdate(float _Delta)
 	BlockedByWall();
 	BlockedByGround();
 
-	DecelerationUpdate(_Delta, DECELERATIONSPEED);
+	ActorUtils::DecelerationUpdate(_Delta, DECELERATIONSPEED);
 	MoveUpdate(_Delta);
 
 	if (false == GetGroundState())
@@ -1060,7 +1060,7 @@ void Kirby::ReleaseAbilityUpdate(float _Delta)
 	BlockedByWall();
 	BlockedByGround();
 
-	DecelerationUpdate(_Delta, DECELERATIONSPEED);
+	ActorUtils::DecelerationUpdate(_Delta, DECELERATIONSPEED);
 	MoveUpdate(_Delta);
 
 	if (false == GetGroundState())

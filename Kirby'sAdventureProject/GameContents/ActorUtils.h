@@ -70,6 +70,7 @@ protected:
 	float4 CeilRightCheckPoint = float4::ZERO;
 
 	// 판정 함수
+	void SetCheckPoint(const float4& _ScaleSize);
 	void GroundCheck();
 	bool CeilingCheck();
 	bool CheckLeftWall();
@@ -79,7 +80,6 @@ protected:
 	void BlockedByWall();
 	void BlockedByGround();
 	void BlockedByCeiling();
-	void SetCheckPoint(const float4& _ScaleSize);
 	bool IsSolidGround();
 	bool IsPassableGround();
 
@@ -121,6 +121,10 @@ protected:
 		AirResistance = _AirResistance;
 	}
 
+	// 이동 함수
+	virtual void DecelerationUpdate(float _Delta, float _Speed);
+	virtual void HorizontalSpeedLimit(float _Speed);
+	virtual void MoveUpdate(float _Delta);
 
 private:
 	class GameEngineWindowTexture* GroundTexture = nullptr;
@@ -128,8 +132,8 @@ private:
 	bool isGround = false;
 	bool IsGravity = true;
 	float GravityPower = 800.0f;
-	float AirResistance = 1.0f;
 	float4 GravityVector = float4::ZERO;
+	float AirResistance = 1.0f;
 
 };
 
