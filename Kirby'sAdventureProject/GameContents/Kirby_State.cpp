@@ -1044,7 +1044,7 @@ void Kirby::ReleaseAbilityStart()
 
 void Kirby::ReleaseAbilityUpdate(float _Delta)
 {
-	IsChangeState = CheckEndAnimation(MainRenderer, CurMode + "_Left_ReleaseAbility", CurMode + "_Right_ReleaseAbility");
+	IsChangeState = MainRenderer->IsAnimationEnd();
 
 	if (true == IsChangeState && false == GetGroundState())
 	{

@@ -80,6 +80,7 @@ void ActorUtils::VerticalUpdate(float _Delta)
 	AddPos(GravityVector * _Delta);
 }
 
+
 // ÇÈ¼¿¸Ê ¼¼ÆÃ
 void ActorUtils::SetGroundTexture(const std::string& _GroundTextureName)
 {
@@ -297,20 +298,6 @@ bool ActorUtils::IsPassableGround()
 	unsigned int RightBottomColor = GetGroundColor(RGB(255, 255, 255), GroundRightCheckPoint);
 	if ((RGB(0, 0, 255) == LeftBottomColor || RGB(0, 0, 255) == RightBottomColor))
 	{
-		return true;
-	}
-
-	return false;
-}
-
-bool ActorUtils::CheckEndAnimation(GameEngineRenderer* _Renderer, const std::string& _LeftAnimationName, const std::string& _RightAnimationName)
-{
-	bool LeftCheck = _Renderer->FindAnimation(_LeftAnimationName)->IsEnd;
-	bool RightCheck = _Renderer->FindAnimation(_RightAnimationName)->IsEnd;
-	if (true == LeftCheck || true == RightCheck)
-	{
-		_Renderer->FindAnimation(_LeftAnimationName)->IsEnd = false;
-		_Renderer->FindAnimation(_RightAnimationName)->IsEnd = false;
 		return true;
 	}
 

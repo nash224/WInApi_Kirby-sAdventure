@@ -29,18 +29,9 @@ public:
 	ActorUtils& operator=(const ActorUtils& _Other) = delete;
 	ActorUtils& operator=(ActorUtils&& _Other) noexcept = delete;
 
-	void CameraFocus();
 	float4 ActorCameraPos();
 	void SetGroundTexture(const std::string& _GroundTextureName);
-	int GetGroundColor(unsigned int _DefaultColor, float4 _Pos = float4::ZERO);
 
-
-	void Gravity(float _Delta);
-
-	void GravityReset()
-	{
-		GravityVector = float4::ZERO;
-	}
 
 	void GravityOn()
 	{
@@ -58,14 +49,16 @@ public:
 	}
 
 
-
 protected:
 	GameEngineRenderer* MainRenderer = nullptr;
 	GameEngineCollision* BodyCollision = nullptr;
 	ActorDir Dir = ActorDir::Max;
-
-	const float GravityMaxVector = 450.0f;
 	float CurrentSpeed = 0.0f;
+
+
+	void CameraFocus();
+
+
 
 	float4 GroundLeftCheckPoint = float4::ZERO;
 	float4 GroundRightCheckPoint = float4::ZERO;
@@ -76,6 +69,7 @@ protected:
 	float4 CeilLeftCheckPoint = float4::ZERO;
 	float4 CeilRightCheckPoint = float4::ZERO;
 
+	// 판정 함수
 	void GroundCheck();
 	bool CeilingCheck();
 	bool CheckLeftWall();
@@ -88,11 +82,29 @@ protected:
 	void SetCheckPoint(const float4& _ScaleSize);
 	bool IsSolidGround();
 	bool IsPassableGround();
-	bool CheckEndAnimation(GameEngineRenderer* _Renderer, const std::string& _AnimationName, const std::string& _RightAnimationName);
 
+	int GetGroundColor(unsigned int _DefaultColor, float4 _Pos = float4::ZERO);
+	bool GetGroundState() const
+	{
+		return isGround;
+	}
+
+
+	const float GravityMaxVector = 450.0f;
+
+	// 중력 함수
+	void Gravity(float _Delta);
 	void GravityLimit(float _Delta);
 	void VerticalUpdate(float _Delta);
+	void GravityReset()
+	{
+		GravityVector = float4::ZERO;
+	}
 
+	float4 GetGravityVector() const
+	{
+		return GravityVector;
+	}
 
 	void SetGravityVector(const float4& _GravityVector)
 	{
@@ -109,22 +121,13 @@ protected:
 		AirResistance = _AirResistance;
 	}
 
-	bool GetGroundState() const
-	{
-		return isGround;
-	}
-
-	float4 GetGravityVector() const
-	{
-		return GravityVector;
-	}
 
 private:
 	class GameEngineWindowTexture* GroundTexture = nullptr;
 
 	bool isGround = false;
 	bool IsGravity = true;
-	float GravityPower = 1000.0f;
+	float GravityPower = 800.0f;
 	float AirResistance = 1.0f;
 	float4 GravityVector = float4::ZERO;
 
