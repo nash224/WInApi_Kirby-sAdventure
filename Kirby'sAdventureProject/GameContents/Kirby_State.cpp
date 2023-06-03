@@ -431,15 +431,7 @@ void Kirby::AerialMotionUpdate(float _Delta)
 {
 	StateTime += _Delta;
 
-	bool LeftCheck = MainRenderer->FindAnimation("Normal_Left_AerialMotion")->IsEnd;
-	bool RightCheck = MainRenderer->FindAnimation("Normal_Right_AerialMotion")->IsEnd;
-
-	if (LeftCheck || RightCheck)
-	{
-		IsChangeState = true;
-		MainRenderer->FindAnimation("Normal_Left_AerialMotion")->IsEnd = false;
-		MainRenderer->FindAnimation("Normal_Right_AerialMotion")->IsEnd = false;
-	}
+	IsChangeState = MainRenderer->IsAnimationEnd();
 
 	if (true == GameEngineInput::IsDown('Z'))
 	{
@@ -844,7 +836,7 @@ void Kirby::TakeOffStart()
 
 void Kirby::TakeOffUpdate(float _Delta)
 {
-	IsChangeState = CheckEndAnimation(MainRenderer, CurMode + "_Left_TakeOff", CurMode + "_Right_TakeOff");
+	IsChangeState = MainRenderer->IsAnimationEnd();
 
 	if (true == IsChangeState)
 	{
@@ -950,7 +942,7 @@ void Kirby::ExhaleAttackUpdate(float _Delta)
 {
 	StateTime += _Delta;
 
-	IsChangeState = CheckEndAnimation(MainRenderer, CurMode + "_Left_ExhaleAttack", CurMode + "_Right_ExhaleAttack");
+	IsChangeState = MainRenderer->IsAnimationEnd();
 
 	if (true == IsChangeState && false == GetGroundState())
 	{
@@ -1003,7 +995,7 @@ void Kirby::UseSpecialAbilityUpdate(float _Delta)
 {
 	StateTime += _Delta;
 
-	IsChangeState = CheckEndAnimation(MainRenderer, CurMode + "_Left_UseSpecialAbility", CurMode + "_Right_UseSpecialAbility");
+	IsChangeState = MainRenderer->IsAnimationEnd();
 
 	if (true == IsChangeState)
 	{

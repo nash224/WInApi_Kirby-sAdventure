@@ -55,8 +55,8 @@ void VegetableValley11::Start()
 
 	GameEngineLevel::CreateActor<PlayUIManager>();
 
-	GameEngineWindowTexture* Tetxure = ResourcesManager::GetInst().FindTexture("VegetableValley1_1.bmp");
-	BackGroundScale = Tetxure->GetScale();
+	GameEngineWindowTexture* Texture = ResourcesManager::GetInst().FindTexture("VegetableValley1_1.bmp");
+	BackGroundScale = Texture->GetScale();
 }
 
 
@@ -102,7 +102,7 @@ void VegetableValley11::Render(float _Delta)
 	UpdateTime += _Delta;
 
 	std::string Text = "";
-	Text += "현재 레벨 프레임 : ";
+	Text += "프레임 : ";
 	if (UpdateTime >= 1.0f)
 	{
 		UpdateTime = 0.0f;

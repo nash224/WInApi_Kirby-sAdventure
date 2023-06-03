@@ -8,6 +8,8 @@
 #include <GameEnginePlatform/GameEngineInput.h>
 #include <GameEngineCore/GameEngineCore.h>
 #include <GameEngineCore/GameEngineCamera.h>
+#include <GameEngineCore/ResourcesManager.h>
+#include <GameEngineCore/GameEngineSprite.h>
 
 
 EndingLevel::EndingLevel()

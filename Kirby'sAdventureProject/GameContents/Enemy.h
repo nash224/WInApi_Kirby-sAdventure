@@ -15,11 +15,9 @@ public:
 	Enemy& operator=(const Enemy& _Other) = delete;
 	Enemy& operator=(Enemy&& _Other) noexcept = delete;
 
-	float4 RespawnLocation = float4::ZERO;
-	bool IsRespawnLocationOverCamera = true;
-	void RespawnTrigger();
-
 	virtual void SetDirectionAndFirstAnimation() {}
+
+	void RespawnTrigger();
 
 protected:
 	float4 Scale = float4::ZERO;
@@ -28,14 +26,18 @@ protected:
 	virtual void StateUpdate(float _Delta) {}
 	virtual void ChangeAnimationState(const std::string& _StateName) {}
 
-	// 이동함수
+	// 이동 함수
 	void MoveHorizontal(float _Speed, float _Delta);
 	void DecelerationUpdate(float _Speed, float _Delta);
 	void MoveUpdate(float _MaxSpeed, float _Delta);
 
+	// 충돌 함수
 	bool LeftGroundIsCliff();
 	bool RightGroundIsCliff();
 
+	// 리스폰 함수
+	float4 RespawnLocation = float4::ZERO;
+	bool IsRespawnLocationOverCamera = true;
 	void CheckOverScreen();
 	void RespawnLocationOverCamera();
 

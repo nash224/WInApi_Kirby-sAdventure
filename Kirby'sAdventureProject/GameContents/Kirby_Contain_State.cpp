@@ -430,7 +430,7 @@ void Kirby::Contain_GulpStart()
 
 void Kirby::Contain_GulpUpdate(float _Delta)
 {
-	IsChangeState = CheckEndAnimation(MainRenderer, "Normal_Left_Contain_Gulp", "Normal_Right_Contain_Gulp");
+	IsChangeState = MainRenderer->IsAnimationEnd();
 
 	if (true == IsChangeState && AbilityStar::None == Star && true == GameEngineInput::IsPress('S'))
 	{
@@ -491,7 +491,7 @@ void Kirby::Contain_DisgorgeStart()
 
 void Kirby::Contain_DisgorgeUpdate(float _Delta)
 {
-	IsChangeState = CheckEndAnimation(MainRenderer, "Normal_Left_Contain_Disgorge", "Normal_Right_Contain_Disgorge");
+	IsChangeState = MainRenderer->IsAnimationEnd();
 
 	if (true == IsChangeState && false == GetGroundState())
 	{
