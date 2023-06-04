@@ -1,6 +1,16 @@
 #pragma once
 #include "ActorUtils.h"
 
+enum class AttributeType
+{
+	None,
+	Fire,
+	Electricity,
+	Ice,
+	Max,
+};
+
+
 // 설명 :
 class Enemy : public ActorUtils
 {
@@ -15,8 +25,10 @@ public:
 	Enemy& operator=(const Enemy& _Other) = delete;
 	Enemy& operator=(Enemy&& _Other) noexcept = delete;
 
-	virtual void SetDirectionAndFirstAnimation() {}
 
+	AttributeType Attribute = AttributeType::Max;
+
+	virtual void SetDirectionAndFirstAnimation();
 	void RespawnTrigger();
 
 protected:
@@ -24,6 +36,7 @@ protected:
 
 	// 상태 함수
 	virtual void StateUpdate(float _Delta) {}
+
 	virtual void ChangeAnimationState(const std::string& _StateName) {}
 
 	// 이동 함수

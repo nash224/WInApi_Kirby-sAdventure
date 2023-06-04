@@ -211,7 +211,6 @@ private:
 	bool swallowedObject = false;
 
 
-	float StateTime = 0.0f;
 	float Duration = 0.0f;
 	float DecelerationSpeed = 1.0f;
 	float CurrentJumpDistance = 0.0f;

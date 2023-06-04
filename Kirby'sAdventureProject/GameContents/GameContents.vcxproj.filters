@@ -31,7 +31,7 @@
     <ClInclude Include="Kabu.h">
       <Filter>Global\Object\Enemy\NomalEnemy</Filter>
     </ClInclude>
-    <ClInclude Include="NomalEnemies.h">
+    <ClInclude Include="NormalEnemies.h">
       <Filter>Global\Object\Enemy\NomalEnemy</Filter>
     </ClInclude>
     <ClInclude Include="PoppyBrosJr.h">
@@ -162,7 +162,7 @@
     <ClCompile Include="Kabu.cpp">
       <Filter>Global\Object\Enemy\NomalEnemy</Filter>
     </ClCompile>
-    <ClCompile Include="NomalEnemies.cpp">
+    <ClCompile Include="NormalEnemies.cpp">
       <Filter>Global\Object\Enemy\NomalEnemy</Filter>
     </ClCompile>
     <ClCompile Include="PoppyBrosJr.cpp">

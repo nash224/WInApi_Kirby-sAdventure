@@ -52,9 +52,11 @@ void Kirby::Start()
 	Dir = ActorDir::Right;
 	BodyState = KirbyBodyState::Little;
 	Mode = KirbyMode::Normal;
-	ChangeState(KirbyState::Idle);
-
 	CurMode = "Normal";
+
+
+	ChangeState(KirbyState::Idle);
+	SetCheckPoint(GetKirbyScale());
 
 	BodyCollision = CreateCollision(CollisionOrder::PlayerBody);
 	BodyCollision->SetCollisionScale(GetKirbyScale());
@@ -93,7 +95,6 @@ void Kirby::Update(float _Delta)
 
 void Kirby::StateUpdate(float _Delta)
 {
-	SetCheckPoint(GetKirbyScale());
 	GroundCheck();
 
 	switch (State)
@@ -135,6 +136,8 @@ void Kirby::ChangeState(KirbyState _State)
 {
 	if (_State != State)
 	{
+		SetCheckPoint(GetKirbyScale());
+
 		switch (_State)
 		{
 		case KirbyState::Idle:					IdleStart();					break;

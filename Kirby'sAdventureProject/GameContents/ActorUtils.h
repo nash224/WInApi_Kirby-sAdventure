@@ -53,12 +53,14 @@ protected:
 	GameEngineRenderer* MainRenderer = nullptr;
 	GameEngineCollision* BodyCollision = nullptr;
 	ActorDir Dir = ActorDir::Max;
+
 	float CurrentSpeed = 0.0f;
+	float StateTime = 0.0f;
+
+
 
 
 	void CameraFocus();
-
-
 
 	float4 GroundLeftCheckPoint = float4::ZERO;
 	float4 GroundRightCheckPoint = float4::ZERO;

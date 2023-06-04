@@ -1,10 +1,10 @@
 #pragma once
-#include "Enemy.h"
+#include "NormalEnemies.h"
 
 #define WaddleSpeed 100.0f
 
 // Ό³Έν :
-class WaddleDee : public Enemy
+class WaddleDee : public NormalEnemies
 {
 public:
 	// constrcuter destructer

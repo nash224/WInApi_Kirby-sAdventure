@@ -1,7 +1,10 @@
 #pragma once
+#include "NormalEnemies.h"
+
+#define BROOMHATTERSPEED 100.0f
 
 // Ό³Έν :
-class BroomHatter
+class BroomHatter : public NormalEnemies
 {
 public:
 	// constrcuter destructer
@@ -14,9 +17,19 @@ public:
 	BroomHatter& operator=(const BroomHatter& _Other) = delete;
 	BroomHatter& operator=(BroomHatter&& _Other) noexcept = delete;
 
+	void init(const std::string _FileName, const float4& _Pos);
+
 protected:
 
-private:
+	void IdleStart() override;
+	void SweepStart() override;
 
+
+	void IdleUpdate(float _Delta) override;
+	void SweepUpdate(float _Delta) override;
+
+private:
+	void Start() override;
+	void Update(float _Delta) override;
 };
 
