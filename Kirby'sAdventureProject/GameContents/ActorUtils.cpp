@@ -120,7 +120,7 @@ void ActorUtils::HorizontalSpeedLimit(float _Speed)
 	}
 }
 
-void ActorUtils::MoveUpdate(float _Delta)
+void ActorUtils::HorizontalUpdate(float _Delta)
 {
 	AddPos(float4{ CurrentSpeed * _Delta , 0.0f });
 }

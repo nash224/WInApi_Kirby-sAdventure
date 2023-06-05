@@ -17,7 +17,6 @@ void NormalEnemies::init(const std::string _FileName, const float4& _Pos)
 	SetGroundTexture(_FileName);
 	RespawnLocation = _Pos;
 	SetPos(RespawnLocation);
-	SetDirectionAndFirstAnimation();
 }
 
 void NormalEnemies::StateUpdate(float _Delta)
@@ -28,6 +27,7 @@ void NormalEnemies::StateUpdate(float _Delta)
 	case NormalState::Walk:					return WalkUpdate(_Delta);
 	case NormalState::Sit:					return SitUpdate(_Delta);
 	case NormalState::Jump:					return JumpUpdate(_Delta);
+	case NormalState::Fall:					return FallUpdate(_Delta);
 	case NormalState::Sweep:				return SweepUpdate(_Delta);
 	default:
 		break;
@@ -44,6 +44,7 @@ void NormalEnemies::ChangeState(NormalState _State)
 		case NormalState::Walk:					WalkStart();					break;
 		case NormalState::Sit:					SitStart();						break;
 		case NormalState::Jump:					JumpStart();					break;
+		case NormalState::Fall:					FallStart();					break;
 		case NormalState::Sweep:				SweepStart();					break;
 		default:
 			break;

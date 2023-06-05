@@ -91,7 +91,7 @@ void Kirby::Contain_IdleUpdate(float _Delta)
 	BlockedByWall();
 
 	DecelerationUpdate(_Delta);
-	MoveUpdate(_Delta);
+	HorizontalUpdate(_Delta);
 }
 
 
@@ -175,7 +175,7 @@ void Kirby::Contain_WalkUpdate(float _Delta)
 	BlockedByWall();
 
 	DecelerationUpdate(_Delta);
-	MoveUpdate(_Delta);
+	HorizontalUpdate(_Delta);
 }
 
 
@@ -243,7 +243,7 @@ void Kirby::Contain_RunUpdate(float _Delta)
 
 	MoveHorizontal(RUNSPEED, _Delta);
 	DecelerationUpdate(_Delta);
-	MoveUpdate(_Delta);
+	HorizontalUpdate(_Delta);
 }
 
 
@@ -300,7 +300,7 @@ void Kirby::Contain_TurnUpdate(float _Delta)
 	BlockedByWall();
 
 	ActorUtils::DecelerationUpdate(_Delta, BRAKESPEED);
-	MoveUpdate(_Delta);
+	HorizontalUpdate(_Delta);
 }
 
 
@@ -371,7 +371,7 @@ void Kirby::Contain_JumpUpdate(float _Delta)
 	ChangeAnimationState("Contain_Jump");
 
 	DecelerationUpdate(_Delta);
-	MoveUpdate(_Delta);
+	HorizontalUpdate(_Delta);
 
 	Gravity(_Delta);
 	GravityLimit(_Delta);
@@ -423,7 +423,7 @@ void Kirby::Contain_FallUpdate(float _Delta)
 	ChangeAnimationState("Contain_Fall");
 
 	DecelerationUpdate(_Delta);
-	MoveUpdate(_Delta);
+	HorizontalUpdate(_Delta);
 
 	Gravity(_Delta);
 	GravityLimit(_Delta);
@@ -487,7 +487,7 @@ void Kirby::Contain_GulpUpdate(float _Delta)
 	BlockedByWall();
 
 	DecelerationUpdate(_Delta);
-	MoveUpdate(_Delta);
+	HorizontalUpdate(_Delta);
 }
 
 
@@ -521,7 +521,7 @@ void Kirby::Contain_DisgorgeUpdate(float _Delta)
 	BlockedByWall();
 
 	DecelerationUpdate(_Delta);
-	MoveUpdate(_Delta);
+	HorizontalUpdate(_Delta);
 
 	if (false == GetGroundState())
 	{

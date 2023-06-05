@@ -42,40 +42,14 @@ void WaddleDee::Start()
 	Scale = float4{ 24.0f, 39.0f };
 	SetCheckPoint(Scale);
 
+	Dir = ActorDir::Left;
+	MainRenderer->ChangeAnimation("Left_Walk");
 
 	BodyCollision = CreateCollision(CollisionOrder::MonsterBody);
 	BodyCollision->SetCollisionScale(Scale);
 	BodyCollision->SetCollisionType(CollisionType::Rect);
 }
 
-
-void WaddleDee::SetDirectionAndFirstAnimation()
-{
-	if (nullptr == Kirby::GetMainKirby())
-	{
-		Dir = ActorDir::Left;
-		MainRenderer->ChangeAnimation("Left_Walk");
-		return;
-	}
-
-	float4 StartDir = Kirby::GetMainKirby()->GetPos() - GetPos();
-
-	if (StartDir.X < 0.0f)
-	{
-		Dir = ActorDir::Right;
-		MainRenderer->ChangeAnimation("Right_Walk");
-	}
-	else if (StartDir.X >= 0.0f)
-	{
-		Dir = ActorDir::Left;
-		MainRenderer->ChangeAnimation("Left_Walk");
-	}
-	else
-	{
-		MsgBoxAssert("몬스터의 리스폰 위치가 잘못되었습니다.");
-		return;
-	}
-}
 
 void WaddleDee::Update(float _Delta) 
 {

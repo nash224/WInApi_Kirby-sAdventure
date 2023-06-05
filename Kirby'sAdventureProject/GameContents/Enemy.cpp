@@ -15,61 +15,6 @@ Enemy::~Enemy()
 }
 
 
-
-void Enemy::MoveHorizontal(float _Speed, float _Delta)
-{
-	if (Dir == ActorDir::Left)
-	{
-		CurrentSpeed -= _Speed * _Delta;
-	}
-	else if (Dir == ActorDir::Right)
-	{
-		CurrentSpeed += _Speed * _Delta;
-	}
-}
-
-void Enemy::DecelerationUpdate(float _Speed, float _Delta)
-{
-	if (CurrentSpeed < 0.0f)
-	{
-		CurrentSpeed += _Speed * _Delta;
-
-		if (CurrentSpeed > 0.0f)
-		{
-			CurrentSpeed = 0.0f;
-		}
-	}
-	else if (CurrentSpeed > 0.0f)
-	{
-		CurrentSpeed -= _Speed * _Delta;
-
-		if (CurrentSpeed < 0.0f)
-		{
-			CurrentSpeed = 0.0f;
-		}
-	}
-}
-
-void Enemy::MoveUpdate(float _MaxSpeed, float _Delta)
-{
-	if ((CurrentSpeed > _MaxSpeed * _Delta || CurrentSpeed < -_MaxSpeed * _Delta))
-	{
-		if (CurrentSpeed <= -_MaxSpeed * _Delta)
-		{
-			CurrentSpeed = -_MaxSpeed * _Delta;
-		}
-
-		if (CurrentSpeed >= _MaxSpeed * _Delta)
-		{
-			CurrentSpeed = _MaxSpeed * _Delta;
-		}
-	}
-
-	AddPos({ CurrentSpeed, 0.0f });
-}
-
-
-
 bool Enemy::LeftGroundIsCliff()
 {
 	unsigned int LeftBottomColor = GetGroundColor(RGB(255, 255, 255), GroundLeftCheckPoint);
@@ -95,6 +40,27 @@ bool Enemy::RightGroundIsCliff()
 
 	return false;
 }
+
+void Enemy::GetKirbyDirection()
+{
+	if (nullptr == Kirby::GetMainKirby())
+	{
+		Dir = ActorDir::Left;
+		return;
+	}
+
+	float4 StartDir = Kirby::GetMainKirby()->GetPos() - GetPos();
+
+	if (StartDir.X < 0.0f)
+	{
+		Dir = ActorDir::Left;
+	}
+	else if (StartDir.X >= 0.0f)
+	{
+		Dir = ActorDir::Right;
+	}
+}
+
 
 void Enemy::CheckOverScreen()
 {
@@ -143,7 +109,7 @@ void Enemy::RespawnLocationOverCamera()
 }
 
 
-void Enemy::RespawnTrigger()
+void Enemy::RespawnTrigger(const std::string& _StateName)
 {
 	float4 WinScale = GameEngineWindow::MainWindow.GetScale();
 	float4 CameraPos = GetLevel()->GetMainCamera()->GetPos();
@@ -153,17 +119,17 @@ void Enemy::RespawnTrigger()
 	{
 		On();
 		SetPos(RespawnLocation);
-		SetDirectionAndFirstAnimation();
+		SetDirectionAndFirstAnimation(_StateName);
 	}
 }
 
 
-void Enemy::SetDirectionAndFirstAnimation()
+void Enemy::SetDirectionAndFirstAnimation(const std::string& _StateName)
 {
 	if (nullptr == Kirby::GetMainKirby())
 	{
 		Dir = ActorDir::Left;
-		MainRenderer->ChangeAnimation("Left_Walk");
+		MainRenderer->ChangeAnimation("Left_" + _StateName);
 		return;
 	}
 
@@ -171,13 +137,13 @@ void Enemy::SetDirectionAndFirstAnimation()
 
 	if (StartDir.X < 0.0f)
 	{
-		Dir = ActorDir::Right;
-		MainRenderer->ChangeAnimation("Right_Walk");
+		Dir = ActorDir::Left;
+		MainRenderer->ChangeAnimation("Left_" + _StateName);
 	}
 	else if (StartDir.X >= 0.0f)
 	{
-		Dir = ActorDir::Left;
-		MainRenderer->ChangeAnimation("Left_Walk");
+		Dir = ActorDir::Right;
+		MainRenderer->ChangeAnimation("Right_" + _StateName);
 	}
 	else
 	{

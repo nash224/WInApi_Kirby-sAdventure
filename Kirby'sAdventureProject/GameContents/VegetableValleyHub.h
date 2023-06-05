@@ -23,8 +23,6 @@ private:
 	class Kirby* LevelPlayer = nullptr;
 	class BackGround* LevelBackGround = nullptr;
 
-	bool ISGetLevelPlayer = false;
-
 	void Start() override;
 	void Update(float _Delta) override;
 };

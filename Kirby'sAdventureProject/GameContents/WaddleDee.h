@@ -17,8 +17,6 @@ public:
 	WaddleDee& operator=(const WaddleDee& _Other) = delete;
 	WaddleDee& operator=(WaddleDee&& _Other) noexcept = delete;
 
-	void SetDirectionAndFirstAnimation() override;
-
 protected:
 	void WaddleDeeMovement(float _Delta);
 

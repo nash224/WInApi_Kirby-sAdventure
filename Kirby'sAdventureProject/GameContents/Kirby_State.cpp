@@ -134,7 +134,7 @@ void Kirby::IdleUpdate(float _Delta)
 	BlockedByWall();
 
 	DecelerationUpdate(_Delta);
-	MoveUpdate(_Delta); 
+	HorizontalUpdate(_Delta);
 }
 
 
@@ -218,7 +218,7 @@ void Kirby::WalkUpdate(float _Delta)
 	BlockedByWall();
 
 	DecelerationUpdate(_Delta);
-	MoveUpdate(_Delta);
+	HorizontalUpdate(_Delta);
 }
 
 
@@ -288,7 +288,7 @@ void Kirby::RunUpdate(float _Delta)
 
 	MoveHorizontal(RUNSPEED, _Delta);
 	DecelerationUpdate(_Delta);
-	MoveUpdate(_Delta);
+	HorizontalUpdate(_Delta);
 }
 
 
@@ -339,7 +339,7 @@ void Kirby::TurnUpdate(float _Delta)
 	BlockedByWall();
 
 	ActorUtils::DecelerationUpdate(_Delta, BRAKESPEED);
-	MoveUpdate(_Delta);
+	HorizontalUpdate(_Delta);
 }
 
 
@@ -410,7 +410,7 @@ void Kirby::JumpUpdate(float _Delta)
 	ChangeAnimationState("Jump");
 
 	DecelerationUpdate(_Delta);
-	MoveUpdate(_Delta);
+	HorizontalUpdate(_Delta);
 
 	if (false == AbleJump)
 	{
@@ -472,7 +472,7 @@ void Kirby::AerialMotionUpdate(float _Delta)
 	BlockedByWall();
 
 	DecelerationUpdate(_Delta);
-	MoveUpdate(_Delta);
+	HorizontalUpdate(_Delta);
 
 	Gravity(_Delta);
 	GravityLimit(_Delta);
@@ -532,7 +532,7 @@ void Kirby::FallUpdate(float _Delta)
 	ChangeAnimationState("Fall");
 
 	DecelerationUpdate(_Delta);
-	MoveUpdate(_Delta);
+	HorizontalUpdate(_Delta);
 
 	Gravity(_Delta);
 	GravityLimit(_Delta);
@@ -572,7 +572,7 @@ void Kirby::AccelerateDownUpdate(float _Delta)
 	BlockedByGround();
 	BlockedByWall();
 
-	MoveUpdate(_Delta);
+	HorizontalUpdate(_Delta);
 
 	Gravity(_Delta);
 	GravityLimit(_Delta);
@@ -607,7 +607,8 @@ void Kirby::BounceUpdate(float _Delta)
 	BlockedByCeiling();
 	BlockedByWall();
 
-	MoveUpdate(_Delta);
+	HorizontalUpdate(_Delta);
+
 	Gravity(_Delta);
 	GravityLimit(_Delta);
 	VerticalUpdate(_Delta);
@@ -647,7 +648,7 @@ void Kirby::LandingUpdate(float _Delta)
 	BlockedByGround();
 
 	DecelerationUpdate(_Delta);
-	MoveUpdate(_Delta);
+	HorizontalUpdate(_Delta);
 }
 
 
@@ -690,7 +691,7 @@ void Kirby::LowerPostureUpdate(float _Delta)
 	BlockedByGround();
 
 	ActorUtils::DecelerationUpdate(_Delta, DECELERATIONSPEED);
-	MoveUpdate(_Delta);
+	HorizontalUpdate(_Delta);
 }
 
 
@@ -745,7 +746,7 @@ void Kirby::LowerAttackUpdate(float _Delta)
 	BlockedByGround();
 
 	ActorUtils::DecelerationUpdate(_Delta, DECELERATIONSPEED);
-	MoveUpdate(_Delta);
+	HorizontalUpdate(_Delta);
 }
 
 
@@ -814,7 +815,7 @@ void Kirby::HittheCeilingUpdate(float _Delta)
 	BlockedByWall();
 
 	DecelerationUpdate(_Delta);
-	MoveUpdate(_Delta);
+	HorizontalUpdate(_Delta);
 
 	if (false == GetGroundState())
 	{
@@ -857,7 +858,7 @@ void Kirby::TakeOffUpdate(float _Delta)
 	BlockedByWall();
 
 	DecelerationUpdate(_Delta);
-	MoveUpdate(_Delta);
+	HorizontalUpdate(_Delta);
 
 	Gravity(_Delta);
 	GravityLimit(_Delta);
@@ -920,7 +921,7 @@ void Kirby::FlyUpdate(float _Delta)
 	ChangeAnimationState("Fly");
 
 	DecelerationUpdate(_Delta);
-	MoveUpdate(_Delta);
+	HorizontalUpdate(_Delta);
 
 	if (false == GetGroundState() || (true == GameEngineInput::IsPress('W') || true == GameEngineInput::IsPress('X')))
 	{
@@ -971,7 +972,7 @@ void Kirby::ExhaleAttackUpdate(float _Delta)
 	BlockedByWall();
 
 	DecelerationUpdate(_Delta);
-	MoveUpdate(_Delta);
+	HorizontalUpdate(_Delta);
 
 	if (false == GetGroundState())
 	{
@@ -1025,7 +1026,7 @@ void Kirby::UseSpecialAbilityUpdate(float _Delta)
 	BlockedByGround();
 
 	ActorUtils::DecelerationUpdate(_Delta, DECELERATIONSPEED);
-	MoveUpdate(_Delta);
+	HorizontalUpdate(_Delta);
 
 	if (false == GetGroundState())
 	{
@@ -1062,7 +1063,7 @@ void Kirby::ReleaseAbilityUpdate(float _Delta)
 	BlockedByGround();
 
 	ActorUtils::DecelerationUpdate(_Delta, DECELERATIONSPEED);
-	MoveUpdate(_Delta);
+	HorizontalUpdate(_Delta);
 
 	if (false == GetGroundState())
 	{

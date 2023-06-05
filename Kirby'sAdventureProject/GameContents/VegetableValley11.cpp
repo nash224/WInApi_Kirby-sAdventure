@@ -13,10 +13,11 @@
 #include "GameEffect.h"
 #include "Kirby.h"
 #include "WaddleDee.h"
+#include "BroomHatter.h"
+#include "Kabu.h"
 #include "PlayUIManager.h"
 
 
-float VegetableValley11::UpdateTime = 0.0f;
 VegetableValley11::VegetableValley11() 
 {
 }
@@ -26,12 +27,6 @@ VegetableValley11::~VegetableValley11()
 
 }
 
-/* texture type
-	CreateAnimation("HillProjectionEffect", "CloudAndWater12x3_8x8.bmp", 0, 2, 0.15f, true);
-	CreateAnimation("ForestProjectionEffect", "CloudAndWater12x3_8x8.bmp", 12, 14, 0.15f, true);
-	CreateAnimation("WaterProjectionEffect", "CloudAndWater12x3_8x8.bmp", 24, 26, 0.15f, true);
-
-*/
 
 void VegetableValley11::Start() 
 {
@@ -49,8 +44,18 @@ void VegetableValley11::Start()
 
 	// Έχ1
 	WaddleDee* WaddleDee1 = GameEngineLevel::CreateActor<WaddleDee>();
-	WaddleDee1->init("VegetableValley1_1Pixel.bmp", float4{ 600, 400 });
+	WaddleDee1->init("VegetableValley1_1Pixel.bmp", float4{ 600, 384 });
 	LevelEnemy.insert(std::make_pair("WaddleDee1", WaddleDee1));
+
+	// Έχ2
+	BroomHatter* BroomHatter1 = GameEngineLevel::CreateActor<BroomHatter>();
+	BroomHatter1->init("VegetableValley1_1Pixel.bmp", float4{ 500, 384 });
+	LevelEnemy.insert(std::make_pair("BroomHatter1", BroomHatter1));
+
+	// Έχ3
+	Kabu* Kabu1 = GameEngineLevel::CreateActor<Kabu>();
+	Kabu1->init("VegetableValley1_1Pixel.bmp", float4{ 400, 384 });
+	LevelEnemy.insert(std::make_pair("Kabu1", Kabu1));
 
 
 	GameEngineLevel::CreateActor<PlayUIManager>();
@@ -81,7 +86,19 @@ void VegetableValley11::Update(float _Delta)
 	Enemy* WaddleDee1 = LevelEnemy.find("WaddleDee1")->second;
 	if (false == WaddleDee1->IsUpdate())
 	{
-		WaddleDee1->RespawnTrigger();
+		WaddleDee1->RespawnTrigger("Walk");
+	}
+
+	Enemy* BroomHatter1 = LevelEnemy.find("BroomHatter1")->second;
+	if (false == BroomHatter1->IsUpdate())
+	{
+		BroomHatter1->RespawnTrigger("Idle");
+	}
+
+	Enemy* Kabu1 = LevelEnemy.find("Kabu1")->second;
+	if (false == Kabu1->IsUpdate())
+	{
+		Kabu1->RespawnTrigger("Idle");
 	}
 }
 

@@ -1,8 +1,8 @@
 #pragma once
-#include <GameEngineCore/GameEngineLevel.h>
+#include "VegetableValleyPlayLevel.h"
 
 // Ό³Έν :
-class VegetableValley12 : public GameEngineLevel
+class VegetableValley12 : public VegetableValleyPlayLevel
 {
 public:
 	// constrcuter destructer
@@ -20,8 +20,6 @@ protected:
 	void LevelEnd(GameEngineLevel* _NextLevel) override;
 
 private:
-	class Kirby* LevelPlayer = nullptr;
-	class BackGround* LevelBackGround = nullptr;
 
 	void Start() override;
 	void Update(float _Delta) override;

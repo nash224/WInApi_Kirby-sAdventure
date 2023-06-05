@@ -308,7 +308,7 @@ void Kirby::DecelerationUpdate(float _Delta)
 
 
 // 커비의 위치 동기화
-void Kirby::MoveUpdate(float _Delta)
+void Kirby::HorizontalUpdate(float _Delta)
 {
 	if (State == KirbyState::Fly || State == KirbyState::TakeOff || State == KirbyState::ExhaleAttack)
 	{

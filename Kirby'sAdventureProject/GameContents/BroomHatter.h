@@ -1,7 +1,10 @@
 #pragma once
 #include "NormalEnemies.h"
 
-#define BROOMHATTERSPEED 100.0f
+#define BROOMHATTERSPEED 300.0f
+#define BROOMHATTERCHANGETIME 0.5f
+#define BROOMHATTERDECELERATIONSPEED BROOMHATTERSPEED / BROOMHATTERCHANGETIME
+#define BROOMHATTERMAXSPEED BROOMHATTERSPEED / BROOMHATTERCHANGETIME
 
 // Ό³Έν :
 class BroomHatter : public NormalEnemies
@@ -17,6 +20,7 @@ public:
 	BroomHatter& operator=(const BroomHatter& _Other) = delete;
 	BroomHatter& operator=(BroomHatter&& _Other) noexcept = delete;
 
+
 protected:
 
 	void IdleStart() override;
@@ -27,6 +31,9 @@ protected:
 	void SweepUpdate(float _Delta) override;
 
 private:
+	size_t SweepCount = 0;
+
+
 	void Start() override;
 	void Update(float _Delta) override;
 };

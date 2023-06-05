@@ -17,7 +17,7 @@
 #define FLYPOWER 280.0f
 #define BOUNCEPOWER 250.0f
 
-#define DECELERATIONSPEED  800.0f
+#define DECELERATIONSPEED  600.0f
 #define BRAKESPEED 1000.0f
 
 #define JUMPTIME 0.3f
@@ -128,7 +128,7 @@ protected:
 	void KirbyDirCheck();
 	void MoveHorizontal(float _Speed, float _Delta);
 	void DecelerationUpdate(float _Delta);
-	void MoveUpdate(float _Delta) override;
+	void HorizontalUpdate(float _Delta) override;
 	float4 GetKirbyScale();
 
 
@@ -204,16 +204,13 @@ private:
 	std::string CurState = "";
 	std::string CurMode = "";
 
-	bool IsChangeState = true;
 	bool IstriggerOn = false;
 	bool IsBounce = false;
-	bool AbleJump = true;
 	bool swallowedObject = false;
 
 
 	float Duration = 0.0f;
 	float DecelerationSpeed = 1.0f;
-	float CurrentJumpDistance = 0.0f;
 	float FallDistance = 0.0f; 
 	int StarPower = 0;
 
