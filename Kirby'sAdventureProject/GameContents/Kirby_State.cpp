@@ -324,6 +324,7 @@ void Kirby::TurnUpdate(float _Delta)
 
 	if (false == GetGroundState())
 	{
+		GravityReset();
 		ChangeState(KirbyState::Fall);
 		return;
 	}
@@ -708,12 +709,12 @@ void Kirby::LowerAttackUpdate(float _Delta)
 	{
 		if (Dir == ActorDir::Left)
 		{
-			CurrentSpeed = -RUNMAXSPEED * _Delta;
+			CurrentSpeed = -RUNMAXSPEED;
 		}
 
 		if (Dir == ActorDir::Right)
 		{
-			CurrentSpeed = RUNMAXSPEED * _Delta;
+			CurrentSpeed = RUNMAXSPEED;
 		}
 	}
 	

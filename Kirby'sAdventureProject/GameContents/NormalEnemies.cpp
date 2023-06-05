@@ -12,6 +12,14 @@ NormalEnemies::~NormalEnemies()
 }
 
 
+void NormalEnemies::init(const std::string _FileName, const float4& _Pos)
+{
+	SetGroundTexture(_FileName);
+	RespawnLocation = _Pos;
+	SetPos(RespawnLocation);
+	SetDirectionAndFirstAnimation();
+}
+
 void NormalEnemies::StateUpdate(float _Delta)
 {
 	switch (State)

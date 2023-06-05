@@ -29,9 +29,12 @@ public:
 
 	AttributeType Attribute = AttributeType::None;
 
+	virtual void init(const std::string _FileName, const float4& _Pos);
+
 protected:
 	NormalState State = NormalState::Max;
 	std::string CurState = "";
+
 
 	void StateUpdate(float _Delta) override;
 	void ChangeState(NormalState _State);

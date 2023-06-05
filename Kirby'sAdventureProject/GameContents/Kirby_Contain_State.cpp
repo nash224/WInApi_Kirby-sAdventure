@@ -279,6 +279,7 @@ void Kirby::Contain_TurnUpdate(float _Delta)
 
 	if (false == GetGroundState())
 	{
+		GravityReset();
 		ChangeState(KirbyState::Contain_Fall);
 		return;
 	}

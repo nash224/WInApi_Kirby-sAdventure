@@ -52,14 +52,6 @@ void BroomHatter::Start()
 	BodyCollision->SetCollisionType(CollisionType::Rect);
 }
 
-void BroomHatter::init(const std::string _FileName, const float4& _Pos)
-{
-	SetGroundTexture(_FileName);
-	RespawnLocation = _Pos;
-	SetPos(RespawnLocation);
-	SetDirectionAndFirstAnimation();
-}
-
 
 void BroomHatter::Update(float _Delta)
 {

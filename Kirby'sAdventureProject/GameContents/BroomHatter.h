@@ -17,8 +17,6 @@ public:
 	BroomHatter& operator=(const BroomHatter& _Other) = delete;
 	BroomHatter& operator=(BroomHatter&& _Other) noexcept = delete;
 
-	void init(const std::string _FileName, const float4& _Pos);
-
 protected:
 
 	void IdleStart() override;

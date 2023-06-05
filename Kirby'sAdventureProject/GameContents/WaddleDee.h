@@ -17,8 +17,6 @@ public:
 	WaddleDee& operator=(const WaddleDee& _Other) = delete;
 	WaddleDee& operator=(WaddleDee&& _Other) noexcept = delete;
 
-	void init(const std::string _FileName, const float4& _Pos);
-
 	void SetDirectionAndFirstAnimation() override;
 
 protected:
