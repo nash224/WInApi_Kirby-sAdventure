@@ -27,12 +27,12 @@ public:
 
 
 	AttributeType Attribute = AttributeType::Max;
+	float4 Scale = float4::ZERO;
 
 	void SetDirectionAndFirstAnimation(const std::string& _StateName);
 	void RespawnTrigger(const std::string& _StateName);
 
 protected:
-	float4 Scale = float4::ZERO;
 
 	// 상태 함수
 	virtual void StateUpdate(float _Delta) {}

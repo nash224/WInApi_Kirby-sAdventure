@@ -15,6 +15,7 @@
 #include "WaddleDee.h"
 #include "BroomHatter.h"
 #include "Kabu.h"
+#include "PoppyBrosJr.h"
 #include "PlayUIManager.h"
 
 
@@ -58,6 +59,13 @@ void VegetableValley11::Start()
 	LevelEnemy.insert(std::make_pair("Kabu1", Kabu1));
 
 
+	// 세트몹 4-1
+	PoppyBrosJr* PoppyBrosJr1 = GameEngineLevel::CreateActor<PoppyBrosJr>();
+	PoppyBrosJr1->init("VegetableValley1_1Pixel.bmp", float4{ 900, 384 });
+	LevelEnemy.insert(std::make_pair("PoppyBrosJr1", PoppyBrosJr1));
+
+
+
 	GameEngineLevel::CreateActor<PlayUIManager>();
 
 	GameEngineWindowTexture* Texture = ResourcesManager::GetInst().FindTexture("VegetableValley1_1.bmp");
@@ -83,6 +91,7 @@ void VegetableValley11::Update(float _Delta)
 	}
 
 
+	// 초기 트리거를 std::string 으로 수정 예정
 	Enemy* WaddleDee1 = LevelEnemy.find("WaddleDee1")->second;
 	if (false == WaddleDee1->IsUpdate())
 	{
@@ -99,6 +108,12 @@ void VegetableValley11::Update(float _Delta)
 	if (false == Kabu1->IsUpdate())
 	{
 		Kabu1->RespawnTrigger("Idle");
+	}
+
+	Enemy* PoppyBrosJr1 = LevelEnemy.find("PoppyBrosJr1")->second;
+	if (false == PoppyBrosJr1->IsUpdate())
+	{
+		PoppyBrosJr1->RespawnTrigger("Idle");
 	}
 }
 

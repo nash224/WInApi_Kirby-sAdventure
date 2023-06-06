@@ -9,6 +9,7 @@ enum class NormalState
 	Jump,
 	Fall,
 	Sweep,
+	StepOn,
 	Max,
 };
 
@@ -28,7 +29,6 @@ public:
 	NormalEnemies& operator=(NormalEnemies&& _Other) noexcept = delete;
 
 
-	AttributeType Attribute = AttributeType::None;
 
 	virtual void init(const std::string _FileName, const float4& _Pos);
 

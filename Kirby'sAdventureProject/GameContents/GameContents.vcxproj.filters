@@ -133,9 +133,6 @@
     <ClInclude Include="VegetableValleyPlayLevel.h">
       <Filter>Level\Map\VegetableValley</Filter>
     </ClInclude>
-    <ClInclude Include="Apple.h">
-      <Filter>Global\Object\Enemy\NomalEnemy</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="TitleLevel.cpp">
@@ -277,9 +274,6 @@
     <ClCompile Include="PlayUIManager.cpp" />
     <ClCompile Include="VegetableValleyPlayLevel.cpp">
       <Filter>Level\Map\VegetableValley</Filter>
-    </ClCompile>
-    <ClCompile Include="Apple.cpp">
-      <Filter>Global\Object\Enemy\NomalEnemy</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

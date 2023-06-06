@@ -17,7 +17,7 @@ bool GameEngineCollision::PointToRect(const CollisionData& _LeftData, const Coll
 {
 	if (_RightData.Bot() < _LeftData.Pos.Y)
 	{
-		return false;
+		return false; 
 	}
 
 	if (_RightData.Top() > _LeftData.Pos.Y)

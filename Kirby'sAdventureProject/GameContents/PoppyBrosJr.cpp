@@ -15,6 +15,7 @@
 #include <GameEngineCore/ResourcesManager.h>
 
 #include "Kirby.h"
+#include <vector>
 
 PoppyBrosJr::PoppyBrosJr()
 {
@@ -32,14 +33,17 @@ void PoppyBrosJr::Start()
 	ResourcesManager::GetInst().SpriteFileLoad("Left_NormalEnemy.bmp", "Resources\\Unit\\Grunt", 4, 5);
 	ResourcesManager::GetInst().SpriteFileLoad("Right_NormalEnemy.bmp", "Resources\\Unit\\Grunt", 4, 5);
 
-	MainRenderer->CreateAnimation("Left_Idle", "Left_NormalEnemy.bmp", 12, 12, 0.5f, false);
-	MainRenderer->CreateAnimation("Right_Idle", "Right_NormalEnemy.bmp", 12, 12, 0.5f, false);
+	MainRenderer->CreateAnimation("Left_Idle", "Left_NormalEnemy.bmp", 16, 16, 0.5f, false);
+	MainRenderer->CreateAnimation("Right_Idle", "Right_NormalEnemy.bmp", 16, 16, 0.5f, false);
 
-	MainRenderer->CreateAnimation("Left_Walk", "Left_NormalEnemy.bmp", 12, 13, 0.5f, true);
-	MainRenderer->CreateAnimation("Right_Walk", "Right_NormalEnemy.bmp", 12, 13, 0.5f, true);
+	MainRenderer->CreateAnimation("Left_Walk", "Left_NormalEnemy.bmp", 16, 17, 0.5f, true);
+	MainRenderer->CreateAnimation("Right_Walk", "Right_NormalEnemy.bmp", 16, 17, 0.5f, true);
 
-	MainRenderer->CreateAnimation("Left_Jump", "Left_NormalEnemy.bmp", 13, 13, 0.5f, false);
-	MainRenderer->CreateAnimation("Right_Jump", "Right_NormalEnemy.bmp", 13, 13, 0.5f, false);
+	MainRenderer->CreateAnimation("Left_Jump", "Left_NormalEnemy.bmp", 17, 17, 0.5f, false);
+	MainRenderer->CreateAnimation("Right_Jump", "Right_NormalEnemy.bmp", 17, 17, 0.5f, false);
+
+	MainRenderer->CreateAnimation("Left_Fall", "Left_NormalEnemy.bmp", 16, 17, 0.5f, true);
+	MainRenderer->CreateAnimation("Right_Fall", "Right_NormalEnemy.bmp", 16, 17, 0.5f, true);
 
 
 	MainRenderer->SetRenderScaleToTexture();
@@ -50,6 +54,7 @@ void PoppyBrosJr::Start()
 
 	Dir = ActorDir::Left;
 	ChangeState(NormalState::Idle);
+
 
 	BodyCollision = CreateCollision(CollisionOrder::MonsterBody);
 	BodyCollision->SetCollisionScale(Scale);
@@ -84,7 +89,7 @@ void PoppyBrosJr::IdleUpdate(float _Delta)
 
 	if (true == IsChangeState)
 	{
-		ChangeState(NormalState::Sweep);
+		ChangeState(NormalState::Jump);
 		return;
 	}
 
@@ -103,52 +108,114 @@ void PoppyBrosJr::IdleUpdate(float _Delta)
 void PoppyBrosJr::JumpStart()
 {
 	StateTime = 0.0f;
-	GetKirbyDirection();
-
-	if (Dir == ActorDir::Left)
-	{
-		CurrentSpeed = -POPPYBROSJRSPEED;
-	}
-	else if (Dir == ActorDir::Right)
-	{
-		CurrentSpeed = POPPYBROSJRSPEED;
-	}
-
+	AbleJump = true;
+	CurrentJumpDistance = 0.0f;
+	GravityReset();
 	ChangeAnimationState("Jump");
 }
 
 void PoppyBrosJr::JumpUpdate(float _Delta)
 {
-	if (CurrentSpeed == 0.0f)
+	if (0.0f < GetGravityVector().Y)
 	{
-		ChangeState(NormalState::Idle);
+		ChangeState(NormalState::Fall);
 		return;
 	}
 
-	if (true == CheckLeftWall() || LeftGroundIsCliff())
+	float JumpPower = POPPYBROSJRJUMPDISTANCE / POPPYBROSJRJUMPTIME;
+	CurrentJumpDistance += JumpPower * _Delta;
+
+	if (CurrentJumpDistance > POPPYBROSJRJUMPDISTANCE)
+	{
+		AbleJump = false;
+	}
+
+	if (CurrentJumpDistance < POPPYBROSJRJUMPDISTANCE && true == AbleJump)
+	{
+		SetGravityVector(float4::UP * JumpPower);
+	}
+
+	if (true == CheckLeftWall())
 	{
 		Dir = ActorDir::Right;
 		CurrentSpeed = -CurrentSpeed;
 		MainRenderer->ChangeAnimation("Right_Jump");
 	}
-	else if (true == CheckRightWall() || RightGroundIsCliff())
+	else if (true == CheckRightWall())
 	{
 		Dir = ActorDir::Left;
 		CurrentSpeed = -CurrentSpeed;
 		MainRenderer->ChangeAnimation("Left_Jump");
 	}
 
+	if (ActorDir::Left == Dir)
+	{
+		AddPos(float4::LEFT * POPPYBROSJRSPEED * _Delta);
+	}
+
+	if (ActorDir::Right == Dir)
+	{
+		AddPos(float4::RIGHT * POPPYBROSJRSPEED * _Delta);
+	}
+
+
 	BlockedByGround();
 	BlockedByWall();
 
-	if (false == GetGroundState())
+	if (false == AbleJump)
 	{
 		Gravity(_Delta);
-		GravityLimit(_Delta);
-		VerticalUpdate(_Delta);
+	}
+	GravityLimit(_Delta);
+	VerticalUpdate(_Delta);
+}
+
+
+void PoppyBrosJr::FallStart()
+{
+	StateTime = 0.0f;
+	AbleJump = true;
+	CurrentJumpDistance = 0.0f;
+	GravityReset();
+	ChangeAnimationState("Fall");
+}
+
+void PoppyBrosJr::FallUpdate(float _Delta)
+{
+	if (true == GetGroundState())
+	{
+		ChangeState(NormalState::Idle);
+		return;
 	}
 
-	DecelerationUpdate(POPPYBROSJRDECELERATIONSPEED, _Delta);
-	HorizontalSpeedLimit(POPPYBROSJRMAXSPEED);
-	HorizontalUpdate(_Delta);
+	if (true == CheckLeftWall())
+	{
+		Dir = ActorDir::Right;
+		CurrentSpeed = -CurrentSpeed;
+		MainRenderer->ChangeAnimation("Right_Fall");
+	}
+	else if (true == CheckRightWall())
+	{
+		Dir = ActorDir::Left;
+		CurrentSpeed = -CurrentSpeed;
+		MainRenderer->ChangeAnimation("Left_Fall");
+	}
+
+	if (ActorDir::Left == Dir)
+	{
+		AddPos(float4::LEFT * POPPYBROSJRSPEED * _Delta);
+	}
+
+	if (ActorDir::Right == Dir)
+	{
+		AddPos(float4::RIGHT * POPPYBROSJRSPEED * _Delta);
+	}
+
+
+	BlockedByGround();
+	BlockedByWall();
+
+	Gravity(_Delta);
+	GravityLimit(_Delta);
+	VerticalUpdate(_Delta);
 }
