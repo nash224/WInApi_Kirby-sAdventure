@@ -308,6 +308,8 @@ void Kirby::Contain_JumpStart()
 {
 	StateTime = 0.0f;
 	AbleJump = true;
+	IsChangeState = false;
+	CurrentJumpDistance = 0.0f;
 	KirbyDirCheck();
 	GravityReset();
 	ChangeAnimationState("Contain_Jump");
