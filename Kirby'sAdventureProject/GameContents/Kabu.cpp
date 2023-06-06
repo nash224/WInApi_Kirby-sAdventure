@@ -70,6 +70,7 @@ void Kabu::IdleStart()
 {
 	StateTime = 0.0f;
 	IsChangeState = false;
+	GetKirbyDirection();
 	ChangeAnimationState("Idle");
 
 }
@@ -188,6 +189,7 @@ void Kabu::JumpUpdate(float _Delta)
 		SetGravityVector(float4::UP * CurrentJumpDistance);
 	}
 
+	// 버그수정
 	if (false == IsChangeState)
 	{
 		if (ActorDir::Left == Dir)
