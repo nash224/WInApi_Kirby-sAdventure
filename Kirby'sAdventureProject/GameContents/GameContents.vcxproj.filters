@@ -133,6 +133,9 @@
     <ClInclude Include="VegetableValleyPlayLevel.h">
       <Filter>Level\Map\VegetableValley</Filter>
     </ClInclude>
+    <ClInclude Include="AerialEnemies.h">
+      <Filter>Global\Object\Enemy\AerialEnemy</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="TitleLevel.cpp">
@@ -274,6 +277,9 @@
     <ClCompile Include="PlayUIManager.cpp" />
     <ClCompile Include="VegetableValleyPlayLevel.cpp">
       <Filter>Level\Map\VegetableValley</Filter>
+    </ClCompile>
+    <ClCompile Include="AerialEnemies.cpp">
+      <Filter>Global\Object\Enemy\AerialEnemy</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
