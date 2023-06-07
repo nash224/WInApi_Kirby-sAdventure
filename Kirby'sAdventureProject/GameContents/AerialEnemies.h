@@ -15,13 +15,12 @@ public:
 	AerialEnemies& operator=(const AerialEnemies& _Other) = delete;
 	AerialEnemies& operator=(AerialEnemies&& _Other) noexcept = delete;
 
-	virtual void init(const std::string _FileName, const float4& _Pos);
+	virtual void init(const std::string& _FileName, const float4& _Pos);
 
 protected:
 	std::string CurState = "";
 
-
-	void ChangeAnimationState(const std::string& _StateName) override;
+	float ChangeGravityDistance = 0.0f;
 
 private:
 

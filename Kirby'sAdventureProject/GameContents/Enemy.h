@@ -33,10 +33,11 @@ public:
 	void RespawnTrigger(const std::string& _StateName);
 
 protected:
+	std::string CurState = "";
 
 	// 상태 함수
 	virtual void StateUpdate(float _Delta) {}
-	virtual void ChangeAnimationState(const std::string& _StateName) {}
+	void ChangeAnimationState(const std::string& _StateName);
 
 	// 판정 함수
 	bool LeftGroundIsCliff();
@@ -46,7 +47,7 @@ protected:
 	// 리스폰 함수
 	float4 RespawnLocation = float4::ZERO;
 	bool IsRespawnLocationOverCamera = true;
-	void CheckOverScreen();
+	virtual void CheckOverScreen();
 	void RespawnLocationOverCamera();
 
 

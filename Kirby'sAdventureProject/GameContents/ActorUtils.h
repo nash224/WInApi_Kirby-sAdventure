@@ -100,6 +100,7 @@ protected:
 
 	// 중력 함수
 	void Gravity(float _Delta);
+	void ReverseGravity(float _Delta);
 	void GravityLimit(float _Delta);
 	void VerticalUpdate(float _Delta);
 	void GravityReset()

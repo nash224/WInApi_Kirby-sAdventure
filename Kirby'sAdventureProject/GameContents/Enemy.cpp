@@ -15,6 +15,30 @@ Enemy::~Enemy()
 }
 
 
+void Enemy::ChangeAnimationState(const std::string& _StateName)
+{
+
+	std::string AnimationName = "";
+
+	switch (Dir)
+	{
+	case ActorDir::Left:
+		AnimationName = "Left_";
+		break;
+	case ActorDir::Right:
+		AnimationName = "Right_";
+		break;
+	default:
+		break;
+	}
+
+	AnimationName += _StateName;
+
+	CurState = _StateName;
+
+	MainRenderer->ChangeAnimation(AnimationName);
+}
+
 bool Enemy::LeftGroundIsCliff()
 {
 	unsigned int LeftBottomColor = GetGroundColor(RGB(255, 255, 255), GroundLeftCheckPoint);

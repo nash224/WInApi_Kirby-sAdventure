@@ -30,16 +30,14 @@ public:
 
 
 
-	virtual void init(const std::string _FileName, const float4& _Pos);
+	virtual void init(const std::string& _FileName, const float4& _Pos);
 
 protected:
 	NormalState State = NormalState::Max;
-	std::string CurState = "";
 
 
 	void StateUpdate(float _Delta) override;
 	void ChangeState(NormalState _State);
-	void ChangeAnimationState(const std::string& _StateName) override;
 
 
 	virtual void IdleStart() {}

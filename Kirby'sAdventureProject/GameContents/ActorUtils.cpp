@@ -55,6 +55,12 @@ void ActorUtils::Gravity(float _Delta)
 	GravityVector += float4::DOWN * GravityPower * _Delta;
 }
 
+void ActorUtils::ReverseGravity(float _Delta)
+{
+	// 중력 보간법
+	GravityVector += float4::UP * GravityPower * _Delta;
+}
+
 void ActorUtils::GravityLimit(float _Delta)
 {
 	// 최대 점프 제한

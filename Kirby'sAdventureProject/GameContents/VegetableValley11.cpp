@@ -16,6 +16,8 @@
 #include "BroomHatter.h"
 #include "Kabu.h"
 #include "PoppyBrosJr.h"
+#include "BrontoBurt.h"
+#include "Scarfy.h"
 #include "PlayUIManager.h"
 
 
@@ -58,12 +60,25 @@ void VegetableValley11::Start()
 	Kabu1->init("VegetableValley1_1Pixel.bmp", float4{ 400, 384 });
 	LevelEnemy.insert(std::make_pair("Kabu1", Kabu1));
 
-
 	// ¼¼Æ®¸÷ 4-1
 	PoppyBrosJr* PoppyBrosJr1 = GameEngineLevel::CreateActor<PoppyBrosJr>();
 	PoppyBrosJr1->init("VegetableValley1_1Pixel.bmp", float4{ 900, 384 });
 	LevelEnemy.insert(std::make_pair("PoppyBrosJr1", PoppyBrosJr1));
 
+	// °øÁß¸÷ 1
+	BrontoBurt* BrontoBurt1 = GameEngineLevel::CreateActor<BrontoBurt>();
+	BrontoBurt1->init("VegetableValley1_1Pixel.bmp", BrontoState::Idle , float4{ 900, 384 });
+	LevelEnemy.insert(std::make_pair("BrontoBurt1", BrontoBurt1));
+
+	// °øÁß¸÷ 2
+	BrontoBurt* BrontoBurt2 = GameEngineLevel::CreateActor<BrontoBurt>();
+	BrontoBurt2->init("VegetableValley1_1Pixel.bmp", BrontoState::WaveFlightFall, float4{ 600, 130 });
+	LevelEnemy.insert(std::make_pair("BrontoBurt2", BrontoBurt2));
+
+	// °øÁß¸÷ 3
+	Scarfy* Scarfy1 = GameEngineLevel::CreateActor<Scarfy>();
+	Scarfy1->init("VegetableValley1_1Pixel.bmp", ScarfyState::Idle, float4{ 550, 220 });
+	LevelEnemy.insert(std::make_pair("Scarfy1", Scarfy1));
 
 
 	GameEngineLevel::CreateActor<PlayUIManager>();
@@ -114,6 +129,24 @@ void VegetableValley11::Update(float _Delta)
 	if (false == PoppyBrosJr1->IsUpdate())
 	{
 		PoppyBrosJr1->RespawnTrigger("Idle");
+	}
+
+	Enemy* BrontoBurt1 = LevelEnemy.find("BrontoBurt1")->second;
+	if (false == BrontoBurt1->IsUpdate())
+	{
+		BrontoBurt1->RespawnTrigger("Idle");
+	}
+
+	Enemy* BrontoBurt2 = LevelEnemy.find("BrontoBurt2")->second;
+	if (false == BrontoBurt2->IsUpdate())
+	{
+		BrontoBurt2->RespawnTrigger("WaveFlightFall");
+	}
+
+	Enemy* Scarfy1 = LevelEnemy.find("Scarfy1")->second;
+	if (false == Scarfy1->IsUpdate())
+	{
+		Scarfy1->RespawnTrigger("Idle");
 	}
 }
 

@@ -36,17 +36,17 @@ void BrontoBurt::Start()
 	MainRenderer->CreateAnimation("Left_Idle", "Left_AerialEnemy.bmp", 7, 7, 0.5f, false);
 	MainRenderer->CreateAnimation("Right_Idle", "Right_AerialEnemy.bmp", 7, 7, 0.5f, false);
 
-	MainRenderer->CreateAnimation("Left_Rise", "Left_AerialEnemy.bmp", 6, 7, 0.5f, false);
-	MainRenderer->CreateAnimation("Right_Rise", "Right_AerialEnemy.bmp", 6, 7, 0.5f, false);
+	MainRenderer->CreateAnimation("Left_Rise", "Left_AerialEnemy.bmp", 6, 7, 0.3f, true);
+	MainRenderer->CreateAnimation("Right_Rise", "Right_AerialEnemy.bmp", 6, 7, 0.3f, true);
 
-	MainRenderer->CreateAnimation("Left_Fly", "Left_AerialEnemy.bmp", 6, 7, 0.5f, true);
-	MainRenderer->CreateAnimation("Right_Fly", "Right_AerialEnemy.bmp", 6, 7, 0.5f, true);
+	MainRenderer->CreateAnimation("Left_Fly", "Left_AerialEnemy.bmp", 6, 7, 0.1f, true);
+	MainRenderer->CreateAnimation("Right_Fly", "Right_AerialEnemy.bmp", 6, 7, 0.1f, true);
 
-	MainRenderer->CreateAnimation("Left_WaveFlight", "Left_AerialEnemy.bmp", 6, 7, 0.5f, false);
-	MainRenderer->CreateAnimation("Right_WaveFlight", "Right_AerialEnemy.bmp", 6, 7, 0.5f, false);
+	MainRenderer->CreateAnimation("Left_WaveFlightRise", "Left_AerialEnemy.bmp", 6, 7, 0.15f, true);
+	MainRenderer->CreateAnimation("Right_WaveFlightRise", "Right_AerialEnemy.bmp", 6, 7, 0.15f, true);
 
-	MainRenderer->CreateAnimation("Left_Fall", "Left_AerialEnemy.bmp", 6, 6, 0.5f, false);
-	MainRenderer->CreateAnimation("Right_Fall", "Right_AerialEnemy.bmp", 6, 6, 0.5f, false);
+	MainRenderer->CreateAnimation("Left_WaveFlightFall", "Left_AerialEnemy.bmp", 6, 6, 0.5f, false);
+	MainRenderer->CreateAnimation("Right_WaveFlightFall", "Right_AerialEnemy.bmp", 6, 6, 0.5f, false);
 
 	MainRenderer->CreateAnimation("Left_Exit", "Left_AerialEnemy.bmp", 6, 7, 0.5f, true);
 	MainRenderer->CreateAnimation("Right_Exit", "Right_AerialEnemy.bmp", 6, 7, 0.5f, true);
@@ -59,12 +59,22 @@ void BrontoBurt::Start()
 	SetCheckPoint(Scale);
 
 	Dir = ActorDir::Left;
-	ChangeState(BrontoState::Idle);
 
 
 	BodyCollision = CreateCollision(CollisionOrder::MonsterBody);
 	BodyCollision->SetCollisionScale(Scale);
 	BodyCollision->SetCollisionType(CollisionType::Rect);
+}
+
+void BrontoBurt::init(const std::string& _FileName, BrontoState _State, const float4& _Pos)
+{
+
+	Attribute = AttributeType::None;
+
+	SetGroundTexture(_FileName);
+	RespawnLocation = _Pos;
+	SetPos(RespawnLocation);
+	ChangeState(_State);
 }
 
 void BrontoBurt::Update(float _Delta)
@@ -84,9 +94,8 @@ void BrontoBurt::StateUpdate(float _Delta)
 	case BrontoState::Idle:					return IdleUpdate(_Delta);
 	case BrontoState::Rise:					return RiseUpdate(_Delta);
 	case BrontoState::Fly:					return FlyUpdate(_Delta);
-	case BrontoState::WaveFlight:			return WaveFlightUpdate(_Delta);
-	case BrontoState::Fall:					return FallUpdate(_Delta);
-	case BrontoState::Exit:					return ExitUpdate(_Delta);
+	case BrontoState::WaveFlightRise:		return WaveFlightRiseUpdate(_Delta);
+	case BrontoState::WaveFlightFall:		return WaveFlightFallUpdate(_Delta);
 	default:
 		break;
 	}
@@ -94,16 +103,15 @@ void BrontoBurt::StateUpdate(float _Delta)
 
 void BrontoBurt::ChangeState(BrontoState _State)
 {
-	if (_State != State)
+	if (_State != State || _State == BrontoState::WaveFlightFall)
 	{
 		switch (_State)
 		{
 		case BrontoState::Idle:					IdleStart();					break;
 		case BrontoState::Rise:					RiseStart();					break;
 		case BrontoState::Fly:					FlyStart();						break;
-		case BrontoState::WaveFlight:			WaveFlightStart();				break;
-		case BrontoState::Fall:					FallStart();					break;
-		case BrontoState::Exit:					ExitStart();					break;
+		case BrontoState::WaveFlightRise:		WaveFlightRiseStart();			break;
+		case BrontoState::WaveFlightFall:		WaveFlightFallStart();			break;
 		default:
 			break;
 		}
@@ -113,69 +121,252 @@ void BrontoBurt::ChangeState(BrontoState _State)
 }
 
 
-
-void BrontoBurt::IdleStart()
+void BrontoBurt::GetRespawnState()
 {
 
 }
 
+void BrontoBurt::CheckOverScreen()
+{
+	float4 WinScale = GameEngineWindow::MainWindow.GetScale();
+	float4 CameraPos = GetLevel()->GetMainCamera()->GetPos();
+
+	bool value = CameraPos.X > GetPos().X + Scale.X * 3.0f;
+	value = CameraPos.X + WinScale.X < GetPos().X - Scale.X * 3.0f;
+	value = CameraPos.Y > GetPos().Y + Scale.Y * 3.0f;
+	value = CameraPos.Y + WinScale.Y < GetPos().Y - Scale.Y * 3.0f;
+
+	if (CameraPos.X > GetPos().X + Scale.X * 3.0f 
+		|| CameraPos.X + WinScale.X < GetPos().X - Scale.X * 3.0f
+		|| CameraPos.Y > GetPos().Y + Scale.Y * 3.0f 
+		|| CameraPos.Y + WinScale.Y < GetPos().Y - Scale.Y * 3.0f)
+	{
+		Off();
+		ChangeState(RespawnState);
+	}
+}
+
+
+
+void BrontoBurt::IdleStart()
+{
+	StateTime = 0.0f;
+	IsChangeState = false;
+	RespawnState = BrontoState::Idle;
+	ChangeAnimationState("Idle");
+}
+
 void BrontoBurt::IdleUpdate(float _Delta)
 {
+	if (BRONTORECOGNITIONRANGE > abs(Kirby::GetMainKirby()->GetPos().X - GetPos().X))
+	{
+		IsChangeState = true;
+	}
 
+	if (true == IsChangeState)
+	{
+		ChangeState(BrontoState::Rise);
+		return;
+	}
+
+	BlockedByGround();
+	BlockedByWall();
 }
 
 
 void BrontoBurt::RiseStart()
 {
-
+	StateTime = 0.0f;
+	IsChangeState = false;
+	StopRise = false;
+	RiseDistance = 0.0f;
+	ParabolicRiseStartDistance = GetPos().Y - BRONTORISEDISTANCE;
+	GravityReset();
+	ChangeAnimationState("Rise");
 }
 
 void BrontoBurt::RiseUpdate(float _Delta)
 {
+	if (RiseDistance > BRONTORISEDISTANCE && false == StopRise)
+	{
+		StopRise = true;
+	}
 
+	if (true == StopRise && GetPos().Y > ParabolicRiseStartDistance && GetGravityVector().Y > 0.0f)
+	{
+		IsChangeState = true;
+	}
+
+	if (true == IsChangeState)
+	{
+		ChangeState(BrontoState::Fly);
+		return;
+	}
+
+	if (RiseDistance < BRONTORISEDISTANCE && false == StopRise)
+	{
+		float RisePower = BRONTORISEDISTANCE / BRONTORISETIME;
+		RiseDistance += RisePower * _Delta;
+		SetGravityVector(float4::UP * RisePower);
+	}
+
+
+	if (true == StopRise)
+	{
+		Gravity(_Delta);
+	}
+
+	GravityLimit(_Delta);
+	VerticalUpdate(_Delta);
 }
 
 
 void BrontoBurt::FlyStart()
 {
-
+	StateTime = 0.0f;
+	IsChangeState = false;
+	IsGoForward = false;
+	CurrentSpeed = 0.0f;
+	ChangeAnimationState("Fly");
 }
 
 void BrontoBurt::FlyUpdate(float _Delta)
 {
+	if (GetGravityVector().Y < 0.0f)
+	{
+		IsGoForward = true;
+	}
 
+	if (false == IsGoForward)
+	{
+		float NowGravityVector = GetGravityVector().Y;
+		SetGravityVector(float4::UP * ( NowGravityVector - BRONTOFLYPOWER * _Delta ));
+		VerticalUpdate(_Delta);
+	}
+
+	if (true == IsGoForward)
+	{
+		if (ActorDir::Left == Dir)
+		{
+			CurrentSpeed -= BRONTOFLYSPEED / BRONTOFLYSPEEDACCELERATIONTIME * _Delta;
+		}
+		else if (ActorDir::Right == Dir)
+		{
+			CurrentSpeed += BRONTOFLYSPEED / BRONTOFLYSPEEDACCELERATIONTIME * _Delta;
+		}
+
+		HorizontalUpdate(_Delta);
+	}
 }
 
 
-void BrontoBurt::WaveFlightStart()
+void BrontoBurt::WaveFlightRiseStart()
 {
-
+	StateTime = 0.0f;
+	IsChangeState = false;
+	IsChangeGravityReverse = false;
+	ChangeGravityDistance = RespawnLocation.Y + BRONTOWAVEFLIGHTCHANGEHEIGHT;
+	ChangeAnimationState("WaveFlightRise");
 }
 
-void BrontoBurt::WaveFlightUpdate(float _Delta)
+void BrontoBurt::WaveFlightRiseUpdate(float _Delta)
 {
+	if (GetPos().Y < ChangeGravityDistance)
+	{
+		IsChangeGravityReverse = true;
+	}
 
+	if (GetGravityVector().Y > 0.0f)
+	{
+		IsChangeState = true;
+	}
+
+	if (true == IsChangeState)
+	{
+		ChangeState(BrontoState::WaveFlightFall);
+		return;
+	}
+
+	if (ActorDir::Left == Dir)
+	{
+		CurrentSpeed = -BRONTOWAVEFLIGHTSPEED;
+	}
+	else if (ActorDir::Right == Dir)
+	{
+		CurrentSpeed = BRONTOWAVEFLIGHTSPEED;
+	}
+
+	if (false == IsChangeGravityReverse)
+	{
+		ReverseGravity(_Delta);
+	}
+	else if (true == IsChangeGravityReverse)
+	{
+		Gravity(_Delta);
+	}
+
+	VerticalUpdate(_Delta);
+	HorizontalUpdate(_Delta);
 }
 
 
-void BrontoBurt::FallStart()
+void BrontoBurt::WaveFlightFallStart()
 {
+	StateTime = 0.0f;
+	IsChangeState = false;
+	IsChangeGravityReverse = false;
 
+	if (WaveFlightCountBasedFall == 3)
+	{
+		GravityReset();
+		WaveFlightCountBasedFall = 0;
+	}
+	++WaveFlightCountBasedFall;
+
+	ChangeGravityDistance = RespawnLocation.Y + BRONTOWAVEFLIGHTCHANGEHEIGHT;
+	RespawnState = BrontoState::WaveFlightFall;
+	ChangeAnimationState("WaveFlightFall");
 }
 
-void BrontoBurt::FallUpdate(float _Delta)
+void BrontoBurt::WaveFlightFallUpdate(float _Delta)
 {
+	if (GetPos().Y > ChangeGravityDistance)
+	{
+		IsChangeGravityReverse = true;
+	}
 
-}
+	if (GetGravityVector().Y < 0.0f)
+	{
+		IsChangeState = true;
+	}
 
 
-void BrontoBurt::ExitStart()
-{
+	if (true == IsChangeState && WaveFlightCountBasedFall < 3)
+	{
+		ChangeState(BrontoState::WaveFlightRise);
+		return;
+	}
 
-}
 
-void BrontoBurt::ExitUpdate(float _Delta)
-{
+	if (ActorDir::Left == Dir)
+	{
+		CurrentSpeed = -BRONTOWAVEFLIGHTSPEED;
+	}
+	else if (ActorDir::Right == Dir)
+	{
+		CurrentSpeed = BRONTOWAVEFLIGHTSPEED;
+	}
 
+	if (false == IsChangeGravityReverse)
+	{
+		Gravity(_Delta);
+	}
+	else if (true == IsChangeGravityReverse)
+	{
+		ReverseGravity(_Delta);
+	}
+
+	VerticalUpdate(_Delta);
+	HorizontalUpdate(_Delta);
 }
 

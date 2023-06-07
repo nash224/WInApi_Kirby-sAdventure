@@ -30,20 +30,23 @@ void Scarfy::Start()
 {
 	MainRenderer = CreateRenderer(RenderOrder::Play);
 
-	ResourcesManager::GetInst().SpriteFileLoad("Left_NormalEnemy.bmp", "Resources\\Unit\\Grunt", 4, 5);
-	ResourcesManager::GetInst().SpriteFileLoad("Right_NormalEnemy.bmp", "Resources\\Unit\\Grunt", 4, 5);
+	ResourcesManager::GetInst().SpriteFileLoad("Left_AerialEnemy.bmp", "Resources\\Unit\\Grunt", 3, 3);
+	ResourcesManager::GetInst().SpriteFileLoad("Right_AerialEnemy.bmp", "Resources\\Unit\\Grunt", 3, 3);
 
-	MainRenderer->CreateAnimation("Left_Idle", "Left_NormalEnemy.bmp", 16, 16, 0.5f, false);
-	MainRenderer->CreateAnimation("Right_Idle", "Right_NormalEnemy.bmp", 16, 16, 0.5f, false);
+	MainRenderer->CreateAnimation("Left_Idle", "Left_AerialEnemy.bmp", 0, 1, 0.2f, true);
+	MainRenderer->CreateAnimation("Right_Idle", "Right_AerialEnemy.bmp", 0, 1, 0.2f, true);
 
-	MainRenderer->CreateAnimation("Left_Walk", "Left_NormalEnemy.bmp", 16, 17, 0.5f, true);
-	MainRenderer->CreateAnimation("Right_Walk", "Right_NormalEnemy.bmp", 16, 17, 0.5f, true);
+	MainRenderer->CreateAnimation("Left_TransFormingBefore", "Left_AerialEnemy.bmp", 0, 1, SCARFYWOBBLETIME, true);
+	MainRenderer->CreateAnimation("Right_TransFormingBefore", "Right_AerialEnemy.bmp", 0, 1, SCARFYWOBBLETIME, true);
 
-	MainRenderer->CreateAnimation("Left_Jump", "Left_NormalEnemy.bmp", 17, 17, 0.5f, false);
-	MainRenderer->CreateAnimation("Right_Jump", "Right_NormalEnemy.bmp", 17, 17, 0.5f, false);
+	MainRenderer->CreateAnimationToFrame("Left_TransFormingAfter", "Left_AerialEnemy.bmp", { 2 , 4 } , SCARFYWOBBLETIME, true);
+	MainRenderer->CreateAnimationToFrame("Right_TransFormingAfter", "Right_AerialEnemy.bmp", { 2 , 4 } , SCARFYWOBBLETIME, true);
 
-	MainRenderer->CreateAnimation("Left_Fall", "Left_NormalEnemy.bmp", 16, 17, 0.5f, true);
-	MainRenderer->CreateAnimation("Right_Fall", "Right_NormalEnemy.bmp", 16, 17, 0.5f, true);
+	MainRenderer->CreateAnimation("Left_Following", "Left_AerialEnemy.bmp", 2, 5, 0.1f, false);
+	MainRenderer->CreateAnimation("Right_Following", "Right_AerialEnemy.bmp", 2, 5, 0.1f, false);
+
+	MainRenderer->CreateAnimation("Left_Bomb", "Left_AerialEnemy.bmp", 2, 5, 0.1f, true);
+	MainRenderer->CreateAnimation("Right_Bomb", "Right_AerialEnemy.bmp", 2, 5, 0.1f, true);
 
 
 	MainRenderer->SetRenderScaleToTexture();
@@ -53,13 +56,24 @@ void Scarfy::Start()
 	SetCheckPoint(Scale);
 
 	Dir = ActorDir::Left;
-	ChangeState(ScarfyState::Idle);
 
 
 	BodyCollision = CreateCollision(CollisionOrder::MonsterBody);
 	BodyCollision->SetCollisionScale(Scale);
 	BodyCollision->SetCollisionType(CollisionType::Rect);
 }
+
+void Scarfy::init(const std::string& _FileName, ScarfyState _State, const float4& _Pos)
+{
+
+	Attribute = AttributeType::None;
+
+	SetGroundTexture(_FileName);
+	RespawnLocation = _Pos;
+	SetPos(RespawnLocation);
+	ChangeState(_State);
+}
+
 
 void Scarfy::Update(float _Delta)
 {
@@ -76,9 +90,10 @@ void Scarfy::StateUpdate(float _Delta)
 	switch (State)
 	{
 	case ScarfyState::Idle:					return IdleUpdate(_Delta);
-	case ScarfyState::Fly:					return FlyUpdate(_Delta);
-	case ScarfyState::WaveFlight:			return WaveFlightUpdate(_Delta);
-	case ScarfyState::Exit:					return ExitUpdate(_Delta);
+	case ScarfyState::TransFormingBefore:	return TransFormingBeforeUpdate(_Delta);
+	case ScarfyState::TransFormingAfter:	return TransFormingAfterUpdate(_Delta);
+	case ScarfyState::Following:			return FollowingUpdate(_Delta);
+	case ScarfyState::Bomb:					return BombUpdate(_Delta);
 	default:
 		break;
 	}
@@ -91,9 +106,10 @@ void Scarfy::ChangeState(ScarfyState _State)
 		switch (_State)
 		{
 		case ScarfyState::Idle:					IdleStart();					break;
-		case ScarfyState::Fly:					FlyStart();						break;
-		case ScarfyState::WaveFlight:			WaveFlightStart();				break;
-		case ScarfyState::Exit:					ExitStart();					break;
+		case ScarfyState::TransFormingBefore:	TransFormingBeforeStart();		break;
+		case ScarfyState::TransFormingAfter:	TransFormingAfterStart();		break;
+		case ScarfyState::Following:			FollowingStart();				break;
+		case ScarfyState::Bomb:					BombStart();					break;
 		default:
 			break;
 		}
@@ -104,42 +120,181 @@ void Scarfy::ChangeState(ScarfyState _State)
 
 
 
+
 void Scarfy::IdleStart()
 {
-
+	StateTime = 0.0f;
+	IsChangeState = false;
+	IsGravityReverse = false;
+	ChangeGravityDistance = RespawnLocation.Y + SCARFYFLIGHTCHANGRAVITYCONVERSIONPOINT;
+	GravityReset();
+	ChangeAnimationState("Idle");
 }
 
 void Scarfy::IdleUpdate(float _Delta)
 {
+	StateTime += _Delta;
 
+	GetKirbyDirection();
+
+	if (GetPos().Y > ChangeGravityDistance && false == IsGravityReverse)
+	{
+		IsGravityReverse = true;
+	}
+	else if (GetPos().Y < ChangeGravityDistance && true == IsGravityReverse)
+	{
+		IsGravityReverse = false;
+	}
+
+	if (SCARFYRECOGNITIONRANGE > abs(Kirby::GetMainKirby()->GetPos().X - GetPos().X))
+	{
+		IsChangeState = true;
+	}
+
+	if (true == IsChangeState)
+	{
+		ChangeState(ScarfyState::TransFormingBefore);
+		return;
+	}
+
+	if (true == IsGravityReverse)
+	{
+		ReverseGravity(_Delta);
+	}
+	else if (false == IsGravityReverse)
+	{
+		Gravity(_Delta);
+	}
+
+	VerticalUpdate(_Delta);
 }
 
-void Scarfy::FlyStart()
+
+void Scarfy::TransFormingBeforeStart()
+{
+	StateTime = 0.0f;
+	IsChangeState = false;
+	WobbleCount = 0;
+	GravityReset();
+	ChangeAnimationState("TransFormingBefore");
+}
+
+void Scarfy::TransFormingBeforeUpdate(float _Delta)
+{
+	StateTime += _Delta;
+
+	if (StateTime > SCARFYWOBBLETIME)
+	{
+		StateTime = 0.0f;
+		++WobbleCount;
+		if (1 == WobbleCount % 2)
+		{
+			if (ActorDir::Left == Dir)
+			{
+				AddPos(float4::RIGHT * 12.0f);
+			}
+			else if (ActorDir::Right == Dir)
+			{
+				AddPos(float4::LEFT * 12.0f);
+			}
+		}
+		else if (0 == WobbleCount % 2)
+		{
+			if (ActorDir::Left == Dir)
+			{
+				AddPos(float4::LEFT * 6.0f);
+			}
+			else if (ActorDir::Right == Dir)
+			{
+				AddPos(float4::RIGHT * 6.0f);
+			}
+		}
+	}
+
+	if (6 == WobbleCount)
+	{
+		IsChangeState = true;
+	}
+
+	if (true == IsChangeState)
+	{
+		ChangeState(ScarfyState::TransFormingAfter);
+		return;
+	}
+}
+
+
+void Scarfy::TransFormingAfterStart()
+{
+	StateTime = 0.0f;
+	IsChangeState = false;
+	WobbleCount = 0;
+	GravityReset();
+	ChangeAnimationState("TransFormingAfter");
+}
+
+void Scarfy::TransFormingAfterUpdate(float _Delta)
+{
+	StateTime += _Delta;
+
+	if (StateTime > SCARFYWOBBLETIME)
+	{
+		StateTime = 0.0f;
+		++WobbleCount;
+		if (1 == WobbleCount % 2)
+		{
+			if (ActorDir::Left == Dir)
+			{
+				AddPos(float4::RIGHT * 12.0f);
+			}
+			else if (ActorDir::Right == Dir)
+			{
+				AddPos(float4::LEFT * 12.0f);
+			}
+		}
+		else if (0 == WobbleCount % 2)
+		{
+			if (ActorDir::Left == Dir)
+			{
+				AddPos(float4::LEFT * 6.0f);
+			}
+			else if (ActorDir::Right == Dir)
+			{
+				AddPos(float4::RIGHT * 6.0f);
+			}
+		}
+	}
+
+	if (8 == WobbleCount)
+	{
+		IsChangeState = true;
+	}
+
+	if (true == IsChangeState)
+	{
+		ChangeState(ScarfyState::Following);
+		return;
+	}
+}
+
+
+void Scarfy::FollowingStart()
 {
 
 }
 
-void Scarfy::FlyUpdate(float _Delta)
+void Scarfy::FollowingUpdate(float _Delta)
 {
 
 }
 
-void Scarfy::WaveFlightStart()
+
+void Scarfy::BombStart()
 {
 
 }
 
-void Scarfy::WaveFlightUpdate(float _Delta)
-{
-
-}
-
-void Scarfy::ExitStart()
-{
-
-}
-
-void Scarfy::ExitUpdate(float _Delta)
+void Scarfy::BombUpdate(float _Delta)
 {
 
 }
