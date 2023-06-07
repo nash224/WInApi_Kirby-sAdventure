@@ -1,18 +1,22 @@
 #pragma once
 #include "AerialEnemies.h"
 
-#define SCARFYRECOGNITIONRANGE 50.0f
+#define SCARFYRECOGNITIONRANGE 80.0f
 
 #define SCARFYWOBBLETIME 0.08f
 
-#define SCARFYFLYSPEED 300.0f
 #define SCARFYFLYSPEEDACCELERATIONTIME 0.3f
 #define SCARFYFLYSPEEDLIMIT 300.0f
-
-#define SCARFYFLIGHTSPEED 120.0f
 #define SCARFYFLIGHTCHANGRAVITYCONVERSIONPOINT 30.0f
 
-#define SCARFYFLYPOWER 300.0f
+#define SCARFYFOLLOWINGTIME 5.0f
+#define SCARFYFOLLOWINGSPEED 120.0f
+#define SCARFYMAXFOLLOWINGSPEEDTIME 0.2f
+
+#define SCARFYVIBRATIONTIME 0.05f
+#define SCARFYVIBRATIONDISTANCE 6.0f
+
+
 
 
 enum class ScarfyState
@@ -46,6 +50,7 @@ protected:
 
 	bool IsGravityReverse = false;
 	int WobbleCount = 0;
+	int BombCount = -1;
 
 	void StateUpdate(float _Delta) override;
 	void ChangeState(ScarfyState _State);

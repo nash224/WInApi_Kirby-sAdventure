@@ -42,8 +42,8 @@ void Scarfy::Start()
 	MainRenderer->CreateAnimationToFrame("Left_TransFormingAfter", "Left_AerialEnemy.bmp", { 2 , 4 } , SCARFYWOBBLETIME, true);
 	MainRenderer->CreateAnimationToFrame("Right_TransFormingAfter", "Right_AerialEnemy.bmp", { 2 , 4 } , SCARFYWOBBLETIME, true);
 
-	MainRenderer->CreateAnimation("Left_Following", "Left_AerialEnemy.bmp", 2, 5, 0.1f, false);
-	MainRenderer->CreateAnimation("Right_Following", "Right_AerialEnemy.bmp", 2, 5, 0.1f, false);
+	MainRenderer->CreateAnimation("Left_Following", "Left_AerialEnemy.bmp", 2, 5, 0.1f, true);
+	MainRenderer->CreateAnimation("Right_Following", "Right_AerialEnemy.bmp", 2, 5, 0.1f, true);
 
 	MainRenderer->CreateAnimation("Left_Bomb", "Left_AerialEnemy.bmp", 2, 5, 0.1f, true);
 	MainRenderer->CreateAnimation("Right_Bomb", "Right_AerialEnemy.bmp", 2, 5, 0.1f, true);
@@ -262,10 +262,10 @@ void Scarfy::TransFormingAfterUpdate(float _Delta)
 			{
 				AddPos(float4::RIGHT * 6.0f);
 			}
-		}
+		} 
 	}
 
-	if (8 == WobbleCount)
+	if (10 == WobbleCount)
 	{
 		IsChangeState = true;
 	}
@@ -280,22 +280,66 @@ void Scarfy::TransFormingAfterUpdate(float _Delta)
 
 void Scarfy::FollowingStart()
 {
-
+	StateTime = 0.0f;
+	IsChangeState = false;
+	GetKirbyDirection();
+	ChangeAnimationState("Following");
 }
 
 void Scarfy::FollowingUpdate(float _Delta)
 {
+	StateTime += _Delta;
 
+	if (SCARFYRECOGNITIONRANGE > abs(Kirby::GetMainKirby()->GetPos().X - GetPos().X) || StateTime > SCARFYFOLLOWINGTIME)
+	{
+		IsChangeState = true;
+	}
+
+	if (true == IsChangeState)
+	{
+		ChangeState(ScarfyState::Bomb);
+		return;
+	}
+
+	float4 KirbyUnitVector = GetKirbyUnitVector();
+	KirbyUnitVector *= SCARFYFOLLOWINGSPEED;
+
+	AddPos(KirbyUnitVector * _Delta);
 }
 
 
 void Scarfy::BombStart()
 {
-
+	StateTime = 0.0f;
+	IsChangeState = false;
+	BombCount = 0;
+	ChangeAnimationState("Bomb");
 }
 
 void Scarfy::BombUpdate(float _Delta)
 {
+	StateTime += _Delta;
 
+
+	if (StateTime >= SCARFYVIBRATIONTIME)
+	{
+		StateTime = 0.0f;
+
+		++BombCount;
+		if (1 == BombCount % 2)
+		{
+			AddPos(float4::UP * SCARFYVIBRATIONDISTANCE);
+		}
+		else if (0 == BombCount % 2)
+		{
+			AddPos(float4::DOWN * SCARFYVIBRATIONDISTANCE);
+		}
+	}
+
+	if (30 == BombCount)
+	{
+		// effect
+		Off();
+	}
 }
 

@@ -85,6 +85,19 @@ void Enemy::GetKirbyDirection()
 	}
 }
 
+float4 Enemy::GetKirbyUnitVector()
+{
+	if (nullptr == Kirby::GetMainKirby())
+	{
+		MsgBoxAssert("커비가 레벨에 존재하지 않습니다.");
+		return float4::ZERO;
+	}
+
+	float4 StartDir = Kirby::GetMainKirby()->GetPos() - GetPos();
+	StartDir.Normalize();
+	return StartDir;
+}
+
 
 void Enemy::CheckOverScreen()
 {
