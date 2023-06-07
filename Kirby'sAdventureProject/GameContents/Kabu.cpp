@@ -33,14 +33,14 @@ void Kabu::Start()
 	ResourcesManager::GetInst().SpriteFileLoad("Left_NormalEnemy.bmp", "Resources\\Unit\\Grunt", 4, 5);
 	ResourcesManager::GetInst().SpriteFileLoad("Right_NormalEnemy.bmp", "Resources\\Unit\\Grunt", 4, 5);
 
-	MainRenderer->CreateAnimation("Left_Idle", "Left_NormalEnemy.bmp", 4, 6, KABUIDLESPIN, true);
-	MainRenderer->CreateAnimation("Right_Idle", "Right_NormalEnemy.bmp", 4, 6, KABUIDLESPIN, true);
+	MainRenderer->CreateAnimation("Left_Idle", "Left_NormalEnemy.bmp", 4, 7, KABUIDLESPIN, true);
+	MainRenderer->CreateAnimation("Right_Idle", "Right_NormalEnemy.bmp", 4, 7, KABUIDLESPIN, true);
+	
+	MainRenderer->CreateAnimation("Left_Jump", "Left_NormalEnemy.bmp", 4, 7, KABUJUMPSPIN, true);
+	MainRenderer->CreateAnimation("Right_Jump", "Right_NormalEnemy.bmp", 4, 7, KABUJUMPSPIN, true);
 
-	MainRenderer->CreateAnimation("Left_Jump", "Left_NormalEnemy.bmp", 4, 6, KABUJUMPSPIN, true);
-	MainRenderer->CreateAnimation("Right_Jump", "Right_NormalEnemy.bmp", 4, 6, KABUJUMPSPIN, true);
-
-	MainRenderer->CreateAnimation("Left_Sit", "Left_NormalEnemy.bmp", 7, 7, 0.5f, false);
-	MainRenderer->CreateAnimation("Right_Sit", "Right_NormalEnemy.bmp", 7, 7, 0.5f, false);
+	MainRenderer->CreateAnimation("Left_Sit", "Left_NormalEnemy.bmp", 18, 18, 0.5f, false);
+	MainRenderer->CreateAnimation("Right_Sit", "Right_NormalEnemy.bmp", 18, 18, 0.5f, false);
 
 	MainRenderer->SetRenderScaleToTexture();
 	MainRenderer->SetScaleRatio(3.0f);
