@@ -34,6 +34,7 @@ public:
 
 protected:
 	std::string CurState = "";
+	std::string RespawnState = "";
 
 	// 상태 함수
 	virtual void StateUpdate(float _Delta) {}
@@ -49,7 +50,7 @@ protected:
 	float4 RespawnLocation = float4::ZERO;
 	bool IsRespawnLocationOverCamera = true;
 	virtual void CheckOverScreen();
-	virtual void SetState() {}
+	virtual void ChangeRespawnState() {}
 	void RespawnLocationOverCamera();
 
 

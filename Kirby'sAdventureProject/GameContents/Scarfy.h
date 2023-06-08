@@ -47,6 +47,7 @@ public:
 
 protected:
 	ScarfyState State = ScarfyState::Max;
+	ScarfyState RespawnState = ScarfyState::Max;
 
 	bool IsGravityReverse = false;
 	int WobbleCount = 0;
@@ -54,6 +55,7 @@ protected:
 
 	void StateUpdate(float _Delta) override;
 	void ChangeState(ScarfyState _State);
+	void ChangeRespawnState() override;
 
 	void IdleStart();
 	void TransFormingBeforeStart();

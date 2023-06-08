@@ -68,14 +68,18 @@ void BrontoBurt::Start()
 
 void BrontoBurt::init(const std::string& _FileName, BrontoState _State, const float4& _Pos)
 {
-
 	Attribute = AttributeType::None;
 
 	SetGroundTexture(_FileName);
 	RespawnLocation = _Pos;
+	RespawnState = _State;
 	SetPos(RespawnLocation);
 	ChangeState(_State);
 }
+
+
+/* �ѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤ� */
+
 
 void BrontoBurt::Update(float _Delta)
 {
@@ -120,39 +124,20 @@ void BrontoBurt::ChangeState(BrontoState _State)
 	State = _State;
 }
 
-
-void BrontoBurt::GetRespawnState()
+void BrontoBurt::ChangeRespawnState()
 {
-
+	ChangeState(RespawnState);
 }
 
-void BrontoBurt::CheckOverScreen()
-{
-	float4 WinScale = GameEngineWindow::MainWindow.GetScale();
-	float4 CameraPos = GetLevel()->GetMainCamera()->GetPos();
 
-	bool value = CameraPos.X > GetPos().X + Scale.X * 3.0f;
-	value = CameraPos.X + WinScale.X < GetPos().X - Scale.X * 3.0f;
-	value = CameraPos.Y > GetPos().Y + Scale.Y * 3.0f;
-	value = CameraPos.Y + WinScale.Y < GetPos().Y - Scale.Y * 3.0f;
-
-	if (CameraPos.X > GetPos().X + Scale.X * 3.0f 
-		|| CameraPos.X + WinScale.X < GetPos().X - Scale.X * 3.0f
-		|| CameraPos.Y > GetPos().Y + Scale.Y * 3.0f 
-		|| CameraPos.Y + WinScale.Y < GetPos().Y - Scale.Y * 3.0f)
-	{
-		Off();
-		ChangeState(RespawnState);
-	}
-}
-
+/* �ѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤ� */
 
 
 void BrontoBurt::IdleStart()
 {
 	StateTime = 0.0f;
 	IsChangeState = false;
-	RespawnState = BrontoState::Idle;
+	//RespawnState = BrontoState::Idle;
 	ChangeAnimationState("Idle");
 }
 
@@ -324,7 +309,7 @@ void BrontoBurt::WaveFlightFallStart()
 	++WaveFlightCountBasedFall;
 
 	ChangeGravityDistance = RespawnLocation.Y + BRONTOWAVEFLIGHTCHANGEHEIGHT;
-	RespawnState = BrontoState::WaveFlightFall;
+	//RespawnState = BrontoState::WaveFlightFall;
 	ChangeAnimationState("WaveFlightFall");
 }
 

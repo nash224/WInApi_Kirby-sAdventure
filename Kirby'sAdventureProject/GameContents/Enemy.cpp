@@ -154,7 +154,7 @@ void Enemy::RespawnTrigger(const std::string& _StateName)
 	RespawnLocationOverCamera();
 	if (true == IsRespawnLocationOverCamera)
 	{
-		SetState();
+		ChangeRespawnState();
 		On();
 		SetPos(RespawnLocation);
 		SetDirectionAndFirstAnimation(_StateName);

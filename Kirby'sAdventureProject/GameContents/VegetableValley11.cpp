@@ -47,22 +47,22 @@ void VegetableValley11::Start()
 
 	// 各1
 	WaddleDee* WaddleDee1 = GameEngineLevel::CreateActor<WaddleDee>();
-	WaddleDee1->init("VegetableValley1_1Pixel.bmp", float4{ 600, 384 });
+	WaddleDee1->init("VegetableValley1_1Pixel.bmp", NormalState::Walk ,  float4{ 600, 384 });
 	LevelEnemy.insert(std::make_pair("WaddleDee1", WaddleDee1));
 
 	// 各2
 	BroomHatter* BroomHatter1 = GameEngineLevel::CreateActor<BroomHatter>();
-	BroomHatter1->init("VegetableValley1_1Pixel.bmp", float4{ 500, 384 });
+	BroomHatter1->init("VegetableValley1_1Pixel.bmp", NormalState::Idle, float4{ 500, 384 });
 	LevelEnemy.insert(std::make_pair("BroomHatter1", BroomHatter1));
 
 	// 各3
 	Kabu* Kabu1 = GameEngineLevel::CreateActor<Kabu>();
-	Kabu1->init("VegetableValley1_1Pixel.bmp", float4{ 400, 384 });
+	Kabu1->init("VegetableValley1_1Pixel.bmp", NormalState::Idle, float4{ 400, 384 });
 	LevelEnemy.insert(std::make_pair("Kabu1", Kabu1));
 
 	// 技飘各 4-1
 	PoppyBrosJr* PoppyBrosJr1 = GameEngineLevel::CreateActor<PoppyBrosJr>();
-	PoppyBrosJr1->init("VegetableValley1_1Pixel.bmp", float4{ 900, 384 });
+	PoppyBrosJr1->init("VegetableValley1_1Pixel.bmp", NormalState::Idle, float4{ 900, 384 });
 	LevelEnemy.insert(std::make_pair("PoppyBrosJr1", PoppyBrosJr1));
 
 	// 傍吝各 1
@@ -146,7 +146,7 @@ void VegetableValley11::Update(float _Delta)
 	Enemy* Scarfy1 = LevelEnemy.find("Scarfy1")->second;
 	if (false == Scarfy1->IsUpdate())
 	{
-		Scarfy1->RespawnTrigger("Idle");         
+		Scarfy1->RespawnTrigger("Idle");
 	}
 }
 

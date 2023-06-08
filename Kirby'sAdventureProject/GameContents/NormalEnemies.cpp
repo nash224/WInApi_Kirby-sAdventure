@@ -12,14 +12,19 @@ NormalEnemies::~NormalEnemies()
 }
 
 
-void NormalEnemies::init(const std::string& _FileName, const float4& _Pos)
+void NormalEnemies::init(const std::string& _FileName, NormalState _State, const float4& _Pos)
 {
 	Attribute = AttributeType::None;
 
 	SetGroundTexture(_FileName);
 	RespawnLocation = _Pos;
+	RespawnState = _State;
 	SetPos(RespawnLocation);
+	ChangeState(_State);
 }
+
+
+/* �ѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤ� */
 
 void NormalEnemies::StateUpdate(float _Delta)
 {
@@ -55,3 +60,10 @@ void NormalEnemies::ChangeState(NormalState _State)
 
 	State = _State;
 }
+
+void NormalEnemies::ChangeRespawnState()
+{
+	ChangeState(RespawnState);
+}
+
+/* �ѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤ� */

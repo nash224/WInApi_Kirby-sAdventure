@@ -45,9 +45,13 @@ protected:
 	BrontoState State = BrontoState::Max;
 	BrontoState RespawnState = BrontoState::Max;
 
+	// 업데이트 및 리스폰
 	void StateUpdate(float _Delta) override;
 	void ChangeState(BrontoState _State);
+	void ChangeRespawnState() override;
 
+
+	// 상태패턴
 	void IdleStart();
 	void RiseStart();
 	void FlyStart();
@@ -68,10 +72,6 @@ private:
 	int WaveFlightCountBasedFall = 0;
 	float RiseDistance = 0.0f;
 	float ParabolicRiseStartDistance = 0.0f;
-
-
-	void GetRespawnState();
-	void CheckOverScreen() override;
 
 
 	void Start() override;

@@ -30,14 +30,16 @@ public:
 
 
 
-	virtual void init(const std::string& _FileName, const float4& _Pos);
+	virtual void init(const std::string& _FileName, NormalState _State, const float4& _Pos);
 
 protected:
 	NormalState State = NormalState::Max;
+	NormalState RespawnState = NormalState::Max;
 
 
 	void StateUpdate(float _Delta) override;
 	void ChangeState(NormalState _State);
+	void ChangeRespawnState() override;
 
 
 	virtual void IdleStart() {}

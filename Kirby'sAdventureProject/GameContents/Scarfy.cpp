@@ -65,15 +65,18 @@ void Scarfy::Start()
 
 void Scarfy::init(const std::string& _FileName, ScarfyState _State, const float4& _Pos)
 {
-
 	Attribute = AttributeType::None;
 
 	SetGroundTexture(_FileName);
 	RespawnLocation = _Pos;
+	RespawnState = _State;
 	SetPos(RespawnLocation);
 	ChangeState(_State);
 }
 
+
+
+/* �ѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤ� */
 
 void Scarfy::Update(float _Delta)
 {
@@ -83,7 +86,6 @@ void Scarfy::Update(float _Delta)
 
 	CheckOverScreen();
 }
-
 
 void Scarfy::StateUpdate(float _Delta)
 {
@@ -101,7 +103,7 @@ void Scarfy::StateUpdate(float _Delta)
 
 void Scarfy::ChangeState(ScarfyState _State)
 {
-	if (_State != State)
+	if (_State != State || _State == ScarfyState::Idle)
 	{
 		switch (_State)
 		{
@@ -118,7 +120,12 @@ void Scarfy::ChangeState(ScarfyState _State)
 	State = _State;
 }
 
+void Scarfy::ChangeRespawnState()
+{
+	ChangeState(RespawnState);
+}
 
+/* �ѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤ� */
 
 
 void Scarfy::IdleStart()
@@ -339,7 +346,6 @@ void Scarfy::BombUpdate(float _Delta)
 	if (30 == BombCount)
 	{
 		// effect
-		ChangeState(ScarfyState::Idle);
 		Off();
 		return;
 	}
