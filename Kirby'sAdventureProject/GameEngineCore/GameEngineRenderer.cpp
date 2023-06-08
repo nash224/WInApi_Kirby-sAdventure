@@ -288,7 +288,7 @@ void GameEngineRenderer::CreateAnimationToFrame(
 	GameEngineRenderer::Animation& Animation = AllAnimation[UpperName];
 
 	Animation.Sprite = Sprite;
-	Animation.StartFrame = _Frame[0];
+	Animation.StartFrame = 0;
 	Animation.EndFrame = _Frame.size() - 1;
 
 	// 0 - 5 - 5

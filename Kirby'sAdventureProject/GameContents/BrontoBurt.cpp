@@ -84,8 +84,6 @@ void BrontoBurt::init(const std::string& _FileName, BrontoState _State, const fl
 
 void BrontoBurt::Update(float _Delta)
 {
-	GroundCheck();
-
 	StateUpdate(_Delta);
 
 	CheckOverScreen();
@@ -108,7 +106,7 @@ void BrontoBurt::StateUpdate(float _Delta)
 
 void BrontoBurt::ChangeState(BrontoState _State)
 {
-	if (_State != State || _State == BrontoState::WaveFlightFall)
+	if (_State != State || _State == RespawnState)
 	{
 		switch (_State)
 		{

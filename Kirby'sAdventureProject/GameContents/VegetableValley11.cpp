@@ -18,6 +18,7 @@
 #include "PoppyBrosJr.h"
 #include "BrontoBurt.h"
 #include "Scarfy.h"
+#include "WaddleDoo.h"
 #include "PlayUIManager.h"
 
 #include <map>
@@ -63,7 +64,7 @@ void VegetableValley11::Start()
 	Kabu1->init("VegetableValley1_1Pixel.bmp", NormalState::Idle, float4{ 400, 384 });
 	LevelEnemy.insert(std::make_pair("Kabu1", Kabu1));
 
-	// 技飘各 4-1
+	// 各 4-1
 	PoppyBrosJr* PoppyBrosJr1 = GameEngineLevel::CreateActor<PoppyBrosJr>();
 	PoppyBrosJr1->init("VegetableValley1_1Pixel.bmp", NormalState::Idle, float4{ 900, 384 });
 	LevelEnemy.insert(std::make_pair("PoppyBrosJr1", PoppyBrosJr1));
@@ -82,6 +83,11 @@ void VegetableValley11::Start()
 	Scarfy* Scarfy1 = GameEngineLevel::CreateActor<Scarfy>();
 	Scarfy1->init("VegetableValley1_1Pixel.bmp", ScarfyState::Idle, float4{ 550, 220 });
 	LevelEnemy.insert(std::make_pair("Scarfy1", Scarfy1));
+
+	// 颇况各 1
+	WaddleDoo* WaddleDoo1 = GameEngineLevel::CreateActor<WaddleDoo>();
+	WaddleDoo1->init("VegetableValley1_1Pixel.bmp", WaddleDooState::Walk, float4{ 1200, 384 });
+	LevelEnemy.insert(std::make_pair("WaddleDoo1", WaddleDoo1));
 
 
 	GameEngineLevel::CreateActor<PlayUIManager>();

@@ -7,9 +7,6 @@
     <ClInclude Include="CraneFever.h">
       <Filter>Global\BonusGame</Filter>
     </ClInclude>
-    <ClInclude Include="EggCatcher.h">
-      <Filter>Global\BonusGame</Filter>
-    </ClInclude>
     <ClInclude Include="Museums.h">
       <Filter>Global\BonusGame</Filter>
     </ClInclude>
@@ -40,7 +37,7 @@
     <ClInclude Include="BroomHatter.h">
       <Filter>Global\Object\Enemy\NomalEnemy</Filter>
     </ClInclude>
-    <ClInclude Include="PowerEnemy.h">
+    <ClInclude Include="PowerEnemies.h">
       <Filter>Global\Object\Enemy\PowerEnemy</Filter>
     </ClInclude>
     <ClInclude Include="Sparky.h">
@@ -147,9 +144,6 @@
     <ClCompile Include="CraneFever.cpp">
       <Filter>Global\BonusGame</Filter>
     </ClCompile>
-    <ClCompile Include="EggCatcher.cpp">
-      <Filter>Global\BonusGame</Filter>
-    </ClCompile>
     <ClCompile Include="Museums.cpp">
       <Filter>Global\BonusGame</Filter>
     </ClCompile>
@@ -180,7 +174,7 @@
     <ClCompile Include="BroomHatter.cpp">
       <Filter>Global\Object\Enemy\NomalEnemy</Filter>
     </ClCompile>
-    <ClCompile Include="PowerEnemy.cpp">
+    <ClCompile Include="PowerEnemies.cpp">
       <Filter>Global\Object\Enemy\PowerEnemy</Filter>
     </ClCompile>
     <ClCompile Include="Sparky.cpp">

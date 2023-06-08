@@ -211,10 +211,6 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="EggCatcher.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
     <ClInclude Include="EndingLevel.h">
       <SubType>
       </SubType>
@@ -295,7 +291,7 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="PowerEnemy.h">
+    <ClInclude Include="PowerEnemies.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -398,10 +394,6 @@
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="EggCatcher.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
     <ClCompile Include="EndingLevel.cpp">
       <SubType>
       </SubType>
@@ -484,7 +476,7 @@
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="PowerEnemy.cpp">
+    <ClCompile Include="PowerEnemies.cpp">
       <SubType>
       </SubType>
     </ClCompile>

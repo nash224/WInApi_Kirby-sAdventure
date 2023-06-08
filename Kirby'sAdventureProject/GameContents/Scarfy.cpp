@@ -81,8 +81,6 @@ void Scarfy::init(const std::string& _FileName, ScarfyState _State, const float4
 
 void Scarfy::Update(float _Delta)
 {
-	GroundCheck();
-
 	StateUpdate(_Delta);
 
 	CheckOverScreen();
@@ -104,7 +102,7 @@ void Scarfy::StateUpdate(float _Delta)
 
 void Scarfy::ChangeState(ScarfyState _State)
 {
-	if (_State != State || _State == ScarfyState::Idle)
+	if (_State != State || _State == RespawnState)
 	{
 		switch (_State)
 		{

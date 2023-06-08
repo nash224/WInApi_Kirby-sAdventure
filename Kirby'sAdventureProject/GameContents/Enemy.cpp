@@ -152,7 +152,7 @@ void Enemy::RespawnTrigger()
 	float4 CameraPos = GetLevel()->GetMainCamera()->GetPos();
 
 	RespawnLocationOverCamera();
-	if (true == IsRespawnLocationOverCamera)
+	if (true == IsRespawnLocationOverCamera && false == IsUpdate())
 	{
 		ChangeRespawnState();
 		On();
