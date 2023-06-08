@@ -242,6 +242,20 @@ void WaddleDoo::JumpUpdate(float _Delta)
 	}
 
 
+	if (true == CeilingCheck())
+	{
+		AbleJump = false;
+		GravityReset();
+	}
+
+	if (true == AbleJump)
+	{
+		float JumpPower = WADDLEDOOJUMPDISTANCE / WADDLEDOOGRAVITYTIMETOMAXSPEED;
+		CurrentJumpDistance += JumpPower * _Delta;
+		SetGravityVector(float4::UP * CurrentJumpDistance);
+	}
+
+
 	if (true == CheckLeftWall())
 	{
 		Dir = ActorDir::Right;
@@ -262,13 +276,6 @@ void WaddleDoo::JumpUpdate(float _Delta)
 		CurrentSpeed = WADDLEDOOSPEED;
 	}
 
-
-	if (true == AbleJump)
-	{
-		float JumpPower = WADDLEDOOJUMPDISTANCE / WADDLEDOOGRAVITYTIMETOMAXSPEED;
-		CurrentJumpDistance += JumpPower * _Delta;
-		SetGravityVector(float4::UP * CurrentJumpDistance);
-	}
 
 
 	if (false == AbleJump)

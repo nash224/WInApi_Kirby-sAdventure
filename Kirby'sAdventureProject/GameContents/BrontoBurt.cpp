@@ -136,7 +136,6 @@ void BrontoBurt::IdleStart()
 {
 	StateTime = 0.0f;
 	IsChangeState = false;
-	//RespawnState = BrontoState::Idle;
 	ChangeAnimationState("Idle");
 }
 

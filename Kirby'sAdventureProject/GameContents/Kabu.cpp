@@ -173,6 +173,7 @@ void Kabu::JumpUpdate(float _Delta)
 		return;
 	}
 
+
 	if (true == AbleJump)
 	{
 		float JumpPower = KABUJUMPDISTANCE / KABUJUMPTIME;
