@@ -51,10 +51,7 @@ protected:
 	HotHeadState State = HotHeadState::Max;
 	HotHeadState RespawnState = HotHeadState::Max;
 
-	bool IsGravityReverse = false;
 	int WobbleCount = 0;
-	int EndCount = -1;
-	float CurrentJumpDistance = 0.0f;
 
 	void StateUpdate(float _Delta) override;
 	void ChangeState(HotHeadState _State);

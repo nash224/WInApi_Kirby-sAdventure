@@ -14,6 +14,8 @@
 
 #define WADDLEDOOWOBBLETIME 0.08f
 
+#define WADDLEDOOACTIVATEABILITYTIME 1.5f
+
 
 
 enum class WaddleDooState
@@ -45,7 +47,6 @@ protected:
 	WaddleDooState State = WaddleDooState::Max;
 	WaddleDooState RespawnState = WaddleDooState::Max;
 
-	bool IsGravityReverse = false;
 	int WobbleCount = 0;
 	size_t WobbleFrame = -1;
 	int BombCount = -1;

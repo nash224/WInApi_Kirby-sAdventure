@@ -344,7 +344,7 @@ void WaddleDoo::ActivateAbilityUpdate(float _Delta)
 {
 	StateTime += _Delta;
 
-	if (StateTime > 1.5f)
+	if (StateTime > WADDLEDOOACTIVATEABILITYTIME)
 	{
 		IsChangeState = true;
 	}
