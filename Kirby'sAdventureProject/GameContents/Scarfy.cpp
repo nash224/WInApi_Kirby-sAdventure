@@ -339,7 +339,9 @@ void Scarfy::BombUpdate(float _Delta)
 	if (30 == BombCount)
 	{
 		// effect
+		ChangeState(ScarfyState::Idle);
 		Off();
+		return;
 	}
 }
 

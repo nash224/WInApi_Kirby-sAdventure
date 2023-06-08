@@ -146,7 +146,7 @@ void VegetableValley11::Update(float _Delta)
 	Enemy* Scarfy1 = LevelEnemy.find("Scarfy1")->second;
 	if (false == Scarfy1->IsUpdate())
 	{
-		Scarfy1->RespawnTrigger("Idle");
+		Scarfy1->RespawnTrigger("Idle");         
 	}
 }
 

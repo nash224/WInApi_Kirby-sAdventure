@@ -154,6 +154,7 @@ void Enemy::RespawnTrigger(const std::string& _StateName)
 	RespawnLocationOverCamera();
 	if (true == IsRespawnLocationOverCamera)
 	{
+		SetState();
 		On();
 		SetPos(RespawnLocation);
 		SetDirectionAndFirstAnimation(_StateName);
@@ -184,7 +185,7 @@ void Enemy::SetDirectionAndFirstAnimation(const std::string& _StateName)
 	}
 	else
 	{
-		MsgBoxAssert("몬스터의 리스폰 위치가 잘못되었습니다.");
+		MsgBoxAssert("몬스터의 리스폰 위치가 잘못 지정 되었습니다.");
 		return;
 	}
 }

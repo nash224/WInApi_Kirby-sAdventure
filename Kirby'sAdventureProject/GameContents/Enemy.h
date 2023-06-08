@@ -49,6 +49,7 @@ protected:
 	float4 RespawnLocation = float4::ZERO;
 	bool IsRespawnLocationOverCamera = true;
 	virtual void CheckOverScreen();
+	virtual void SetState() {}
 	void RespawnLocationOverCamera();
 
 
