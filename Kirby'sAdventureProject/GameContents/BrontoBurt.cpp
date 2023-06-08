@@ -75,6 +75,7 @@ void BrontoBurt::init(const std::string& _FileName, BrontoState _State, const fl
 	RespawnState = _State;
 	SetPos(RespawnLocation);
 	ChangeState(_State);
+	StringRespawnState = CurState;
 }
 
 

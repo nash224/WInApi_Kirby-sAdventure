@@ -17,6 +17,21 @@ VegetableValleyPlayLevel::~VegetableValleyPlayLevel()
 }
 
 
+
+void VegetableValleyPlayLevel::CheckRespawnEnemy()
+{
+	std::map<std::string, Enemy*>::iterator StartIter = LevelEnemy.begin();
+	std::map<std::string, Enemy*>::iterator EndtIter = LevelEnemy.end();
+
+	for (; StartIter != EndtIter; ++StartIter)
+	{
+		Enemy* Enemy = StartIter->second;
+		Enemy->RespawnTrigger();
+	}
+}
+
+
+
 void VegetableValleyPlayLevel::CreateAndSetupBackgroundEffectRenderer(
 	const std::string& _AnimationName,
 	const std::string& _FileName,

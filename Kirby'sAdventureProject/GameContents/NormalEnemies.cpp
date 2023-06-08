@@ -21,6 +21,7 @@ void NormalEnemies::init(const std::string& _FileName, NormalState _State, const
 	RespawnState = _State;
 	SetPos(RespawnLocation);
 	ChangeState(_State);
+	StringRespawnState = CurState;
 }
 
 

@@ -146,7 +146,7 @@ void Enemy::RespawnLocationOverCamera()
 }
 
 
-void Enemy::RespawnTrigger(const std::string& _StateName)
+void Enemy::RespawnTrigger()
 {
 	float4 WinScale = GameEngineWindow::MainWindow.GetScale();
 	float4 CameraPos = GetLevel()->GetMainCamera()->GetPos();
@@ -157,7 +157,7 @@ void Enemy::RespawnTrigger(const std::string& _StateName)
 		ChangeRespawnState();
 		On();
 		SetPos(RespawnLocation);
-		SetDirectionAndFirstAnimation(_StateName);
+		SetDirectionAndFirstAnimation(StringRespawnState);
 	}
 }
 

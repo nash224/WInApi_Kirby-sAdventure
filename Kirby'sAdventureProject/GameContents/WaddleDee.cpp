@@ -43,7 +43,6 @@ void WaddleDee::Start()
 	SetCheckPoint(Scale);
 
 	Dir = ActorDir::Left;
-	MainRenderer->ChangeAnimation("Left_Walk");
 
 	BodyCollision = CreateCollision(CollisionOrder::MonsterBody);
 	BodyCollision->SetCollisionScale(Scale);
@@ -55,14 +54,19 @@ void WaddleDee::Update(float _Delta)
 {
 	GroundCheck();
 
-	WaddleDeeMovement(_Delta);
+	StateUpdate(_Delta);
 
 	CheckOverScreen();
 }
 
 
+void WaddleDee::WalkStart()
+{
+	StateTime = 0.0f;
+	ChangeAnimationState("Walk");
+}
 
-void WaddleDee::WaddleDeeMovement(float _Delta)
+void WaddleDee::WalkUpdate(float _Delta)
 {
 	if (false == GetGroundState())
 	{

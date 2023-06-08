@@ -72,6 +72,7 @@ void Scarfy::init(const std::string& _FileName, ScarfyState _State, const float4
 	RespawnState = _State;
 	SetPos(RespawnLocation);
 	ChangeState(_State);
+	StringRespawnState = CurState;
 }
 
 

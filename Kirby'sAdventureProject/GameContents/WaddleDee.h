@@ -18,7 +18,9 @@ public:
 	WaddleDee& operator=(WaddleDee&& _Other) noexcept = delete;
 
 protected:
-	void WaddleDeeMovement(float _Delta);
+
+	void WalkStart() override;
+	void WalkUpdate(float _Delta) override;
 
 private:
 	void Start() override;

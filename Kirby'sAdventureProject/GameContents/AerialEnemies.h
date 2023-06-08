@@ -18,8 +18,6 @@ public:
 	virtual void init(const std::string& _FileName, const float4& _Pos);
 
 protected:
-	std::string CurState = "";
-
 	float ChangeGravityDistance = 0.0f;
 
 private:

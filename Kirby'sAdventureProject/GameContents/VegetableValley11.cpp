@@ -20,6 +20,8 @@
 #include "Scarfy.h"
 #include "PlayUIManager.h"
 
+#include <map>
+
 
 VegetableValley11::VegetableValley11() 
 {
@@ -44,6 +46,7 @@ void VegetableValley11::Start()
 
 	LevelPlayer = GameEngineLevel::CreateActor<Kirby>();
 	LevelPlayer->SetGroundTexture("VegetableValley1_1Pixel.bmp");
+
 
 	// 몹1
 	WaddleDee* WaddleDee1 = GameEngineLevel::CreateActor<WaddleDee>();
@@ -105,50 +108,10 @@ void VegetableValley11::Update(float _Delta)
 		LevelBackGround->SwitchRender();
 	}
 
-
-	// 초기 트리거를 std::string 으로 수정 예정
-	Enemy* WaddleDee1 = LevelEnemy.find("WaddleDee1")->second;
-	if (false == WaddleDee1->IsUpdate())
-	{
-		WaddleDee1->RespawnTrigger("Walk");
-	}
-
-	Enemy* BroomHatter1 = LevelEnemy.find("BroomHatter1")->second;
-	if (false == BroomHatter1->IsUpdate())
-	{
-		BroomHatter1->RespawnTrigger("Idle");
-	}
-
-	Enemy* Kabu1 = LevelEnemy.find("Kabu1")->second;
-	if (false == Kabu1->IsUpdate())
-	{
-		Kabu1->RespawnTrigger("Idle");
-	}
-
-	Enemy* PoppyBrosJr1 = LevelEnemy.find("PoppyBrosJr1")->second;
-	if (false == PoppyBrosJr1->IsUpdate())
-	{
-		PoppyBrosJr1->RespawnTrigger("Idle");
-	}
-
-	Enemy* BrontoBurt1 = LevelEnemy.find("BrontoBurt1")->second;
-	if (false == BrontoBurt1->IsUpdate())
-	{
-		BrontoBurt1->RespawnTrigger("Idle");
-	}
-
-	Enemy* BrontoBurt2 = LevelEnemy.find("BrontoBurt2")->second;
-	if (false == BrontoBurt2->IsUpdate())
-	{
-		BrontoBurt2->RespawnTrigger("WaveFlightFall");
-	}
-
-	Enemy* Scarfy1 = LevelEnemy.find("Scarfy1")->second;
-	if (false == Scarfy1->IsUpdate())
-	{
-		Scarfy1->RespawnTrigger("Idle");
-	}
+	CheckRespawnEnemy();
 }
+
+
 
 
 void VegetableValley11::LevelStart(GameEngineLevel* _PrevLevel)

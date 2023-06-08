@@ -30,6 +30,9 @@ protected:
 
 	float4 BackGroundScale = float4::ZERO;
 
+
+	void CheckRespawnEnemy();
+
 	void CreateAndSetupBackgroundEffectRenderer(
 		const std::string& _AnimationName,
 		const std::string& _FileName,
