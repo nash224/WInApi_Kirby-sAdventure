@@ -1,7 +1,7 @@
 #pragma once
 #include "PowerEnemies.h"
 
-#define WADDLEDOOSPEED 120.0f
+#define WADDLEDOOSPEED 100.0f
 
 
 #define WADDLEDOOGRAVITYTIMETOMAXSPEED 0.3f

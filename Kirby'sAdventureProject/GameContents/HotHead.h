@@ -1,21 +1,23 @@
 #pragma once
 #include "PowerEnemies.h"
 
-#define HotHeadSPEED 120.0f
+#define HOTHEADSPEED 60.0f
+
+#define HOTHEADRANGEDETECTION 300.0f
+#define HOTHEADFIREBALLRANGEDETECTION 100.0f
 
 
-#define HotHeadWALKINGCHANGESTATETIME 3.0f
-#define HotHeadWALKINGCHANGEANIMATIONTIME 0.2f
-#define HotHeadJUMPCHANGEANIMATIONTIME 0.1f
+#define HOTHEADWALKINGCHANGESTATETIME 4.0f
+#define HOTHEADWALKINGCHANGEANIMATIONTIME 0.3f
 
 
-#define HotHeadFireballChargingtime 0.5f
-#define HotHeadFlameBreathingtime 0.8f 
+#define HOTHEADFIREBALLCHARGINGTIME 0.5f
+#define HOTHEADFIREBALLTIME 0.8f 
 
-#define HotHeadFlameBreathChargingtime 0.8f
-#define HotHeadFlameBreathingtime 4.0f 
+#define HOTHEADFLAMEBREATHCHARGINGTIME 0.8f
+#define HOTHEADFLAMEBREATHINGTIME 4.0f 
 
-#define HotHeadWOBBLETIME 0.08f
+#define HOTHEADWOBBLETIME 0.08f
 
 
 

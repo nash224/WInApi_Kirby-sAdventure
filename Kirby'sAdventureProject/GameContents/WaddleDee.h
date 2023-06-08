@@ -1,7 +1,7 @@
 #pragma once
 #include "NormalEnemies.h"
 
-#define WaddleSpeed 100.0f
+#define WaddleSpeed 80.0f
 
 // Ό³Έν :
 class WaddleDee : public NormalEnemies

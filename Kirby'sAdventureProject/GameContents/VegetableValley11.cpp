@@ -19,6 +19,7 @@
 #include "BrontoBurt.h"
 #include "Scarfy.h"
 #include "WaddleDoo.h"
+#include "HotHead.h"
 #include "PlayUIManager.h"
 
 #include <map>
@@ -88,6 +89,11 @@ void VegetableValley11::Start()
 	WaddleDoo* WaddleDoo1 = GameEngineLevel::CreateActor<WaddleDoo>();
 	WaddleDoo1->init("VegetableValley1_1Pixel.bmp", WaddleDooState::Walk, float4{ 1200, 384 });
 	LevelEnemy.insert(std::make_pair("WaddleDoo1", WaddleDoo1));
+
+	// ÆÄ¿ö¸÷ 2
+	HotHead* HotHead1 = GameEngineLevel::CreateActor<HotHead>();
+	HotHead1->init("VegetableValley1_1Pixel.bmp", HotHeadState::Walk, float4{ 1300, 384 });
+	LevelEnemy.insert(std::make_pair("HotHead1", HotHead1));
 
 
 	GameEngineLevel::CreateActor<PlayUIManager>();

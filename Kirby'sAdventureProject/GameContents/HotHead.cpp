@@ -34,20 +34,20 @@ void HotHead::Start()
 	ResourcesManager::GetInst().SpriteFileLoad("Left_PowerEnemy.bmp", "Resources\\Unit\\Grunt", 6, 5);
 	ResourcesManager::GetInst().SpriteFileLoad("Right_PowerEnemy.bmp", "Resources\\Unit\\Grunt", 6, 5);
 
-	MainRenderer->CreateAnimation("Left_Walk", "Left_PowerEnemy.bmp", 21, 20, HotHeadWALKINGCHANGEANIMATIONTIME, true);
-	MainRenderer->CreateAnimation("Right_Walk", "Right_PowerEnemy.bmp", 21, 20, HotHeadWALKINGCHANGEANIMATIONTIME, true);
+	MainRenderer->CreateAnimation("Left_Walk", "Left_PowerEnemy.bmp", 6, 7, HOTHEADWALKINGCHANGEANIMATIONTIME, true);
+	MainRenderer->CreateAnimation("Right_Walk", "Right_PowerEnemy.bmp", 6, 7, HOTHEADWALKINGCHANGEANIMATIONTIME, true);
 
-	MainRenderer->CreateAnimation("Left_FireBallCharging", "Left_PowerEnemy.bmp", 21, 20, HotHeadJUMPCHANGEANIMATIONTIME, true);
-	MainRenderer->CreateAnimation("Right_FireBallCharging", "Right_PowerEnemy.bmp", 21, 20, HotHeadJUMPCHANGEANIMATIONTIME, true);
+	MainRenderer->CreateAnimation("Left_FireBallCharging", "Left_PowerEnemy.bmp", 8, 9, HOTHEADWOBBLETIME, true);
+	MainRenderer->CreateAnimation("Right_FireBallCharging", "Right_PowerEnemy.bmp", 8, 9, HOTHEADWOBBLETIME, true);
 
-	MainRenderer->CreateAnimationToFrame("Left_FireBall", "Left_PowerEnemy.bmp", { 20 , 22 }, HotHeadWOBBLETIME, true);
-	MainRenderer->CreateAnimationToFrame("Right_FireBall", "Right_PowerEnemy.bmp", { 20 , 22 }, HotHeadWOBBLETIME, true);
+	MainRenderer->CreateAnimation("Left_FireBall", "Left_PowerEnemy.bmp", 10, 11, HOTHEADWOBBLETIME, true);
+	MainRenderer->CreateAnimation("Right_FireBall", "Right_PowerEnemy.bmp", 10, 11, HOTHEADWOBBLETIME, true);
 
-	MainRenderer->CreateAnimation("Left_FlameBreathCharging", "Left_PowerEnemy.bmp", 20, 20, 0.1f, false);
-	MainRenderer->CreateAnimation("Right_FlameBreathCharging", "Right_PowerEnemy.bmp", 20, 20, 0.1f, false);
+	MainRenderer->CreateAnimation("Left_FlameBreathCharging", "Left_PowerEnemy.bmp", 8, 9, HOTHEADWOBBLETIME, true);
+	MainRenderer->CreateAnimation("Right_FlameBreathCharging", "Right_PowerEnemy.bmp", 8, 9, HOTHEADWOBBLETIME, true);
 
-	MainRenderer->CreateAnimation("Left_FlameBreath", "Left_PowerEnemy.bmp", 20, 20, 0.1f, false);
-	MainRenderer->CreateAnimation("Right_FlameBreath", "Right_PowerEnemy.bmp", 20, 20, 0.1f, false);
+	MainRenderer->CreateAnimation("Left_FlameBreath", "Left_PowerEnemy.bmp", 10, 11, HOTHEADWOBBLETIME, true);
+	MainRenderer->CreateAnimation("Right_FlameBreath", "Right_PowerEnemy.bmp", 10, 11, HOTHEADWOBBLETIME, true);
 
 
 	MainRenderer->SetRenderScaleToTexture();
@@ -135,6 +135,7 @@ void HotHead::WalkStart()
 	StateTime = 0.0f;
 	IsChangeState = false;
 	GravityReset();
+	GetKirbyDirection();
 	ChangeAnimationState("Walk");
 }
 
@@ -142,20 +143,18 @@ void HotHead::WalkUpdate(float _Delta)
 {
 	StateTime += _Delta;
 
-	if (StateTime > HotHeadWALKINGCHANGESTATETIME)
+	if (StateTime > HOTHEADWALKINGCHANGESTATETIME)
 	{
 		StateTime = 0.0f;
 
-		int ChangeStateNumber = GameEngineRandom::MainRandom.RandomInt(1, 4);
-
-		if (1 == ChangeStateNumber / 4)
-		{
-			ChangeState(HotHeadState::FireBallCharging);
-			return;
-		}
-		else
+		if(HOTHEADFIREBALLRANGEDETECTION > abs(Kirby::GetMainKirby()->GetPos().X - GetPos().X))
 		{
 			ChangeState(HotHeadState::FlameBreathCharging);
+			return;
+		}
+		else if (HOTHEADRANGEDETECTION > abs(Kirby::GetMainKirby()->GetPos().X - GetPos().X))
+		{
+			ChangeState(HotHeadState::FireBallCharging);
 			return;
 		}
 	}
@@ -173,11 +172,11 @@ void HotHead::WalkUpdate(float _Delta)
 
 	if (ActorDir::Left == Dir)
 	{
-		CurrentSpeed = -HotHeadSPEED;
+		CurrentSpeed = -HOTHEADSPEED;
 	}
 	else if (ActorDir::Right == Dir)
 	{
-		CurrentSpeed = HotHeadSPEED;
+		CurrentSpeed = HOTHEADSPEED;
 	}
 
 
@@ -189,7 +188,7 @@ void HotHead::WalkUpdate(float _Delta)
 		Gravity(_Delta);
 	}
 	VerticalUpdate(_Delta);
-
+	
 	HorizontalUpdate(_Delta);
 }
 
@@ -198,34 +197,24 @@ void HotHead::FireBallChargingStart()
 {
 	StateTime = 0.0f;
 	IsChangeState = false;
-	AbleJump = true;
-	EndCount = 0;
-	CurrentJumpDistance = 0.0f;
-	GravityReset();
-	ChangeAnimationState("FireBallCharging");
+	GetKirbyDirection();
+	ChangeAnimationState("FireBall");
 }
 
 void HotHead::FireBallChargingUpdate(float _Delta)
 {
 	StateTime += _Delta;
 
-	if (StateTime > HotHeadJUMPCHANGEANIMATIONTIME)
+	if (StateTime > HOTHEADFIREBALLCHARGINGTIME)
 	{
-		StateTime = 0.0f;
-		++EndCount;
+		IsChangeState = true;
 	}
-
 
 	if (true == IsChangeState)
 	{
-		ChangeState(HotHeadState::FireBallCharging);
+		ChangeState(HotHeadState::FireBall);
 		return;
 	}
-
-
-	BlockedByGround();
-
-	HorizontalUpdate(_Delta);
 }
 
 
@@ -241,46 +230,44 @@ void HotHead::FireBallUpdate(float _Delta)
 {
 	StateTime += _Delta;
 
-	if (StateTime > HotHeadWOBBLETIME)
+	if (StateTime > HOTHEADWOBBLETIME)
 	{
 		StateTime = 0.0f;
-
 		++WobbleCount;
-		if (1 == WobbleCount % 2)
+
+		if (ActorDir::Left == Dir)
 		{
-			AddPos(float4::UP * 3.0f);
+			if (1 == WobbleCount % 3)
+			{
+				AddPos(float4::LEFT * 6.0f);
+			}
+			else if (2 == WobbleCount % 3)
+			{
+				AddPos(float4::RIGHT * 4.0f);
+			}
+			else if (0 == WobbleCount % 3)
+			{
+				AddPos(float4::RIGHT * 2.0f);
+			}
 		}
-		else
+		else if (ActorDir::Right == Dir)
 		{
-			AddPos(float4::DOWN * 3.0f);
+			if (1 == WobbleCount % 3)
+			{
+				AddPos(float4::RIGHT * 6.0f);
+			}
+			else if (2 == WobbleCount % 3)
+			{
+				AddPos(float4::LEFT * 4.0f);
+			}
+			else if (0 == WobbleCount % 3)
+			{
+				AddPos(float4::LEFT * 2.0f);
+			}
 		}
 	}
 
-	if (20 == WobbleCount)
-	{
-		IsChangeState = true;
-	}
-
-	if (true == IsChangeState)
-	{
-		//ChangeState(HotHeadState::);
-		return;
-	}
-}
-
-
-void HotHead::FlameBreathChargingStart()
-{
-	StateTime = 0.0f;
-	IsChangeState = false;
-	ChangeAnimationState("FlameBreathCharging");
-}
-
-void HotHead::FlameBreathChargingUpdate(float _Delta)
-{
-	StateTime += _Delta;
-
-	if (StateTime > 1.5f)
+	if (9 == WobbleCount)
 	{
 		IsChangeState = true;
 	}
@@ -292,11 +279,11 @@ void HotHead::FlameBreathChargingUpdate(float _Delta)
 	}
 }
 
-
 void HotHead::FlameBreathChargingStart()
 {
 	StateTime = 0.0f;
 	IsChangeState = false;
+	GetKirbyDirection();
 	ChangeAnimationState("FlameBreathCharging");
 }
 
@@ -304,7 +291,7 @@ void HotHead::FlameBreathChargingUpdate(float _Delta)
 {
 	StateTime += _Delta;
 
-	if (StateTime > 1.5f)
+	if (StateTime > HOTHEADFLAMEBREATHCHARGINGTIME)
 	{
 		IsChangeState = true;
 	}
@@ -321,6 +308,7 @@ void HotHead::FlameBreathStart()
 {
 	StateTime = 0.0f;
 	IsChangeState = false;
+	WobbleCount = 0;
 	ChangeAnimationState("FlameBreath");
 }
 
@@ -328,7 +316,44 @@ void HotHead::FlameBreathUpdate(float _Delta)
 {
 	StateTime += _Delta;
 
-	if (StateTime > 1.5f)
+	if (StateTime > HOTHEADWOBBLETIME)
+	{
+		StateTime = 0.0f;
+		++WobbleCount;
+
+		if (ActorDir::Left == Dir)
+		{
+			if (1 == WobbleCount % 3)
+			{
+				AddPos(float4::LEFT * 6.0f);
+			}
+			else if (2 == WobbleCount % 3)
+			{
+				AddPos(float4::RIGHT * 4.0f);
+			}
+			else if (0 == WobbleCount % 3)
+			{
+				AddPos(float4::RIGHT * 2.0f);
+			}
+		}
+		else if (ActorDir::Right == Dir)
+		{
+			if (1 == WobbleCount % 3)
+			{
+				AddPos(float4::RIGHT * 6.0f);
+			}
+			else if (2 == WobbleCount % 3)
+			{
+				AddPos(float4::LEFT * 4.0f);
+			}
+			else if (0 == WobbleCount % 3)
+			{
+				AddPos(float4::LEFT * 2.0f);
+			}
+		}
+	}
+
+	if (45 == WobbleCount)
 	{
 		IsChangeState = true;
 	}
