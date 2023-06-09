@@ -16,6 +16,7 @@ enum class RenderOrder
 	AbillityEffect,
 	HitEffect,
 	PlayUI,
+	DebugRender,
 };
 
 enum class CollisionOrder

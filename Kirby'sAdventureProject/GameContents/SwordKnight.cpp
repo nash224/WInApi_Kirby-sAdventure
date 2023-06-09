@@ -334,12 +334,11 @@ void SwordKnight::ReversingSlashUpdate(float _Delta)
 void SwordKnight::Render(float _Delta)
 {
 	float4 WinScale = GameEngineWindow::MainWindow.GetScale();
-	HWND HWnd = GameEngineWindow::MainWindow.GetHWND();
-	PAINTSTRUCT PS;
+	int CameraPos = GetLevel()->GetMainCamera()->GetPos().iX();
 
-	HDC LineDC = BeginPaint(HWnd, &PS);
+	GameEngineWindowTexture* Backbuffer = GameEngineWindow::MainWindow.GetBackBuffer();
+	HDC LineDC = Backbuffer->GetImageDC();
 
-	MoveToEx(LineDC, GetPos().iX(), 0, NULL);
-	LineTo(LineDC, GetPos().iX(), WinScale.iY());
-	EndPaint(HWnd, &PS);
+	MoveToEx(LineDC, GetPos().iX() - CameraPos, 0, NULL);
+	LineTo(LineDC, GetPos().iX() - CameraPos, WinScale.iY());
 }
