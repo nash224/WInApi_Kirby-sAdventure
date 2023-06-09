@@ -21,6 +21,7 @@
 #include "WaddleDoo.h"
 #include "HotHead.h"
 #include "Sparky.h"
+#include "Togezo.h"
 #include "PlayUIManager.h"
 
 #include <map>
@@ -100,6 +101,11 @@ void VegetableValley11::Start()
 	Sparky* Sparky1 = GameEngineLevel::CreateActor<Sparky>();
 	Sparky1->init("VegetableValley1_1Pixel.bmp", SparkyState::Idle, float4{ 1400, 384 });
 	LevelEnemy.insert(std::make_pair("Sparky1", Sparky1));
+
+	// ÆÄ¿ö¸÷ 4
+	Togezo* Togezo1 = GameEngineLevel::CreateActor<Togezo>();
+	Togezo1->init("VegetableValley1_1Pixel.bmp", TogezoState::Walk, float4{ 1100, 384 });
+	LevelEnemy.insert(std::make_pair("Togezo1", Togezo1));
 
 
 	GameEngineLevel::CreateActor<PlayUIManager>();

@@ -34,17 +34,14 @@ void Togezo::Start()
 	ResourcesManager::GetInst().SpriteFileLoad("Left_PowerEnemy.bmp", "Resources\\Unit\\Grunt", 6, 5);
 	ResourcesManager::GetInst().SpriteFileLoad("Right_PowerEnemy.bmp", "Resources\\Unit\\Grunt", 6, 5);
 
-	MainRenderer->CreateAnimation("Left_Walk", "Left_PowerEnemy.bmp", 12, 13, TogezoWALKINGCHANGEANIMATIONTIME, true);
-	MainRenderer->CreateAnimation("Right_Walk", "Right_PowerEnemy.bmp", 12, 13, TogezoWALKINGCHANGEANIMATIONTIME, true);
+	MainRenderer->CreateAnimation("Left_Walk", "Left_PowerEnemy.bmp", 12, 13, 0.2f, true);
+	MainRenderer->CreateAnimation("Right_Walk", "Right_PowerEnemy.bmp", 12, 13, 0.2f, true);
 
-	MainRenderer->CreateAnimationToFrame("Left_Jump", "Left_PowerEnemy.bmp", {14, 15, 16, 15}, TogezoWOBBLETIME, true);
-	MainRenderer->CreateAnimationToFrame("Right_Jump", "Right_PowerEnemy.bmp", { 14, 15, 16, 15 }, TogezoWOBBLETIME, true);
+	MainRenderer->CreateAnimationToFrame("Left_Bounce", "Left_PowerEnemy.bmp", {14, 15, 16, 29}, TOGEZOROLLINGCHANGEFRAMETIME, true);
+	MainRenderer->CreateAnimationToFrame("Right_Bounce", "Right_PowerEnemy.bmp", { 14, 15, 16, 29 }, TOGEZOROLLINGCHANGEFRAMETIME, true);
 
-	MainRenderer->CreateAnimationToFrame("Left_Bounce", "Left_PowerEnemy.bmp", { 14, 15, 16, 15 }, TogezoWOBBLETIME, true);
-	MainRenderer->CreateAnimationToFrame("Right_Bounce", "Right_PowerEnemy.bmp", { 14, 15, 16, 15 }, TogezoWOBBLETIME, true);
-
-	MainRenderer->CreateAnimationToFrame("Left_Roll", "Left_PowerEnemy.bmp", { 14, 15, 16, 15 }, TogezoWOBBLETIME, true);
-	MainRenderer->CreateAnimationToFrame("Right_Roll", "Right_PowerEnemy.bmp", { 14, 15, 16, 15 }, TogezoWOBBLETIME, true);
+	MainRenderer->CreateAnimationToFrame("Left_Roll", "Left_PowerEnemy.bmp", { 14, 15, 16, 29 }, TOGEZOROLLINGCHANGEFRAMETIME, true);
+	MainRenderer->CreateAnimationToFrame("Right_Roll", "Right_PowerEnemy.bmp", { 14, 15, 16, 29 }, TOGEZOROLLINGCHANGEFRAMETIME, true);
 
 	MainRenderer->SetRenderScaleToTexture();
 	MainRenderer->SetScaleRatio(3.0f);
@@ -91,7 +88,6 @@ void Togezo::StateUpdate(float _Delta)
 	switch (State)
 	{
 	case TogezoState::Walk:						return WalkUpdate(_Delta);
-	case TogezoState::Jump:						return JumpUpdate(_Delta);
 	case TogezoState::Bounce:					return BounceUpdate(_Delta);
 	case TogezoState::Roll:						return RollUpdate(_Delta);
 	default:
@@ -106,7 +102,6 @@ void Togezo::ChangeState(TogezoState _State)
 		switch (_State)
 		{
 		case TogezoState::Walk:						WalkStart();					break;
-		case TogezoState::Jump:						JumpStart();					break;
 		case TogezoState::Bounce:					BounceStart();					break;
 		case TogezoState::Roll:						RollStart();					break;
 		default:
@@ -138,15 +133,15 @@ void Togezo::WalkUpdate(float _Delta)
 {
 	StateTime += _Delta;
 
-	if (StateTime > TogezoWALKINGCHANGESTATETIME)
+	if (StateTime > TOGEZOROLLINGCOOLDOWN)
 	{
-		StateTime = 0.0f;
+		IsChangeState = true;
+	}
 
-		if (TogezoFIREBALLRANGEDETECTION > abs(Kirby::GetMainKirby()->GetPos().X - GetPos().X))
-		{
-			ChangeState(TogezoState::Jump);
-			return;
-		}
+	if (true == IsChangeState)
+	{
+		ChangeState(TogezoState::Bounce);
+		return;
 	}
 
 	if (true == CheckLeftWall() || true == LeftGroundIsCliff())
@@ -162,13 +157,12 @@ void Togezo::WalkUpdate(float _Delta)
 
 	if (ActorDir::Left == Dir)
 	{
-		CurrentSpeed = -TogezoSPEED;
+		CurrentSpeed = -TOGEZOSPEED;
 	}
 	else if (ActorDir::Right == Dir)
 	{
-		CurrentSpeed = TogezoSPEED;
+		CurrentSpeed = TOGEZOSPEED;
 	}
-
 
 	BlockedByGround();
 	BlockedByWall();
@@ -183,83 +177,40 @@ void Togezo::WalkUpdate(float _Delta)
 }
 
 
-void Togezo::JumpStart()
-{
-	StateTime = 0.0f;
-	IsChangeState = false;
-	GetKirbyDirection();
-	ChangeAnimationState("Jump");
-}
-
-void Togezo::JumpUpdate(float _Delta)
-{
-	StateTime += _Delta;
-
-	if (StateTime > TogezoFIREBALLCHARGINGTIME)
-	{
-		IsChangeState = true;
-	}
-
-	if (true == IsChangeState)
-	{
-		ChangeState(TogezoState::Bounce);
-		return;
-	}
-}
-
-
 void Togezo::BounceStart()
 {
 	StateTime = 0.0f;
 	IsChangeState = false;
-	WobbleCount = 0;
+	BounceCount = 0;
+	GetKirbyDirection();
+	GravityReset();
 	ChangeAnimationState("Bounce");
 }
 
 void Togezo::BounceUpdate(float _Delta)
 {
-	StateTime += _Delta;
-
-	if (StateTime > TogezoWOBBLETIME)
+	if (true == GetGroundState() && 0.0f < GetGravityVector().Y)
 	{
-		StateTime = 0.0f;
-		++WobbleCount;
-
-		if (ActorDir::Left == Dir)
+		switch (BounceCount)
 		{
-			if (1 == WobbleCount % 3)
-			{
-				AddPos(float4::LEFT * 6.0f);
-			}
-			else if (2 == WobbleCount % 3)
-			{
-				AddPos(float4::RIGHT * 4.0f);
-			}
-			else if (0 == WobbleCount % 3)
-			{
-				AddPos(float4::RIGHT * 2.0f);
-			}
+		case 0:
+			++BounceCount;
+			SetGravityVector(float4::UP * TOGEZOJUMPDISTANCE);
+			break;
+		case 1:
+			++BounceCount;
+			SetGravityVector(float4::UP * TOGEZOJUMPDISTANCE * 0.7f);
+			break;
+		case 2:
+			++BounceCount;
+			SetGravityVector(float4::UP * TOGEZOJUMPDISTANCE * 0.35f);
+			break;
+		case 3:
+			IsChangeState = true;
+			break;
+		default:
+			break;
 		}
-		else if (ActorDir::Right == Dir)
-		{
-			if (1 == WobbleCount % 3)
-			{
-				AddPos(float4::RIGHT * 6.0f);
-			}
-			else if (2 == WobbleCount % 3)
-			{
-				AddPos(float4::LEFT * 4.0f);
-			}
-			else if (0 == WobbleCount % 3)
-			{
-				AddPos(float4::LEFT * 2.0f);
-			}
-		}
-	}
-
-	if (9 == WobbleCount)
-	{
-		IsChangeState = true;
 	}
 
 	if (true == IsChangeState)
@@ -267,12 +218,21 @@ void Togezo::BounceUpdate(float _Delta)
 		ChangeState(TogezoState::Roll);
 		return;
 	}
+
+	BlockedByGround();
+
+	Gravity(_Delta);
+	GravityLimit(GRAVITYMAXVECTOR);
+	VerticalUpdate(_Delta);
 }
 
 void Togezo::RollStart()
 {
 	StateTime = 0.0f;
 	IsChangeState = false;
+	IsRollingSpeedZero = false;
+	CurrentSpeed = TOGEZOROLLINGSPEED;
+	RollingSpeedZeroTime = TOGEZOCLIFFSTOPTIME;
 	GetKirbyDirection();
 	ChangeAnimationState("Roll");
 }
@@ -281,7 +241,7 @@ void Togezo::RollUpdate(float _Delta)
 {
 	StateTime += _Delta;
 
-	if (StateTime > TogezoFLAMEBREATHCHARGINGTIME)
+	if (StateTime > TOGEZOROLLINGTIME)
 	{
 		IsChangeState = true;
 	}
@@ -290,6 +250,54 @@ void Togezo::RollUpdate(float _Delta)
 	{
 		ChangeState(TogezoState::Walk);
 		return;
+	}
+
+	if (ActorDir::Left == Dir && true == CheckLeftWall())
+	{
+		Dir = ActorDir::Right;
+		CurrentSpeed = TOGEZOROLLINGSPEED;
+		ChangeAnimationState("Roll");
+	}
+	else if (ActorDir::Right == Dir && true == CheckRightWall())
+	{
+		Dir = ActorDir::Left;
+		CurrentSpeed = -TOGEZOROLLINGSPEED;
+		ChangeAnimationState("Roll");
+	}
+
+	if ((ActorDir::Left == Dir && true == LeftGroundIsCliff()) || 
+		(ActorDir::Right == Dir && true == RightGroundIsCliff()))
+	{
+		IsRollingSpeedZero = true;
+	}
+
+	if (true == IsRollingSpeedZero)
+	{
+		RollingSpeedZeroTime -= _Delta;
+	}
+
+	if (RollingSpeedZeroTime < 0.0f && true == IsRollingSpeedZero)
+	{
+		if (ActorDir::Left == Dir)
+		{
+			Dir = ActorDir::Right;
+		}
+		else if (ActorDir::Right == Dir)
+		{
+			Dir = ActorDir::Left;
+		}
+		CurrentSpeed = !CurrentSpeed;
+		ChangeAnimationState("Roll");
+		IsRollingSpeedZero = false;
+	}
+
+
+	BlockedByGround();
+	BlockedByWall();
+
+	if (false == IsRollingSpeedZero)
+	{
+		HorizontalUpdate(_Delta);
 	}
 }
 

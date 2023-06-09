@@ -1,30 +1,27 @@
 #pragma once
 #include "PowerEnemies.h"
 
-#define TogezoSPEED 60.0f
+#define TOGEZOSPEED 60.0f
 
-#define TogezoRANGEDETECTION 300.0f
-#define TogezoFIREBALLRANGEDETECTION 100.0f
+#define TOGEZORANGEDETECTION 300.0f
 
 
 #define TogezoWALKINGCHANGESTATETIME 4.0f
 #define TogezoWALKINGCHANGEANIMATIONTIME 0.3f
 
+#define TOGEZOJUMPDISTANCE 400.0f
+#define TOGEZOJUMPTIME 0.5f
 
-#define TogezoFIREBALLCHARGINGTIME 0.5f
-#define TogezoFIREBALLTIME 0.8f 
-
-#define TogezoFLAMEBREATHCHARGINGTIME 0.8f
-#define TogezoFLAMEBREATHINGTIME 4.0f 
-
-#define TogezoWOBBLETIME 0.08f
-
+#define TOGEZOROLLINGSPEED 280.0f
+#define TOGEZOROLLINGCHANGEFRAMETIME 0.05f
+#define TOGEZOROLLINGCOOLDOWN 4.0f
+#define TOGEZOROLLINGTIME 6.0f
+#define TOGEZOCLIFFSTOPTIME 1.0f
 
 
 enum class TogezoState
 {
 	Walk,
-	Jump,
 	Bounce,
 	Roll,
 	Max,
@@ -50,19 +47,19 @@ protected:
 	TogezoState State = TogezoState::Max;
 	TogezoState RespawnState = TogezoState::Max;
 
-	int WobbleCount = 0;
+	bool IsRollingSpeedZero = false;
+	float RollingSpeedZeroTime = 0.0f;
+	int BounceCount = 0;
 
 	void StateUpdate(float _Delta) override;
 	void ChangeState(TogezoState _State);
 	void ChangeRespawnState() override;
 
 	void WalkStart();
-	void JumpStart();
 	void BounceStart();
 	void RollStart();
 
 	void WalkUpdate(float _Delta);
-	void JumpUpdate(float _Delta);
 	void BounceUpdate(float _Delta);
 	void RollUpdate(float _Delta);
 
