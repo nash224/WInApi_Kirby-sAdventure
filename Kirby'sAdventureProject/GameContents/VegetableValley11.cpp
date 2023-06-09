@@ -72,17 +72,17 @@ void VegetableValley11::Start()
 	PoppyBrosJr1->init("VegetableValley1_1Pixel.bmp", NormalState::Idle, float4{ 900, 384 });
 	LevelEnemy.insert(std::make_pair("PoppyBrosJr1", PoppyBrosJr1));
 
-	// °øÁß¸÷ 1
+	// °øÁß¸÷ 1-1
 	BrontoBurt* BrontoBurt1 = GameEngineLevel::CreateActor<BrontoBurt>();
 	BrontoBurt1->init("VegetableValley1_1Pixel.bmp", BrontoState::Idle , float4{ 900, 384 });
 	LevelEnemy.insert(std::make_pair("BrontoBurt1", BrontoBurt1));
 
-	// °øÁß¸÷ 2
+	// °øÁß¸÷ 1-2
 	BrontoBurt* BrontoBurt2 = GameEngineLevel::CreateActor<BrontoBurt>();
 	BrontoBurt2->init("VegetableValley1_1Pixel.bmp", BrontoState::WaveFlightFall, float4{ 600, 130 });
 	LevelEnemy.insert(std::make_pair("BrontoBurt2", BrontoBurt2));
 
-	// °øÁß¸÷ 3
+	// °øÁß¸÷ 2
 	Scarfy* Scarfy1 = GameEngineLevel::CreateActor<Scarfy>();
 	Scarfy1->init("VegetableValley1_1Pixel.bmp", ScarfyState::Idle, float4{ 550, 220 });
 	LevelEnemy.insert(std::make_pair("Scarfy1", Scarfy1));
