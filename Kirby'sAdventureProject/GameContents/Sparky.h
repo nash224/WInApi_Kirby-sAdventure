@@ -1,25 +1,32 @@
 #pragma once
 #include "PowerEnemies.h"
 
-#define SPARKYSPEED 100.0f
+#define SPARKYSPEED 150.0f
+#define SPARKYDECELERATIONSPEED 800.0f
+
+#define SPARKYGRAVITYTIMETOMAXSPEED 0.3f
+#define SPARKYGRAVITYLIMIT 800.0f
+#define SPARKYJUMPDISTANCE SparkyGRAVITYLIMIT
+
 
 #define SPARKYIDLETIME 0.2f
 
+#define SPARKYFRONTJUMPDISTANCE 80.0f
+#define SPARKYFRONTJUMPTIME 0.05f
 
-#define SPARKYFRONTJUMPDISTANCE 21.0f
-#define SPARKYFRONTJUMPTIME 0.2f
+#define SPARKYSTANCEJUMPDISTANCE SPARKYFRONTJUMPDISTANCE
+#define SPARKYSTANCEJUMPTIME SPARKYFRONTJUMPTIME
 
-#define SPARKYLONGJUMPDISTANCE 48.0f
-#define SPARKYLONGJUMPTIME 0.25f
+#define SPARKYLONGJUMPDISTANCE 300.0f
+#define SPARKYLONGJUMPTIME 0.06f
+#define SPARKYLONGJUMPSTAIRCOGNIZANCE 60.0f
 
-#define SPARKYGRAVITYTIMETOMAXSPEED 0.3f
-#define SPARKYGRAVITYLIMIT 450.0f
-#define SPARKYJUMPDISTANCE SparkyGRAVITYLIMIT
+#define SPARKYLANDINGTIME 0.3f
+
 
 #define SPARKYABILITYTIME 3.0f
-#define SPARKYSPARKCHANGEFRAMETIME 0.08f
+#define SPARKYSPARKCHANGEFRAMETIME 0.05f
 
-#define SPARKYLANDINGTIME 0.2f
 
 
 
@@ -55,7 +62,6 @@ protected:
 	SparkyState State = SparkyState::Max;
 	SparkyState RespawnState = SparkyState::Max;
 
-	bool IsTurn = false;
 	int RemainStanceJumpCount = 0;
 	float CurrentJumpDistance = 0.0f;
 
@@ -85,6 +91,18 @@ protected:
 private:
 	void Start() override;
 	void Update(float _Delta) override;
+	void Render(float _Detla) override;
+
+
+	float4 StairLeftBottomCheckPoint = float4::ZERO;
+	float4 StairLeftTopCheckPoint = float4::ZERO;
+
+	float4 StairRightBottomCheckPoint = float4::ZERO;
+	float4 StairRightTopCheckPoint = float4::ZERO;
+
+	void SetCheckPoint(const float4& _ScaleSize) override;
+	void ActorCollisionDetectionPointRender() override;
+
 
 };
 

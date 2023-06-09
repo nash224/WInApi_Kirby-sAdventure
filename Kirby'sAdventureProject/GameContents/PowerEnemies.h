@@ -16,6 +16,9 @@ public:
 	PowerEnemies& operator=(PowerEnemies&& _Other) noexcept = delete;
 
 protected:
+	float AbilityStartDeltaTime = 0.0f;
+
+
 
 private:
 

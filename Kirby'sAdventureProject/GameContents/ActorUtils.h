@@ -7,6 +7,10 @@
 #define CHECKWALLHEIGHTHGAP 12.0f
 #define CHECKGAP 3.0f
 
+#define CHECKSTAIRHEIGHT 48.0f
+
+#define GRAVITYMAXVECTOR 450.0f
+
 enum class ActorDir
 {
 	Right,
@@ -64,6 +68,7 @@ protected:
 
 	void CameraFocus();
 
+	// 충돌 감지
 	float4 GroundLeftCheckPoint = float4::ZERO;
 	float4 GroundRightCheckPoint = float4::ZERO;
 	float4 WallBotLeftCheckPoint = float4::ZERO;
@@ -73,8 +78,7 @@ protected:
 	float4 CeilLeftCheckPoint = float4::ZERO;
 	float4 CeilRightCheckPoint = float4::ZERO;
 
-	// 판정 함수
-	void SetCheckPoint(const float4& _ScaleSize);
+	virtual void SetCheckPoint(const float4& _ScaleSize);
 	void GroundCheck();
 	bool CeilingCheck();
 	bool CheckLeftWall();
@@ -93,12 +97,14 @@ protected:
 		return isGround;
 	}
 
+	virtual void ActorCollisionDetectionPointRender();
 
-	bool AbleJump = true;
-	float CurrentJumpDistance = 0.0f;
-	const float GravityMaxVector = 450.0f;
 
 	// 중력 함수
+	bool AbleJump = true;
+	float CurrentJumpDistance = 0.0f;
+
+
 	void Gravity(float _Delta);
 	void ReverseGravity(float _Delta);
 	void GravityLimit(float _Delta);
@@ -140,6 +146,7 @@ private:
 	bool IsGravity = true;
 	float GravityPower = 800.0f;
 	float4 GravityVector = float4::ZERO;
+	const float GravityMaxVector = 450.0f;
 	float AirResistance = 1.0f;
 
 };

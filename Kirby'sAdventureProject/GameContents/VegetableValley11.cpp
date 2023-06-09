@@ -20,6 +20,7 @@
 #include "Scarfy.h"
 #include "WaddleDoo.h"
 #include "HotHead.h"
+#include "Sparky.h"
 #include "PlayUIManager.h"
 
 #include <map>
@@ -94,6 +95,11 @@ void VegetableValley11::Start()
 	HotHead* HotHead1 = GameEngineLevel::CreateActor<HotHead>();
 	HotHead1->init("VegetableValley1_1Pixel.bmp", HotHeadState::Walk, float4{ 1300, 384 });
 	LevelEnemy.insert(std::make_pair("HotHead1", HotHead1));
+
+	// ÆÄ¿ö¸÷ 3
+	Sparky* Sparky1 = GameEngineLevel::CreateActor<Sparky>();
+	Sparky1->init("VegetableValley1_1Pixel.bmp", SparkyState::Idle, float4{ 1400, 384 });
+	LevelEnemy.insert(std::make_pair("Sparky1", Sparky1));
 
 
 	GameEngineLevel::CreateActor<PlayUIManager>();

@@ -49,8 +49,8 @@ void Sparky::Start()
 	MainRenderer->CreateAnimation("Left_Landing", "Left_PowerEnemy.bmp", 26, 26, 0.1f, false);
 	MainRenderer->CreateAnimation("Right_Landing", "Right_PowerEnemy.bmp", 26, 26, 0.1f, false);
 
-	MainRenderer->CreateAnimation("Left_Spark", "Left_PowerEnemy.bmp", 27, 27, SPARKYABILITYTIME, true);
-	MainRenderer->CreateAnimation("Right_Spark", "Right_PowerEnemy.bmp", 27, 27, SPARKYABILITYTIME, true);
+	MainRenderer->CreateAnimation("Left_Spark", "Left_PowerEnemy.bmp", 27, 28, SPARKYSPARKCHANGEFRAMETIME, true);
+	MainRenderer->CreateAnimation("Right_Spark", "Right_PowerEnemy.bmp", 27, 28, SPARKYSPARKCHANGEFRAMETIME, true);
 
 
 	MainRenderer->SetRenderScaleToTexture();
@@ -69,7 +69,7 @@ void Sparky::Start()
 
 void Sparky::init(const std::string& _FileName, SparkyState _State, const float4& _Pos)
 {
-	Attribute = AttributeType::None;
+	Attribute = AttributeType::Electricity;
 
 	SetGroundTexture(_FileName);
 	RespawnLocation = _Pos;
@@ -133,12 +133,44 @@ void Sparky::ChangeRespawnState()
 }
 
 
+/* ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ */
+
+
+void Sparky::SetCheckPoint(const float4& _ScaleSize)
+{
+	GroundLeftCheckPoint = { -_ScaleSize.X + CHECKGROUNDGAP , 0.0f };
+	GroundRightCheckPoint = { _ScaleSize.X + -CHECKGROUNDGAP , 0.0f };
+	WallBotLeftCheckPoint = { -_ScaleSize.X + CHECKWALLWIDTHHGAP , -CHECKWALLHEIGHTHGAP };
+	WallTopLeftCheckPoint = { -_ScaleSize.X + CHECKWALLWIDTHHGAP , -_ScaleSize.Y + CHECKWALLHEIGHTHGAP };
+	WallBotRightCheckPoint = { _ScaleSize.X + -CHECKWALLWIDTHHGAP , -CHECKWALLHEIGHTHGAP };
+	WallTopRightCheckPoint = { _ScaleSize.X + -CHECKWALLWIDTHHGAP , -_ScaleSize.Y + CHECKWALLHEIGHTHGAP };
+	CeilLeftCheckPoint = { -_ScaleSize.X + CHECKGROUNDGAP , -_ScaleSize.Y };
+	CeilRightCheckPoint = { _ScaleSize.X + -CHECKGROUNDGAP , -_ScaleSize.Y };
+
+	StairLeftBottomCheckPoint = { -_ScaleSize.X + -SPARKYLONGJUMPSTAIRCOGNIZANCE , -CHECKGAP };
+	StairLeftTopCheckPoint = { -_ScaleSize.X + -SPARKYLONGJUMPSTAIRCOGNIZANCE , -CHECKSTAIRHEIGHT + -CHECKGAP };
+	StairRightBottomCheckPoint = { _ScaleSize.X + SPARKYLONGJUMPSTAIRCOGNIZANCE , -CHECKGAP };
+	StairRightTopCheckPoint = { _ScaleSize.X + SPARKYLONGJUMPSTAIRCOGNIZANCE , -CHECKSTAIRHEIGHT + -CHECKGAP };
+}
+
+
+bool Sparky::IsLeftStair()
+{
+	unsigned int LeftBottomColor = GetGroundColor(RGB(255, 255, 255), StairLeftBottomCheckPoint);
+	unsigned int LeftTopColor = GetGroundColor(RGB(255, 255, 255), StairLeftTopCheckPoint);
+	if (RGB(0, 255, 255) == LeftBottomColor && RGB(255, 255, 255) == LeftTopColor)
+	{
+		return true;
+	}
+
+	return false;
+}
+
 bool Sparky::IsRightStair()
 {
-	unsigned int LeftBottomColor = GetGroundColor(RGB(255, 255, 255), GroundLeftCheckPoint);
-	unsigned int RightBottomColor = GetGroundColor(RGB(255, 255, 255), GroundRightCheckPoint);
-	if (((RGB(0, 255, 255) == LeftBottomColor) && (RGB(0, 255, 255) != RightBottomColor))
-		|| (RGB(0, 0, 255) == LeftBottomColor && (RGB(0, 0, 255) != RightBottomColor)))
+	unsigned int RightBottomColor = GetGroundColor(RGB(255, 255, 255), StairRightBottomCheckPoint);
+	unsigned int RightTopColor = GetGroundColor(RGB(255, 255, 255), StairRightTopCheckPoint);
+	if (RGB(0, 255, 255) == RightBottomColor && (RGB(255, 255, 255) == RightTopColor))
 	{
 		return true;
 	}
@@ -153,7 +185,6 @@ void Sparky::IdleStart()
 {
 	StateTime = 0.0f;
 	IsChangeState = false;
-	IsTurn = false;
 	CurrentSpeed = 0.0f;
 	GravityReset();
 	ChangeAnimationState("Idle");
@@ -162,6 +193,14 @@ void Sparky::IdleStart()
 void Sparky::IdleUpdate(float _Delta)
 {
 	StateTime += _Delta;
+	AbilityStartDeltaTime += _Delta;
+
+	if (AbilityStartDeltaTime > SPARKYIDLETIME * 10.0f)
+	{
+		ChangeState(SparkyState::Spark);
+		return;
+	}
+
 
 	if (StateTime > SPARKYIDLETIME)
 	{
@@ -175,19 +214,17 @@ void Sparky::IdleUpdate(float _Delta)
 		if ((ActorDir::Left == Dir && CurrentDir.X > 0.0f) ||
 			(ActorDir::Right == Dir && CurrentDir.X < 0.0f))
 		{
-			IsTurn = true;
-			RemainStanceJumpCount = GameEngineRandom::MainRandom.RandomInt(1, 3);
+			RemainStanceJumpCount = GameEngineRandom::MainRandom.RandomInt(1, 6) / 3 + 1;
 		}
 
 		if (0 != RemainStanceJumpCount)
 		{
-			IsTurn = false;
 			--RemainStanceJumpCount;
 			ChangeState(SparkyState::StanceJump);
 			return;
-
 		}
-		else if (true)
+		else if ((ActorDir::Left == Dir && true == IsLeftStair()) || 
+			(ActorDir::Right == Dir && true == IsRightStair()))
 		{
 			ChangeState(SparkyState::LongJump);
 			return;
@@ -226,14 +263,15 @@ void Sparky::FrontJumpUpdate(float _Delta)
 {
 	StateTime += _Delta;
 
-	if (StateTime > 0.5f)
-	{
-		StateTime = 0.0f;
-	}
-
-	if (CurrentJumpDistance > 33.f)
+	if (CurrentJumpDistance > SPARKYFRONTJUMPDISTANCE)
 	{
 		AbleJump = false;
+	}
+
+	if (true == CeilingCheck())
+	{
+		AbleJump = false;
+		GravityReset();
 	}
 
 	if (false == AbleJump && true == GetGroundState())
@@ -248,29 +286,23 @@ void Sparky::FrontJumpUpdate(float _Delta)
 	}
 
 
-	if (true == CeilingCheck())
-	{
-		AbleJump = false;
-		GravityReset();
-	}
-
 	if (true == AbleJump)
 	{
-		//float JumpPower = SPARKYJUMPDISTANCE / SPARKYGRAVITYTIMETOMAXSPEED;
-		//CurrentJumpDistance += JumpPower * _Delta;
-		//SetGravityVector(float4::UP * CurrentJumpDistance);
+		float JumpPower = SPARKYFRONTJUMPDISTANCE / SPARKYFRONTJUMPTIME;
+		CurrentJumpDistance += JumpPower * _Delta;
+		SetGravityVector(float4::UP * CurrentJumpDistance);
 	}
 
 
 	if (true == CheckLeftWall())
 	{
 		Dir = ActorDir::Right;
-		MainRenderer->ChangeAnimation("Right_Jump");
+		MainRenderer->ChangeAnimation("Right_FrontJump");
 	}
 	else if (true == CheckRightWall())
 	{
 		Dir = ActorDir::Left;
-		MainRenderer->ChangeAnimation("Left_Jump");
+		MainRenderer->ChangeAnimation("Left_FrontJump");
 	}
 
 	if (ActorDir::Left == Dir)
@@ -283,12 +315,149 @@ void Sparky::FrontJumpUpdate(float _Delta)
 	}
 
 
+	if (false == AbleJump)
+	{
+		Gravity(_Delta);
+	}
+	GravityLimit(GRAVITYMAXVECTOR);
+	VerticalUpdate(_Delta);
+
+	BlockedByGround();
+	BlockedByWall();
+
+	HorizontalUpdate(_Delta);
+}
+
+
+void Sparky::StanceJumpStart()
+{
+	StateTime = 0.0f;
+	IsChangeState = false;
+	AbleJump = true;
+	CurrentJumpDistance = 0.0f;
+	GravityReset();
+	GetKirbyDirection();
+	ChangeAnimationState("StanceJump");
+}
+
+void Sparky::StanceJumpUpdate(float _Delta)
+{
+	StateTime += _Delta;
+
+	if (CurrentJumpDistance > SPARKYSTANCEJUMPDISTANCE)
+	{
+		AbleJump = false;
+	}
+
+	if (true == CeilingCheck())
+	{
+		AbleJump = false;
+		GravityReset();
+	}
+
+	if (false == AbleJump && true == GetGroundState())
+	{
+		IsChangeState = true;
+	}
+
+	if (true == IsChangeState)
+	{
+		ChangeState(SparkyState::Landing);
+		return;
+	}
+
+
+	if (true == AbleJump)
+	{
+		float JumpPower = SPARKYSTANCEJUMPDISTANCE / SPARKYSTANCEJUMPTIME;
+		CurrentJumpDistance += JumpPower * _Delta;
+		SetGravityVector(float4::UP * CurrentJumpDistance);
+	}
 
 	if (false == AbleJump)
 	{
 		Gravity(_Delta);
 	}
-	GravityLimit(SPARKYGRAVITYLIMIT);
+	GravityLimit(GRAVITYMAXVECTOR);
+	VerticalUpdate(_Delta);
+
+	BlockedByGround();
+}
+
+
+
+void Sparky::LongJumpStart()
+{
+	StateTime = 0.0f;
+	IsChangeState = false;
+	AbleJump = true;
+	CurrentJumpDistance = 0.0f;
+	GravityReset();
+	GetKirbyDirection();
+	ChangeAnimationState("LongJump");
+}
+
+void Sparky::LongJumpUpdate(float _Delta)
+{
+	StateTime += _Delta;
+
+	if (CurrentJumpDistance > SPARKYLONGJUMPDISTANCE)
+	{
+		AbleJump = false;
+	}
+
+	if (true == CeilingCheck())
+	{
+		AbleJump = false;
+		GravityReset();
+	}
+
+	if (false == AbleJump && true == GetGroundState())
+	{
+		IsChangeState = true;
+	}
+
+	if (true == IsChangeState)
+	{
+		ChangeState(SparkyState::Landing);
+		return;
+	}
+
+
+	if (true == AbleJump)
+	{
+		float JumpPower = SPARKYLONGJUMPDISTANCE / SPARKYLONGJUMPTIME;
+		CurrentJumpDistance += JumpPower * _Delta;
+		SetGravityVector(float4::UP * CurrentJumpDistance);
+	}
+
+
+	if (true == CheckLeftWall())
+	{
+		Dir = ActorDir::Right;
+		MainRenderer->ChangeAnimation("Right_LongJump");
+	}
+	else if (true == CheckRightWall())
+	{
+		Dir = ActorDir::Left;
+		MainRenderer->ChangeAnimation("Left_LongJump");
+	}
+
+	if (ActorDir::Left == Dir)
+	{
+		CurrentSpeed = -SPARKYSPEED;
+	}
+	else if (ActorDir::Right == Dir)
+	{
+		CurrentSpeed = SPARKYSPEED;
+	}
+
+
+	if (false == AbleJump)
+	{
+		Gravity(_Delta);
+	}
+	GravityLimit(GRAVITYMAXVECTOR);
 	VerticalUpdate(_Delta);
 
 	BlockedByGround();
@@ -319,6 +488,12 @@ void Sparky::LandingUpdate(float _Delta)
 		ChangeState(SparkyState::Idle);
 		return;
 	}
+
+	BlockedByGround();
+	BlockedByWall();
+
+	DecelerationUpdate(_Delta, SPARKYDECELERATIONSPEED);
+	HorizontalUpdate(_Delta);
 }
 
 
@@ -326,6 +501,7 @@ void Sparky::SparkStart()
 {
 	StateTime = 0.0f;
 	IsChangeState = false;
+	AbilityStartDeltaTime = 0.0f;
 	ChangeAnimationState("Spark");
 }
 
@@ -341,6 +517,73 @@ void Sparky::SparkUpdate(float _Delta)
 	if (true == IsChangeState)
 	{
 		ChangeState(SparkyState::Idle);
-		return;
+		return; 
 	}
+}
+
+
+void Sparky::Render(float _Detla)
+{
+	ActorCollisionDetectionPointRender();
+}
+
+
+void Sparky::ActorCollisionDetectionPointRender()
+{
+	HDC BackDC = GameEngineWindow::MainWindow.GetBackBuffer()->GetImageDC();
+
+	CollisionData Data;
+
+	// 원점
+	Data.Pos = ActorCameraPos();
+	Data.Scale = { 5 , 5 };
+	Rectangle(BackDC, Data.iLeft(), Data.iTop(), Data.iRight(), Data.iBot());
+	// 바닥 왼쪽
+	Data.Pos = ActorCameraPos() + GroundLeftCheckPoint;
+	Data.Scale = { 5 , 5 };
+	Rectangle(BackDC, Data.iLeft(), Data.iTop(), Data.iRight(), Data.iBot());
+	// 바닥 오른쪽
+	Data.Pos = ActorCameraPos() + GroundRightCheckPoint;
+	Data.Scale = { 5 , 5 };
+	Rectangle(BackDC, Data.iLeft(), Data.iTop(), Data.iRight(), Data.iBot());
+	// 벽 하단왼쪽
+	Data.Pos = ActorCameraPos() + WallBotLeftCheckPoint;
+	Data.Scale = { 5 , 5 };
+	Rectangle(BackDC, Data.iLeft(), Data.iTop(), Data.iRight(), Data.iBot());
+	// 벽 상단왼쪽
+	Data.Pos = ActorCameraPos() + WallTopLeftCheckPoint;
+	Data.Scale = { 5 , 5 };
+	Rectangle(BackDC, Data.iLeft(), Data.iTop(), Data.iRight(), Data.iBot());
+	// 벽 하단오른쪽
+	Data.Pos = ActorCameraPos() + WallBotRightCheckPoint;
+	Data.Scale = { 5 , 5 };
+	Rectangle(BackDC, Data.iLeft(), Data.iTop(), Data.iRight(), Data.iBot());
+	// 벽 상단오른쪽
+	Data.Pos = ActorCameraPos() + WallTopRightCheckPoint;
+	Data.Scale = { 5 , 5 };
+	Rectangle(BackDC, Data.iLeft(), Data.iTop(), Data.iRight(), Data.iBot());
+	// 천장 왼쪽
+	Data.Pos = ActorCameraPos() + CeilLeftCheckPoint;
+	Data.Scale = { 5 , 5 };
+	Rectangle(BackDC, Data.iLeft(), Data.iTop(), Data.iRight(), Data.iBot());
+	// 천장 오른쪽
+	Data.Pos = ActorCameraPos() + CeilRightCheckPoint;
+	Data.Scale = { 5 , 5 };
+	Rectangle(BackDC, Data.iLeft(), Data.iTop(), Data.iRight(), Data.iBot());
+	// 계단 왼쪽하단
+	Data.Pos = ActorCameraPos() + StairLeftBottomCheckPoint;
+	Data.Scale = { 5 , 5 };
+	Rectangle(BackDC, Data.iLeft(), Data.iTop(), Data.iRight(), Data.iBot());
+	// 계단 왼쪽상단
+	Data.Pos = ActorCameraPos() + StairLeftTopCheckPoint;
+	Data.Scale = { 5 , 5 };
+	Rectangle(BackDC, Data.iLeft(), Data.iTop(), Data.iRight(), Data.iBot());
+	// 계단 오른쪽하단
+	Data.Pos = ActorCameraPos() + StairRightBottomCheckPoint;
+	Data.Scale = { 5 , 5 };
+	Rectangle(BackDC, Data.iLeft(), Data.iTop(), Data.iRight(), Data.iBot());
+	// 계단 오른쪽상단
+	Data.Pos = ActorCameraPos() + StairRightTopCheckPoint;
+	Data.Scale = { 5 , 5 };
+	Rectangle(BackDC, Data.iLeft(), Data.iTop(), Data.iRight(), Data.iBot());
 }

@@ -124,7 +124,7 @@ protected:
 	void ChangeState(KirbyState _State);
 	void ChangeAnimationState(const std::string& _StateName);
 
-	// 판정, 충돌 함수
+	// 감지, 충돌 함수
 	void KirbyDirCheck();
 	void MoveHorizontal(float _Speed, float _Delta);
 	void DecelerationUpdate(float _Delta);

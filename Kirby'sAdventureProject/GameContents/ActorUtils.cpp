@@ -4,6 +4,7 @@
 #include <GameEngineCore/GameEngineCamera.h>
 #include <GameEngineCore/GameEngineLevel.h>
 #include <GameEngineCore/ResourcesManager.h>
+#include <GameEngineCore/GameEngineCollision.h>
 
 ActorUtils::ActorUtils() 
 {
@@ -353,4 +354,48 @@ bool ActorUtils::IsPassableGround()
 	}
 
 	return false;
+}
+
+void ActorUtils::ActorCollisionDetectionPointRender()
+{
+	HDC BackDC = GameEngineWindow::MainWindow.GetBackBuffer()->GetImageDC();
+
+	CollisionData Data;
+
+	// 원점
+	Data.Pos = ActorCameraPos();
+	Data.Scale = { 5 , 5 };
+	Rectangle(BackDC, Data.iLeft(), Data.iTop(), Data.iRight(), Data.iBot());
+	// 바닥 왼쪽
+	Data.Pos = ActorCameraPos() + GroundLeftCheckPoint;
+	Data.Scale = { 5 , 5 };
+	Rectangle(BackDC, Data.iLeft(), Data.iTop(), Data.iRight(), Data.iBot());
+	// 바닥 오른쪽
+	Data.Pos = ActorCameraPos() + GroundRightCheckPoint;
+	Data.Scale = { 5 , 5 };
+	Rectangle(BackDC, Data.iLeft(), Data.iTop(), Data.iRight(), Data.iBot());
+	// 벽 하단왼쪽
+	Data.Pos = ActorCameraPos() + WallBotLeftCheckPoint;
+	Data.Scale = { 5 , 5 };
+	Rectangle(BackDC, Data.iLeft(), Data.iTop(), Data.iRight(), Data.iBot());
+	// 벽 상단왼쪽
+	Data.Pos = ActorCameraPos() + WallTopLeftCheckPoint;
+	Data.Scale = { 5 , 5 };
+	Rectangle(BackDC, Data.iLeft(), Data.iTop(), Data.iRight(), Data.iBot());
+	// 벽 하단오른쪽
+	Data.Pos = ActorCameraPos() + WallBotRightCheckPoint;
+	Data.Scale = { 5 , 5 };
+	Rectangle(BackDC, Data.iLeft(), Data.iTop(), Data.iRight(), Data.iBot());
+	// 벽 상단오른쪽
+	Data.Pos = ActorCameraPos() + WallTopRightCheckPoint;
+	Data.Scale = { 5 , 5 };
+	Rectangle(BackDC, Data.iLeft(), Data.iTop(), Data.iRight(), Data.iBot());
+	// 천장 왼쪽
+	Data.Pos = ActorCameraPos() + CeilLeftCheckPoint;
+	Data.Scale = { 5 , 5 };
+	Rectangle(BackDC, Data.iLeft(), Data.iTop(), Data.iRight(), Data.iBot());
+	// 천장 오른쪽
+	Data.Pos = ActorCameraPos() + CeilRightCheckPoint;
+	Data.Scale = { 5 , 5 };
+	Rectangle(BackDC, Data.iLeft(), Data.iTop(), Data.iRight(), Data.iBot());
 }
