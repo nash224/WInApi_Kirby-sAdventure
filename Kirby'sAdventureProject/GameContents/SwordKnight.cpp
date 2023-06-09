@@ -34,20 +34,20 @@ void SwordKnight::Start()
 	ResourcesManager::GetInst().SpriteFileLoad("Left_SwordKnight.bmp", "Resources\\Unit\\Grunt", 7, 3);
 	ResourcesManager::GetInst().SpriteFileLoad("Right_SwordKnight.bmp", "Resources\\Unit\\Grunt", 7, 3);
 	 
-	MainRenderer->CreateAnimation("Left_PendulumStride", "Left_SwordKnight.bmp", 14, 19, 0.2f, true);
-	MainRenderer->CreateAnimation("Right_PendulumStride", "Right_SwordKnight.bmp", 14, 19, 0.2f, true);
+	MainRenderer->CreateAnimation("Left_PendulumStride", "Left_SwordKnight.bmp", 14, 19, 0.15f, true);
+	MainRenderer->CreateAnimation("Right_PendulumStride", "Right_SwordKnight.bmp", 14, 19, 0.15f, true);
 
-	MainRenderer->CreateAnimation("Left_RaiseSword", "Left_SwordKnight.bmp", 7, 7, SwordKnightROLLINGCHANGEFRAMETIME, false);
-	MainRenderer->CreateAnimation("Right_RaiseSword", "Right_SwordKnight.bmp", 7, 7, SwordKnightROLLINGCHANGEFRAMETIME, false);
+	MainRenderer->CreateAnimation("Left_RaiseSword", "Left_SwordKnight.bmp", 7, 7, SWORDKNIGHTRAISESWORDTIME, false);
+	MainRenderer->CreateAnimation("Right_RaiseSword", "Right_SwordKnight.bmp", 7, 7, SWORDKNIGHTRAISESWORDTIME, false);
 
-	MainRenderer->CreateAnimation("Left_Slash", "Left_SwordKnight.bmp", 7, 13, SwordKnightROLLINGCHANGEFRAMETIME, false);
-	MainRenderer->CreateAnimation("Right_Slash", "Right_SwordKnight.bmp", 7, 13, SwordKnightROLLINGCHANGEFRAMETIME, false);
+	MainRenderer->CreateAnimation("Left_Slash", "Left_SwordKnight.bmp", 7, 13, SWORDKNIGHTSLASHFRAMETIME, false);
+	MainRenderer->CreateAnimation("Right_Slash", "Right_SwordKnight.bmp", 7, 13, SWORDKNIGHTSLASHFRAMETIME, false);
 
-	MainRenderer->CreateAnimation("Left_Underhand", "Left_SwordKnight.bmp", 0, 0, SwordKnightROLLINGCHANGEFRAMETIME, false);
-	MainRenderer->CreateAnimation("Right_Underhand", "Right_SwordKnight.bmp", 0, 0, SwordKnightROLLINGCHANGEFRAMETIME, false);
+	MainRenderer->CreateAnimation("Left_Underhand", "Left_SwordKnight.bmp", 0, 0, SWORDKNIGHTUNDERHANDTIME, false);
+	MainRenderer->CreateAnimation("Right_Underhand", "Right_SwordKnight.bmp", 0, 0, SWORDKNIGHTUNDERHANDTIME, false);
 
-	MainRenderer->CreateAnimation("Left_ReversingSlash", "Left_SwordKnight.bmp", 0, 6, SwordKnightROLLINGCHANGEFRAMETIME, false);
-	MainRenderer->CreateAnimation("Right_ReversingSlash", "Right_SwordKnight.bmp", 0, 6, SwordKnightROLLINGCHANGEFRAMETIME, false);
+	MainRenderer->CreateAnimation("Left_ReversingSlash", "Left_SwordKnight.bmp", 0, 6, SWORDKNIGHTSLASHFRAMETIME, false);
+	MainRenderer->CreateAnimation("Right_ReversingSlash", "Right_SwordKnight.bmp", 0, 6, SWORDKNIGHTSLASHFRAMETIME, false);
 
 	MainRenderer->SetRenderScaleToTexture();
 	MainRenderer->SetScaleRatio(3.0f);
@@ -136,6 +136,14 @@ void SwordKnight::PendulumStrideStart()
 	IsChangeState = false;
 	GravityReset();
 	GetKirbyDirection();
+	if (ActorDir::Left == Dir)
+	{
+		CurrentSpeed = SWORDKNIGHTSPEED;
+	}
+	else if (ActorDir::Right == Dir)
+	{
+		CurrentSpeed = -SWORDKNIGHTSPEED;
+	}
 	ChangeAnimationState("PendulumStride");
 }
 
@@ -143,7 +151,8 @@ void SwordKnight::PendulumStrideUpdate(float _Delta)
 {
 	StateTime += _Delta;
 
-	if (StateTime > SwordKnightROLLINGCOOLDOWN)
+	if (StateTime > SWORDKNIGHTSLASHCOOLDOWN && 
+		SWORDKNIGHTRANGEDETECTION > abs(Kirby::GetMainKirby()->GetPos().X - GetPos().X))
 	{
 		IsChangeState = true;
 	}
@@ -154,6 +163,19 @@ void SwordKnight::PendulumStrideUpdate(float _Delta)
 		return;
 	}
 
+
+	if (true == CheckLeftWall() || true == LeftGroundIsCliff() || 
+		RespawnLocation.X - SWORDKNIGHTRANGEDETECTION > GetPos().X)
+	{
+		CurrentSpeed = SWORDKNIGHTSPEED;
+	}
+	else if (true == CheckRightWall() || true == RightGroundIsCliff() ||
+		RespawnLocation.X + SWORDKNIGHTRANGEDETECTION < GetPos().X)
+	{
+		CurrentSpeed = -SWORDKNIGHTSPEED;
+	}
+
+
 	BlockedByGround();
 	BlockedByWall();
 
@@ -162,6 +184,8 @@ void SwordKnight::PendulumStrideUpdate(float _Delta)
 		Gravity(_Delta);
 	}
 	VerticalUpdate(_Delta);
+
+	HorizontalUpdate(_Delta);
 }
 
 
@@ -169,14 +193,19 @@ void SwordKnight::RaiseSwordStart()
 {
 	StateTime = 0.0f;
 	IsChangeState = false;
-	BounceCount = 0;
 	GetKirbyDirection();
-	GravityReset();
 	ChangeAnimationState("RaiseSword");
 }
 
 void SwordKnight::RaiseSwordUpdate(float _Delta)
 {
+	StateTime += _Delta;
+
+	if (StateTime > SWORDKNIGHTRAISESWORDTIME)
+	{
+		IsChangeState = true;
+	}
+
 	if (true == IsChangeState)
 	{
 		ChangeState(SwordKnightState::Slash);
@@ -184,10 +213,6 @@ void SwordKnight::RaiseSwordUpdate(float _Delta)
 	}
 
 	BlockedByGround();
-
-	Gravity(_Delta);
-	GravityLimit(GRAVITYMAXVECTOR);
-	VerticalUpdate(_Delta);
 }
 
 
@@ -195,25 +220,48 @@ void SwordKnight::SlashStart()
 {
 	StateTime = 0.0f;
 	IsChangeState = false;
-	BounceCount = 0;
-	GetKirbyDirection();
-	GravityReset();
+	if (ActorDir::Left == Dir)
+	{
+		CurrentSpeed = -SWORDKNIGHTSLASHINSTANTANEOUSSPEED;
+	}
+	else if (ActorDir::Right == Dir)
+	{
+		CurrentSpeed = SWORDKNIGHTSLASHINSTANTANEOUSSPEED;
+	}
 	ChangeAnimationState("Slash");
 }
 
 void SwordKnight::SlashUpdate(float _Delta)
 {
+	if (true == MainRenderer->IsAnimationEnd())
+	{
+		IsChangeState = true;
+	}
+
 	if (true == IsChangeState)
 	{
-		ChangeState(SwordKnightState::ReversingSlash);
+		int SlashLink = GameEngineRandom::MainRandom.RandomInt(0, 2) / 2;
+		switch (SlashLink)
+		{
+		case 0:
+			ChangeState(SwordKnightState::PendulumStride);
+			break;
+		case 1:
+			ChangeState(SwordKnightState::ReversingSlash);
+			break;
+		default:
+			break;
+		}
+
 		return;
 	}
 
-	BlockedByGround();
 
-	Gravity(_Delta);
-	GravityLimit(GRAVITYMAXVECTOR);
-	VerticalUpdate(_Delta);
+	BlockedByGround();
+	BlockedByWall();
+
+	DecelerationUpdate(_Delta, SWORDKNIGHTDEACELECTIONSPEED);
+	HorizontalUpdate(_Delta);
 }
 
 
@@ -221,14 +269,19 @@ void SwordKnight::UnderhandStart()
 {
 	StateTime = 0.0f;
 	IsChangeState = false;
-	BounceCount = 0;
 	GetKirbyDirection();
-	GravityReset();
 	ChangeAnimationState("Underhand");
 }
 
 void SwordKnight::UnderhandUpdate(float _Delta)
 {
+	StateTime += _Delta;
+
+	if (StateTime > SWORDKNIGHTUNDERHANDTIME)
+	{
+		IsChangeState = true;
+	}
+
 	if (true == IsChangeState)
 	{
 		ChangeState(SwordKnightState::ReversingSlash);
@@ -236,10 +289,6 @@ void SwordKnight::UnderhandUpdate(float _Delta)
 	}
 
 	BlockedByGround();
-
-	Gravity(_Delta);
-	GravityLimit(GRAVITYMAXVECTOR);
-	VerticalUpdate(_Delta);
 }
 
 
@@ -247,18 +296,20 @@ void SwordKnight::ReversingSlashStart()
 {
 	StateTime = 0.0f;
 	IsChangeState = false;
-	IsRollingSpeedZero = false;
-	CurrentSpeed = SwordKnightROLLINGSPEED;
-	RollingSpeedZeroTime = SwordKnightCLIFFSTOPTIME;
-	GetKirbyDirection();
+	if (ActorDir::Left == Dir)
+	{
+		CurrentSpeed = -SWORDKNIGHTUNDERHANDINSTANTANEOUSSPEED;
+	}
+	else if (ActorDir::Right == Dir)
+	{
+		CurrentSpeed = SWORDKNIGHTUNDERHANDINSTANTANEOUSSPEED;
+	}
 	ChangeAnimationState("ReversingSlash");
 }
 
 void SwordKnight::ReversingSlashUpdate(float _Delta)
 {
-	StateTime += _Delta;
-
-	if (StateTime > SwordKnightROLLINGTIME)
+	if (true == MainRenderer->IsAnimationEnd())
 	{
 		IsChangeState = true;
 	}
@@ -269,18 +320,26 @@ void SwordKnight::ReversingSlashUpdate(float _Delta)
 		return;
 	}
 
-	if ((ActorDir::Left == Dir && true == LeftGroundIsCliff()) ||
-		(ActorDir::Right == Dir && true == RightGroundIsCliff()))
-	{
-		IsRollingSpeedZero = true;
-	}
 
 	BlockedByGround();
 	BlockedByWall();
 
-	if (false == IsRollingSpeedZero)
-	{
-		HorizontalUpdate(_Delta);
-	}
+	DecelerationUpdate(_Delta, SWORDKNIGHTDEACELECTIONSPEED);
+	HorizontalUpdate(_Delta);
 }
 
+
+
+
+void SwordKnight::Render(float _Delta)
+{
+	float4 WinScale = GameEngineWindow::MainWindow.GetScale();
+	HWND HWnd = GameEngineWindow::MainWindow.GetHWND();
+	PAINTSTRUCT PS;
+
+	HDC LineDC = BeginPaint(HWnd, &PS);
+
+	MoveToEx(LineDC, GetPos().iX(), 0, NULL);
+	LineTo(LineDC, GetPos().iX(), WinScale.iY());
+	EndPaint(HWnd, &PS);
+}

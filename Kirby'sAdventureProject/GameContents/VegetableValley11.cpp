@@ -22,6 +22,7 @@
 #include "HotHead.h"
 #include "Sparky.h"
 #include "Togezo.h"
+#include "SwordKnight.h"
 #include "PlayUIManager.h"
 
 #include <map>
@@ -106,6 +107,11 @@ void VegetableValley11::Start()
 	Togezo* Togezo1 = GameEngineLevel::CreateActor<Togezo>();
 	Togezo1->init("VegetableValley1_1Pixel.bmp", TogezoState::Walk, float4{ 1100, 384 });
 	LevelEnemy.insert(std::make_pair("Togezo1", Togezo1));
+
+	// ÆÄ¿ö¸÷ 5
+	SwordKnight* SwordKnight1 = GameEngineLevel::CreateActor<SwordKnight>();
+	SwordKnight1->init("VegetableValley1_1Pixel.bmp", SwordKnightState::PendulumStride, float4{ 1250, 384 });
+	LevelEnemy.insert(std::make_pair("SwordKnight1", SwordKnight1));
 
 
 	GameEngineLevel::CreateActor<PlayUIManager>();

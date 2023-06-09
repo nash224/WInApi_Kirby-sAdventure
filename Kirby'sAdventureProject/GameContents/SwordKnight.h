@@ -1,20 +1,23 @@
 #pragma once
 #include "PowerEnemies.h"
 
-#define SWORDKNIGHTSPEED 60.0f
+#define SWORDKNIGHTSPEED 80.0f
+#define SWORDKNIGHTSLASHCOOLDOWN 2.0f
 
-#define SwordKnightRANGEDETECTION 300.0f
+#define SWORDKNIGHTRANGEDETECTION 200.0f
 
 #define SWORDKNIGHTRAISESWORDTIME 0.2f
-#define SWORDKNIGHTSLASHINSTANTANEOUSSPEED 300.0f
+#define SWORDKNIGHTSLASHINSTANTANEOUSSPEED 800.0f
+#define SWORDKNIGHTSLASHTIME 0.35f
+#define SWORDKNIGHTSLASHFRAMETIME 0.05f
 
 #define SWORDKNIGHTUNDERHANDTIME SWORDKNIGHTRAISESWORDTIME
-#define SWORDKNIGHTUNDERHANDINSTANTANEOUSSPEED 200.0f
+#define SWORDKNIGHTUNDERHANDINSTANTANEOUSSPEED 600.0f
+#define SWORDKNIGHTUNDERSLASHTIME SWORDKNIGHTSLASHTIME
+#define SWORDKNIGHTUNDERSLASHFRAMETIME SWORDKNIGHTSLASHFRAMETIME
 
 
-#define DEACELECTIONSPEED 800.0f
-
-
+#define SWORDKNIGHTDEACELECTIONSPEED SWORDKNIGHTSLASHINSTANTANEOUSSPEED / SWORDKNIGHTSLASHTIME
 
 
 enum class SwordKnightState
@@ -47,10 +50,6 @@ protected:
 	SwordKnightState State = SwordKnightState::Max;
 	SwordKnightState RespawnState = SwordKnightState::Max;
 
-	bool IsRollingSpeedZero = false;
-	float RollingSpeedZeroTime = 0.0f;
-	int BounceCount = 0;
-
 	void StateUpdate(float _Delta) override;
 	void ChangeState(SwordKnightState _State);
 	void ChangeRespawnState() override;
@@ -70,6 +69,7 @@ protected:
 private:
 	void Start() override;
 	void Update(float _Delta) override;
+	void Render(float _Delta) override;
 
 };
 

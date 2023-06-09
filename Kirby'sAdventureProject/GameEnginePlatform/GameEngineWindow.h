@@ -28,6 +28,11 @@ public:
 		return Hdc;
 	}
 
+	HWND GetHWND()
+	{
+		return hWnd;
+	}
+
 	float4 GetScale()
 	{
 		return Scale;
