@@ -98,6 +98,12 @@ float4 Enemy::GetKirbyUnitVector()
 	return StartDir;
 }
 
+float4 Enemy::GetKirbyOpponentDistance()
+{
+	float4 OpponentDistance = Kirby::GetMainKirby()->GetPos() - GetPos();
+	return OpponentDistance;
+}
+
 
 void Enemy::CheckOverScreen()
 {

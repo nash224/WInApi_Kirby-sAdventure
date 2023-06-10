@@ -62,6 +62,8 @@ protected:
 	float StateTime = 0.0f;
 
 	float CurrentSpeed = 0.0f;
+	float CurentVerticalSpeed = 0.0f;
+
 
 
 
@@ -135,9 +137,13 @@ protected:
 	}
 
 	// 이동 함수
+	void VerticalSpeedLimitBasedlevitation(float _Speed);
+	void VerticalUpdateBasedlevitation(float _Delta);
+
 	virtual void DecelerationUpdate(float _Delta, float _Speed);
 	virtual void HorizontalSpeedLimit(float _Speed);
 	virtual void HorizontalUpdate(float _Delta);
+
 
 private:
 	class GameEngineWindowTexture* GroundTexture = nullptr;

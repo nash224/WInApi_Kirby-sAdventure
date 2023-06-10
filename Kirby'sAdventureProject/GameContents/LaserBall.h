@@ -1,19 +1,19 @@
 #pragma once
 #include "PowerEnemies.h"
 
-#define LASERBALLSPEED 60.0f
-#define LASERBALLDECELECTIONSPEED 300.0f
-#define LAZERBALLLIMITSPEED 400.0f
-
-#define LAZERBALLLVERTICALSPEED LASERBALLSPEED
-#define LAZERBALLVERTICALDECELECTIONSPEED LASERBALLDECELECTIONSPEED
-#define LAZERBALLVERTICALLIMITSPEED LAZERBALLLIMITSPEED
+#define LASERBALLZEROTOTOPSPEEDTIME 1.0f
+#define LAZERBALLLIMITSPEED 200.0f
+#define LASERBALLACELECTIONSPEED LAZERBALLLIMITSPEED / LASERBALLZEROTOTOPSPEEDTIME
 
 #define LASERBALLSHOOTDETECTMINRANGE 200.0f
-#define LASERBALLSHOOTDETECTMAXRANGE 300.0f
+#define LASERBALLRUNAWAYDETECTRANGE LASERBALLSHOOTDETECTMINRANGE + 100.0f
+#define LASERBALLSHOOTDETECTMAXRANGE LASERBALLSHOOTDETECTMINRANGE + 200.0f
 #define LASERBALLSHOOTVERTICALDETECTRANGE 30.0f
+#define LASERBALLVERTICALDETECTRANGE LASERBALLSHOOTVERTICALDETECTRANGE + 100.0f
 
 #define LASERBALLSHOOTCHANGEFRAMETIME 0.05f
+
+#define LASERBALLRUNAWAYSPEED 100.0f
 
 
 
@@ -48,7 +48,8 @@ protected:
 	LaserBallState State = LaserBallState::Max;
 	LaserBallState RespawnState = LaserBallState::Max;
 
-	int WobbleCount = 0;
+	int ChargingCount = -1;
+	int ShootCount = 0;
 
 	void StateUpdate(float _Delta) override;
 	void ChangeState(LaserBallState _State);
@@ -61,13 +62,13 @@ protected:
 
 	void FlyUpdate(float _Delta);
 	void ChargingUpdate(float _Delta);
-	void FireBallUpdate(float _Delta);
 	void ShootUpdate(float _Delta);
 	void RunAwayUpdate(float _Delta);
 
 private:
 	void Start() override;
 	void Update(float _Delta) override;
+	void Render(float _Delta) override;
 
 };
 

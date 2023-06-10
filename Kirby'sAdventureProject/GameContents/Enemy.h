@@ -43,8 +43,10 @@ protected:
 	// 판정 함수
 	bool LeftGroundIsCliff();
 	bool RightGroundIsCliff();
+
 	void GetKirbyDirection();
 	float4 GetKirbyUnitVector();
+	float4 GetKirbyOpponentDistance();
 
 	// 리스폰 함수
 	float4 RespawnLocation = float4::ZERO;

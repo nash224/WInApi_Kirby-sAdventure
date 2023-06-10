@@ -40,11 +40,11 @@ void LaserBall::Start()
 	MainRenderer->CreateAnimation("Left_Charging", "Left_PowerEnemy.bmp", 5, 3, LASERBALLSHOOTCHANGEFRAMETIME, true);
 	MainRenderer->CreateAnimation("Right_Charging", "Right_PowerEnemy.bmp", 5, 3, LASERBALLSHOOTCHANGEFRAMETIME, true);
 
-	MainRenderer->CreateAnimation("Left_Shoot", "Left_PowerEnemy.bmp", 5, 2, LASERBALLSHOOTCHANGEFRAMETIME, false);
-	MainRenderer->CreateAnimation("Right_Shoot", "Right_PowerEnemy.bmp", 5, 2, LASERBALLSHOOTCHANGEFRAMETIME, false);
+	MainRenderer->CreateAnimation("Left_Shoot", "Left_PowerEnemy.bmp", 5, 2, LASERBALLSHOOTCHANGEFRAMETIME, true);
+	MainRenderer->CreateAnimation("Right_Shoot", "Right_PowerEnemy.bmp", 5, 2, LASERBALLSHOOTCHANGEFRAMETIME, true);
 
-	MainRenderer->CreateAnimation("Left_RunAway", "Left_PowerEnemy.bmp", 0, 0, 0.3f, false);
-	MainRenderer->CreateAnimation("Right_RunAway", "Right_PowerEnemy.bmp", 0, 0, 0.3f, false);
+	MainRenderer->CreateAnimation("Right_RunAway", "Left_PowerEnemy.bmp", 0, 0, 0.3f, false);
+	MainRenderer->CreateAnimation("Left_RunAway", "Right_PowerEnemy.bmp", 0, 0, 0.3f, false);
 
 	 MainRenderer->SetRenderScaleToTexture();
 	MainRenderer->SetScaleRatio(3.0f);
@@ -78,8 +78,6 @@ void LaserBall::init(const std::string& _FileName, LaserBallState _State, const 
 
 void LaserBall::Update(float _Delta)
 {
-	GroundCheck();
-
 	StateUpdate(_Delta);
 
 	CheckOverScreen();
@@ -128,6 +126,8 @@ void LaserBall::FlyStart()
 {
 	StateTime = 0.0f;
 	IsChangeState = false;
+	CurrentSpeed = 0.0f;
+	CurentVerticalSpeed = 0.0f;
 	GravityReset();
 	GetKirbyDirection();
 	ChangeAnimationState("Fly");
@@ -137,52 +137,103 @@ void LaserBall::FlyUpdate(float _Delta)
 {
 	StateTime += _Delta;
 
-	if (StateTime > 3.0f)
-	{
-		StateTime = 0.0f;
+	float4 LaserBallPos = GetPos();
+	float4 KirbyPos = Kirby::GetMainKirby()->GetPos();
+	float4 OpponentDistance = KirbyPos - LaserBallPos;
 
-		//if (LaserBallFIREBALLRANGEDETECTION > abs(Kirby::GetMainKirby()->GetPos().X - GetPos().X))
-		//{
-		//	ChangeState(LaserBallState::FlameBreathCharging);
-		//	return;
-		//}
-		//else if (LaserBallRANGEDETECTION > abs(Kirby::GetMainKirby()->GetPos().X - GetPos().X))
-		//{
-		//	ChangeState(LaserBallState::FireBallCharging);
-		//	return;
-		//}
+	if (LASERBALLSHOOTVERTICALDETECTRANGE > abs(OpponentDistance.Y) &&
+		LASERBALLSHOOTDETECTMINRANGE < abs(OpponentDistance.X) && 
+		abs(OpponentDistance.X) < LASERBALLSHOOTDETECTMAXRANGE)
+	{
+		IsChangeState = true;
 	}
 
-	if (true == CheckLeftWall() || true == LeftGroundIsCliff())
+	if (true == IsChangeState)
 	{
-		Dir = ActorDir::Right;
-		MainRenderer->ChangeAnimation("Right_Walk");
-	}
-	else if (true == CheckRightWall() || true == RightGroundIsCliff())
-	{
-		Dir = ActorDir::Left;
-		MainRenderer->ChangeAnimation("Left_Walk");
-	}
-
-	if (ActorDir::Left == Dir)
-	{
-		CurrentSpeed = -LASERBALLSPEED;
-	}
-	else if (ActorDir::Right == Dir)
-	{
-		CurrentSpeed = LASERBALLSPEED;
+		ChangeState(LaserBallState::Charging);
+		return;
 	}
 
 
-	BlockedByGround();
-	BlockedByWall();
-
-	if (false == GetGroundState())
+	if (LASERBALLRUNAWAYDETECTRANGE > abs(OpponentDistance.X))
 	{
-		Gravity(_Delta);
+		if (LaserBallPos.Y < KirbyPos.Y)
+		{
+			if (OpponentDistance.Y < LASERBALLVERTICALDETECTRANGE)
+			{
+				CurentVerticalSpeed -= LASERBALLACELECTIONSPEED * _Delta;
+			}
+			else if (OpponentDistance.Y > LASERBALLVERTICALDETECTRANGE)
+			{
+				CurentVerticalSpeed += LASERBALLACELECTIONSPEED * _Delta;
+			}
+		}
+		else if (LaserBallPos.Y > KirbyPos.Y)
+		{
+			if (OpponentDistance.Y > -LASERBALLVERTICALDETECTRANGE)
+			{
+				CurentVerticalSpeed += LASERBALLACELECTIONSPEED * _Delta;
+			}
+			else if (OpponentDistance.Y < -LASERBALLVERTICALDETECTRANGE)
+			{
+				CurentVerticalSpeed -= LASERBALLACELECTIONSPEED * _Delta;
+			}
+		}
 	}
-	VerticalUpdate(_Delta);
+	else if (LASERBALLRUNAWAYDETECTRANGE < abs(OpponentDistance.X))
+	{
+		if (LaserBallPos.Y < KirbyPos.Y)
+		{
+			CurentVerticalSpeed += LASERBALLACELECTIONSPEED * _Delta;
+		}
+		else if (LaserBallPos.Y > KirbyPos.Y)
+		{
+			CurentVerticalSpeed -= LASERBALLACELECTIONSPEED * _Delta;
+		}
+	}
 
+	if (OpponentDistance.X < LASERBALLRUNAWAYDETECTRANGE && KirbyPos.X > LaserBallPos.X)
+	{
+		if (ActorDir::Right == Dir)
+		{
+			Dir = ActorDir::Left;
+			MainRenderer->ChangeAnimation("Left_Fly");
+		}
+		CurrentSpeed -= LASERBALLACELECTIONSPEED * _Delta;
+	}
+	else if (OpponentDistance.X > -LASERBALLRUNAWAYDETECTRANGE && KirbyPos.X < LaserBallPos.X)
+	{
+		if (ActorDir::Left == Dir)
+		{
+			Dir = ActorDir::Right;
+			MainRenderer->ChangeAnimation("Right_Fly");
+		}
+		CurrentSpeed += LASERBALLACELECTIONSPEED * _Delta;
+	}
+
+	if (OpponentDistance.X > LASERBALLRUNAWAYDETECTRANGE)
+	{
+		if (ActorDir::Left == Dir)
+		{
+			Dir = ActorDir::Right;
+			MainRenderer->ChangeAnimation("Right_Fly");
+		}
+		CurrentSpeed += LASERBALLACELECTIONSPEED * _Delta;
+	}
+	else if (OpponentDistance.X < -LASERBALLRUNAWAYDETECTRANGE)
+	{
+		if (ActorDir::Right == Dir)
+		{
+			Dir = ActorDir::Left;
+			MainRenderer->ChangeAnimation("Left_Fly");
+		}
+		CurrentSpeed -= LASERBALLACELECTIONSPEED * _Delta;
+	}
+
+	VerticalSpeedLimitBasedlevitation(LAZERBALLLIMITSPEED);
+	VerticalUpdateBasedlevitation(_Delta);
+
+	HorizontalSpeedLimit(LAZERBALLLIMITSPEED);
 	HorizontalUpdate(_Delta);
 }
 
@@ -191,20 +242,20 @@ void LaserBall::ChargingStart()
 {
 	StateTime = 0.0f;
 	IsChangeState = false;
+	ChargingCount = GameEngineRandom::MainRandom.RandomInt(4, 12);
+	ShootCount = (ChargingCount - 4) / 2 + 1;
 	GetKirbyDirection();
 	ChangeAnimationState("Charging");
 }
 
 void LaserBall::ChargingUpdate(float _Delta)
 {
-	StateTime += _Delta;
-
-	if (StateTime > LASERBALLSPEED)
+	if (true == MainRenderer->IsAnimationEnd())
 	{
-		IsChangeState = true;
+		--ChargingCount;
 	}
 
-	if (true == IsChangeState)
+	if (0 == ChargingCount)
 	{
 		ChangeState(LaserBallState::Shoot);
 		return;
@@ -216,57 +267,18 @@ void LaserBall::ShootStart()
 {
 	StateTime = 0.0f;
 	IsChangeState = false;
-	WobbleCount = 0;
+	CurentVerticalSpeed = 0.0f;
 	ChangeAnimationState("Shoot");
 }
 
 void LaserBall::ShootUpdate(float _Delta)
 {
-	StateTime += _Delta;
-
-	if (StateTime > LASERBALLSPEED)
+	if (true == MainRenderer->IsAnimationEnd())
 	{
-		StateTime = 0.0f;
-		++WobbleCount;
-
-		if (ActorDir::Left == Dir)
-		{
-			if (1 == WobbleCount % 3)
-			{
-				AddPos(float4::LEFT * 6.0f);
-			}
-			else if (2 == WobbleCount % 3)
-			{
-				AddPos(float4::RIGHT * 4.0f);
-			}
-			else if (0 == WobbleCount % 3)
-			{
-				AddPos(float4::RIGHT * 2.0f);
-			}
-		}
-		else if (ActorDir::Right == Dir)
-		{
-			if (1 == WobbleCount % 3)
-			{
-				AddPos(float4::RIGHT * 6.0f);
-			}
-			else if (2 == WobbleCount % 3)
-			{
-				AddPos(float4::LEFT * 4.0f);
-			}
-			else if (0 == WobbleCount % 3)
-			{
-				AddPos(float4::LEFT * 2.0f);
-			}
-		}
+		--ShootCount;
 	}
 
-	if (9 == WobbleCount)
-	{
-		IsChangeState = true;
-	}
-
-	if (true == IsChangeState)
+	if (0 == ShootCount)
 	{
 		ChangeState(LaserBallState::RunAway);
 		return;
@@ -283,15 +295,37 @@ void LaserBall::RunAwayStart()
 
 void LaserBall::RunAwayUpdate(float _Delta)
 {
-	StateTime += _Delta;
-
-	if (StateTime > LASERBALLSPEED)
+	if (ActorDir::Left == Dir)
 	{
-		IsChangeState = true;
+		CurrentSpeed = LASERBALLRUNAWAYSPEED;
+	}
+	else if (ActorDir::Right == Dir)
+	{
+		CurrentSpeed = -LASERBALLRUNAWAYSPEED;
 	}
 
-	if (true == IsChangeState)
-	{
-		return;
-	}
+	ReverseGravity(_Delta);
+	VerticalUpdate(_Delta);
+
+	HorizontalUpdate(_Delta);
+}
+
+
+
+void LaserBall::Render(float _Delta)
+{
+	//float4 WinScale = GameEngineWindow::MainWindow.GetScale();
+	//int CameraPos = GetLevel()->GetMainCamera()->GetPos().iX();
+
+	//GameEngineWindowTexture* Backbuffer = GameEngineWindow::MainWindow.GetBackBuffer();
+	//HDC LineDC = Backbuffer->GetImageDC();
+
+	//MoveToEx(LineDC, GetPos().iX() - CameraPos + static_cast<int>(LASERBALLSHOOTDETECTMINRANGE), 0, NULL);
+	//LineTo(LineDC, GetPos().iX() - CameraPos + static_cast<int>(LASERBALLSHOOTDETECTMINRANGE), WinScale.iY());
+
+	//MoveToEx(LineDC, GetPos().iX() - CameraPos + static_cast<int>(LASERBALLRUNAWAYDETECTRANGE), 0, NULL);
+	//LineTo(LineDC, GetPos().iX() - CameraPos + static_cast<int>(LASERBALLRUNAWAYDETECTRANGE), WinScale.iY());
+
+	//MoveToEx(LineDC, GetPos().iX() - CameraPos + static_cast<int>(LASERBALLSHOOTDETECTMAXRANGE), 0, NULL);
+	//LineTo(LineDC, GetPos().iX() - CameraPos + static_cast<int>(LASERBALLSHOOTDETECTMAXRANGE), WinScale.iY());
 }

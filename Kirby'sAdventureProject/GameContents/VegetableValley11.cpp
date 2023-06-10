@@ -23,6 +23,7 @@
 #include "Sparky.h"
 #include "Togezo.h"
 #include "SwordKnight.h"
+#include "LaserBall.h"
 #include "PlayUIManager.h"
 
 #include <map>
@@ -112,6 +113,11 @@ void VegetableValley11::Start()
 	SwordKnight* SwordKnight1 = GameEngineLevel::CreateActor<SwordKnight>();
 	SwordKnight1->init("VegetableValley1_1Pixel.bmp", SwordKnightState::PendulumStride, float4{ 1250, 384 });
 	LevelEnemy.insert(std::make_pair("SwordKnight1", SwordKnight1));
+
+	// ÆÄ¿ö¸÷ 6
+	LaserBall* LaserBall1 = GameEngineLevel::CreateActor<LaserBall>();
+	LaserBall1->init("VegetableValley1_1Pixel.bmp", LaserBallState::Fly, float4{ 1250, 200 });
+	LevelEnemy.insert(std::make_pair("LaserBall1", LaserBall1));
 
 
 	GameEngineLevel::CreateActor<PlayUIManager>();
