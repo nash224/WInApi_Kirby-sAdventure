@@ -60,8 +60,14 @@ void SwordKnight::Start()
 
 
 	BodyCollision = CreateCollision(CollisionOrder::MonsterBody);
-	BodyCollision->SetCollisionScale(Scale);
+	BodyCollision->SetCollisionPos(float4{ 0.0f , -SMALLTYPECOLLISIONSCALE.hY() });
+	BodyCollision->SetCollisionScale(SMALLTYPECOLLISIONSCALE);
 	BodyCollision->SetCollisionType(CollisionType::Rect);
+
+	AbilityCollision = CreateCollision(CollisionOrder::MonsterAbility);
+	AbilityCollision->SetCollisionScale(float4{ 141.0f, 99.0f });
+	AbilityCollision->SetCollisionType(CollisionType::Rect);
+	AbilityCollision->Off();
 }
 
 void SwordKnight::init(const std::string& _FileName, SwordKnightState _State, const float4& _Pos)
@@ -194,6 +200,19 @@ void SwordKnight::RaiseSwordStart()
 	StateTime = 0.0f;
 	IsChangeState = false;
 	GetKirbyDirection();
+
+	float CollisionPosX = 0.0f;
+
+	if (ActorDir::Left == Dir)
+	{
+		CollisionPosX = -10.5f;
+	}
+	else if (ActorDir::Right == Dir)
+	{
+		CollisionPosX = 10.5f;
+	}
+	AbilityCollision->SetCollisionPos(float4{ CollisionPosX , -49.5f });
+	
 	ChangeAnimationState("RaiseSword");
 }
 
@@ -228,6 +247,7 @@ void SwordKnight::SlashStart()
 	{
 		CurrentSpeed = SWORDKNIGHTSLASHINSTANTANEOUSSPEED;
 	}
+	AbilityCollision->On();
 	ChangeAnimationState("Slash");
 }
 
@@ -240,6 +260,7 @@ void SwordKnight::SlashUpdate(float _Delta)
 
 	if (true == IsChangeState)
 	{
+		AbilityCollision->Off();
 		int SlashLink = GameEngineRandom::MainRandom.RandomInt(0, 2) / 2;
 		switch (SlashLink)
 		{
@@ -270,6 +291,19 @@ void SwordKnight::UnderhandStart()
 	StateTime = 0.0f;
 	IsChangeState = false;
 	GetKirbyDirection();
+
+	float CollisionPosX = 0.0f;
+
+	if (ActorDir::Left == Dir)
+	{
+		CollisionPosX = -10.5f;
+	}
+	else if (ActorDir::Right == Dir)
+	{
+		CollisionPosX = 10.5f;
+	}
+	AbilityCollision->SetCollisionPos(float4{ CollisionPosX , -49.5f });
+
 	ChangeAnimationState("Underhand");
 }
 
@@ -304,6 +338,7 @@ void SwordKnight::ReversingSlashStart()
 	{
 		CurrentSpeed = SWORDKNIGHTUNDERHANDINSTANTANEOUSSPEED;
 	}
+	AbilityCollision->On();
 	ChangeAnimationState("ReversingSlash");
 }
 
@@ -316,6 +351,7 @@ void SwordKnight::ReversingSlashUpdate(float _Delta)
 
 	if (true == IsChangeState)
 	{
+		AbilityCollision->Off();
 		ChangeState(SwordKnightState::PendulumStride);
 		return;
 	}
@@ -333,12 +369,12 @@ void SwordKnight::ReversingSlashUpdate(float _Delta)
 
 void SwordKnight::Render(float _Delta)
 {
-	float4 WinScale = GameEngineWindow::MainWindow.GetScale();
-	int CameraPos = GetLevel()->GetMainCamera()->GetPos().iX();
+	//float4 WinScale = GameEngineWindow::MainWindow.GetScale();
+	//int CameraPos = GetLevel()->GetMainCamera()->GetPos().iX();
 
-	GameEngineWindowTexture* Backbuffer = GameEngineWindow::MainWindow.GetBackBuffer();
-	HDC LineDC = Backbuffer->GetImageDC();
+	//GameEngineWindowTexture* Backbuffer = GameEngineWindow::MainWindow.GetBackBuffer();
+	//HDC LineDC = Backbuffer->GetImageDC();
 
-	MoveToEx(LineDC, GetPos().iX() - CameraPos, 0, NULL);
-	LineTo(LineDC, GetPos().iX() - CameraPos, WinScale.iY());
+	//MoveToEx(LineDC, GetPos().iX() - CameraPos, 0, NULL);
+	//LineTo(LineDC, GetPos().iX() - CameraPos, WinScale.iY());
 }

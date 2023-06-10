@@ -16,6 +16,7 @@
 #include <GameEngineCore/ResourcesManager.h>
 
 #include "Kirby.h"
+#include "Beam.h"
 #include <vector>
 
 LaserBall::LaserBall()
@@ -46,7 +47,7 @@ void LaserBall::Start()
 	MainRenderer->CreateAnimation("Right_RunAway", "Left_PowerEnemy.bmp", 0, 0, 0.3f, false);
 	MainRenderer->CreateAnimation("Left_RunAway", "Right_PowerEnemy.bmp", 0, 0, 0.3f, false);
 
-	 MainRenderer->SetRenderScaleToTexture();
+	MainRenderer->SetRenderScaleToTexture();
 	MainRenderer->SetScaleRatio(3.0f);
 
 	Scale = float4{ 24.0f, 39.0f };
@@ -56,7 +57,8 @@ void LaserBall::Start()
 
 
 	BodyCollision = CreateCollision(CollisionOrder::MonsterBody);
-	BodyCollision->SetCollisionScale(Scale);
+	BodyCollision->SetCollisionPos(float4{ 0.0f , -SMALLTYPECOLLISIONSCALE.hY() });
+	BodyCollision->SetCollisionScale(SMALLTYPECOLLISIONSCALE);
 	BodyCollision->SetCollisionType(CollisionType::Rect);
 }
 
@@ -275,6 +277,9 @@ void LaserBall::ShootUpdate(float _Delta)
 {
 	if (true == MainRenderer->IsAnimationEnd())
 	{
+		Beam* Beam1 = GetLevel()->CreateActor<Beam>();
+		Beam1->init(GetPos(), Scale, GetAbilityDir());
+		Beam1->SetActorCollision(CollisionOrder::MonsterAbility, CollisionType::Rect);
 		--ShootCount;
 	}
 

@@ -49,6 +49,7 @@ public:
 protected:
 	SwordKnightState State = SwordKnightState::Max;
 	SwordKnightState RespawnState = SwordKnightState::Max;
+	GameEngineCollision* AbilityCollision = nullptr;
 
 	void StateUpdate(float _Delta) override;
 	void ChangeState(SwordKnightState _State);

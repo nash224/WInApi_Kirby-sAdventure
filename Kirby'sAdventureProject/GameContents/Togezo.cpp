@@ -54,8 +54,16 @@ void Togezo::Start()
 
 
 	BodyCollision = CreateCollision(CollisionOrder::MonsterBody);
+	BodyCollision->SetCollisionPos(float4{ 0.0f, -Scale.hY()});
 	BodyCollision->SetCollisionScale(Scale);
 	BodyCollision->SetCollisionType(CollisionType::Rect);
+	BodyCollision->On();
+
+	AbilityCollision = CreateCollision(CollisionOrder::MonsterBody);
+	AbilityCollision->SetCollisionPos(float4{ 0.0f , -SMALLTYPECOLLISIONSCALE.hY()});
+	AbilityCollision->SetCollisionScale(SMALLTYPECOLLISIONSCALE);
+	AbilityCollision->SetCollisionType(CollisionType::Rect);
+	AbilityCollision->Off();
 }
 
 void Togezo::init(const std::string& _FileName, TogezoState _State, const float4& _Pos)
@@ -184,6 +192,7 @@ void Togezo::BounceStart()
 	BounceCount = 0;
 	GetKirbyDirection();
 	GravityReset();
+	AbilityCollision->On();
 	ChangeAnimationState("Bounce");
 }
 
@@ -248,6 +257,7 @@ void Togezo::RollUpdate(float _Delta)
 
 	if (true == IsChangeState)
 	{
+		AbilityCollision->Off();
 		ChangeState(TogezoState::Walk);
 		return;
 	}

@@ -15,7 +15,6 @@
 #include <GameEngineCore/ResourcesManager.h>
 
 #include "Grunt.h"
-#include "Projectile.h"
 
 #include <Windows.h>
 

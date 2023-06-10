@@ -18,7 +18,7 @@ public:
 protected:
 	float AbilityStartDeltaTime = 0.0f;
 
-
+	float4 GetAbilityDir();
 
 private:
 
