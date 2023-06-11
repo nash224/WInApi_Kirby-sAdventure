@@ -25,6 +25,7 @@
 
 
 #define SPARKYABILITYTIME 3.0f
+#define SPARKYSPARKFREQUENCY 0.1f
 #define SPARKYSPARKCHANGEFRAMETIME 0.05f
 
 
@@ -64,6 +65,7 @@ protected:
 
 	int RemainStanceJumpCount = 0;
 	float CurrentJumpDistance = 0.0f;
+	float SparkCoolDown = 0.0f;
 
 	void StateUpdate(float _Delta) override;
 	void ChangeState(SparkyState _State);

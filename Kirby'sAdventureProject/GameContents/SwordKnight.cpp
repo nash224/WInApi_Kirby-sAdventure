@@ -165,7 +165,19 @@ void SwordKnight::PendulumStrideUpdate(float _Delta)
 
 	if (true == IsChangeState)
 	{
-		ChangeState(SwordKnightState::RaiseSword);
+		int ActionNumber = GameEngineRandom::MainRandom.RandomInt(2, 5) / 3 + 1;
+
+		switch (ActionNumber)
+		{
+		case 1:
+			ChangeState(SwordKnightState::Underhand);
+			break;
+		case 2:
+			ChangeState(SwordKnightState::RaiseSword);
+			break;
+		default:
+			break;
+		}
 		return;
 	}
 

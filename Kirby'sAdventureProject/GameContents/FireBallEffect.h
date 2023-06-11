@@ -1,22 +1,22 @@
 #pragma once
 #include "SkillEffect.h"
 
-#define BEAMSPEED 1200.0f
+#define FIREBALLEFFECTSPEED 600.0f
 
 
 // Ό³Έν :
-class Beam : public SkillEffect
+class FireBallEffect : public SkillEffect
 {
 public:
 	// constrcuter destructer
-	Beam();
-	~Beam();
+	FireBallEffect();
+	~FireBallEffect();
 
 	// delete Function
-	Beam(const Beam& _Other) = delete;
-	Beam(Beam&& _Other) noexcept = delete;
-	Beam& operator=(const Beam& _Other) = delete;
-	Beam& operator=(Beam&& _Other) noexcept = delete;
+	FireBallEffect(const FireBallEffect& _Other) = delete;
+	FireBallEffect(FireBallEffect&& _Other) noexcept = delete;
+	FireBallEffect& operator=(const FireBallEffect& _Other) = delete;
+	FireBallEffect& operator=(FireBallEffect&& _Other) noexcept = delete;
 
 	void init(const std::string& _FileName, const float4& _Pos, const float4& _MaterScale, const float4& _Dir);
 	void init(const float4& _Pos, const float4& _MaterScale, const float4& _Dir);

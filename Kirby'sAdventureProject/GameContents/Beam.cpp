@@ -65,11 +65,7 @@ void Beam::GroundPassUpdate(float _Delta)
 
 	if (CameraPos().X > GetPos().X && GetPos().X > CameraPos().X + WinScale.X)
 	{
-		if (nullptr != MainRenderer)
-		{
-			MainRenderer->Death();
-			MainRenderer = nullptr;
-		}
+		Death();
 	}
 }
 

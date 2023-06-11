@@ -16,6 +16,7 @@
 #include <GameEngineCore/ResourcesManager.h>
 
 #include "Kirby.h"
+#include "SparkEffect.h"
 #include <vector>
 
 Sparky::Sparky()
@@ -63,7 +64,8 @@ void Sparky::Start()
 
 
 	BodyCollision = CreateCollision(CollisionOrder::MonsterBody);
-	BodyCollision->SetCollisionScale(Scale);
+	BodyCollision->SetCollisionPos(float4{ 0.0f , -SMALLTYPECOLLISIONSCALE.hY() });
+	BodyCollision->SetCollisionScale(SMALLTYPECOLLISIONSCALE);
 	BodyCollision->SetCollisionType(CollisionType::Rect);
 }
 
@@ -502,12 +504,24 @@ void Sparky::SparkStart()
 	StateTime = 0.0f;
 	IsChangeState = false;
 	AbilityStartDeltaTime = 0.0f;
+	SparkCoolDown = 0.0f;
 	ChangeAnimationState("Spark");
 }
 
 void Sparky::SparkUpdate(float _Delta)
 {
 	StateTime += _Delta;
+	SparkCoolDown += _Delta;
+
+	if (SparkCoolDown > SPARKYSPARKFREQUENCY)
+	{
+		SparkCoolDown = 0.0f;
+
+		SparkEffect* SparkEffectPtr = GetLevel()->CreateActor<SparkEffect>();
+		SparkEffectPtr->init(GetPos(), Scale, float4::UP);
+		SparkEffectPtr->SetActorCollision(CollisionOrder::MonsterAbility, CollisionType::Rect);
+	}
+
 
 	if (StateTime > SPARKYABILITYTIME)
 	{
