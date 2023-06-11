@@ -47,6 +47,8 @@ void SkillEffect::SetGroundTexture(const std::string& _GroundTextureName)
 		MsgBoxAssert(" 픽셀충돌 맵을 찾을 수 없습니다. " + _GroundTextureName);
 		return;
 	}
+
+	IsPassGround = false;
 }
 
 int SkillEffect::GetGroundColor(unsigned int _DefaultColor, float4 _Pos/* = float4::ZERO*/)
@@ -83,4 +85,3 @@ void SkillEffect::CheckCenterPoint()
 
 	IsCenterPointReachGround = false;
 }
-

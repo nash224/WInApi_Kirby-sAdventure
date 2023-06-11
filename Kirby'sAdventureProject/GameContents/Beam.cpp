@@ -29,14 +29,6 @@ void Beam::Start()
 	SetCheckPoint(Scale);
 }
 
-void Beam::init(const std::string& _FileName, const float4& _MaterScale, const float4& _Pos, const float4& _Dir)
-{
-	IsPassGround = false;
-	SetGroundTexture(_FileName);
-	Dir = _Dir;
-	SetPos(_Pos + Dir * (_MaterScale.Half().X + Scale.Half().X) + float4{ 0.0f, -_MaterScale.Half().Y });
-}
-
 void Beam::init(const float4& _Pos, const float4& _MaterScale , const float4& _Dir)
 {
 	Dir = _Dir;

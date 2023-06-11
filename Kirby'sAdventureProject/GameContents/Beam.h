@@ -18,7 +18,6 @@ public:
 	Beam& operator=(const Beam& _Other) = delete;
 	Beam& operator=(Beam&& _Other) noexcept = delete;
 
-	void init(const std::string& _FileName, const float4& _Pos, const float4& _MaterScale, const float4& _Dir);
 	void init(const float4& _Pos, const float4& _MaterScale, const float4& _Dir);
 
 protected:

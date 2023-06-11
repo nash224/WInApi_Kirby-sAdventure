@@ -1,7 +1,7 @@
 #pragma once
 #include "SkillEffect.h"
 
-#define FIREBALLEFFECTSPEED 600.0f
+#define FIREBALLEFFECTSPEED 400.0f
 
 
 // Ό³Έν :
@@ -18,7 +18,6 @@ public:
 	FireBallEffect& operator=(const FireBallEffect& _Other) = delete;
 	FireBallEffect& operator=(FireBallEffect&& _Other) noexcept = delete;
 
-	void init(const std::string& _FileName, const float4& _Pos, const float4& _MaterScale, const float4& _Dir);
 	void init(const float4& _Pos, const float4& _MaterScale, const float4& _Dir);
 
 protected:

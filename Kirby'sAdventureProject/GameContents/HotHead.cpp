@@ -16,6 +16,8 @@
 #include <GameEngineCore/ResourcesManager.h>
 
 #include "Kirby.h"
+#include "FrameBreathEffect.h"
+#include "FireBallEffect.h"
 #include <vector>
 
 HotHead::HotHead()
@@ -223,6 +225,20 @@ void HotHead::FireBallStart()
 	StateTime = 0.0f;
 	IsChangeState = false;
 	WobbleCount = 0;
+
+	float4 EffectDir = float4::ZERO;
+	if (ActorDir::Left == Dir)
+	{
+		EffectDir = float4::LEFT;
+	}
+	else if (ActorDir::Right == Dir)
+	{
+		EffectDir = float4::RIGHT;
+	}
+
+	FireBallEffect* FireBallEffectPtr = GetLevel()->CreateActor<FireBallEffect>();
+	FireBallEffectPtr->init(GetPos(), Scale, EffectDir);
+
 	ChangeAnimationState("FireBall");
 }
 

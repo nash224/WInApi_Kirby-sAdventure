@@ -1,4 +1,4 @@
-#include "FireBallEffect.h"
+#include "FrameBreathEffect.h"
 #include "ContentsEnum.h"
 
 #include <GameEnginePlatform/GameEngineWindow.h>
@@ -6,16 +6,16 @@
 #include <GameEngineCore/GameEngineRenderer.h>
 #include <GameEngineCore/ResourcesManager.h>
 
-FireBallEffect::FireBallEffect()
+FrameBreathEffect::FrameBreathEffect()
 {
 }
 
-FireBallEffect::~FireBallEffect()
+FrameBreathEffect::~FrameBreathEffect()
 {
 }
 
 
-void FireBallEffect::Start()
+void FrameBreathEffect::Start()
 {
 	MainRenderer = CreateRenderer(RenderOrder::AbillityEffect);
 
@@ -32,7 +32,7 @@ void FireBallEffect::Start()
 	SetCheckPoint(Scale);
 }
 
-void FireBallEffect::init(const float4& _Pos, const float4& _MaterScale, const float4& _Dir)
+void FrameBreathEffect::init(const float4& _Pos, const float4& _MaterScale, const float4& _Dir)
 {
 	Dir = _Dir;
 	SetPos(_Pos + Dir * (_MaterScale.Half().X + Scale.Half().X) + float4{ 0.0f, -_MaterScale.Half().Y });
@@ -45,10 +45,14 @@ void FireBallEffect::init(const float4& _Pos, const float4& _MaterScale, const f
 	{
 		MainRenderer->ChangeAnimation("Right_FireEffect");
 	}
+
+
+	// Dir ÀçÁ¤ÀÇ
+
 }
 
 
-void FireBallEffect::Update(float _Delta)
+void FrameBreathEffect::Update(float _Delta)
 {
 	if (true == IsPassGround)
 	{
@@ -60,19 +64,20 @@ void FireBallEffect::Update(float _Delta)
 	}
 }
 
-void FireBallEffect::GroundPassUpdate(float _Delta)
+
+void FrameBreathEffect::GroundPassUpdate(float _Delta)
 {
-	float4 WinScale = GameEngineWindow::MainWindow.GetScale();
-	if (CameraPos().X > GetPos().X && GetPos().X > CameraPos().X + WinScale.X)
+	if (GetLiveTime() > FRAMEBREATHEFFECTDISTANCE)
 	{
 		Death();
 	}
 
-	AddPos(Dir * FIREBALLEFFECTSPEED * _Delta);
+	float EffectSpeed = FRAMEBREATHEFFECTDISTANCE / FRAMEBREATHEFFECTDURATION;
+	AddPos(Dir * EffectSpeed * _Delta);
 }
 
 
-void FireBallEffect::GroundNotPassUpdate(float _Delta)
+void FrameBreathEffect::GroundNotPassUpdate(float _Delta)
 {
 
 }
