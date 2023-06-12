@@ -23,7 +23,7 @@ void GlobalContents::TextureFileLoad(const std::string& _FileName, const std::st
 	std::string ParentPath = GameEnginePath::GetParentString(_Path);
 	FilePath.MoveParentToExistsChild(ParentPath);
 	FilePath.MoveChild(_Path);
-	ResourcesManager::GetInst().TextureLoad(FilePath.PlusFilePath(_FileName));
+	GameEngineWindowTexture* Texture = ResourcesManager::GetInst().TextureLoad(FilePath.PlusFilePath(_FileName));
 }
 
 void GlobalContents::SpriteFileLoad(const std::string& _FileName, const std::string& _Path, int _XCount, int _YCount)

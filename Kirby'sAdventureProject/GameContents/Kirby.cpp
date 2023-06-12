@@ -57,9 +57,17 @@ void Kirby::Start()
 	ChangeState(KirbyState::Idle);
 	SetCheckPoint(GetKirbyScale());
 
-	BodyCollision = CreateCollision(CollisionOrder::PlayerBody);
-	BodyCollision->SetCollisionScale(GetKirbyScale());
-	BodyCollision->SetCollisionType(CollisionType::Rect);
+	LittleCollision = CreateCollision(CollisionOrder::PlayerBody);
+	LittleCollision->SetCollisionPos(float4{ 0.0f , -SMALLTYPECOLLISIONSCALE.Half().Y });
+	LittleCollision->SetCollisionScale(SMALLTYPECOLLISIONSCALE);
+	LittleCollision->SetCollisionType(CollisionType::Rect);
+	LittleCollision->On();
+
+	FatCollision = CreateCollision(CollisionOrder::PlayerBody);
+	FatCollision->SetCollisionPos(float4{ 0.0f , -FATTYPECOLLISIONSCALE.Half().Y });
+	FatCollision->SetCollisionScale(FATTYPECOLLISIONSCALE);
+	FatCollision->SetCollisionType(CollisionType::Rect);
+	FatCollision->Off();
 }
 
 void Kirby::Update(float _Delta)
@@ -359,9 +367,5 @@ void Kirby::LevelStart()
 
 void Kirby::Render(float _Detla)
 {
-	//std::string Text = "";
-	//Text += "플레이어 테스트 값 : ";
-	//Text += std::to_string();
-
 	ActorCollisionDetectionPointRender();
 }

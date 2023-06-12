@@ -4,6 +4,8 @@
 #include <map>
 #include <string>
 
+#define FATTYPECOLLISIONSCALE float4{ 66.0f , 6.0f }
+
 #define WALKMAXSPEED 200.0f
 #define RUNMAXSPEED 350.0f
 #define FLYMAXSPEED 200.0f
@@ -197,6 +199,8 @@ protected:
 
 
 private:
+	GameEngineCollision* LittleCollision = nullptr;
+	GameEngineCollision* FatCollision = nullptr;
 	KirbyBodyState BodyState = KirbyBodyState::Max;
 	KirbyState State = KirbyState::Max;
 	KirbyMode Mode = KirbyMode::Max;

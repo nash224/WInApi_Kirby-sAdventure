@@ -7,6 +7,9 @@
 #include <GameEngineCore/ResourcesManager.h>
 
 #include "GlobalContents.h"
+#include "DustEffect.h"
+#include "HitObjectEffect.h"
+#include "ExhaleEffect.h"
 
 
 void Kirby::Normal_StateResourceLoad()
@@ -227,6 +230,9 @@ void Kirby::WalkUpdate(float _Delta)
 void Kirby::RunStart()
 {
 	StateTime = 0.0f;
+	DustEffect* DustEffectPtr = GetLevel()->CreateActor<DustEffect>();
+	DustEffectPtr->init(GetPos(), GetKirbyScale(), -GetDirUnitVector());
+
 	KirbyDirCheck();
 	ChangeAnimationState("Run");
 }
@@ -287,6 +293,9 @@ void Kirby::RunUpdate(float _Delta)
 		return;
 	}
 
+	BlockedByGround();
+	BlockedByWall();
+
 
 	MoveHorizontal(RUNSPEED, _Delta);
 	DecelerationUpdate(_Delta);
@@ -308,6 +317,8 @@ void Kirby::TurnStart()
 		Dir = ActorDir::Left;
 	}
 
+	DustEffect* DustEffectPtr = GetLevel()->CreateActor<DustEffect>();
+	DustEffectPtr->init(GetPos(), GetKirbyScale(), GetDirUnitVector());
 	ChangeAnimationState("Turn");
 }
 
@@ -586,6 +597,10 @@ void Kirby::BounceStart()
 {
 	StateTime = 0.0f;
 	IsChangeState = false;
+
+	HitObjectEffect* HitObjectEffectPtr = GetLevel()->CreateActor<HitObjectEffect>();
+	HitObjectEffectPtr->init(GetPos(), float4::ZERO);
+
 	ChangeAnimationState("Bounce");
 }
 
@@ -621,6 +636,10 @@ void Kirby::LandingStart()
 {
 	StateTime = 0.0f;
 	IsChangeState = false;
+
+	HitObjectEffect* HitObjectEffectPtr = GetLevel()->CreateActor<HitObjectEffect>();
+	HitObjectEffectPtr->init(GetPos(), float4::ZERO);
+
 	ChangeAnimationState("Landing");
 }
 
@@ -758,6 +777,10 @@ void Kirby::HittheWallStart()
 	StateTime = 0.0f;
 	CurrentSpeed = 0.0f;
 	IsChangeState = false;
+
+	HitObjectEffect* HitObjectEffectPtr = GetLevel()->CreateActor<HitObjectEffect>();
+	HitObjectEffectPtr->init(GetPos(), float4::ZERO);
+
 	ChangeAnimationState("HittheWall");
 }
 
@@ -795,6 +818,10 @@ void Kirby::HittheCeilingStart()
 	StateTime = 0.0f;
 	IsChangeState = false;
 	GravityReset();
+
+	HitObjectEffect* HitObjectEffectPtr = GetLevel()->CreateActor<HitObjectEffect>();
+	HitObjectEffectPtr->init(GetPos(), float4::ZERO);
+
 	ChangeAnimationState("HittheCeiling");
 }
 
@@ -899,19 +926,21 @@ void Kirby::FlyUpdate(float _Delta)
 		MainRenderer->FindAnimation("Normal_Right_Fly")->Inters = { 0.2f, 0.2f };
 	}
 
+	// 천장에 닿았을 때
 	if (true == CeilingCheck())
 	{
-		SetGravityVector(float4::ZERO);
+		GravityReset();
 	}
 
+	// 청록색 비트맵일 때
 	if (true == IsSolidGround() && false == (GameEngineInput::IsPress('W') || GameEngineInput::IsPress('X')))
 	{
-		SetGravityVector(float4::ZERO);
+		GravityReset();
 	}
 
 	if (true == IsPassableGround() && GetGravityVector().Y >= 0.0f && false == (GameEngineInput::IsPress('W') || GameEngineInput::IsPress('X')))
 	{
-		SetGravityVector(float4::ZERO);
+		GravityReset();
 	}
 
 
@@ -938,6 +967,11 @@ void Kirby::ExhaleAttackStart()
 	StateTime = 0.0f;
 	IsChangeState = false;
 	BodyState = KirbyBodyState::Little;
+
+	ExhaleEffect* ExhaleEffectPtr = GetLevel()->CreateActor<ExhaleEffect>();
+	ExhaleEffectPtr->init(GetPos(), GetKirbyScale(), GetDirUnitVector());
+	ExhaleEffectPtr->SetActorCollision(CollisionOrder::PlayerAbility, CollisionType::Rect);
+
 	ChangeAnimationState("ExhaleAttack");
 }
 

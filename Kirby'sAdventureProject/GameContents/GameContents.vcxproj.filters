@@ -165,6 +165,12 @@
     <ClInclude Include="ContentsActor.h">
       <Filter>Global</Filter>
     </ClInclude>
+    <ClInclude Include="HitObjectEffect.h">
+      <Filter>Global\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="ExhaleEffect.h">
+      <Filter>Global\Effect</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="TitleLevel.cpp">
@@ -338,6 +344,12 @@
     </ClCompile>
     <ClCompile Include="ContentsActor.cpp">
       <Filter>Global</Filter>
+    </ClCompile>
+    <ClCompile Include="HitObjectEffect.cpp">
+      <Filter>Global\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="ExhaleEffect.cpp">
+      <Filter>Global\Effect</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

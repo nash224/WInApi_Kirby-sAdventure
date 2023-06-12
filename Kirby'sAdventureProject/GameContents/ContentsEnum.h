@@ -12,9 +12,9 @@ enum class RenderOrder
 {
 	BackGround,
 	BackGroundEffect,
+	Play,
 	AbillityEffect,
 	HitEffect,
-	Play,
 	PlayUI,
 	DebugRender,
 };
@@ -24,6 +24,7 @@ enum class CollisionOrder
 	Map,
 	Potal,
 	PlayerBody,
+	PlayerAbility,
 	MonsterBody,
 	MonsterAbility,
 	Object,

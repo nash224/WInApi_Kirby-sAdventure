@@ -1,6 +1,7 @@
 #pragma once
 #include <GameEngineCore/GameEngineActor.h>
 
+#define UNIT 1.0f
 
 enum class ActorDir
 {
@@ -9,6 +10,14 @@ enum class ActorDir
 	Max,
 };
 
+enum class AttributeType
+{
+	None,
+	Fire,
+	Electricity,
+	Ice,
+	Max,
+};
 
 
 // Ό³Έν :
@@ -26,6 +35,7 @@ public:
 	ContentsActor& operator=(ContentsActor&& _Other) noexcept = delete;
 
 protected:
+	AttributeType Attribute = AttributeType::Max;
 	ActorDir Dir = ActorDir::Max;
 
 private:

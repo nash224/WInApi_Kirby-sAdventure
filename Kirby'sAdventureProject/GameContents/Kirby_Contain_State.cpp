@@ -6,6 +6,10 @@
 #include <GameEngineCore/ResourcesManager.h>
 
 #include "GlobalContents.h"
+#include "DustEffect.h"
+#include "HitObjectEffect.h"
+
+
 
 void Kirby::Contain_StateResourceLoad()
 {
@@ -117,13 +121,13 @@ void Kirby::Contain_WalkUpdate(float _Delta)
 		return;
 	}
 
-	if (CurrentSpeed < WALKMAXSPEED * 0.2f * _Delta && true == GameEngineInput::IsDown('A') && false == (GameEngineInput::IsPress('A') && GameEngineInput::IsPress('D')))
+	if (CurrentSpeed < WALKMAXSPEED * 0.2f && true == GameEngineInput::IsDown('A') && false == (GameEngineInput::IsPress('A') && GameEngineInput::IsPress('D')))
 	{
 		ChangeState(KirbyState::Contain_Run);
 		return;
 	}
 
-	if (CurrentSpeed > WALKMAXSPEED * 0.2f * _Delta && true == GameEngineInput::IsDown('D') && false == (GameEngineInput::IsPress('A') && GameEngineInput::IsPress('D')))
+	if (CurrentSpeed > WALKMAXSPEED * 0.2f && true == GameEngineInput::IsDown('D') && false == (GameEngineInput::IsPress('A') && GameEngineInput::IsPress('D')))
 	{
 		ChangeState(KirbyState::Contain_Run);
 		return;
@@ -152,17 +156,6 @@ void Kirby::Contain_WalkUpdate(float _Delta)
 		return;
 	}
 
-	if (true == CheckLeftWallBasedSpeed())
-	{
-		// 별 효과
-		CurrentSpeed = 0.0f;
-	}
-	if (true == CheckLeftWallBasedSpeed())
-	{
-		// 별 효과
-		CurrentSpeed = 0.0f;
-	}
-
 	if (CurrentSpeed == 0.0f &&
 		((GameEngineInput::IsPress('A') && GameEngineInput::IsPress('D')) ||
 			(GameEngineInput::IsFree('A') && GameEngineInput::IsFree('D'))))
@@ -171,8 +164,30 @@ void Kirby::Contain_WalkUpdate(float _Delta)
 		return;
 	}
 
+	if (true == CheckLeftWallBasedSpeed())
+	{
+		HitObjectEffect* HitObjectEffectPtr = GetLevel()->CreateActor<HitObjectEffect>();
+		HitObjectEffectPtr->init(GetPos(), float4::ZERO);
+
+		CurrentSpeed = 0.0f;
+		ChangeState(KirbyState::Contain_Idle);
+		return;
+	}
+	if (true == CheckRightWallBasedSpeed())
+	{
+		HitObjectEffect* HitObjectEffectPtr = GetLevel()->CreateActor<HitObjectEffect>();
+		HitObjectEffectPtr->init(GetPos(), float4::ZERO);
+
+		CurrentSpeed = 0.0f;
+		ChangeState(KirbyState::Contain_Idle);
+		return;
+	}
+
+
 	BlockedByGround();
 	MoveHorizontal(WALKSPEED, _Delta);
+
+
 	BlockedByWall();
 
 	DecelerationUpdate(_Delta);
@@ -183,6 +198,9 @@ void Kirby::Contain_WalkUpdate(float _Delta)
 void Kirby::Contain_RunStart()
 {
 	StateTime = 0.0f;
+
+	DustEffect* DustEffectPtr = GetLevel()->CreateActor<DustEffect>();
+	DustEffectPtr->init(GetPos(), GetKirbyScale(), -GetDirUnitVector());
 	ChangeAnimationState("Contain_Run");
 }
 
@@ -222,17 +240,6 @@ void Kirby::Contain_RunUpdate(float _Delta)
 		return;
 	}
 
-	if (true == CheckLeftWallBasedSpeed())
-	{
-		// 별 효과
-		CurrentSpeed = 0.0f;
-	}
-	if (true == CheckLeftWallBasedSpeed())
-	{
-		// 별 효과
-		CurrentSpeed = 0.0f;
-	}
-
 	if (CurrentSpeed == 0.0f &&
 		((GameEngineInput::IsPress('A') && GameEngineInput::IsPress('D')) ||
 			(GameEngineInput::IsFree('A') && GameEngineInput::IsFree('D'))))
@@ -241,8 +248,31 @@ void Kirby::Contain_RunUpdate(float _Delta)
 		return;
 	}
 
+	if (true == CheckLeftWallBasedSpeed())
+	{
+		HitObjectEffect* HitObjectEffectPtr = GetLevel()->CreateActor<HitObjectEffect>();
+		HitObjectEffectPtr->init(GetPos(), float4::ZERO);
+		CurrentSpeed = 0.0f;
 
+		ChangeState(KirbyState::Contain_Idle);
+		return;
+	}
+
+	if (true == CheckRightWallBasedSpeed())
+	{
+		HitObjectEffect* HitObjectEffectPtr = GetLevel()->CreateActor<HitObjectEffect>();
+		HitObjectEffectPtr->init(GetPos(), float4::ZERO);
+		CurrentSpeed = 0.0f;
+
+		ChangeState(KirbyState::Contain_Idle);
+		return;
+	}
+
+	BlockedByGround();
 	MoveHorizontal(RUNSPEED, _Delta);
+
+	BlockedByWall();
+
 	DecelerationUpdate(_Delta);
 	HorizontalUpdate(_Delta);
 }
@@ -256,11 +286,13 @@ void Kirby::Contain_TurnStart()
 	{
 		Dir = ActorDir::Right;
 	}
-
 	if (CurrentSpeed < 0.0f)
 	{
 		Dir = ActorDir::Left;
 	}
+
+	DustEffect* DustEffectPtr = GetLevel()->CreateActor<DustEffect>();
+	DustEffectPtr->init(GetPos(), GetKirbyScale(), GetDirUnitVector());
 
 	ChangeAnimationState("Contain_Turn");
 }
@@ -398,12 +430,20 @@ void Kirby::Contain_FallUpdate(float _Delta)
 
 	if (true == GetGroundState() && CurrentSpeed != 0.0f)
 	{
+
+		HitObjectEffect* HitObjectEffectPtr = GetLevel()->CreateActor<HitObjectEffect>();
+		HitObjectEffectPtr->init(GetPos(), float4::ZERO);
+
 		ChangeState(KirbyState::Contain_Walk);
 		return;
 	}
 
 	if (true == GetGroundState() && CurrentSpeed == 0.0f)
 	{
+
+		HitObjectEffect* HitObjectEffectPtr = GetLevel()->CreateActor<HitObjectEffect>();
+		HitObjectEffectPtr->init(GetPos(), float4::ZERO);
+
 		ChangeState(KirbyState::Contain_Idle);
 		return;
 	}
@@ -476,12 +516,16 @@ void Kirby::Contain_GulpUpdate(float _Delta)
 
 	if (true == CheckLeftWallBasedSpeed())
 	{
-		// 별효과
+		HitObjectEffect* HitObjectEffectPtr = GetLevel()->CreateActor<HitObjectEffect>();
+		HitObjectEffectPtr->init(GetPos(), float4::ZERO);
+
 		CurrentSpeed = 0.0f;
 	}
 	if (true == CheckRightWallBasedSpeed())
 	{
-		// 별효과
+		HitObjectEffect* HitObjectEffectPtr = GetLevel()->CreateActor<HitObjectEffect>();
+		HitObjectEffectPtr->init(GetPos(), float4::ZERO);
+
 		CurrentSpeed = 0.0f;
 	}
 

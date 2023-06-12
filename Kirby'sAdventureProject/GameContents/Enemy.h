@@ -1,14 +1,6 @@
 #pragma once
 #include "ActorUtils.h"
 
-enum class AttributeType
-{
-	None,
-	Fire,
-	Electricity,
-	Ice,
-	Max,
-};
 
 
 // Ό³Έν :
@@ -26,7 +18,6 @@ public:
 	Enemy& operator=(Enemy&& _Other) noexcept = delete;
 
 
-	AttributeType Attribute = AttributeType::Max;
 	float4 Scale = float4::ZERO;
 
 	void SetDirectionAndFirstAnimation(const std::string& _StateName);

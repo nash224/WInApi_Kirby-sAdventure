@@ -19,7 +19,7 @@ public:
 	DustEffect& operator=(const DustEffect& _Other) = delete;
 	DustEffect& operator=(DustEffect&& _Other) noexcept = delete;
 
-	void init(const float4& _MasterPos, const float4& _MasterScale, const float4& _Dir);
+	void init(const float4& _MasterPos, const float4& _MasterScale, const float4& _Dir, int _ItersCount = 1);
 
 protected:
 

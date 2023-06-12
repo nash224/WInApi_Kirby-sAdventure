@@ -32,7 +32,7 @@ void DustEffect::Start()
 }
 
 
-void DustEffect::init(const float4& _MasterPos, const float4& _MasterScale, const float4& _Dir)
+void DustEffect::init(const float4& _MasterPos, const float4& _MasterScale, const float4& _Dir, int _ItersCount/* = 1*/)
 {
 	SetPos(_MasterPos + _Dir * (_MasterScale.Half().X + 12.0f));
 
