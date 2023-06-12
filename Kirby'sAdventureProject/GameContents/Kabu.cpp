@@ -53,7 +53,8 @@ void Kabu::Start()
 	ChangeState(NormalState::Idle);
 
 	BodyCollision = CreateCollision(CollisionOrder::MonsterBody);
-	BodyCollision->SetCollisionScale(Scale);
+	BodyCollision->SetCollisionPos(float4{ 0.0f , -SMALLTYPECOLLISIONSCALE.hY() });
+	BodyCollision->SetCollisionScale(SMALLTYPECOLLISIONSCALE);
 	BodyCollision->SetCollisionType(CollisionType::Rect);
 }
 

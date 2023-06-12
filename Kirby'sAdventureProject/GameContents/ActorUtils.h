@@ -1,5 +1,5 @@
 #pragma once
-#include <GameEngineCore/GameEngineActor.h>
+#include "ContentsActor.h"
 
 #define CHECKGROUNDGAP 12.0f
 #define CHECKCEILINGDGAP 12.0f
@@ -13,16 +13,9 @@
 
 #define GRAVITYMAXVECTOR 450.0f
 
-enum class ActorDir
-{
-	Right,
-	Left,
-	Max,
-};
-
 
 // Ό³Έν :
-class ActorUtils : public GameEngineActor
+class ActorUtils : public ContentsActor
 {
 public:
 	// constrcuter destructer
@@ -58,7 +51,6 @@ public:
 protected:
 	GameEngineRenderer* MainRenderer = nullptr;
 	GameEngineCollision* BodyCollision = nullptr;
-	ActorDir Dir = ActorDir::Max;
 	float4 ActorDirUnitVector = float4::ZERO;
 
 

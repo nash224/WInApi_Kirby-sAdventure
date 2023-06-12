@@ -16,6 +16,7 @@
 
 #include "GlobalContents.h"
 #include "Kirby.h"
+#include "AirExplosionEffect.h"
 #include <vector>
 
 Scarfy::Scarfy()
@@ -60,7 +61,8 @@ void Scarfy::Start()
 
 
 	BodyCollision = CreateCollision(CollisionOrder::MonsterBody);
-	BodyCollision->SetCollisionScale(Scale);
+	BodyCollision->SetCollisionPos(float4{ 0.0f , -SMALLTYPECOLLISIONSCALE.hY() });
+	BodyCollision->SetCollisionScale(SMALLTYPECOLLISIONSCALE);
 	BodyCollision->SetCollisionType(CollisionType::Rect);
 }
 
@@ -345,7 +347,10 @@ void Scarfy::BombUpdate(float _Delta)
 
 	if (30 == BombCount)
 	{
-		// effect
+		AirExplosionEffect* AirExplosionEffectPtr = GetLevel()->CreateActor<AirExplosionEffect>();
+		AirExplosionEffectPtr->init(GetPos(), Scale);
+		AirExplosionEffectPtr->SetActorCollision(CollisionOrder::MonsterAbility, CollisionType::Rect);
+
 		Off();
 		return;
 	}

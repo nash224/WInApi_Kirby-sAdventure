@@ -111,7 +111,6 @@
     <ClInclude Include="Enemy.h">
       <Filter>Global\Object\Enemy</Filter>
     </ClInclude>
-    <ClInclude Include="PlayUIManager.h" />
     <ClInclude Include="VegetableValleyPlayLevel.h">
       <Filter>Level\Map\VegetableValley</Filter>
     </ClInclude>
@@ -124,7 +123,7 @@
     <ClInclude Include="GameEffect.h">
       <Filter>Global\Effect</Filter>
     </ClInclude>
-    <ClInclude Include="Beam.h">
+    <ClInclude Include="LaserEffect.h">
       <Filter>Global\Effect</Filter>
     </ClInclude>
     <ClInclude Include="GlobalContents.h">
@@ -144,6 +143,27 @@
     </ClInclude>
     <ClInclude Include="FrameBreathEffect.h">
       <Filter>Global\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="AirExplosionEffect.h">
+      <Filter>Global\Effect\AirExplosionEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="AirExplosionBEffect.h">
+      <Filter>Global\Effect\AirExplosionEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="AirExplosionAEffect.h">
+      <Filter>Global\Effect\AirExplosionEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="BeamEffect.h">
+      <Filter>Global\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="DustEffect.h">
+      <Filter>Global\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayUIManager.h">
+      <Filter>Global</Filter>
+    </ClInclude>
+    <ClInclude Include="ContentsActor.h">
+      <Filter>Global</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -265,7 +285,6 @@
     <ClCompile Include="Enemy.cpp">
       <Filter>Global\Object\Enemy</Filter>
     </ClCompile>
-    <ClCompile Include="PlayUIManager.cpp" />
     <ClCompile Include="VegetableValleyPlayLevel.cpp">
       <Filter>Level\Map\VegetableValley</Filter>
     </ClCompile>
@@ -278,7 +297,7 @@
     <ClCompile Include="SkillEffect.cpp">
       <Filter>Global\Effect</Filter>
     </ClCompile>
-    <ClCompile Include="Beam.cpp">
+    <ClCompile Include="LaserEffect.cpp">
       <Filter>Global\Effect</Filter>
     </ClCompile>
     <ClCompile Include="GlobalContents.cpp">
@@ -299,11 +318,29 @@
     <ClCompile Include="FrameBreathEffect.cpp">
       <Filter>Global\Effect</Filter>
     </ClCompile>
+    <ClCompile Include="AirExplosionEffect.cpp">
+      <Filter>Global\Effect\AirExplosionEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="AirExplosionBEffect.cpp">
+      <Filter>Global\Effect\AirExplosionEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="AirExplosionAEffect.cpp">
+      <Filter>Global\Effect\AirExplosionEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="BeamEffect.cpp">
+      <Filter>Global\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="DustEffect.cpp">
+      <Filter>Global\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayUIManager.cpp">
+      <Filter>Global</Filter>
+    </ClCompile>
+    <ClCompile Include="ContentsActor.cpp">
+      <Filter>Global</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <Filter Include="Level">
-      <UniqueIdentifier>{c48bda09-ac6f-4661-a193-86efece953e9}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Global">
       <UniqueIdentifier>{9155d0da-b218-4246-b62f-a8460b5af5aa}</UniqueIdentifier>
     </Filter>
@@ -325,12 +362,6 @@
     <Filter Include="Global\Object\Item">
       <UniqueIdentifier>{2577c5c7-4942-4c18-9258-ec0786673c07}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Level\Map">
-      <UniqueIdentifier>{dfe21694-0b7a-4e50-a873-1fc0b5ad1a85}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Level\Map\VegetableValley">
-      <UniqueIdentifier>{4cd6af2d-814d-44c5-a5c0-bc0554558c9e}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Global\Object\Kirby">
       <UniqueIdentifier>{bdfde808-744d-4ee8-bfac-4aef7da2990c}</UniqueIdentifier>
     </Filter>
@@ -339,6 +370,18 @@
     </Filter>
     <Filter Include="Global\Effect">
       <UniqueIdentifier>{2a512cb1-4fa0-447b-b81f-9084fa92a2ca}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Global\Effect\AirExplosionEffect">
+      <UniqueIdentifier>{8b10c2d6-baf3-40c7-9e1b-efacbeea88c9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Level">
+      <UniqueIdentifier>{c48bda09-ac6f-4661-a193-86efece953e9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Level\Map">
+      <UniqueIdentifier>{dfe21694-0b7a-4e50-a873-1fc0b5ad1a85}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Level\Map\VegetableValley">
+      <UniqueIdentifier>{4cd6af2d-814d-44c5-a5c0-bc0554558c9e}</UniqueIdentifier>
     </Filter>
     <Filter Include="Level\BonusGame">
       <UniqueIdentifier>{d1136692-8bb9-4d94-8eaf-f74616439112}</UniqueIdentifier>

@@ -16,6 +16,7 @@
 
 #include "GlobalContents.h"
 #include "Kirby.h"
+#include "DustEffect.h"
 
 BroomHatter::BroomHatter() 
 {
@@ -49,7 +50,8 @@ void BroomHatter::Start()
 	ChangeState(NormalState::Idle);
 
 	BodyCollision = CreateCollision(CollisionOrder::MonsterBody);
-	BodyCollision->SetCollisionScale(Scale);
+	BodyCollision->SetCollisionPos(float4{ 0.0f , -SMALLTYPECOLLISIONSCALE.hY() });
+	BodyCollision->SetCollisionScale(SMALLTYPECOLLISIONSCALE);
 	BodyCollision->SetCollisionType(CollisionType::Rect);
 }
 
@@ -137,6 +139,9 @@ void BroomHatter::SweepUpdate(float _Delta)
 {
 	if (CurrentSpeed == 0.0f)
 	{
+		float4 EffectDir = GetDirUnitVector();
+		DustEffect* DustEffectPtr = GetLevel()->CreateActor<DustEffect>();
+		DustEffectPtr->init(GetPos(), Scale, EffectDir);
 		ChangeState(NormalState::Idle);
 		return;
 	}

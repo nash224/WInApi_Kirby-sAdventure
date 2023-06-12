@@ -17,7 +17,7 @@
 
 #include "GlobalContents.h"
 #include "Kirby.h"
-#include "Beam.h"
+#include "LaserEffect.h"
 #include <vector>
 
 LaserBall::LaserBall()
@@ -278,9 +278,9 @@ void LaserBall::ShootUpdate(float _Delta)
 {
 	if (true == MainRenderer->IsAnimationEnd())
 	{
-		Beam* Beam1 = GetLevel()->CreateActor<Beam>();
-		Beam1->init(GetPos(), Scale, GetAbilityDir());
-		Beam1->SetActorCollision(CollisionOrder::MonsterAbility, CollisionType::Rect);
+		LaserEffect* LaserEffect1 = GetLevel()->CreateActor<LaserEffect>();
+		LaserEffect1->init(GetPos(), Scale, GetAbilityDir());
+		LaserEffect1->SetActorCollision(CollisionOrder::MonsterAbility, CollisionType::Rect);
 		--ShootCount;
 	}
 

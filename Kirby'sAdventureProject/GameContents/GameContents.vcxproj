@@ -170,6 +170,14 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="AirExplosionAEffect.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="AirExplosionEffect.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="BackGround.h">
       <SubType>
       </SubType>
@@ -178,7 +186,15 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="BeamEffect.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="BrontoBurt.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="DustEffect.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -227,6 +243,10 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="ContentsActor.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="GlobalContents.h">
       <SubType>
       </SubType>
@@ -260,6 +280,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="Museums.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="AirExplosionBEffect.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -311,7 +335,7 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="Beam.h">
+    <ClInclude Include="LaserEffect.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -369,6 +393,14 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="AirExplosionAEffect.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="AirExplosionEffect.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="BackGround.cpp">
       <SubType>
       </SubType>
@@ -378,7 +410,15 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="BeamEffect.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="BrontoBurt.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="DustEffect.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -426,6 +466,10 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="ContentsActor.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="GlobalContents.cpp">
       <SubType>
       </SubType>
@@ -461,6 +505,10 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="Museums.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="AirExplosionBEffect.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -512,7 +560,7 @@
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="Beam.cpp">
+    <ClCompile Include="LaserEffect.cpp">
       <SubType>
       </SubType>
     </ClCompile>

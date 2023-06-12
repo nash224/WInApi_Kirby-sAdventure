@@ -1,10 +1,10 @@
 #pragma once
-#include <GameEngineCore/GameEngineActor.h>
 #include <GameEngineCore/GameEngineCollision.h>
+#include "ContentsActor.h"
 #include "ContentsEnum.h"
 
 // Ό³Έν :
-class SkillEffect : public GameEngineActor
+class SkillEffect : public ContentsActor
 {
 public:
 	// constrcuter destructer
@@ -22,9 +22,9 @@ public:
 	void SetGroundTexture(const std::string& _GroundTextureName);
 	void SetActorCollision(CollisionOrder _Order, CollisionType _Type);
 
-	void SetDir(const float4& _Dir)
+	void SetEffectDir(const float4& _Dir)
 	{
-		Dir = _Dir;
+		EffectDir = _Dir;
 	}
 
 	void SetSpeed(const float _Speed)
@@ -38,7 +38,7 @@ protected:
 
 	bool IsPassGround = true;
 	float Speed = 0.0f;
-	float4 Dir = float4::ZERO;
+	float4 EffectDir = float4::ZERO;
 	float4 Scale = float4::ZERO;
 
 

@@ -37,14 +37,14 @@ void FrameBreathEffect::Start()
 
 void FrameBreathEffect::init(const float4& _Pos, const float4& _MaterScale, const float4& _Dir)
 {
-	Dir = _Dir;
-	SetPos(_Pos + Dir * (_MaterScale.Half().X + Scale.Half().X) + float4{ 0.0f, -_MaterScale.Half().Y });
+	EffectDir = _Dir;
+	SetPos(_Pos + EffectDir * (_MaterScale.Half().X + Scale.Half().X) + float4{ 0.0f, -_MaterScale.Half().Y });
 
-	if (Dir.X < 0.0f)
+	if (EffectDir.X < 0.0f)
 	{
 		MainRenderer->ChangeAnimation("Left_FireEffect");
 	}
-	else if (Dir.X >= 0.0f)
+	else if (EffectDir.X >= 0.0f)
 	{
 		MainRenderer->ChangeAnimation("Right_FireEffect");
 	}
@@ -76,7 +76,7 @@ void FrameBreathEffect::GroundPassUpdate(float _Delta)
 	}
 
 	float EffectSpeed = FRAMEBREATHEFFECTDISTANCE / FRAMEBREATHEFFECTDURATION;
-	AddPos(Dir * EffectSpeed * _Delta);
+	AddPos(EffectDir * EffectSpeed * _Delta);
 }
 
 

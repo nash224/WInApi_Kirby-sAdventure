@@ -1,4 +1,4 @@
-#include "Beam.h"
+#include "LaserEffect.h"
 #include "ContentsEnum.h"
 
 #include <GameEnginePlatform/GameEngineWindow.h>
@@ -8,16 +8,16 @@
 
 #include "GlobalContents.h"
 
-Beam::Beam() 
+LaserEffect::LaserEffect() 
 {
 }
 
-Beam::~Beam() 
+LaserEffect::~LaserEffect() 
 {
 }
 
 
-void Beam::Start() 
+void LaserEffect::Start() 
 {
 	MainRenderer = CreateRenderer(RenderOrder::AbillityEffect);
 
@@ -31,14 +31,14 @@ void Beam::Start()
 	SetCheckPoint(Scale);
 }
 
-void Beam::init(const float4& _Pos, const float4& _MaterScale , const float4& _Dir)
+void LaserEffect::init(const float4& _Pos, const float4& _MaterScale , const float4& _Dir)
 {
-	Dir = _Dir;
-	SetPos(_Pos + Dir * (_MaterScale.Half().X + Scale.Half().X) + float4{ 0.0f, -_MaterScale.Half().Y });
+	EffectDir = _Dir;
+	SetPos(_Pos + EffectDir * (_MaterScale.Half().X + Scale.Half().X) + float4{ 0.0f, -_MaterScale.Half().Y });
 }
 
 
-void Beam::Update(float _Delta) 
+void LaserEffect::Update(float _Delta) 
 {
 	if (true == IsPassGround)
 	{
@@ -51,9 +51,9 @@ void Beam::Update(float _Delta)
 }
 
 
-void Beam::GroundPassUpdate(float _Delta)
+void LaserEffect::GroundPassUpdate(float _Delta)
 {
-	AddPos(Dir * BEAMSPEED * _Delta);
+	AddPos(EffectDir * LaserEffectSPEED * _Delta);
 
 	float4 WinScale = GameEngineWindow::MainWindow.GetScale();
 
@@ -64,7 +64,7 @@ void Beam::GroundPassUpdate(float _Delta)
 }
 
 
-void Beam::GroundNotPassUpdate(float _Delta)
+void LaserEffect::GroundNotPassUpdate(float _Delta)
 {
 
 }

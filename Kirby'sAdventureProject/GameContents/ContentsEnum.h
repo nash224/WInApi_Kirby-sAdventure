@@ -12,9 +12,9 @@ enum class RenderOrder
 {
 	BackGround,
 	BackGroundEffect,
-	Play,
 	AbillityEffect,
 	HitEffect,
+	Play,
 	PlayUI,
 	DebugRender,
 };

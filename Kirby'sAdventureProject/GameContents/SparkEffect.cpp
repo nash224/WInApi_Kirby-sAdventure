@@ -31,7 +31,7 @@ void SparkEffect::Start()
 
 void SparkEffect::init(const float4& _Pos, const float4& _MaterScale, const float4& _Dir)
 {
-	Dir = _Dir;
+	EffectDir = _Dir;
 	SetPos(_Pos + _Dir * _MaterScale.Half().Max2D() + float4{ 0.0f , -_MaterScale.Half().Y });
 }
 
@@ -42,7 +42,7 @@ void SparkEffect::Update(float _Delta)
 	
 	CurrentEffectDistance += EffectSpeed * _Delta;
 
-	AddPos(Dir * EffectSpeed * _Delta);
+	AddPos(EffectDir * EffectSpeed * _Delta);
 
 	if (CurrentEffectDistance > SPARKEFFECTDISTANCE)
 	{

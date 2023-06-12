@@ -1,22 +1,22 @@
 #pragma once
 #include "SkillEffect.h"
 
-#define BEAMSPEED 1200.0f
+#define LaserEffectSPEED 1200.0f
 
 
 // Ό³Έν :
-class Beam : public SkillEffect
+class LaserEffect : public SkillEffect
 {
 public:
 	// constrcuter destructer
-	Beam();
-	~Beam();
+	LaserEffect();
+	~LaserEffect();
 
 	// delete Function
-	Beam(const Beam& _Other) = delete;
-	Beam(Beam&& _Other) noexcept = delete;
-	Beam& operator=(const Beam& _Other) = delete;
-	Beam& operator=(Beam&& _Other) noexcept = delete;
+	LaserEffect(const LaserEffect& _Other) = delete;
+	LaserEffect(LaserEffect&& _Other) noexcept = delete;
+	LaserEffect& operator=(const LaserEffect& _Other) = delete;
+	LaserEffect& operator=(LaserEffect&& _Other) noexcept = delete;
 
 	void init(const float4& _Pos, const float4& _MaterScale, const float4& _Dir);
 
