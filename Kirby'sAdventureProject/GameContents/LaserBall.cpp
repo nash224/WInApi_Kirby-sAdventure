@@ -15,6 +15,7 @@
 #include <GameEngineCore/GameEngineCollision.h>
 #include <GameEngineCore/ResourcesManager.h>
 
+#include "GlobalContents.h"
 #include "Kirby.h"
 #include "Beam.h"
 #include <vector>
@@ -32,8 +33,8 @@ void LaserBall::Start()
 {
 	MainRenderer = CreateRenderer(RenderOrder::Play);
 
-	ResourcesManager::GetInst().SpriteFileLoad("Left_PowerEnemy.bmp", "Resources\\Unit\\Grunt", 6, 5);
-	ResourcesManager::GetInst().SpriteFileLoad("Right_PowerEnemy.bmp", "Resources\\Unit\\Grunt", 6, 5);
+	GlobalContents::SpriteFileLoad("Left_PowerEnemy.bmp", "Resources\\Unit\\Grunt", 6, 5);
+	GlobalContents::SpriteFileLoad("Right_PowerEnemy.bmp", "Resources\\Unit\\Grunt", 6, 5);
 
 	MainRenderer->CreateAnimation("Left_Fly", "Left_PowerEnemy.bmp", 0, 0, 0.3f, false);
 	MainRenderer->CreateAnimation("Right_Fly", "Right_PowerEnemy.bmp", 0, 0, 0.3f, false);

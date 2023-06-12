@@ -6,6 +6,9 @@
 #include <GameEngineCore/GameEngineRenderer.h>
 #include <GameEngineCore/ResourcesManager.h>
 
+#include "GlobalContents.h"
+
+
 FrameBreathEffect::FrameBreathEffect()
 {
 }
@@ -19,8 +22,8 @@ void FrameBreathEffect::Start()
 {
 	MainRenderer = CreateRenderer(RenderOrder::AbillityEffect);
 
-	ResourcesManager::GetInst().SpriteFileLoad("Left_FireEffect_2x1_16x16.bmp", "Resources\\Effect\\SkillEffect", 2, 1);
-	ResourcesManager::GetInst().SpriteFileLoad("Right_FireEffect_2x1_16x16.bmp", "Resources\\Effect\\SkillEffect", 2, 1);
+	GlobalContents::SpriteFileLoad("Left_FireEffect_2x1_16x16.bmp", "Resources\\Effect\\SkillEffect", 2, 1);
+	GlobalContents::SpriteFileLoad("Right_FireEffect_2x1_16x16.bmp", "Resources\\Effect\\SkillEffect", 2, 1);
 
 	MainRenderer->CreateAnimation("Left_FireEffect", "Left_FireEffect_2x1_16x16.bmp", 0, 1, 0.1f, true);
 	MainRenderer->CreateAnimation("Right_FireEffect", "Right_FireEffect_2x1_16x16.bmp", 0, 1, 0.1f, true);
@@ -67,7 +70,7 @@ void FrameBreathEffect::Update(float _Delta)
 
 void FrameBreathEffect::GroundPassUpdate(float _Delta)
 {
-	if (GetLiveTime() > FRAMEBREATHEFFECTDISTANCE)
+	if (GetLiveTime() > FRAMEBREATHEFFECTDURATION)
 	{
 		Death();
 	}

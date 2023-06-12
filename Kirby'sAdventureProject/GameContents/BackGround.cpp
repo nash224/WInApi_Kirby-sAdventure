@@ -8,8 +8,10 @@
 #include <GameEngineCore/GameEngineCore.h>
 #include <GameEngineCore/GameEngineLevel.h>
 
-
 #pragma comment(lib, "msimg32.lib")
+
+#include "GlobalContents.h"
+
 
 BackGround::BackGround() 
 {
@@ -31,7 +33,7 @@ void BackGround::Start()
 
 void BackGround::init(const std::string& _FileName, const std::string& _Path)
 {
-	ResourcesManager::GetInst().TextureFileLoad(_FileName, _Path);
+	GlobalContents::TextureFileLoad(_FileName, _Path);
 
 	GameEngineWindowTexture* Texture = ResourcesManager::GetInst().FindTexture(_FileName);
 	float4 Scale = Texture->GetScale();
@@ -46,8 +48,8 @@ void BackGround::init(const std::string& _FileName, const std::string& _Path)
 
 void BackGround::init(const std::string& _FileName, const std::string& _DebugFileName, const std::string& _Path)
 {
-	ResourcesManager::GetInst().TextureFileLoad(_FileName, _Path);
-	ResourcesManager::GetInst().TextureFileLoad(_DebugFileName, _Path);
+	GlobalContents::TextureFileLoad(_FileName, _Path);
+	GlobalContents::TextureFileLoad(_DebugFileName, _Path);
 
 	GameEngineWindowTexture* Texture = ResourcesManager::GetInst().FindTexture(_FileName);
 	float4 Scale = Texture->GetScale();
@@ -62,8 +64,8 @@ void BackGround::init(const std::string& _FileName, const std::string& _DebugFil
 
 GameEngineRenderer* BackGround::SpriteInit(const std::string& _FileName, const std::string& _DebugFileName, const std::string& _Path, int _XCount, int _YCount)
 {
-	ResourcesManager::GetInst().SpriteFileLoad(_FileName, _Path, _XCount, _YCount);
-	ResourcesManager::GetInst().TextureFileLoad(_DebugFileName, _Path);
+	GlobalContents::SpriteFileLoad(_FileName, _Path, _XCount, _YCount);
+	GlobalContents::TextureFileLoad(_DebugFileName, _Path);
 
 
 	GameEngineWindowTexture* Texture = ResourcesManager::GetInst().FindTexture(_DebugFileName);

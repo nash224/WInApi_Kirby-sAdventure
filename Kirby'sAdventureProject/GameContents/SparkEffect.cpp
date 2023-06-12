@@ -6,6 +6,8 @@
 #include <GameEngineCore/GameEngineRenderer.h>
 #include <GameEngineCore/ResourcesManager.h>
 
+#include "GlobalContents.h"
+
 SparkEffect::SparkEffect()
 {
 }
@@ -19,7 +21,7 @@ void SparkEffect::Start()
 {
 	MainRenderer = CreateRenderer(RenderOrder::AbillityEffect);
 
-	ResourcesManager::GetInst().TextureFileLoad("SparkEffect_1x1_16x16.bmp", "Resources\\Effect\\SkillEffect");
+	GlobalContents::TextureFileLoad("SparkEffect_1x1_16x16.bmp", "Resources\\Effect\\SkillEffect");
 
 	MainRenderer->SetTexture("SparkEffect_1x1_16x16.bmp");
 	MainRenderer->SetRenderScaleToTexture();

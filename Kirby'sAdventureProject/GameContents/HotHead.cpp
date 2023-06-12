@@ -15,6 +15,7 @@
 #include <GameEngineCore/GameEngineCollision.h>
 #include <GameEngineCore/ResourcesManager.h>
 
+#include "GlobalContents.h"
 #include "Kirby.h"
 #include "FrameBreathEffect.h"
 #include "FireBallEffect.h"
@@ -33,8 +34,8 @@ void HotHead::Start()
 {
 	MainRenderer = CreateRenderer(RenderOrder::Play);
 
-	ResourcesManager::GetInst().SpriteFileLoad("Left_PowerEnemy.bmp", "Resources\\Unit\\Grunt", 6, 5);
-	ResourcesManager::GetInst().SpriteFileLoad("Right_PowerEnemy.bmp", "Resources\\Unit\\Grunt", 6, 5);
+	GlobalContents::SpriteFileLoad("Left_PowerEnemy.bmp", "Resources\\Unit\\Grunt", 6, 5);
+	GlobalContents::SpriteFileLoad("Right_PowerEnemy.bmp", "Resources\\Unit\\Grunt", 6, 5);
 
 	MainRenderer->CreateAnimation("Left_Walk", "Left_PowerEnemy.bmp", 6, 7, HOTHEADWALKINGCHANGEANIMATIONTIME, true);
 	MainRenderer->CreateAnimation("Right_Walk", "Right_PowerEnemy.bmp", 6, 7, HOTHEADWALKINGCHANGEANIMATIONTIME, true);
@@ -226,18 +227,11 @@ void HotHead::FireBallStart()
 	IsChangeState = false;
 	WobbleCount = 0;
 
-	float4 EffectDir = float4::ZERO;
-	if (ActorDir::Left == Dir)
-	{
-		EffectDir = float4::LEFT;
-	}
-	else if (ActorDir::Right == Dir)
-	{
-		EffectDir = float4::RIGHT;
-	}
+	ActorDirUnitVector = GetDirUnitVector();
 
 	FireBallEffect* FireBallEffectPtr = GetLevel()->CreateActor<FireBallEffect>();
-	FireBallEffectPtr->init(GetPos(), Scale, EffectDir);
+	FireBallEffectPtr->init(GetPos(), Scale, ActorDirUnitVector);
+	FireBallEffectPtr->SetActorCollision(CollisionOrder::MonsterAbility, CollisionType::Rect);
 
 	ChangeAnimationState("FireBall");
 }
@@ -290,6 +284,7 @@ void HotHead::FireBallUpdate(float _Delta)
 
 	if (true == IsChangeState)
 	{
+		ActorDirUnitVector = float4::ZERO;
 		ChangeState(HotHeadState::Walk);
 		return;
 	}
@@ -325,6 +320,7 @@ void HotHead::FlameBreathStart()
 	StateTime = 0.0f;
 	IsChangeState = false;
 	WobbleCount = 0;
+	ActorDirUnitVector = GetDirUnitVector();
 	ChangeAnimationState("FlameBreath");
 }
 
@@ -336,6 +332,11 @@ void HotHead::FlameBreathUpdate(float _Delta)
 	{
 		StateTime = 0.0f;
 		++WobbleCount;
+
+		FrameBreathEffect* FrameBreathEffectPtr = GetLevel()->CreateActor<FrameBreathEffect>();
+		FrameBreathEffectPtr->init(GetPos(), Scale, ActorDirUnitVector);
+		FrameBreathEffectPtr->SetActorCollision(CollisionOrder::MonsterAbility, CollisionType::Rect);
+
 
 		if (ActorDir::Left == Dir)
 		{
@@ -376,6 +377,7 @@ void HotHead::FlameBreathUpdate(float _Delta)
 
 	if (true == IsChangeState)
 	{
+		ActorDirUnitVector = float4::ZERO;
 		ChangeState(HotHeadState::Walk);
 		return;
 	}

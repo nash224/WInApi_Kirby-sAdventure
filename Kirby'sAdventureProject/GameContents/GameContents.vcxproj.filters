@@ -127,7 +127,7 @@
     <ClInclude Include="Beam.h">
       <Filter>Global\Effect</Filter>
     </ClInclude>
-    <ClInclude Include="GlobalValue.h">
+    <ClInclude Include="GlobalContents.h">
       <Filter>Global</Filter>
     </ClInclude>
     <ClInclude Include="ActorUtils.h">
@@ -281,7 +281,7 @@
     <ClCompile Include="Beam.cpp">
       <Filter>Global\Effect</Filter>
     </ClCompile>
-    <ClCompile Include="GlobalValue.cpp">
+    <ClCompile Include="GlobalContents.cpp">
       <Filter>Global</Filter>
     </ClCompile>
     <ClCompile Include="ActorUtils.cpp">

@@ -6,6 +6,9 @@
 #include <GameEngineCore/GameEngineRenderer.h>
 #include <GameEngineCore/ResourcesManager.h>
 
+#include "GlobalContents.h"
+
+
 FireBallEffect::FireBallEffect()
 {
 }
@@ -19,8 +22,8 @@ void FireBallEffect::Start()
 {
 	MainRenderer = CreateRenderer(RenderOrder::AbillityEffect);
 
-	ResourcesManager::GetInst().SpriteFileLoad("Left_FireEffect_2x1_16x16.bmp", "Resources\\Effect\\SkillEffect", 2, 1);
-	ResourcesManager::GetInst().SpriteFileLoad("Right_FireEffect_2x1_16x16.bmp", "Resources\\Effect\\SkillEffect", 2, 1);
+	GlobalContents::SpriteFileLoad("Left_FireEffect_2x1_16x16.bmp", "Resources\\Effect\\SkillEffect", 2, 1);
+	GlobalContents::SpriteFileLoad("Right_FireEffect_2x1_16x16.bmp", "Resources\\Effect\\SkillEffect", 2, 1);
 
 	MainRenderer->CreateAnimation("Left_FireEffect", "Left_FireEffect_2x1_16x16.bmp", 0, 1, 0.1f, true);
 	MainRenderer->CreateAnimation("Right_FireEffect", "Right_FireEffect_2x1_16x16.bmp", 0, 1, 0.1f, true);
@@ -50,18 +53,6 @@ void FireBallEffect::init(const float4& _Pos, const float4& _MaterScale, const f
 
 void FireBallEffect::Update(float _Delta)
 {
-	if (true == IsPassGround)
-	{
-		GroundPassUpdate(_Delta);
-	}
-	else if (false == IsPassGround)
-	{
-		GroundNotPassUpdate(_Delta);
-	}
-}
-
-void FireBallEffect::GroundPassUpdate(float _Delta)
-{
 	float4 WinScale = GameEngineWindow::MainWindow.GetScale();
 	if (CameraPos().X > GetPos().X && GetPos().X > CameraPos().X + WinScale.X)
 	{
@@ -69,10 +60,4 @@ void FireBallEffect::GroundPassUpdate(float _Delta)
 	}
 
 	AddPos(Dir * FIREBALLEFFECTSPEED * _Delta);
-}
-
-
-void FireBallEffect::GroundNotPassUpdate(float _Delta)
-{
-
 }

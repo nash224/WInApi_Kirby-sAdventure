@@ -59,6 +59,8 @@ protected:
 	GameEngineRenderer* MainRenderer = nullptr;
 	GameEngineCollision* BodyCollision = nullptr;
 	ActorDir Dir = ActorDir::Max;
+	float4 ActorDirUnitVector = float4::ZERO;
+
 
 	bool IsChangeState = true;
 	float StateTime = 0.0f;
@@ -71,6 +73,8 @@ protected:
 
 
 	void CameraFocus();
+	float4 GetDirUnitVector() const;
+
 
 	// 충돌 감지
 	float4 GroundLeftCheckPoint = float4::ZERO;

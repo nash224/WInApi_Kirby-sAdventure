@@ -227,7 +227,7 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="GlobalValue.h">
+    <ClInclude Include="GlobalContents.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -426,7 +426,7 @@
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="GlobalValue.cpp">
+    <ClCompile Include="GlobalContents.cpp">
       <SubType>
       </SubType>
     </ClCompile>

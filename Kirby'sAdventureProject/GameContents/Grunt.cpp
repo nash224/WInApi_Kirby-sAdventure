@@ -5,6 +5,8 @@
 #include <GameEngineCore/GameEngineRenderer.h>
 #include <GameEngineCore/GameEngineCollision.h>
 
+#include "GlobalContents.h"
+
 #include "Kirby.h"
 
 
@@ -33,7 +35,7 @@ void Grunt::AllMonsterDeath()
 
 void Grunt::Start()
 {
-	ResourcesManager::GetInst().SpriteFileLoad("MetaKnightsSoldiersStand.bmp", "Resources\\Unit\\Grunt", 3, 2);
+	GlobalContents::SpriteFileLoad("MetaKnightsSoldiersStand.bmp", "Resources\\Unit\\Grunt", 3, 2);
 	GameEngineRenderer* TestGrunt = CreateRenderer(RenderOrder::HitEffect);
 	TestGrunt->CreateAnimation("MetalKnight", "MetaKnightsSoldiersStand.bmp", 0, 5, 0.15f, true);
 	TestGrunt->ChangeAnimation("MetalKnight");

@@ -25,8 +25,5 @@ protected:
 private:
 	void Start() override;
 	void Update(float _Delta) override;
-
-	void GroundPassUpdate(float _Delta) override;
-	void GroundNotPassUpdate(float _Delta) override;
 };
 

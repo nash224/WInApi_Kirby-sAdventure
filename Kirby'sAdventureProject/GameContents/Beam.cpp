@@ -6,6 +6,8 @@
 #include <GameEngineCore/GameEngineRenderer.h>
 #include <GameEngineCore/ResourcesManager.h>
 
+#include "GlobalContents.h"
+
 Beam::Beam() 
 {
 }
@@ -19,7 +21,7 @@ void Beam::Start()
 {
 	MainRenderer = CreateRenderer(RenderOrder::AbillityEffect);
 
-	ResourcesManager::GetInst().TextureFileLoad("LaserEffect_1x1_32x8.bmp", "Resources\\Effect\\SkillEffect");
+	GlobalContents::TextureFileLoad("LaserEffect_1x1_32x8.bmp", "Resources\\Effect\\SkillEffect");
 
 	MainRenderer->SetTexture("LaserEffect_1x1_32x8.bmp");
 	MainRenderer->SetRenderScaleToTexture();

@@ -15,6 +15,7 @@
 #include <GameEngineCore/GameEngineCollision.h>
 #include <GameEngineCore/ResourcesManager.h>
 
+#include "GlobalContents.h"
 #include "Kirby.h"
 
 Kabu::Kabu()
@@ -30,8 +31,8 @@ void Kabu::Start()
 {
 	MainRenderer = CreateRenderer(RenderOrder::Play);
 
-	ResourcesManager::GetInst().SpriteFileLoad("Left_NormalEnemy.bmp", "Resources\\Unit\\Grunt", 4, 5);
-	ResourcesManager::GetInst().SpriteFileLoad("Right_NormalEnemy.bmp", "Resources\\Unit\\Grunt", 4, 5);
+	GlobalContents::SpriteFileLoad("Left_NormalEnemy.bmp", "Resources\\Unit\\Grunt", 4, 5);
+	GlobalContents::SpriteFileLoad("Right_NormalEnemy.bmp", "Resources\\Unit\\Grunt", 4, 5);
 
 	MainRenderer->CreateAnimation("Left_Idle", "Left_NormalEnemy.bmp", 4, 7, KABUIDLESPIN, true);
 	MainRenderer->CreateAnimation("Right_Idle", "Right_NormalEnemy.bmp", 4, 7, KABUIDLESPIN, true);

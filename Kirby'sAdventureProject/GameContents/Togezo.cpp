@@ -15,6 +15,7 @@
 #include <GameEngineCore/GameEngineCollision.h>
 #include <GameEngineCore/ResourcesManager.h>
 
+#include "GlobalContents.h"
 #include "Kirby.h"
 #include <vector>
 
@@ -31,8 +32,8 @@ void Togezo::Start()
 {
 	MainRenderer = CreateRenderer(RenderOrder::Play);
 
-	ResourcesManager::GetInst().SpriteFileLoad("Left_PowerEnemy.bmp", "Resources\\Unit\\Grunt", 6, 5);
-	ResourcesManager::GetInst().SpriteFileLoad("Right_PowerEnemy.bmp", "Resources\\Unit\\Grunt", 6, 5);
+	GlobalContents::SpriteFileLoad("Left_PowerEnemy.bmp", "Resources\\Unit\\Grunt", 6, 5);
+	GlobalContents::SpriteFileLoad("Right_PowerEnemy.bmp", "Resources\\Unit\\Grunt", 6, 5);
 
 	MainRenderer->CreateAnimation("Left_Walk", "Left_PowerEnemy.bmp", 12, 13, 0.2f, true);
 	MainRenderer->CreateAnimation("Right_Walk", "Right_PowerEnemy.bmp", 12, 13, 0.2f, true);

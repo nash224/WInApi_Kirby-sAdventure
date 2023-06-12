@@ -41,9 +41,24 @@ void ActorUtils::CameraFocus()
 //		GetMainCamera()->AddPos(float4::YValue(LevelPlayer->GetMovePos()));
 //	}
 //}
-
-
 }
+
+
+float4 ActorUtils::GetDirUnitVector() const
+{
+	float4 ActorDirUnitVector = float4::ZERO;
+	if (ActorDir::Left == Dir)
+	{
+		ActorDirUnitVector = float4::LEFT;
+	}
+	else if (ActorDir::Right == Dir)
+	{
+		ActorDirUnitVector = float4::RIGHT;
+	}
+
+	return ActorDirUnitVector;
+}
+
 
 float4 ActorUtils::ActorCameraPos()
 {
@@ -419,3 +434,4 @@ void ActorUtils::ActorCollisionDetectionPointRender()
 	Data.Scale = { 5 , 5 };
 	Rectangle(BackDC, Data.iLeft(), Data.iTop(), Data.iRight(), Data.iBot());
 }
+

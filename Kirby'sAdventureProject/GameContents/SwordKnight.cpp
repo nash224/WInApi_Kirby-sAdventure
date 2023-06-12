@@ -15,6 +15,7 @@
 #include <GameEngineCore/GameEngineCollision.h>
 #include <GameEngineCore/ResourcesManager.h>
 
+#include "GlobalContents.h"
 #include "Kirby.h"
 #include <vector>
 
@@ -31,8 +32,8 @@ void SwordKnight::Start()
 {
 	MainRenderer = CreateRenderer(RenderOrder::Play);
 
-	ResourcesManager::GetInst().SpriteFileLoad("Left_SwordKnight.bmp", "Resources\\Unit\\Grunt", 7, 3);
-	ResourcesManager::GetInst().SpriteFileLoad("Right_SwordKnight.bmp", "Resources\\Unit\\Grunt", 7, 3);
+	GlobalContents::SpriteFileLoad("Left_SwordKnight.bmp", "Resources\\Unit\\Grunt", 7, 3);
+	GlobalContents::SpriteFileLoad("Right_SwordKnight.bmp", "Resources\\Unit\\Grunt", 7, 3);
 	 
 	MainRenderer->CreateAnimation("Left_PendulumStride", "Left_SwordKnight.bmp", 14, 19, 0.15f, true);
 	MainRenderer->CreateAnimation("Right_PendulumStride", "Right_SwordKnight.bmp", 14, 19, 0.15f, true);

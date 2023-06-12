@@ -7,6 +7,7 @@
 #include <GameEngineCore/GameEngineCamera.h>
 #include <GameEngineCore/GameEngineCollision.h>
 
+#include "GlobalContents.h"
 
 SkillEffect::SkillEffect() 
 {
