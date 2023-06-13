@@ -23,46 +23,7 @@ void Kirby::UseSpecialAbilityStart()
 
 void Kirby::UseSpecialAbilityUpdate(float _Delta)
 {
-	StateTime += _Delta;
-
-	IsChangeState = MainRenderer->IsAnimationEnd();
-
-	if (true == IsChangeState)
-	{
-		IstriggerOn = true;
-	}
-
-	if (true == IstriggerOn)
-	{
-		Duration += _Delta;
-	}
-
-	if (KirbyMode::Normal == Mode && true == swallowedObject)
-	{
-		ChangeState(KirbyState::Contain_Idle);
-		return;
-	}
-
-	if (true == GameEngineInput::IsFree('Z') && true == IsChangeState)
-	{
-		ChangeState(KirbyState::ReleaseAbility);
-		return;
-	}
-
-	UseAbility();
-
-	BlockedByWall();
-	BlockedByGround();
-
-	ActorUtils::DecelerationUpdate(_Delta, DECELERATIONSPEED);
-	HorizontalUpdate(_Delta);
-
-	if (false == GetGroundState())
-	{
-		Gravity(_Delta);
-		GravityLimit(_Delta);
-		VerticalUpdate(_Delta);
-	}
+	UseAbility(_Delta);
 }
 
 
@@ -115,15 +76,15 @@ void Kirby::GetAbilityUpdate(float _Delta)
 }
 
 
-void Kirby::UseAbility()
+void Kirby::UseAbility(float _Delta)
 {
 	switch (Mode)
 	{
 	case KirbyMode::Normal:
-		InhaleAbility();
+		InhaleAbility(_Delta);
 		break;
 	case KirbyMode::Spark:
-		SparkAbility();
+		SparkAbility(_Delta);
 		break;
 	case KirbyMode::Max:
 		break;
@@ -132,19 +93,60 @@ void Kirby::UseAbility()
 	}
 }
 
-void Kirby::InhaleAbility()
+void Kirby::InhaleAbility(float _Delta)
 {
+	StateTime += _Delta;
+
+	IsChangeState = MainRenderer->IsAnimationEnd();
+	
+
+	if (true == IsChangeState)
+	{
+		IstriggerOn = true;
+	}
+
+	if (true == IstriggerOn)
+	{
+		Duration += _Delta;
+	}
+
 	if (StateTime > 1.0f)
 	{
 		swallowedObject = true;
 		Star = AbilityStar::None;
-		StarPower = 1;
 		CurMode = "Normal";
+		StarPower = 1;
 	}
+
+	if (KirbyMode::Normal == Mode && true == swallowedObject)
+	{
+		ChangeState(KirbyState::Contain_Idle);
+		return;
+	}
+
+	if (true == GameEngineInput::IsFree('Z') && true == IstriggerOn)
+	{
+		ChangeState(KirbyState::ReleaseAbility);
+		return;
+	}
+
+
+	BlockedByWall();
+	BlockedByGround();
+
+	if (false == GetGroundState())
+	{
+		Gravity(_Delta);
+		GravityLimit(_Delta);
+		VerticalUpdate(_Delta);
+	}
+
+	ContentsActor::DecelerationUpdate(_Delta, DECELERATIONSPEED);
+	HorizontalUpdate(_Delta);
 }
 
 
-void Kirby::SparkAbility()
+void Kirby::SparkAbility(float _Delta)
 {
 
 }

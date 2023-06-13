@@ -74,6 +74,7 @@ void SwordKnight::Start()
 void SwordKnight::init(const std::string& _FileName, SwordKnightState _State, const float4& _Pos)
 {
 	Attribute = AttributeType::None;
+	Ability = AbilityStar::Sword;
 
 	SetGroundTexture(_FileName);
 	RespawnLocation = _Pos;

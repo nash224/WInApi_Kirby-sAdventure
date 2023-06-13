@@ -14,6 +14,20 @@
 #define GRAVITYMAXVECTOR 450.0f
 
 
+enum class AbilityStar
+{
+	None,
+	Spark,
+	Laser,
+	Beam,
+	Fire,
+	Freeze,
+	Thorn,
+	Sword,
+	UFO,
+	Max,
+};
+
 // Ό³Έν :
 class ActorUtils : public ContentsActor
 {
@@ -52,6 +66,7 @@ protected:
 	GameEngineRenderer* MainRenderer = nullptr;
 	GameEngineCollision* BodyCollision = nullptr;
 	float4 ActorDirUnitVector = float4::ZERO;
+	AbilityStar Ability = AbilityStar::Max;
 
 
 	bool IsChangeState = true;

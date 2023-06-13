@@ -69,6 +69,7 @@ void Scarfy::Start()
 void Scarfy::init(const std::string& _FileName, ScarfyState _State, const float4& _Pos)
 {
 	Attribute = AttributeType::None;
+	Ability = AbilityStar::Max;
 
 	SetGroundTexture(_FileName);
 	RespawnLocation = _Pos;

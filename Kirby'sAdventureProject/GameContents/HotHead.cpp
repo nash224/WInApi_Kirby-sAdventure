@@ -71,6 +71,7 @@ void HotHead::Start()
 void HotHead::init(const std::string& _FileName, HotHeadState _State, const float4& _Pos)
 {
 	Attribute = AttributeType::Fire;
+	Ability = AbilityStar::Fire;
 
 	SetGroundTexture(_FileName);
 	RespawnLocation = _Pos;

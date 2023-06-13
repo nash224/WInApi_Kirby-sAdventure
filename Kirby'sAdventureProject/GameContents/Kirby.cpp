@@ -75,7 +75,6 @@ void Kirby::Start()
 	FatCollision->SetCollisionType(CollisionType::Rect);
 	FatCollision->Off();
 
-
 	LowerAttackCollision = CreateCollision(CollisionOrder::PlayerAbility);
 	LowerAttackCollision->SetCollisionScale(LOWERATTACKCOLLISIONSCALE);
 	LowerAttackCollision->SetCollisionType(CollisionType::Rect);
@@ -96,8 +95,8 @@ void Kirby::Update(float _Delta)
 	//	for (size_t i = 0; i < _Col.size(); i++)
 	//	{
 	//		GameEngineCollision* Collision = _Col[i];
-	//		GameEngineActor* Actor = Collision->GetActor();
-	//		Actor->Death();
+	//		ActorUtils* Actor = dynamic_cast<ActorUtils*>(Collision->GetActor());
+	//		Actor->;
 	//	}
 	//}
 

@@ -70,6 +70,7 @@ void Togezo::Start()
 void Togezo::init(const std::string& _FileName, TogezoState _State, const float4& _Pos)
 {
 	Attribute = AttributeType::None;
+	Ability = AbilityStar::Thorn;
 
 	SetGroundTexture(_FileName);
 	RespawnLocation = _Pos;

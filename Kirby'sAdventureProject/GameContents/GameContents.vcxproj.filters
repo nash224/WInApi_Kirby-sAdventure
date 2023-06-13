@@ -174,6 +174,9 @@
     <ClInclude Include="CommonSkillEffect.h">
       <Filter>Global\Effect</Filter>
     </ClInclude>
+    <ClInclude Include="KirbyInhaleEffect.h">
+      <Filter>Global\Effect</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="TitleLevel.cpp">
@@ -359,6 +362,9 @@
     </ClCompile>
     <ClCompile Include="Kirby_Mode_State.cpp">
       <Filter>Global\Object\Kirby</Filter>
+    </ClCompile>
+    <ClCompile Include="KirbyInhaleEffect.cpp">
+      <Filter>Global\Effect</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

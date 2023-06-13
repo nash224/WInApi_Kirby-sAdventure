@@ -66,6 +66,7 @@ void LaserBall::Start()
 void LaserBall::init(const std::string& _FileName, LaserBallState _State, const float4& _Pos)
 {
 	Attribute = AttributeType::Fire;
+	Ability = AbilityStar::Laser;
 
 	SetGroundTexture(_FileName);
 	RespawnLocation = _Pos;

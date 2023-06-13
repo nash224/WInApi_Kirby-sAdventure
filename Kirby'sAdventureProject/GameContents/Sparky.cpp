@@ -73,6 +73,7 @@ void Sparky::Start()
 void Sparky::init(const std::string& _FileName, SparkyState _State, const float4& _Pos)
 {
 	Attribute = AttributeType::Electricity;
+	Ability = AbilityStar::Spark;
 
 	SetGroundTexture(_FileName);
 	RespawnLocation = _Pos;

@@ -94,18 +94,6 @@ enum class KirbyMode
 	Max,
 };
 
-enum class AbilityStar
-{
-	None,
-	Spark,
-	Beam,
-	Laser,
-	UFO,
-	Fire,
-	Freeze,
-	Sword,
-	Max,
-};
 
 
 class Kirby : public ActorUtils
@@ -246,10 +234,10 @@ private:
 
 	// 모드별 공격 함수
 	void StarAttack();
-	void UseAbility();
+	void UseAbility(float _Delta);
 	void AcquireAbility();
-	void InhaleAbility();
-	void SparkAbility();
+	void InhaleAbility(float _Delta);
+	void SparkAbility(float _Delta);
 
 private:
 
