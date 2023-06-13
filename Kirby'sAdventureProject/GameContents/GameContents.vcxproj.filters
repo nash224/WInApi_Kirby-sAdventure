@@ -171,6 +171,9 @@
     <ClInclude Include="ExhaleEffect.h">
       <Filter>Global\Effect</Filter>
     </ClInclude>
+    <ClInclude Include="CommonSkillEffect.h">
+      <Filter>Global\Effect</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="TitleLevel.cpp">
@@ -349,6 +352,9 @@
       <Filter>Global\Effect</Filter>
     </ClCompile>
     <ClCompile Include="ExhaleEffect.cpp">
+      <Filter>Global\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="CommonSkillEffect.cpp">
       <Filter>Global\Effect</Filter>
     </ClCompile>
   </ItemGroup>

@@ -50,7 +50,7 @@ void Kirby::Contain_StateResourceLoad()
 void Kirby::Contain_IdleStart()
 {
 	StateTime = 0.0f;
-	BodyState = KirbyBodyState::Fat;
+	ChangeKirbyBodyState(KirbyBodyState::Fat);
 	ChangeAnimationState("Contain_Idle");
 }
 
@@ -477,7 +477,7 @@ void Kirby::Contain_FallUpdate(float _Delta)
 void Kirby::Contain_GulpStart()
 {
 	StateTime = 0.0f;
-	BodyState = KirbyBodyState::Little;
+	ChangeKirbyBodyState(KirbyBodyState::Little);
 	ChangeAnimationState("Contain_Gulp");
 }
 
@@ -541,7 +541,7 @@ void Kirby::Contain_GulpUpdate(float _Delta)
 void Kirby::Contain_DisgorgeStart()
 {
 	StateTime = 0.0f;
-	BodyState = KirbyBodyState::Little;
+	ChangeKirbyBodyState(KirbyBodyState::Little);
 	StarAttack();
 	ChangeAnimationState("Contain_Disgorge");
 }

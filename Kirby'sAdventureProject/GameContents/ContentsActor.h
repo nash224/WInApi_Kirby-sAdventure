@@ -38,6 +38,13 @@ protected:
 	AttributeType Attribute = AttributeType::Max;
 	ActorDir Dir = ActorDir::Max;
 
+	float CurrentSpeed = 0.0f;
+
+
+	virtual void DecelerationUpdate(float _Delta, float _Speed);
+	virtual void HorizontalSpeedLimit(float _Speed);
+	virtual void HorizontalUpdate(float _Delta);
+
 private:
 
 };

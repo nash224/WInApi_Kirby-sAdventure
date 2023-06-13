@@ -676,7 +676,7 @@ void Kirby::LandingUpdate(float _Delta)
 void Kirby::LowerPostureStart()
 {
 	StateTime = 0.0f;
-	BodyState = KirbyBodyState::Lower;
+	ChangeKirbyBodyState(KirbyBodyState::Lower);
 	ChangeAnimationState("LowerPosture");
 }
 
@@ -685,7 +685,7 @@ void Kirby::LowerPostureUpdate(float _Delta)
 
 	if (false == GetGroundState())
 	{
-		BodyState = KirbyBodyState::Little;
+		ChangeKirbyBodyState(KirbyBodyState::Little);
 		ChangeState(KirbyState::Fall);
 		return;
 	}
@@ -696,13 +696,13 @@ void Kirby::LowerPostureUpdate(float _Delta)
 	}
 	if (true == GetGroundState() && true == GameEngineInput::IsFree('S') && 0.0f == CurrentSpeed)
 	{
-		BodyState = KirbyBodyState::Little;
+		ChangeKirbyBodyState(KirbyBodyState::Little);
 		ChangeState(KirbyState::Idle);
 		return;
 	}
 	if (true == GetGroundState() && true == GameEngineInput::IsFree('S') && 0.0f != CurrentSpeed)
 	{
-		BodyState = KirbyBodyState::Little;
+		ChangeKirbyBodyState(KirbyBodyState::Little);
 		ChangeState(KirbyState::Walk);
 		return;
 	}
@@ -719,15 +719,31 @@ void Kirby::LowerPostureUpdate(float _Delta)
 void Kirby::LowerAttackStart()
 {
 	StateTime = 0.0f;
-	IsChangeState = false;
+	IsChangeState = false; 
+
+	float4 KirbyDirUnitVector = GetDirUnitVector();
+	if (KirbyDirUnitVector.X < 0.0f)
+	{
+		KirbyDirUnitVector =
+			float4{ -(LOWERATTACKCOLLISIONSCALE + LOWERTYPECOLLISIONSCALE).Half().X, -LOWERATTACKCOLLISIONSCALE.Half().Y };
+	}
+	else if (KirbyDirUnitVector.X > 0.0f)
+	{
+		KirbyDirUnitVector =
+			float4{ (LOWERATTACKCOLLISIONSCALE + LOWERTYPECOLLISIONSCALE).Half().X, -LOWERATTACKCOLLISIONSCALE.Half().Y };
+	}
+	LowerAttackCollision->SetCollisionPos(KirbyDirUnitVector);
+	LowerAttackCollision->On();
+	Duration = 0.0f;
 	ChangeAnimationState("LowerAttack");
 }
 
 void Kirby::LowerAttackUpdate(float _Delta)
 {
 	StateTime += _Delta;
+	Duration += _Delta;
 
-	if (StateTime < 0.4f)
+	if (StateTime < 0.3f)
 	{
 		if (Dir == ActorDir::Left)
 		{
@@ -740,26 +756,42 @@ void Kirby::LowerAttackUpdate(float _Delta)
 		}
 	}
 	
+	// 벽에 막히면 벽에 부딫힘
 	if (true == CheckLeftWall() || true == CheckRightWall())
 	{
-		BodyState = KirbyBodyState::Little;
+		ChangeKirbyBodyState(KirbyBodyState::Little);
+		LowerAttackCollision->Off();
 		ChangeState(KirbyState::HittheWall);
 		return;
 	}
 
+	// 슬라이딩 중 바닥이 없으면 낙하
 	if (false == GetGroundState())
 	{
-		BodyState = KirbyBodyState::Little;
 		GravityReset();
+		ChangeKirbyBodyState(KirbyBodyState::Little);
+		LowerAttackCollision->Off();
 		ChangeState(KirbyState::Fall);
 		return;
 	}
 
+	// 슬라이딩이 끝내 멈추면 아이들
 	if (true == GetGroundState() && 0.0f == CurrentSpeed)
 	{
-		BodyState = KirbyBodyState::Little;
+		ChangeKirbyBodyState(KirbyBodyState::Little);
+		LowerAttackCollision->Off();
 		ChangeState(KirbyState::Idle);
 		return;
+	}
+
+
+	// 슬라이딩 모션에서 먼지 효과
+	if (Duration > LOWERATTACKDUSTOCCURRENCECYCLE)
+	{
+		Duration = 0.0f;
+
+		DustEffect* DustEffectPtr = GetLevel()->CreateActor<DustEffect>();
+		DustEffectPtr->init(GetPos(), GetKirbyScale(), -GetDirUnitVector());
 	}
 
 
@@ -859,7 +891,7 @@ void Kirby::TakeOffStart()
 {
 	StateTime = 0.0f;
 	IsChangeState = false;
-	BodyState = KirbyBodyState::Fat;
+	ChangeKirbyBodyState(KirbyBodyState::Fat);
 	SetAirResistance(0.4f);
 	ChangeAnimationState("TakeOff");
 }
@@ -880,6 +912,13 @@ void Kirby::TakeOffUpdate(float _Delta)
 	}
 
 
+	if (true == CeilingCheck())
+	{
+		GravityReset();
+	}
+
+	size_t CurFrame = MainRenderer->GetCurFrame();
+	ChangeAnimationState("TakeOff");
 
 	BlockedByGround();
 	BlockedByCeiling();
@@ -966,7 +1005,7 @@ void Kirby::ExhaleAttackStart()
 {
 	StateTime = 0.0f;
 	IsChangeState = false;
-	BodyState = KirbyBodyState::Little;
+	ChangeKirbyBodyState(KirbyBodyState::Little);
 
 	ExhaleEffect* ExhaleEffectPtr = GetLevel()->CreateActor<ExhaleEffect>();
 	ExhaleEffectPtr->init(GetPos(), GetKirbyScale(), GetDirUnitVector());
@@ -1002,8 +1041,14 @@ void Kirby::ExhaleAttackUpdate(float _Delta)
 		return;
 	}
 
+	if (true == CeilingCheck())
+	{
+		GravityReset();
+	}
+
 
 	BlockedByGround();
+	BlockedByCeiling();
 	MoveHorizontal(FLYSPEED, _Delta);
 	BlockedByWall();
 

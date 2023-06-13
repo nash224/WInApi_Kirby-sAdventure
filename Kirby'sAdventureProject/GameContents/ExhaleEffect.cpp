@@ -48,6 +48,15 @@ void ExhaleEffect::init(const float4& _MasterPos, const float4& _MasterScale, co
 	}
 
 	SetPos(_MasterPos + float4{ 0.0f , -_MasterScale.Half().Y } + _EffectDir * (24.0f + Scale.Half().X));
+	
+	if (EffectDir.X < 0.0f)
+	{
+		CurrentSpeed = -EXHALEEFFECTDISTANCE;
+	}
+	else if (EffectDir.X > 0.0f)
+	{
+		CurrentSpeed = EXHALEEFFECTDISTANCE;
+	}
 }
 
 
@@ -55,7 +64,9 @@ void ExhaleEffect::Update(float _Delta)
 {
 	if (GetLiveTime() < EXHALEEFFECTFORWARDTIME)
 	{
-		AddPos(EffectDir * EXHALEEFFECTSPEED * _Delta);
+		float DecelerationSpeed = EXHALEEFFECTDISTANCE / EXHALEEFFECTFORWARDTIME;
+		DecelerationUpdate(_Delta, DecelerationSpeed);
+		HorizontalUpdate(_Delta);
 	}
 
 	if (GetLiveTime() > EXHALEEFFECTTIME)

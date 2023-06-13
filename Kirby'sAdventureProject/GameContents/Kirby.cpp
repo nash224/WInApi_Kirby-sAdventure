@@ -63,12 +63,28 @@ void Kirby::Start()
 	LittleCollision->SetCollisionType(CollisionType::Rect);
 	LittleCollision->On();
 
+	LowerCollision = CreateCollision(CollisionOrder::PlayerBody);
+	LowerCollision->SetCollisionPos(float4{ 0.0f , -LOWERTYPECOLLISIONSCALE.Half().Y });
+	LowerCollision->SetCollisionScale(LOWERTYPECOLLISIONSCALE);
+	LowerCollision->SetCollisionType(CollisionType::Rect);
+	LowerCollision->Off();
+
 	FatCollision = CreateCollision(CollisionOrder::PlayerBody);
 	FatCollision->SetCollisionPos(float4{ 0.0f , -FATTYPECOLLISIONSCALE.Half().Y });
 	FatCollision->SetCollisionScale(FATTYPECOLLISIONSCALE);
 	FatCollision->SetCollisionType(CollisionType::Rect);
 	FatCollision->Off();
+
+
+	LowerAttackCollision = CreateCollision(CollisionOrder::PlayerAbility);
+	LowerAttackCollision->SetCollisionScale(LOWERATTACKCOLLISIONSCALE);
+	LowerAttackCollision->SetCollisionType(CollisionType::Rect);
+	LowerAttackCollision->Off();
 }
+
+
+/* ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ */
+
 
 void Kirby::Update(float _Delta)
 {
@@ -90,9 +106,11 @@ void Kirby::Update(float _Delta)
 		GameEngineLevel::CollisionDebugRenderSwitch();
 	}
 
-	if (true == GameEngineInput::IsDown('L'))
 	{
-		Grunt::AllMonsterDeath();
+		if (true == GameEngineInput::IsDown('L'))
+		{
+			Grunt::AllMonsterDeath();
+		}
 	}
 
 	StateUpdate(_Delta);
@@ -183,35 +201,8 @@ void Kirby::ChangeState(KirbyState _State)
 	State = _State;
 }
 
-void Kirby::KirbyDirCheck()
-{
-	ActorDir CheckDir = ActorDir::Max;
 
-	if (true == GameEngineInput::IsPress('A') &&
-		true == GameEngineInput::IsPress('D'))
-	{
-		return;
-	}
-
-	if (true == GameEngineInput::IsPress('A'))
-	{
-		CheckDir = ActorDir::Left;
-	}
-
-	if (true == GameEngineInput::IsPress('D'))
-	{
-		CheckDir = ActorDir::Right;
-	}
-
-
-	if (CheckDir != ActorDir::Max)
-	{
-		Dir = CheckDir;
-	}
-}
-
-
-void Kirby::ChangeAnimationState(const std::string& _StateName)
+void Kirby::ChangeAnimationState(const std::string& _StateName, int _StartFrame/* = 0*/)
 {
 
 	std::string AnimationName = "";
@@ -253,6 +244,69 @@ void Kirby::ChangeAnimationState(const std::string& _StateName)
 }
 
 
+// 판정 함수
+/* ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ */
+
+// 커비 방향체크
+void Kirby::KirbyDirCheck()
+{
+	ActorDir CheckDir = ActorDir::Max;
+
+	if (true == GameEngineInput::IsPress('A') &&
+		true == GameEngineInput::IsPress('D'))
+	{
+		return;
+	}
+
+	if (true == GameEngineInput::IsPress('A'))
+	{
+		CheckDir = ActorDir::Left;
+	}
+
+	if (true == GameEngineInput::IsPress('D'))
+	{
+		CheckDir = ActorDir::Right;
+	}
+
+
+	if (CheckDir != ActorDir::Max)
+	{
+		Dir = CheckDir;
+	}
+}
+
+// 커비 충돌 크기 및 상태 변경
+void Kirby::ChangeKirbyBodyState(KirbyBodyState _BodyState)
+{
+
+	if (BodyState == _BodyState)
+	{
+		return;
+	}
+
+	BodyState = _BodyState;
+
+	if (KirbyBodyState::Little == _BodyState)
+	{
+		LittleCollision->On();
+		LowerCollision->Off();
+		FatCollision->Off();
+	}
+	else if (KirbyBodyState::Lower == _BodyState)
+	{
+		LittleCollision->Off();
+		LowerCollision->On();
+		FatCollision->Off();
+	}
+	else if (KirbyBodyState::Fat == _BodyState)
+	{
+		LittleCollision->Off();
+		LowerCollision->Off();
+		FatCollision->On();
+	}
+}
+
+
 // 발끝 중앙 기준
 float4 Kirby::GetKirbyScale()
 {
@@ -274,6 +328,12 @@ float4 Kirby::GetKirbyScale()
 	return float4{ 0.0f, 0.0f };
 }
 
+
+// 이동 함수
+/* ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ */
+
+
+// 커비 X축 이동 로직
 void Kirby::MoveHorizontal(float _Speed, float _Delta)
 {
 	if (true == GameEngineInput::IsPress('A') && false == GameEngineInput::IsPress('D'))
@@ -288,6 +348,7 @@ void Kirby::MoveHorizontal(float _Speed, float _Delta)
 	}
 }
 
+// 커비 고유 감속도
 void Kirby::DecelerationUpdate(float _Delta)
 {
 	if ((GameEngineInput::IsPress('A') && GameEngineInput::IsPress('D')) || (GameEngineInput::IsFree('A') && GameEngineInput::IsFree('D')))
@@ -358,7 +419,10 @@ void Kirby::HorizontalUpdate(float _Delta)
 }
 
 
+// 레벨 함수
+/* ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ */
 
+// 몹의 패턴에서 쓰일 커비 객체
 void Kirby::LevelStart()
 {
 	MainKirby = this;

@@ -28,4 +28,5 @@ enum class CollisionOrder
 	MonsterBody,
 	MonsterAbility,
 	Object,
+	Max,
 };

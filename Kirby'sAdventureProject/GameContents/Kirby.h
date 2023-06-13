@@ -4,28 +4,38 @@
 #include <map>
 #include <string>
 
-#define FATTYPECOLLISIONSCALE float4{ 66.0f , 6.0f }
-
-#define WALKMAXSPEED 200.0f
-#define RUNMAXSPEED 350.0f
-#define FLYMAXSPEED 200.0f
+#define FATTYPECOLLISIONSCALE float4{ 66.0f , 66.0f }
+#define LOWERTYPECOLLISIONSCALE float4{ 48.0f , 27.0f }
+#define LOWERATTACKCOLLISIONSCALE float4 { 30.0f , 18.0f }
 
 #define WALKSPEED 500.0f
-#define RUNSPEED 600.0f
-#define FLYSPEED 500.0f
-
-#define FALLDISTANCE 170.0f
-#define JUMPMAXDISTANCE 100.0f
-#define FLYPOWER 280.0f
-#define BOUNCEPOWER 250.0f
-
+#define WALKMAXSPEED 200.0f
 #define DECELERATIONSPEED  600.0f
 #define BRAKESPEED 1000.0f
 
+#define RUNSPEED 600.0f
+#define RUNMAXSPEED 350.0f
+
 #define JUMPTIME 0.3f
-#define HITTHEMAPTIME 0.08f
+#define JUMPMAXDISTANCE 100.0f
+
+#define FALLDISTANCE 170.0f
+
+#define BOUNCEPOWER 250.0f
+
+
 #define TAKEOFFTIME 0.4f
+
+#define FLYPOWER 280.0f
+#define FLYSPEED 500.0f
+#define FLYMAXSPEED 200.0f
+
 #define EXHALEATTACKTIME 0.08f
+
+
+#define HITTHEMAPTIME 0.08f
+
+#define LOWERATTACKDUSTOCCURRENCECYCLE 0.08f
 
 
 
@@ -124,7 +134,7 @@ protected:
 	// 상태변경 함수
 	void StateUpdate(float _Delta);
 	void ChangeState(KirbyState _State);
-	void ChangeAnimationState(const std::string& _StateName);
+	void ChangeAnimationState(const std::string& _StateName, int _StartFrame = 0);
 
 	// 감지, 충돌 함수
 	void KirbyDirCheck();
@@ -132,6 +142,7 @@ protected:
 	void DecelerationUpdate(float _Delta);
 	void HorizontalUpdate(float _Delta) override;
 	float4 GetKirbyScale();
+	void ChangeKirbyBodyState(KirbyBodyState _BodyState);
 
 
 	// 행동 시작전 함수
@@ -200,7 +211,9 @@ protected:
 
 private:
 	GameEngineCollision* LittleCollision = nullptr;
+	GameEngineCollision* LowerCollision = nullptr;
 	GameEngineCollision* FatCollision = nullptr;
+	GameEngineCollision* LowerAttackCollision = nullptr;
 	KirbyBodyState BodyState = KirbyBodyState::Max;
 	KirbyState State = KirbyState::Max;
 	KirbyMode Mode = KirbyMode::Max;
@@ -236,5 +249,16 @@ private:
 	void InhaleAbility();
 	void SparkAbility();
 
+private:
+
+	class KirbyStar
+	{
+	public:
+		bool IsStarBreak = true;
+		bool IsSwallowedPowerEnemy = false;
+		int SwallowedEnemyNumber = 0;
+		int StarDamage = 0;
+
+	};
 };
 

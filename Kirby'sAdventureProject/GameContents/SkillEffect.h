@@ -20,7 +20,7 @@ public:
 	class GameEngineRenderer* MainRenderer = nullptr;
 
 	void SetGroundTexture(const std::string& _GroundTextureName);
-	void SetActorCollision(CollisionOrder _Order, CollisionType _Type);
+	virtual void SetActorCollision(CollisionOrder _Order, CollisionType _Type);
 
 	void SetEffectDir(const float4& _Dir)
 	{

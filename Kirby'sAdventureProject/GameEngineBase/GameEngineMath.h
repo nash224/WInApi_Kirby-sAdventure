@@ -243,14 +243,14 @@ public:
 
 	// GetUnitVectorFromDeg(45)
 
-	inline float4 GetUnitVectorFromDeg(const float _Degree)
+	inline static float4 GetUnitVectorFromDeg(const float _Degree)
 	{
 		// 90 => 1.57
 		return GetUnitVectorFromRad(_Degree * GameEngineMath::D2R);
 	}
 
 	//                                       90.0f
-	inline float4 GetUnitVectorFromRad(const float _Rad)
+	inline static float4 GetUnitVectorFromRad(const float _Rad)
 	{
 		// cosf(_Rad)반지름의 길이 1일때의 cosf값이 구해집니다.
 		// sinf(_Rad)반지름의 길이 1일때의 sinf값이 구해집니다.

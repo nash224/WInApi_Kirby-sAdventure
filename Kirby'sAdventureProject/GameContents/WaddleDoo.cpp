@@ -17,6 +17,7 @@
 
 #include "GlobalContents.h"
 #include "Kirby.h"
+#include "BeamEffect.h"
 #include <vector>
 
 WaddleDoo::WaddleDoo()
@@ -339,6 +340,9 @@ void WaddleDoo::ActivateAbilityStart()
 {
 	StateTime = 0.0f;
 	IsChangeState = false;
+	BeamEffect* BeamEffectPtr = GetLevel()->CreateActor<BeamEffect>();
+	BeamEffectPtr->init(GetPos(), Scale, GetDirUnitVector());
+	BeamEffectPtr->SetActorCollision(CollisionOrder::MonsterAbility, CollisionType::Rect);
 	ChangeAnimationState("ActivateAbility");
 }
 

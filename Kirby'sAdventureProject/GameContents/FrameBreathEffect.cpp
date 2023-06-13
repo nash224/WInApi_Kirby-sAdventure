@@ -1,6 +1,7 @@
 #include "FrameBreathEffect.h"
 #include "ContentsEnum.h"
 
+#include <GameEngineBase/GameEngineRandom.h>
 #include <GameEnginePlatform/GameEngineWindow.h>
 #include <GameEnginePlatform/GameEngineWindowTexture.h>
 #include <GameEngineCore/GameEngineRenderer.h>
@@ -51,7 +52,16 @@ void FrameBreathEffect::init(const float4& _Pos, const float4& _MaterScale, cons
 
 
 	// Dir ¿Á¡§¿«
-
+	if (EffectDir.X < 0.0f)
+	{
+		float Degree = GameEngineRandom::MainRandom.RandomFloat(165.0f, 195.0f );
+		EffectDir = float4::GetUnitVectorFromDeg(Degree);
+	}
+	else if (EffectDir.X > 0.0f)
+	{
+		float Degree = GameEngineRandom::MainRandom.RandomFloat(-15.0f, 15.0f);
+		EffectDir = float4::GetUnitVectorFromDeg(Degree);
+	}
 }
 
 

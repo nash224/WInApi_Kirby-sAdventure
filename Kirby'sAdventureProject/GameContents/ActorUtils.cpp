@@ -124,49 +124,6 @@ void ActorUtils::VerticalUpdateBasedlevitation(float _Delta)
 }
 
 
-void ActorUtils::DecelerationUpdate(float _Delta, float _Speed)
-{
-	if (CurrentSpeed < 0.0f)
-	{
-		CurrentSpeed += _Speed * _Delta;
-
-		if (CurrentSpeed > 0.0f)
-		{
-			CurrentSpeed = 0.0f;
-		}
-	}
-	else if (CurrentSpeed > 0.0f)
-	{
-		CurrentSpeed -= _Speed * _Delta;
-
-		if (CurrentSpeed < 0.0f)
-		{
-			CurrentSpeed = 0.0f;
-		}
-	}
-}
-
-void ActorUtils::HorizontalSpeedLimit(float _Speed)
-{
-	if ((CurrentSpeed > _Speed || CurrentSpeed < -_Speed))
-	{
-		if (CurrentSpeed <= -_Speed)
-		{
-			CurrentSpeed = -_Speed;
-		}
-
-		if (CurrentSpeed >= _Speed)
-		{
-			CurrentSpeed = _Speed;
-		}
-	}
-}
-
-void ActorUtils::HorizontalUpdate(float _Delta)
-{
-	AddPos(float4{ CurrentSpeed * _Delta , 0.0f });
-}
-
 
 // ÇÈ¼¿¸Ê ¼¼ÆÃ
 void ActorUtils::SetGroundTexture(const std::string& _GroundTextureName)

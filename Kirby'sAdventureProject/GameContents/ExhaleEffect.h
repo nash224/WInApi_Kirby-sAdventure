@@ -1,9 +1,9 @@
 #pragma once
 #include "SkillEffect.h"
 
-#define EXHALEEFFECTTIME 0.6f
-#define EXHALEEFFECTFORWARDTIME 0.3f
-#define EXHALEEFFECTSPEED 200.0f
+#define EXHALEEFFECTTIME 0.5f
+#define EXHALEEFFECTFORWARDTIME 0.15f
+#define EXHALEEFFECTDISTANCE 300.0f
 
 
 // Ό³Έν :
