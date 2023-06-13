@@ -243,7 +243,6 @@ void Togezo::RollStart()
 	IsRollingSpeedZero = false;
 	CurrentSpeed = TOGEZOROLLINGSPEED;
 	RollingSpeedZeroTime = TOGEZOCLIFFSTOPTIME;
-	GetKirbyDirection();
 	ChangeAnimationState("Roll");
 }
 

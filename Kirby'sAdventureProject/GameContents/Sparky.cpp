@@ -519,7 +519,9 @@ void Sparky::SparkUpdate(float _Delta)
 		SparkCoolDown = 0.0f;
 
 		SparkEffect* SparkEffectPtr = GetLevel()->CreateActor<SparkEffect>();
-		SparkEffectPtr->init(GetPos(), Scale, float4::UP);
+		float Degree = GameEngineRandom::MainRandom.RandomFloat(0.0f, 6.28f);
+		float4 Dir = float4{}.GetUnitVectorFromRad(Degree);
+		SparkEffectPtr->init(GetPos(), Scale, Dir);
 		SparkEffectPtr->SetActorCollision(CollisionOrder::MonsterAbility, CollisionType::Rect);
 	}
 
