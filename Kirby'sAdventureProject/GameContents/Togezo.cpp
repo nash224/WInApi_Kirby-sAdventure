@@ -242,8 +242,14 @@ void Togezo::RollStart()
 	StateTime = 0.0f;
 	IsChangeState = false;
 	IsRollingSpeedZero = false;
-	CurrentSpeed = TOGEZOROLLINGSPEED;
-	RollingSpeedZeroTime = TOGEZOCLIFFSTOPTIME;
+	if (ActorDir::Left == Dir)
+	{
+		CurrentSpeed = -TOGEZOROLLINGSPEED;
+	}
+	else if (ActorDir::Right == Dir)
+	{
+		CurrentSpeed = TOGEZOROLLINGSPEED;
+	}
 	ChangeAnimationState("Roll");
 }
 
