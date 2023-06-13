@@ -917,8 +917,8 @@ void Kirby::TakeOffUpdate(float _Delta)
 		GravityReset();
 	}
 
-	size_t CurFrame = MainRenderer->GetCurFrame();
-	ChangeAnimationState("TakeOff");
+	int CurFrame = static_cast<int>(MainRenderer->GetCurFrame());
+	ChangeAnimationState("TakeOff", CurFrame);
 
 	BlockedByGround();
 	BlockedByCeiling();
@@ -1001,6 +1001,7 @@ void Kirby::FlyUpdate(float _Delta)
 	VerticalUpdate(_Delta);
 }
 
+
 void Kirby::ExhaleAttackStart()
 {
 	StateTime = 0.0f;
@@ -1062,153 +1063,3 @@ void Kirby::ExhaleAttackUpdate(float _Delta)
 		VerticalUpdate(_Delta);
 	}
 }
-
-void Kirby::UseSpecialAbilityStart()
-{
-	StateTime = 0.0f;
-	Duration = 0.0f;
-	IsChangeState = false;
-	swallowedObject = false;
-	IstriggerOn = false;
-	ChangeAnimationState("UseSpecialAbility");
-}
-
-void Kirby::UseSpecialAbilityUpdate(float _Delta)
-{
-	StateTime += _Delta;
-
-	IsChangeState = MainRenderer->IsAnimationEnd();
-
-	if (true == IsChangeState)
-	{
-		IstriggerOn = true;
-	}
-
-	if (true == IstriggerOn)
-	{
-		Duration += _Delta;
-	}
-
-	if (Duration > 0.2f && true == GameEngineInput::IsFree('Z'))
-	{
-		ChangeState(KirbyState::ReleaseAbility);
-		return;
-	}
-
-	if (KirbyMode::Normal == Mode && true == swallowedObject)
-	{
-		ChangeState(KirbyState::Contain_Idle);
-		return;
-	}
-
-	UseAbility();
-
-	BlockedByWall();
-	BlockedByGround();
-
-	ActorUtils::DecelerationUpdate(_Delta, DECELERATIONSPEED);
-	HorizontalUpdate(_Delta);
-
-	if (false == GetGroundState())
-	{
-		Gravity(_Delta);
-		GravityLimit(_Delta);
-		VerticalUpdate(_Delta);
-	}
-}
-
-
-void Kirby::ReleaseAbilityStart()
-{
-	StateTime = 0.0f;
-	IsChangeState = false;
-	ChangeAnimationState("ReleaseAbility");
-}
-
-void Kirby::ReleaseAbilityUpdate(float _Delta)
-{
-	IsChangeState = MainRenderer->IsAnimationEnd();
-
-	if (true == IsChangeState && false == GetGroundState())
-	{
-		ChangeState(KirbyState::Fall);
-		return;
-	}
-	if (true == IsChangeState && true == GetGroundState())
-	{
-		ChangeState(KirbyState::Idle);
-		return;
-	}
-
-	BlockedByWall();
-	BlockedByGround();
-
-	ActorUtils::DecelerationUpdate(_Delta, DECELERATIONSPEED);
-	HorizontalUpdate(_Delta);
-
-	if (false == GetGroundState())
-	{
-		Gravity(_Delta);
-		GravityLimit(_Delta);
-		VerticalUpdate(_Delta);
-	}
-}
-
-
-void Kirby::GetAbilityStart()
-{
-
-}
-
-void Kirby::GetAbilityUpdate(float _Delta)
-{
-
-}
-
-
-// ============================================
-
-
-
-
-void Kirby::UseAbility()
-{
-	switch (Mode)
-	{
-	case KirbyMode::Normal:
-		InhaleAbility();
-		break;
-	case KirbyMode::Spark:
-		SparkAbility();
-		break;
-	case KirbyMode::Max:
-		break;
-	default:
-		break;
-	}
-}
-
-void Kirby::InhaleAbility()
-{
-	if (StateTime > 1.0f)
-	{
-		swallowedObject = true;
-		Star = AbilityStar::None;
-		StarPower = 1;
-		CurMode = "Normal";
-	}
-}
-
-
-void Kirby::SparkAbility()
-{
-
-}
-
-
-
-//Projectile* NewRazer = GetLevel()->CreateActor<Projectile>();
-//NewRazer->Renderer->SetTexture("MetaKnightsSoldiersStand.bmp");
-//NewRazer->SetDir(float4::RIGHT);
-//NewRazer->SetPos(GetPos() + float4::XValue(60.0f));
-//NewRazer->SetSpeed(300.0f);

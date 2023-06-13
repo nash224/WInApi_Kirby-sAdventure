@@ -515,6 +515,10 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="Kirby_Contain_State.cpp" />
+    <ClCompile Include="Kirby_Mode_State.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="Kirby_State.cpp" />
     <ClCompile Include="LaserBall.cpp">
       <SubType>

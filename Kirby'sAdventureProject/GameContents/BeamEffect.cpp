@@ -105,7 +105,7 @@ void BeamEffect::Update(float _Delta)
 			}
 		}
 
-		if (2 == BeamChangePosCount)
+		if (3 == BeamChangePosCount)
 		{
 			EffectPos = BeamDir * BEAMEFFECTLONGDISTANCE + GetPos();
 			CommonSkillEffect* BeamUnitEffectPtr = GetLevel()->CreateActor<CommonSkillEffect>();
@@ -115,7 +115,7 @@ void BeamEffect::Update(float _Delta)
 		}
 
 
-		if (2 == BeamChangePosCount)
+		if (3 == BeamChangePosCount)
 		{
 			BeamChangePosCount = 0;
 			--EffectPosNumber;

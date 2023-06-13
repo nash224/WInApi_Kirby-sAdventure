@@ -101,6 +101,11 @@ void Kirby::Update(float _Delta)
 	//	}
 	//}
 
+	if (true == GameEngineInput::IsDown(VK_SHIFT) && Mode != KirbyMode::Normal)
+	{
+		DropAbility();
+	}
+
 	if (true == GameEngineInput::IsDown('Y'))
 	{
 		GameEngineLevel::CollisionDebugRenderSwitch();
@@ -141,6 +146,7 @@ void Kirby::StateUpdate(float _Delta)
 	case KirbyState::TakeOff:				return TakeOffUpdate(_Delta);
 	case KirbyState::Fly:					return FlyUpdate(_Delta);
 	case KirbyState::ExhaleAttack:			return ExhaleAttackUpdate(_Delta);
+	case KirbyState::GetAbility:			return GetAbilityUpdate(_Delta);
 	case KirbyState::UseSpecialAbility:		return UseSpecialAbilityUpdate(_Delta);
 	case KirbyState::ReleaseAbility:		return ReleaseAbilityUpdate(_Delta);
 	case KirbyState::Contain_Idle:			return Contain_IdleUpdate(_Delta);
@@ -151,7 +157,6 @@ void Kirby::StateUpdate(float _Delta)
 	case KirbyState::Contain_Fall:			return Contain_FallUpdate(_Delta);
 	case KirbyState::Contain_Gulp:			return Contain_GulpUpdate(_Delta);
 	case KirbyState::Contain_Disgorge:		return Contain_DisgorgeUpdate(_Delta);
-	case KirbyState::GetAbility:			return GetAbilityUpdate(_Delta);
 	default:
 		break;
 	}
@@ -182,6 +187,7 @@ void Kirby::ChangeState(KirbyState _State)
 		case KirbyState::TakeOff:				TakeOffStart();					break;
 		case KirbyState::Fly:					FlyStart();						break;
 		case KirbyState::ExhaleAttack:			ExhaleAttackStart();			break;
+		case KirbyState::GetAbility:			GetAbilityStart();				break;
 		case KirbyState::UseSpecialAbility:		UseSpecialAbilityStart();		break;
 		case KirbyState::ReleaseAbility:		ReleaseAbilityStart();			break;
 		case KirbyState::Contain_Idle:			Contain_IdleStart();			break;
@@ -192,7 +198,6 @@ void Kirby::ChangeState(KirbyState _State)
 		case KirbyState::Contain_Fall:			Contain_FallStart();			break;
 		case KirbyState::Contain_Gulp:			Contain_GulpStart();			break;
 		case KirbyState::Contain_Disgorge:		Contain_DisgorgeStart();		break;
-		case KirbyState::GetAbility:			GetAbilityStart();				break;
 		default:
 			break;
 		}
@@ -240,7 +245,7 @@ void Kirby::ChangeAnimationState(const std::string& _StateName, int _StartFrame/
 
 	CurState = _StateName;
 
-	MainRenderer->ChangeAnimation(ModeName);
+	MainRenderer->ChangeAnimation(ModeName, _StartFrame);
 }
 
 

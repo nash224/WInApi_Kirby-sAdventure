@@ -357,6 +357,9 @@
     <ClCompile Include="CommonSkillEffect.cpp">
       <Filter>Global\Effect</Filter>
     </ClCompile>
+    <ClCompile Include="Kirby_Mode_State.cpp">
+      <Filter>Global\Object\Kirby</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Global">

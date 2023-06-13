@@ -73,28 +73,28 @@ void AirExplosionEffect::Update(float _Delta)
 		switch (ImagePosNumber % 2)
 		{
 		case 0:
-			XCoordinate = static_cast<float>(GameEngineRandom::MainRandom.RandomInt(0, 72) - 36);
+			XCoordinate = GameEngineRandom::MainRandom.RandomFloat(0.0f, 72.0f) - 36.0f;
 			AirExplosionB1EffectPos = float4{ XCoordinate, 36.0f };
 			if (XCoordinate > 0.0f)
 			{
-				XCoordinate = -static_cast<float>(GameEngineRandom::MainRandom.RandomInt(0, 36));
+				XCoordinate = -GameEngineRandom::MainRandom.RandomFloat(0.0f, 36.0f);
 			}
 			else
 			{
-				XCoordinate = static_cast<float>(GameEngineRandom::MainRandom.RandomInt(0, 36));
+				XCoordinate = GameEngineRandom::MainRandom.RandomFloat(0.0f, 36.0f);
 			}
 			AirExplosionB2EffectPos = float4{ XCoordinate, -36.0f };
 			break;
 		case 1:
-			YCoordinate = static_cast<float>(GameEngineRandom::MainRandom.RandomInt(0, 72) - 36);
+			YCoordinate = GameEngineRandom::MainRandom.RandomFloat(0.0f, 72.0f) - 36.0f;
 			AirExplosionB1EffectPos = float4{ 36.0f, YCoordinate };
 			if (XCoordinate > 0.0f)
 			{
-				YCoordinate = -static_cast<float>(GameEngineRandom::MainRandom.RandomInt(0, 36));
+				YCoordinate = -GameEngineRandom::MainRandom.RandomFloat(0.0f, 36.0f);
 			}
 			else
 			{
-				YCoordinate = static_cast<float>(GameEngineRandom::MainRandom.RandomInt(0, 36));
+				YCoordinate = GameEngineRandom::MainRandom.RandomFloat(0.0f, 36.0f);
 			}
 			AirExplosionB2EffectPos = float4{ -36.0f, YCoordinate };
 			break;

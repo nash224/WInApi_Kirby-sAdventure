@@ -208,6 +208,8 @@ protected:
 	void Contain_GulpUpdate(float _Delta);
 	void Contain_DisgorgeUpdate(float _Delta);
 
+	void DropAbility();
+
 
 private:
 	GameEngineCollision* LittleCollision = nullptr;
