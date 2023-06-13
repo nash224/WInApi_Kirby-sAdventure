@@ -21,6 +21,11 @@ public:
 	VegetableValleyPlayLevel& operator=(const VegetableValleyPlayLevel& _Other) = delete;
 	VegetableValleyPlayLevel& operator=(VegetableValleyPlayLevel&& _Other) noexcept = delete;
 
+	size_t GetLevelEnemyCount() const
+	{
+		return LevelEnemy.size();
+	}
+
 protected:
 	std::map<std::string, Enemy*> LevelEnemy;
 
@@ -29,6 +34,7 @@ protected:
 	class GameEffect* LevelEffect = nullptr;
 
 	float4 BackGroundScale = float4::ZERO;
+
 
 
 	void CheckRespawnEnemy();

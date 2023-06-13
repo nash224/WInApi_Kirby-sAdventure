@@ -2,11 +2,13 @@
 #include "ActorUtils.h"
 
 #include <map>
+#include <vector>
 #include <string>
 
 #define FATTYPECOLLISIONSCALE float4{ 66.0f , 66.0f }
 #define LOWERTYPECOLLISIONSCALE float4{ 48.0f , 27.0f }
 #define LOWERATTACKCOLLISIONSCALE float4 { 30.0f , 18.0f }
+#define INHALEEFFECTCOLLISIONSCALE float4 { 132.0f , 66.0f }
 
 #define WALKSPEED 500.0f
 #define WALKMAXSPEED 200.0f
@@ -98,6 +100,9 @@ enum class KirbyMode
 
 class Kirby : public ActorUtils
 {
+private:
+	int IsLevelChange = true;
+
 public:
 	// constructor desstructor
 	Kirby();
@@ -200,21 +205,22 @@ protected:
 
 
 private:
+	std::vector<GameEngineCollision*> CollisionCheck;
 	GameEngineCollision* LittleCollision = nullptr;
 	GameEngineCollision* LowerCollision = nullptr;
 	GameEngineCollision* FatCollision = nullptr;
 	GameEngineCollision* LowerAttackCollision = nullptr;
+	GameEngineCollision* InhaleEffectCollision = nullptr;
 	KirbyBodyState BodyState = KirbyBodyState::Max;
 	KirbyState State = KirbyState::Max;
 	KirbyMode Mode = KirbyMode::Max;
-	AbilityStar Star = AbilityStar::Max;
+	AbilityStar CurrentAbilityStar = AbilityStar::Max;
 	std::string CurState = "";
 	std::string CurMode = "";
 
 	bool IstriggerOn = false;
 	bool IsBounce = false;
 	bool swallowedObject = false;
-
 
 	float Duration = 0.0f;
 	float DecelerationSpeed = 1.0f;
@@ -233,11 +239,17 @@ private:
 	void Normal_StateResourceLoad();
 
 	// 모드별 공격 함수
+	void UseAbilityStart();
+	void UseAbilityUpdate(float _Delta);
+
 	void StarAttack();
-	void UseAbility(float _Delta);
 	void AcquireAbility();
-	void InhaleAbility(float _Delta);
-	void SparkAbility(float _Delta);
+
+	void InhaleAbilityStart();
+	void SparkAbilityStart();
+
+	void InhaleAbilityUpdate(float _Delta);
+	void SparkAbilityUpdate(float _Delta);
 
 private:
 
@@ -247,8 +259,11 @@ private:
 		bool IsStarBreak = true;
 		bool IsSwallowedPowerEnemy = false;
 		int SwallowedEnemyNumber = 0;
+		int SwallowedPowerEnemyNumber = 0;
 		int StarDamage = 0;
 
 	};
+
+	KirbyStar Star;
 };
 

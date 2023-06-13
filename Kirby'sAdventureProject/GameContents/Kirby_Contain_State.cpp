@@ -485,16 +485,16 @@ void Kirby::Contain_GulpUpdate(float _Delta)
 {
 	IsChangeState = MainRenderer->IsAnimationEnd();
 
-	if (true == IsChangeState && AbilityStar::None == Star && true == GameEngineInput::IsPress('S'))
+	if (true == IsChangeState && AbilityStar::None == CurrentAbilityStar && true == GameEngineInput::IsPress('S'))
 	{
-		Star = AbilityStar::Max;
+		CurrentAbilityStar = AbilityStar::Max;
 		ChangeState(KirbyState::LowerPosture);
 		return;
 	}
 
-	if (true == IsChangeState && AbilityStar::None == Star && false == GameEngineInput::IsPress('S'))
+	if (true == IsChangeState && AbilityStar::None == CurrentAbilityStar && false == GameEngineInput::IsPress('S'))
 	{
-		Star = AbilityStar::Max;
+		CurrentAbilityStar = AbilityStar::Max;
 		if (CurrentSpeed == 0.0f)
 		{
 			ChangeState(KirbyState::Idle);
@@ -507,9 +507,9 @@ void Kirby::Contain_GulpUpdate(float _Delta)
 		}
 	}
 
-	if (true == IsChangeState && AbilityStar::None != Star)
+	if (true == IsChangeState && AbilityStar::None != CurrentAbilityStar)
 	{
-		Star = AbilityStar::Max;
+		CurrentAbilityStar = AbilityStar::Max;
 		ChangeState(KirbyState::GetAbility);
 		return;
 	}

@@ -79,6 +79,11 @@ void Kirby::Start()
 	LowerAttackCollision->SetCollisionScale(LOWERATTACKCOLLISIONSCALE);
 	LowerAttackCollision->SetCollisionType(CollisionType::Rect);
 	LowerAttackCollision->Off();
+
+	InhaleEffectCollision = CreateCollision(CollisionOrder::PlayerAbility);
+	InhaleEffectCollision->SetCollisionScale(INHALEEFFECTCOLLISIONSCALE);
+	InhaleEffectCollision->SetCollisionType(CollisionType::Rect);
+	InhaleEffectCollision->Off();
 }
 
 
@@ -99,6 +104,8 @@ void Kirby::Update(float _Delta)
 	//		Actor->;
 	//	}
 	//}
+
+
 
 	if (true == GameEngineInput::IsDown(VK_SHIFT) && Mode != KirbyMode::Normal)
 	{
@@ -429,6 +436,7 @@ void Kirby::HorizontalUpdate(float _Delta)
 // 몹의 패턴에서 쓰일 커비 객체
 void Kirby::LevelStart()
 {
+	IsLevelChange = true;
 	MainKirby = this;
 }
 

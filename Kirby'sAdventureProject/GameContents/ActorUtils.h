@@ -42,6 +42,10 @@ public:
 	ActorUtils& operator=(const ActorUtils& _Other) = delete;
 	ActorUtils& operator=(ActorUtils&& _Other) noexcept = delete;
 
+
+	AbilityStar Ability = AbilityStar::Max;
+
+
 	float4 ActorCameraPos();
 	void SetGroundTexture(const std::string& _GroundTextureName);
 
@@ -66,7 +70,6 @@ protected:
 	GameEngineRenderer* MainRenderer = nullptr;
 	GameEngineCollision* BodyCollision = nullptr;
 	float4 ActorDirUnitVector = float4::ZERO;
-	AbilityStar Ability = AbilityStar::Max;
 
 
 	bool IsChangeState = true;
