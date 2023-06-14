@@ -91,15 +91,9 @@ void Sparky::Update(float _Delta)
 {
 	GroundCheck();
 
-	if (true == /*IsSWalledByKirby*/IsInhaleCollision())
-	{
-		ChangeState(SparkyState::BeInhaled);
-		return;
-	}
-
 	StateUpdate(_Delta);
 
-	CheckOverScreen();
+	//CheckOverScreen();
 }
 
 void Sparky::StateUpdate(float _Delta)
@@ -120,7 +114,7 @@ void Sparky::StateUpdate(float _Delta)
 
 void Sparky::ChangeState(SparkyState _State)
 {
-	if (_State != State || _State == RespawnState)
+	if (_State != State || _State == RespawnState || _State == SparkyState::BeInhaled)
 	{
 		switch (_State)
 		{
@@ -207,6 +201,12 @@ void Sparky::IdleUpdate(float _Delta)
 	StateTime += _Delta;
 	AbilityStartDeltaTime += _Delta;
 
+	if (true == IsInhaedStateOn)
+	{
+		ChangeState(SparkyState::BeInhaled);
+		return;
+	}
+
 	if (AbilityStartDeltaTime > SPARKYIDLETIME * 10.0f)
 	{
 		ChangeState(SparkyState::Spark);
@@ -274,6 +274,12 @@ void Sparky::FrontJumpStart()
 void Sparky::FrontJumpUpdate(float _Delta)
 {
 	StateTime += _Delta;
+
+	if (true == IsInhaedStateOn)
+	{
+		ChangeState(SparkyState::BeInhaled);
+		return;
+	}
 
 	if (CurrentJumpDistance > SPARKYFRONTJUMPDISTANCE)
 	{
@@ -356,6 +362,12 @@ void Sparky::StanceJumpUpdate(float _Delta)
 {
 	StateTime += _Delta;
 
+	if (true == IsInhaedStateOn)
+	{
+		ChangeState(SparkyState::BeInhaled);
+		return;
+	}
+
 	if (CurrentJumpDistance > SPARKYSTANCEJUMPDISTANCE)
 	{
 		AbleJump = false;
@@ -412,6 +424,13 @@ void Sparky::LongJumpStart()
 void Sparky::LongJumpUpdate(float _Delta)
 {
 	StateTime += _Delta;
+
+	if (true == IsInhaedStateOn)
+	{
+		ChangeState(SparkyState::BeInhaled);
+		return;
+	}
+
 
 	if (CurrentJumpDistance > SPARKYLONGJUMPDISTANCE)
 	{
@@ -490,6 +509,13 @@ void Sparky::LandingUpdate(float _Delta)
 {
 	StateTime += _Delta;
 
+	if (true == IsInhaedStateOn)
+	{
+		ChangeState(SparkyState::BeInhaled);
+		return;
+	}
+
+
 	if (StateTime > SPARKYLANDINGTIME)
 	{
 		IsChangeState = true;
@@ -532,6 +558,17 @@ void Sparky::SparkUpdate(float _Delta)
 		float4 EffectDir = float4::GetUnitVectorFromDeg(Degree);
 		SparkEffectPtr->init(GetPos(), Scale, EffectDir);
 		SparkEffectPtr->SetActorCollision(CollisionOrder::MonsterAbility, CollisionType::Rect);
+
+		if (true == IsInhaedStateOn)
+		{
+			SparkEffectPtr->Death();
+		}
+	}
+
+	if (true == IsInhaedStateOn)
+	{
+		ChangeState(SparkyState::BeInhaled);
+		return;
 	}
 
 

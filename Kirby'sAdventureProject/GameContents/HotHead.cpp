@@ -87,17 +87,11 @@ void HotHead::init(const std::string& _FileName, HotHeadState _State, const floa
 
 void HotHead::Update(float _Delta)
 {
-	if (true == IsSWalledByKirby)
-	{
-		ChangeState(HotHeadState::BeInhaled);
-		return;
-	}
-
-
 	GroundCheck();
+
 	StateUpdate(_Delta);
 
-	CheckOverScreen();
+	//CheckOverScreen();
 }
 
 void HotHead::StateUpdate(float _Delta)
@@ -117,7 +111,7 @@ void HotHead::StateUpdate(float _Delta)
 
 void HotHead::ChangeState(HotHeadState _State)
 {
-	if (_State != State || _State == RespawnState)
+	if (_State != State || _State == RespawnState || _State == HotHeadState::BeInhaled)
 	{
 		switch (_State)
 		{
@@ -155,6 +149,12 @@ void HotHead::WalkStart()
 void HotHead::WalkUpdate(float _Delta)
 {
 	StateTime += _Delta;
+
+	if (true == IsInhaedStateOn)
+	{
+		ChangeState(HotHeadState::BeInhaled);
+		return;
+	}
 
 	if (StateTime > HOTHEADWALKINGCHANGESTATETIME)
 	{
@@ -218,6 +218,12 @@ void HotHead::FireBallChargingUpdate(float _Delta)
 {
 	StateTime += _Delta;
 
+	if (true == IsInhaedStateOn)
+	{
+		ChangeState(HotHeadState::BeInhaled);
+		return;
+	}
+
 	if (StateTime > HOTHEADFIREBALLCHARGINGTIME)
 	{
 		IsChangeState = true;
@@ -249,6 +255,12 @@ void HotHead::FireBallStart()
 void HotHead::FireBallUpdate(float _Delta)
 {
 	StateTime += _Delta;
+
+	if (true == IsInhaedStateOn)
+	{
+		ChangeState(HotHeadState::BeInhaled);
+		return;
+	}
 
 	if (StateTime > HOTHEADWOBBLETIME)
 	{
@@ -337,6 +349,12 @@ void HotHead::FlameBreathStart()
 void HotHead::FlameBreathUpdate(float _Delta)
 {
 	StateTime += _Delta;
+
+	if (true == IsInhaedStateOn)
+	{
+		ChangeState(HotHeadState::BeInhaled);
+		return;
+	}
 
 	if (StateTime > HOTHEADWOBBLETIME)
 	{

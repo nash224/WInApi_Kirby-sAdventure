@@ -92,15 +92,9 @@ void SwordKnight::Update(float _Delta)
 {
 	GroundCheck();
 
-	if (true == /*IsSWalledByKirby*/IsInhaleCollision())
-	{
-		ChangeState(SwordKnightState::BeInhaled);
-		return;
-	}
-
 	StateUpdate(_Delta);
 
-	CheckOverScreen();
+	//CheckOverScreen();
 }
 
 void SwordKnight::StateUpdate(float _Delta)
@@ -166,6 +160,12 @@ void SwordKnight::PendulumStrideStart()
 void SwordKnight::PendulumStrideUpdate(float _Delta)
 {
 	StateTime += _Delta;
+
+	if (true == IsInhaedStateOn)
+	{
+		ChangeState(SwordKnightState::BeInhaled);
+		return;
+	}
 
 	if (StateTime > SWORDKNIGHTSLASHCOOLDOWN && 
 		SWORDKNIGHTRANGEDETECTION > abs(Kirby::GetMainKirby()->GetPos().X - GetPos().X))
@@ -242,6 +242,13 @@ void SwordKnight::RaiseSwordUpdate(float _Delta)
 {
 	StateTime += _Delta;
 
+	if (true == IsInhaedStateOn)
+	{
+		AbilityCollision->Off();
+		ChangeState(SwordKnightState::BeInhaled);
+		return;
+	}
+
 	if (StateTime > SWORDKNIGHTRAISESWORDTIME)
 	{
 		IsChangeState = true;
@@ -275,6 +282,13 @@ void SwordKnight::SlashStart()
 
 void SwordKnight::SlashUpdate(float _Delta)
 {
+
+	if (true == IsInhaedStateOn)
+	{
+		ChangeState(SwordKnightState::BeInhaled);
+		return;
+	}
+
 	if (true == MainRenderer->IsAnimationEnd())
 	{
 		IsChangeState = true;
@@ -333,6 +347,12 @@ void SwordKnight::UnderhandUpdate(float _Delta)
 {
 	StateTime += _Delta;
 
+	if (true == IsInhaedStateOn)
+	{
+		ChangeState(SwordKnightState::BeInhaled);
+		return;
+	}
+
 	if (StateTime > SWORDKNIGHTUNDERHANDTIME)
 	{
 		IsChangeState = true;
@@ -366,6 +386,13 @@ void SwordKnight::ReversingSlashStart()
 
 void SwordKnight::ReversingSlashUpdate(float _Delta)
 {
+	if (true == IsInhaedStateOn)
+	{
+		AbilityCollision->Off();
+		ChangeState(SwordKnightState::BeInhaled);
+		return;
+	}
+
 	if (true == MainRenderer->IsAnimationEnd())
 	{
 		IsChangeState = true;

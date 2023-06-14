@@ -85,15 +85,9 @@ void WaddleDoo::Update(float _Delta)
 {
 	GroundCheck();
 
-	if (true == /*IsSWalledByKirby*/IsInhaleCollision())
-	{
-		ChangeState(WaddleDooState::BeInhaled);
-		return;
-	}
-
 	StateUpdate(_Delta);
 
-	CheckOverScreen();
+	//CheckOverScreen();
 }
 
 void WaddleDoo::StateUpdate(float _Delta)
@@ -148,6 +142,12 @@ void WaddleDoo::WalkStart()
 void WaddleDoo::WalkUpdate(float _Delta)
 {
 	StateTime += _Delta;
+
+	if (true == IsInhaedStateOn)
+	{
+		ChangeState(WaddleDooState::BeInhaled);
+		return;
+	}
 
 	if (StateTime > WADDLEDOOWALKINGCHANGESTATETIME)
 	{
@@ -224,6 +224,12 @@ void WaddleDoo::JumpStart()
 void WaddleDoo::JumpUpdate(float _Delta)
 {
 	StateTime += _Delta;
+
+	if (true == IsInhaedStateOn)
+	{
+		ChangeState(WaddleDooState::BeInhaled);
+		return;
+	}
 
 	if (StateTime > WADDLEDOOJUMPCHANGEANIMATIONTIME)
 	{
@@ -317,6 +323,12 @@ void WaddleDoo::WobbleUpdate(float _Delta)
 {
 	StateTime += _Delta;
 
+	if (true == IsInhaedStateOn)
+	{
+		ChangeState(WaddleDooState::BeInhaled);
+		return;
+	}
+
 	if (StateTime > WADDLEDOOWOBBLETIME)
 	{
 		StateTime = 0.0f;
@@ -358,6 +370,12 @@ void WaddleDoo::ActivateAbilityStart()
 void WaddleDoo::ActivateAbilityUpdate(float _Delta)
 {
 	StateTime += _Delta;
+
+	if (true == IsInhaedStateOn)
+	{
+		ChangeState(WaddleDooState::BeInhaled);
+		return;
+	}
 
 	if (StateTime > WADDLEDOOACTIVATEABILITYTIME)
 	{

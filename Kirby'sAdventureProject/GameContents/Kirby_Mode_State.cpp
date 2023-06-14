@@ -145,10 +145,18 @@ void Kirby::InhaleAbilityUpdate(float _Delta)
 
 	if (true == InhaleEffectCollision->Collision(CollisionOrder::MonsterBody, CollisionCheck, CollisionType::Rect, CollisionType::Rect))
 	{
-		for (GameEngineCollision* Collision : CollisionCheck)
+		for (size_t i = 0; i < CollisionCheck.size(); i++)
 		{
+			GameEngineCollision* Collision = CollisionCheck[i];
 			ActorUtils* EnemyPtr = dynamic_cast<ActorUtils*>(Collision->GetActor());
+
+			if (true == EnemyPtr->IsSWalledByKirby)
+			{
+				continue;
+			}
+
 			AbilityStar EnemyAbility = EnemyPtr->Ability;
+			EnemyPtr->IsInhaedStateOn = true;
 			EnemyPtr->IsSWalledByKirby = true;
 			EnemyPtr->BodyCollision->Off();
 

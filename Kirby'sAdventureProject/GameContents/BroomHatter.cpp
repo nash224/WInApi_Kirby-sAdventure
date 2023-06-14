@@ -61,7 +61,7 @@ void BroomHatter::Update(float _Delta)
 
 	StateUpdate(_Delta);
 
-	CheckOverScreen();
+	//CheckOverScreen();
 }
 
 

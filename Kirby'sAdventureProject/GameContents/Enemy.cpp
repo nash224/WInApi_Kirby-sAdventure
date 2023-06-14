@@ -46,6 +46,7 @@ void Enemy::BeInhaledStart()
 {
 	StateTime = 0.0f;
 	IsChangeState = false;
+	IsInhaedStateOn = false;
 	IsSWalledByKirby = false;
 	//BodyCollision->Off();
 	ActorDirUnitVector = GetKirbyOpponentDistance();
@@ -216,13 +217,21 @@ void Enemy::RespawnTrigger()
 	float4 CameraPos = GetLevel()->GetMainCamera()->GetPos();
 
 	RespawnLocationOverCamera();
-	if (true == IsRespawnLocationOverCamera && false == IsUpdate())
+	if (CameraPos.X + WinScale.X > RespawnLocation.X && 
+		CameraPos.X < RespawnLocation.X &&
+		CameraPos.Y < RespawnLocation.Y &&
+		CameraPos.Y + WinScale.Y > RespawnLocation.Y)
 	{
-		ChangeRespawnState();
-		On();
-		SetPos(RespawnLocation);
-		SetDirectionAndFirstAnimation(StringRespawnState);
+		if (true == IsRespawnLocationOverCamera && false == IsUpdate())
+		{
+			ChangeRespawnState();
+			On();
+			SetPos(RespawnLocation);
+			SetDirectionAndFirstAnimation(StringRespawnState);
+		}
+
 	}
+
 }
 
 

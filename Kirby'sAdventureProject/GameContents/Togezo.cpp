@@ -88,15 +88,9 @@ void Togezo::Update(float _Delta)
 {
 	GroundCheck();
 
-	if (true == /*IsSWalledByKirby*/IsInhaleCollision())
-	{
-		ChangeState(TogezoState::BeInhaled);
-		return;
-	}
-
 	StateUpdate(_Delta);
 
-	CheckOverScreen();
+	//CheckOverScreen();
 }
 
 void Togezo::StateUpdate(float _Delta)
@@ -150,6 +144,12 @@ void Togezo::WalkStart()
 void Togezo::WalkUpdate(float _Delta)
 {
 	StateTime += _Delta;
+
+	if (true == IsInhaedStateOn)
+	{
+		ChangeState(TogezoState::BeInhaled);
+		return;
+	}
 
 	if (StateTime > TOGEZOROLLINGCOOLDOWN)
 	{
@@ -208,6 +208,14 @@ void Togezo::BounceStart()
 
 void Togezo::BounceUpdate(float _Delta)
 {
+
+	if (true == IsInhaedStateOn)
+	{
+		AbilityCollision->Off();
+		ChangeState(TogezoState::BeInhaled);
+		return;
+	}
+
 	if (true == GetGroundState() && 0.0f < GetGravityVector().Y)
 	{
 		switch (BounceCount)
@@ -264,6 +272,13 @@ void Togezo::RollStart()
 void Togezo::RollUpdate(float _Delta)
 {
 	StateTime += _Delta;
+
+	if (true == IsInhaedStateOn)
+	{
+		AbilityCollision->Off();
+		ChangeState(TogezoState::BeInhaled);
+		return;
+	}
 
 	if (StateTime > TOGEZOROLLINGTIME)
 	{

@@ -46,6 +46,7 @@ public:
 	GameEngineCollision* BodyCollision = nullptr;
 	AbilityStar Ability = AbilityStar::Max;
 	bool IsSWalledByKirby = false;
+	bool IsInhaedStateOn = false;
 
 
 	float4 ActorCameraPos();

@@ -82,15 +82,10 @@ void LaserBall::init(const std::string& _FileName, LaserBallState _State, const 
 
 void LaserBall::Update(float _Delta)
 {
-	if (true == IsSWalledByKirby)
-	{
-		ChangeState(LaserBallState::BeInhaled);
-		return;
-	}
 
 	StateUpdate(_Delta);
 
-	CheckOverScreen();
+	//CheckOverScreen();
 }
 
 void LaserBall::StateUpdate(float _Delta)
@@ -109,7 +104,7 @@ void LaserBall::StateUpdate(float _Delta)
 
 void LaserBall::ChangeState(LaserBallState _State)
 {
-	if (_State != State || _State == RespawnState)
+	if (_State != State || _State == RespawnState || _State == LaserBallState::BeInhaled)
 	{
 		switch (_State)
 		{
@@ -148,6 +143,12 @@ void LaserBall::FlyStart()
 void LaserBall::FlyUpdate(float _Delta)
 {
 	StateTime += _Delta;
+
+	if (true == IsInhaedStateOn)
+	{
+		ChangeState(LaserBallState::BeInhaled);
+		return;
+	}
 
 	float4 LaserBallPos = GetPos();
 	float4 KirbyPos = Kirby::GetMainKirby()->GetPos();
@@ -262,6 +263,13 @@ void LaserBall::ChargingStart()
 
 void LaserBall::ChargingUpdate(float _Delta)
 {
+
+	if (true == IsInhaedStateOn)
+	{
+		ChangeState(LaserBallState::BeInhaled);
+		return;
+	}
+
 	if (true == MainRenderer->IsAnimationEnd())
 	{
 		--ChargingCount;
@@ -291,6 +299,17 @@ void LaserBall::ShootUpdate(float _Delta)
 		LaserEffect1->init(GetPos(), Scale, GetAbilityDir());
 		LaserEffect1->SetActorCollision(CollisionOrder::MonsterAbility, CollisionType::Rect);
 		--ShootCount;
+		
+		if (true == IsInhaedStateOn)
+		{
+			LaserEffect1->Death();
+		}
+	}
+
+	if (true == IsInhaedStateOn)
+	{
+		ChangeState(LaserBallState::BeInhaled);
+		return;
 	}
 
 	if (0 == ShootCount)
@@ -310,6 +329,13 @@ void LaserBall::RunAwayStart()
 
 void LaserBall::RunAwayUpdate(float _Delta)
 {
+
+	if (true == IsInhaedStateOn)
+	{
+		ChangeState(LaserBallState::BeInhaled);
+		return;
+	}
+
 	if (ActorDir::Left == Dir)
 	{
 		CurrentSpeed = LASERBALLRUNAWAYSPEED;

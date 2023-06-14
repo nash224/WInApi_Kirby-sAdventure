@@ -87,7 +87,7 @@ void Scarfy::Update(float _Delta)
 {
 	StateUpdate(_Delta);
 
-	CheckOverScreen();
+	//CheckOverScreen();
 }
 
 void Scarfy::StateUpdate(float _Delta)
