@@ -101,7 +101,8 @@ enum class KirbyMode
 class Kirby : public ActorUtils
 {
 private:
-	int IsLevelChange = true;
+	bool IsLevelChange = true;
+	size_t CurrentLevelEnemiesCount = 0;
 
 public:
 	// constructor desstructor
@@ -218,14 +219,13 @@ private:
 	std::string CurState = "";
 	std::string CurMode = "";
 
-	bool IstriggerOn = false;
 	bool IsBounce = false;
+	bool IsSwallowedtriggerOn = false;
 	bool swallowedObject = false;
 
 	float Duration = 0.0f;
 	float DecelerationSpeed = 1.0f;
 	float FallDistance = 0.0f; 
-	int StarPower = 0;
 
 
 	void Start() override;
@@ -257,7 +257,6 @@ private:
 	{
 	public:
 		bool IsStarBreak = true;
-		bool IsSwallowedPowerEnemy = false;
 		int SwallowedEnemyNumber = 0;
 		int SwallowedPowerEnemyNumber = 0;
 		int StarDamage = 0;

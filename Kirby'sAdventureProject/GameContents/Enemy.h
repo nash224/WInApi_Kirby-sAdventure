@@ -1,6 +1,8 @@
 #pragma once
 #include "ActorUtils.h"
 
+#define INHALETIME 0.3f
+
 
 
 // 설명 :
@@ -31,6 +33,11 @@ protected:
 	virtual void StateUpdate(float _Delta) {}
 	void ChangeAnimationState(const std::string& _StateName);
 
+	float4 InhaleTargetPos = float4::ZERO;
+	float InhaleTargetPosYDistance = 0.0f;
+	float InhaleTargetPosXDistance = 0.0f;
+	bool IsInhaleCollision();
+
 	// 판정 함수
 	bool LeftGroundIsCliff();
 	bool RightGroundIsCliff();
@@ -45,6 +52,7 @@ protected:
 	virtual void CheckOverScreen();
 	virtual void ChangeRespawnState() {}
 	void RespawnLocationOverCamera();
+
 
 
 private:

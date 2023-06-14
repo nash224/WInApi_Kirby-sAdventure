@@ -89,6 +89,13 @@ void HotHead::Update(float _Delta)
 {
 	GroundCheck();
 
+	if (true == IsInhaleCollision())
+	{
+		ChangeState(HotHeadState::Inhaled);
+		return;
+	}
+
+
 	StateUpdate(_Delta);
 
 	CheckOverScreen();
@@ -103,6 +110,7 @@ void HotHead::StateUpdate(float _Delta)
 	case HotHeadState::FireBall:				return FireBallUpdate(_Delta);
 	case HotHeadState::FlameBreathCharging:		return FlameBreathChargingUpdate(_Delta);
 	case HotHeadState::FlameBreath:				return FlameBreathUpdate(_Delta);
+	case HotHeadState::Inhaled:					return InhaledUpdate(_Delta);
 	default:
 		break;
 	}
@@ -119,6 +127,7 @@ void HotHead::ChangeState(HotHeadState _State)
 		case HotHeadState::FireBall:				FireBallStart();				break;
 		case HotHeadState::FlameBreathCharging:		FlameBreathChargingStart();		break;
 		case HotHeadState::FlameBreath:				FlameBreathStart();				break;
+		case HotHeadState::Inhaled:					InhaledStart();					break;
 		default:
 			break;
 		}
@@ -383,4 +392,57 @@ void HotHead::FlameBreathUpdate(float _Delta)
 		ChangeState(HotHeadState::Walk);
 		return;
 	}
+}
+
+
+void HotHead::InhaledStart()
+{
+	StateTime = 0.0f;
+	IsChangeState = false;
+	BodyCollision->Off();
+	ActorDirUnitVector = GetKirbyOpponentDistance();
+	InhaleTargetPos = GetKirbyOpponentDistance();
+	InhaleTargetPosYDistance = InhaleTargetPos.Y -15.0f;
+	InhaleTargetPosXDistance = InhaleTargetPos.X;
+	
+	CurentVerticalSpeed = InhaleTargetPosYDistance;
+	CurrentSpeed = 0.0f;
+}
+
+void HotHead::InhaledUpdate(float _Delta)
+{
+	StateTime += _Delta;
+
+	float4 KirbyPos = Kirby::GetMainKirby()->GetPos();
+
+
+	if (ActorDirUnitVector.X < 0.0f)
+	{
+		float InhaleXSpeed = InhaleTargetPosXDistance / INHALETIME * _Delta;
+		CurrentSpeed += InhaleXSpeed;
+
+		if (GetPos().X < KirbyPos.X)
+		{
+			BodyCollision->On();
+			Off();
+			return;
+		}
+	}
+	else if (ActorDirUnitVector.X > 0.0f)
+	{
+		float InhaleXSpeed = InhaleTargetPosXDistance / INHALETIME * _Delta;
+		CurrentSpeed += InhaleXSpeed;
+
+		if (GetPos().X > KirbyPos.X)
+		{
+			BodyCollision->On();
+			Off();
+			return;
+		}
+	}
+
+
+	VerticalUpdateBasedlevitation(_Delta);
+
+	HorizontalUpdate(_Delta);
 }

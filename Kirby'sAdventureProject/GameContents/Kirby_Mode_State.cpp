@@ -6,8 +6,6 @@
 #include <GameEngineCore/GameEngineCollision.h>
 #include <GameEngineCore/GameEngineLevel.h>
 
-#include "VegetableValleyPlayLevel.h"
-
 
 void Kirby::DropAbility()
 {
@@ -119,7 +117,7 @@ void Kirby::InhaleAbilityStart()
 {
 	Duration = 0.0f;
 	swallowedObject = false;
-	IstriggerOn = false;
+	IsSwallowedtriggerOn = false;
 	Star.SwallowedEnemyNumber = 0;
 	Star.SwallowedPowerEnemyNumber = 0;
 
@@ -136,7 +134,7 @@ void Kirby::InhaleAbilityStart()
 	}
 	InhaleEffectCollision->SetCollisionPos(KirbyDirUnitVector);
 	InhaleEffectCollision->On();
-	CollisionCheck.reserve(dynamic_cast<VegetableValleyPlayLevel*>(GetLevel())->GetLevelEnemyCount());
+	CollisionCheck.reserve(CurrentLevelEnemiesCount);
 }
 
 void Kirby::InhaleAbilityUpdate(float _Delta)
@@ -167,10 +165,10 @@ void Kirby::InhaleAbilityUpdate(float _Delta)
 
 	if (true == IsChangeState)
 	{
-		IstriggerOn = true;
+		IsSwallowedtriggerOn = true;
 	}
 
-	if (true == IstriggerOn)
+	if (true == IsSwallowedtriggerOn)
 	{
 		Duration += _Delta;
 	}
@@ -180,7 +178,6 @@ void Kirby::InhaleAbilityUpdate(float _Delta)
 		swallowedObject = true;
 		CurrentAbilityStar = AbilityStar::None;
 		CurMode = "Normal";
-		StarPower = 1;
 	}
 
 	if (KirbyMode::Normal == Mode && true == swallowedObject)
@@ -191,7 +188,7 @@ void Kirby::InhaleAbilityUpdate(float _Delta)
 		return;
 	}
 
-	if (true == GameEngineInput::IsFree('Z') && true == IstriggerOn)
+	if (true == GameEngineInput::IsFree('Z') && true == IsSwallowedtriggerOn)
 	{
 		CollisionCheck.clear();
 		InhaleEffectCollision->Off();

@@ -15,6 +15,7 @@
 #include <GameEngineCore/ResourcesManager.h>
 
 #include "Grunt.h"
+#include "VegetableValleyPlayLevel.h"
 
 #include <Windows.h>
 
@@ -80,7 +81,7 @@ void Kirby::Start()
 	LowerAttackCollision->SetCollisionType(CollisionType::Rect);
 	LowerAttackCollision->Off();
 
-	InhaleEffectCollision = CreateCollision(CollisionOrder::PlayerAbility);
+	InhaleEffectCollision = CreateCollision(CollisionOrder::KirbyInhaleAbility);
 	InhaleEffectCollision->SetCollisionScale(INHALEEFFECTCOLLISIONSCALE);
 	InhaleEffectCollision->SetCollisionType(CollisionType::Rect);
 	InhaleEffectCollision->Off();
@@ -436,8 +437,8 @@ void Kirby::HorizontalUpdate(float _Delta)
 // 몹의 패턴에서 쓰일 커비 객체
 void Kirby::LevelStart()
 {
-	IsLevelChange = true;
 	MainKirby = this;
+	CurrentLevelEnemiesCount = dynamic_cast<VegetableValleyPlayLevel*>(GetLevel())->GetLevelEnemyCount();
 }
 
 

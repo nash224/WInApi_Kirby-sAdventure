@@ -1,8 +1,10 @@
 #include "Enemy.h"
+#include "ContentsEnum.h"
 
 #include <GameEnginePlatform/GameEngineWindow.h>
 #include <GameEngineCore/GameEngineLevel.h>
 #include <GameEngineCore/GameEngineCamera.h>
+#include <GameEngineCore/GameEngineCollision.h>
 
 #include "Kirby.h"
 
@@ -194,4 +196,17 @@ void Enemy::SetDirectionAndFirstAnimation(const std::string& _StateName)
 		MsgBoxAssert("몬스터의 리스폰 위치가 잘못 지정 되었습니다.");
 		return;
 	}
+}
+
+
+bool Enemy::IsInhaleCollision()
+{
+	std::vector<GameEngineCollision*> Col;
+	Col.reserve(1);
+	if (true == BodyCollision->Collision(CollisionOrder::KirbyInhaleAbility, Col, CollisionType::Rect, CollisionType::Rect))
+	{
+		return true;
+	}
+
+	return false;
 }

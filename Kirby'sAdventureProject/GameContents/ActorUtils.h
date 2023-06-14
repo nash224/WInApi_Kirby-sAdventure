@@ -152,6 +152,7 @@ protected:
 	}
 
 	// 이동 함수
+	void VerticalDecelerationUpdate(float _Speed, float _Delta);
 	void VerticalSpeedLimitBasedlevitation(float _Speed);
 	void VerticalUpdateBasedlevitation(float _Delta);
 

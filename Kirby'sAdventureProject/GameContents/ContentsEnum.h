@@ -25,6 +25,7 @@ enum class CollisionOrder
 	Potal,
 	PlayerBody,
 	PlayerAbility,
+	KirbyInhaleAbility,
 	MonsterBody,
 	MonsterAbility,
 	Object,

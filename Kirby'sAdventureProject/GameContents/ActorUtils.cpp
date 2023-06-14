@@ -102,6 +102,29 @@ void ActorUtils::VerticalUpdate(float _Delta)
 	AddPos(GravityVector * _Delta);
 }
 
+
+void ActorUtils::VerticalDecelerationUpdate(float _Speed, float _Delta)
+{
+	if (CurentVerticalSpeed < 0.0f)
+	{
+		CurentVerticalSpeed -= _Speed * _Delta;
+
+		if (CurentVerticalSpeed > 0.0f)
+		{
+			CurentVerticalSpeed = 0.0f;
+		}
+	}
+	else if (CurentVerticalSpeed > 0.0f)
+	{
+		CurentVerticalSpeed += _Speed * _Delta;
+
+		if (CurentVerticalSpeed < 0.0f)
+		{
+			CurentVerticalSpeed = 0.0f;
+		}
+	}
+}
+
 void ActorUtils::VerticalSpeedLimitBasedlevitation(float _Speed)
 {
 	if ((CurentVerticalSpeed > _Speed || CurentVerticalSpeed < -_Speed))
