@@ -1,0 +1,36 @@
+GameEngineCollision 클래스는 충돌 검사를 했을 때 액터간 지정 영역끼리 만나면 충돌 결과를 알려준다.
+
+GameEngineCollision 은 각 액터에서 생성하고, 생성한 충돌은 자료구조 AllCollision 으로 보관되며, GameEngineActor 소멸자에서 해제된다.
+
+충돌을 검사하는 함수는 타입별(점, 사각형, 원)로 존재한다. 
+충돌 타입별로 충돌 검사 하는 함수가 많기 때문에 가독성을 위해서 포인터 함수 
+static bool (*CollisionFunction[static_cast<int>(CollisionType::Max)][static_cast<int>(CollisionType::Max)])
+(const CollisionData& _LeftData, const CollisionData& _RightData)
+ 로 프로그램이 시작될 때 CollisionInitClass 의 생성자를 통해 포인터 함수 CollisionFunction 을 정의하는 타입 충돌 함수를 생성한다.
+
+포인터 함수를 생성하고, 각 충돌 함수를 정의한다.
+점과 점의 충돌은 충돌확률이 극소수로 제외했다.
+점과 사각형은 사각형을 기준으로 점이 사각형 안에 들어있으면 충돌한다.
+점과 원은 원의 원점을 기준으로 원의 원점으로부터 원의 반지름까지의 범위 안에 있으면 충돌한다.
+사각형과 사각형은 서로의 반대편 좌표로부터 외곽이면 충돌이 안되며, 전부 아닐 경우 충돌한다.
+사각형과 원은 사각형의 변과 원의 가로, 세로 길이를 비교하여 확인하고   사각형의 모서리에 충돌 원을 만들어 원의 원점과 충돌하면 충돌한다.
+원과 원은 서로의 반지름 길이를 합치고 합친 길이가 서로의 위치 길이보다 짧으면 충돌한다.
+
+충돌 렌더 함수는 디버그 모드에서 충돌을 눈으로 확인이 가능하다.
+그리고 각 레벨에서 특정 액터가 오버된 경우 렌더러와 마찬가지로 레벨의 AllCollision 의 요소를 제거해하고, 옮길 레벨의 AllCollision 에 순서에 맞게 보관한다.
+
+멤버변수)
+1. GameEngineCollision
+
+	static bool (*CollisionFunction[static_cast<int>(CollisionType::Max)][static_cast<int>(CollisionType::Max)])
+	(const CollisionData& _LeftData, const CollisionData& _RightData),
+
+	CollisionType ColType,
+	bool CollisionRenderValue,
+	float4 CollisionPos,
+	float4 CollisionScale
+
+2. GameEngineCollision::CollisionData
+
+	float4 Pos,
+	float4 Scale

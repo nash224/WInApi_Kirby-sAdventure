@@ -1,0 +1,22 @@
+GameEngineCore 클래스는 GameEngineWindow와 GameEngineContents의 접점을 이어 코어를 시작하거나, 업데이트, 메모리 정리를 한다.
+그리고 레벨을 관리하며 레벨을 시작하고 레벨을 변경할 수 있다.  
+
+GameEngineCore의 로직은 함수 EngineStart()을 실행하여 GameEnginePlatform의 GameEngineWindow의 전역 함수 MessageInit을 호출하게 된다.
+MessageInit에 인스턴스 핸들을 넣어 포인터 함수 CoreStart를 호출해 윈도우 창을 띄우고 키를 불러오며,
+ContentsCore의 부모인 Process클래스를 대신 호출하고 ContentsCore의 Start 함수를 호출해서 모든 레벨을 생성한다.
+생성한 각 레벨은 정적 멤버 변수인 std::map<std::string(UpperString), GameEngineLevel*> AllLevel에 저장되어 관리되며,
+CoreUpdate에서는 기초 클래스의 업데이트를 하고, 현재 레벨의 업데이트와 더블 버퍼 렌더링을 통해 매 프레임마다 갱신이 된다.
+
+CoreEnd()에서는 사운드와 레벨의 메모리를 해제한다.
+
+GameEngineCore의 정적 멤버변수는 
+ContentsCore의 순수 가상함수를 이용하기 위한 멤버 변수 (CoreProcess*) Process, 
+윈도우 타이틀 변수 std::string WindowTitle, 
+모든 레벨을 담고 있는 데이터 영역의 std::map<std::string, GameEngineLevel*> AllLevel,
+레벨을 정리하고 실행하는 GameEngineLevel* {CurLevel, PrevLevel} 가 있다.
+
+
+요약)
+GameEngineCore는 GameEngineWindow를 연결하고, ContentsCore의 업데이트를 한다.
+GameEngineWindow와의 관계는 왼도우의 설정 보조이고, 
+ContentsCore의 관계는 Level을 생성하고 관리하게 된다.

@@ -1,0 +1,26 @@
+우선 FMOD를 이용하기 위해서는 soundSystem을 구축해줘야한다. 그래서 전역 변수 (FMOD::System*) SoundSystem를 선언하고 
+SoundSystemCreator 생성자를 호출하여 System_create(&SoundSystem)을 해줘 NULL인 SoundSystem에 시스템이 만들어진 포인터를 참조하게 된다.
+그리고 SoundSystem->init(채널 수, 디폴트 옵션, 추가정보(NULL))을 해줘 시스템을 구축한다. 
+이때 시스템이 제대로 만들어졌는지 FMOD_RESULT::FMOD_OK로 확인할 수 있다.
+ 시스템은 EngineCore의 CoreUpdate()에서 업데이트를 해주며, 해제할 때는 소멸자에 SoundSystem->release()를 해줘 해제한다.
+
+
+
+GameEngineSound클래스는 Sound파일의 식별, 로드, 관리, 해제를 담당하고, 
+createsound()로 메모리에 사운드의 정보를 담아 soundhandle을 반환한다. (이때 동적 바인딩이 일어나는 것 같다.) 
+그리고 playsound()로 재생을 시키며 반환함수로 soundcontrol을 반환해 재생하고 있는 사운드트랙을 멈추거나 볼륨을 조절할 수 있다.
+
+ 해제할 때는 soundcreate()에서 동적바인딩을 해준 AllSound 멤버 변수의 std::pair->second의 SoundHandle을 해제해줘야 하기 때문에 
+따로 release()를 외부에 호출하여 메모리를 해제한다. 그리고 Handle이 NULL이 아닐경우 delete를 해줘야한다.
+// 왜 외부에서 해줘야하는지 잊음
+
+ GameEngineSound의 관리를 위한 멤버 변수로는 std::map<std::string, GameEngineSound*> AllSound가 있고, 
+사운드 전체 볼륨을 조절하는 전역 멤버변수인 GlobalVolume가 있으며, 사운드파일을 식별하기 위한 멤버 변수 (FMOD::Sound*)SoundHandle이 있다.
+
+GameEngineSoundPlayer의 멤버 변수는 (FMOD::Channel*) Control이 있으며, GameEngineSoundPlayer의 생성자를 호출할 때, 
+이니셜라이즈 멤버 리스트로 Control을 초기화한다.
+
+
+요약)
+FMOD를 이용하기위해선 soundsystem을 구축해야하고 파일 관리 클래스인 GameEngineSound를 이용하여 로드 -> 플레이를 한다.
+Sound의 설정을 변경하고 싶거나 멈추고 싶을때 Control로 조작할 수 있다.

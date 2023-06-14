@@ -1,0 +1,26 @@
+ResourcesManager 클래스는 모든 텍스처와 스프라이트를 생성하거나 관리를 담당한다.
+
+ResourcesManager 객체는 싱글톤 패턴으로 관리 되어진다. 객체의 생성과 사용법은 다음과 같다.
+1. 생성자를 private 제한 접근 지정자로 막고 전역 변수로 객체를 생성한다.
+2. Static 멤버 함수로 호출해서 객체의 멤버를 사용한다.
+
+안전하게 관리 하지만 GetInst() 라는 함수를 호출해야하기 때문에 번거롭다.
+
+ 텍스쳐 또는 스프라이트를 생성하고 비트맵을 만든 후 AllTexture 나 AllSpirte 자료구조 map을 이용해 관리한다.
+ResourcesManager 은 파일 경로를 인자로 받아 자료구조 std::map<std::string, GameEngineWindowTexture*> AllTexture 또는 
+std::map<std::string, GameEngineSprite*> AllSprite 에 파일 정보를 저장하기 위해 정보를 불러온다.
+이 때 (GameEngineWindowTexture*) Texture 나 (GameEngineSprite*) Sprite 는 자료구조 map에 담겨있어
+Find 텍스쳐 또는 스프라이트 함수로 다른 스택에서 쉽게 접근 가능하다.
+그리고 운영체제에서 지원하는 비트맵을 지정한 크기로 만들 수도 있다. 
+이외에도 폴더의 경로를 불러와 특정 확장자 파일을 모두 로드할 수도 있다.
+
+TextureFileLoad 와 SpriteFileLoad 는 외부 하위 클래스에서 일련의 파일 로드 로직을 간편화한 함수로 코드 길이를 짧아지게 한다.
+
+멤버 변수)
+static ResourcesManager Inst
+std::map<std::string, GameEngineWindowTexture*> AllTexture,
+std::map<std::string, GameEngineSprite*> AllSprite,
+
+
+요약)
+ResourcesManager 클래스는 특정 파일의 경로를 불러와 프로그램에서 이미지 파일을 로드하거나 관리한다.

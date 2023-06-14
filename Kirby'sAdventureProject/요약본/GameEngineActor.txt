@@ -1,0 +1,17 @@
+GameEngineActor 클래스는 특정 액터의 렌더링과 충돌을 생성하고 자료구조를 사용한 변수(AllRenderer, AllCollision)을 통해 관리한다.
+렌더러를 생성할때 누구의 소유인지, 어떤 카메라로부터 세팅되는지, 순서는 몇번인지 설정하게 되고 자료구조에 저장되어진다. 
+콜리전을 생성 할 때도 마찬가지로 위와 같은 로직을 수행한다.
+그리고 각 레벨의 업데이트를 돌리면서 액터가 죽은 객체는 메모리에서 제거되게 한다.
+마지막으로 GameEngineActor에서 렌더러와 콜리전을 동적바인딩으로 생성했으므로 GameEngineActor 소멸자에서 해제해준다.
+
+기본적으로 액터의 위치나 자신이 속한 레벨을 알고 IsOverValue를 통해 다음으로 레벨로 넘어가는 객체인지 확인할 수 있다.
+
+
+GameEngineActor 의 멤버 변수는 다음과 같다.
+std::list<GameEngineCollision*> AllCollision,
+std::list<GameEngineRenderer*> AllRenderer,
+GameEngineLevel* Level
+float4 Pos,
+bool IsOverValue
+
+

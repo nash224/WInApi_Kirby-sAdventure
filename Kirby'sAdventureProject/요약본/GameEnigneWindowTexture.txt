@@ -1,0 +1,37 @@
+GameEnigneWindowTexture 클래스는 운영체제로부터 핸들을 얻어 이미지를 화면에 비트맵을 띄운다.
+
+GameEngineWindowTexture 는 GameEnginePlatform 영역으로 운영체제에서 HDC를 얻어와 비트맵을 생성한다.
+
+Window GDIAPI 함수는 다음과 같다.
+
+LoadImageA(HINSTANCE, LPCSTR, UINT, int, int, UINT) 멀티바이트 이미지를 로드해서 핸들을 뱉어줌
+첫번째 인자 : 운영체제에서 준 프로그램 핸들로 nullptr을 넣이면 핸들이 호출된다.
+두번째 인자 : 멀티바이트 경로 이름
+세번째 인자 : 로드할 이미지의 유형을 지정할 플래그
+4,5번째 인자 : 이미지의 x,y 크기이고 0을 주면 원본 크기가 호출된다.
+6번째 인자 : 이미지를 로드할 방법과 추가 동작을 지정하는 플래그 
+/ LR_LOADFROMFILE : 독립 실행형 파일
+
+CreateCompatibleDC(HDC) 
+이미지 수정권한을 얻어내는 함수로 해당 이미지의 HDC를 반환함
+
+SelectObject(HDC, HGDIOBJ)
+이전에 선택된 객체의 핸들을 반환해주고 실패하면 NULL을 반환함
+
+GetObject(HANDLE, int, LPVOID)
+비트맵 정보를 넣어 3번째 인자로 이미지의 정보를 참조해준다.
+
+BitBlt(HDC, int, int, int, int, HDC, int, int, DWORD)
+윈도우 이미지 핸들과 이미지 핸들을 넣어 이미지의 지점을 선택하고 설정한 크기만큼 출력해준다.
+DWORD 매개변수는 래스터 연산 코드로 이미지를 복사하거나 그릴때 적용할 동작을 설정한다.
+
+TransparentBlt(HDC, int, int, int, int, HDC, int, int, int, int, UINT)
+비트불릿처럼 윈도우 HDC, 이미지 HDC를 넣어 이미지의 일부분을 출력 가능하게 하고 
+출력위치와 출력크기를 지정하는데 늘려진 범위는 비율이 같게 확대가 가능하다.
+마지막 인자로 UINT는 특정색을 선택해 투명처리가 가능하다.
+
+멤버 변수)
+HBITMAP BitMap,
+HBITMAP OldBitMap,
+BITMAP Info
+HDC ImageDC

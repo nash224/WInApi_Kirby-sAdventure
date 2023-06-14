@@ -1,0 +1,8 @@
+GameEngineObject 클래스는 모든 GameEngineLevel과 GameEngineActor, GameEngineRenderer, GameEngineCollision의 최고 부모이다.
+GameEngineObeject가 하는 일은 (bool)IsUpdateValue로 업데이트 상태를 확인할 수 있고, (bool)IsDeathValue로 죽었는지 알 수 있다.
+업에이트만 꺼졌을땐 업데이트만 안되지만, 죽었으면 각 관리 멤버변수(GameEngineLevel의 AllActors 등.) 에서 메모리가 해제된다.
+그리고 순서를 정하고, LiveTime을 이용하여 객체가 얼마나 살아 있고 시간에 따른 로직을 이용할 수 있다.
+
+요약 
+GameEngineObject는 업데이트를 위한 클래스로 특정 객체를 업데이트를 제외시킬 수 있고 AllLevel에서 액터를 삭제시켜버릴 수도 있으며,
+객체가 얼마나 지속됐는지 또 객체의 업데이트, 렌더 순서를 정할 수 있다.

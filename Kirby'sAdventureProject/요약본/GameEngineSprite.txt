@@ -1,0 +1,17 @@
+GameEngineSprite 클래스는 스프라이트 파일을 특정 크기만큼 잘라 연속된 이미지로 애니메이션을 만들기 위해 이미지의 정보를 관리한다
+GameEngineSprite::Sprite 클래스는 각 한장의 Sprite 구조체가 있고 자료구조 std::vector<Sprite> AllSprite에서 관리된다.
+
+이런 구조체를 넣기 위해서 원본 텍스처를 지정 크기만큼 잘라주고 Sprite 구조체에 넣는다.
+그리고 폴더 구조에서는 텍스쳐를 자를 필요는 없어 텍스쳐의 정보를 불러와 그 크기만큼 정보를 저장한다.
+
+GameEngineSprite 객체는 ResourcesManager 에서 자료구조 std::map<string, GameEngineSprite*> AllSprite 에서 관리된다.
+이러한 스프라이트는 GameEngineRenderer 에서 애니메이션의 정보에 따라 TransCopy 로 화면에 출력된다.
+
+멤버변수) 
+GameEngineSprite
+std::vector<Sprite> AllSprite
+
+GameEngineSprite::Sprite
+GameEngineWindowTexture* BaseTexture
+float4 RenderPos 
+float4 RenderScale

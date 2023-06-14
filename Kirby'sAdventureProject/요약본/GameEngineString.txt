@@ -1,0 +1,11 @@
+GameEngineString 클래스는 자료구조 map에 저장할 때 pair의 first를 std::string으로 받을 경우 대분자로 보관하기 위해 
+문자를 대문자로 변환하는 것과 인코딩을 도와준다.
+
+FMOD 라이브러리를 사용하기위해 국가코드를 UTF-8로 변환해줄 필요가 있다.
+ANSI 코드를 UTF-8로 변환해주기 위해서는 ANSI(멀티바이트)를 유니코드(와이드캐릭터)로 
+유니코드를 UTF-8로 변환해줘야 해서
+
+UnicodeToAnsi(const std::wstring& _Text) 와 UnicodeToUTF8(const std::wstring& _Text) 같은 함수를 써서 변환해주게 된다.
+
+
+요약) 문자에 관련된 클래스이다.

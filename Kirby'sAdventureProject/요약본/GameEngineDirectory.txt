@@ -1,0 +1,10 @@
+GameEngineDirectory 는 GameEnginePath를 상속받고, 특정 폴더의 모든 파일을 불러오기 위한 클래스이다.
+
+GameEngineDirectory 를 생성할 때, GameEnginePath 생성사를 호출해서 Path의 멤버변수를 갖는다.
+Path로 std::filesystem::directory_iterator 라이브러리 형식을 통해 해당경로의 모든 요소를 참조한다.
+그리고 인자로 받은 확장자로 구별해서 특정 확장자 파일을 모두 불러와 백터<GameEngineFile> Result에 담는다. 
+
+
+요약) 해당 경로의 원하는 확장자 파일을 모두 불러온다.
+
+참고자료 : https://en.cppreference.com/w/cpp/filesystem/directory_iterator

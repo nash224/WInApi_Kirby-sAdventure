@@ -1,0 +1,36 @@
+GameEngineLevel 클래스는 특정 레벨에서 자료구조 map 변수(AllActors, AllCollision)을 통해  모든 액터와 충돌을 관리하고 카메라를 소유하고 있다.
+
+GameEngineLevel 에서 액터가 생성하고 각 레벨에서 액터는 바로 시작함수에 의해 자신이 속한 레벨과 순서를 정하게 되어
+GameEngineObject의 재정의된 Start() 를 통해 초기 로직을 수행하게 되며, 자료구조에 저장되어 진다.
+그리고 GameEngineLevel에서 액터가 생성됐기 때문에 소멸자에서 해제된다.
+
+ActorUpdate(float _Delta)를 통해 액터를 업데이트 할때는 업데이트되는 객체는 살아있는 시간을 갱신하고 
+부모 클래스인 GameEngineObejct 의 Update() 를 재정의하여 업데이트 되어진다.
+
+렌더는 ActorRender(float _Delta) 를 통해 렌더링이 되어진다.
+이번 엔진에서 렌더링되는 구조는 우선 카메라에 담겨진 렌더러를 렌더링하는 것이고, 
+GameEngineObject 에 정의된 Render(float _Delta) 을 재정의하여 렌더링이 되어질 수 있으며,
+IsCollisionDebugRender 의 참 거짓을 통해 레벨의 AllCollision 에 있는 각 충돌객체를 통해 충돌체가 렌더링 된다.
+
+레벨에서 할일을 다한 액터는 ActorRelease() 로 메모리가 제거되는데 MainCamera 의 렌더러와 레벨의 콜리전이 해제되고,
+다음으로 액터가 해제된다.
+
+레벨이 시작하고 끝날 때 추가적으로 수행할 행동이 있을 텐데 ActorLevelStart() 와 ActorLevelEnd() 로 관리해줄 수 있고
+AllActors 의 객체로 각 액터에 정의되어 있는 LevelStart() 나 LevelEnd() 를 호출하게 한다.
+
+마지막으로 OverCheck() 는 레벨이 바뀔때 호출되고, 하는 일은 이전 액터의 정보를 현재 레벨로 옮길 수 있다.
+OverCheck() 는 이전 레벨의 렌더러와 충돌을 해제하고, 현재 레벨의 자료구조 AllActors 와 AllCollision, Camera 에 삽입한다.
+
+
+GameEngineLevel 의 멤버 변수는 
+std::map<int, std::list<GameEngineActor*>> AllActors,
+std::map<int, std::list<GameEngineCollision*>> AllCollision,
+GameEngineCamera* MainCamera,
+GameEngineCamera* UICamera,
+static bool IsCollisionDebugRender 
+로 구성되어 있다.
+
+
+요약) 
+GameEngineLevel 은 액터를 생성해서 액터가 필요한 일련의 로직을 초기화 하고  
+레벨 시작과 끝날 때 필요한 행동을 수행하거나 액터와 카메라, 충돌의 렌더링 및 업데이트를 도와준다.
