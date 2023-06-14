@@ -39,11 +39,12 @@ public:
 protected:
 	std::map<std::string, Enemy*> LevelEnemy;
 
-	class Kirby* LevelPlayer = nullptr;
+	class PlayUIManager* LevelUIManager = nullptr;
 	class BackGround* LevelBackGround = nullptr;
 	class GameEffect* LevelEffect = nullptr;
+	class Kirby* LevelPlayer = nullptr;
 
-	const float4 UIScale = float4{ 768.0f , 192.0f };
+	const float4 UIScale = float4{ 768.0f , 216.0f };
 
 	float4 BackGroundScale = float4::ZERO;
 

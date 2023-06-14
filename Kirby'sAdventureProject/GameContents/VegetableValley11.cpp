@@ -122,7 +122,8 @@ void VegetableValley11::Start()
 	LevelEnemy.insert(std::make_pair("LaserBall1", LaserBall1));
 
 
-	GameEngineLevel::CreateActor<PlayUIManager>(UpdateOrder::UI);
+	LevelUIManager = GameEngineLevel::CreateActor<PlayUIManager>(UpdateOrder::UI);
+	LevelUIManager->init("MainUI.bmp", "Resources\\UI");
 
 	GameEngineWindowTexture* Texture = ResourcesManager::GetInst().FindTexture("VegetableValley1_1.bmp");
 	BackGroundScale = Texture->GetScale();

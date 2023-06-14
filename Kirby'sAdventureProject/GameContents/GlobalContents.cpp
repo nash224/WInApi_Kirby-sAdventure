@@ -1,4 +1,5 @@
 #include "GlobalContents.h"
+
 #include <GameEngineCore/ResourcesManager.h>
 
 GlobalContents::GlobalContents() 
@@ -10,11 +11,11 @@ GlobalContents::~GlobalContents()
 }
 
 
-void GlobalContents::TextureFileLoad(const std::string& _FileName, const std::string& _Path)
+GameEngineWindowTexture* GlobalContents::TextureFileLoad(const std::string& _FileName, const std::string& _Path)
 {
 	if (true == ResourcesManager::GetInst().IsLoadTexture(_FileName))
 	{
-		return;
+		return nullptr;
 	}
 
 	GameEnginePath FilePath;
@@ -24,6 +25,7 @@ void GlobalContents::TextureFileLoad(const std::string& _FileName, const std::st
 	FilePath.MoveParentToExistsChild(ParentPath);
 	FilePath.MoveChild(_Path);
 	GameEngineWindowTexture* Texture = ResourcesManager::GetInst().TextureLoad(FilePath.PlusFilePath(_FileName));
+	return Texture;
 }
 
 void GlobalContents::SpriteFileLoad(const std::string& _FileName, const std::string& _Path, int _XCount, int _YCount)
