@@ -87,6 +87,12 @@ void BroomHatter::IdleUpdate(float _Delta)
 		return; 
 	}
 
+	if (true == IsInhaleCollision())
+	{
+		ChangeState(NormalState::BeInhaled);
+		return;
+	}
+
 	BlockedByGround();
 	BlockedByWall();
 
@@ -143,6 +149,12 @@ void BroomHatter::SweepUpdate(float _Delta)
 		DustEffect* DustEffectPtr = GetLevel()->CreateActor<DustEffect>();
 		DustEffectPtr->init(GetPos(), Scale, EffectDir);
 		ChangeState(NormalState::Idle);
+		return;
+	}
+
+	if (true == IsInhaleCollision())
+	{
+		ChangeState(NormalState::BeInhaled);
 		return;
 	}
 

@@ -150,12 +150,6 @@ void HotHead::WalkUpdate(float _Delta)
 {
 	StateTime += _Delta;
 
-	if (true == IsInhaedStateOn)
-	{
-		ChangeState(HotHeadState::BeInhaled);
-		return;
-	}
-
 	if (StateTime > HOTHEADWALKINGCHANGESTATETIME)
 	{
 		StateTime = 0.0f;
@@ -170,6 +164,12 @@ void HotHead::WalkUpdate(float _Delta)
 			ChangeState(HotHeadState::FireBallCharging);
 			return;
 		}
+	}
+
+	if (true == IsInhaedStateOn)
+	{
+		ChangeState(HotHeadState::BeInhaled);
+		return;
 	}
 
 	if (true == CheckLeftWall() || true == LeftGroundIsCliff())
@@ -218,12 +218,6 @@ void HotHead::FireBallChargingUpdate(float _Delta)
 {
 	StateTime += _Delta;
 
-	if (true == IsInhaedStateOn)
-	{
-		ChangeState(HotHeadState::BeInhaled);
-		return;
-	}
-
 	if (StateTime > HOTHEADFIREBALLCHARGINGTIME)
 	{
 		IsChangeState = true;
@@ -232,6 +226,12 @@ void HotHead::FireBallChargingUpdate(float _Delta)
 	if (true == IsChangeState)
 	{
 		ChangeState(HotHeadState::FireBall);
+		return;
+	}
+
+	if (true == IsInhaedStateOn)
+	{
+		ChangeState(HotHeadState::BeInhaled);
 		return;
 	}
 }
@@ -255,13 +255,6 @@ void HotHead::FireBallStart()
 void HotHead::FireBallUpdate(float _Delta)
 {
 	StateTime += _Delta;
-
-	if (true == IsInhaedStateOn)
-	{
-		ChangeState(HotHeadState::BeInhaled);
-		return;
-	}
-
 	if (StateTime > HOTHEADWOBBLETIME)
 	{
 		StateTime = 0.0f;
@@ -310,6 +303,13 @@ void HotHead::FireBallUpdate(float _Delta)
 		ChangeState(HotHeadState::Walk);
 		return;
 	}
+
+	if (true == IsInhaedStateOn)
+	{
+		ChangeState(HotHeadState::BeInhaled);
+		return;
+	}
+
 }
 
 void HotHead::FlameBreathChargingStart()
@@ -334,6 +334,12 @@ void HotHead::FlameBreathChargingUpdate(float _Delta)
 		ChangeState(HotHeadState::FlameBreath);
 		return;
 	}
+
+	if (true == IsInhaedStateOn)
+	{
+		ChangeState(HotHeadState::BeInhaled);
+		return;
+	}
 }
 
 
@@ -349,12 +355,6 @@ void HotHead::FlameBreathStart()
 void HotHead::FlameBreathUpdate(float _Delta)
 {
 	StateTime += _Delta;
-
-	if (true == IsInhaedStateOn)
-	{
-		ChangeState(HotHeadState::BeInhaled);
-		return;
-	}
 
 	if (StateTime > HOTHEADWOBBLETIME)
 	{
@@ -407,6 +407,12 @@ void HotHead::FlameBreathUpdate(float _Delta)
 	{
 		ActorDirUnitVector = float4::ZERO;
 		ChangeState(HotHeadState::Walk);
+		return;
+	}
+
+	if (true == IsInhaedStateOn)
+	{
+		ChangeState(HotHeadState::BeInhaled);
 		return;
 	}
 }

@@ -22,6 +22,7 @@ enum class BrontoState
 	Fly,
 	WaveFlightRise,
 	WaveFlightFall,
+	BeInhaled,
 	Max,
 };
 

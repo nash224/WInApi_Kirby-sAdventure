@@ -143,12 +143,6 @@ void WaddleDoo::WalkUpdate(float _Delta)
 {
 	StateTime += _Delta;
 
-	if (true == IsInhaedStateOn)
-	{
-		ChangeState(WaddleDooState::BeInhaled);
-		return;
-	}
-
 	if (StateTime > WADDLEDOOWALKINGCHANGESTATETIME)
 	{
 		StateTime = 0.0f;
@@ -170,6 +164,12 @@ void WaddleDoo::WalkUpdate(float _Delta)
 	if (true == LeftGroundIsCliff() || true == RightGroundIsCliff())
 	{
 		ChangeState(WaddleDooState::Jump);
+		return;
+	}
+
+	if (true == IsInhaedStateOn)
+	{
+		ChangeState(WaddleDooState::BeInhaled);
 		return;
 	}
 
@@ -225,12 +225,6 @@ void WaddleDoo::JumpUpdate(float _Delta)
 {
 	StateTime += _Delta;
 
-	if (true == IsInhaedStateOn)
-	{
-		ChangeState(WaddleDooState::BeInhaled);
-		return;
-	}
-
 	if (StateTime > WADDLEDOOJUMPCHANGEANIMATIONTIME)
 	{
 		StateTime = 0.0f;
@@ -256,6 +250,12 @@ void WaddleDoo::JumpUpdate(float _Delta)
 	if (true == IsChangeState)
 	{
 		ChangeState(WaddleDooState::Walk);
+		return;
+	}
+
+	if (true == IsInhaedStateOn)
+	{
+		ChangeState(WaddleDooState::BeInhaled);
 		return;
 	}
 
@@ -323,12 +323,6 @@ void WaddleDoo::WobbleUpdate(float _Delta)
 {
 	StateTime += _Delta;
 
-	if (true == IsInhaedStateOn)
-	{
-		ChangeState(WaddleDooState::BeInhaled);
-		return;
-	}
-
 	if (StateTime > WADDLEDOOWOBBLETIME)
 	{
 		StateTime = 0.0f;
@@ -354,6 +348,12 @@ void WaddleDoo::WobbleUpdate(float _Delta)
 		ChangeState(WaddleDooState::ActivateAbility);
 		return;
 	}
+
+	if (true == IsInhaedStateOn)
+	{
+		ChangeState(WaddleDooState::BeInhaled);
+		return;
+	}
 }
 
 
@@ -371,12 +371,6 @@ void WaddleDoo::ActivateAbilityUpdate(float _Delta)
 {
 	StateTime += _Delta;
 
-	if (true == IsInhaedStateOn)
-	{
-		ChangeState(WaddleDooState::BeInhaled);
-		return;
-	}
-
 	if (StateTime > WADDLEDOOACTIVATEABILITYTIME)
 	{
 		IsChangeState = true;
@@ -385,6 +379,12 @@ void WaddleDoo::ActivateAbilityUpdate(float _Delta)
 	if (true == IsChangeState)
 	{
 		ChangeState(WaddleDooState::Walk);
+		return;
+	}
+
+	if (true == IsInhaedStateOn)
+	{
+		ChangeState(WaddleDooState::BeInhaled);
 		return;
 	}
 }

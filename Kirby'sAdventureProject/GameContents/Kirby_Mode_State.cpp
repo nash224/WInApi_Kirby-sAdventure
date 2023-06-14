@@ -163,6 +163,7 @@ void Kirby::InhaleAbilityUpdate(float _Delta)
 			if (AbilityStar::Max != EnemyAbility)
 			{
 				++Star.SwallowedEnemyNumber;
+				SwallingEnemy = EnemyPtr;
 			}
 
 			if (AbilityStar::None != EnemyAbility && AbilityStar::Max != EnemyAbility)
@@ -176,22 +177,22 @@ void Kirby::InhaleAbilityUpdate(float _Delta)
 
 	if (true == IsChangeState)
 	{
-		IsSwallowedtriggerOn = true;
+
 	}
 
-	if (true == IsSwallowedtriggerOn)
-	{
-		Duration += _Delta;
-	}
+	//if (true == IsSwallowedtriggerOn)
+	//{
+	//	Duration += _Delta;
+	//}
 
-	if (StateTime > 1.0f)
-	{
-		swallowedObject = true;
-		CurrentAbilityStar = AbilityStar::None;
-		CurMode = "Normal";
-	}
+	//if (StateTime > 1.0f)
+	//{
+	//	swallowedObject = true;
+	//	CurrentAbilityStar = AbilityStar::None;
+	//	CurMode = "Normal";
+	//}
 
-	if (KirbyMode::Normal == Mode && true == swallowedObject)
+	if (Star.SwallowedEnemyNumber > 0 && false == SwallingEnemy->IsUpdate())
 	{
 		CollisionCheck.clear();
 		InhaleEffectCollision->Off();
@@ -199,7 +200,7 @@ void Kirby::InhaleAbilityUpdate(float _Delta)
 		return;
 	}
 
-	if (true == GameEngineInput::IsFree('Z') && true == IsSwallowedtriggerOn)
+	if (true == GameEngineInput::IsFree('Z') && 0 == Star.SwallowedEnemyNumber)
 	{
 		Star.SwallowedPowerEnemyNumber;
 

@@ -4,6 +4,7 @@
 #define INHALETIME 0.3f
 #define KIRBYCENTERYPOINT 15.0f
 
+#define CHECKOVERSCREENGAP 50.0f
 
 
 // 설명 :
@@ -53,9 +54,9 @@ protected:
 	// 리스폰 함수
 	float4 RespawnLocation = float4::ZERO;
 	bool IsRespawnLocationOverCamera = true;
-	virtual void CheckOverScreen();
 	virtual void ChangeRespawnState() {}
 	void RespawnLocationOverCamera();
+	virtual void CheckOverScreen();
 
 
 

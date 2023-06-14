@@ -201,12 +201,6 @@ void Sparky::IdleUpdate(float _Delta)
 	StateTime += _Delta;
 	AbilityStartDeltaTime += _Delta;
 
-	if (true == IsInhaedStateOn)
-	{
-		ChangeState(SparkyState::BeInhaled);
-		return;
-	}
-
 	if (AbilityStartDeltaTime > SPARKYIDLETIME * 10.0f)
 	{
 		ChangeState(SparkyState::Spark);
@@ -247,6 +241,12 @@ void Sparky::IdleUpdate(float _Delta)
 			return;
 		}
 	}
+
+	if (true == IsInhaedStateOn)
+	{
+		ChangeState(SparkyState::BeInhaled);
+		return;
+	}
 	
 
 	BlockedByGround();
@@ -275,11 +275,6 @@ void Sparky::FrontJumpUpdate(float _Delta)
 {
 	StateTime += _Delta;
 
-	if (true == IsInhaedStateOn)
-	{
-		ChangeState(SparkyState::BeInhaled);
-		return;
-	}
 
 	if (CurrentJumpDistance > SPARKYFRONTJUMPDISTANCE)
 	{
@@ -303,6 +298,11 @@ void Sparky::FrontJumpUpdate(float _Delta)
 		return;
 	}
 
+	if (true == IsInhaedStateOn)
+	{
+		ChangeState(SparkyState::BeInhaled);
+		return;
+	}
 
 	if (true == AbleJump)
 	{
@@ -362,11 +362,6 @@ void Sparky::StanceJumpUpdate(float _Delta)
 {
 	StateTime += _Delta;
 
-	if (true == IsInhaedStateOn)
-	{
-		ChangeState(SparkyState::BeInhaled);
-		return;
-	}
 
 	if (CurrentJumpDistance > SPARKYSTANCEJUMPDISTANCE)
 	{
@@ -390,6 +385,11 @@ void Sparky::StanceJumpUpdate(float _Delta)
 		return;
 	}
 
+	if (true == IsInhaedStateOn)
+	{
+		ChangeState(SparkyState::BeInhaled);
+		return;
+	}
 
 	if (true == AbleJump)
 	{
@@ -425,11 +425,6 @@ void Sparky::LongJumpUpdate(float _Delta)
 {
 	StateTime += _Delta;
 
-	if (true == IsInhaedStateOn)
-	{
-		ChangeState(SparkyState::BeInhaled);
-		return;
-	}
 
 
 	if (CurrentJumpDistance > SPARKYLONGJUMPDISTANCE)
@@ -454,6 +449,11 @@ void Sparky::LongJumpUpdate(float _Delta)
 		return;
 	}
 
+	if (true == IsInhaedStateOn)
+	{
+		ChangeState(SparkyState::BeInhaled);
+		return;
+	}
 
 	if (true == AbleJump)
 	{
@@ -509,11 +509,6 @@ void Sparky::LandingUpdate(float _Delta)
 {
 	StateTime += _Delta;
 
-	if (true == IsInhaedStateOn)
-	{
-		ChangeState(SparkyState::BeInhaled);
-		return;
-	}
 
 
 	if (StateTime > SPARKYLANDINGTIME)
@@ -524,6 +519,12 @@ void Sparky::LandingUpdate(float _Delta)
 	if (true == IsChangeState)
 	{
 		ChangeState(SparkyState::Idle);
+		return;
+	}
+
+	if (true == IsInhaedStateOn)
+	{
+		ChangeState(SparkyState::BeInhaled);
 		return;
 	}
 
@@ -565,11 +566,6 @@ void Sparky::SparkUpdate(float _Delta)
 		}
 	}
 
-	if (true == IsInhaedStateOn)
-	{
-		ChangeState(SparkyState::BeInhaled);
-		return;
-	}
 
 
 	if (StateTime > SPARKYABILITYTIME)
@@ -582,6 +578,12 @@ void Sparky::SparkUpdate(float _Delta)
 		ChangeState(SparkyState::Idle);
 		return; 
 	}
+
+	if (true == IsInhaedStateOn)
+	{
+		ChangeState(SparkyState::BeInhaled);
+		return;
+	}
 }
 
 
@@ -593,60 +595,60 @@ void Sparky::Render(float _Detla)
 
 void Sparky::ActorCollisionDetectionPointRender()
 {
-	HDC BackDC = GameEngineWindow::MainWindow.GetBackBuffer()->GetImageDC();
+	//HDC BackDC = GameEngineWindow::MainWindow.GetBackBuffer()->GetImageDC();
 
-	CollisionData Data;
+	//CollisionData Data;
 
-	// 원점
-	Data.Pos = ActorCameraPos();
-	Data.Scale = { 5 , 5 };
-	Rectangle(BackDC, Data.iLeft(), Data.iTop(), Data.iRight(), Data.iBot());
-	// 바닥 왼쪽
-	Data.Pos = ActorCameraPos() + GroundLeftCheckPoint;
-	Data.Scale = { 5 , 5 };
-	Rectangle(BackDC, Data.iLeft(), Data.iTop(), Data.iRight(), Data.iBot());
-	// 바닥 오른쪽
-	Data.Pos = ActorCameraPos() + GroundRightCheckPoint;
-	Data.Scale = { 5 , 5 };
-	Rectangle(BackDC, Data.iLeft(), Data.iTop(), Data.iRight(), Data.iBot());
-	// 벽 하단왼쪽
-	Data.Pos = ActorCameraPos() + WallBotLeftCheckPoint;
-	Data.Scale = { 5 , 5 };
-	Rectangle(BackDC, Data.iLeft(), Data.iTop(), Data.iRight(), Data.iBot());
-	// 벽 상단왼쪽
-	Data.Pos = ActorCameraPos() + WallTopLeftCheckPoint;
-	Data.Scale = { 5 , 5 };
-	Rectangle(BackDC, Data.iLeft(), Data.iTop(), Data.iRight(), Data.iBot());
-	// 벽 하단오른쪽
-	Data.Pos = ActorCameraPos() + WallBotRightCheckPoint;
-	Data.Scale = { 5 , 5 };
-	Rectangle(BackDC, Data.iLeft(), Data.iTop(), Data.iRight(), Data.iBot());
-	// 벽 상단오른쪽
-	Data.Pos = ActorCameraPos() + WallTopRightCheckPoint;
-	Data.Scale = { 5 , 5 };
-	Rectangle(BackDC, Data.iLeft(), Data.iTop(), Data.iRight(), Data.iBot());
-	// 천장 왼쪽
-	Data.Pos = ActorCameraPos() + CeilLeftCheckPoint;
-	Data.Scale = { 5 , 5 };
-	Rectangle(BackDC, Data.iLeft(), Data.iTop(), Data.iRight(), Data.iBot());
-	// 천장 오른쪽
-	Data.Pos = ActorCameraPos() + CeilRightCheckPoint;
-	Data.Scale = { 5 , 5 };
-	Rectangle(BackDC, Data.iLeft(), Data.iTop(), Data.iRight(), Data.iBot());
-	// 계단 왼쪽하단
-	Data.Pos = ActorCameraPos() + StairLeftBottomCheckPoint;
-	Data.Scale = { 5 , 5 };
-	Rectangle(BackDC, Data.iLeft(), Data.iTop(), Data.iRight(), Data.iBot());
-	// 계단 왼쪽상단
-	Data.Pos = ActorCameraPos() + StairLeftTopCheckPoint;
-	Data.Scale = { 5 , 5 };
-	Rectangle(BackDC, Data.iLeft(), Data.iTop(), Data.iRight(), Data.iBot());
-	// 계단 오른쪽하단
-	Data.Pos = ActorCameraPos() + StairRightBottomCheckPoint;
-	Data.Scale = { 5 , 5 };
-	Rectangle(BackDC, Data.iLeft(), Data.iTop(), Data.iRight(), Data.iBot());
-	// 계단 오른쪽상단
-	Data.Pos = ActorCameraPos() + StairRightTopCheckPoint;
-	Data.Scale = { 5 , 5 };
-	Rectangle(BackDC, Data.iLeft(), Data.iTop(), Data.iRight(), Data.iBot());
+	//// 원점
+	//Data.Pos = ActorCameraPos();
+	//Data.Scale = { 5 , 5 };
+	//Rectangle(BackDC, Data.iLeft(), Data.iTop(), Data.iRight(), Data.iBot());
+	//// 바닥 왼쪽
+	//Data.Pos = ActorCameraPos() + GroundLeftCheckPoint;
+	//Data.Scale = { 5 , 5 };
+	//Rectangle(BackDC, Data.iLeft(), Data.iTop(), Data.iRight(), Data.iBot());
+	//// 바닥 오른쪽
+	//Data.Pos = ActorCameraPos() + GroundRightCheckPoint;
+	//Data.Scale = { 5 , 5 };
+	//Rectangle(BackDC, Data.iLeft(), Data.iTop(), Data.iRight(), Data.iBot());
+	//// 벽 하단왼쪽
+	//Data.Pos = ActorCameraPos() + WallBotLeftCheckPoint;
+	//Data.Scale = { 5 , 5 };
+	//Rectangle(BackDC, Data.iLeft(), Data.iTop(), Data.iRight(), Data.iBot());
+	//// 벽 상단왼쪽
+	//Data.Pos = ActorCameraPos() + WallTopLeftCheckPoint;
+	//Data.Scale = { 5 , 5 };
+	//Rectangle(BackDC, Data.iLeft(), Data.iTop(), Data.iRight(), Data.iBot());
+	//// 벽 하단오른쪽
+	//Data.Pos = ActorCameraPos() + WallBotRightCheckPoint;
+	//Data.Scale = { 5 , 5 };
+	//Rectangle(BackDC, Data.iLeft(), Data.iTop(), Data.iRight(), Data.iBot());
+	//// 벽 상단오른쪽
+	//Data.Pos = ActorCameraPos() + WallTopRightCheckPoint;
+	//Data.Scale = { 5 , 5 };
+	//Rectangle(BackDC, Data.iLeft(), Data.iTop(), Data.iRight(), Data.iBot());
+	//// 천장 왼쪽
+	//Data.Pos = ActorCameraPos() + CeilLeftCheckPoint;
+	//Data.Scale = { 5 , 5 };
+	//Rectangle(BackDC, Data.iLeft(), Data.iTop(), Data.iRight(), Data.iBot());
+	//// 천장 오른쪽
+	//Data.Pos = ActorCameraPos() + CeilRightCheckPoint;
+	//Data.Scale = { 5 , 5 };
+	//Rectangle(BackDC, Data.iLeft(), Data.iTop(), Data.iRight(), Data.iBot());
+	//// 계단 왼쪽하단
+	//Data.Pos = ActorCameraPos() + StairLeftBottomCheckPoint;
+	//Data.Scale = { 5 , 5 };
+	//Rectangle(BackDC, Data.iLeft(), Data.iTop(), Data.iRight(), Data.iBot());
+	//// 계단 왼쪽상단
+	//Data.Pos = ActorCameraPos() + StairLeftTopCheckPoint;
+	//Data.Scale = { 5 , 5 };
+	//Rectangle(BackDC, Data.iLeft(), Data.iTop(), Data.iRight(), Data.iBot());
+	//// 계단 오른쪽하단
+	//Data.Pos = ActorCameraPos() + StairRightBottomCheckPoint;
+	//Data.Scale = { 5 , 5 };
+	//Rectangle(BackDC, Data.iLeft(), Data.iTop(), Data.iRight(), Data.iBot());
+	//// 계단 오른쪽상단
+	//Data.Pos = ActorCameraPos() + StairRightTopCheckPoint;
+	//Data.Scale = { 5 , 5 };
+	//Rectangle(BackDC, Data.iLeft(), Data.iTop(), Data.iRight(), Data.iBot());
 }

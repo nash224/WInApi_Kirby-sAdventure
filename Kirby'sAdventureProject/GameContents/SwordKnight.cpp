@@ -161,11 +161,6 @@ void SwordKnight::PendulumStrideUpdate(float _Delta)
 {
 	StateTime += _Delta;
 
-	if (true == IsInhaedStateOn)
-	{
-		ChangeState(SwordKnightState::BeInhaled);
-		return;
-	}
 
 	if (StateTime > SWORDKNIGHTSLASHCOOLDOWN && 
 		SWORDKNIGHTRANGEDETECTION > abs(Kirby::GetMainKirby()->GetPos().X - GetPos().X))
@@ -191,6 +186,11 @@ void SwordKnight::PendulumStrideUpdate(float _Delta)
 		return;
 	}
 
+	if (true == IsInhaedStateOn)
+	{
+		ChangeState(SwordKnightState::BeInhaled);
+		return;
+	}
 
 	if (true == CheckLeftWall() || true == LeftGroundIsCliff() || 
 		RespawnLocation.X - SWORDKNIGHTRANGEDETECTION > GetPos().X)
@@ -242,12 +242,6 @@ void SwordKnight::RaiseSwordUpdate(float _Delta)
 {
 	StateTime += _Delta;
 
-	if (true == IsInhaedStateOn)
-	{
-		AbilityCollision->Off();
-		ChangeState(SwordKnightState::BeInhaled);
-		return;
-	}
 
 	if (StateTime > SWORDKNIGHTRAISESWORDTIME)
 	{
@@ -257,6 +251,13 @@ void SwordKnight::RaiseSwordUpdate(float _Delta)
 	if (true == IsChangeState)
 	{
 		ChangeState(SwordKnightState::Slash);
+		return;
+	}
+
+	if (true == IsInhaedStateOn)
+	{
+		AbilityCollision->Off();
+		ChangeState(SwordKnightState::BeInhaled);
 		return;
 	}
 
@@ -283,12 +284,6 @@ void SwordKnight::SlashStart()
 void SwordKnight::SlashUpdate(float _Delta)
 {
 
-	if (true == IsInhaedStateOn)
-	{
-		ChangeState(SwordKnightState::BeInhaled);
-		return;
-	}
-
 	if (true == MainRenderer->IsAnimationEnd())
 	{
 		IsChangeState = true;
@@ -313,6 +308,12 @@ void SwordKnight::SlashUpdate(float _Delta)
 		return;
 	}
 
+	if (true == IsInhaedStateOn)
+	{
+		AbilityCollision->Off();
+		ChangeState(SwordKnightState::BeInhaled);
+		return;
+	}
 
 	BlockedByGround();
 	BlockedByWall();
@@ -347,12 +348,6 @@ void SwordKnight::UnderhandUpdate(float _Delta)
 {
 	StateTime += _Delta;
 
-	if (true == IsInhaedStateOn)
-	{
-		ChangeState(SwordKnightState::BeInhaled);
-		return;
-	}
-
 	if (StateTime > SWORDKNIGHTUNDERHANDTIME)
 	{
 		IsChangeState = true;
@@ -361,6 +356,12 @@ void SwordKnight::UnderhandUpdate(float _Delta)
 	if (true == IsChangeState)
 	{
 		ChangeState(SwordKnightState::ReversingSlash);
+		return;
+	}
+
+	if (true == IsInhaedStateOn)
+	{
+		ChangeState(SwordKnightState::BeInhaled);
 		return;
 	}
 
@@ -386,12 +387,6 @@ void SwordKnight::ReversingSlashStart()
 
 void SwordKnight::ReversingSlashUpdate(float _Delta)
 {
-	if (true == IsInhaedStateOn)
-	{
-		AbilityCollision->Off();
-		ChangeState(SwordKnightState::BeInhaled);
-		return;
-	}
 
 	if (true == MainRenderer->IsAnimationEnd())
 	{
@@ -405,6 +400,12 @@ void SwordKnight::ReversingSlashUpdate(float _Delta)
 		return;
 	}
 
+	if (true == IsInhaedStateOn)
+	{
+		AbilityCollision->Off();
+		ChangeState(SwordKnightState::BeInhaled);
+		return;
+	}
 
 	BlockedByGround();
 	BlockedByWall();

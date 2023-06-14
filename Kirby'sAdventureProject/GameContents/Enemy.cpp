@@ -51,16 +51,18 @@ void Enemy::BeInhaledStart()
 	//BodyCollision->Off();
 	ActorDirUnitVector = GetKirbyOpponentDistance();
 	InhaleTargetPos = GetKirbyOpponentDistance();
-	InhaleTargetPosYDistance = InhaleTargetPos.Y - KIRBYCENTERYPOINT;
 	InhaleTargetPosXDistance = InhaleTargetPos.X;
-
-	CurentVerticalSpeed = InhaleTargetPosYDistance;
 	CurrentSpeed = 0.0f;
 }
 
 void Enemy::BeInhaledUpdate(float _Delta)
 {
 	StateTime += _Delta;
+
+	InhaleTargetPos = GetKirbyOpponentDistance();
+	InhaleTargetPosYDistance = InhaleTargetPos.Y - KIRBYCENTERYPOINT;
+	InhaleTargetPosXDistance = InhaleTargetPos.X;
+	CurentVerticalSpeed = InhaleTargetPosYDistance;
 
 	float4 KirbyPos = Kirby::GetMainKirby()->GetPos();
 
@@ -169,8 +171,8 @@ void Enemy::CheckOverScreen()
 	float4 WinScale = GameEngineWindow::MainWindow.GetScale();
 	float4 CameraPos = GetLevel()->GetMainCamera()->GetPos();
 
-	if (CameraPos.X > GetPos().X + Scale.X * 3.0f || CameraPos.X + WinScale.X < GetPos().X - Scale.X * 3.0f
-		|| CameraPos.Y > GetPos().Y + Scale.X * 3.0f || CameraPos.Y + WinScale.Y < GetPos().Y - Scale.X * 3.0f)
+	if (CameraPos.X > GetPos().X + CHECKOVERSCREENGAP || CameraPos.X + WinScale.X < GetPos().X - CHECKOVERSCREENGAP
+		|| CameraPos.Y > GetPos().Y + CHECKOVERSCREENGAP || CameraPos.Y + WinScale.Y < GetPos().Y - CHECKOVERSCREENGAP)
 	{
 		Off(); 
 	}
@@ -215,12 +217,13 @@ void Enemy::RespawnTrigger()
 {
 	float4 WinScale = GameEngineWindow::MainWindow.GetScale();
 	float4 CameraPos = GetLevel()->GetMainCamera()->GetPos();
+	float4 KirbyPos = Kirby::GetMainKirby()->GetKirbyMovePos();
 
 	RespawnLocationOverCamera();
-	if (CameraPos.X + WinScale.X > RespawnLocation.X && 
-		CameraPos.X < RespawnLocation.X &&
-		CameraPos.Y < RespawnLocation.Y &&
-		CameraPos.Y + WinScale.Y > RespawnLocation.Y)
+	if (CameraPos.X + WinScale.X + KirbyPos.X > RespawnLocation.X &&
+		CameraPos.X + KirbyPos.X < RespawnLocation.X &&
+		CameraPos.Y + KirbyPos.Y < RespawnLocation.Y &&
+		CameraPos.Y + WinScale.Y + KirbyPos.Y > RespawnLocation.Y)
 	{
 		if (true == IsRespawnLocationOverCamera && false == IsUpdate())
 		{
@@ -229,9 +232,8 @@ void Enemy::RespawnTrigger()
 			SetPos(RespawnLocation);
 			SetDirectionAndFirstAnimation(StringRespawnState);
 		}
-
 	}
-
+	CheckOverScreen();
 }
 
 

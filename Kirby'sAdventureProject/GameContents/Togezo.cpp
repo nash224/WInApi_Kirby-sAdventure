@@ -145,12 +145,6 @@ void Togezo::WalkUpdate(float _Delta)
 {
 	StateTime += _Delta;
 
-	if (true == IsInhaedStateOn)
-	{
-		ChangeState(TogezoState::BeInhaled);
-		return;
-	}
-
 	if (StateTime > TOGEZOROLLINGCOOLDOWN)
 	{
 		IsChangeState = true;
@@ -159,6 +153,12 @@ void Togezo::WalkUpdate(float _Delta)
 	if (true == IsChangeState)
 	{
 		ChangeState(TogezoState::Bounce);
+		return;
+	}
+
+	if (true == IsInhaedStateOn)
+	{
+		ChangeState(TogezoState::BeInhaled);
 		return;
 	}
 
@@ -209,13 +209,6 @@ void Togezo::BounceStart()
 void Togezo::BounceUpdate(float _Delta)
 {
 
-	if (true == IsInhaedStateOn)
-	{
-		AbilityCollision->Off();
-		ChangeState(TogezoState::BeInhaled);
-		return;
-	}
-
 	if (true == GetGroundState() && 0.0f < GetGravityVector().Y)
 	{
 		switch (BounceCount)
@@ -246,6 +239,13 @@ void Togezo::BounceUpdate(float _Delta)
 		return;
 	}
 
+	if (true == IsInhaedStateOn)
+	{
+		AbilityCollision->Off();
+		ChangeState(TogezoState::BeInhaled);
+		return;
+	}
+
 	BlockedByGround();
 
 	Gravity(_Delta);
@@ -273,13 +273,6 @@ void Togezo::RollUpdate(float _Delta)
 {
 	StateTime += _Delta;
 
-	if (true == IsInhaedStateOn)
-	{
-		AbilityCollision->Off();
-		ChangeState(TogezoState::BeInhaled);
-		return;
-	}
-
 	if (StateTime > TOGEZOROLLINGTIME)
 	{
 		IsChangeState = true;
@@ -289,6 +282,13 @@ void Togezo::RollUpdate(float _Delta)
 	{
 		AbilityCollision->Off();
 		ChangeState(TogezoState::Walk);
+		return;
+	}
+
+	if (true == IsInhaedStateOn)
+	{
+		AbilityCollision->Off();
+		ChangeState(TogezoState::BeInhaled);
 		return;
 	}
 

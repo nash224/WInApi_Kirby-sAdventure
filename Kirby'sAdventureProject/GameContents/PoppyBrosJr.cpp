@@ -95,6 +95,12 @@ void PoppyBrosJr::IdleUpdate(float _Delta)
 		return;
 	}
 
+	if (true == IsInhaleCollision())
+	{
+		ChangeState(NormalState::BeInhaled);
+		return;
+	}
+
 	BlockedByGround();
 	BlockedByWall();
 
@@ -121,6 +127,12 @@ void PoppyBrosJr::JumpUpdate(float _Delta)
 	if (0.0f < GetGravityVector().Y)
 	{
 		ChangeState(NormalState::Fall);
+		return;
+	}
+
+	if (true == IsInhaleCollision())
+	{
+		ChangeState(NormalState::BeInhaled);
 		return;
 	}
 
@@ -187,6 +199,12 @@ void PoppyBrosJr::FallUpdate(float _Delta)
 	if (true == GetGroundState())
 	{
 		ChangeState(NormalState::Idle);
+		return;
+	}
+
+	if (true == IsInhaleCollision())
+	{
+		ChangeState(NormalState::BeInhaled);
 		return;
 	}
 

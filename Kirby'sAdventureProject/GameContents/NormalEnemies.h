@@ -10,6 +10,7 @@ enum class NormalState
 	Fall,
 	Sweep,
 	StepOn,
+	BeInhaled,
 	Max,
 };
 

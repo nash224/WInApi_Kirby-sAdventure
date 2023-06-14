@@ -128,6 +128,11 @@ public:
 		return MainKirby;
 	}
 
+	float4 GetKirbyMovePos() const
+	{
+		return KirbyMovePos;
+	}
+
 protected:
 	static Kirby* MainKirby;
 
@@ -228,8 +233,6 @@ private:
 	std::string CurMode = "";
 
 	bool IsBounce = false;
-	bool IsSwallowedtriggerOn = false;
-	bool swallowedObject = false;
 
 	float Duration = 0.0f;
 	float DecelerationSpeed = 1.0f;
@@ -262,6 +265,7 @@ private:
 	void SparkAbilityUpdate(float _Delta);
 
 private:
+	ActorUtils* SwallingEnemy = nullptr;
 
 	class KirbyStar
 	{
@@ -270,8 +274,10 @@ private:
 		int SwallowedEnemyNumber = 0;
 		int SwallowedPowerEnemyNumber = 0;
 		int StarDamage = 0;
-
 	};
+
+	bool IsSwallowedtriggerOn = false;
+	bool swallowedObject = false;
 
 	KirbyStar Star;
 };

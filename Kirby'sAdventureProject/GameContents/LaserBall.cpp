@@ -144,12 +144,6 @@ void LaserBall::FlyUpdate(float _Delta)
 {
 	StateTime += _Delta;
 
-	if (true == IsInhaedStateOn)
-	{
-		ChangeState(LaserBallState::BeInhaled);
-		return;
-	}
-
 	float4 LaserBallPos = GetPos();
 	float4 KirbyPos = Kirby::GetMainKirby()->GetPos();
 	float4 OpponentDistance = KirbyPos - LaserBallPos;
@@ -167,6 +161,11 @@ void LaserBall::FlyUpdate(float _Delta)
 		return;
 	}
 
+	if (true == IsInhaedStateOn)
+	{
+		ChangeState(LaserBallState::BeInhaled);
+		return;
+	}
 
 	if (LASERBALLRUNAWAYDETECTRANGE > abs(OpponentDistance.X))
 	{
@@ -263,13 +262,6 @@ void LaserBall::ChargingStart()
 
 void LaserBall::ChargingUpdate(float _Delta)
 {
-
-	if (true == IsInhaedStateOn)
-	{
-		ChangeState(LaserBallState::BeInhaled);
-		return;
-	}
-
 	if (true == MainRenderer->IsAnimationEnd())
 	{
 		--ChargingCount;
@@ -280,6 +272,13 @@ void LaserBall::ChargingUpdate(float _Delta)
 		ChangeState(LaserBallState::Shoot);
 		return;
 	}
+
+	if (true == IsInhaedStateOn)
+	{
+		ChangeState(LaserBallState::BeInhaled);
+		return;
+	}
+
 }
 
 
@@ -306,15 +305,15 @@ void LaserBall::ShootUpdate(float _Delta)
 		}
 	}
 
-	if (true == IsInhaedStateOn)
-	{
-		ChangeState(LaserBallState::BeInhaled);
-		return;
-	}
-
 	if (0 == ShootCount)
 	{
 		ChangeState(LaserBallState::RunAway);
+		return;
+	}
+
+	if (true == IsInhaedStateOn)
+	{
+		ChangeState(LaserBallState::BeInhaled);
 		return;
 	}
 }
@@ -330,12 +329,6 @@ void LaserBall::RunAwayStart()
 void LaserBall::RunAwayUpdate(float _Delta)
 {
 
-	if (true == IsInhaedStateOn)
-	{
-		ChangeState(LaserBallState::BeInhaled);
-		return;
-	}
-
 	if (ActorDir::Left == Dir)
 	{
 		CurrentSpeed = LASERBALLRUNAWAYSPEED;
@@ -349,6 +342,17 @@ void LaserBall::RunAwayUpdate(float _Delta)
 	VerticalUpdate(_Delta);
 
 	HorizontalUpdate(_Delta);
+
+	if (GetLiveTime() > 4.0f)
+	{
+		Off();
+	}
+
+	if (true == IsInhaedStateOn)
+	{
+		ChangeState(LaserBallState::BeInhaled);
+		return;
+	}
 }
 
 

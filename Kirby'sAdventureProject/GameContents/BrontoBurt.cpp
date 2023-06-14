@@ -102,6 +102,7 @@ void BrontoBurt::StateUpdate(float _Delta)
 	case BrontoState::Fly:					return FlyUpdate(_Delta);
 	case BrontoState::WaveFlightRise:		return WaveFlightRiseUpdate(_Delta);
 	case BrontoState::WaveFlightFall:		return WaveFlightFallUpdate(_Delta);
+	case BrontoState::BeInhaled:			return BeInhaledUpdate(_Delta);
 	default:
 		break;
 	}
@@ -118,6 +119,7 @@ void BrontoBurt::ChangeState(BrontoState _State)
 		case BrontoState::Fly:					FlyStart();						break;
 		case BrontoState::WaveFlightRise:		WaveFlightRiseStart();			break;
 		case BrontoState::WaveFlightFall:		WaveFlightFallStart();			break;
+		case BrontoState::BeInhaled:			BeInhaledStart();				break;
 		default:
 			break;
 		}

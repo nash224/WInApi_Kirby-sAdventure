@@ -38,6 +38,7 @@ void NormalEnemies::StateUpdate(float _Delta)
 	case NormalState::Jump:					return JumpUpdate(_Delta);
 	case NormalState::Fall:					return FallUpdate(_Delta);
 	case NormalState::Sweep:				return SweepUpdate(_Delta);
+	case NormalState::BeInhaled:			return BeInhaledUpdate(_Delta);
 	default:
 		break;
 	}
@@ -55,6 +56,7 @@ void NormalEnemies::ChangeState(NormalState _State)
 		case NormalState::Jump:					JumpStart();					break;
 		case NormalState::Fall:					FallStart();					break;
 		case NormalState::Sweep:				SweepStart();					break;
+		case NormalState::BeInhaled:			BeInhaledStart();				break;
 		default:
 			break;
 		}
