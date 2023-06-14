@@ -60,7 +60,7 @@ void Togezo::Start()
 	BodyCollision->SetCollisionType(CollisionType::Rect);
 	BodyCollision->On();
 
-	AbilityCollision = CreateCollision(CollisionOrder::MonsterBody);
+	AbilityCollision = CreateCollision(CollisionOrder::MonsterAbility);
 	AbilityCollision->SetCollisionPos(float4{ 0.0f , -SMALLTYPECOLLISIONSCALE.hY()});
 	AbilityCollision->SetCollisionScale(SMALLTYPECOLLISIONSCALE);
 	AbilityCollision->SetCollisionType(CollisionType::Rect);
@@ -88,6 +88,12 @@ void Togezo::Update(float _Delta)
 {
 	GroundCheck();
 
+	if (true == /*IsSWalledByKirby*/IsInhaleCollision())
+	{
+		ChangeState(TogezoState::BeInhaled);
+		return;
+	}
+
 	StateUpdate(_Delta);
 
 	CheckOverScreen();
@@ -100,6 +106,7 @@ void Togezo::StateUpdate(float _Delta)
 	case TogezoState::Walk:						return WalkUpdate(_Delta);
 	case TogezoState::Bounce:					return BounceUpdate(_Delta);
 	case TogezoState::Roll:						return RollUpdate(_Delta);
+	case TogezoState::BeInhaled:				return BeInhaledUpdate(_Delta);
 	default:
 		break;
 	}
@@ -114,6 +121,7 @@ void Togezo::ChangeState(TogezoState _State)
 		case TogezoState::Walk:						WalkStart();					break;
 		case TogezoState::Bounce:					BounceStart();					break;
 		case TogezoState::Roll:						RollStart();					break;
+		case TogezoState::BeInhaled:				BeInhaledStart();				break;
 		default:
 			break;
 		}

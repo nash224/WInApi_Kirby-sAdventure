@@ -41,86 +41,88 @@ VegetableValley11::~VegetableValley11()
 
 void VegetableValley11::Start() 
 {
-	LevelBackGround = GameEngineLevel::CreateActor<BackGround>();
+	LevelBackGround = GameEngineLevel::CreateActor<BackGround>(UpdateOrder::BackGround);
 	LevelBackGround->init("VegetableValley1_1.bmp","VegetableValley1_1Pixel.bmp", "Resources\\Map");
 
-	LevelEffect = GameEngineLevel::CreateActor<GameEffect>();
+	LevelEffect = GameEngineLevel::CreateActor<GameEffect>(UpdateOrder::BackGroundEffect);
 	LevelEffect->LoadBackGroundEffect("CloudAndWater12x3_8x8.bmp", "Resources\\Effect\\MapEffect", 12, 4);
 
 	VegetableValley11BackGroundEffect(3.0f, 0.15f, true);
+	float4 BackScale = ResourcesManager::GetInst().FindTexture("VegetableValley1_1.bmp")->GetScale();
+	SetLevelBackgroundScale(BackScale);
 
 
-	LevelPlayer = GameEngineLevel::CreateActor<Kirby>();
+	LevelPlayer = GameEngineLevel::CreateActor<Kirby>(UpdateOrder::Player);
 	LevelPlayer->SetGroundTexture("VegetableValley1_1Pixel.bmp");
 
 
 	// 各1
-	WaddleDee* WaddleDee1 = GameEngineLevel::CreateActor<WaddleDee>();
+	WaddleDee* WaddleDee1 = GameEngineLevel::CreateActor<WaddleDee>(UpdateOrder::Monster);
 	WaddleDee1->init("VegetableValley1_1Pixel.bmp", NormalState::Walk ,  float4{ 600, 384 });
 	LevelEnemy.insert(std::make_pair("WaddleDee1", WaddleDee1));
 
 	// 各2
-	BroomHatter* BroomHatter1 = GameEngineLevel::CreateActor<BroomHatter>();
+	BroomHatter* BroomHatter1 = GameEngineLevel::CreateActor<BroomHatter>(UpdateOrder::Monster);
 	BroomHatter1->init("VegetableValley1_1Pixel.bmp", NormalState::Idle, float4{ 500, 384 });
 	LevelEnemy.insert(std::make_pair("BroomHatter1", BroomHatter1));
 
 	// 各3
-	Kabu* Kabu1 = GameEngineLevel::CreateActor<Kabu>();
+	Kabu* Kabu1 = GameEngineLevel::CreateActor<Kabu>(UpdateOrder::Monster);
 	Kabu1->init("VegetableValley1_1Pixel.bmp", NormalState::Idle, float4{ 400, 384 });
 	LevelEnemy.insert(std::make_pair("Kabu1", Kabu1));
 
 	// 各 4-1
-	PoppyBrosJr* PoppyBrosJr1 = GameEngineLevel::CreateActor<PoppyBrosJr>();
+	PoppyBrosJr* PoppyBrosJr1 = GameEngineLevel::CreateActor<PoppyBrosJr>(UpdateOrder::Monster);
 	PoppyBrosJr1->init("VegetableValley1_1Pixel.bmp", NormalState::Idle, float4{ 900, 384 });
 	LevelEnemy.insert(std::make_pair("PoppyBrosJr1", PoppyBrosJr1));
 
 	// 傍吝各 1-1
-	BrontoBurt* BrontoBurt1 = GameEngineLevel::CreateActor<BrontoBurt>();
+	BrontoBurt* BrontoBurt1 = GameEngineLevel::CreateActor<BrontoBurt>(UpdateOrder::Monster);
 	BrontoBurt1->init("VegetableValley1_1Pixel.bmp", BrontoState::Idle , float4{ 900, 384 });
 	LevelEnemy.insert(std::make_pair("BrontoBurt1", BrontoBurt1));
 
 	// 傍吝各 1-2
-	BrontoBurt* BrontoBurt2 = GameEngineLevel::CreateActor<BrontoBurt>();
+	BrontoBurt* BrontoBurt2 = GameEngineLevel::CreateActor<BrontoBurt>(UpdateOrder::Monster);
 	BrontoBurt2->init("VegetableValley1_1Pixel.bmp", BrontoState::WaveFlightFall, float4{ 600, 130 });
 	LevelEnemy.insert(std::make_pair("BrontoBurt2", BrontoBurt2));
 
 	// 傍吝各 2
-	Scarfy* Scarfy1 = GameEngineLevel::CreateActor<Scarfy>();
+	Scarfy* Scarfy1 = GameEngineLevel::CreateActor<Scarfy>(UpdateOrder::Monster);
 	Scarfy1->init("VegetableValley1_1Pixel.bmp", ScarfyState::Idle, float4{ 550, 220 });
 	LevelEnemy.insert(std::make_pair("Scarfy1", Scarfy1));
 
 	// 颇况各 1
-	WaddleDoo* WaddleDoo1 = GameEngineLevel::CreateActor<WaddleDoo>();
+	WaddleDoo* WaddleDoo1 = GameEngineLevel::CreateActor<WaddleDoo>(UpdateOrder::Monster);
 	WaddleDoo1->init("VegetableValley1_1Pixel.bmp", WaddleDooState::Walk, float4{ 1200, 384 });
 	LevelEnemy.insert(std::make_pair("WaddleDoo1", WaddleDoo1));
 
 	// 颇况各 2
-	HotHead* HotHead1 = GameEngineLevel::CreateActor<HotHead>();
+	HotHead* HotHead1 = GameEngineLevel::CreateActor<HotHead>(UpdateOrder::Monster);
 	HotHead1->init("VegetableValley1_1Pixel.bmp", HotHeadState::Walk, float4{ 1300, 384 });
 	LevelEnemy.insert(std::make_pair("HotHead1", HotHead1));
 
 	// 颇况各 3
-	Sparky* Sparky1 = GameEngineLevel::CreateActor<Sparky>();
+	Sparky* Sparky1 = GameEngineLevel::CreateActor<Sparky>(UpdateOrder::Monster);
 	Sparky1->init("VegetableValley1_1Pixel.bmp", SparkyState::Idle, float4{ 1400, 384 });
 	LevelEnemy.insert(std::make_pair("Sparky1", Sparky1));
 
 	// 颇况各 4
-	Togezo* Togezo1 = GameEngineLevel::CreateActor<Togezo>();
+	Togezo* Togezo1 = GameEngineLevel::CreateActor<Togezo>(UpdateOrder::Monster);
 	Togezo1->init("VegetableValley1_1Pixel.bmp", TogezoState::Walk, float4{ 1100, 384 });
 	LevelEnemy.insert(std::make_pair("Togezo1", Togezo1));
 
 	// 颇况各 5
-	SwordKnight* SwordKnight1 = GameEngineLevel::CreateActor<SwordKnight>();
+	SwordKnight* SwordKnight1 = GameEngineLevel::CreateActor<SwordKnight>(UpdateOrder::Monster);
 	SwordKnight1->init("VegetableValley1_1Pixel.bmp", SwordKnightState::PendulumStride, float4{ 1250, 384 });
 	LevelEnemy.insert(std::make_pair("SwordKnight1", SwordKnight1));
 
 	// 颇况各 6
-	LaserBall* LaserBall1 = GameEngineLevel::CreateActor<LaserBall>();
+	LaserBall* LaserBall1 = GameEngineLevel::CreateActor<LaserBall>(UpdateOrder::Monster);
 	LaserBall1->init("VegetableValley1_1Pixel.bmp", LaserBallState::Fly, float4{ 1250, 200 });
 	LevelEnemy.insert(std::make_pair("LaserBall1", LaserBall1));
 
 
-	GameEngineLevel::CreateActor<PlayUIManager>();
+	GameEngineLevel::CreateActor<PlayUIManager>(UpdateOrder::UI);
 
 	GameEngineWindowTexture* Texture = ResourcesManager::GetInst().FindTexture("VegetableValley1_1.bmp");
 	BackGroundScale = Texture->GetScale();

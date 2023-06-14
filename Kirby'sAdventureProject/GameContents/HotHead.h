@@ -28,7 +28,7 @@ enum class HotHeadState
 	FireBall,
 	FlameBreathCharging,
 	FlameBreath,
-	Inhaled,
+	BeInhaled,
 	Max,
 };
 

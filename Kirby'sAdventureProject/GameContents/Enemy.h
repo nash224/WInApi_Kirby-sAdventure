@@ -2,6 +2,7 @@
 #include "ActorUtils.h"
 
 #define INHALETIME 0.3f
+#define KIRBYCENTERYPOINT 15.0f
 
 
 
@@ -38,8 +39,8 @@ protected:
 	float InhaleTargetPosXDistance = 0.0f;
 
 	bool IsInhaleCollision();
-	virtual void InhaledStart();
-	virtual void InhaledUpdate(float _Delta);
+	void BeInhaledStart();
+	void BeInhaledUpdate(float _Delta);
 
 	// 판정 함수
 	bool LeftGroundIsCliff();

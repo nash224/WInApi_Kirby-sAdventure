@@ -24,6 +24,7 @@ enum class WaddleDooState
 	Jump,
 	Wobble,
 	ActivateAbility,
+	BeInhaled,
 	Max,
 };
 

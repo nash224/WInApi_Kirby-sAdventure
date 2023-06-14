@@ -40,6 +40,7 @@ enum class SparkyState
 	LongJump,
 	Landing,
 	Spark,
+	BeInhaled,
 	Max,
 };
 

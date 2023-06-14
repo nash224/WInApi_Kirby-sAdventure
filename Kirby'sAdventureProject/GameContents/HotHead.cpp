@@ -63,8 +63,8 @@ void HotHead::Start()
 
 
 	BodyCollision = CreateCollision(CollisionOrder::MonsterBody);
-	BodyCollision->SetCollisionPos(float4{ 0.0f , -SMALLTYPECOLLISIONSCALE.hY() });
-	BodyCollision->SetCollisionScale(SMALLTYPECOLLISIONSCALE);
+	BodyCollision->SetCollisionPos(float4{ 0.0f , -SmallTypeScale.hY()});
+	BodyCollision->SetCollisionScale(SmallTypeScale);
 	BodyCollision->SetCollisionType(CollisionType::Rect);
 }
 
@@ -87,15 +87,14 @@ void HotHead::init(const std::string& _FileName, HotHeadState _State, const floa
 
 void HotHead::Update(float _Delta)
 {
-	GroundCheck();
-
-	if (true == IsInhaleCollision())
+	if (true == IsSWalledByKirby)
 	{
-		ChangeState(HotHeadState::Inhaled);
+		ChangeState(HotHeadState::BeInhaled);
 		return;
 	}
 
 
+	GroundCheck();
 	StateUpdate(_Delta);
 
 	CheckOverScreen();
@@ -110,7 +109,7 @@ void HotHead::StateUpdate(float _Delta)
 	case HotHeadState::FireBall:				return FireBallUpdate(_Delta);
 	case HotHeadState::FlameBreathCharging:		return FlameBreathChargingUpdate(_Delta);
 	case HotHeadState::FlameBreath:				return FlameBreathUpdate(_Delta);
-	case HotHeadState::Inhaled:					return InhaledUpdate(_Delta);
+	case HotHeadState::BeInhaled:				return BeInhaledUpdate(_Delta);
 	default:
 		break;
 	}
@@ -127,7 +126,7 @@ void HotHead::ChangeState(HotHeadState _State)
 		case HotHeadState::FireBall:				FireBallStart();				break;
 		case HotHeadState::FlameBreathCharging:		FlameBreathChargingStart();		break;
 		case HotHeadState::FlameBreath:				FlameBreathStart();				break;
-		case HotHeadState::Inhaled:					InhaledStart();					break;
+		case HotHeadState::BeInhaled:				BeInhaledStart();				break;
 		default:
 			break;
 		}

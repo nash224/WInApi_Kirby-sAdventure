@@ -26,6 +26,16 @@ public:
 		return LevelEnemy.size();
 	}
 
+	float4 GetLevelBackgroundScale() const
+	{
+		return BackGroundScale;
+	}
+
+	float4 GetUIWindowScale() const
+	{
+		return UIScale;
+	}
+
 protected:
 	std::map<std::string, Enemy*> LevelEnemy;
 
@@ -33,7 +43,14 @@ protected:
 	class BackGround* LevelBackGround = nullptr;
 	class GameEffect* LevelEffect = nullptr;
 
+	const float4 UIScale = float4{ 768.0f , 192.0f };
+
 	float4 BackGroundScale = float4::ZERO;
+
+	void SetLevelBackgroundScale(const float4& _Scale)
+	{
+		BackGroundScale = _Scale;
+	}
 
 
 

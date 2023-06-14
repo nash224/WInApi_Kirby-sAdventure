@@ -25,6 +25,7 @@ enum class LaserBallState
 	Charging,
 	Shoot,
 	RunAway,
+	BeInhaled,
 	Max,
 };
 

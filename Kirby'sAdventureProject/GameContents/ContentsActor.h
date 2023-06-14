@@ -37,6 +37,7 @@ public:
 protected:
 	AttributeType Attribute = AttributeType::Max;
 	ActorDir Dir = ActorDir::Max;
+	const float4 SmallTypeScale = float4{ 48.0f , 48.0f };
 
 	float CurrentSpeed = 0.0f;
 

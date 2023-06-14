@@ -125,7 +125,11 @@ void Kirby::Update(float _Delta)
 		}
 	}
 
+	PrevKirbyMovePos = GetPos();
+
 	StateUpdate(_Delta);
+
+	KirbyMovePos = GetPos() - PrevKirbyMovePos;
 
 	CameraFocus();
 }
@@ -431,14 +435,80 @@ void Kirby::HorizontalUpdate(float _Delta)
 }
 
 
+void Kirby::VerticalUpdate(float _Delta)
+{
+	AddPos(GetGravityVector() * _Delta);
+}
+
+
 // 레벨 함수
 /* ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ */
+
+/*
+* 1. 밖으로 나가지 못해야한다.
+* 
+* 
+*/
+void Kirby::CameraFocus()
+{
+	float4 WinScale = GameEngineWindow::MainWindow.GetScale();
+	float4 CameraPos = GetLevel()->GetMainCamera()->GetPos();
+
+	CameraFrontCheckPos = CameraPos;
+	CameraBackCheckPos = float4{ CameraPos.X + WinScale.X , CameraPos.Y + WinScale.Y - CurrentUIScale.Y };
+
+	float4 CameraMovePos = KirbyMovePos;
+
+	// 커비가 오른쪽 방향일 때, 화면의 중앙을 넘어가면 움직임
+	if (GetPos().X < CameraFrontCheckPos.X + WinScale.Half().X && KirbyMovePos.X > 0.0f)
+	{
+		CameraMovePos.X = 0.0f;
+	}
+
+	// 커비가 왼쪽 방향일 때, 화면의 1/4 지점을 넘어가면 움직임
+	if (GetPos().X > CameraFrontCheckPos.X + WinScale.Half().Half().X && KirbyMovePos.X < 0.0f)
+	{
+		CameraMovePos.X = 0.0f;
+	}
+
+	// 커비가 윗쪽 방향일 때, 화면의 1/4 지점을 넘어가면 움직임
+	if (GetPos().Y > CameraFrontCheckPos.Y + (WinScale - CurrentUIScale).Half().Half().Y && KirbyMovePos.Y < 0.0f)
+	{
+		CameraMovePos.Y = 0.0f;
+	}
+
+	// 커비가 아랫쪽 방향일 때, UI화면을 뺀 윈도우화면의 3/4 지점을 넘어가면 움직임
+	if (GetPos().Y < CameraBackCheckPos.Y - (WinScale - CurrentUIScale).Half().Half().Y && KirbyMovePos.Y > 0.0f)
+	{
+		CameraMovePos.Y = 0.0f;
+	}
+
+	// 왼쪽 위로 나가지 못하게 막음
+	if (CameraPos.X + KirbyMovePos.X < 0.0f || CameraBackCheckPos.X + KirbyMovePos.X > CurrentBackGroundScale.X)
+	{
+		CameraMovePos.X = 0.0f;
+	}
+
+	// 오른쪽 아래로 나가지 못하게 막음
+	if (CameraPos.Y + KirbyMovePos.Y < 0.0f || CameraBackCheckPos.Y + KirbyMovePos.Y > CurrentBackGroundScale.Y)
+	{
+		CameraMovePos.Y = 0.0f;
+	}
+
+
+	GetLevel()->GetMainCamera()->AddPos(CameraMovePos);
+}
+
+
 
 // 몹의 패턴에서 쓰일 커비 객체
 void Kirby::LevelStart()
 {
 	MainKirby = this;
-	CurrentLevelEnemiesCount = dynamic_cast<VegetableValleyPlayLevel*>(GetLevel())->GetLevelEnemyCount();
+	VegetableValleyPlayLevel* CurrentLevelPtr = dynamic_cast<VegetableValleyPlayLevel*>(GetLevel());
+	CurrentLevelEnemiesCount = CurrentLevelPtr->GetLevelEnemyCount();
+	CurrentBackGroundScale = CurrentLevelPtr->GetLevelBackgroundScale();
+	CurrentUIScale = CurrentLevelPtr->GetUIWindowScale();
 }
 
 

@@ -85,6 +85,12 @@ void WaddleDoo::Update(float _Delta)
 {
 	GroundCheck();
 
+	if (true == /*IsSWalledByKirby*/IsInhaleCollision())
+	{
+		ChangeState(WaddleDooState::BeInhaled);
+		return;
+	}
+
 	StateUpdate(_Delta);
 
 	CheckOverScreen();
@@ -98,6 +104,7 @@ void WaddleDoo::StateUpdate(float _Delta)
 	case WaddleDooState::Jump:					return JumpUpdate(_Delta);
 	case WaddleDooState::Wobble:				return WobbleUpdate(_Delta);
 	case WaddleDooState::ActivateAbility:		return ActivateAbilityUpdate(_Delta);
+	case WaddleDooState::BeInhaled:				return BeInhaledUpdate(_Delta);
 	default:
 		break;
 	}
@@ -113,6 +120,7 @@ void WaddleDoo::ChangeState(WaddleDooState _State)
 		case WaddleDooState::Jump:					JumpStart();					break;
 		case WaddleDooState::Wobble:				WobbleStart();					break;
 		case WaddleDooState::ActivateAbility:		ActivateAbilityStart();			break;
+		case WaddleDooState::BeInhaled:				BeInhaledStart();				break;
 		default:
 			break;
 		}

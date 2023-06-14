@@ -27,6 +27,7 @@ enum class SwordKnightState
 	Slash,
 	Underhand,
 	ReversingSlash,
+	BeInhaled,
 	Max,
 };
 

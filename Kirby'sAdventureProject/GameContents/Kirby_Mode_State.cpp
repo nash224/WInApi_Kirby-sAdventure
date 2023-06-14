@@ -134,7 +134,7 @@ void Kirby::InhaleAbilityStart()
 	}
 	InhaleEffectCollision->SetCollisionPos(KirbyDirUnitVector);
 	InhaleEffectCollision->On();
-	CollisionCheck.reserve(CurrentLevelEnemiesCount);
+	CollisionCheck.reserve(400);
 }
 
 void Kirby::InhaleAbilityUpdate(float _Delta)
@@ -147,7 +147,10 @@ void Kirby::InhaleAbilityUpdate(float _Delta)
 	{
 		for (GameEngineCollision* Collision : CollisionCheck)
 		{
-			AbilityStar EnemyAbility = static_cast<ActorUtils*>(Collision->GetActor())->Ability;
+			ActorUtils* EnemyPtr = dynamic_cast<ActorUtils*>(Collision->GetActor());
+			AbilityStar EnemyAbility = EnemyPtr->Ability;
+			EnemyPtr->IsSWalledByKirby = true;
+			EnemyPtr->BodyCollision->Off();
 
 			if (AbilityStar::Max != EnemyAbility)
 			{
@@ -190,6 +193,8 @@ void Kirby::InhaleAbilityUpdate(float _Delta)
 
 	if (true == GameEngineInput::IsFree('Z') && true == IsSwallowedtriggerOn)
 	{
+		Star.SwallowedPowerEnemyNumber;
+
 		CollisionCheck.clear();
 		InhaleEffectCollision->Off();
 		ChangeState(KirbyState::ReleaseAbility);

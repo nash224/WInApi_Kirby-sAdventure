@@ -5,6 +5,7 @@
 #include <vector>
 #include <string>
 
+
 #define FATTYPECOLLISIONSCALE float4{ 66.0f , 66.0f }
 #define LOWERTYPECOLLISIONSCALE float4{ 48.0f , 27.0f }
 #define LOWERATTACKCOLLISIONSCALE float4 { 30.0f , 18.0f }
@@ -103,6 +104,12 @@ class Kirby : public ActorUtils
 private:
 	bool IsLevelChange = true;
 	size_t CurrentLevelEnemiesCount = 0;
+	float4 CurrentBackGroundScale = float4::ZERO;
+	float4 CurrentUIScale = float4::ZERO;
+	float4 CameraFrontCheckPos = float4::ZERO;
+	float4 CameraBackCheckPos = float4::ZERO;
+	float4 PrevKirbyMovePos = float4::ZERO;
+	float4 KirbyMovePos = float4::ZERO;
 
 public:
 	// constructor desstructor
@@ -135,6 +142,7 @@ protected:
 	void MoveHorizontal(float _Speed, float _Delta);
 	void DecelerationUpdate(float _Delta);
 	void HorizontalUpdate(float _Delta) override;
+	void VerticalUpdate(float _Delta) override;
 	float4 GetKirbyScale();
 	void ChangeKirbyBodyState(KirbyBodyState _BodyState);
 
@@ -231,6 +239,8 @@ private:
 	void Start() override;
 	void Update(float _Delta) override;
 	void Render(float _Detla) override;
+
+	void CameraFocus();
 
 	void LevelStart() override;
 

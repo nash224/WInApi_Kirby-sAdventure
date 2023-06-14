@@ -82,6 +82,12 @@ void LaserBall::init(const std::string& _FileName, LaserBallState _State, const 
 
 void LaserBall::Update(float _Delta)
 {
+	if (true == IsSWalledByKirby)
+	{
+		ChangeState(LaserBallState::BeInhaled);
+		return;
+	}
+
 	StateUpdate(_Delta);
 
 	CheckOverScreen();
@@ -95,6 +101,7 @@ void LaserBall::StateUpdate(float _Delta)
 	case LaserBallState::Charging:				return ChargingUpdate(_Delta);
 	case LaserBallState::Shoot:					return ShootUpdate(_Delta);
 	case LaserBallState::RunAway:				return RunAwayUpdate(_Delta);
+	case LaserBallState::BeInhaled:				return BeInhaledUpdate(_Delta);
 	default:
 		break;
 	}
@@ -110,6 +117,7 @@ void LaserBall::ChangeState(LaserBallState _State)
 		case LaserBallState::Charging:					ChargingStart();			break;
 		case LaserBallState::Shoot:						ShootStart();				break;
 		case LaserBallState::RunAway:					RunAwayStart();				break;
+		case LaserBallState::BeInhaled:					BeInhaledStart();			break;
 		default:
 			break;
 		}

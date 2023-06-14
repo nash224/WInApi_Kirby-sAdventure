@@ -42,21 +42,22 @@ void Enemy::ChangeAnimationState(const std::string& _StateName)
 }
 
 
-void Enemy::InhaledStart()
+void Enemy::BeInhaledStart()
 {
 	StateTime = 0.0f;
 	IsChangeState = false;
-	BodyCollision->Off();
+	IsSWalledByKirby = false;
+	//BodyCollision->Off();
 	ActorDirUnitVector = GetKirbyOpponentDistance();
 	InhaleTargetPos = GetKirbyOpponentDistance();
-	InhaleTargetPosYDistance = InhaleTargetPos.Y - 15.0f;
+	InhaleTargetPosYDistance = InhaleTargetPos.Y - KIRBYCENTERYPOINT;
 	InhaleTargetPosXDistance = InhaleTargetPos.X;
 
 	CurentVerticalSpeed = InhaleTargetPosYDistance;
 	CurrentSpeed = 0.0f;
 }
 
-void Enemy::InhaledUpdate(float _Delta)
+void Enemy::BeInhaledUpdate(float _Delta)
 {
 	StateTime += _Delta;
 

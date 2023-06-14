@@ -3,8 +3,13 @@
 
 enum class UpdateOrder
 {
+	UI,
+	BackGround,
+	BackGroundEffect,
 	Player,
+	PlayerAbility,
 	Monster,
+	MonsterAbility,
 };
 
 

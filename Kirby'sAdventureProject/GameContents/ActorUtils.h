@@ -43,7 +43,9 @@ public:
 	ActorUtils& operator=(ActorUtils&& _Other) noexcept = delete;
 
 
+	GameEngineCollision* BodyCollision = nullptr;
 	AbilityStar Ability = AbilityStar::Max;
+	bool IsSWalledByKirby = false;
 
 
 	float4 ActorCameraPos();
@@ -68,7 +70,6 @@ public:
 
 protected:
 	GameEngineRenderer* MainRenderer = nullptr;
-	GameEngineCollision* BodyCollision = nullptr;
 	float4 ActorDirUnitVector = float4::ZERO;
 
 
@@ -81,7 +82,6 @@ protected:
 
 
 
-	void CameraFocus();
 	float4 GetDirUnitVector() const;
 
 
@@ -125,7 +125,7 @@ protected:
 	void Gravity(float _Delta);
 	void ReverseGravity(float _Delta);
 	void GravityLimit(float _Delta);
-	void VerticalUpdate(float _Delta);
+	virtual void VerticalUpdate(float _Delta);
 	void GravityReset()
 	{
 		GravityVector = float4::ZERO;

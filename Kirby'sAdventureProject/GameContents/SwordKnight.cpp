@@ -92,6 +92,12 @@ void SwordKnight::Update(float _Delta)
 {
 	GroundCheck();
 
+	if (true == /*IsSWalledByKirby*/IsInhaleCollision())
+	{
+		ChangeState(SwordKnightState::BeInhaled);
+		return;
+	}
+
 	StateUpdate(_Delta);
 
 	CheckOverScreen();
@@ -106,6 +112,7 @@ void SwordKnight::StateUpdate(float _Delta)
 	case SwordKnightState::Slash:						return SlashUpdate(_Delta);
 	case SwordKnightState::Underhand:					return UnderhandUpdate(_Delta);
 	case SwordKnightState::ReversingSlash:				return ReversingSlashUpdate(_Delta);
+	case SwordKnightState::BeInhaled:					return BeInhaledUpdate(_Delta);
 	default:
 		break;
 	}
@@ -122,6 +129,7 @@ void SwordKnight::ChangeState(SwordKnightState _State)
 		case SwordKnightState::Slash:						SlashStart();						break;
 		case SwordKnightState::Underhand:					UnderhandStart();					break;
 		case SwordKnightState::ReversingSlash:				ReversingSlashStart();				break;
+		case SwordKnightState::BeInhaled:					BeInhaledStart();					break;
 		default:
 			break;
 		}

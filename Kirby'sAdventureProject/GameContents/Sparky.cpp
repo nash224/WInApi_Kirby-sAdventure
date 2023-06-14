@@ -91,6 +91,12 @@ void Sparky::Update(float _Delta)
 {
 	GroundCheck();
 
+	if (true == /*IsSWalledByKirby*/IsInhaleCollision())
+	{
+		ChangeState(SparkyState::BeInhaled);
+		return;
+	}
+
 	StateUpdate(_Delta);
 
 	CheckOverScreen();
@@ -106,6 +112,7 @@ void Sparky::StateUpdate(float _Delta)
 	case SparkyState::LongJump:					return LongJumpUpdate(_Delta);
 	case SparkyState::Landing:					return LandingUpdate(_Delta);
 	case SparkyState::Spark:					return SparkUpdate(_Delta);
+	case SparkyState::BeInhaled:				return BeInhaledUpdate(_Delta);
 	default:
 		break;
 	}
@@ -123,6 +130,7 @@ void Sparky::ChangeState(SparkyState _State)
 		case SparkyState::LongJump:				LongJumpStart();				break;
 		case SparkyState::Landing:				LandingStart();					break;
 		case SparkyState::Spark:				SparkStart();					break;
+		case SparkyState::BeInhaled:			BeInhaledStart();				break;
 		default:
 			break;
 		}
