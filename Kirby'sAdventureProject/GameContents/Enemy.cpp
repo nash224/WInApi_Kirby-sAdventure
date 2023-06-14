@@ -41,6 +41,61 @@ void Enemy::ChangeAnimationState(const std::string& _StateName)
 	MainRenderer->ChangeAnimation(AnimationName);
 }
 
+
+void Enemy::InhaledStart()
+{
+	StateTime = 0.0f;
+	IsChangeState = false;
+	BodyCollision->Off();
+	ActorDirUnitVector = GetKirbyOpponentDistance();
+	InhaleTargetPos = GetKirbyOpponentDistance();
+	InhaleTargetPosYDistance = InhaleTargetPos.Y - 15.0f;
+	InhaleTargetPosXDistance = InhaleTargetPos.X;
+
+	CurentVerticalSpeed = InhaleTargetPosYDistance;
+	CurrentSpeed = 0.0f;
+}
+
+void Enemy::InhaledUpdate(float _Delta)
+{
+	StateTime += _Delta;
+
+	float4 KirbyPos = Kirby::GetMainKirby()->GetPos();
+
+
+	if (ActorDirUnitVector.X < 0.0f)
+	{
+		float InhaleXSpeed = InhaleTargetPosXDistance / INHALETIME * _Delta;
+		CurrentSpeed += InhaleXSpeed;
+
+		if (GetPos().X < KirbyPos.X)
+		{
+			BodyCollision->On();
+			Off();
+			return;
+		}
+	}
+	else if (ActorDirUnitVector.X > 0.0f)
+	{
+		float InhaleXSpeed = InhaleTargetPosXDistance / INHALETIME * _Delta;
+		CurrentSpeed += InhaleXSpeed;
+
+		if (GetPos().X > KirbyPos.X)
+		{
+			BodyCollision->On();
+			Off();
+			return;
+		}
+	}
+
+
+	VerticalUpdateBasedlevitation(_Delta);
+
+	HorizontalUpdate(_Delta);
+}
+
+
+
 bool Enemy::LeftGroundIsCliff()
 {
 	unsigned int LeftBottomColor = GetGroundColor(RGB(255, 255, 255), GroundLeftCheckPoint);
@@ -210,3 +265,4 @@ bool Enemy::IsInhaleCollision()
 
 	return false;
 }
+

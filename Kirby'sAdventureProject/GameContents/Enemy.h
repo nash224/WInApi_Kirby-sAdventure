@@ -36,7 +36,10 @@ protected:
 	float4 InhaleTargetPos = float4::ZERO;
 	float InhaleTargetPosYDistance = 0.0f;
 	float InhaleTargetPosXDistance = 0.0f;
+
 	bool IsInhaleCollision();
+	virtual void InhaledStart();
+	virtual void InhaledUpdate(float _Delta);
 
 	// 판정 함수
 	bool LeftGroundIsCliff();

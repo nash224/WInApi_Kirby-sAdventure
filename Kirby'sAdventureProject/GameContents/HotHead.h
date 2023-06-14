@@ -63,14 +63,12 @@ protected:
 	void FireBallStart();
 	void FlameBreathChargingStart();
 	void FlameBreathStart();
-	void InhaledStart();
 
 	void WalkUpdate(float _Delta);
 	void FireBallChargingUpdate(float _Delta);
 	void FireBallUpdate(float _Delta);
 	void FlameBreathChargingUpdate(float _Delta);
 	void FlameBreathUpdate(float _Delta);
-	void InhaledUpdate(float _Delta);
 
 private:
 	void Start() override;
