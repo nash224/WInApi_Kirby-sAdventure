@@ -37,8 +37,8 @@ void Kirby::Contain_StateResourceLoad()
 	MainRenderer->CreateAnimation("Normal_Left_Contain_Fall", "Contain_Left_Kirby.bmp", 2, 2, 0.1f, false);
 	MainRenderer->CreateAnimation("Normal_Right_Contain_Fall", "Contain_Right_Kirby.bmp", 2, 2, 0.1f, false);
 
-	MainRenderer->CreateAnimation("Normal_Left_Contain_Gulp", "Contain_Left_Kirby.bmp", 9, 11, 0.2f, false);
-	MainRenderer->CreateAnimation("Normal_Right_Contain_Gulp", "Contain_Right_Kirby.bmp", 9, 11, 0.2f, false);
+	MainRenderer->CreateAnimation("Normal_Left_Contain_Gulp", "Contain_Left_Kirby.bmp", 9, 11, 0.15f, false);
+	MainRenderer->CreateAnimation("Normal_Right_Contain_Gulp", "Contain_Right_Kirby.bmp", 9, 11, 0.15f, false);
 
 	MainRenderer->CreateAnimation("Normal_Left_Contain_Disgorge", "Contain_Left_Kirby.bmp", 5, 8, 0.08f, false);
 	MainRenderer->CreateAnimation("Normal_Right_Contain_Disgorge", "Contain_Right_Kirby.bmp", 5, 8, 0.08f, false);
@@ -480,11 +480,12 @@ void Kirby::Contain_FallUpdate(float _Delta)
 void Kirby::Contain_GulpStart()
 {
 	StateTime = 0.0f;
+	IsChangeState = false;
 	ChangeKirbyBodyState(KirbyBodyState::Little);
 
 	if (Star.SwallowedPowerEnemyNumber > 0)
 	{
-		GetAbilityEffectPtr = GetLevel()->CreateActor<GetAbilityEffect>(UpdateOrder::PlayerAbility);
+		GetAbilityEffectPtr = GetLevel()->CreateActor<GetAbilityEffect>(UpdateOrder::Ability);
 		GetAbilityEffectPtr->init(GetPos(), GetKirbyScale());
 	}
 
@@ -494,7 +495,7 @@ void Kirby::Contain_GulpStart()
 void Kirby::Contain_GulpUpdate(float _Delta)
 {
 	StateTime += _Delta;
-	if (true == MainRenderer->IsAnimationEnd())
+	if (true == MainRenderer->IsAnimationEnd() && StateTime > ContainGulpChangeStateTime)
 	{
 		IsChangeState = true;
 	}
@@ -519,11 +520,12 @@ void Kirby::Contain_GulpUpdate(float _Delta)
 		}
 	}
 
-	if (true == IsChangeState && AbilityStar::Max != CurrentAbilityStar)
+	if (true == IsChangeState && AbilityStar::Max != CurrentAbilityStar && AbilityStar::Normal != CurrentAbilityStar)
 	{
 		ChangeState(KirbyState::GetAbility);
 		return;
 	}
+
 
 	if (true == CheckLeftWallBasedSpeed())
 	{
@@ -554,6 +556,9 @@ void Kirby::Contain_DisgorgeStart()
 	StateTime = 0.0f;
 	ChangeKirbyBodyState(KirbyBodyState::Little);
 	StarAttack();
+	Star.SwallowedEnemyNumber = 0;
+	Star.SwallowedPowerEnemyNumber = 0;
+	CurrentAbilityStar = AbilityStar::Max;
 	ChangeAnimationState("Contain_Disgorge");
 }
 
@@ -601,14 +606,14 @@ void Kirby::StarAttack()
 	if (Star.SwallowedEnemyNumber >= 2)
 	{
 		// 큰별
-		LargeStarFireEffect* LargeStarEffect = GetLevel()->CreateActor<LargeStarFireEffect>(UpdateOrder::PlayerAbility);
+		LargeStarFireEffect* LargeStarEffect = GetLevel()->CreateActor<LargeStarFireEffect>(UpdateOrder::Ability);
 		LargeStarEffect->init(GetPos(), GetKirbyScale(), GetDirUnitVector());
 		LargeStarEffect->SetActorCollision(CollisionOrder::PlayerAbility, CollisionType::Rect);
 	}
 	else if (1 == Star.SwallowedEnemyNumber)
 	{
 		// 작은별
-		SmallStarFireEffect* StarStarEffect = GetLevel()->CreateActor<SmallStarFireEffect>(UpdateOrder::PlayerAbility);
+		SmallStarFireEffect* StarStarEffect = GetLevel()->CreateActor<SmallStarFireEffect>(UpdateOrder::Ability);
 		StarStarEffect->init(CurrentLevelBitMapFileName, GetPos(), GetKirbyScale(), GetDirUnitVector());
 		StarStarEffect->SetActorCollision(CollisionOrder::PlayerAbility, CollisionType::Rect);
 	}

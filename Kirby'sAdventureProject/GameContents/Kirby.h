@@ -10,6 +10,7 @@
 #define LOWERTYPECOLLISIONSCALE float4{ 48.0f , 27.0f }
 #define LOWERATTACKCOLLISIONSCALE float4 { 30.0f , 18.0f }
 #define INHALEEFFECTCOLLISIONSCALE float4 { 132.0f , 66.0f }
+#define SPARKEFFECTCOLLISIONSCALE float4 { 112.0f , 112.0f }
 
 #define WALKSPEED 500.0f
 #define WALKMAXSPEED 200.0f
@@ -35,11 +36,12 @@
 
 #define EXHALEATTACKTIME 0.08f
 
-
 #define HITTHEMAPTIME 0.08f
+
 
 #define LOWERATTACKDUSTOCCURRENCECYCLE 0.08f
 
+#define KIRBYSPARKEFFECTCREATECYCLE 0.1f
 
 
 enum class KirbyBodyState
@@ -70,7 +72,7 @@ enum class KirbyState
 	Fly,
 	ExhaleAttack,
 	UseSpecialAbility,
-	ReleaseAbility,
+	ReleaseSpecialAbility,
 	Contain_Idle,
 	Contain_Walk,
 	Contain_Run,
@@ -158,7 +160,7 @@ protected:
 	void FlyStart();
 	void ExhaleAttackStart();
 	void UseSpecialAbilityStart();
-	void ReleaseAbilityStart();
+	void ReleaseSpecialAbilityStart();
 	void GetAbilityStart();
 
 	void Contain_IdleStart();
@@ -190,7 +192,7 @@ protected:
 	void FlyUpdate(float _Delta);
 	void ExhaleAttackUpdate(float _Delta);
 	void UseSpecialAbilityUpdate(float _Delta);
-	void ReleaseAbilityUpdate(float _Delta);
+	void ReleaseSpecialAbilityUpdate(float _Delta);
 	void GetAbilityUpdate(float _Delta);
 
 	void Contain_IdleUpdate(float _Delta);
@@ -216,6 +218,7 @@ private:
 	GameEngineCollision* FatCollision = nullptr;
 	GameEngineCollision* LowerAttackCollision = nullptr;
 	GameEngineCollision* InhaleEffectCollision = nullptr;
+	GameEngineCollision* SparkEffectCollision = nullptr;
 	KirbyBodyState BodyState = KirbyBodyState::Max;	
 	AbilityStar CurrentAbilityStar = AbilityStar::Max;
 	KirbyState State = KirbyState::Max;
@@ -225,6 +228,7 @@ private:
 
 	bool IsBounce = false;
 
+	const float AbilityMinDuration = 1.0f;
 	float Duration = 0.0f;
 	float DecelerationSpeed = 1.0f;
 	float FallDistance = 0.0f; 
@@ -273,7 +277,7 @@ private:
 
 private:
 	class GetAbilityEffect* GetAbilityEffectPtr = nullptr;
-	const float ContainGulpChangeStateTime = 0.f;
+	const float ContainGulpChangeStateTime = 0.6f;
 
 	class KirbyStar
 	{

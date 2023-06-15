@@ -192,6 +192,9 @@
     <ClInclude Include="SparkleEffect.h">
       <Filter>Global\Effect</Filter>
     </ClInclude>
+    <ClInclude Include="KirbySparkEffect.h">
+      <Filter>Global\Effect\SkillAbilityEffect</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="TitleLevel.cpp">
@@ -413,6 +416,9 @@
     </ClCompile>
     <ClCompile Include="Kirby_State.cpp">
       <Filter>Global\Object\Kirby</Filter>
+    </ClCompile>
+    <ClCompile Include="KirbySparkEffect.cpp">
+      <Filter>Global\Effect\SkillAbilityEffect</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

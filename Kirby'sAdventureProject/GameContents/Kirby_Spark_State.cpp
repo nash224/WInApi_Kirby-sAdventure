@@ -1,14 +1,14 @@
 #include "Kirby.h"
+#include "ContentsEnum.h"
+
 #include <GameEnginePlatform/GameEngineInput.h>
 #include <GameEngineCore/GameEngineRenderer.h>
-#include <GameEngineCore/GameEngineCamera.h>
 #include <GameEngineCore/GameEngineLevel.h>
 #include <GameEngineCore/ResourcesManager.h>
+#include <GameEngineCore/GameEngineCollision.h>
 
 #include "GlobalContents.h"
-#include "DustEffect.h"
-#include "HitObjectEffect.h"
-#include "ExhaleEffect.h"
+#include "KirbySparkEffect.h"
 
 
 void Kirby::Spark_StateResourceLoad()
@@ -73,8 +73,8 @@ void Kirby::Spark_StateResourceLoad()
 	MainRenderer->CreateAnimation("Spark_Left_UseSpecialAbility", "Ability_Left_Use.bmp", 1, 2, 0.1f, true);
 	MainRenderer->CreateAnimation("Spark_Right_UseSpecialAbility", "Ability_Right_Use.bmp", 1, 2, 0.1f, true);
 
-	MainRenderer->CreateAnimation("Spark_Left_ReleaseAbility", "Ability_Left_Use.bmp", 0, 0, 0.1f, false);
-	MainRenderer->CreateAnimation("Spark_Right_ReleaseAbility", "Ability_Right_Use.bmp", 0, 0, 0.1f, false);
+	MainRenderer->CreateAnimation("Spark_Left_ReleaseSpecialAbility", "Ability_Left_Use.bmp", 0, 0, 0.1f, false);
+	MainRenderer->CreateAnimation("Spark_Right_ReleaseSpecialAbility", "Ability_Right_Use.bmp", 0, 0, 0.1f, false);
 
 	MainRenderer->CreateAnimation("Spark_Left_GetAbility", "Ability_Left_Use.bmp", 1, 2, 0.1f, true);
 	MainRenderer->CreateAnimation("Spark_Right_GetAbility", "Ability_Right_Use.bmp", 1, 2, 0.1f, true);
@@ -83,10 +83,65 @@ void Kirby::Spark_StateResourceLoad()
 
 void Kirby::SparkAbilityStart()
 {
+	StateTime = 0.0f;
+	Duration = 0.0f;
+	IsChangeState = false;
+	SparkEffectCollision->On();
 
+	ChangeAnimationState("UseSpecialAbility");
 }
 
 void Kirby::SparkAbilityUpdate(float _Delta)
 {
+	StateTime += _Delta;
+	Duration += _Delta;
 
+	if (Duration > AbilityMinDuration && false == IsChangeState )
+	{
+		IsChangeState = true;
+	}
+
+	if (StateTime > KIRBYSPARKEFFECTCREATECYCLE)
+	{
+		StateTime = 0.0f;
+
+		KirbySparkEffect* KirbySparkEffectPtr = GetLevel()->CreateActor<KirbySparkEffect>(UpdateOrder::Ability);
+		KirbySparkEffectPtr->init(GetPos(), GetKirbyScale());
+	}
+
+	std::vector<GameEngineCollision*> Col;
+	if (true == SparkEffectCollision->Collision(CollisionOrder::MonsterBody, Col, CollisionType::Rect, CollisionType::Rect))
+	{
+		for (size_t i = 0; i < Col.size(); i++)
+		{
+			GameEngineCollision* Collision = Col[i];
+			ActorUtils* EnemyPtr = dynamic_cast<ActorUtils*>(Collision->GetActor());
+
+			if (true == EnemyPtr->IsCollisioned)
+			{
+				continue;
+			}
+
+			EnemyPtr->IsCollisioned = true;
+		}
+	}
+
+	if (true == GameEngineInput::IsFree('Z') && true == IsChangeState)
+	{
+		ChangeState(KirbyState::ReleaseSpecialAbility);
+		return;
+	}
+
+	BlockedByWall();
+	BlockedByGround();
+
+	if (false == GetGroundState())
+	{
+		Gravity(_Delta);
+		GravityLimit(_Delta);
+		VerticalUpdate(_Delta);
+	}
+
+	ContentsActor::DecelerationUpdate(_Delta, DECELERATIONSPEED);
+	HorizontalUpdate(_Delta);
 }

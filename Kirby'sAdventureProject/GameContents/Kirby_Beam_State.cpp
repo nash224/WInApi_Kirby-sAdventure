@@ -73,8 +73,8 @@ void Kirby::Beam_StateResourceLoad()
 	MainRenderer->CreateAnimation("Beam_Left_UseSpecialAbility", "Ability_Left_Use.bmp", 5, 6, 0.1f, true);
 	MainRenderer->CreateAnimation("Beam_Right_UseSpecialAbility", "Ability_Right_Use.bmp", 5, 6, 0.1f, true);
 
-	MainRenderer->CreateAnimation("Beam_Left_ReleaseAbility", "Ability_Left_Use.bmp", 6, 6, 0.1f, false);
-	MainRenderer->CreateAnimation("Beam_Right_ReleaseAbility", "Ability_Right_Use.bmp", 6, 6, 0.1f, false);
+	MainRenderer->CreateAnimation("Beam_Left_ReleaseSpecialAbility", "Ability_Left_Use.bmp", 6, 6, 0.1f, false);
+	MainRenderer->CreateAnimation("Beam_Right_ReleaseSpecialAbility", "Ability_Right_Use.bmp", 6, 6, 0.1f, false);
 
 	MainRenderer->CreateAnimation("Beam_Left_GetAbility", "Ability_Left_Use.bmp", 5, 6, 0.1f, false);
 	MainRenderer->CreateAnimation("Beam_Right_GetAbility", "Ability_Right_Use.bmp", 5, 6, 0.1f, false);

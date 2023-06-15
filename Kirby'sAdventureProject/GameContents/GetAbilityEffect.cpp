@@ -41,7 +41,7 @@ void GetAbilityEffect::Update(float _Delta)
 		float CreateDistance = GameEngineRandom::MainRandom.RandomFloat(SPARKLEEFFECTCREATEMINDISTANCE, SPARKLEEFFECTCREATEMAXDISTANCE);
 		CreatePos = CreateDir* CreateDistance;
 
-		SparkleEffect* SparkleEffectPtr = GetLevel()->CreateActor<SparkleEffect>(UpdateOrder::PlayerAbility);
+		SparkleEffect* SparkleEffectPtr = GetLevel()->CreateActor<SparkleEffect>(UpdateOrder::Ability);
 		SparkleEffectPtr->init(GetPos() + CreatePos);
 
 		++EffectCreateCount;

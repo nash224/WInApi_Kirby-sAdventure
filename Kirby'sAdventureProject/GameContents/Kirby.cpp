@@ -59,9 +59,9 @@ void Kirby::Start()
 	Mode = AbilityStar::Normal;
 	CurMode = "Normal";
 
-
 	ChangeState(KirbyState::Idle);
 	SetCheckPoint(GetKirbyScale());
+
 
 	LittleCollision = CreateCollision(CollisionOrder::PlayerBody);
 	LittleCollision->SetCollisionPos(float4{ 0.0f , -SMALLTYPECOLLISIONSCALE.Half().Y });
@@ -90,6 +90,13 @@ void Kirby::Start()
 	InhaleEffectCollision->SetCollisionScale(INHALEEFFECTCOLLISIONSCALE);
 	InhaleEffectCollision->SetCollisionType(CollisionType::Rect);
 	InhaleEffectCollision->Off();
+
+	
+	SparkEffectCollision = CreateCollision(CollisionOrder::KirbyInhaleAbility);
+	SparkEffectCollision->SetCollisionPos(float4{ 0.0f , -SmallTypeScale.Half().Y });
+	SparkEffectCollision->SetCollisionScale(SPARKEFFECTCOLLISIONSCALE);
+	SparkEffectCollision->SetCollisionType(CollisionType::Rect);
+	SparkEffectCollision->Off();
 }
 
 
@@ -165,7 +172,7 @@ void Kirby::StateUpdate(float _Delta)
 	case KirbyState::ExhaleAttack:			return ExhaleAttackUpdate(_Delta);
 	case KirbyState::GetAbility:			return GetAbilityUpdate(_Delta);
 	case KirbyState::UseSpecialAbility:		return UseSpecialAbilityUpdate(_Delta);
-	case KirbyState::ReleaseAbility:		return ReleaseAbilityUpdate(_Delta);
+	case KirbyState::ReleaseSpecialAbility:	return ReleaseSpecialAbilityUpdate(_Delta);
 	case KirbyState::Contain_Idle:			return Contain_IdleUpdate(_Delta);
 	case KirbyState::Contain_Walk:			return Contain_WalkUpdate(_Delta);
 	case KirbyState::Contain_Run:			return Contain_RunUpdate(_Delta);
@@ -206,7 +213,7 @@ void Kirby::ChangeState(KirbyState _State)
 		case KirbyState::ExhaleAttack:			ExhaleAttackStart();			break;
 		case KirbyState::GetAbility:			GetAbilityStart();				break;
 		case KirbyState::UseSpecialAbility:		UseSpecialAbilityStart();		break;
-		case KirbyState::ReleaseAbility:		ReleaseAbilityStart();			break;
+		case KirbyState::ReleaseSpecialAbility:	ReleaseSpecialAbilityStart();	break;
 		case KirbyState::Contain_Idle:			Contain_IdleStart();			break;
 		case KirbyState::Contain_Walk:			Contain_WalkStart();			break;
 		case KirbyState::Contain_Run:			Contain_RunStart();				break;
@@ -249,20 +256,20 @@ void Kirby::ChangeAnimationState(const std::string& _StateName, int _StartFrame/
 	case AbilityStar::Normal:
 		ModeName = "Normal_";
 		break;
-	case AbilityStar::Thorn:
-		ModeName = "Thorn_";
-		break;
 	case AbilityStar::Spark:
 		ModeName = "Spark_";
-		break;
-	case AbilityStar::Beam:
-		ModeName = "Beam_";
 		break;
 	case AbilityStar::Laser:
 		ModeName = "Laser_";
 		break;
+	case AbilityStar::Beam:
+		ModeName = "Beam_";
+		break;
 	case AbilityStar::Fire:
 		ModeName = "Fire_";
+		break;
+	case AbilityStar::Thorn:
+		ModeName = "Thorn_";
 		break;
 	case AbilityStar::Sword:
 		ModeName = "Sword_";

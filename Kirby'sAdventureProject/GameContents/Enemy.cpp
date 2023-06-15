@@ -47,7 +47,6 @@ void Enemy::BeInhaledStart()
 	StateTime = 0.0f;
 	IsChangeState = false;
 	IsInhaedStateOn = false;
-	IsSWalledByKirby = false;
 	//BodyCollision->Off();
 	ActorDirUnitVector = GetKirbyOpponentDistance();
 	CurrentSpeed = 0.0f;

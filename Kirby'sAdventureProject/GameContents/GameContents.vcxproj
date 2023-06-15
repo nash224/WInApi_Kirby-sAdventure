@@ -287,6 +287,10 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="KirbySparkEffect.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="LargeStarFireEffect.h">
       <SubType>
       </SubType>
@@ -543,6 +547,10 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="KirbyInhaleEffect.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="KirbySparkEffect.cpp">
       <SubType>
       </SubType>
     </ClCompile>

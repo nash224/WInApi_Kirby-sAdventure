@@ -8,8 +8,7 @@ enum class UpdateOrder
 	UI,
 	Player,
 	Monster,
-	PlayerAbility,
-	MonsterAbility,
+	Ability,
 };
 
 

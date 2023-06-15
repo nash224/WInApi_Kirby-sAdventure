@@ -71,8 +71,8 @@ void Kirby::Normal_StateResourceLoad()
 	MainRenderer->CreateAnimation("Normal_Left_UseSpecialAbility", "Normal_Left_Kirby.bmp", 24, 26, 0.1f, false);
 	MainRenderer->CreateAnimation("Normal_Right_UseSpecialAbility", "Normal_RIght_Kirby.bmp", 24, 26, 0.1f, false);
 
-	MainRenderer->CreateAnimation("Normal_Left_ReleaseAbility", "Normal_Left_Kirby.bmp", 25, 25, 0.15f, false);
-	MainRenderer->CreateAnimation("Normal_Right_ReleaseAbility", "Normal_RIght_Kirby.bmp", 25, 25, 0.15f, false);
+	MainRenderer->CreateAnimation("Normal_Left_ReleaseSpecialAbility", "Normal_Left_Kirby.bmp", 25, 25, 0.15f, false);
+	MainRenderer->CreateAnimation("Normal_Right_ReleaseSpecialAbility", "Normal_RIght_Kirby.bmp", 25, 25, 0.15f, false);
 
 	MainRenderer->CreateAnimation("Normal_Left_GetAbility", "Normal_Left_Kirby.bmp", 35, 37, 0.1f, false);
 	MainRenderer->CreateAnimation("Normal_Right_GetAbility", "Normal_RIght_Kirby.bmp", 35, 37, 0.1f, false);

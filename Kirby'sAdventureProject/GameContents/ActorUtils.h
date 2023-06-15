@@ -45,7 +45,7 @@ public:
 
 	GameEngineCollision* BodyCollision = nullptr;
 	AbilityStar Ability = AbilityStar::Max;
-	bool IsSWalledByKirby = false;
+	bool IsCollisioned = false;
 	bool IsInhaedStateOn = false;
 
 

@@ -48,7 +48,7 @@ void SmallStarFireEffect::Update(float _Delta)
 {
 	if (true == CheckCenterPoint())
 	{
-		ObejctDisapearingEffect* ObejctDisapearing = GetLevel()->CreateActor<ObejctDisapearingEffect>(UpdateOrder::PlayerAbility);
+		ObejctDisapearingEffect* ObejctDisapearing = GetLevel()->CreateActor<ObejctDisapearingEffect>(UpdateOrder::Ability);
 		ObejctDisapearing->init(GetPos());
 		Death();
 	}
@@ -63,7 +63,7 @@ void SmallStarFireEffect::Update(float _Delta)
 	Col.reserve(2);
 	if (true == EffectCollision->Collision(CollisionOrder::MonsterBody, Col, CollisionType::Rect, CollisionType::Rect))
 	{
-		ObejctDisapearingEffect* ObejctDisapearing = GetLevel()->CreateActor<ObejctDisapearingEffect>(UpdateOrder::PlayerAbility);
+		ObejctDisapearingEffect* ObejctDisapearing = GetLevel()->CreateActor<ObejctDisapearingEffect>(UpdateOrder::Ability);
 		ObejctDisapearing->init(GetPos());
 		Death();
 	}

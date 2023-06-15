@@ -29,14 +29,14 @@ void Kirby::UseSpecialAbilityUpdate(float _Delta)
 
 
 
-void Kirby::ReleaseAbilityStart()
+void Kirby::ReleaseSpecialAbilityStart()
 {
 	StateTime = 0.0f;
 	IsChangeState = false;
-	ChangeAnimationState("ReleaseAbility");
+	ChangeAnimationState("ReleaseSpecialAbility");
 }
 
-void Kirby::ReleaseAbilityUpdate(float _Delta)
+void Kirby::ReleaseSpecialAbilityUpdate(float _Delta)
 {
 	IsChangeState = MainRenderer->IsAnimationEnd();
 
@@ -175,7 +175,6 @@ void Kirby::InhaleAbilityUpdate(float _Delta)
 
 			AbilityStar EnemyAbility = EnemyPtr->Ability;
 			EnemyPtr->IsInhaedStateOn = true;
-			EnemyPtr->IsSWalledByKirby = true;
 			EnemyPtr->BodyCollision->Off();
 
 			if (AbilityStar::Max != EnemyAbility)
@@ -206,7 +205,7 @@ void Kirby::InhaleAbilityUpdate(float _Delta)
 
 		CollisionCheck.clear();
 		InhaleEffectCollision->Off();
-		ChangeState(KirbyState::ReleaseAbility);
+		ChangeState(KirbyState::ReleaseSpecialAbility);
 		return;
 	}
 
