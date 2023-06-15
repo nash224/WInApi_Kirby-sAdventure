@@ -16,6 +16,7 @@
 
 #include "Grunt.h"
 #include "VegetableValleyPlayLevel.h"
+#include "PlayUIManager.h"
 
 #include <Windows.h>
 
@@ -38,8 +39,12 @@ void Kirby::Start()
 	MainRenderer = CreateRenderer(RenderOrder::Play);
 
 	Normal_StateResourceLoad();
+	Spark_StateResourceLoad();
+	Laser_StateResourceLoad();
+	Beam_StateResourceLoad();
+	Fire_StateResourceLoad();
+	Thorn_StateResourceLoad();
 	Contain_StateResourceLoad();
-
 
 	MainRenderer->SetRenderScaleToTexture();
 	MainRenderer->SetScaleRatio(3.0f);
@@ -51,7 +56,7 @@ void Kirby::Start()
 
 	Dir = ActorDir::Right;
 	BodyState = KirbyBodyState::Little;
-	Mode = KirbyMode::Normal;
+	Mode = AbilityStar::Normal;
 	CurMode = "Normal";
 
 
@@ -108,10 +113,6 @@ void Kirby::Update(float _Delta)
 
 
 
-	if (true == GameEngineInput::IsDown(VK_SHIFT) && Mode != KirbyMode::Normal)
-	{
-		DropAbility();
-	}
 
 	if (true == GameEngineInput::IsDown('Y'))
 	{
@@ -130,6 +131,11 @@ void Kirby::Update(float _Delta)
 	StateUpdate(_Delta);
 
 	KirbyMovePos = GetPos() - PrevKirbyMovePos;
+
+	if (true == GameEngineInput::IsDown(VK_SHIFT) && Mode != AbilityStar::Normal && Mode != AbilityStar::Max)
+	{
+		DropAbility();
+	}
 
 	CameraFocus();
 }
@@ -240,13 +246,26 @@ void Kirby::ChangeAnimationState(const std::string& _StateName, int _StartFrame/
 
 	switch (Mode)
 	{
-	case KirbyMode::Normal:
+	case AbilityStar::Normal:
 		ModeName = "Normal_";
 		break;
-	case KirbyMode::Spark:
+	case AbilityStar::Thorn:
+		ModeName = "Thorn_";
+		break;
+	case AbilityStar::Spark:
 		ModeName = "Spark_";
 		break;
-	case KirbyMode::Max:
+	case AbilityStar::Beam:
+		ModeName = "Beam_";
+		break;
+	case AbilityStar::Laser:
+		ModeName = "Laser_";
+		break;
+	case AbilityStar::Fire:
+		ModeName = "Fire_";
+		break;
+	case AbilityStar::Sword:
+		ModeName = "Sword_";
 		break;
 	default:
 		break;
@@ -483,6 +502,8 @@ void Kirby::CameraFocus()
 		CameraMovePos.Y = 0.0f;
 	}
 
+
+
 	// 왼쪽 위로 나가지 못하게 막음
 	if (CameraPos.X + KirbyMovePos.X < 0.0f || CameraBackCheckPos.X + KirbyMovePos.X > CurrentBackGroundScale.X)
 	{
@@ -508,7 +529,9 @@ void Kirby::LevelStart()
 	VegetableValleyPlayLevel* CurrentLevelPtr = dynamic_cast<VegetableValleyPlayLevel*>(GetLevel());
 	CurrentLevelEnemiesCount = CurrentLevelPtr->GetLevelEnemyCount();
 	CurrentBackGroundScale = CurrentLevelPtr->GetLevelBackgroundScale();
-	CurrentUIScale = CurrentLevelPtr->GetUIWindowScale();
+	CurrentLevelBitMapFileName = CurrentLevelPtr->GetLevelBitMapFileName();
+	CurrentUIScale = PlayUIManager::UI->UIScale;
+	
 }
 
 

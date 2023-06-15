@@ -22,7 +22,8 @@ VegetableValley12::~VegetableValley12()
 void VegetableValley12::Start()
 {
 	LevelBackGround = GameEngineLevel::CreateActor<BackGround>();
-	LevelBackGround->init("VegetableValley1_2.bmp", "VegetableValley1_2Pixel.bmp", "Resources\\Map");
+	GameEngineWindowTexture* Texture = LevelBackGround->init("VegetableValley1_2.bmp", "VegetableValley1_2Pixel.bmp", "Resources\\Map");
+	BackGroundScale = Texture->GetScale();
 
 	LevelPlayer = GameEngineLevel::CreateActor<Kirby>();
 	LevelPlayer->SetGroundTexture("VegetableValley1_2Pixel.bmp");

@@ -135,15 +135,6 @@
     <ClInclude Include="BackGround.h">
       <Filter>Level</Filter>
     </ClInclude>
-    <ClInclude Include="SparkEffect.h">
-      <Filter>Global\Effect</Filter>
-    </ClInclude>
-    <ClInclude Include="FireBallEffect.h">
-      <Filter>Global\Effect</Filter>
-    </ClInclude>
-    <ClInclude Include="FrameBreathEffect.h">
-      <Filter>Global\Effect</Filter>
-    </ClInclude>
     <ClInclude Include="AirExplosionEffect.h">
       <Filter>Global\Effect\AirExplosionEffect</Filter>
     </ClInclude>
@@ -152,9 +143,6 @@
     </ClInclude>
     <ClInclude Include="AirExplosionAEffect.h">
       <Filter>Global\Effect\AirExplosionEffect</Filter>
-    </ClInclude>
-    <ClInclude Include="BeamEffect.h">
-      <Filter>Global\Effect</Filter>
     </ClInclude>
     <ClInclude Include="DustEffect.h">
       <Filter>Global\Effect</Filter>
@@ -175,6 +163,33 @@
       <Filter>Global\Effect</Filter>
     </ClInclude>
     <ClInclude Include="KirbyInhaleEffect.h">
+      <Filter>Global\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="SmallStarFireEffect.h">
+      <Filter>Global\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="ObejctDisapearingEffect.h">
+      <Filter>Global\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="LargeStarFireEffect.h">
+      <Filter>Global\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="GetAbilityEffect.h">
+      <Filter>Global\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="BeamEffect.h">
+      <Filter>Global\Effect\SkillAbilityEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="FireBallEffect.h">
+      <Filter>Global\Effect\SkillAbilityEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="FrameBreathEffect.h">
+      <Filter>Global\Effect\SkillAbilityEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="SparkEffect.h">
+      <Filter>Global\Effect\SkillAbilityEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="SparkleEffect.h">
       <Filter>Global\Effect</Filter>
     </ClInclude>
   </ItemGroup>
@@ -264,9 +279,6 @@
     <ClCompile Include="Grunt.cpp">
       <Filter>Global\Object</Filter>
     </ClCompile>
-    <ClCompile Include="Kirby_State.cpp">
-      <Filter>Global\Object\Kirby</Filter>
-    </ClCompile>
     <ClCompile Include="Kirby.cpp">
       <Filter>Global\Object\Kirby</Filter>
     </ClCompile>
@@ -321,15 +333,6 @@
     <ClCompile Include="BackGround.cpp">
       <Filter>Level</Filter>
     </ClCompile>
-    <ClCompile Include="SparkEffect.cpp">
-      <Filter>Global\Effect</Filter>
-    </ClCompile>
-    <ClCompile Include="FireBallEffect.cpp">
-      <Filter>Global\Effect</Filter>
-    </ClCompile>
-    <ClCompile Include="FrameBreathEffect.cpp">
-      <Filter>Global\Effect</Filter>
-    </ClCompile>
     <ClCompile Include="AirExplosionEffect.cpp">
       <Filter>Global\Effect\AirExplosionEffect</Filter>
     </ClCompile>
@@ -338,9 +341,6 @@
     </ClCompile>
     <ClCompile Include="AirExplosionAEffect.cpp">
       <Filter>Global\Effect\AirExplosionEffect</Filter>
-    </ClCompile>
-    <ClCompile Include="BeamEffect.cpp">
-      <Filter>Global\Effect</Filter>
     </ClCompile>
     <ClCompile Include="DustEffect.cpp">
       <Filter>Global\Effect</Filter>
@@ -365,6 +365,54 @@
     </ClCompile>
     <ClCompile Include="KirbyInhaleEffect.cpp">
       <Filter>Global\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="SmallStarFireEffect.cpp">
+      <Filter>Global\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="ObejctDisapearingEffect.cpp">
+      <Filter>Global\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="LargeStarFireEffect.cpp">
+      <Filter>Global\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="GetAbilityEffect.cpp">
+      <Filter>Global\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="BeamEffect.cpp">
+      <Filter>Global\Effect\SkillAbilityEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="FireBallEffect.cpp">
+      <Filter>Global\Effect\SkillAbilityEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="FrameBreathEffect.cpp">
+      <Filter>Global\Effect\SkillAbilityEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="SparkEffect.cpp">
+      <Filter>Global\Effect\SkillAbilityEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="SparkleEffect.cpp">
+      <Filter>Global\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="Kirby_Spark_State.cpp">
+      <Filter>Global\Object\Kirby</Filter>
+    </ClCompile>
+    <ClCompile Include="Kirby_Beam_State.cpp">
+      <Filter>Global\Object\Kirby</Filter>
+    </ClCompile>
+    <ClCompile Include="Kirby_Thorn_State.cpp">
+      <Filter>Global\Object\Kirby</Filter>
+    </ClCompile>
+    <ClCompile Include="Kirby_Fire_State.cpp">
+      <Filter>Global\Object\Kirby</Filter>
+    </ClCompile>
+    <ClCompile Include="Kirby_Laser_State.cpp">
+      <Filter>Global\Object\Kirby</Filter>
+    </ClCompile>
+    <ClCompile Include="Kirby_Sword_State.cpp">
+      <Filter>Global\Object\Kirby</Filter>
+    </ClCompile>
+    <ClCompile Include="Kirby_State.cpp">
+      <Filter>Global\Object\Kirby</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -412,6 +460,9 @@
     </Filter>
     <Filter Include="Level\BonusGame">
       <UniqueIdentifier>{d1136692-8bb9-4d94-8eaf-f74616439112}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Global\Effect\SkillAbilityEffect">
+      <UniqueIdentifier>{64cc594e-6473-4168-9042-2553726a9cc6}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

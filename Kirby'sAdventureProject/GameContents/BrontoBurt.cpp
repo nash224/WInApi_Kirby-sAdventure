@@ -71,7 +71,7 @@ void BrontoBurt::Start()
 void BrontoBurt::init(const std::string& _FileName, BrontoState _State, const float4& _Pos)
 {
 	Attribute = AttributeType::None;
-	Ability = AbilityStar::None;
+	Ability = AbilityStar::Normal;
 
 	SetGroundTexture(_FileName);
 	RespawnLocation = _Pos;

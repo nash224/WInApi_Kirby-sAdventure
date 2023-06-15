@@ -31,20 +31,26 @@ public:
 		return BackGroundScale;
 	}
 
-	float4 GetUIWindowScale() const
+	std::string GetLevelBitMapFileName() const
 	{
-		return UIScale;
+		return BitMapFileName;
 	}
 
-protected:
-	std::map<std::string, Enemy*> LevelEnemy;
+	//float4 GetUIWindowScale() const
+	//{
+	//	return UIScale;
+	//}
 
+protected:
 	class PlayUIManager* LevelUIManager = nullptr;
 	class BackGround* LevelBackGround = nullptr;
 	class GameEffect* LevelEffect = nullptr;
 	class Kirby* LevelPlayer = nullptr;
 
-	const float4 UIScale = float4{ 768.0f , 216.0f };
+	std::map<std::string, Enemy*> LevelEnemy;
+	std::string BitMapFileName = "";
+
+	//const float4 UIScale = float4{ 768.0f , 216.0f };
 
 	float4 BackGroundScale = float4::ZERO;
 

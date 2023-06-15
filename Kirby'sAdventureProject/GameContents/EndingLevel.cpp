@@ -37,10 +37,7 @@ void EndingLevel::Start()
 
 void EndingLevel::Update(float _Delta)
 {
-	if (5.0f <= GetLiveTime())
-	{
-		int a = 0;
-	}
+
 }
 
 

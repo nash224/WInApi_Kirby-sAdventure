@@ -1,8 +1,8 @@
 #pragma once
-#include <GameEngineCore/GameEngineLevel.h>
+#include "VegetableValleyPlayLevel.h"
 
 // Ό³Έν :
-class EndingLevel : public GameEngineLevel
+class EndingLevel : public VegetableValleyPlayLevel
 {
 public:
 	// constrcuter destructer

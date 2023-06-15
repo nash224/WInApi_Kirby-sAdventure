@@ -8,6 +8,9 @@
 #include "GlobalContents.h"
 #include "DustEffect.h"
 #include "HitObjectEffect.h"
+#include "SmallStarFireEffect.h"
+#include "LargeStarFireEffect.h"
+#include "GetAbilityEffect.h"
 
 
 
@@ -34,8 +37,8 @@ void Kirby::Contain_StateResourceLoad()
 	MainRenderer->CreateAnimation("Normal_Left_Contain_Fall", "Contain_Left_Kirby.bmp", 2, 2, 0.1f, false);
 	MainRenderer->CreateAnimation("Normal_Right_Contain_Fall", "Contain_Right_Kirby.bmp", 2, 2, 0.1f, false);
 
-	MainRenderer->CreateAnimation("Normal_Left_Contain_Gulp", "Contain_Left_Kirby.bmp", 9, 11, 0.1f, false);
-	MainRenderer->CreateAnimation("Normal_Right_Contain_Gulp", "Contain_Right_Kirby.bmp", 9, 11, 0.1f, false);
+	MainRenderer->CreateAnimation("Normal_Left_Contain_Gulp", "Contain_Left_Kirby.bmp", 9, 11, 0.2f, false);
+	MainRenderer->CreateAnimation("Normal_Right_Contain_Gulp", "Contain_Right_Kirby.bmp", 9, 11, 0.2f, false);
 
 	MainRenderer->CreateAnimation("Normal_Left_Contain_Disgorge", "Contain_Left_Kirby.bmp", 5, 8, 0.08f, false);
 	MainRenderer->CreateAnimation("Normal_Right_Contain_Disgorge", "Contain_Right_Kirby.bmp", 5, 8, 0.08f, false);
@@ -478,23 +481,32 @@ void Kirby::Contain_GulpStart()
 {
 	StateTime = 0.0f;
 	ChangeKirbyBodyState(KirbyBodyState::Little);
+
+	if (Star.SwallowedPowerEnemyNumber > 0)
+	{
+		GetAbilityEffectPtr = GetLevel()->CreateActor<GetAbilityEffect>(UpdateOrder::PlayerAbility);
+		GetAbilityEffectPtr->init(GetPos(), GetKirbyScale());
+	}
+
 	ChangeAnimationState("Contain_Gulp");
 }
 
 void Kirby::Contain_GulpUpdate(float _Delta)
 {
-	IsChangeState = MainRenderer->IsAnimationEnd();
-
-	if (true == IsChangeState && AbilityStar::None == CurrentAbilityStar && true == GameEngineInput::IsPress('S'))
+	StateTime += _Delta;
+	if (true == MainRenderer->IsAnimationEnd())
 	{
-		CurrentAbilityStar = AbilityStar::Max;
+		IsChangeState = true;
+	}
+
+	if (true == IsChangeState && AbilityStar::Max == CurrentAbilityStar && true == GameEngineInput::IsPress('S'))
+	{
 		ChangeState(KirbyState::LowerPosture);
 		return;
 	}
 
-	if (true == IsChangeState && AbilityStar::None == CurrentAbilityStar && false == GameEngineInput::IsPress('S'))
+	if (true == IsChangeState && AbilityStar::Max == CurrentAbilityStar && false == GameEngineInput::IsPress('S'))
 	{
-		CurrentAbilityStar = AbilityStar::Max;
 		if (CurrentSpeed == 0.0f)
 		{
 			ChangeState(KirbyState::Idle);
@@ -507,9 +519,8 @@ void Kirby::Contain_GulpUpdate(float _Delta)
 		}
 	}
 
-	if (true == IsChangeState && AbilityStar::None != CurrentAbilityStar)
+	if (true == IsChangeState && AbilityStar::Max != CurrentAbilityStar)
 	{
-		CurrentAbilityStar = AbilityStar::Max;
 		ChangeState(KirbyState::GetAbility);
 		return;
 	}
@@ -563,6 +574,8 @@ void Kirby::Contain_DisgorgeUpdate(float _Delta)
 	}
 
 
+
+
 	BlockedByGround();
 	MoveHorizontal(WALKSPEED, _Delta);
 	BlockedByWall();
@@ -583,5 +596,93 @@ void Kirby::Contain_DisgorgeUpdate(float _Delta)
 
 void Kirby::StarAttack()
 {
+	float4 UnitDir = GetDirUnitVector();
 
+	if (Star.SwallowedEnemyNumber >= 2)
+	{
+		// 큰별
+		LargeStarFireEffect* LargeStarEffect = GetLevel()->CreateActor<LargeStarFireEffect>(UpdateOrder::PlayerAbility);
+		LargeStarEffect->init(GetPos(), GetKirbyScale(), GetDirUnitVector());
+		LargeStarEffect->SetActorCollision(CollisionOrder::PlayerAbility, CollisionType::Rect);
+	}
+	else if (1 == Star.SwallowedEnemyNumber)
+	{
+		// 작은별
+		SmallStarFireEffect* StarStarEffect = GetLevel()->CreateActor<SmallStarFireEffect>(UpdateOrder::PlayerAbility);
+		StarStarEffect->init(CurrentLevelBitMapFileName, GetPos(), GetKirbyScale(), GetDirUnitVector());
+		StarStarEffect->SetActorCollision(CollisionOrder::PlayerAbility, CollisionType::Rect);
+	}
+} 
+
+
+
+void Kirby::GetAbilityStart()
+{
+	StateTime = 0.0f;
+	IsChangeState = false;
+
+	if (1 == Star.SwallowedPowerEnemyNumber)
+	{
+		Mode = CurrentAbilityStar;
+	}
+	else if (Star.SwallowedPowerEnemyNumber > 1)
+	{
+		// 랜덤 모드로 대체될 예정
+		Mode = CurrentAbilityStar;
+	}
+	else
+	{
+		MsgBoxAssert("삼킨 파워몬스터가 없는데 능력을 얻을려고 했습니다.");
+		return;
+	}
+
+	CurrentAbilityStar = AbilityStar::Max;
+	Star.SwallowedEnemyNumber = 0;
+	Star.SwallowedPowerEnemyNumber = 0;
+
+	ChangeAnimationState("GetAbility"); 
+}
+
+void Kirby::GetAbilityUpdate(float _Delta)
+{
+	StateTime += _Delta;
+
+	if (StateTime > GetABilityStateEndTime)
+	{
+		IsChangeState = true;
+	}
+
+	if (true == GetGroundState() && true == IsChangeState && 0 == CurrentSpeed)
+	{
+		ChangeState(KirbyState::Idle);
+		return;
+	}
+
+	if (true == GetGroundState() && true == IsChangeState && 0 != CurrentSpeed)
+	{
+		ChangeState(KirbyState::Walk);
+		return;
+	}
+
+	if (false == GetGroundState() && true == IsChangeState)
+	{
+		ChangeState(KirbyState::Fall);
+		return;
+	}
+
+
+
+	BlockedByGround();
+	BlockedByCeiling();
+	BlockedByWall();
+
+	if (false == GetGroundState())
+	{
+		Gravity(_Delta);
+		GravityLimit(_Delta);
+		VerticalUpdate(_Delta);
+	}
+
+	Kirby::DecelerationUpdate(_Delta);
+	HorizontalUpdate(_Delta);
 }

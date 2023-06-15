@@ -32,7 +32,6 @@ void CommonSkillEffect::init(const std::string& _Path, const std::string& _FileN
 	Scale = ResourcesManager::GetInst().FindTexture(_FileName)->GetScale();
 }
 
-
 void CommonSkillEffect::Update(float _Delta)
 {
 	if (GetLiveTime() > ExpressionTime)

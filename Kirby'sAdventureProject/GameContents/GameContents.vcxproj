@@ -255,6 +255,10 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="GetAbilityEffect.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="GlobalContents.h">
       <SubType>
       </SubType>
@@ -283,6 +287,10 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="LargeStarFireEffect.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="LaserBall.h">
       <SubType>
       </SubType>
@@ -307,6 +315,10 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="ObejctDisapearingEffect.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="PauseLevel.h">
       <SubType>
       </SubType>
@@ -327,7 +339,15 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="SmallStarFireEffect.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="SparkEffect.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="SparkleEffect.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -494,6 +514,10 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="GetAbilityEffect.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="GlobalContents.cpp">
       <SubType>
       </SubType>
@@ -522,12 +546,31 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="Kirby_Beam_State.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="Kirby_Contain_State.cpp" />
+    <ClCompile Include="Kirby_Fire_State.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Kirby_Laser_State.cpp" />
     <ClCompile Include="Kirby_Mode_State.cpp">
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="Kirby_Spark_State.cpp" />
     <ClCompile Include="Kirby_State.cpp" />
+    <ClCompile Include="Kirby_Sword_State.cpp" />
+    <ClCompile Include="Kirby_Thorn_State.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="LargeStarFireEffect.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="LaserBall.cpp">
       <SubType>
       </SubType>
@@ -552,6 +595,10 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="ObejctDisapearingEffect.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="PauseLevel.cpp">
       <SubType>
       </SubType>
@@ -572,7 +619,15 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="SmallStarFireEffect.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="SparkEffect.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="SparkleEffect.cpp">
       <SubType>
       </SubType>
     </ClCompile>

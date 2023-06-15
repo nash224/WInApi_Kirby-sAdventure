@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 #include <GameEnginePlatform/GameEngineWindowTexture.h>
+#include <GameEngineCore/GameEngineSprite.h>
 
 // Ό³Έν :
 class GlobalContents

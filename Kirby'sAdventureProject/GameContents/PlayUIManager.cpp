@@ -62,3 +62,8 @@ void PlayUIManager::Render(float _Delta)
 {
 
 }
+
+void PlayUIManager::LevelStart()
+{
+	UI = this;
+}

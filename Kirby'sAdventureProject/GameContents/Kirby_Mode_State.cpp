@@ -9,7 +9,7 @@
 
 void Kirby::DropAbility()
 {
-	Mode = KirbyMode::Normal;
+	Mode = AbilityStar::Normal;
 	ChangeAnimationState(CurState);
 }
 
@@ -66,28 +66,32 @@ void Kirby::ReleaseAbilityUpdate(float _Delta)
 }
 
 
-void Kirby::GetAbilityStart()
-{
-
-}
-
-void Kirby::GetAbilityUpdate(float _Delta)
-{
-
-}
-
-
 void Kirby::UseAbilityStart()
 {
 	switch (Mode)
 	{
-	case KirbyMode::Normal:
+	case AbilityStar::Normal:
 		InhaleAbilityStart();
 		break;
-	case KirbyMode::Spark:
+	case AbilityStar::Spark:
 		SparkAbilityStart();
 		break;
-	case KirbyMode::Max:
+	case AbilityStar::Laser:
+		LaserAbilityStart();
+		break;
+	case AbilityStar::Beam:
+		BeamAbilityStart();
+		break;
+	case AbilityStar::Fire:
+		FireAbilityStart();
+		break;
+	case AbilityStar::Thorn:
+		ThornAbilityStart();
+		break;
+	case AbilityStar::Sword:
+		SwordAbilityStart();
+		break;
+	case AbilityStar::Max:
 		break;
 	default:
 		break;
@@ -98,13 +102,28 @@ void Kirby::UseAbilityUpdate(float _Delta)
 {
 	switch (Mode)
 	{
-	case KirbyMode::Normal:
+	case AbilityStar::Normal:
 		InhaleAbilityUpdate(_Delta);
 		break;
-	case KirbyMode::Spark:
+	case AbilityStar::Spark:
 		SparkAbilityUpdate(_Delta);
 		break;
-	case KirbyMode::Max:
+	case AbilityStar::Laser:
+		LaserAbilityUpdate(_Delta);
+		break;
+	case AbilityStar::Beam:
+		BeamAbilityUpdate(_Delta);
+		break;
+	case AbilityStar::Fire:
+		FireAbilityUpdate(_Delta);
+		break;
+	case AbilityStar::Thorn:
+		ThornAbilityUpdate(_Delta);
+		break;
+	case AbilityStar::Sword:
+		SwordAbilityUpdate(_Delta);
+		break;
+	case AbilityStar::Max:
 		break;
 	default:
 		break;
@@ -134,7 +153,6 @@ void Kirby::InhaleAbilityStart()
 	}
 	InhaleEffectCollision->SetCollisionPos(KirbyDirUnitVector);
 	InhaleEffectCollision->On();
-	CollisionCheck.reserve(400);
 }
 
 void Kirby::InhaleAbilityUpdate(float _Delta)
@@ -150,7 +168,7 @@ void Kirby::InhaleAbilityUpdate(float _Delta)
 			GameEngineCollision* Collision = CollisionCheck[i];
 			ActorUtils* EnemyPtr = dynamic_cast<ActorUtils*>(Collision->GetActor());
 
-			if (true == EnemyPtr->IsSWalledByKirby)
+			if (true == EnemyPtr->IsInhaedStateOn)
 			{
 				continue;
 			}
@@ -166,7 +184,7 @@ void Kirby::InhaleAbilityUpdate(float _Delta)
 				SwallingEnemy = EnemyPtr;
 			}
 
-			if (AbilityStar::None != EnemyAbility && AbilityStar::Max != EnemyAbility)
+			if (AbilityStar::Normal != EnemyAbility && AbilityStar::Max != EnemyAbility)
 			{
 				CurrentAbilityStar = EnemyAbility;
 				++Star.SwallowedPowerEnemyNumber;
@@ -174,25 +192,7 @@ void Kirby::InhaleAbilityUpdate(float _Delta)
 		}
 	}
 	
-
-	if (true == IsChangeState)
-	{
-
-	}
-
-	//if (true == IsSwallowedtriggerOn)
-	//{
-	//	Duration += _Delta;
-	//}
-
-	//if (StateTime > 1.0f)
-	//{
-	//	swallowedObject = true;
-	//	CurrentAbilityStar = AbilityStar::None;
-	//	CurMode = "Normal";
-	//}
-
-	if (Star.SwallowedEnemyNumber > 0 && false == SwallingEnemy->IsUpdate())
+	if ((Star.SwallowedEnemyNumber > 0 && false == SwallingEnemy->IsUpdate()) || StateTime > 3.0f)
 	{
 		CollisionCheck.clear();
 		InhaleEffectCollision->Off();
@@ -200,7 +200,7 @@ void Kirby::InhaleAbilityUpdate(float _Delta)
 		return;
 	}
 
-	if (true == GameEngineInput::IsFree('Z') && 0 == Star.SwallowedEnemyNumber)
+	if (true == GameEngineInput::IsFree('Z') && 0 == Star.SwallowedEnemyNumber && true == IsChangeState)
 	{
 		Star.SwallowedPowerEnemyNumber;
 
@@ -225,13 +225,3 @@ void Kirby::InhaleAbilityUpdate(float _Delta)
 	HorizontalUpdate(_Delta);
 }
 
-
-void Kirby::SparkAbilityStart()
-{
-
-}
-
-void Kirby::SparkAbilityUpdate(float _Delta)
-{
-
-}

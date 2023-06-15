@@ -29,6 +29,8 @@ protected:
 	void Update(float _Delta) override;
 	void Render(float _Delta) override;
 
+	void LevelStart() override;
+
 private:
 
 };

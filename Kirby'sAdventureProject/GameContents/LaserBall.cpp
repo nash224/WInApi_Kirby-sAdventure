@@ -343,10 +343,10 @@ void LaserBall::RunAwayUpdate(float _Delta)
 
 	HorizontalUpdate(_Delta);
 
-	if (GetLiveTime() > 4.0f)
-	{
-		Off();
-	}
+	//if (GetLiveTime() > 4.0f)
+	//{
+	//	Off();
+	//}
 
 	if (true == IsInhaedStateOn)
 	{

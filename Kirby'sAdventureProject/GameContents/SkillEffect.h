@@ -48,18 +48,8 @@ protected:
 	// 충돌 감지
 	void SetCheckPoint(const float4& _ScaleSize);
 	int GetGroundColor(unsigned int _DefaultColor, float4 _Pos = float4::ZERO);
-	void CheckFrontPoint();
-	void CheckCenterPoint();
-
-	bool GetFrontPoint() const
-	{
-		return IsFrontPointReachGround;
-	}
-
-	bool GetCenterPoint() const
-	{
-		return IsCenterPointReachGround;
-	}
+	bool CheckFrontPoint();
+	bool CheckCenterPoint();
 
 
 	virtual void GroundPassUpdate(float _Delta) {}

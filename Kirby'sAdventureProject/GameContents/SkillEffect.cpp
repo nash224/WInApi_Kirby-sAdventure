@@ -63,26 +63,24 @@ int SkillEffect::GetGroundColor(unsigned int _DefaultColor, float4 _Pos/* = floa
 	return GroundTexture->GetColor(_DefaultColor, GetPos() + _Pos);
 }
 
-void SkillEffect::CheckFrontPoint()
+bool SkillEffect::CheckFrontPoint()
 {
 	unsigned int FrontColor = GetGroundColor(RGB(255, 255, 255), FrontCheckPoint);
 	if ((RGB(0, 255, 255) == FrontColor))
 	{
-		IsFrontPointReachGround = true;
-		return;
+		return true;
 	}
 
-	IsFrontPointReachGround = false;
+	return false;
 }
 
-void SkillEffect::CheckCenterPoint()
+bool SkillEffect::CheckCenterPoint()
 {
 	unsigned int CenterColor = GetGroundColor(RGB(255, 255, 255), CenterCheckPoint);
 	if ((RGB(0, 255, 255) == CenterColor))
 	{
-		IsCenterPointReachGround = true;
-		return;
+		return true;
 	}
 
-	IsCenterPointReachGround = false;
+	return false;
 }

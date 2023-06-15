@@ -54,6 +54,7 @@ void VegetableValley11::Start()
 
 	LevelPlayer = GameEngineLevel::CreateActor<Kirby>(UpdateOrder::Player);
 	LevelPlayer->SetGroundTexture("VegetableValley1_1Pixel.bmp");
+	BitMapFileName = "VegetableValley1_1Pixel.bmp";
 
 
 	// Έχ1

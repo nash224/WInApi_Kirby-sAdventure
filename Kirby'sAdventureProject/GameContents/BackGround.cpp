@@ -46,7 +46,7 @@ void BackGround::init(const std::string& _FileName, const std::string& _Path)
 }
 
 
-void BackGround::init(const std::string& _FileName, const std::string& _DebugFileName, const std::string& _Path)
+GameEngineWindowTexture* BackGround::init(const std::string& _FileName, const std::string& _DebugFileName, const std::string& _Path)
 {
 	GlobalContents::TextureFileLoad(_FileName, _Path);
 	GlobalContents::TextureFileLoad(_DebugFileName, _Path);
@@ -60,6 +60,8 @@ void BackGround::init(const std::string& _FileName, const std::string& _DebugFil
 	DebugRenderer->SetRenderScale(Scale);
 
 	SetPos(Scale.Half());
+
+	return Texture;
 }
 
 GameEngineRenderer* BackGround::SpriteInit(const std::string& _FileName, const std::string& _DebugFileName, const std::string& _Path, int _XCount, int _YCount)

@@ -83,20 +83,6 @@ enum class KirbyState
 	Max,
 };
 
-enum class KirbyMode
-{
-	Normal,
-	Needle,
-	Spark,
-	Beam,
-	Laser,
-	UFO,
-	Fire,
-	Freeze,
-	Sword,
-	Max,
-};
-
 
 
 class Kirby : public ActorUtils
@@ -105,6 +91,7 @@ private:
 	bool IsLevelChange = true;
 	size_t CurrentLevelEnemiesCount = 0;
 	float4 CurrentBackGroundScale = float4::ZERO;
+	std::string CurrentLevelBitMapFileName = "";
 	float4 CurrentUIScale = float4::ZERO;
 	float4 CameraFrontCheckPos = float4::ZERO;
 	float4 CameraBackCheckPos = float4::ZERO;
@@ -219,16 +206,20 @@ protected:
 
 
 private:
+	const float GetABilityStateEndTime = 1.0f;
+
+
+private:
 	std::vector<GameEngineCollision*> CollisionCheck;
 	GameEngineCollision* LittleCollision = nullptr;
 	GameEngineCollision* LowerCollision = nullptr;
 	GameEngineCollision* FatCollision = nullptr;
 	GameEngineCollision* LowerAttackCollision = nullptr;
 	GameEngineCollision* InhaleEffectCollision = nullptr;
-	KirbyBodyState BodyState = KirbyBodyState::Max;
-	KirbyState State = KirbyState::Max;
-	KirbyMode Mode = KirbyMode::Max;
+	KirbyBodyState BodyState = KirbyBodyState::Max;	
 	AbilityStar CurrentAbilityStar = AbilityStar::Max;
+	KirbyState State = KirbyState::Max;
+	AbilityStar Mode = AbilityStar::Max;
 	std::string CurState = "";
 	std::string CurMode = "";
 
@@ -243,29 +234,46 @@ private:
 	void Update(float _Delta) override;
 	void Render(float _Detla) override;
 
+	void LevelStart() override;
+
 	void CameraFocus();
 
-	void LevelStart() override;
 
 	// 리소스 로드
 	void Contain_StateResourceLoad();
 	void Normal_StateResourceLoad();
+	void Spark_StateResourceLoad();
+	void Laser_StateResourceLoad();
+	void Beam_StateResourceLoad();
+	void Fire_StateResourceLoad();
+	void Thorn_StateResourceLoad();
+	//void Sword_StateResourceLoad();
 
 	// 모드별 공격 함수
 	void UseAbilityStart();
 	void UseAbilityUpdate(float _Delta);
 
 	void StarAttack();
-	void AcquireAbility();
 
 	void InhaleAbilityStart();
 	void SparkAbilityStart();
+	void LaserAbilityStart();
+	void BeamAbilityStart();
+	void FireAbilityStart();
+	void ThornAbilityStart();
+	void SwordAbilityStart() {}
 
 	void InhaleAbilityUpdate(float _Delta);
 	void SparkAbilityUpdate(float _Delta);
+	void LaserAbilityUpdate(float _Delta);
+	void BeamAbilityUpdate(float _Delta);
+	void FireAbilityUpdate(float _Delta);
+	void ThornAbilityUpdate(float _Delta);
+	void SwordAbilityUpdate(float _Delta) {}
 
 private:
-	ActorUtils* SwallingEnemy = nullptr;
+	class GetAbilityEffect* GetAbilityEffectPtr = nullptr;
+	const float ContainGulpChangeStateTime = 0.f;
 
 	class KirbyStar
 	{
@@ -276,9 +284,12 @@ private:
 		int StarDamage = 0;
 	};
 
+	ActorUtils* SwallingEnemy = nullptr;
 	bool IsSwallowedtriggerOn = false;
 	bool swallowedObject = false;
 
 	KirbyStar Star;
+
+
 };
 

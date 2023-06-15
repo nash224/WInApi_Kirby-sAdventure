@@ -50,8 +50,6 @@ void Enemy::BeInhaledStart()
 	IsSWalledByKirby = false;
 	//BodyCollision->Off();
 	ActorDirUnitVector = GetKirbyOpponentDistance();
-	InhaleTargetPos = GetKirbyOpponentDistance();
-	InhaleTargetPosXDistance = InhaleTargetPos.X;
 	CurrentSpeed = 0.0f;
 }
 

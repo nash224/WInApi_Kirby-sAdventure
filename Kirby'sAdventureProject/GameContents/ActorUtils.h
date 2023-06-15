@@ -16,7 +16,7 @@
 
 enum class AbilityStar
 {
-	None,
+	Normal,
 	Spark,
 	Laser,
 	Beam,

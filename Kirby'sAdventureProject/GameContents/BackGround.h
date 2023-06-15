@@ -1,4 +1,5 @@
 #pragma once
+#include <GameEnginePlatform/GameEngineWindowTexture.h>
 #include <GameEngineCore/GameEngineActor.h>
 
 #include <string>
@@ -18,7 +19,7 @@ public:
 	BackGround& operator=(BackGround&& _Other) noexcept = delete;
 
 	void init(const std::string& _FileName, const std::string& _Path);
-	void init(const std::string& _FileName, const std::string& _DebugFileName, const std::string& _Path);
+	GameEngineWindowTexture* init(const std::string& _FileName, const std::string& _DebugFileName, const std::string& _Path);
 	class GameEngineRenderer* SpriteInit(const std::string& _FileName, const std::string& _DebugFileName, const std::string& _Path, int _XCount, int _YCount);
 
 	void SwitchRender();

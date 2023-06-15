@@ -15,7 +15,7 @@ NormalEnemies::~NormalEnemies()
 void NormalEnemies::init(const std::string& _FileName, NormalState _State, const float4& _Pos)
 {
 	Attribute = AttributeType::None;
-	Ability = AbilityStar::None;
+	Ability = AbilityStar::Normal;
 
 	SetGroundTexture(_FileName);
 	RespawnLocation = _Pos;
