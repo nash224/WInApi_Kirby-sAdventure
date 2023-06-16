@@ -156,11 +156,7 @@ void Togezo::WalkUpdate(float _Delta)
 		return;
 	}
 
-	if (true == IsInhaedStateOn)
-	{
-		ChangeState(TogezoState::BeInhaled);
-		return;
-	}
+	EnemyCollisionCheck();
 
 	if (true == CheckLeftWall() || true == LeftGroundIsCliff())
 	{
@@ -239,12 +235,7 @@ void Togezo::BounceUpdate(float _Delta)
 		return;
 	}
 
-	if (true == IsInhaedStateOn)
-	{
-		AbilityCollision->Off();
-		ChangeState(TogezoState::BeInhaled);
-		return;
-	}
+	EnemyCollisionCheck();
 
 	BlockedByGround();
 
@@ -285,12 +276,7 @@ void Togezo::RollUpdate(float _Delta)
 		return;
 	}
 
-	if (true == IsInhaedStateOn)
-	{
-		AbilityCollision->Off();
-		ChangeState(TogezoState::BeInhaled);
-		return;
-	}
+	EnemyCollisionCheck();
 
 	if (ActorDir::Left == Dir && true == CheckLeftWall())
 	{
@@ -340,4 +326,29 @@ void Togezo::RollUpdate(float _Delta)
 		HorizontalUpdate(_Delta);
 	}
 }
+
+
+void Togezo::EnemyCollisionCheck()
+{
+	std::vector<GameEngineCollision*> InhaledCol;
+	if (true == BodyCollision->Collision(CollisionOrder::KirbyInhaleAbility, InhaledCol, CollisionType::Rect, CollisionType::Rect))
+	{
+		if (true == IsInhaledStateOn)
+		{
+			IsInhaledStateOn = false;
+			BodyCollision->Off();
+			AbilityCollision->Off();
+			ChangeState(TogezoState::BeInhaled);
+			return;
+		}
+	}
+
+	std::vector<GameEngineCollision*> AbilityCol;
+	if (true == BodyCollision->Collision(CollisionOrder::PlayerAbility, AbilityCol, CollisionType::Rect, CollisionType::Rect))
+	{
+		/*ChangeState(HotHeadState::Hitted);*/
+		return;
+	}
+}
+
 

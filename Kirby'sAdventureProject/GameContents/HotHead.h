@@ -29,6 +29,7 @@ enum class HotHeadState
 	FlameBreathCharging,
 	FlameBreath,
 	BeInhaled,
+	Hitted,
 	Max,
 };
 
@@ -69,6 +70,8 @@ protected:
 	void FireBallUpdate(float _Delta);
 	void FlameBreathChargingUpdate(float _Delta);
 	void FlameBreathUpdate(float _Delta);
+
+	void EnemyCollisionCheck();
 
 private:
 	void Start() override;

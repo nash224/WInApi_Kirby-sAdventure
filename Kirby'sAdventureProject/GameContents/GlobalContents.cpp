@@ -15,7 +15,7 @@ GameEngineWindowTexture* GlobalContents::TextureFileLoad(const std::string& _Fil
 {
 	if (true == ResourcesManager::GetInst().IsLoadTexture(_FileName))
 	{
-		return nullptr;
+		return ResourcesManager::GetInst().FindTexture(_FileName);;
 	}
 
 	GameEnginePath FilePath;

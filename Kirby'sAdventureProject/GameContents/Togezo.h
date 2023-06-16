@@ -47,7 +47,6 @@ public:
 protected:
 	TogezoState State = TogezoState::Max;
 	TogezoState RespawnState = TogezoState::Max;
-	GameEngineCollision* AbilityCollision = nullptr;
 
 	bool IsRollingSpeedZero = false;
 	float RollingSpeedZeroTime = 0.0f;
@@ -64,6 +63,8 @@ protected:
 	void WalkUpdate(float _Delta);
 	void BounceUpdate(float _Delta);
 	void RollUpdate(float _Delta);
+
+	void EnemyCollisionCheck();
 
 private:
 	void Start() override;

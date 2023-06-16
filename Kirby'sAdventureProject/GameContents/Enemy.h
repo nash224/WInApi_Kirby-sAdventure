@@ -4,6 +4,8 @@
 #define INHALETIME 0.3f
 #define KIRBYCENTERYPOINT 15.0f
 
+#define HITTEDLIVETIME 0.2f
+
 #define CHECKOVERSCREENGAP 50.0f
 
 
@@ -39,9 +41,12 @@ protected:
 	float InhaleTargetPosYDistance = 0.0f;
 	float InhaleTargetPosXDistance = 0.0f;
 
-	bool IsInhaleCollision();
 	void BeInhaledStart();
+	virtual void HittedStart();
+
 	void BeInhaledUpdate(float _Delta);
+	virtual void HittedUpdate(float _Delta);
+
 
 	// 판정 함수
 	bool LeftGroundIsCliff();

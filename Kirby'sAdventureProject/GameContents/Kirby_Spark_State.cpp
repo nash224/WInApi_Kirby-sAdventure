@@ -109,22 +109,22 @@ void Kirby::SparkAbilityUpdate(float _Delta)
 		KirbySparkEffectPtr->init(GetPos(), GetKirbyScale());
 	}
 
-	std::vector<GameEngineCollision*> Col;
-	if (true == SparkEffectCollision->Collision(CollisionOrder::MonsterBody, Col, CollisionType::Rect, CollisionType::Rect))
-	{
-		for (size_t i = 0; i < Col.size(); i++)
-		{
-			GameEngineCollision* Collision = Col[i];
-			ActorUtils* EnemyPtr = dynamic_cast<ActorUtils*>(Collision->GetActor());
+	//std::vector<GameEngineCollision*> Col;
+	//if (true == SparkEffectCollision->Collision(CollisionOrder::MonsterBody, Col, CollisionType::Rect, CollisionType::Rect))
+	//{
+	//	for (size_t i = 0; i < Col.size(); i++)
+	//	{
+	//		GameEngineCollision* Collision = Col[i];
+	//		ActorUtils* EnemyPtr = dynamic_cast<ActorUtils*>(Collision->GetActor());
 
-			if (true == EnemyPtr->IsCollisioned)
-			{
-				continue;
-			}
+	//		if (true == EnemyPtr->IsHitted)
+	//		{
+	//			continue;
+	//		}
 
-			EnemyPtr->IsCollisioned = true;
-		}
-	}
+	//		EnemyPtr->IsHitted = true;
+	//	}
+	//}
 
 	if (true == GameEngineInput::IsFree('Z') && true == IsChangeState)
 	{

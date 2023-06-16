@@ -161,11 +161,7 @@ void LaserBall::FlyUpdate(float _Delta)
 		return;
 	}
 
-	if (true == IsInhaedStateOn)
-	{
-		ChangeState(LaserBallState::BeInhaled);
-		return;
-	}
+	EnemyCollisionCheck();
 
 	if (LASERBALLRUNAWAYDETECTRANGE > abs(OpponentDistance.X))
 	{
@@ -273,11 +269,7 @@ void LaserBall::ChargingUpdate(float _Delta)
 		return;
 	}
 
-	if (true == IsInhaedStateOn)
-	{
-		ChangeState(LaserBallState::BeInhaled);
-		return;
-	}
+	EnemyCollisionCheck();
 
 }
 
@@ -299,7 +291,7 @@ void LaserBall::ShootUpdate(float _Delta)
 		LaserEffect1->SetActorCollision(CollisionOrder::MonsterAbility, CollisionType::Rect);
 		--ShootCount;
 		
-		if (true == IsInhaedStateOn)
+		if (true == IsInhaledStateOn)
 		{
 			LaserEffect1->Death();
 		}
@@ -311,11 +303,7 @@ void LaserBall::ShootUpdate(float _Delta)
 		return;
 	}
 
-	if (true == IsInhaedStateOn)
-	{
-		ChangeState(LaserBallState::BeInhaled);
-		return;
-	}
+	EnemyCollisionCheck();
 }
 
 void LaserBall::RunAwayStart()
@@ -343,14 +331,27 @@ void LaserBall::RunAwayUpdate(float _Delta)
 
 	HorizontalUpdate(_Delta);
 
-	//if (GetLiveTime() > 4.0f)
-	//{
-	//	Off();
-	//}
+	EnemyCollisionCheck();
+}
 
-	if (true == IsInhaedStateOn)
+void LaserBall::EnemyCollisionCheck()
+{
+	std::vector<GameEngineCollision*> InhaledCol;
+	if (true == BodyCollision->Collision(CollisionOrder::KirbyInhaleAbility, InhaledCol, CollisionType::Rect, CollisionType::Rect))
 	{
-		ChangeState(LaserBallState::BeInhaled);
+		if (true == IsInhaledStateOn)
+		{
+			IsInhaledStateOn = false;
+			BodyCollision->Off();
+			ChangeState(LaserBallState::BeInhaled);
+			return;
+		}
+	}
+
+	std::vector<GameEngineCollision*> AbilityCol;
+	if (true == BodyCollision->Collision(CollisionOrder::PlayerAbility, AbilityCol, CollisionType::Rect, CollisionType::Rect))
+	{
+		/*ChangeState(HotHeadState::Hitted);*/
 		return;
 	}
 }

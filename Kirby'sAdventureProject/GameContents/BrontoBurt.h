@@ -65,6 +65,8 @@ protected:
 	void WaveFlightRiseUpdate(float _Delta);
 	void WaveFlightFallUpdate(float _Delta);
 
+	void EnemyCollisionCheck();
+
 
 private:
 	bool IsGoForward = false;

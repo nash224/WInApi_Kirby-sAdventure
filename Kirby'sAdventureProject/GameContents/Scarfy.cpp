@@ -161,10 +161,16 @@ void Scarfy::IdleUpdate(float _Delta)
 		IsChangeState = true;
 	}
 
-	if (true == IsChangeState)
+	EnemyCollisionCheck();
+
+	std::vector<GameEngineCollision*> InhaledCol;
+	if (true == BodyCollision->Collision(CollisionOrder::KirbyInhaleAbility, InhaledCol, CollisionType::Rect, CollisionType::Rect))
 	{
-		ChangeState(ScarfyState::TransFormingBefore);
-		return;
+		if (true == IsInhaledStateOn)
+		{
+			ChangeState(ScarfyState::TransFormingBefore);
+			return;
+		}
 	}
 
 	if (true == IsGravityReverse)
@@ -231,6 +237,8 @@ void Scarfy::TransFormingBeforeUpdate(float _Delta)
 		ChangeState(ScarfyState::TransFormingAfter);
 		return;
 	}
+
+	EnemyCollisionCheck();
 }
 
 
@@ -285,6 +293,8 @@ void Scarfy::TransFormingAfterUpdate(float _Delta)
 		ChangeState(ScarfyState::Following);
 		return;
 	}
+
+	EnemyCollisionCheck();
 }
 
 
@@ -311,6 +321,8 @@ void Scarfy::FollowingUpdate(float _Delta)
 		return;
 	}
 
+	EnemyCollisionCheck();
+
 	float4 KirbyUnitVector = GetKirbyUnitVector();
 	KirbyUnitVector *= SCARFYFOLLOWINGSPEED;
 
@@ -323,6 +335,7 @@ void Scarfy::BombStart()
 	StateTime = 0.0f;
 	IsChangeState = false;
 	BombCount = 0;
+	IsInhaledStateOn = false;
 	ChangeAnimationState("Bomb");
 }
 
@@ -357,3 +370,13 @@ void Scarfy::BombUpdate(float _Delta)
 	}
 }
 
+
+void Scarfy::EnemyCollisionCheck()
+{
+	//std::vector<GameEngineCollision*> AbilityCol;
+	//if (true == BodyCollision->Collision(CollisionOrder::PlayerAbility, AbilityCol, CollisionType::Rect, CollisionType::Rect))
+	//{
+	//	ChangeState(ScarfyState::Bomb);
+	//	return;
+	//}
+}

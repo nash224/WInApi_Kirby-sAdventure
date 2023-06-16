@@ -7,6 +7,7 @@
 #include <GameEngineCore/GameEngineCollision.h>
 
 #include "Kirby.h"
+#include "CrossDeathEffect.h"
 
 Enemy::Enemy() 
 {
@@ -42,58 +43,6 @@ void Enemy::ChangeAnimationState(const std::string& _StateName)
 }
 
 
-void Enemy::BeInhaledStart()
-{
-	StateTime = 0.0f;
-	IsChangeState = false;
-	IsInhaedStateOn = false;
-	//BodyCollision->Off();
-	ActorDirUnitVector = GetKirbyOpponentDistance();
-	CurrentSpeed = 0.0f;
-}
-
-void Enemy::BeInhaledUpdate(float _Delta)
-{
-	StateTime += _Delta;
-
-	InhaleTargetPos = GetKirbyOpponentDistance();
-	InhaleTargetPosYDistance = InhaleTargetPos.Y - KIRBYCENTERYPOINT;
-	InhaleTargetPosXDistance = InhaleTargetPos.X;
-	CurentVerticalSpeed = InhaleTargetPosYDistance;
-
-	float4 KirbyPos = Kirby::GetMainKirby()->GetPos();
-
-
-	if (ActorDirUnitVector.X < 0.0f)
-	{
-		float InhaleXSpeed = InhaleTargetPosXDistance / INHALETIME * _Delta;
-		CurrentSpeed += InhaleXSpeed;
-
-		if (GetPos().X < KirbyPos.X)
-		{
-			BodyCollision->On();
-			Off();
-			return;
-		}
-	}
-	else if (ActorDirUnitVector.X > 0.0f)
-	{
-		float InhaleXSpeed = InhaleTargetPosXDistance / INHALETIME * _Delta;
-		CurrentSpeed += InhaleXSpeed;
-
-		if (GetPos().X > KirbyPos.X)
-		{
-			BodyCollision->On();
-			Off();
-			return;
-		}
-	}
-
-
-	VerticalUpdateBasedlevitation(_Delta);
-
-	HorizontalUpdate(_Delta);
-}
 
 
 
@@ -263,15 +212,77 @@ void Enemy::SetDirectionAndFirstAnimation(const std::string& _StateName)
 }
 
 
-bool Enemy::IsInhaleCollision()
-{
-	std::vector<GameEngineCollision*> Col;
-	Col.reserve(1);
-	if (true == BodyCollision->Collision(CollisionOrder::KirbyInhaleAbility, Col, CollisionType::Rect, CollisionType::Rect))
-	{
-		return true;
-	}
 
-	return false;
+void Enemy::BeInhaledStart()
+{
+	StateTime = 0.0f;
+	IsChangeState = false;
+	IsInhaledStateOn = false;
+	ActorDirUnitVector = GetKirbyOpponentDistance();
+	CurrentSpeed = 0.0f;
 }
 
+void Enemy::BeInhaledUpdate(float _Delta)
+{
+	StateTime += _Delta;
+
+	InhaleTargetPos = GetKirbyOpponentDistance();
+	InhaleTargetPosYDistance = InhaleTargetPos.Y - KIRBYCENTERYPOINT;
+	InhaleTargetPosXDistance = InhaleTargetPos.X;
+	CurentVerticalSpeed = InhaleTargetPosYDistance;
+
+	float4 KirbyPos = Kirby::GetMainKirby()->GetPos();
+
+
+	if (ActorDirUnitVector.X < 0.0f)
+	{
+		float InhaleXSpeed = InhaleTargetPosXDistance / INHALETIME * _Delta;
+		CurrentSpeed += InhaleXSpeed;
+
+		if (GetPos().X < KirbyPos.X)
+		{
+			BodyCollision->On();
+			Off();
+			return;
+		}
+	}
+	else if (ActorDirUnitVector.X > 0.0f)
+	{
+		float InhaleXSpeed = InhaleTargetPosXDistance / INHALETIME * _Delta;
+		CurrentSpeed += InhaleXSpeed;
+
+		if (GetPos().X > KirbyPos.X)
+		{
+			BodyCollision->On();
+			Off();
+			return;
+		}
+	}
+
+
+	VerticalUpdateBasedlevitation(_Delta);
+
+	HorizontalUpdate(_Delta);
+}
+
+
+void Enemy::HittedStart()
+{
+	StateTime = 0.0f;
+	IsChangeState = false;
+	IsHitted = true;
+	CrossDeathEffect* CrossDeathEffectPtr = GetLevel()->CreateActor<CrossDeathEffect>(UpdateOrder::Ability);
+	CrossDeathEffectPtr->init(GetPos(), Scale);
+	CurrentSpeed = 0.0f;
+}
+
+void Enemy::HittedUpdate(float _Delta)
+{
+	StateTime += _Delta;
+
+	if (StateTime > HITTEDLIVETIME)
+	{
+		IsHitted = false;
+		Off();
+	}
+}

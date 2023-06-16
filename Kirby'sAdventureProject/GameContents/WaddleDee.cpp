@@ -101,9 +101,5 @@ void WaddleDee::WalkUpdate(float _Delta)
 	BlockedByGround();
 	BlockedByWall();
 
-	if (true == IsInhaleCollision())
-	{
-		ChangeState(NormalState::BeInhaled);
-		return;
-	}
+	EnemyCollisionCheck();
 }

@@ -68,6 +68,11 @@ void Sparky::Start()
 	BodyCollision->SetCollisionPos(float4{ 0.0f , -SMALLTYPECOLLISIONSCALE.hY() });
 	BodyCollision->SetCollisionScale(SMALLTYPECOLLISIONSCALE);
 	BodyCollision->SetCollisionType(CollisionType::Rect);
+
+	BodyCollision = CreateCollision(CollisionOrder::MonsterBody);
+	BodyCollision->SetCollisionPos(float4{ 0.0f , -SMALLTYPECOLLISIONSCALE.hY() });
+	BodyCollision->SetCollisionScale(SMALLTYPECOLLISIONSCALE);
+	BodyCollision->SetCollisionType(CollisionType::Rect);
 }
 
 void Sparky::init(const std::string& _FileName, SparkyState _State, const float4& _Pos)
@@ -242,11 +247,7 @@ void Sparky::IdleUpdate(float _Delta)
 		}
 	}
 
-	if (true == IsInhaedStateOn)
-	{
-		ChangeState(SparkyState::BeInhaled);
-		return;
-	}
+	EnemyCollisionCheck();
 	
 
 	BlockedByGround();
@@ -298,11 +299,7 @@ void Sparky::FrontJumpUpdate(float _Delta)
 		return;
 	}
 
-	if (true == IsInhaedStateOn)
-	{
-		ChangeState(SparkyState::BeInhaled);
-		return;
-	}
+	EnemyCollisionCheck();
 
 	if (true == AbleJump)
 	{
@@ -385,11 +382,7 @@ void Sparky::StanceJumpUpdate(float _Delta)
 		return;
 	}
 
-	if (true == IsInhaedStateOn)
-	{
-		ChangeState(SparkyState::BeInhaled);
-		return;
-	}
+	EnemyCollisionCheck();
 
 	if (true == AbleJump)
 	{
@@ -449,11 +442,7 @@ void Sparky::LongJumpUpdate(float _Delta)
 		return;
 	}
 
-	if (true == IsInhaedStateOn)
-	{
-		ChangeState(SparkyState::BeInhaled);
-		return;
-	}
+	EnemyCollisionCheck();
 
 	if (true == AbleJump)
 	{
@@ -522,11 +511,7 @@ void Sparky::LandingUpdate(float _Delta)
 		return;
 	}
 
-	if (true == IsInhaedStateOn)
-	{
-		ChangeState(SparkyState::BeInhaled);
-		return;
-	}
+	EnemyCollisionCheck();
 
 	BlockedByGround();
 	BlockedByWall();
@@ -558,9 +543,8 @@ void Sparky::SparkUpdate(float _Delta)
 		float Degree = GameEngineRandom::MainRandom.RandomFloat(0.0f, 360.0f);
 		float4 EffectDir = float4::GetUnitVectorFromDeg(Degree);
 		SparkEffectPtr->init(GetPos(), Scale, EffectDir);
-		SparkEffectPtr->SetActorCollision(CollisionOrder::MonsterAbility, CollisionType::Rect);
 
-		if (true == IsInhaedStateOn)
+		if (true == IsInhaledStateOn)
 		{
 			SparkEffectPtr->Death();
 		}
@@ -579,9 +563,27 @@ void Sparky::SparkUpdate(float _Delta)
 		return; 
 	}
 
-	if (true == IsInhaedStateOn)
+	EnemyCollisionCheck();
+}
+
+void Sparky::EnemyCollisionCheck()
+{
+	std::vector<GameEngineCollision*> InhaledCol;
+	if (true == BodyCollision->Collision(CollisionOrder::KirbyInhaleAbility, InhaledCol, CollisionType::Rect, CollisionType::Rect))
 	{
-		ChangeState(SparkyState::BeInhaled);
+		if (true == IsInhaledStateOn)
+		{
+			IsInhaledStateOn = false;
+			BodyCollision->Off();
+			ChangeState(SparkyState::BeInhaled);
+			return;
+		}
+	}
+
+	std::vector<GameEngineCollision*> AbilityCol;
+	if (true == BodyCollision->Collision(CollisionOrder::PlayerAbility, AbilityCol, CollisionType::Rect, CollisionType::Rect))
+	{
+		/*ChangeState(HotHeadState::Hitted);*/
 		return;
 	}
 }

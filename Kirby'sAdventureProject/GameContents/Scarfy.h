@@ -69,6 +69,8 @@ protected:
 	void FollowingUpdate(float _Delta);
 	void BombUpdate(float _Delta);
 
+	void EnemyCollisionCheck();
+
 
 private:
 	void Start() override;

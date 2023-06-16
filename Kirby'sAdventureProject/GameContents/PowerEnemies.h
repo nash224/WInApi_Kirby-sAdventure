@@ -16,6 +16,7 @@ public:
 	PowerEnemies& operator=(PowerEnemies&& _Other) noexcept = delete;
 
 protected:
+	GameEngineCollision* AbilityCollision = nullptr;
 	float AbilityStartDeltaTime = 0.0f;
 
 	float4 GetAbilityDir();

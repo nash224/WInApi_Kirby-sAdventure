@@ -186,11 +186,7 @@ void SwordKnight::PendulumStrideUpdate(float _Delta)
 		return;
 	}
 
-	if (true == IsInhaedStateOn)
-	{
-		ChangeState(SwordKnightState::BeInhaled);
-		return;
-	}
+	EnemyCollisionCheck();
 
 	if (true == CheckLeftWall() || true == LeftGroundIsCliff() || 
 		RespawnLocation.X - SWORDKNIGHTRANGEDETECTION > GetPos().X)
@@ -254,12 +250,7 @@ void SwordKnight::RaiseSwordUpdate(float _Delta)
 		return;
 	}
 
-	if (true == IsInhaedStateOn)
-	{
-		AbilityCollision->Off();
-		ChangeState(SwordKnightState::BeInhaled);
-		return;
-	}
+	EnemyCollisionCheck();
 
 	BlockedByGround();
 }
@@ -308,12 +299,7 @@ void SwordKnight::SlashUpdate(float _Delta)
 		return;
 	}
 
-	if (true == IsInhaedStateOn)
-	{
-		AbilityCollision->Off();
-		ChangeState(SwordKnightState::BeInhaled);
-		return;
-	}
+	EnemyCollisionCheck();
 
 	BlockedByGround();
 	BlockedByWall();
@@ -359,11 +345,7 @@ void SwordKnight::UnderhandUpdate(float _Delta)
 		return;
 	}
 
-	if (true == IsInhaedStateOn)
-	{
-		ChangeState(SwordKnightState::BeInhaled);
-		return;
-	}
+	EnemyCollisionCheck();
 
 	BlockedByGround();
 }
@@ -400,12 +382,7 @@ void SwordKnight::ReversingSlashUpdate(float _Delta)
 		return;
 	}
 
-	if (true == IsInhaedStateOn)
-	{
-		AbilityCollision->Off();
-		ChangeState(SwordKnightState::BeInhaled);
-		return;
-	}
+	EnemyCollisionCheck();
 
 	BlockedByGround();
 	BlockedByWall();
@@ -414,6 +391,29 @@ void SwordKnight::ReversingSlashUpdate(float _Delta)
 	HorizontalUpdate(_Delta);
 }
 
+
+void SwordKnight::EnemyCollisionCheck()
+{
+	std::vector<GameEngineCollision*> InhaledCol;
+	if (true == BodyCollision->Collision(CollisionOrder::KirbyInhaleAbility, InhaledCol, CollisionType::Rect, CollisionType::Rect))
+	{
+		if (true == IsInhaledStateOn)
+		{
+			IsInhaledStateOn = false;
+			BodyCollision->Off();
+			AbilityCollision->Off();
+			ChangeState(SwordKnightState::BeInhaled);
+			return;
+		}
+	}
+
+	std::vector<GameEngineCollision*> AbilityCol;
+	if (true == BodyCollision->Collision(CollisionOrder::PlayerAbility, AbilityCol, CollisionType::Rect, CollisionType::Rect))
+	{
+		/*ChangeState(HotHeadState::Hitted);*/
+		return;
+	}
+}
 
 
 

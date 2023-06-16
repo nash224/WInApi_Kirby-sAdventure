@@ -25,6 +25,11 @@ public:
 		ExpressionTime = _Time;
 	}
 
+	void SetScale(const float4& _Scale)
+	{
+		Scale = _Scale;
+	}
+
 protected:
 
 private:

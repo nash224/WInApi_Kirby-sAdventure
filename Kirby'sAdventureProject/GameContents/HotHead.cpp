@@ -104,6 +104,7 @@ void HotHead::StateUpdate(float _Delta)
 	case HotHeadState::FlameBreathCharging:		return FlameBreathChargingUpdate(_Delta);
 	case HotHeadState::FlameBreath:				return FlameBreathUpdate(_Delta);
 	case HotHeadState::BeInhaled:				return BeInhaledUpdate(_Delta);
+	case HotHeadState::Hitted:					return HittedUpdate(_Delta);
 	default:
 		break;
 	}
@@ -111,7 +112,7 @@ void HotHead::StateUpdate(float _Delta)
 
 void HotHead::ChangeState(HotHeadState _State)
 {
-	if (_State != State || _State == RespawnState || _State == HotHeadState::BeInhaled)
+	if (_State != State || _State == RespawnState)
 	{
 		switch (_State)
 		{
@@ -121,6 +122,7 @@ void HotHead::ChangeState(HotHeadState _State)
 		case HotHeadState::FlameBreathCharging:		FlameBreathChargingStart();		break;
 		case HotHeadState::FlameBreath:				FlameBreathStart();				break;
 		case HotHeadState::BeInhaled:				BeInhaledStart();				break;
+		case HotHeadState::Hitted:					HittedStart();					break;
 		default:
 			break;
 		}
@@ -166,11 +168,7 @@ void HotHead::WalkUpdate(float _Delta)
 		}
 	}
 
-	if (true == IsInhaedStateOn)
-	{
-		ChangeState(HotHeadState::BeInhaled);
-		return;
-	}
+	EnemyCollisionCheck();
 
 	if (true == CheckLeftWall() || true == LeftGroundIsCliff())
 	{
@@ -229,11 +227,7 @@ void HotHead::FireBallChargingUpdate(float _Delta)
 		return;
 	}
 
-	if (true == IsInhaedStateOn)
-	{
-		ChangeState(HotHeadState::BeInhaled);
-		return;
-	}
+	EnemyCollisionCheck();
 }
 
 
@@ -304,11 +298,7 @@ void HotHead::FireBallUpdate(float _Delta)
 		return;
 	}
 
-	if (true == IsInhaedStateOn)
-	{
-		ChangeState(HotHeadState::BeInhaled);
-		return;
-	}
+	EnemyCollisionCheck();
 
 }
 
@@ -335,11 +325,7 @@ void HotHead::FlameBreathChargingUpdate(float _Delta)
 		return;
 	}
 
-	if (true == IsInhaedStateOn)
-	{
-		ChangeState(HotHeadState::BeInhaled);
-		return;
-	}
+	EnemyCollisionCheck();
 }
 
 
@@ -410,9 +396,31 @@ void HotHead::FlameBreathUpdate(float _Delta)
 		return;
 	}
 
-	if (true == IsInhaedStateOn)
+	EnemyCollisionCheck();
+}
+
+
+void HotHead::EnemyCollisionCheck()
+{
+	std::vector<GameEngineCollision*> InhaledCol;
+	if (true == BodyCollision->Collision(CollisionOrder::KirbyInhaleAbility, InhaledCol, CollisionType::Rect, CollisionType::Rect))
 	{
-		ChangeState(HotHeadState::BeInhaled);
-		return;
+		if (true == IsInhaledStateOn)
+		{
+			IsInhaledStateOn = false;
+			BodyCollision->Off();
+			ChangeState(HotHeadState::BeInhaled);
+			return;
+		}
+	}
+
+	if (false == IsHitted)
+	{
+		std::vector<GameEngineCollision*> AbilityCol;
+		if (true == BodyCollision->Collision(CollisionOrder::PlayerAbility, AbilityCol, CollisionType::Rect, CollisionType::Rect))
+		{
+			ChangeState(HotHeadState::Hitted);
+			return;
+		}
 	}
 }

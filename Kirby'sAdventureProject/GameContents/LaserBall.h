@@ -66,6 +66,8 @@ protected:
 	void ShootUpdate(float _Delta);
 	void RunAwayUpdate(float _Delta);
 
+	void EnemyCollisionCheck();
+
 private:
 	void Start() override;
 	void Update(float _Delta) override;

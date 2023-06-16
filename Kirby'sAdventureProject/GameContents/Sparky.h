@@ -91,6 +91,8 @@ protected:
 	void LandingUpdate(float _Delta);
 	void SparkUpdate(float _Delta);
 
+	void EnemyCollisionCheck();
+
 private:
 	void Start() override;
 	void Update(float _Delta) override;

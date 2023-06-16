@@ -157,6 +157,8 @@ void BrontoBurt::IdleUpdate(float _Delta)
 		return;
 	}
 
+	EnemyCollisionCheck();
+
 	BlockedByGround();
 	BlockedByWall();
 }
@@ -191,6 +193,8 @@ void BrontoBurt::RiseUpdate(float _Delta)
 		return;
 	}
 
+	EnemyCollisionCheck();
+
 	if (RiseDistance < BRONTORISEDISTANCE && false == StopRise)
 	{
 		float RisePower = BRONTORISEDISTANCE / BRONTORISETIME;
@@ -220,6 +224,8 @@ void BrontoBurt::FlyStart()
 
 void BrontoBurt::FlyUpdate(float _Delta)
 {
+	EnemyCollisionCheck();
+
 	if (GetGravityVector().Y < 0.0f)
 	{
 		IsGoForward = true;
@@ -275,6 +281,8 @@ void BrontoBurt::WaveFlightRiseUpdate(float _Delta)
 		return;
 	}
 
+	EnemyCollisionCheck();
+
 	if (ActorDir::Left == Dir)
 	{
 		CurrentSpeed = -BRONTOWAVEFLIGHTSPEED;
@@ -312,7 +320,6 @@ void BrontoBurt::WaveFlightFallStart()
 	++WaveFlightCountBasedFall;
 
 	ChangeGravityDistance = RespawnLocation.Y + BRONTOWAVEFLIGHTCHANGEHEIGHT;
-	//RespawnState = BrontoState::WaveFlightFall;
 	ChangeAnimationState("WaveFlightFall");
 }
 
@@ -334,6 +341,8 @@ void BrontoBurt::WaveFlightFallUpdate(float _Delta)
 		ChangeState(BrontoState::WaveFlightRise);
 		return;
 	}
+
+	EnemyCollisionCheck();
 
 
 	if (ActorDir::Left == Dir)
@@ -358,3 +367,25 @@ void BrontoBurt::WaveFlightFallUpdate(float _Delta)
 	HorizontalUpdate(_Delta);
 }
 
+
+void BrontoBurt::EnemyCollisionCheck()
+{
+	std::vector<GameEngineCollision*> InhaledCol;
+	if (true == BodyCollision->Collision(CollisionOrder::KirbyInhaleAbility, InhaledCol, CollisionType::Rect, CollisionType::Rect))
+	{
+		if (true == IsInhaledStateOn)
+		{
+			IsInhaledStateOn = false;
+			BodyCollision->Off();
+			ChangeState(BrontoState::BeInhaled);
+			return;
+		}
+	}
+
+	std::vector<GameEngineCollision*> AbilityCol;
+	if (true == BodyCollision->Collision(CollisionOrder::PlayerAbility, AbilityCol, CollisionType::Rect, CollisionType::Rect))
+	{
+		/*ChangeState(HotHeadState::Hitted);*/
+		return;
+	}
+}

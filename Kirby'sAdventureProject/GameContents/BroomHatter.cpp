@@ -87,11 +87,7 @@ void BroomHatter::IdleUpdate(float _Delta)
 		return; 
 	}
 
-	if (true == IsInhaleCollision())
-	{
-		ChangeState(NormalState::BeInhaled);
-		return;
-	}
+	EnemyCollisionCheck();
 
 	BlockedByGround();
 	BlockedByWall();
@@ -152,11 +148,7 @@ void BroomHatter::SweepUpdate(float _Delta)
 		return;
 	}
 
-	if (true == IsInhaleCollision())
-	{
-		ChangeState(NormalState::BeInhaled);
-		return;
-	}
+	EnemyCollisionCheck();
 
 	if (true == CheckLeftWall() || LeftGroundIsCliff())
 	{

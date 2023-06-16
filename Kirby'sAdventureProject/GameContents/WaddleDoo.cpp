@@ -167,11 +167,7 @@ void WaddleDoo::WalkUpdate(float _Delta)
 		return;
 	}
 
-	if (true == IsInhaedStateOn)
-	{
-		ChangeState(WaddleDooState::BeInhaled);
-		return;
-	}
+	EnemyCollisionCheck();
 
 	if (true == CheckLeftWall())
 	{
@@ -253,11 +249,7 @@ void WaddleDoo::JumpUpdate(float _Delta)
 		return;
 	}
 
-	if (true == IsInhaedStateOn)
-	{
-		ChangeState(WaddleDooState::BeInhaled);
-		return;
-	}
+	EnemyCollisionCheck();
 
 
 	if (true == CeilingCheck())
@@ -349,11 +341,7 @@ void WaddleDoo::WobbleUpdate(float _Delta)
 		return;
 	}
 
-	if (true == IsInhaedStateOn)
-	{
-		ChangeState(WaddleDooState::BeInhaled);
-		return;
-	}
+	EnemyCollisionCheck();
 }
 
 
@@ -382,9 +370,30 @@ void WaddleDoo::ActivateAbilityUpdate(float _Delta)
 		return;
 	}
 
-	if (true == IsInhaedStateOn)
+	EnemyCollisionCheck();
+}
+
+
+void WaddleDoo::EnemyCollisionCheck()
+{
+	std::vector<GameEngineCollision*> InhaledCol;
+	if (true == BodyCollision->Collision(CollisionOrder::KirbyInhaleAbility, InhaledCol, CollisionType::Rect, CollisionType::Rect))
 	{
-		ChangeState(WaddleDooState::BeInhaled);
+		if (true == IsInhaledStateOn)
+		{
+			IsInhaledStateOn = false;
+			BodyCollision->Off();
+			ChangeState(WaddleDooState::BeInhaled);
+			return;
+		}
+	}
+
+	std::vector<GameEngineCollision*> AbilityCol;
+	if (true == BodyCollision->Collision(CollisionOrder::PlayerAbility, AbilityCol, CollisionType::Rect, CollisionType::Rect))
+	{
+		/*ChangeState(HotHeadState::Hitted);*/
 		return;
 	}
 }
+
+

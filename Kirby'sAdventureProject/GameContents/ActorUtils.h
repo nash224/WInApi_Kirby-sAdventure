@@ -46,7 +46,8 @@ public:
 	GameEngineCollision* BodyCollision = nullptr;
 	AbilityStar Ability = AbilityStar::Max;
 	bool IsCollisioned = false;
-	bool IsInhaedStateOn = false;
+	bool IsInhaledStateOn = false;
+	bool IsHitted = false;
 
 
 	float4 ActorCameraPos();

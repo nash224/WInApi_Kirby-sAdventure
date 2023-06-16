@@ -92,11 +92,7 @@ void Kabu::IdleUpdate(float _Delta)
 		return; 
 	}
 
-	if (true == IsInhaleCollision())
-	{
-		ChangeState(NormalState::BeInhaled);
-		return;
-	}
+	EnemyCollisionCheck();
 
 	BlockedByGround();
 	BlockedByWall();
@@ -132,11 +128,7 @@ void Kabu::SitUpdate(float _Delta)
 		return; 
 	}
 
-	if (true == IsInhaleCollision())
-	{
-		ChangeState(NormalState::BeInhaled);
-		return;
-	}
+	EnemyCollisionCheck();
 
 	BlockedByGround();
 	BlockedByWall();
@@ -187,11 +179,7 @@ void Kabu::JumpUpdate(float _Delta)
 		return;
 	}
 
-	if (true == IsInhaleCollision())
-	{
-		ChangeState(NormalState::BeInhaled);
-		return;
-	}
+	EnemyCollisionCheck();
 
 
 	if (true == AbleJump)

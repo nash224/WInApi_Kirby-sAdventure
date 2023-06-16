@@ -29,7 +29,6 @@ void CommonSkillEffect::init(const std::string& _Path, const std::string& _FileN
 	MainRenderer->SetTexture(_FileName);
 
 	SetPos(_Pos);
-	Scale = ResourcesManager::GetInst().FindTexture(_FileName)->GetScale();
 }
 
 void CommonSkillEffect::Update(float _Delta)

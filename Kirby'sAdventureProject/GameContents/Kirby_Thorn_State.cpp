@@ -16,8 +16,8 @@ void Kirby::Thorn_StateResourceLoad()
 	GlobalContents::SpriteFileLoad("Ability_Left_Kirby.bmp", "Resources\\Unit\\Kirby", 10, 10);
 	GlobalContents::SpriteFileLoad("Ability_Right_Kirby.bmp", "Resources\\Unit\\Kirby", 10, 10);
 
-	GlobalContents::SpriteFileLoad("Thorn_Left_Use.bmp", "Resources\\Unit\\Kirby", 3, 3);
-	GlobalContents::SpriteFileLoad("Thorn_Right_Use.bmp", "Resources\\Unit\\Kirby", 3, 3);
+	GlobalContents::SpriteFileLoad("Thorn_Left_Use.bmp", "Resources\\Unit\\Kirby", 4, 2);
+	GlobalContents::SpriteFileLoad("Thorn_Right_Use.bmp", "Resources\\Unit\\Kirby", 4, 2);
 
 	MainRenderer->CreateAnimation("Thorn_Left_Idle", "Ability_Left_Kirby.bmp", 0, 1, 0.5f, true);
 	MainRenderer->CreateAnimation("Thorn_Right_Idle", "Ability_Right_Kirby.bmp", 0, 1, 0.5f, true);

@@ -58,6 +58,8 @@ protected:
 	virtual void FallUpdate(float _Delta) {}
 	virtual void SweepUpdate(float _Delta) {}
 
+	void EnemyCollisionCheck();
+
 private:
 
 };

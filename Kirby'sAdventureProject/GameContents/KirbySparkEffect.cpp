@@ -26,7 +26,7 @@ void KirbySparkEffect::Start()
 {
 	MainRenderer = CreateRenderer(RenderOrder::AbillityEffect);
 
-	GlobalContents::SpriteFileLoad("KirbySparkEffect_1x3_144x48.bmp", "Resources\\Effect\\\KirbyBaseEffect", 3, 1);
+	GlobalContents::SpriteFileLoad("KirbySparkEffect_1x3_144x48.bmp", "Resources\\Effect\\KirbyBaseEffect", 3, 1);
 
 	MainRenderer->CreateAnimation("KirbySparkEffect", "KirbySparkEffect_1x3_144x48.bmp", 0, 2, KIRBYSPARKCHANGEFRAMESTIME, false);
 	MainRenderer->ChangeAnimation("KirbySparkEffect");

@@ -36,6 +36,7 @@ public:
 protected:
 	GameEngineCollision* EffectCollision = nullptr;
 
+	float EffectDuration = 0.0f;
 	bool IsPassGround = true;
 	float Speed = 0.0f;
 	float4 EffectDir = float4::ZERO;

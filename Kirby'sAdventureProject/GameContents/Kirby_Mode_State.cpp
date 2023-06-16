@@ -168,14 +168,13 @@ void Kirby::InhaleAbilityUpdate(float _Delta)
 			GameEngineCollision* Collision = CollisionCheck[i];
 			ActorUtils* EnemyPtr = dynamic_cast<ActorUtils*>(Collision->GetActor());
 
-			if (true == EnemyPtr->IsInhaedStateOn)
+			if (true == EnemyPtr->IsInhaledStateOn)
 			{
 				continue;
 			}
 
+			EnemyPtr->IsInhaledStateOn = true;
 			AbilityStar EnemyAbility = EnemyPtr->Ability;
-			EnemyPtr->IsInhaedStateOn = true;
-			EnemyPtr->BodyCollision->Off();
 
 			if (AbilityStar::Max != EnemyAbility)
 			{

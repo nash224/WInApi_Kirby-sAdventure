@@ -95,11 +95,7 @@ void PoppyBrosJr::IdleUpdate(float _Delta)
 		return;
 	}
 
-	if (true == IsInhaleCollision())
-	{
-		ChangeState(NormalState::BeInhaled);
-		return;
-	}
+	EnemyCollisionCheck();
 
 	BlockedByGround();
 	BlockedByWall();
@@ -130,11 +126,7 @@ void PoppyBrosJr::JumpUpdate(float _Delta)
 		return;
 	}
 
-	if (true == IsInhaleCollision())
-	{
-		ChangeState(NormalState::BeInhaled);
-		return;
-	}
+	EnemyCollisionCheck();
 
 	float JumpPower = POPPYBROSJRJUMPDISTANCE / POPPYBROSJRJUMPTIME;
 	CurrentJumpDistance += JumpPower * _Delta;
@@ -202,11 +194,7 @@ void PoppyBrosJr::FallUpdate(float _Delta)
 		return;
 	}
 
-	if (true == IsInhaleCollision())
-	{
-		ChangeState(NormalState::BeInhaled);
-		return;
-	}
+	EnemyCollisionCheck();
 
 	if (true == CheckLeftWall())
 	{

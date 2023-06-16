@@ -68,6 +68,8 @@ protected:
 	void WobbleUpdate(float _Delta);
 	void ActivateAbilityUpdate(float _Delta);
 
+	void EnemyCollisionCheck();
+
 private:
 	void Start() override;
 	void Update(float _Delta) override;
