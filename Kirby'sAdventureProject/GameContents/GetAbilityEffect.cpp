@@ -42,6 +42,11 @@ void GetAbilityEffect::Update(float _Delta)
 		CreatePos = CreateDir* CreateDistance;
 
 		SparkleEffect* SparkleEffectPtr = GetLevel()->CreateActor<SparkleEffect>(UpdateOrder::Ability);
+		if (nullptr == SparkleEffectPtr)
+		{
+			MsgBoxAssert("액터가 널일 이유가 없어...");
+			return;
+		}
 		SparkleEffectPtr->init(GetPos() + CreatePos);
 
 		++EffectCreateCount;

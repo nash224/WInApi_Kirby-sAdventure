@@ -161,11 +161,12 @@ void Kirby::InhaleAbilityUpdate(float _Delta)
 
 	IsChangeState = MainRenderer->IsAnimationEnd();
 
-	if (true == InhaleEffectCollision->Collision(CollisionOrder::MonsterBody, CollisionCheck, CollisionType::Rect, CollisionType::Rect))
+	std::vector<GameEngineCollision*> InhaleCol;
+	if (true == InhaleEffectCollision->Collision(CollisionOrder::MonsterBody, InhaleCol, CollisionType::Rect, CollisionType::Rect))
 	{
-		for (size_t i = 0; i < CollisionCheck.size(); i++)
+		for (size_t i = 0; i < InhaleCol.size(); i++)
 		{
-			GameEngineCollision* Collision = CollisionCheck[i];
+			GameEngineCollision* Collision = InhaleCol[i];
 			ActorUtils* EnemyPtr = dynamic_cast<ActorUtils*>(Collision->GetActor());
 
 			if (true == EnemyPtr->IsInhaledStateOn)
@@ -192,7 +193,6 @@ void Kirby::InhaleAbilityUpdate(float _Delta)
 	
 	if ((Star.SwallowedEnemyNumber > 0 && false == SwallingEnemy->IsUpdate()) || StateTime > 3.0f)
 	{
-		CollisionCheck.clear();
 		InhaleEffectCollision->Off();
 		ChangeState(KirbyState::Contain_Idle);
 		return;
@@ -202,7 +202,6 @@ void Kirby::InhaleAbilityUpdate(float _Delta)
 	{
 		Star.SwallowedPowerEnemyNumber;
 
-		CollisionCheck.clear();
 		InhaleEffectCollision->Off();
 		ChangeState(KirbyState::ReleaseSpecialAbility);
 		return;

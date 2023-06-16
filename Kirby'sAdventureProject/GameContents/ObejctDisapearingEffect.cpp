@@ -21,7 +21,14 @@ ObejctDisapearingEffect::~ObejctDisapearingEffect()
 void ObejctDisapearingEffect::Start()
 {
 	MainRenderer = CreateRenderer(RenderOrder::AbillityEffect);
+	if (nullptr == MainRenderer)
+	{
+		MsgBoxAssert("랜더러가 널일 이유가 없어..");
+		return;
+	}
+
 	GlobalContents::SpriteFileLoad("DispareringEffect_1x3_16x16.bmp", "Resources\\Effect\\KirbyBaseEffect", 3, 1);
+
 	MainRenderer->CreateAnimation("ObejctDisapearing", "DispareringEffect_1x3_16x16.bmp" , 0, 2, ChangeEffectFramesInter, false);
 
 	MainRenderer->ChangeAnimation("ObejctDisapearing");
@@ -37,5 +44,6 @@ void ObejctDisapearingEffect::Update(float _Delta)
 	if (true == MainRenderer->IsAnimationEnd())
 	{
 		Death();
+		MainRenderer = nullptr;
 	}
 }

@@ -101,6 +101,7 @@ void Togezo::StateUpdate(float _Delta)
 	case TogezoState::Bounce:					return BounceUpdate(_Delta);
 	case TogezoState::Roll:						return RollUpdate(_Delta);
 	case TogezoState::BeInhaled:				return BeInhaledUpdate(_Delta);
+	case TogezoState::Hitted:					return HittedUpdate(_Delta);
 	default:
 		break;
 	}
@@ -116,6 +117,7 @@ void Togezo::ChangeState(TogezoState _State)
 		case TogezoState::Bounce:					BounceStart();					break;
 		case TogezoState::Roll:						RollStart();					break;
 		case TogezoState::BeInhaled:				BeInhaledStart();				break;
+		case TogezoState::Hitted:					HittedStart();					break;
 		default:
 			break;
 		}
@@ -337,17 +339,29 @@ void Togezo::EnemyCollisionCheck()
 		{
 			IsInhaledStateOn = false;
 			BodyCollision->Off();
-			AbilityCollision->Off();
 			ChangeState(TogezoState::BeInhaled);
 			return;
 		}
 	}
 
-	std::vector<GameEngineCollision*> AbilityCol;
-	if (true == BodyCollision->Collision(CollisionOrder::PlayerAbility, AbilityCol, CollisionType::Rect, CollisionType::Rect))
+	if (false == IsHitted)
 	{
-		/*ChangeState(HotHeadState::Hitted);*/
-		return;
+		std::vector<GameEngineCollision*> AbilityCol;
+		if (true == BodyCollision->Collision(CollisionOrder::PlayerAbility, AbilityCol, CollisionType::Rect, CollisionType::Rect))
+		{
+			ChangeState(TogezoState::Hitted);
+			return;
+		}
+	}
+
+	std::vector<GameEngineCollision*> BodyCol;
+	if (true == BodyCollision->Collision(CollisionOrder::PlayerBody, BodyCol, CollisionType::Rect, CollisionType::Rect))
+	{
+		if (false == IsHitted)
+		{
+			ChangeState(TogezoState::Hitted);
+			return;
+		}
 	}
 }
 

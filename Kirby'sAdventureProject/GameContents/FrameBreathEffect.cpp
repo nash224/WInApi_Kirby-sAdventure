@@ -22,6 +22,11 @@ FrameBreathEffect::~FrameBreathEffect()
 void FrameBreathEffect::Start()
 {
 	MainRenderer = CreateRenderer(RenderOrder::AbillityEffect);
+	if (nullptr == MainRenderer)
+	{
+		MsgBoxAssert("랜더러가 널일 이유가 없어..");
+		return;
+	}
 
 	GlobalContents::SpriteFileLoad("Left_FireEffect_2x1_16x16.bmp", "Resources\\Effect\\SkillEffect", 2, 1);
 	GlobalContents::SpriteFileLoad("Right_FireEffect_2x1_16x16.bmp", "Resources\\Effect\\SkillEffect", 2, 1);
@@ -83,6 +88,14 @@ void FrameBreathEffect::GroundPassUpdate(float _Delta)
 	if (GetLiveTime() > FRAMEBREATHEFFECTDURATION)
 	{
 		Death();
+		if (nullptr != MainRenderer)
+		{
+			MainRenderer = nullptr;
+		}
+		if (nullptr != EffectCollision)
+		{
+			EffectCollision = nullptr;
+		}
 	}
 
 	float EffectSpeed = FRAMEBREATHEFFECTDISTANCE / FRAMEBREATHEFFECTDURATION;

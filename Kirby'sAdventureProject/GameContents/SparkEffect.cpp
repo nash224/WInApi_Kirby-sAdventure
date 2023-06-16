@@ -20,13 +20,18 @@ SparkEffect::~SparkEffect()
 void SparkEffect::Start()
 {
 	MainRenderer = CreateRenderer(RenderOrder::AbillityEffect);
+	if (nullptr == MainRenderer)
+	{
+		MsgBoxAssert("랜더러가 널일 이유가 없어..");
+		return;
+	}
 
-	GlobalContents::TextureFileLoad("SparkEffect_1x1_16x16.bmp", "Resources\\Effect\\SkillEffect");
+	GameEngineWindowTexture* Texture = 
+		GlobalContents::TextureFileLoad("SparkEffect_1x1_16x16.bmp", "Resources\\Effect\\SkillEffect");
 
 	MainRenderer->SetTexture("SparkEffect_1x1_16x16.bmp");
-	MainRenderer->SetRenderScaleToTexture();
 
-	Scale = ResourcesManager::GetInst().FindTexture("SparkEffect_1x1_16x16.bmp")->GetScale();
+	Scale = Texture->GetScale();
 }
 
 void SparkEffect::init(const float4& _Pos, const float4& _MaterScale, const float4& _Dir)
@@ -39,13 +44,21 @@ void SparkEffect::init(const float4& _Pos, const float4& _MaterScale, const floa
 void SparkEffect::Update(float _Delta)
 {
 	float EffectSpeed = SPARKEFFECTDISTANCE / SPARKEFFECTTIME;
-	
 	CurrentEffectDistance += EffectSpeed * _Delta;
 
 	AddPos(EffectDir * EffectSpeed * _Delta);
 
+	// 일정 범위를 넘어가면 죽어야됨
 	if (CurrentEffectDistance > SPARKEFFECTDISTANCE)
 	{
 		Death();
+		if (nullptr != MainRenderer)
+		{
+			MainRenderer = nullptr;
+		}
+		if (nullptr != EffectCollision)
+		{
+			EffectCollision = nullptr;
+		}
 	}
 }

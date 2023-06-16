@@ -23,6 +23,11 @@ HitObjectEffect::~HitObjectEffect()
 void HitObjectEffect::Start()
 {
 	MainRenderer = CreateRenderer(RenderOrder::AbillityEffect);
+	if (nullptr == MainRenderer)
+	{
+		MsgBoxAssert("랜더러가 널일 이유가 없어..");
+		return;
+	}
 
 	GlobalContents::TextureFileLoad("Left_StarEffect_1x1_8x8.bmp", "Resources\\Effect\\KirbyBaseEffect");
 
@@ -35,6 +40,7 @@ void HitObjectEffect::Start()
 
 void HitObjectEffect::init(const float4& _MasterPos, const float4& _Pos)
 {
+	// 45도 각도로 8방향이 랜덤으로 결정
 	int DirNumber = GameEngineRandom::MainRandom.RandomInt(0, 7);
 
 	switch (DirNumber)
@@ -83,5 +89,6 @@ void HitObjectEffect::Update(float _Delta)
 	if (GetLiveTime() > HITOJECTDEATHTIME)
 	{
 		Death();
+		MainRenderer = nullptr;
 	}
 }

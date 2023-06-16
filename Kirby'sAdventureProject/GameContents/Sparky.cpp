@@ -112,6 +112,7 @@ void Sparky::StateUpdate(float _Delta)
 	case SparkyState::Landing:					return LandingUpdate(_Delta);
 	case SparkyState::Spark:					return SparkUpdate(_Delta);
 	case SparkyState::BeInhaled:				return BeInhaledUpdate(_Delta);
+	case SparkyState::Hitted:					return HittedUpdate(_Delta);
 	default:
 		break;
 	}
@@ -130,6 +131,7 @@ void Sparky::ChangeState(SparkyState _State)
 		case SparkyState::Landing:				LandingStart();					break;
 		case SparkyState::Spark:				SparkStart();					break;
 		case SparkyState::BeInhaled:			BeInhaledStart();				break;
+		case SparkyState::Hitted:				HittedStart();					break;
 		default:
 			break;
 		}
@@ -566,6 +568,7 @@ void Sparky::SparkUpdate(float _Delta)
 	EnemyCollisionCheck();
 }
 
+
 void Sparky::EnemyCollisionCheck()
 {
 	std::vector<GameEngineCollision*> InhaledCol;
@@ -580,11 +583,24 @@ void Sparky::EnemyCollisionCheck()
 		}
 	}
 
-	std::vector<GameEngineCollision*> AbilityCol;
-	if (true == BodyCollision->Collision(CollisionOrder::PlayerAbility, AbilityCol, CollisionType::Rect, CollisionType::Rect))
+	if (false == IsHitted)
 	{
-		/*ChangeState(HotHeadState::Hitted);*/
-		return;
+		std::vector<GameEngineCollision*> AbilityCol;
+		if (true == BodyCollision->Collision(CollisionOrder::PlayerAbility, AbilityCol, CollisionType::Rect, CollisionType::Rect))
+		{
+			ChangeState(SparkyState::Hitted);
+			return;
+		}
+	}
+
+	std::vector<GameEngineCollision*> BodyCol;
+	if (true == BodyCollision->Collision(CollisionOrder::PlayerBody, BodyCol, CollisionType::Rect, CollisionType::Rect))
+	{
+		if (false == IsHitted)
+		{
+			ChangeState(SparkyState::Hitted);
+			return;
+		}
 	}
 }
 

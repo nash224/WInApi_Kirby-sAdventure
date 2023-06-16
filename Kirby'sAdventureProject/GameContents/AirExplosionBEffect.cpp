@@ -21,6 +21,11 @@ AirExplosionBEffect::~AirExplosionBEffect()
 void AirExplosionBEffect::Start()
 {
 	MainRenderer = CreateRenderer(RenderOrder::AbillityEffect);
+	if (nullptr == MainRenderer)
+	{
+		MsgBoxAssert("랜더러가 널일 이유가 없어..");
+		return;
+	}
 
 	GlobalContents::SpriteFileLoad("BombEffectA_1x3_16x16.bmp", "Resources\\Effect\\SkillEffect", 3, 1);
 
@@ -40,5 +45,6 @@ void AirExplosionBEffect::Update(float _Delta)
 	if (MainRenderer->IsAnimationEnd())
 	{
 		Death();
+		MainRenderer = nullptr;
 	}
 }

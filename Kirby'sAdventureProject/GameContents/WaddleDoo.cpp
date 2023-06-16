@@ -99,6 +99,7 @@ void WaddleDoo::StateUpdate(float _Delta)
 	case WaddleDooState::Wobble:				return WobbleUpdate(_Delta);
 	case WaddleDooState::ActivateAbility:		return ActivateAbilityUpdate(_Delta);
 	case WaddleDooState::BeInhaled:				return BeInhaledUpdate(_Delta);
+	case WaddleDooState::Hitted:				return HittedUpdate(_Delta);
 	default:
 		break;
 	}
@@ -115,6 +116,7 @@ void WaddleDoo::ChangeState(WaddleDooState _State)
 		case WaddleDooState::Wobble:				WobbleStart();					break;
 		case WaddleDooState::ActivateAbility:		ActivateAbilityStart();			break;
 		case WaddleDooState::BeInhaled:				BeInhaledStart();				break;
+		case WaddleDooState::Hitted:				HittedStart();					break;
 		default:
 			break;
 		}
@@ -388,11 +390,24 @@ void WaddleDoo::EnemyCollisionCheck()
 		}
 	}
 
-	std::vector<GameEngineCollision*> AbilityCol;
-	if (true == BodyCollision->Collision(CollisionOrder::PlayerAbility, AbilityCol, CollisionType::Rect, CollisionType::Rect))
+	if (false == IsHitted)
 	{
-		/*ChangeState(HotHeadState::Hitted);*/
-		return;
+		std::vector<GameEngineCollision*> AbilityCol;
+		if (true == BodyCollision->Collision(CollisionOrder::PlayerAbility, AbilityCol, CollisionType::Rect, CollisionType::Rect))
+		{
+			ChangeState(WaddleDooState::Hitted);
+			return;
+		}
+	}
+
+	std::vector<GameEngineCollision*> BodyCol;
+	if (true == BodyCollision->Collision(CollisionOrder::PlayerBody, BodyCol, CollisionType::Rect, CollisionType::Rect))
+	{
+		if (false == IsHitted)
+		{
+			ChangeState(WaddleDooState::Hitted);
+			return;
+		}
 	}
 }
 

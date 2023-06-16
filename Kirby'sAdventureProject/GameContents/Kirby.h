@@ -122,6 +122,8 @@ public:
 		return KirbyMovePos;
 	}
 
+	float4 GetKirbyScale();
+
 protected:
 	static Kirby* MainKirby;
 
@@ -137,7 +139,6 @@ protected:
 	void DecelerationUpdate(float _Delta);
 	void HorizontalUpdate(float _Delta) override;
 	void VerticalUpdate(float _Delta) override;
-	float4 GetKirbyScale();
 	void ChangeKirbyBodyState(KirbyBodyState _BodyState);
 
 
@@ -212,7 +213,6 @@ private:
 
 
 private:
-	std::vector<GameEngineCollision*> CollisionCheck;
 	GameEngineCollision* LittleCollision = nullptr;
 	GameEngineCollision* LowerCollision = nullptr;
 	GameEngineCollision* FatCollision = nullptr;

@@ -97,6 +97,7 @@ void LaserBall::StateUpdate(float _Delta)
 	case LaserBallState::Shoot:					return ShootUpdate(_Delta);
 	case LaserBallState::RunAway:				return RunAwayUpdate(_Delta);
 	case LaserBallState::BeInhaled:				return BeInhaledUpdate(_Delta);
+	case LaserBallState::Hitted:				return HittedUpdate(_Delta);
 	default:
 		break;
 	}
@@ -113,6 +114,7 @@ void LaserBall::ChangeState(LaserBallState _State)
 		case LaserBallState::Shoot:						ShootStart();				break;
 		case LaserBallState::RunAway:					RunAwayStart();				break;
 		case LaserBallState::BeInhaled:					BeInhaledStart();			break;
+		case LaserBallState::Hitted:					HittedStart();				break;
 		default:
 			break;
 		}
@@ -334,6 +336,7 @@ void LaserBall::RunAwayUpdate(float _Delta)
 	EnemyCollisionCheck();
 }
 
+
 void LaserBall::EnemyCollisionCheck()
 {
 	std::vector<GameEngineCollision*> InhaledCol;
@@ -348,14 +351,26 @@ void LaserBall::EnemyCollisionCheck()
 		}
 	}
 
-	std::vector<GameEngineCollision*> AbilityCol;
-	if (true == BodyCollision->Collision(CollisionOrder::PlayerAbility, AbilityCol, CollisionType::Rect, CollisionType::Rect))
+	if (false == IsHitted)
 	{
-		/*ChangeState(HotHeadState::Hitted);*/
-		return;
+		std::vector<GameEngineCollision*> AbilityCol;
+		if (true == BodyCollision->Collision(CollisionOrder::PlayerAbility, AbilityCol, CollisionType::Rect, CollisionType::Rect))
+		{
+			ChangeState(LaserBallState::Hitted);
+			return;
+		}
+	}
+
+	std::vector<GameEngineCollision*> BodyCol;
+	if (true == BodyCollision->Collision(CollisionOrder::PlayerBody, BodyCol, CollisionType::Rect, CollisionType::Rect))
+	{
+		if (false == IsHitted)
+		{
+			ChangeState(LaserBallState::Hitted);
+			return;
+		}
 	}
 }
-
 
 
 void LaserBall::Render(float _Delta)

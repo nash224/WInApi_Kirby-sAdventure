@@ -21,14 +21,16 @@ DustEffect::~DustEffect()
 void DustEffect::Start()
 {
 	MainRenderer = CreateRenderer(RenderOrder::AbillityEffect);
+	if (nullptr == MainRenderer)
+	{
+		MsgBoxAssert("랜더러가 널일 이유가 없어..");
+		return;
+	}
 
 	GlobalContents::SpriteFileLoad("Smoke_1x2_8x10.bmp", "Resources\\Effect\\KirbyBaseEffect", 2, 1);
 
 	MainRenderer->CreateAnimation("DustEffectAnimation", "Smoke_1x2_8x10.bmp", 0, 1, DUSTEFFECTFRAMECHANGETIME, false);
 	MainRenderer->ChangeAnimation("DustEffectAnimation");
-
-	MainRenderer->SetRenderScaleToTexture();
-	MainRenderer->SetScaleRatio(3.0f);
 }
 
 
@@ -38,6 +40,7 @@ void DustEffect::init(const float4& _MasterPos, const float4& _MasterScale, cons
 
 	EffectDir = _Dir;
 
+	// 방향 값에 따라 방향이 결정됨
 	if (EffectDir.X > 0.0f)
 	{
 		EffectDir = float4{ 0.8f, -0.2f };
@@ -56,5 +59,6 @@ void DustEffect::Update(float _Delta)
 	if (MainRenderer->IsAnimationEnd())
 	{
 		Death();
+		MainRenderer = nullptr;
 	}
 }

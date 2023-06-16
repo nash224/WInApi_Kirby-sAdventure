@@ -83,7 +83,7 @@ void Kirby::Fire_StateResourceLoad()
 
 void Kirby::FireAbilityStart()
 {
-
+	
 }
 
 void Kirby::FireAbilityUpdate(float _Delta)

@@ -367,10 +367,6 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="SpreadDeathEffect.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
     <ClInclude Include="SwordKnight.h">
       <SubType>
       </SubType>
@@ -664,10 +660,6 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="SparkleEffect.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
-    <ClCompile Include="SpreadDeathEffect.cpp">
       <SubType>
       </SubType>
     </ClCompile>

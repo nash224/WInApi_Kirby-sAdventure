@@ -83,12 +83,8 @@ void Kirby::Spark_StateResourceLoad()
 
 void Kirby::SparkAbilityStart()
 {
-	StateTime = 0.0f;
 	Duration = 0.0f;
-	IsChangeState = false;
 	SparkEffectCollision->On();
-
-	ChangeAnimationState("UseSpecialAbility");
 }
 
 void Kirby::SparkAbilityUpdate(float _Delta)
@@ -109,31 +105,15 @@ void Kirby::SparkAbilityUpdate(float _Delta)
 		KirbySparkEffectPtr->init(GetPos(), GetKirbyScale());
 	}
 
-	//std::vector<GameEngineCollision*> Col;
-	//if (true == SparkEffectCollision->Collision(CollisionOrder::MonsterBody, Col, CollisionType::Rect, CollisionType::Rect))
-	//{
-	//	for (size_t i = 0; i < Col.size(); i++)
-	//	{
-	//		GameEngineCollision* Collision = Col[i];
-	//		ActorUtils* EnemyPtr = dynamic_cast<ActorUtils*>(Collision->GetActor());
-
-	//		if (true == EnemyPtr->IsHitted)
-	//		{
-	//			continue;
-	//		}
-
-	//		EnemyPtr->IsHitted = true;
-	//	}
-	//}
-
 	if (true == GameEngineInput::IsFree('Z') && true == IsChangeState)
 	{
 		ChangeState(KirbyState::ReleaseSpecialAbility);
 		return;
 	}
 
-	BlockedByWall();
 	BlockedByGround();
+	BlockedByCeiling();
+	BlockedByWall();
 
 	if (false == GetGroundState())
 	{

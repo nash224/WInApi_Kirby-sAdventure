@@ -1,10 +1,9 @@
 #pragma once
 #include "SkillEffect.h"
 
-#define OBEJCTDISAPEARINGEFFECTFRAMECHANGETIME 0.1f
 
 
-// 설명 :
+// 설명 : Effect 나 특정 오브젝트가 사라질 때 없어지는 효과 입니다.
 class ObejctDisapearingEffect : public SkillEffect
 {
 public:
@@ -24,6 +23,7 @@ public:
 protected:
 
 private:
+	// 프레임 간격 시간
 	const float ChangeEffectFramesInter = 0.1f;
 
 

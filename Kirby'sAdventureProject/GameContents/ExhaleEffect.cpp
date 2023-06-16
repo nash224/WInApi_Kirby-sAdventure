@@ -23,6 +23,11 @@ ExhaleEffect::~ExhaleEffect()
 void ExhaleEffect::Start()
 {
 	MainRenderer = CreateRenderer(RenderOrder::AbillityEffect);
+	if (nullptr == MainRenderer)
+	{
+		MsgBoxAssert("랜더러가 널일 이유가 없어..");
+		return;
+	}
 
 	GlobalContents::TextureFileLoad("Left_ExhaleEffect_1x1_16x16.bmp", "Resources\\Effect\\KirbyBaseEffect");
 	GlobalContents::TextureFileLoad("Right_ExhaleEffect_1x1_16x16.bmp", "Resources\\Effect\\KirbyBaseEffect");
@@ -72,5 +77,13 @@ void ExhaleEffect::Update(float _Delta)
 	if (GetLiveTime() > EXHALEEFFECTTIME)
 	{
 		Death();
+		if (nullptr != MainRenderer)
+		{
+			MainRenderer = nullptr;
+		}
+		if (nullptr != EffectCollision)
+		{
+			EffectCollision = nullptr;
+		}
 	}
 }

@@ -1,14 +1,11 @@
 #include "Kirby.h"
 #include <GameEnginePlatform/GameEngineInput.h>
 #include <GameEngineCore/GameEngineRenderer.h>
-#include <GameEngineCore/GameEngineCamera.h>
 #include <GameEngineCore/GameEngineLevel.h>
 #include <GameEngineCore/ResourcesManager.h>
 
 #include "GlobalContents.h"
-#include "DustEffect.h"
-#include "HitObjectEffect.h"
-#include "ExhaleEffect.h"
+#include "BeamEffect.h"
 
 
 void Kirby::Beam_StateResourceLoad()
@@ -83,7 +80,9 @@ void Kirby::Beam_StateResourceLoad()
 
 void Kirby::BeamAbilityStart()
 {
-
+	BeamEffect* BeamEffectPtr = GetLevel()->CreateActor<BeamEffect>();
+	BeamEffectPtr->init(GetPos(), GetKirbyScale(), GetDirUnitVector());
+	BeamEffectPtr->SetActorCollision(CollisionOrder::MonsterAbility, CollisionType::Rect);
 }
 
 void Kirby::BeamAbilityUpdate(float _Delta)

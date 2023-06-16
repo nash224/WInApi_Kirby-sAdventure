@@ -11,6 +11,7 @@
 
 #include "GlobalContents.h"
 #include "CommonSkillEffect.h"
+#include "Kirby.h"
 
 BeamEffect::BeamEffect()
 {
@@ -32,17 +33,18 @@ void BeamEffect::init(const float4& _Pos, const float4& _MaterScale, const float
 	EffectDir = _EffectDir;
 }
 
+
+
 void BeamEffect::SetActorCollision(CollisionOrder _Order, CollisionType _Type)
 {
 	BeamOrder = _Order;
 	BeamType = _Type;
 }
 
-
-
 void BeamEffect::Update(float _Delta)
 {
 	EffectFrameChangeTime += _Delta;
+
 
 	float4 BeamDir = float4::ZERO;
 	float4 EffectPos = float4::ZERO;
@@ -91,6 +93,11 @@ void BeamEffect::Update(float _Delta)
 			{
 				EffectPos = BeamDir * BEAMEFFECTSHORTDISTANCE + GetPos();
 				CommonSkillEffect* BeamUnitEffectPtr = GetLevel()->CreateActor<CommonSkillEffect>();
+				if (nullptr == BeamUnitEffectPtr)
+				{
+					MsgBoxAssert("생성한 Effect가 Null입니다.");
+					return;
+				}
 				BeamUnitEffectPtr->init("Resources\\Effect\\SkillEffect", "BeamEffect_1x1_8x8.bmp", EffectPos);
 				BeamUnitEffectPtr->SetExpressionTime(BEAMEFFECTTIME);
 				BeamUnitEffectPtr->SetActorCollision(BeamOrder, BeamType);
@@ -99,6 +106,11 @@ void BeamEffect::Update(float _Delta)
 			{
 				EffectPos = BeamDir * BEAMEFFECTMIDDLEDISTANCE + GetPos();
 				CommonSkillEffect* BeamUnitEffectPtr = GetLevel()->CreateActor<CommonSkillEffect>();
+				if (nullptr == BeamUnitEffectPtr)
+				{
+					MsgBoxAssert("생성한 Effect가 Null입니다.");
+					return;
+				}
 				BeamUnitEffectPtr->init("Resources\\Effect\\SkillEffect", "BeamEffect_1x1_8x8.bmp", EffectPos);
 				BeamUnitEffectPtr->SetExpressionTime(BEAMEFFECTTIME);
 				BeamUnitEffectPtr->SetActorCollision(BeamOrder, BeamType);
@@ -109,6 +121,11 @@ void BeamEffect::Update(float _Delta)
 		{
 			EffectPos = BeamDir * BEAMEFFECTLONGDISTANCE + GetPos();
 			CommonSkillEffect* BeamUnitEffectPtr = GetLevel()->CreateActor<CommonSkillEffect>();
+			if (nullptr == BeamUnitEffectPtr)
+			{
+				MsgBoxAssert("생성한 Effect가 Null입니다.");
+				return;
+			}
 			BeamUnitEffectPtr->init("Resources\\Effect\\SkillEffect", "BeamEffect_1x1_8x8.bmp", EffectPos);
 			BeamUnitEffectPtr->SetExpressionTime(BEAMEFFECTTIME);
 			BeamUnitEffectPtr->SetActorCollision(BeamOrder, BeamType);

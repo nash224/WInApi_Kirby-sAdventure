@@ -1,14 +1,11 @@
 #include "Kirby.h"
 #include <GameEnginePlatform/GameEngineInput.h>
 #include <GameEngineCore/GameEngineRenderer.h>
-#include <GameEngineCore/GameEngineCamera.h>
 #include <GameEngineCore/GameEngineLevel.h>
 #include <GameEngineCore/ResourcesManager.h>
 
 #include "GlobalContents.h"
-#include "DustEffect.h"
-#include "HitObjectEffect.h"
-#include "ExhaleEffect.h"
+#include "LaserEffect.h"
 
 
 void Kirby::Laser_StateResourceLoad()
@@ -70,8 +67,8 @@ void Kirby::Laser_StateResourceLoad()
 	MainRenderer->CreateAnimation("Laser_Left_ExhaleAttack", "Ability_Left_Kirby.bmp", 21, 24, EXHALEATTACKTIME, false);
 	MainRenderer->CreateAnimation("Laser_Right_ExhaleAttack", "Ability_Right_Kirby.bmp", 21, 24, EXHALEATTACKTIME, false);
 
-	MainRenderer->CreateAnimation("Laser_Left_UseSpecialAbility", "Ability_Left_Use.bmp", 7, 8, 0.1f, true);
-	MainRenderer->CreateAnimation("Laser_Right_UseSpecialAbility", "Ability_Right_Use.bmp", 7, 8, 0.1f, true);
+	MainRenderer->CreateAnimation("Laser_Left_UseSpecialAbility", "Ability_Left_Use.bmp", 7, 7, 0.1f, true);
+	MainRenderer->CreateAnimation("Laser_Right_UseSpecialAbility", "Ability_Right_Use.bmp", 7, 7, 0.1f, true);
 
 	MainRenderer->CreateAnimation("Laser_Left_ReleaseSpecialAbility", "Ability_Left_Use.bmp", 8, 8, 0.1f, false);
 	MainRenderer->CreateAnimation("Laser_Right_ReleaseSpecialAbility", "Ability_Right_Use.bmp", 8, 8, 0.1f, false);
@@ -83,10 +80,36 @@ void Kirby::Laser_StateResourceLoad()
 
 void Kirby::LaserAbilityStart()
 {
-
+	LaserEffect* LaserEffectPtr = GetLevel()->CreateActor<LaserEffect>();
+	if (nullptr == LaserEffectPtr)
+	{
+		MsgBoxAssert("Null인 액터에 참조하려고 했습니다.");
+		return;
+	}
+	LaserEffectPtr->init(GetPos(), GetKirbyScale(), GetDirUnitVector());
+	LaserEffectPtr->SetActorCollision(CollisionOrder::PlayerAbility, CollisionType::Rect);
 }
 
 void Kirby::LaserAbilityUpdate(float _Delta)
 {
+	if (true == MainRenderer->IsAnimationEnd())
+	{
+		ChangeState(KirbyState::ReleaseSpecialAbility);
+		return;
+	}
 
+
+	BlockedByGround();
+	BlockedByCeiling();
+	BlockedByWall();
+
+	if (false == GetGroundState())
+	{
+		Gravity(_Delta);
+		GravityLimit(_Delta);
+		VerticalUpdate(_Delta);
+	}
+
+	ContentsActor::DecelerationUpdate(_Delta, DECELERATIONSPEED);
+	HorizontalUpdate(_Delta);
 }

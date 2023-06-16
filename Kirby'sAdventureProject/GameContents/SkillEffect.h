@@ -3,7 +3,7 @@
 #include "ContentsActor.h"
 #include "ContentsEnum.h"
 
-// 설명 :
+// 설명 : GameEffect를 제외한 모든 Effect 의 부모입니다. 자식 클래스에게 필요한 기능을 제공합니다.
 class SkillEffect : public ContentsActor
 {
 public:
@@ -17,7 +17,6 @@ public:
 	SkillEffect& operator=(const SkillEffect& _Other) = delete;
 	SkillEffect& operator=(SkillEffect&& _Other) noexcept = delete;
 
-	class GameEngineRenderer* MainRenderer = nullptr;
 
 	void SetGroundTexture(const std::string& _GroundTextureName);
 	virtual void SetActorCollision(CollisionOrder _Order, CollisionType _Type);
@@ -34,25 +33,28 @@ public:
 
 
 protected:
+	class GameEngineRenderer* MainRenderer = nullptr;
 	GameEngineCollision* EffectCollision = nullptr;
 
-	float EffectDuration = 0.0f;
-	bool IsPassGround = true;
-	float Speed = 0.0f;
-	float4 EffectDir = float4::ZERO;
 	float4 Scale = float4::ZERO;
+	float Speed = 0.0f;
+	float EffectDuration = 0.0f;
+	float4 EffectDir = float4::ZERO;
 
 
-	float4 CameraPos();
+	// 카메라 위치 반환 함수
+	float4 GetCameraPos();
 
 
-	// 충돌 감지
+	// 충돌 감지 함수
 	void SetCheckPoint(const float4& _ScaleSize);
 	int GetGroundColor(unsigned int _DefaultColor, float4 _Pos = float4::ZERO);
 	bool CheckFrontPoint();
 	bool CheckCenterPoint();
 
 
+	// 벽에 막히거나 벽을 통과하는 기능을 구분시켜주는 함수
+	bool IsPassGround = true;
 	virtual void GroundPassUpdate(float _Delta) {}
 	virtual void GroundNotPassUpdate(float _Delta) {}
 
@@ -60,11 +62,9 @@ protected:
 private:
 	class GameEngineWindowTexture* GroundTexture = nullptr;
 
-	bool IsCenterPointReachGround = false;
-	bool IsFrontPointReachGround = false;
-
-
+	// 비트맵 충돌 위치
 	float4 FrontCheckPoint = float4::ZERO;
 	float4 CenterCheckPoint = float4::ZERO;
+
 };
 

@@ -6,7 +6,7 @@
 
 
 
-// 설명 :
+// 설명 : 몹이 충돌할 때 나타나는 십자형 사망 효과입니다.
 class CrossDeathEffect : public SkillEffect
 {
 public:
@@ -25,6 +25,7 @@ public:
 protected:
 
 private:
+	bool IsFrist = true;
 	int CreateStarNumber = 0;
 	float StarEffectCreateAngle = 0.0f;
 

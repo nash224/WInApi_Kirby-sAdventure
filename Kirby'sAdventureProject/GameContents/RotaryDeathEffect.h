@@ -1,6 +1,6 @@
 #pragma once
 
-// 설명 :
+// 설명 : 미완성
 class RotaryDeathEffect
 {
 public:

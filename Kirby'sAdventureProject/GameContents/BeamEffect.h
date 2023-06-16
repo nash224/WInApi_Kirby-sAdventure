@@ -26,11 +26,14 @@ public:
 	void init(const float4& _Pos, const float4& _MaterScale, const float4& _EffectDir);
 	void SetActorCollision(CollisionOrder _Order, CollisionType _Type) override;
 
+
 protected:
 
 private:
 	CollisionType BeamType = CollisionType::Max;
 	CollisionOrder BeamOrder = CollisionOrder::Max;
+
+	class Kirby* EffectMaster = nullptr;
 	
 	int BeamChangePosCount = 0;
 	int EffectPosNumber = 7;
@@ -39,6 +42,7 @@ private:
 
 	void Start() override;
 	void Update(float _Delta) override;
+
 
 };
 

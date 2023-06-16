@@ -25,6 +25,7 @@ enum class TogezoState
 	Bounce,
 	Roll,
 	BeInhaled,
+	Hitted,
 	Max,
 };
 

@@ -41,6 +41,7 @@ enum class SparkyState
 	Landing,
 	Spark,
 	BeInhaled,
+	Hitted,
 	Max,
 };
 

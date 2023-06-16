@@ -168,9 +168,6 @@
     <ClInclude Include="RotaryDeathEffect.h">
       <Filter>Global\Effect\DeathEffect</Filter>
     </ClInclude>
-    <ClInclude Include="SpreadDeathEffect.h">
-      <Filter>Global\Effect\DeathEffect</Filter>
-    </ClInclude>
     <ClInclude Include="CrossDeathEffect.h">
       <Filter>Global\Effect\DeathEffect</Filter>
     </ClInclude>
@@ -403,9 +400,6 @@
       <Filter>Global\Effect\SkillAbilityEffect</Filter>
     </ClCompile>
     <ClCompile Include="RotaryDeathEffect.cpp">
-      <Filter>Global\Effect\DeathEffect</Filter>
-    </ClCompile>
-    <ClCompile Include="SpreadDeathEffect.cpp">
       <Filter>Global\Effect\DeathEffect</Filter>
     </ClCompile>
     <ClCompile Include="CrossDeathEffect.cpp">

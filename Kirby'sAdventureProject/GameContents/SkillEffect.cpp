@@ -19,7 +19,7 @@ SkillEffect::~SkillEffect()
 
 
 
-float4 SkillEffect::CameraPos()
+float4 SkillEffect::GetCameraPos()
 {
 	float4 CameraPos = GetLevel()->GetMainCamera()->GetPos();
 	return CameraPos;

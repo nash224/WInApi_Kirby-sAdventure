@@ -21,6 +21,11 @@ FireBallEffect::~FireBallEffect()
 void FireBallEffect::Start()
 {
 	MainRenderer = CreateRenderer(RenderOrder::AbillityEffect);
+	if (nullptr == MainRenderer)
+	{
+		MsgBoxAssert("랜더러가 널일 이유가 없어..");
+		return;
+	}
 
 	GlobalContents::SpriteFileLoad("Left_FireEffect_2x1_16x16.bmp", "Resources\\Effect\\SkillEffect", 2, 1);
 	GlobalContents::SpriteFileLoad("Right_FireEffect_2x1_16x16.bmp", "Resources\\Effect\\SkillEffect", 2, 1);
@@ -54,9 +59,17 @@ void FireBallEffect::init(const float4& _Pos, const float4& _MaterScale, const f
 void FireBallEffect::Update(float _Delta)
 {
 	float4 WinScale = GameEngineWindow::MainWindow.GetScale();
-	if (CameraPos().X > GetPos().X && GetPos().X > CameraPos().X + WinScale.X)
+	if (GetCameraPos().X > GetPos().X && GetPos().X > GetCameraPos().X + WinScale.X)
 	{
 		Death();
+		if (nullptr != MainRenderer)
+		{
+			MainRenderer = nullptr;
+		}
+		if (nullptr != EffectCollision)
+		{
+			EffectCollision = nullptr;
+		}
 	}
 
 	AddPos(EffectDir * FIREBALLEFFECTSPEED * _Delta);

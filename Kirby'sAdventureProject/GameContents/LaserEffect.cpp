@@ -20,13 +20,22 @@ LaserEffect::~LaserEffect()
 void LaserEffect::Start() 
 {
 	MainRenderer = CreateRenderer(RenderOrder::AbillityEffect);
+	if (nullptr == MainRenderer)
+	{
+		MsgBoxAssert("랜더러가 널일 이유가 없어..");
+		return;
+	}
 
-	GlobalContents::TextureFileLoad("LaserEffect_1x1_32x8.bmp", "Resources\\Effect\\SkillEffect");
+	GameEngineWindowTexture* Texture = GlobalContents::TextureFileLoad("LaserEffect_1x1_32x8.bmp", "Resources\\Effect\\SkillEffect");
+	if (nullptr == Texture)
+	{
+		MsgBoxAssert("텍스처가 널일리가 없어..");
+		return;
+	}
+	
 
 	MainRenderer->SetTexture("LaserEffect_1x1_32x8.bmp");
-	MainRenderer->SetRenderScaleToTexture();
 
-	GameEngineWindowTexture* Texture = ResourcesManager::GetInst().FindTexture("LaserEffect_1x1_32x8.bmp");
 	Scale = Texture->GetScale();
 	SetCheckPoint(Scale);
 }
@@ -57,9 +66,17 @@ void LaserEffect::GroundPassUpdate(float _Delta)
 
 	float4 WinScale = GameEngineWindow::MainWindow.GetScale();
 
-	if (CameraPos().X > GetPos().X && GetPos().X > CameraPos().X + WinScale.X)
+	if (GetCameraPos().X > GetPos().X && GetPos().X > GetCameraPos().X + WinScale.X)
 	{
 		Death();
+		if (nullptr != MainRenderer)
+		{
+			MainRenderer = nullptr;
+		}
+		if (nullptr != EffectCollision)
+		{
+			EffectCollision = nullptr;
+		}
 	}
 }
 

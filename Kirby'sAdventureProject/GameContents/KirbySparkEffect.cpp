@@ -25,6 +25,11 @@ KirbySparkEffect::~KirbySparkEffect()
 void KirbySparkEffect::Start()
 {
 	MainRenderer = CreateRenderer(RenderOrder::AbillityEffect);
+	if (nullptr == MainRenderer)
+	{
+		MsgBoxAssert("랜더러가 널일 이유가 없어..");
+		return;
+	}
 
 	GlobalContents::SpriteFileLoad("KirbySparkEffect_1x3_144x48.bmp", "Resources\\Effect\\KirbyBaseEffect", 3, 1);
 
@@ -51,5 +56,9 @@ void KirbySparkEffect::Update(float _Delta)
 	if (true == MainRenderer->IsAnimationEnd())
 	{
 		Death();
+		if (nullptr != MainRenderer)
+		{
+			MainRenderer = nullptr;
+		}
 	}
 }

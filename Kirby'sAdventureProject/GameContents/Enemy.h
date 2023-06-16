@@ -8,6 +8,8 @@
 
 #define CHECKOVERSCREENGAP 50.0f
 
+#define INHALEXPOWER 200.0f
+
 
 // 설명 :
 class Enemy : public ActorUtils
@@ -46,6 +48,7 @@ protected:
 
 	void BeInhaledUpdate(float _Delta);
 	virtual void HittedUpdate(float _Delta);
+
 
 
 	// 판정 함수

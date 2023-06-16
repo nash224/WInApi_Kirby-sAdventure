@@ -7,7 +7,7 @@
 
 
 
-// 설명 :
+// 설명 : 맵에 닿았을 때 '꽁' 벽이 부딪히는 효과 입니다.
 class HitObjectEffect : public SkillEffect
 {
 public:

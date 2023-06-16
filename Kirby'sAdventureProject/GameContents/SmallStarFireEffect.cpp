@@ -24,13 +24,16 @@ SmallStarFireEffect::~SmallStarFireEffect()
 void SmallStarFireEffect::Start()
 {
 	MainRenderer = CreateRenderer(RenderOrder::AbillityEffect);
+	if (nullptr == MainRenderer)
+	{
+		MsgBoxAssert("랜더러가 널일 이유가 없어..");
+		return;
+	}
 
 	GlobalContents::SpriteFileLoad("SpitStar_1x4_16x16.bmp", "Resources\\Effect\\KirbyBaseEffect", 4, 1);
 
 	MainRenderer->CreateAnimation("SmallStarFire", "SpitStar_1x4_16x16.bmp", 0, 3, FramesInter);
 	MainRenderer->ChangeAnimation("SmallStarFire");
-
-	MainRenderer->SetRenderScaleToTexture();
 
 	Scale = ResourcesManager::GetInst().FindSprite("SpitStar_1x4_16x16.bmp")->GetSprite(0).RenderScale;
 	SetCheckPoint(Scale);
@@ -50,25 +53,63 @@ void SmallStarFireEffect::Update(float _Delta)
 	{
 		ObejctDisapearingEffect* ObejctDisapearing = GetLevel()->CreateActor<ObejctDisapearingEffect>(UpdateOrder::Ability);
 		ObejctDisapearing->init(GetPos());
+
 		Death();
+		if (nullptr != MainRenderer)
+		{
+			MainRenderer = nullptr;
+		}
+		if (nullptr != EffectCollision)
+		{
+			EffectCollision = nullptr;
+		}
+
+		return;
 	}
 
 	float4 WinScale = GameEngineWindow::MainWindow.GetScale();
-	if (CameraPos().X > GetPos().X && GetPos().X > CameraPos().X + WinScale.X)
+	if (GetCameraPos().X > GetPos().X && GetPos().X > GetCameraPos().X + WinScale.X)
 	{
 		Death();
+		if (nullptr != MainRenderer)
+		{
+			MainRenderer = nullptr;
+		}
+		if (nullptr != EffectCollision)
+		{
+			EffectCollision = nullptr;
+		}
+
+		return;
 	}
 
+
+
 	std::vector<GameEngineCollision*> Col;
-	Col.reserve(2);
 	if (true == EffectCollision->Collision(CollisionOrder::MonsterBody, Col, CollisionType::Rect, CollisionType::Rect))
 	{
 		ObejctDisapearingEffect* ObejctDisapearing = GetLevel()->CreateActor<ObejctDisapearingEffect>(UpdateOrder::Ability);
+		if (nullptr == ObejctDisapearing)
+		{
+			MsgBoxAssert("액터가 널일 이유가 없어..");
+			return;
+		}
+
 		ObejctDisapearing->init(GetPos());
+
+
 		Death();
+		if (nullptr != MainRenderer)
+		{
+			MainRenderer = nullptr;
+		}
+		if (nullptr != EffectCollision)
+		{
+			EffectCollision = nullptr;
+		}
+
+		return;
 	}
-
-
 
 	AddPos(EffectDir * SMALLSTARFIREEFFECTSPEED * _Delta);
 }

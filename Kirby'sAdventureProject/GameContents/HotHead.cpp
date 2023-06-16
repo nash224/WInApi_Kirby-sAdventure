@@ -414,10 +414,20 @@ void HotHead::EnemyCollisionCheck()
 		}
 	}
 
-	if (false == IsHitted)
+	std::vector<GameEngineCollision*> AbilityCol;
+	if (true == BodyCollision->Collision(CollisionOrder::PlayerAbility, AbilityCol, CollisionType::Rect, CollisionType::Rect))
 	{
-		std::vector<GameEngineCollision*> AbilityCol;
-		if (true == BodyCollision->Collision(CollisionOrder::PlayerAbility, AbilityCol, CollisionType::Rect, CollisionType::Rect))
+		if (false == IsHitted)
+		{
+			ChangeState(HotHeadState::Hitted);
+			return;
+		}
+	}
+
+	std::vector<GameEngineCollision*> BodyCol;
+	if (true == BodyCollision->Collision(CollisionOrder::PlayerBody, BodyCol, CollisionType::Rect, CollisionType::Rect))
+	{
+		if (false == IsHitted)
 		{
 			ChangeState(HotHeadState::Hitted);
 			return;

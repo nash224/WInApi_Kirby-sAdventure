@@ -107,6 +107,7 @@ void SwordKnight::StateUpdate(float _Delta)
 	case SwordKnightState::Underhand:					return UnderhandUpdate(_Delta);
 	case SwordKnightState::ReversingSlash:				return ReversingSlashUpdate(_Delta);
 	case SwordKnightState::BeInhaled:					return BeInhaledUpdate(_Delta);
+	case SwordKnightState::Hitted:						return HittedUpdate(_Delta);
 	default:
 		break;
 	}
@@ -124,6 +125,7 @@ void SwordKnight::ChangeState(SwordKnightState _State)
 		case SwordKnightState::Underhand:					UnderhandStart();					break;
 		case SwordKnightState::ReversingSlash:				ReversingSlashStart();				break;
 		case SwordKnightState::BeInhaled:					BeInhaledStart();					break;
+		case SwordKnightState::Hitted:						HittedStart();						break;
 		default:
 			break;
 		}
@@ -392,6 +394,7 @@ void SwordKnight::ReversingSlashUpdate(float _Delta)
 }
 
 
+
 void SwordKnight::EnemyCollisionCheck()
 {
 	std::vector<GameEngineCollision*> InhaledCol;
@@ -401,19 +404,32 @@ void SwordKnight::EnemyCollisionCheck()
 		{
 			IsInhaledStateOn = false;
 			BodyCollision->Off();
-			AbilityCollision->Off();
 			ChangeState(SwordKnightState::BeInhaled);
 			return;
 		}
 	}
 
-	std::vector<GameEngineCollision*> AbilityCol;
-	if (true == BodyCollision->Collision(CollisionOrder::PlayerAbility, AbilityCol, CollisionType::Rect, CollisionType::Rect))
+	if (false == IsHitted)
 	{
-		/*ChangeState(HotHeadState::Hitted);*/
-		return;
+		std::vector<GameEngineCollision*> AbilityCol;
+		if (true == BodyCollision->Collision(CollisionOrder::PlayerAbility, AbilityCol, CollisionType::Rect, CollisionType::Rect))
+		{
+			ChangeState(SwordKnightState::Hitted);
+			return;
+		}
+	}
+
+	std::vector<GameEngineCollision*> BodyCol;
+	if (true == BodyCollision->Collision(CollisionOrder::PlayerBody, BodyCol, CollisionType::Rect, CollisionType::Rect))
+	{
+		if (false == IsHitted)
+		{
+			ChangeState(SwordKnightState::Hitted);
+			return;
+		}
 	}
 }
+
 
 
 

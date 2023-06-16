@@ -229,7 +229,7 @@ void Enemy::BeInhaledUpdate(float _Delta)
 	InhaleTargetPos = GetKirbyOpponentDistance();
 	InhaleTargetPosYDistance = InhaleTargetPos.Y - KIRBYCENTERYPOINT;
 	InhaleTargetPosXDistance = InhaleTargetPos.X;
-	CurentVerticalSpeed = InhaleTargetPosYDistance;
+	CurentVerticalSpeed += InhaleTargetPosYDistance / INHALETIME * _Delta;
 
 	float4 KirbyPos = Kirby::GetMainKirby()->GetPos();
 
@@ -278,11 +278,6 @@ void Enemy::HittedStart()
 
 void Enemy::HittedUpdate(float _Delta)
 {
-	StateTime += _Delta;
-
-	if (StateTime > HITTEDLIVETIME)
-	{
-		IsHitted = false;
-		Off();
-	}
+	IsHitted = false;
+	Off();
 }

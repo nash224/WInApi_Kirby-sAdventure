@@ -24,6 +24,11 @@ LargeStarFireEffect::~LargeStarFireEffect()
 void LargeStarFireEffect::Start()
 {
 	MainRenderer = CreateRenderer(RenderOrder::AbillityEffect);
+	if (nullptr == MainRenderer)
+	{
+		MsgBoxAssert("랜더러가 널일 이유가 없어..");
+		return;
+	}
 
 	GlobalContents::SpriteFileLoad("AbillityStartEffect_1x8_32x31.bmp", "Resources\\Effect\\KirbyBaseEffect", 8, 1);
 
@@ -45,19 +50,18 @@ void LargeStarFireEffect::init(const float4& _Pos, const float4& _MaterScale, co
 void LargeStarFireEffect::Update(float _Delta)
 {
 	float4 WinScale = GameEngineWindow::MainWindow.GetScale();
-	if (CameraPos().X > GetPos().X && GetPos().X > CameraPos().X + WinScale.X)
+	if (GetCameraPos().X > GetPos().X && GetPos().X > GetCameraPos().X + WinScale.X)
 	{
 		Death();
+		if (nullptr != MainRenderer)
+		{
+			MainRenderer = nullptr;
+		}
+		if (nullptr != EffectCollision)
+		{
+			EffectCollision = nullptr;
+		}
 	}
-
-	//std::vector<GameEngineCollision*> Col;
-	//Col.reserve(2);
-	//if (true == EffectCollision->Collision(CollisionOrder::MonsterBody, Col, CollisionType::Rect, CollisionType::Rect))
-	//{
-	//	ObejctDisapearingEffect* ObejctDisapearing = GetLevel()->CreateActor<ObejctDisapearingEffect>(UpdateOrder::PlayerAbility);
-	//	ObejctDisapearing->init(GetPos());
-	//}
-
 
 
 	AddPos(EffectDir * LARGESTARFIREEFFECTSPEED * _Delta);
