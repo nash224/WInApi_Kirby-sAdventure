@@ -36,5 +36,6 @@ void CommonSkillEffect::Update(float _Delta)
 	if (GetLiveTime() > ExpressionTime)
 	{
 		Death();
+		EffectPointerRelease();
 	}
 }

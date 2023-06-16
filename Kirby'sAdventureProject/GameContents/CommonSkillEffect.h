@@ -1,10 +1,8 @@
 #pragma once
 #include "SkillEffect.h"
 
-#define CommonSkillEffectFRAMECHANGETIME 0.1f
 
-
-// 설명 :
+// 설명 : 단순히 지정위치에 Effect 를 띄우기 위한 녀석입니다.
 class CommonSkillEffect : public SkillEffect
 {
 public:

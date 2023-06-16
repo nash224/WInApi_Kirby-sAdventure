@@ -120,7 +120,6 @@ void AirExplosionEffect::Update(float _Delta)
 	if (GetLiveTime() > AIREXPLOSIONEFFECTTIME)
 	{
 		Death();
-		MainRenderer = nullptr;
-		EffectCollision = nullptr;
+		EffectPointerRelease();
 	}
 }

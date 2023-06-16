@@ -77,13 +77,6 @@ void ExhaleEffect::Update(float _Delta)
 	if (GetLiveTime() > EXHALEEFFECTTIME)
 	{
 		Death();
-		if (nullptr != MainRenderer)
-		{
-			MainRenderer = nullptr;
-		}
-		if (nullptr != EffectCollision)
-		{
-			EffectCollision = nullptr;
-		}
+		EffectPointerRelease();
 	}
 }

@@ -46,6 +46,7 @@ void FrameBreathEffect::init(const float4& _Pos, const float4& _MaterScale, cons
 	EffectDir = _Dir;
 	SetPos(_Pos + EffectDir * (_MaterScale.Half().X + Scale.Half().X) + float4{ 0.0f, -_MaterScale.Half().Y });
 
+
 	if (EffectDir.X < 0.0f)
 	{
 		MainRenderer->ChangeAnimation("Left_FireEffect");
@@ -55,8 +56,7 @@ void FrameBreathEffect::init(const float4& _Pos, const float4& _MaterScale, cons
 		MainRenderer->ChangeAnimation("Right_FireEffect");
 	}
 
-
-	// Dir 재정의
+	// 불꽃 방사를 위해 랜덤의 방향값 지정
 	if (EffectDir.X < 0.0f)
 	{
 		float Degree = GameEngineRandom::MainRandom.RandomFloat(165.0f, 195.0f );
@@ -88,14 +88,7 @@ void FrameBreathEffect::GroundPassUpdate(float _Delta)
 	if (GetLiveTime() > FRAMEBREATHEFFECTDURATION)
 	{
 		Death();
-		if (nullptr != MainRenderer)
-		{
-			MainRenderer = nullptr;
-		}
-		if (nullptr != EffectCollision)
-		{
-			EffectCollision = nullptr;
-		}
+		EffectPointerRelease();
 	}
 
 	float EffectSpeed = FRAMEBREATHEFFECTDISTANCE / FRAMEBREATHEFFECTDURATION;

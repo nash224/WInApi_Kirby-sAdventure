@@ -49,6 +49,8 @@ void BeamEffect::Update(float _Delta)
 	float4 BeamDir = float4::ZERO;
 	float4 EffectPos = float4::ZERO;
 
+
+	// 순서대로 출력함에도 for문으로 안한 이유 : 이땐 깨닫지 못했습니다.. 
 	if (EffectFrameChangeTime > BEAMEFFECTFRAMECHANGETIME)
 	{
 		EffectFrameChangeTime = 0.0f;

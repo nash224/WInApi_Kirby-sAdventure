@@ -59,6 +59,6 @@ void DustEffect::Update(float _Delta)
 	if (MainRenderer->IsAnimationEnd())
 	{
 		Death();
-		MainRenderer = nullptr;
+		EffectPointerRelease();
 	}
 }

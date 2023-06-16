@@ -34,12 +34,13 @@ void GetAbilityEffect::Update(float _Delta)
 	{
 		DurationTime = 0.0f;
 
+		// 스폰할 램덤의 위치와 방향 지정
 		float4 CreatePos = float4::ZERO;
-		
 		float RandomDeg = GameEngineRandom::MainRandom.RandomFloat(0.0f, 360.0f);
 		float4 CreateDir = float4::GetUnitVectorFromDeg(RandomDeg);
 		float CreateDistance = GameEngineRandom::MainRandom.RandomFloat(SPARKLEEFFECTCREATEMINDISTANCE, SPARKLEEFFECTCREATEMAXDISTANCE);
 		CreatePos = CreateDir* CreateDistance;
+
 
 		SparkleEffect* SparkleEffectPtr = GetLevel()->CreateActor<SparkleEffect>(UpdateOrder::Ability);
 		if (nullptr == SparkleEffectPtr)
@@ -47,7 +48,9 @@ void GetAbilityEffect::Update(float _Delta)
 			MsgBoxAssert("액터가 널일 이유가 없어...");
 			return;
 		}
+
 		SparkleEffectPtr->init(GetPos() + CreatePos);
+
 
 		++EffectCreateCount;
 	}

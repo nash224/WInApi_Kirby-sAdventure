@@ -56,9 +56,6 @@ void KirbySparkEffect::Update(float _Delta)
 	if (true == MainRenderer->IsAnimationEnd())
 	{
 		Death();
-		if (nullptr != MainRenderer)
-		{
-			MainRenderer = nullptr;
-		}
+		EffectPointerRelease();
 	}
 }

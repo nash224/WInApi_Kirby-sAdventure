@@ -70,6 +70,6 @@ void CrossDeathEffect::Update(float _Delta)
 	if (CreateStarNumber >= 2)
 	{
 		Death();
-		MainRenderer = nullptr;
+		EffectPointerRelease();
 	}
 }

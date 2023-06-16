@@ -55,14 +55,7 @@ void SmallStarFireEffect::Update(float _Delta)
 		ObejctDisapearing->init(GetPos());
 
 		Death();
-		if (nullptr != MainRenderer)
-		{
-			MainRenderer = nullptr;
-		}
-		if (nullptr != EffectCollision)
-		{
-			EffectCollision = nullptr;
-		}
+		EffectPointerRelease();
 
 		return;
 	}
@@ -71,14 +64,7 @@ void SmallStarFireEffect::Update(float _Delta)
 	if (GetCameraPos().X > GetPos().X && GetPos().X > GetCameraPos().X + WinScale.X)
 	{
 		Death();
-		if (nullptr != MainRenderer)
-		{
-			MainRenderer = nullptr;
-		}
-		if (nullptr != EffectCollision)
-		{
-			EffectCollision = nullptr;
-		}
+		EffectPointerRelease();
 
 		return;
 	}
@@ -99,14 +85,7 @@ void SmallStarFireEffect::Update(float _Delta)
 
 
 		Death();
-		if (nullptr != MainRenderer)
-		{
-			MainRenderer = nullptr;
-		}
-		if (nullptr != EffectCollision)
-		{
-			EffectCollision = nullptr;
-		}
+		EffectPointerRelease();
 
 		return;
 	}

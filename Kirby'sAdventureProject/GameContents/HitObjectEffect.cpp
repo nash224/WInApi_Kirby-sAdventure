@@ -42,7 +42,6 @@ void HitObjectEffect::init(const float4& _MasterPos, const float4& _Pos)
 {
 	// 45도 각도로 8방향이 랜덤으로 결정
 	int DirNumber = GameEngineRandom::MainRandom.RandomInt(0, 7);
-
 	switch (DirNumber)
 	{
 	case 0:
@@ -86,9 +85,10 @@ void HitObjectEffect::Update(float _Delta)
 		AddPos(EffectDir * HITOBJECTSPEED * _Delta);
 	}
 
+
 	if (GetLiveTime() > HITOJECTDEATHTIME)
 	{
 		Death();
-		MainRenderer = nullptr;
+		EffectPointerRelease();
 	}
 }

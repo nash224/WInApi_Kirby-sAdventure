@@ -17,10 +17,13 @@ public:
 	SkillEffect& operator=(const SkillEffect& _Other) = delete;
 	SkillEffect& operator=(SkillEffect&& _Other) noexcept = delete;
 
-
+	// 외부에서 텍스처 맵을 지정하는 함수
 	void SetGroundTexture(const std::string& _GroundTextureName);
+
+	// 외부에서 충돌을 지정하는 함수
 	virtual void SetActorCollision(CollisionOrder _Order, CollisionType _Type);
 
+	// 방향 및 속도를 지정하는 함수
 	void SetEffectDir(const float4& _Dir)
 	{
 		EffectDir = _Dir;
@@ -37,9 +40,9 @@ protected:
 	GameEngineCollision* EffectCollision = nullptr;
 
 	float4 Scale = float4::ZERO;
+	float4 EffectDir = float4::ZERO;
 	float Speed = 0.0f;
 	float EffectDuration = 0.0f;
-	float4 EffectDir = float4::ZERO;
 
 
 	// 카메라 위치 반환 함수
@@ -58,6 +61,9 @@ protected:
 	virtual void GroundPassUpdate(float _Delta) {}
 	virtual void GroundNotPassUpdate(float _Delta) {}
 
+
+	// 메모리 해제 함수
+	void EffectPointerRelease();
 
 private:
 	class GameEngineWindowTexture* GroundTexture = nullptr;

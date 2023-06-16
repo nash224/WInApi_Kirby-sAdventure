@@ -52,13 +52,6 @@ void SparkEffect::Update(float _Delta)
 	if (CurrentEffectDistance > SPARKEFFECTDISTANCE)
 	{
 		Death();
-		if (nullptr != MainRenderer)
-		{
-			MainRenderer = nullptr;
-		}
-		if (nullptr != EffectCollision)
-		{
-			EffectCollision = nullptr;
-		}
+		EffectPointerRelease();
 	}
 }

@@ -62,14 +62,7 @@ void FireBallEffect::Update(float _Delta)
 	if (GetCameraPos().X > GetPos().X && GetPos().X > GetCameraPos().X + WinScale.X)
 	{
 		Death();
-		if (nullptr != MainRenderer)
-		{
-			MainRenderer = nullptr;
-		}
-		if (nullptr != EffectCollision)
-		{
-			EffectCollision = nullptr;
-		}
+		EffectPointerRelease();
 	}
 
 	AddPos(EffectDir * FIREBALLEFFECTSPEED * _Delta);

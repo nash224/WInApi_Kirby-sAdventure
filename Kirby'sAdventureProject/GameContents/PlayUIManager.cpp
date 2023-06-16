@@ -24,14 +24,6 @@ void PlayUIManager::Start()
 	MainUIRenderer = CreateUIRenderer(RenderOrder::PlayUI);
 
 
-	//float4 UIPos = WinScale.Y - UI
-	//GetPos()
-	// 
-	// 
-	// 위치를 옮기지 않았다.
-	// GetPos();
-	// 카메라가 안움직여
-
 	//{
 	//	GameEngineRenderer* Ptr = CreateUIRenderer("HPBar.bmp", RenderOrder::Play);
 	//	Ptr->SetRenderPos({ 100, 100 });
@@ -44,6 +36,12 @@ void PlayUIManager::Start()
 void PlayUIManager::init(const std::string& _FileName, const std::string& _Path)
 {
 	GameEngineWindowTexture* Texture = GlobalContents::TextureFileLoad(_FileName, _Path);
+	if (nullptr == Texture)
+	{
+		MsgBoxAssert("UI 텍스처가 널일리가 없어");
+		return;
+	}
+
 	UIScale = Texture->GetScale();
 	float4 WinScale = GameEngineWindow::MainWindow.GetScale();
 

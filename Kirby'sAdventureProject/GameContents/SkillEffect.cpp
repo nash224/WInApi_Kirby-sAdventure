@@ -84,3 +84,21 @@ bool SkillEffect::CheckCenterPoint()
 
 	return false;
 }
+
+
+
+void SkillEffect::EffectPointerRelease()
+{
+	if (nullptr != MainRenderer)
+	{
+		MainRenderer = nullptr;
+	}
+	if (nullptr != EffectCollision)
+	{
+		EffectCollision = nullptr;
+	}
+	if (nullptr != GroundTexture)
+	{
+		GroundTexture = nullptr;
+	}
+}

@@ -54,6 +54,6 @@ void MoveStarEffect::Update(float _Delta)
 	if (GetLiveTime() > STAREFFECTMOVETIME)
 	{
 		Death();
-		MainRenderer = nullptr;
+		EffectPointerRelease();
 	}
 }

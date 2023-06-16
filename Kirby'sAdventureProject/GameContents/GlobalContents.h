@@ -3,7 +3,7 @@
 #include <GameEnginePlatform/GameEngineWindowTexture.h>
 #include <GameEngineCore/GameEngineSprite.h>
 
-// 설명 :
+// 설명 : 모든 Contents 영역에서 공통적으로 사용하는 기능을 제공합니다.
 class GlobalContents
 {
 public:

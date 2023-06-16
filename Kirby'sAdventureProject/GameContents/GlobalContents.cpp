@@ -13,9 +13,19 @@ GlobalContents::~GlobalContents()
 
 GameEngineWindowTexture* GlobalContents::TextureFileLoad(const std::string& _FileName, const std::string& _Path)
 {
+	static GameEngineWindowTexture* ReturnValue;
+
 	if (true == ResourcesManager::GetInst().IsLoadTexture(_FileName))
 	{
-		return ResourcesManager::GetInst().FindTexture(_FileName);;
+		GameEngineWindowTexture* Texture = ResourcesManager::GetInst().FindTexture(_FileName);
+		if (nullptr == Texture)
+		{
+			// 터짐횟수 0
+			MsgBoxAssert("이게 왜 터지죠?");
+			return ReturnValue;
+		}
+
+		return Texture;
 	}
 
 	GameEnginePath FilePath;
@@ -25,6 +35,14 @@ GameEngineWindowTexture* GlobalContents::TextureFileLoad(const std::string& _Fil
 	FilePath.MoveParentToExistsChild(ParentPath);
 	FilePath.MoveChild(_Path);
 	GameEngineWindowTexture* Texture = ResourcesManager::GetInst().TextureLoad(FilePath.PlusFilePath(_FileName));
+
+	if (nullptr == Texture)
+	{
+		// 터짐횟수 0
+		MsgBoxAssert("이게 왜 터지죠?");
+		return ReturnValue;
+	}
+
 	return Texture;
 }
 

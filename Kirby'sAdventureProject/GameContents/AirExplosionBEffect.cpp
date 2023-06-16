@@ -45,6 +45,6 @@ void AirExplosionBEffect::Update(float _Delta)
 	if (MainRenderer->IsAnimationEnd())
 	{
 		Death();
-		MainRenderer = nullptr;
+		EffectPointerRelease();
 	}
 }
