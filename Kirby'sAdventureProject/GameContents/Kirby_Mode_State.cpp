@@ -161,6 +161,7 @@ void Kirby::InhaleAbilityUpdate(float _Delta)
 
 	IsChangeState = MainRenderer->IsAnimationEnd();
 
+
 	std::vector<GameEngineCollision*> InhaleCol;
 	if (true == InhaleEffectCollision->Collision(CollisionOrder::MonsterBody, InhaleCol, CollisionType::Rect, CollisionType::Rect))
 	{
@@ -181,6 +182,12 @@ void Kirby::InhaleAbilityUpdate(float _Delta)
 			{
 				++Star.SwallowedEnemyNumber;
 				SwallingEnemy = EnemyPtr;
+
+				if (2 == Star.SwallowedEnemyNumber)
+				{
+					int a = 0;
+				}
+
 			}
 
 			if (AbilityStar::Normal != EnemyAbility && AbilityStar::Max != EnemyAbility)

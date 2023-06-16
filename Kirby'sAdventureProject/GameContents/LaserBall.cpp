@@ -105,7 +105,7 @@ void LaserBall::StateUpdate(float _Delta)
 
 void LaserBall::ChangeState(LaserBallState _State)
 {
-	if (_State != State || _State == RespawnState || _State == LaserBallState::BeInhaled)
+	if (_State != State || _State == RespawnState)
 	{
 		switch (_State)
 		{

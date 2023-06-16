@@ -407,6 +407,8 @@ void HotHead::EnemyCollisionCheck()
 	{
 		if (true == IsInhaledStateOn)
 		{
+			
+
 			IsInhaledStateOn = false;
 			BodyCollision->Off();
 			ChangeState(HotHeadState::BeInhaled);

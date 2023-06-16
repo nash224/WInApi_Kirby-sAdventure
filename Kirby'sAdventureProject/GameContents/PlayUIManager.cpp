@@ -32,7 +32,7 @@ void PlayUIManager::Start()
 	//}
 }
 
-
+ 
 void PlayUIManager::init(const std::string& _FileName, const std::string& _Path)
 {
 	GameEngineWindowTexture* Texture = GlobalContents::TextureFileLoad(_FileName, _Path);

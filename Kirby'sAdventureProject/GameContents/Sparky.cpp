@@ -68,11 +68,13 @@ void Sparky::Start()
 	BodyCollision->SetCollisionPos(float4{ 0.0f , -SMALLTYPECOLLISIONSCALE.hY() });
 	BodyCollision->SetCollisionScale(SMALLTYPECOLLISIONSCALE);
 	BodyCollision->SetCollisionType(CollisionType::Rect);
+	BodyCollision->On();
 
-	BodyCollision = CreateCollision(CollisionOrder::MonsterBody);
-	BodyCollision->SetCollisionPos(float4{ 0.0f , -SMALLTYPECOLLISIONSCALE.hY() });
-	BodyCollision->SetCollisionScale(SMALLTYPECOLLISIONSCALE);
-	BodyCollision->SetCollisionType(CollisionType::Rect);
+	AbilityCollision = CreateCollision(CollisionOrder::MonsterAbility);
+	AbilityCollision->SetCollisionPos(float4{ 0.0f , -SMALLTYPECOLLISIONSCALE.hY() });
+	AbilityCollision->SetCollisionScale(SMALLTYPECOLLISIONSCALE);
+	AbilityCollision->SetCollisionType(CollisionType::Rect);
+	AbilityCollision->Off();
 }
 
 void Sparky::init(const std::string& _FileName, SparkyState _State, const float4& _Pos)
@@ -120,7 +122,7 @@ void Sparky::StateUpdate(float _Delta)
 
 void Sparky::ChangeState(SparkyState _State)
 {
-	if (_State != State || _State == RespawnState || _State == SparkyState::BeInhaled)
+	if (_State != State || _State == RespawnState)
 	{
 		switch (_State)
 		{
@@ -529,6 +531,7 @@ void Sparky::SparkStart()
 	IsChangeState = false;
 	AbilityStartDeltaTime = 0.0f;
 	SparkCoolDown = 0.0f;
+	AbilityCollision->On();
 	ChangeAnimationState("Spark");
 }
 
@@ -561,6 +564,7 @@ void Sparky::SparkUpdate(float _Delta)
 
 	if (true == IsChangeState)
 	{
+		AbilityCollision->Off();
 		ChangeState(SparkyState::Idle);
 		return; 
 	}
