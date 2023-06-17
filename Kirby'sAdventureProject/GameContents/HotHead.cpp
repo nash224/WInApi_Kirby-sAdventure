@@ -1,25 +1,17 @@
 #include "HotHead.h"
 #include "ContentsEnum.h"
 
-#include <GameEngineBase/GameEnginePath.h>
-#include <GameEngineBase/GameEngineTime.h>
-#include <GameEngineBase/GameEngineMath.h>
-#include <GameEngineBase/GameEngineRandom.h>
-#include <GameEnginePlatform/GameEngineWindow.h>
-#include <GameEnginePlatform/GameEngineWindowTexture.h>
-#include <GameEnginePlatform/GameEngineInput.h>
-#include <GameEngineCore/GameEngineCore.h>
 #include <GameEngineCore/GameEngineLevel.h>
-#include <GameEngineCore/GameEngineCamera.h>
 #include <GameEngineCore/GameEngineRenderer.h>
 #include <GameEngineCore/GameEngineCollision.h>
-#include <GameEngineCore/ResourcesManager.h>
+
 
 #include "GlobalContents.h"
 #include "Kirby.h"
 #include "FrameBreathEffect.h"
 #include "FireBallEffect.h"
 #include <vector>
+
 
 HotHead::HotHead()
 {
@@ -63,6 +55,11 @@ void HotHead::Start()
 
 
 	BodyCollision = CreateCollision(CollisionOrder::MonsterBody);
+	if (nullptr == BodyCollision)
+	{
+		MsgBoxAssert("바디 콜리전이 Null일리가 없어..");
+		return;
+	}
 	BodyCollision->SetCollisionPos(float4{ 0.0f , -SmallTypeScale.hY()});
 	BodyCollision->SetCollisionScale(SmallTypeScale);
 	BodyCollision->SetCollisionType(CollisionType::Rect);
@@ -240,6 +237,13 @@ void HotHead::FireBallStart()
 	ActorDirUnitVector = GetDirUnitVector();
 
 	FireBallEffect* FireBallEffectPtr = GetLevel()->CreateActor<FireBallEffect>();
+	if (nullptr == FireBallEffectPtr)
+	{
+		MsgBoxAssert("액터가 Null 입니다..");
+		return;
+	}
+
+
 	FireBallEffectPtr->init(GetPos(), Scale, ActorDirUnitVector);
 	FireBallEffectPtr->SetActorCollision(CollisionOrder::MonsterAbility, CollisionType::Rect);
 
@@ -402,37 +406,15 @@ void HotHead::FlameBreathUpdate(float _Delta)
 
 void HotHead::EnemyCollisionCheck()
 {
-	std::vector<GameEngineCollision*> InhaledCol;
-	if (true == BodyCollision->Collision(CollisionOrder::KirbyInhaleAbility, InhaledCol, CollisionType::Rect, CollisionType::Rect))
+	if (true == IsInhaledStateOn)
 	{
-		if (true == IsInhaledStateOn)
-		{
-			
-
-			IsInhaledStateOn = false;
-			BodyCollision->Off();
-			ChangeState(HotHeadState::BeInhaled);
-			return;
-		}
+		ChangeState(HotHeadState::BeInhaled);
+		return;
 	}
 
-	std::vector<GameEngineCollision*> AbilityCol;
-	if (true == BodyCollision->Collision(CollisionOrder::PlayerAbility, AbilityCol, CollisionType::Rect, CollisionType::Rect))
+	if (true == IsHitted)
 	{
-		if (false == IsHitted)
-		{
-			ChangeState(HotHeadState::Hitted);
-			return;
-		}
-	}
-
-	std::vector<GameEngineCollision*> BodyCol;
-	if (true == BodyCollision->Collision(CollisionOrder::PlayerBody, BodyCol, CollisionType::Rect, CollisionType::Rect))
-	{
-		if (false == IsHitted)
-		{
-			ChangeState(HotHeadState::Hitted);
-			return;
-		}
+		ChangeState(HotHeadState::Hitted);
+		return;
 	}
 }

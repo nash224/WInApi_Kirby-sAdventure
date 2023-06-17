@@ -19,6 +19,7 @@ void Kirby::Thorn_StateResourceLoad()
 	GlobalContents::SpriteFileLoad("Thorn_Left_Use.bmp", "Resources\\Unit\\Kirby", 4, 2);
 	GlobalContents::SpriteFileLoad("Thorn_Right_Use.bmp", "Resources\\Unit\\Kirby", 4, 2);
 
+
 	MainRenderer->CreateAnimation("Thorn_Left_Idle", "Ability_Left_Kirby.bmp", 0, 1, 0.5f, true);
 	MainRenderer->CreateAnimation("Thorn_Right_Idle", "Ability_Right_Kirby.bmp", 0, 1, 0.5f, true);
 
@@ -70,23 +71,72 @@ void Kirby::Thorn_StateResourceLoad()
 	MainRenderer->CreateAnimation("Thorn_Left_ExhaleAttack", "Ability_Left_Kirby.bmp", 21, 24, EXHALEATTACKTIME, false);
 	MainRenderer->CreateAnimation("Thorn_Right_ExhaleAttack", "Ability_Right_Kirby.bmp", 21, 24, EXHALEATTACKTIME, false);
 
-	MainRenderer->CreateAnimation("Thorn_Left_UseSpecialAbility", "Thorn_Left_Use.bmp", 1, 2, 0.1f, true);
-	MainRenderer->CreateAnimation("Thorn_Right_UseSpecialAbility", "Thorn_Right_Use.bmp", 1, 2, 0.1f, true);
+	MainRenderer->CreateAnimation("Thorn_Left_UseSpecialAbility", "Thorn_Left_Use.bmp", 0, 5, 0.04f, false);
+	MainRenderer->CreateAnimation("Thorn_Right_UseSpecialAbility", "Thorn_Right_Use.bmp", 0, 5, 0.04f, false);
 
-	MainRenderer->CreateAnimation("Thorn_Left_ReleaseSpecialAbility", "Thorn_Left_Use.bmp", 0, 0, 0.1f, false);
-	MainRenderer->CreateAnimation("Thorn_Right_ReleaseSpecialAbility", "Thorn_Right_Use.bmp", 0, 0, 0.1f, false);
+	MainRenderer->CreateAnimation("Thorn_Left_ReleaseSpecialAbility", "Thorn_Left_Use.bmp", 5, 0, 0.04f, false);
+	MainRenderer->CreateAnimation("Thorn_Right_ReleaseSpecialAbility", "Thorn_Right_Use.bmp", 5, 0, 0.04f, false);
 
-	MainRenderer->CreateAnimation("Thorn_Left_GetAbility", "Thorn_Left_Use.bmp", 1, 2, 0.1f, true);
-	MainRenderer->CreateAnimation("Thorn_Right_GetAbility", "Thorn_Right_Use.bmp", 1, 2, 0.1f, true);
+	MainRenderer->CreateAnimation("Thorn_Left_GetAbility", "Thorn_Left_Use.bmp", 0, 5, 0.04f, false);
+	MainRenderer->CreateAnimation("Thorn_Right_GetAbility", "Thorn_Right_Use.bmp", 0, 5, 0.04f, false);
 }
 
 
 void Kirby::ThornAbilityStart()
 {
+	if (nullptr == ThornEffectCollision)
+	{
+		MsgBoxAssert("가시모드 콜리전이 Null입니다.");
+		return;
+	}
 
+	ThornEffectCollision->On();
 }
 
 void Kirby::ThornAbilityUpdate(float _Delta)
 {
+	StateTime += _Delta;
 
+	// 능력 최소 지속시간
+	if (StateTime > AbilityMinDuration && false == IsChangeState)
+	{
+		IsChangeState = true;
+	}
+
+
+	// 'Z' 키 를 때면 능력 해제
+	if (true == GameEngineInput::IsFree('Z') && true == IsChangeState)
+	{
+		if (nullptr == ThornEffectCollision)
+		{
+			MsgBoxAssert("가시모드 콜리전이 Null입니다.");
+			return;
+		}
+
+		ThornEffectCollision->Off();
+		ChangeState(KirbyState::ReleaseSpecialAbility);
+		return;
+	}
+
+
+
+	// 지형락
+	BlockedByGround();
+	BlockedByCeiling();
+	BlockedByWall();
+
+
+
+	// 발이 땅에 있을 때 중력적용 x
+	if (false == GetGroundState())
+	{
+		Gravity(_Delta);
+		GravityLimit(_Delta);
+		VerticalUpdate(_Delta);
+	}
+
+
+	// X축 속도 업데이트
+	ContentsActor::DecelerationUpdate(_Delta, DECELERATIONSPEED);
+	HorizontalUpdate(_Delta);
 }

@@ -33,7 +33,7 @@ enum class HotHeadState
 	Max,
 };
 
-// 설명 :
+// 설명 : 머리가 불꽃인 몬스터입니다. 
 class HotHead : public PowerEnemies
 {
 public:
@@ -50,14 +50,17 @@ public:
 	void init(const std::string& _FileName, HotHeadState _State, const float4& _Pos);
 
 protected:
+	// 상태패턴 함수
 	HotHeadState State = HotHeadState::Max;
 	HotHeadState RespawnState = HotHeadState::Max;
 
 	int WobbleCount = 0;
 
+
 	void StateUpdate(float _Delta) override;
 	void ChangeState(HotHeadState _State);
 	void ChangeRespawnState() override;
+
 
 	void WalkStart();
 	void FireBallChargingStart();

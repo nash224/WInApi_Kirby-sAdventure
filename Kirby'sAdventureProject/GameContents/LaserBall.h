@@ -30,7 +30,7 @@ enum class LaserBallState
 	Max,
 };
 
-// 설명 :
+// 설명 : 구체이고 날아다니면서 레이저를 쏘는 귀찮은 파워 몬스터입니다.
 class LaserBall : public PowerEnemies
 {
 public:
@@ -47,15 +47,19 @@ public:
 	void init(const std::string& _FileName, LaserBallState _State, const float4& _Pos);
 
 protected:
+	// 상태패턴 함수
 	LaserBallState State = LaserBallState::Max;
 	LaserBallState RespawnState = LaserBallState::Max;
 
 	int ChargingCount = -1;
 	int ShootCount = 0;
 
+
 	void StateUpdate(float _Delta) override;
 	void ChangeState(LaserBallState _State);
 	void ChangeRespawnState() override;
+
+
 
 	void FlyStart();
 	void ChargingStart();
@@ -67,7 +71,10 @@ protected:
 	void ShootUpdate(float _Delta);
 	void RunAwayUpdate(float _Delta);
 
+
+
 	void EnemyCollisionCheck();
+
 
 private:
 	void Start() override;

@@ -1,22 +1,17 @@
 #include "PoppyBrosJr.h"
 #include "ContentsEnum.h"
 
-#include <GameEngineBase/GameEnginePath.h>
-#include <GameEngineBase/GameEngineTime.h>
-#include <GameEngineBase/GameEngineMath.h>
-#include <GameEnginePlatform/GameEngineWindow.h>
-#include <GameEnginePlatform/GameEngineWindowTexture.h>
-#include <GameEnginePlatform/GameEngineInput.h>
-#include <GameEngineCore/GameEngineCore.h>
+
 #include <GameEngineCore/GameEngineLevel.h>
-#include <GameEngineCore/GameEngineCamera.h>
 #include <GameEngineCore/GameEngineRenderer.h>
 #include <GameEngineCore/GameEngineCollision.h>
-#include <GameEngineCore/ResourcesManager.h>
+
 
 #include "GlobalContents.h"
 #include "Kirby.h"
 #include <vector>
+
+
 
 PoppyBrosJr::PoppyBrosJr()
 {
@@ -25,6 +20,8 @@ PoppyBrosJr::PoppyBrosJr()
 PoppyBrosJr::~PoppyBrosJr()
 {
 }
+
+
 
 
 void PoppyBrosJr::Start()
@@ -68,8 +65,6 @@ void PoppyBrosJr::Update(float _Delta)
 	GroundCheck();
 
 	StateUpdate(_Delta);
-
-	//CheckOverScreen();
 }
 
 

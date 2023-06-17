@@ -1,24 +1,18 @@
 #include "LaserBall.h"
 #include "ContentsEnum.h"
 
-#include <GameEngineBase/GameEnginePath.h>
-#include <GameEngineBase/GameEngineTime.h>
-#include <GameEngineBase/GameEngineMath.h>
+
 #include <GameEngineBase/GameEngineRandom.h>
-#include <GameEnginePlatform/GameEngineWindow.h>
-#include <GameEnginePlatform/GameEngineWindowTexture.h>
-#include <GameEnginePlatform/GameEngineInput.h>
-#include <GameEngineCore/GameEngineCore.h>
 #include <GameEngineCore/GameEngineLevel.h>
-#include <GameEngineCore/GameEngineCamera.h>
 #include <GameEngineCore/GameEngineRenderer.h>
 #include <GameEngineCore/GameEngineCollision.h>
-#include <GameEngineCore/ResourcesManager.h>
+
 
 #include "GlobalContents.h"
 #include "Kirby.h"
 #include "LaserEffect.h"
 #include <vector>
+
 
 LaserBall::LaserBall()
 {
@@ -58,6 +52,11 @@ void LaserBall::Start()
 
 
 	BodyCollision = CreateCollision(CollisionOrder::MonsterBody);
+	if (nullptr == BodyCollision)
+	{
+		MsgBoxAssert("바디 콜리전이 Null일리가 없어..");
+		return;
+	}
 	BodyCollision->SetCollisionPos(float4{ 0.0f , -SMALLTYPECOLLISIONSCALE.hY() });
 	BodyCollision->SetCollisionScale(SMALLTYPECOLLISIONSCALE);
 	BodyCollision->SetCollisionType(CollisionType::Rect);
@@ -339,54 +338,21 @@ void LaserBall::RunAwayUpdate(float _Delta)
 
 void LaserBall::EnemyCollisionCheck()
 {
-	std::vector<GameEngineCollision*> InhaledCol;
-	if (true == BodyCollision->Collision(CollisionOrder::KirbyInhaleAbility, InhaledCol, CollisionType::Rect, CollisionType::Rect))
+	if (true == IsInhaledStateOn)
 	{
-		if (true == IsInhaledStateOn)
-		{
-			IsInhaledStateOn = false;
-			BodyCollision->Off();
-			ChangeState(LaserBallState::BeInhaled);
-			return;
-		}
+		ChangeState(LaserBallState::BeInhaled);
+		return;
 	}
 
-	if (false == IsHitted)
+	if (true == IsHitted)
 	{
-		std::vector<GameEngineCollision*> AbilityCol;
-		if (true == BodyCollision->Collision(CollisionOrder::PlayerAbility, AbilityCol, CollisionType::Rect, CollisionType::Rect))
-		{
-			ChangeState(LaserBallState::Hitted);
-			return;
-		}
-	}
-
-	std::vector<GameEngineCollision*> BodyCol;
-	if (true == BodyCollision->Collision(CollisionOrder::PlayerBody, BodyCol, CollisionType::Rect, CollisionType::Rect))
-	{
-		if (false == IsHitted)
-		{
-			ChangeState(LaserBallState::Hitted);
-			return;
-		}
+		ChangeState(LaserBallState::Hitted);
+		return;
 	}
 }
 
 
 void LaserBall::Render(float _Delta)
 {
-	//float4 WinScale = GameEngineWindow::MainWindow.GetScale();
-	//int CameraPos = GetLevel()->GetMainCamera()->GetPos().iX();
 
-	//GameEngineWindowTexture* Backbuffer = GameEngineWindow::MainWindow.GetBackBuffer();
-	//HDC LineDC = Backbuffer->GetImageDC();
-
-	//MoveToEx(LineDC, GetPos().iX() - CameraPos + static_cast<int>(LASERBALLSHOOTDETECTMINRANGE), 0, NULL);
-	//LineTo(LineDC, GetPos().iX() - CameraPos + static_cast<int>(LASERBALLSHOOTDETECTMINRANGE), WinScale.iY());
-
-	//MoveToEx(LineDC, GetPos().iX() - CameraPos + static_cast<int>(LASERBALLRUNAWAYDETECTRANGE), 0, NULL);
-	//LineTo(LineDC, GetPos().iX() - CameraPos + static_cast<int>(LASERBALLRUNAWAYDETECTRANGE), WinScale.iY());
-
-	//MoveToEx(LineDC, GetPos().iX() - CameraPos + static_cast<int>(LASERBALLSHOOTDETECTMAXRANGE), 0, NULL);
-	//LineTo(LineDC, GetPos().iX() - CameraPos + static_cast<int>(LASERBALLSHOOTDETECTMAXRANGE), WinScale.iY());
 }

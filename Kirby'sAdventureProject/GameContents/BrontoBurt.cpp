@@ -1,22 +1,17 @@
 #include "BrontoBurt.h"
 #include "ContentsEnum.h"
 
-#include <GameEngineBase/GameEnginePath.h>
-#include <GameEngineBase/GameEngineTime.h>
-#include <GameEngineBase/GameEngineMath.h>
-#include <GameEnginePlatform/GameEngineWindow.h>
-#include <GameEnginePlatform/GameEngineWindowTexture.h>
-#include <GameEnginePlatform/GameEngineInput.h>
-#include <GameEngineCore/GameEngineCore.h>
+
 #include <GameEngineCore/GameEngineLevel.h>
-#include <GameEngineCore/GameEngineCamera.h>
 #include <GameEngineCore/GameEngineRenderer.h>
 #include <GameEngineCore/GameEngineCollision.h>
-#include <GameEngineCore/ResourcesManager.h>
+
 
 #include "GlobalContents.h"
 #include "Kirby.h"
 #include <vector>
+
+
 
 BrontoBurt::BrontoBurt()
 {
@@ -27,12 +22,15 @@ BrontoBurt::~BrontoBurt()
 }
 
 
+
+
 void BrontoBurt::Start()
 {
 	MainRenderer = CreateRenderer(RenderOrder::Play);
 
 	GlobalContents::SpriteFileLoad("Left_AerialEnemy.bmp", "Resources\\Unit\\Grunt", 3, 3);
 	GlobalContents::SpriteFileLoad("Right_AerialEnemy.bmp", "Resources\\Unit\\Grunt", 3, 3);
+
 
 	MainRenderer->CreateAnimation("Left_Idle", "Left_AerialEnemy.bmp", 7, 7, 0.5f, false);
 	MainRenderer->CreateAnimation("Right_Idle", "Right_AerialEnemy.bmp", 7, 7, 0.5f, false);
@@ -56,6 +54,8 @@ void BrontoBurt::Start()
 	MainRenderer->SetRenderScaleToTexture();
 	MainRenderer->SetScaleRatio(3.0f);
 
+
+
 	Scale = float4{ 24.0f, 39.0f };
 	SetCheckPoint(Scale);
 
@@ -63,6 +63,12 @@ void BrontoBurt::Start()
 
 
 	BodyCollision = CreateCollision(CollisionOrder::MonsterBody);
+	if (nullptr == BodyCollision)
+	{
+		MsgBoxAssert("Collision 이 Null 일리가 없어..");
+		return;
+	}
+
 	BodyCollision->SetCollisionPos(float4{ 0.0f , -SMALLTYPECOLLISIONSCALE.hY() });
 	BodyCollision->SetCollisionScale(SMALLTYPECOLLISIONSCALE);
 	BodyCollision->SetCollisionType(CollisionType::Rect);
@@ -103,6 +109,7 @@ void BrontoBurt::StateUpdate(float _Delta)
 	case BrontoState::WaveFlightRise:		return WaveFlightRiseUpdate(_Delta);
 	case BrontoState::WaveFlightFall:		return WaveFlightFallUpdate(_Delta);
 	case BrontoState::BeInhaled:			return BeInhaledUpdate(_Delta);
+	case BrontoState::Hitted:				return HittedUpdate(_Delta);
 	default:
 		break;
 	}
@@ -120,6 +127,7 @@ void BrontoBurt::ChangeState(BrontoState _State)
 		case BrontoState::WaveFlightRise:		WaveFlightRiseStart();			break;
 		case BrontoState::WaveFlightFall:		WaveFlightFallStart();			break;
 		case BrontoState::BeInhaled:			BeInhaledStart();				break;
+		case BrontoState::Hitted:				HittedStart();					break;
 		default:
 			break;
 		}
@@ -370,22 +378,15 @@ void BrontoBurt::WaveFlightFallUpdate(float _Delta)
 
 void BrontoBurt::EnemyCollisionCheck()
 {
-	std::vector<GameEngineCollision*> InhaledCol;
-	if (true == BodyCollision->Collision(CollisionOrder::KirbyInhaleAbility, InhaledCol, CollisionType::Rect, CollisionType::Rect))
+	if (true == IsInhaledStateOn)
 	{
-		if (true == IsInhaledStateOn)
-		{
-			IsInhaledStateOn = false;
-			BodyCollision->Off();
-			ChangeState(BrontoState::BeInhaled);
-			return;
-		}
+		ChangeState(BrontoState::BeInhaled);
+		return;
 	}
 
-	std::vector<GameEngineCollision*> AbilityCol;
-	if (true == BodyCollision->Collision(CollisionOrder::PlayerAbility, AbilityCol, CollisionType::Rect, CollisionType::Rect))
+	if (true == IsHitted)
 	{
-		/*ChangeState(HotHeadState::Hitted);*/
+		ChangeState(BrontoState::Hitted);
 		return;
 	}
 }

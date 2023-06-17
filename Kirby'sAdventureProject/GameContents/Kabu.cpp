@@ -1,22 +1,17 @@
 #include "Kabu.h"
 #include "ContentsEnum.h"
 
-#include <GameEngineBase/GameEnginePath.h>
-#include <GameEngineBase/GameEngineTime.h>
-#include <GameEngineBase/GameEngineMath.h>
+
 #include <GameEngineBase/GameEngineRandom.h>
-#include <GameEnginePlatform/GameEngineWindow.h>
-#include <GameEnginePlatform/GameEngineWindowTexture.h>
-#include <GameEnginePlatform/GameEngineInput.h>
-#include <GameEngineCore/GameEngineCore.h>
 #include <GameEngineCore/GameEngineLevel.h>
-#include <GameEngineCore/GameEngineCamera.h>
 #include <GameEngineCore/GameEngineRenderer.h>
 #include <GameEngineCore/GameEngineCollision.h>
-#include <GameEngineCore/ResourcesManager.h>
+
 
 #include "GlobalContents.h"
 #include "Kirby.h"
+
+
 
 Kabu::Kabu()
 {
@@ -27,12 +22,17 @@ Kabu::~Kabu()
 }
 
 
+
+
 void Kabu::Start()
 {
 	MainRenderer = CreateRenderer(RenderOrder::Play);
 
+
 	GlobalContents::SpriteFileLoad("Left_NormalEnemy.bmp", "Resources\\Unit\\Grunt", 4, 5);
 	GlobalContents::SpriteFileLoad("Right_NormalEnemy.bmp", "Resources\\Unit\\Grunt", 4, 5);
+
+
 
 	MainRenderer->CreateAnimation("Left_Idle", "Left_NormalEnemy.bmp", 4, 7, KABUIDLESPIN, true);
 	MainRenderer->CreateAnimation("Right_Idle", "Right_NormalEnemy.bmp", 4, 7, KABUIDLESPIN, true);
@@ -46,26 +46,36 @@ void Kabu::Start()
 	MainRenderer->SetRenderScaleToTexture();
 	MainRenderer->SetScaleRatio(3.0f);
 
+
+
 	Scale = float4{ 24.0f, 39.0f };
 	SetCheckPoint(Scale);
 
 	Dir = ActorDir::Left;
 	ChangeState(NormalState::Idle);
 
+
 	BodyCollision = CreateCollision(CollisionOrder::MonsterBody);
+	if (nullptr == BodyCollision)
+	{
+		MsgBoxAssert("Null 일리가 없어");
+		return;
+	}
+
 	BodyCollision->SetCollisionPos(float4{ 0.0f , -SMALLTYPECOLLISIONSCALE.hY() });
 	BodyCollision->SetCollisionScale(SMALLTYPECOLLISIONSCALE);
 	BodyCollision->SetCollisionType(CollisionType::Rect);
 }
+
+
 
 void Kabu::Update(float _Delta)
 {
 	GroundCheck();
 
 	StateUpdate(_Delta);
-
-	//CheckOverScreen();
 }
+
 
 
 void Kabu::IdleStart()
@@ -198,7 +208,7 @@ void Kabu::JumpUpdate(float _Delta)
 		SetGravityVector(float4::UP * CurrentJumpDistance);
 	}
 
-	// 버그수정
+
 	if (false == IsChangeState)
 	{
 		if (ActorDir::Left == Dir)

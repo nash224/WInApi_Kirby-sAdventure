@@ -16,6 +16,7 @@ void Kirby::Laser_StateResourceLoad()
 	GlobalContents::SpriteFileLoad("Ability_Left_Use.bmp", "Resources\\Unit\\Kirby", 3, 3);
 	GlobalContents::SpriteFileLoad("Ability_Right_Use.bmp", "Resources\\Unit\\Kirby", 3, 3);
 
+
 	MainRenderer->CreateAnimation("Laser_Left_Idle", "Ability_Left_Kirby.bmp", 0, 1, 0.5f, true);
 	MainRenderer->CreateAnimation("Laser_Right_Idle", "Ability_Right_Kirby.bmp", 0, 1, 0.5f, true);
 
@@ -67,31 +68,36 @@ void Kirby::Laser_StateResourceLoad()
 	MainRenderer->CreateAnimation("Laser_Left_ExhaleAttack", "Ability_Left_Kirby.bmp", 21, 24, EXHALEATTACKTIME, false);
 	MainRenderer->CreateAnimation("Laser_Right_ExhaleAttack", "Ability_Right_Kirby.bmp", 21, 24, EXHALEATTACKTIME, false);
 
-	MainRenderer->CreateAnimation("Laser_Left_UseSpecialAbility", "Ability_Left_Use.bmp", 7, 7, 0.1f, true);
-	MainRenderer->CreateAnimation("Laser_Right_UseSpecialAbility", "Ability_Right_Use.bmp", 7, 7, 0.1f, true);
+	MainRenderer->CreateAnimation("Laser_Left_UseSpecialAbility", "Ability_Left_Use.bmp", 7, 8, 0.1f, false);
+	MainRenderer->CreateAnimation("Laser_Right_UseSpecialAbility", "Ability_Right_Use.bmp", 7, 8, 0.1f, false);
 
 	MainRenderer->CreateAnimation("Laser_Left_ReleaseSpecialAbility", "Ability_Left_Use.bmp", 8, 8, 0.1f, false);
 	MainRenderer->CreateAnimation("Laser_Right_ReleaseSpecialAbility", "Ability_Right_Use.bmp", 8, 8, 0.1f, false);
 
-	MainRenderer->CreateAnimation("Laser_Left_GetAbility", "Ability_Left_Use.bmp", 7, 8, 0.1f, true);
-	MainRenderer->CreateAnimation("Laser_Right_GetAbility", "Ability_Right_Use.bmp", 7, 8, 0.1f, true);
+	MainRenderer->CreateAnimation("Laser_Left_GetAbility", "Ability_Left_Use.bmp", 7, 8, 0.1f, false);
+	MainRenderer->CreateAnimation("Laser_Right_GetAbility", "Ability_Right_Use.bmp", 7, 8, 0.1f, false);
 }
 
 
 void Kirby::LaserAbilityStart()
 {
+	// 레이저 소환
 	LaserEffect* LaserEffectPtr = GetLevel()->CreateActor<LaserEffect>();
+
 	if (nullptr == LaserEffectPtr)
 	{
 		MsgBoxAssert("Null인 액터에 참조하려고 했습니다.");
 		return;
 	}
+
 	LaserEffectPtr->init(GetPos(), GetKirbyScale(), GetDirUnitVector());
+
 	LaserEffectPtr->SetActorCollision(CollisionOrder::PlayerAbility, CollisionType::Rect);
 }
 
 void Kirby::LaserAbilityUpdate(float _Delta)
 {
+	// Laser 모션이 끝나면 능력 해제
 	if (true == MainRenderer->IsAnimationEnd())
 	{
 		ChangeState(KirbyState::ReleaseSpecialAbility);
@@ -99,10 +105,15 @@ void Kirby::LaserAbilityUpdate(float _Delta)
 	}
 
 
+
+	// 지형락
 	BlockedByGround();
 	BlockedByCeiling();
 	BlockedByWall();
 
+
+
+	// 발이 땅에 있을 때 중력적용 x
 	if (false == GetGroundState())
 	{
 		Gravity(_Delta);
@@ -110,6 +121,8 @@ void Kirby::LaserAbilityUpdate(float _Delta)
 		VerticalUpdate(_Delta);
 	}
 
+
+	// X축 속도 업데이트
 	ContentsActor::DecelerationUpdate(_Delta, DECELERATIONSPEED);
 	HorizontalUpdate(_Delta);
 }

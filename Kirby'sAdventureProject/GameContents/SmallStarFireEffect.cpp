@@ -12,6 +12,8 @@
 #include "GlobalContents.h"
 #include "ObejctDisapearingEffect.h"
 
+
+
 SmallStarFireEffect::SmallStarFireEffect()
 {
 }

@@ -45,7 +45,7 @@ enum class SparkyState
 	Max,
 };
 
-// 설명 :
+// 설명 : 전기를 방사하는 파워몹 슬라임입니다.
 class Sparky : public PowerEnemies
 {
 public:
@@ -62,6 +62,7 @@ public:
 	void init(const std::string& _FileName, SparkyState _State, const float4& _Pos);
 
 protected:
+	// 상태패턴 함수
 	SparkyState State = SparkyState::Max;
 	SparkyState RespawnState = SparkyState::Max;
 
@@ -74,6 +75,7 @@ protected:
 	void ChangeRespawnState() override;
 
 
+	// 감지 함수 
 	bool IsLeftStair();
 	bool IsRightStair();
 
@@ -92,7 +94,10 @@ protected:
 	void LandingUpdate(float _Delta);
 	void SparkUpdate(float _Delta);
 
+
+
 	void EnemyCollisionCheck();
+
 
 private:
 	void Start() override;
@@ -100,6 +105,7 @@ private:
 	void Render(float _Detla) override;
 
 
+	// 계단을 점프해서 오르기 위한 추가 로직
 	float4 StairLeftBottomCheckPoint = float4::ZERO;
 	float4 StairLeftTopCheckPoint = float4::ZERO;
 

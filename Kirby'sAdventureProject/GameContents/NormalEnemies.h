@@ -11,6 +11,7 @@ enum class NormalState
 	Sweep,
 	StepOn,
 	BeInhaled,
+	Hitted,
 	Max,
 };
 

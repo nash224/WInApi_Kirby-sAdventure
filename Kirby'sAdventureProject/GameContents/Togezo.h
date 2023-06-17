@@ -29,7 +29,7 @@ enum class TogezoState
 	Max,
 };
 
-// 설명 :
+// 설명 : 공벌레처럼 굴러다니는 파워몹 고슴도치입니다.
 class Togezo : public PowerEnemies
 {
 public:
@@ -46,16 +46,21 @@ public:
 	void init(const std::string& _FileName, TogezoState _State, const float4& _Pos);
 
 protected:
+	// 상태패턴 함수
 	TogezoState State = TogezoState::Max;
 	TogezoState RespawnState = TogezoState::Max;
+
 
 	bool IsRollingSpeedZero = false;
 	float RollingSpeedZeroTime = 0.0f;
 	int BounceCount = 0;
 
+
 	void StateUpdate(float _Delta) override;
 	void ChangeState(TogezoState _State);
 	void ChangeRespawnState() override;
+
+
 
 	void WalkStart();
 	void BounceStart();
@@ -64,6 +69,8 @@ protected:
 	void WalkUpdate(float _Delta);
 	void BounceUpdate(float _Delta);
 	void RollUpdate(float _Delta);
+
+
 
 	void EnemyCollisionCheck();
 

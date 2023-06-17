@@ -1,22 +1,16 @@
 #include "BroomHatter.h"
 #include "ContentsEnum.h"
 
-#include <GameEngineBase/GameEnginePath.h>
-#include <GameEngineBase/GameEngineTime.h>
-#include <GameEngineBase/GameEngineMath.h>
-#include <GameEnginePlatform/GameEngineWindow.h>
-#include <GameEnginePlatform/GameEngineWindowTexture.h>
-#include <GameEnginePlatform/GameEngineInput.h>
-#include <GameEngineCore/GameEngineCore.h>
+
 #include <GameEngineCore/GameEngineLevel.h>
-#include <GameEngineCore/GameEngineCamera.h>
 #include <GameEngineCore/GameEngineRenderer.h>
 #include <GameEngineCore/GameEngineCollision.h>
-#include <GameEngineCore/ResourcesManager.h>
+
 
 #include "GlobalContents.h"
 #include "Kirby.h"
 #include "DustEffect.h"
+
 
 BroomHatter::BroomHatter() 
 {
@@ -30,9 +24,16 @@ BroomHatter::~BroomHatter()
 void BroomHatter::Start()
 {
 	MainRenderer = CreateRenderer(RenderOrder::Play);
+	if (nullptr == MainRenderer)
+	{
+		MsgBoxAssert("렌더러가 Null 일리가 없어");
+		return;
+	}
+
 
 	GlobalContents::SpriteFileLoad("Left_NormalEnemy.bmp", "Resources\\Unit\\Grunt", 4, 5);
 	GlobalContents::SpriteFileLoad("Right_NormalEnemy.bmp", "Resources\\Unit\\Grunt", 4, 5);
+
 
 	MainRenderer->CreateAnimation("Left_Idle", "Left_NormalEnemy.bmp", 3, 3, 0.5f, false);
 	MainRenderer->CreateAnimation("Right_Idle", "Right_NormalEnemy.bmp", 3, 3, 0.5f, false);
@@ -43,26 +44,38 @@ void BroomHatter::Start()
 	MainRenderer->SetRenderScaleToTexture();
 	MainRenderer->SetScaleRatio(3.0f);
 
+
+
 	Scale = float4{ 24.0f, 39.0f };
 	SetCheckPoint(Scale);
 
 	Dir = ActorDir::Left;
 	ChangeState(NormalState::Idle);
 
+
+
 	BodyCollision = CreateCollision(CollisionOrder::MonsterBody);
+	if (nullptr == MainRenderer)
+	{
+		MsgBoxAssert("Collision 이 Null 일리가 없어");
+		return;
+	}
+
 	BodyCollision->SetCollisionPos(float4{ 0.0f , -SMALLTYPECOLLISIONSCALE.hY() });
 	BodyCollision->SetCollisionScale(SMALLTYPECOLLISIONSCALE);
 	BodyCollision->SetCollisionType(CollisionType::Rect);
 }
+
+
 
 void BroomHatter::Update(float _Delta)
 {
 	GroundCheck();
 
 	StateUpdate(_Delta);
-
-	//CheckOverScreen();
 }
+
+
 
 
 void BroomHatter::IdleStart()
@@ -143,12 +156,23 @@ void BroomHatter::SweepUpdate(float _Delta)
 	{
 		float4 EffectDir = GetDirUnitVector();
 		DustEffect* DustEffectPtr = GetLevel()->CreateActor<DustEffect>();
+		if (nullptr == DustEffectPtr)
+		{
+			MsgBoxAssert("Null 일리가 없어..");
+			return;
+		}
+
 		DustEffectPtr->init(GetPos(), Scale, EffectDir);
+
+
 		ChangeState(NormalState::Idle);
 		return;
 	}
 
+
+
 	EnemyCollisionCheck();
+
 
 	if (true == CheckLeftWall() || LeftGroundIsCliff())
 	{

@@ -26,6 +26,7 @@ enum class ScarfyState
 	TransFormingAfter,
 	Following,
 	Bomb,
+	Hitted,
 	Max,
 };
 
@@ -53,21 +54,28 @@ protected:
 	int WobbleCount = 0;
 	int BombCount = -1;
 
+
+	// 상태패턴 함수
 	void StateUpdate(float _Delta) override;
 	void ChangeState(ScarfyState _State);
 	void ChangeRespawnState() override;
+
 
 	void IdleStart();
 	void TransFormingBeforeStart();
 	void TransFormingAfterStart();
 	void FollowingStart();
 	void BombStart();
+	void HittedStart() override;
+
 
 	void IdleUpdate(float _Delta);
 	void TransFormingBeforeUpdate(float _Delta);
 	void TransFormingAfterUpdate(float _Delta);
 	void FollowingUpdate(float _Delta);
 	void BombUpdate(float _Delta);
+	void HittedUpdate(float _Delta) override;
+
 
 	void EnemyCollisionCheck();
 

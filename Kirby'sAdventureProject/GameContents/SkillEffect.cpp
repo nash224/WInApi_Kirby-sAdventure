@@ -28,6 +28,13 @@ float4 SkillEffect::GetCameraPos()
 void SkillEffect::SetActorCollision(CollisionOrder _Order, CollisionType _Type)
 {
 	EffectCollision = CreateCollision(_Order);
+
+	if (nullptr == EffectCollision)
+	{
+		MsgBoxAssert("콜리전이 Null입니다.");
+		return;
+	}
+
 	EffectCollision->SetCollisionScale(Scale);
 	EffectCollision->SetCollisionType(_Type);
 }

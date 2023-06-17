@@ -1,23 +1,16 @@
 #include "Togezo.h"
 #include "ContentsEnum.h"
 
-#include <GameEngineBase/GameEnginePath.h>
-#include <GameEngineBase/GameEngineTime.h>
-#include <GameEngineBase/GameEngineMath.h>
-#include <GameEngineBase/GameEngineRandom.h>
-#include <GameEnginePlatform/GameEngineWindow.h>
-#include <GameEnginePlatform/GameEngineWindowTexture.h>
-#include <GameEnginePlatform/GameEngineInput.h>
-#include <GameEngineCore/GameEngineCore.h>
+
 #include <GameEngineCore/GameEngineLevel.h>
-#include <GameEngineCore/GameEngineCamera.h>
 #include <GameEngineCore/GameEngineRenderer.h>
 #include <GameEngineCore/GameEngineCollision.h>
-#include <GameEngineCore/ResourcesManager.h>
+
 
 #include "GlobalContents.h"
 #include "Kirby.h"
 #include <vector>
+
 
 Togezo::Togezo()
 {
@@ -55,12 +48,22 @@ void Togezo::Start()
 
 
 	BodyCollision = CreateCollision(CollisionOrder::MonsterBody);
+	if (nullptr == BodyCollision)
+	{
+		MsgBoxAssert("바디 콜리전이 Null일리가 없어..");
+		return;
+	}
 	BodyCollision->SetCollisionPos(float4{ 0.0f, -Scale.hY()});
 	BodyCollision->SetCollisionScale(Scale);
 	BodyCollision->SetCollisionType(CollisionType::Rect);
 	BodyCollision->On();
 
 	AbilityCollision = CreateCollision(CollisionOrder::MonsterAbility);
+	if (nullptr == AbilityCollision)
+	{
+		MsgBoxAssert("바디 콜리전이 Null일리가 없어..");
+		return;
+	}
 	AbilityCollision->SetCollisionPos(float4{ 0.0f , -SMALLTYPECOLLISIONSCALE.hY()});
 	AbilityCollision->SetCollisionScale(SMALLTYPECOLLISIONSCALE);
 	AbilityCollision->SetCollisionType(CollisionType::Rect);
@@ -237,7 +240,9 @@ void Togezo::BounceUpdate(float _Delta)
 		return;
 	}
 
+
 	EnemyCollisionCheck();
+	EnemyAbilityAttack();
 
 	BlockedByGround();
 
@@ -278,7 +283,13 @@ void Togezo::RollUpdate(float _Delta)
 		return;
 	}
 
+
+
 	EnemyCollisionCheck();
+	EnemyAbilityAttack();
+
+
+
 
 	if (ActorDir::Left == Dir && true == CheckLeftWall())
 	{
@@ -332,36 +343,16 @@ void Togezo::RollUpdate(float _Delta)
 
 void Togezo::EnemyCollisionCheck()
 {
-	std::vector<GameEngineCollision*> InhaledCol;
-	if (true == BodyCollision->Collision(CollisionOrder::KirbyInhaleAbility, InhaledCol, CollisionType::Rect, CollisionType::Rect))
+	if (true == IsInhaledStateOn)
 	{
-		if (true == IsInhaledStateOn)
-		{
-			IsInhaledStateOn = false;
-			BodyCollision->Off();
-			ChangeState(TogezoState::BeInhaled);
-			return;
-		}
+		ChangeState(TogezoState::BeInhaled);
+		return;
 	}
 
-	if (false == IsHitted)
+	if (true == IsHitted)
 	{
-		std::vector<GameEngineCollision*> AbilityCol;
-		if (true == BodyCollision->Collision(CollisionOrder::PlayerAbility, AbilityCol, CollisionType::Rect, CollisionType::Rect))
-		{
-			ChangeState(TogezoState::Hitted);
-			return;
-		}
-	}
-
-	std::vector<GameEngineCollision*> BodyCol;
-	if (true == BodyCollision->Collision(CollisionOrder::PlayerBody, BodyCol, CollisionType::Rect, CollisionType::Rect))
-	{
-		if (false == IsHitted)
-		{
-			ChangeState(TogezoState::Hitted);
-			return;
-		}
+		ChangeState(TogezoState::Hitted);
+		return;
 	}
 }
 

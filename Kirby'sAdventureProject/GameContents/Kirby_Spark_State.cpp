@@ -84,6 +84,13 @@ void Kirby::Spark_StateResourceLoad()
 void Kirby::SparkAbilityStart()
 {
 	Duration = 0.0f;
+
+	if (nullptr == SparkEffectCollision)
+	{
+		MsgBoxAssert("번개모드 콜리전이 Null입니다.");
+		return;
+	}
+
 	SparkEffectCollision->On();
 }
 
@@ -92,29 +99,60 @@ void Kirby::SparkAbilityUpdate(float _Delta)
 	StateTime += _Delta;
 	Duration += _Delta;
 
-	if (Duration > AbilityMinDuration && false == IsChangeState )
+	// 능력 최소 지속시간
+	if (Duration > AbilityMinDuration && false == IsChangeState)
 	{
 		IsChangeState = true;
 	}
 
+
+	// 스킬 쿨타임이 돌았으면 변개 효과
 	if (StateTime > KIRBYSPARKEFFECTCREATECYCLE)
 	{
 		StateTime = 0.0f;
 
 		KirbySparkEffect* KirbySparkEffectPtr = GetLevel()->CreateActor<KirbySparkEffect>(UpdateOrder::Ability);
+		if (nullptr == KirbySparkEffectPtr)
+		{
+			MsgBoxAssert("액터가 Null일리가 없어..");
+			return;
+		}
+
 		KirbySparkEffectPtr->init(GetPos(), GetKirbyScale());
 	}
 
+
+
+	// 'Z' 키를 때면 능력 해제
 	if (true == GameEngineInput::IsFree('Z') && true == IsChangeState)
 	{
+		if (nullptr == SparkEffectCollision)
+		{
+			MsgBoxAssert("번개모드 콜리전이 Null입니다.");
+			return;
+		}
+
+		SparkEffectCollision->Off();
 		ChangeState(KirbyState::ReleaseSpecialAbility);
 		return;
 	}
 
+
+
+
+	// 데미지 상태 패턴
+	CheckKirbyCollision();
+
+
+
+	// 지형락
 	BlockedByGround();
 	BlockedByCeiling();
 	BlockedByWall();
 
+
+
+	// 발이 땅에 있을 때 중력적용 x
 	if (false == GetGroundState())
 	{
 		Gravity(_Delta);
@@ -122,6 +160,8 @@ void Kirby::SparkAbilityUpdate(float _Delta)
 		VerticalUpdate(_Delta);
 	}
 
+
+	// X축 속도 업데이트
 	ContentsActor::DecelerationUpdate(_Delta, DECELERATIONSPEED);
 	HorizontalUpdate(_Delta);
 }

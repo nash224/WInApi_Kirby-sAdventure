@@ -133,13 +133,13 @@
       <Filter>Level</Filter>
     </ClInclude>
     <ClInclude Include="AirExplosionEffect.h">
-      <Filter>Global\Effect\AirExplosionEffect</Filter>
+      <Filter>Global\Effect\SkillAbilityEffect\AirExplosionEffect</Filter>
     </ClInclude>
     <ClInclude Include="AirExplosionBEffect.h">
-      <Filter>Global\Effect\AirExplosionEffect</Filter>
+      <Filter>Global\Effect\SkillAbilityEffect\AirExplosionEffect</Filter>
     </ClInclude>
     <ClInclude Include="AirExplosionAEffect.h">
-      <Filter>Global\Effect\AirExplosionEffect</Filter>
+      <Filter>Global\Effect\SkillAbilityEffect\AirExplosionEffect</Filter>
     </ClInclude>
     <ClInclude Include="PlayUIManager.h">
       <Filter>Global</Filter>
@@ -343,13 +343,13 @@
       <Filter>Level</Filter>
     </ClCompile>
     <ClCompile Include="AirExplosionEffect.cpp">
-      <Filter>Global\Effect\AirExplosionEffect</Filter>
+      <Filter>Global\Effect\SkillAbilityEffect\AirExplosionEffect</Filter>
     </ClCompile>
     <ClCompile Include="AirExplosionBEffect.cpp">
-      <Filter>Global\Effect\AirExplosionEffect</Filter>
+      <Filter>Global\Effect\SkillAbilityEffect\AirExplosionEffect</Filter>
     </ClCompile>
     <ClCompile Include="AirExplosionAEffect.cpp">
-      <Filter>Global\Effect\AirExplosionEffect</Filter>
+      <Filter>Global\Effect\SkillAbilityEffect\AirExplosionEffect</Filter>
     </ClCompile>
     <ClCompile Include="PlayUIManager.cpp">
       <Filter>Global</Filter>
@@ -470,9 +470,6 @@
     <Filter Include="Global\Effect">
       <UniqueIdentifier>{2a512cb1-4fa0-447b-b81f-9084fa92a2ca}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Global\Effect\AirExplosionEffect">
-      <UniqueIdentifier>{8b10c2d6-baf3-40c7-9e1b-efacbeea88c9}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Level">
       <UniqueIdentifier>{c48bda09-ac6f-4661-a193-86efece953e9}</UniqueIdentifier>
     </Filter>
@@ -493,6 +490,9 @@
     </Filter>
     <Filter Include="Global\Effect\BaseEffect">
       <UniqueIdentifier>{afcc962c-08a6-45b0-8419-a4bf1d923da9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Global\Effect\SkillAbilityEffect\AirExplosionEffect">
+      <UniqueIdentifier>{8b10c2d6-baf3-40c7-9e1b-efacbeea88c9}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

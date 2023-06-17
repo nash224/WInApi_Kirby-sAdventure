@@ -1,4 +1,12 @@
 #include "PowerEnemies.h"
+#include "ContentsEnum.h"
+
+#include <GameEngineCore/GameEngineCollision.h>
+
+
+#include <vector>
+
+
 
 PowerEnemies::PowerEnemies() 
 {
@@ -9,7 +17,7 @@ PowerEnemies::~PowerEnemies()
 }
 
 
-
+// 방향 값을 기준으로 좌, 우 단위벡터를 반환
 float4 PowerEnemies::GetAbilityDir()
 {
 	float4 AbilityDir = float4::ZERO;
@@ -26,3 +34,27 @@ float4 PowerEnemies::GetAbilityDir()
 	return AbilityDir;
 }
 
+
+
+void PowerEnemies::EnemyAbilityAttack()
+{
+	std::vector<GameEngineCollision*> KirbyBodyCollision;
+	if (true == AbilityCollision->Collision(CollisionOrder::PlayerBody, KirbyBodyCollision, CollisionType::Rect, CollisionType::Rect))
+	{
+		GameEngineCollision* KirbyBody = KirbyBodyCollision[0];
+		if (nullptr == KirbyBody)
+		{
+			MsgBoxAssert("커비는 Null 입니다.");
+			return;
+		}
+
+		ActorUtils* KirbyPtr = dynamic_cast<ActorUtils*>(KirbyBody->GetActor());
+		if (nullptr == KirbyPtr)
+		{
+			MsgBoxAssert("다운 캐스팅이 실패했습니다.");
+			return;
+		}
+
+		KirbyPtr->IsHitted = true;
+	}
+}

@@ -73,19 +73,53 @@ void Kirby::Beam_StateResourceLoad()
 	MainRenderer->CreateAnimation("Beam_Left_ReleaseSpecialAbility", "Ability_Left_Use.bmp", 6, 6, 0.1f, false);
 	MainRenderer->CreateAnimation("Beam_Right_ReleaseSpecialAbility", "Ability_Right_Use.bmp", 6, 6, 0.1f, false);
 
-	MainRenderer->CreateAnimation("Beam_Left_GetAbility", "Ability_Left_Use.bmp", 5, 6, 0.1f, false);
-	MainRenderer->CreateAnimation("Beam_Right_GetAbility", "Ability_Right_Use.bmp", 5, 6, 0.1f, false);
+	MainRenderer->CreateAnimation("Beam_Left_GetAbility", "Ability_Left_Use.bmp", 5, 6, 0.1f, true);
+	MainRenderer->CreateAnimation("Beam_Right_GetAbility", "Ability_Right_Use.bmp", 5, 6, 0.1f, true);
 }
 
 
 void Kirby::BeamAbilityStart()
 {
+	// 빔 소환
 	BeamEffect* BeamEffectPtr = GetLevel()->CreateActor<BeamEffect>();
+	if (nullptr == BeamEffectPtr)
+	{
+		MsgBoxAssert("액터가 Null일리가 없어...");
+		return; 
+	}
+
 	BeamEffectPtr->init(GetPos(), GetKirbyScale(), GetDirUnitVector());
-	BeamEffectPtr->SetActorCollision(CollisionOrder::MonsterAbility, CollisionType::Rect);
+	BeamEffectPtr->SetActorCollision(CollisionOrder::PlayerAbility, CollisionType::Rect);
 }
 
 void Kirby::BeamAbilityUpdate(float _Delta)
 {
+	// Beam 모션이 끝나면 능력 해제
+	if (true == MainRenderer->IsAnimationEnd())
+	{
+		ChangeState(KirbyState::ReleaseSpecialAbility);
+		return;
+	}
 
+
+
+	// 지형락
+	BlockedByGround();
+	BlockedByCeiling();
+	BlockedByWall();
+
+
+
+	// 발이 땅에 있을 때 중력적용 x
+	if (false == GetGroundState())
+	{
+		Gravity(_Delta);
+		GravityLimit(_Delta);
+		VerticalUpdate(_Delta);
+	}
+
+
+	// X축 속도 업데이트
+	ContentsActor::DecelerationUpdate(_Delta, DECELERATIONSPEED);
+	HorizontalUpdate(_Delta);
 }

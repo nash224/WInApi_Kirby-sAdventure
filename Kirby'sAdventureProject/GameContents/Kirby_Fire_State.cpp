@@ -6,9 +6,7 @@
 #include <GameEngineCore/ResourcesManager.h>
 
 #include "GlobalContents.h"
-#include "DustEffect.h"
-#include "HitObjectEffect.h"
-#include "ExhaleEffect.h"
+#include "FrameBreathEffect.h"
 
 
 void Kirby::Fire_StateResourceLoad()
@@ -18,6 +16,7 @@ void Kirby::Fire_StateResourceLoad()
 
 	GlobalContents::SpriteFileLoad("Ability_Left_Use.bmp", "Resources\\Unit\\Kirby", 3, 3);
 	GlobalContents::SpriteFileLoad("Ability_Right_Use.bmp", "Resources\\Unit\\Kirby", 3, 3);
+
 
 	MainRenderer->CreateAnimation("Fire_Left_Idle", "Ability_Left_Kirby.bmp", 0, 1, 0.5f, true);
 	MainRenderer->CreateAnimation("Fire_Right_Idle", "Ability_Right_Kirby.bmp", 0, 1, 0.5f, true);
@@ -83,10 +82,64 @@ void Kirby::Fire_StateResourceLoad()
 
 void Kirby::FireAbilityStart()
 {
-	
+	Duration = 0.0f;
 }
 
 void Kirby::FireAbilityUpdate(float _Delta)
 {
+	StateTime += _Delta;
+	Duration += _Delta;
 
+	// 능력 최소 지속시간
+	if (Duration > AbilityMinDuration && false == IsChangeState)
+	{
+		IsChangeState = true;
+	}
+
+	// 쿨이 돌아오면 불덩이 하나 소환
+	if (StateTime > KIRBYFRAMEEFFECTCREATECYCLE)
+	{
+		StateTime = 0.0f;
+
+		FrameBreathEffect* FrameBreathEffectPtr = GetLevel()->CreateActor<FrameBreathEffect>(UpdateOrder::Ability);
+
+		if (nullptr == FrameBreathEffectPtr)
+		{
+			MsgBoxAssert("액터가 Null입니다.");
+			return;
+		}
+
+		FrameBreathEffectPtr->init(GetPos(), GetKirbyScale(), GetDirUnitVector());
+		FrameBreathEffectPtr->SetActorCollision(CollisionOrder::PlayerAbility, CollisionType::Rect);
+	}
+
+
+	// Z를 때면 능력 해제
+	if (true == GameEngineInput::IsFree('Z') && true == IsChangeState)
+	{
+		ChangeState(KirbyState::ReleaseSpecialAbility);
+		return;
+	}
+
+
+
+	// 지형락
+	BlockedByGround();
+	BlockedByCeiling();
+	BlockedByWall();
+
+
+
+	// 발이 땅에 있을 때 중력적용 x
+	if (false == GetGroundState())
+	{
+		Gravity(_Delta);
+		GravityLimit(_Delta);
+		VerticalUpdate(_Delta);
+	}
+
+
+	// X축 속도 업데이트
+	ContentsActor::DecelerationUpdate(_Delta, DECELERATIONSPEED);
+	HorizontalUpdate(_Delta);
 }

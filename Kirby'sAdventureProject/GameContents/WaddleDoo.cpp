@@ -1,19 +1,12 @@
 #include "WaddleDoo.h"
 #include "ContentsEnum.h"
 
-#include <GameEngineBase/GameEnginePath.h>
-#include <GameEngineBase/GameEngineTime.h>
-#include <GameEngineBase/GameEngineMath.h>
+
 #include <GameEngineBase/GameEngineRandom.h>
-#include <GameEnginePlatform/GameEngineWindow.h>
-#include <GameEnginePlatform/GameEngineWindowTexture.h>
-#include <GameEnginePlatform/GameEngineInput.h>
-#include <GameEngineCore/GameEngineCore.h>
 #include <GameEngineCore/GameEngineLevel.h>
-#include <GameEngineCore/GameEngineCamera.h>
 #include <GameEngineCore/GameEngineRenderer.h>
 #include <GameEngineCore/GameEngineCollision.h>
-#include <GameEngineCore/ResourcesManager.h>
+
 
 #include "GlobalContents.h"
 #include "Kirby.h"
@@ -59,6 +52,11 @@ void WaddleDoo::Start()
 
 
 	BodyCollision = CreateCollision(CollisionOrder::MonsterBody);
+	if (nullptr == BodyCollision)
+	{
+		MsgBoxAssert("바디 콜리전이 Null일리가 없어..");
+		return;
+	}
 	BodyCollision->SetCollisionPos(float4{ 0.0f , -SMALLTYPECOLLISIONSCALE.hY() });
 	BodyCollision->SetCollisionScale(SMALLTYPECOLLISIONSCALE);
 	BodyCollision->SetCollisionType(CollisionType::Rect);
@@ -378,36 +376,16 @@ void WaddleDoo::ActivateAbilityUpdate(float _Delta)
 
 void WaddleDoo::EnemyCollisionCheck()
 {
-	std::vector<GameEngineCollision*> InhaledCol;
-	if (true == BodyCollision->Collision(CollisionOrder::KirbyInhaleAbility, InhaledCol, CollisionType::Rect, CollisionType::Rect))
+	if (true == IsInhaledStateOn)
 	{
-		if (true == IsInhaledStateOn)
-		{
-			IsInhaledStateOn = false;
-			BodyCollision->Off();
-			ChangeState(WaddleDooState::BeInhaled);
-			return;
-		}
+		ChangeState(WaddleDooState::BeInhaled);
+		return;
 	}
 
-	if (false == IsHitted)
+	if (true == IsHitted)
 	{
-		std::vector<GameEngineCollision*> AbilityCol;
-		if (true == BodyCollision->Collision(CollisionOrder::PlayerAbility, AbilityCol, CollisionType::Rect, CollisionType::Rect))
-		{
-			ChangeState(WaddleDooState::Hitted);
-			return;
-		}
-	}
-
-	std::vector<GameEngineCollision*> BodyCol;
-	if (true == BodyCollision->Collision(CollisionOrder::PlayerBody, BodyCol, CollisionType::Rect, CollisionType::Rect))
-	{
-		if (false == IsHitted)
-		{
-			ChangeState(WaddleDooState::Hitted);
-			return;
-		}
+		ChangeState(WaddleDooState::Hitted);
+		return;
 	}
 }
 

@@ -7,11 +7,6 @@
 #include <GameEngineCore/GameEngineLevel.h>
 
 
-void Kirby::DropAbility()
-{
-	Mode = AbilityStar::Normal;
-	ChangeAnimationState(CurState);
-}
 
 
 void Kirby::UseSpecialAbilityStart()
@@ -162,34 +157,47 @@ void Kirby::InhaleAbilityUpdate(float _Delta)
 	IsChangeState = MainRenderer->IsAnimationEnd();
 
 
+	// 기본커비 특수 스킬 충돌검사
 	std::vector<GameEngineCollision*> InhaleCol;
 	if (true == InhaleEffectCollision->Collision(CollisionOrder::MonsterBody, InhaleCol, CollisionType::Rect, CollisionType::Rect))
 	{
 		for (size_t i = 0; i < InhaleCol.size(); i++)
 		{
 			GameEngineCollision* Collision = InhaleCol[i];
-			ActorUtils* EnemyPtr = dynamic_cast<ActorUtils*>(Collision->GetActor());
+			if (nullptr == Collision)
+			{
+				MsgBoxAssert("충돌한 객체가 Null 입니다.");
+				return;
+			}
 
+			ActorUtils* EnemyPtr = dynamic_cast<ActorUtils*>(Collision->GetActor());
+			if (nullptr == EnemyPtr)
+			{
+				MsgBoxAssert("다운 캐스팅이 잘못되었습니다.");
+				return;
+			}
+
+
+			// 이미 충돌한 객체는 다시 못들어옴
 			if (true == EnemyPtr->IsInhaledStateOn)
 			{
 				continue;
 			}
 
+
+			// 충돌되면 충돌했다는 변수를 변경하고, 몬스터의 능력 정보를 가져옴
 			EnemyPtr->IsInhaledStateOn = true;
 			AbilityStar EnemyAbility = EnemyPtr->Ability;
 
+
+			// 빨아들인 몬스터 수에 따라 별의 크기가 결정됨
 			if (AbilityStar::Max != EnemyAbility)
 			{
 				++Star.SwallowedEnemyNumber;
 				SwallingEnemy = EnemyPtr;
-
-				if (2 == Star.SwallowedEnemyNumber)
-				{
-					int a = 0;
-				}
-
 			}
 
+			// 특수 몹을 2명 이상 먹었으면 랜덤 능력
 			if (AbilityStar::Normal != EnemyAbility && AbilityStar::Max != EnemyAbility)
 			{
 				CurrentAbilityStar = EnemyAbility;
@@ -198,6 +206,9 @@ void Kirby::InhaleAbilityUpdate(float _Delta)
 		}
 	}
 	
+
+
+	// 
 	if ((Star.SwallowedEnemyNumber > 0 && false == SwallingEnemy->IsUpdate()) || StateTime > 3.0f)
 	{
 		InhaleEffectCollision->Off();
@@ -205,7 +216,9 @@ void Kirby::InhaleAbilityUpdate(float _Delta)
 		return;
 	}
 
-	if (true == GameEngineInput::IsFree('Z') && 0 == Star.SwallowedEnemyNumber && true == IsChangeState)
+
+	// 아무도 안먹었을 때 'Z' 키를 때면 능력 해제
+	if (true == IsChangeState && true == GameEngineInput::IsFree('Z') && 0 == Star.SwallowedEnemyNumber)
 	{
 		Star.SwallowedPowerEnemyNumber;
 
@@ -215,7 +228,14 @@ void Kirby::InhaleAbilityUpdate(float _Delta)
 	}
 
 
-	BlockedByWall();
+
+	// 데미지 상태 패턴
+	CheckKirbyCollision();
+
+
+
+
+	BlockedByWall(); 
 	BlockedByGround();
 
 	if (false == GetGroundState())
@@ -227,5 +247,68 @@ void Kirby::InhaleAbilityUpdate(float _Delta)
 
 	ContentsActor::DecelerationUpdate(_Delta, DECELERATIONSPEED);
 	HorizontalUpdate(_Delta);
+}
+
+
+
+
+void Kirby::DropAbility()
+{
+	Mode = AbilityStar::Normal;
+	ChangeAnimationState(CurState);
+}
+
+
+
+void Kirby::CheckKirbyCollision()
+{
+
+
+	
+	GameEngineCollision* KirbyBodyCollision = GetKirbyCollison();
+	if (nullptr == KirbyBodyCollision)
+	{
+		MsgBoxAssert("커비 몸통 충돌체가 Null 입니다.");
+		return;
+	}
+
+	std::vector<GameEngineCollision*> MonsterBodyCol;
+	if (true == KirbyBodyCollision->Collision(CollisionOrder::MonsterBody, MonsterBodyCol, CollisionType::Rect, CollisionType::Rect))
+	{
+		for (size_t i = 0; i < MonsterBodyCol.size(); i++)
+		{
+			GameEngineCollision* MonsterBodyPtr = MonsterBodyCol[i];
+			if (nullptr == MonsterBodyPtr)
+			{
+				MsgBoxAssert("참조한 Monster 가 Null 입니다.");
+				return;
+			}
+
+			ActorUtils* Monster = dynamic_cast<ActorUtils*>(MonsterBodyPtr->GetActor());
+			if (nullptr == Monster)
+			{
+				MsgBoxAssert("다운 캐스팅 오류입니다.");
+				return;
+			}
+
+			Monster->IsHitted = true;
+
+
+			// 커비가 면역상태가 아니면 데미지를 입어야함
+			if (false == ImmuneState)
+			{
+				ChangeState(KirbyState::Damaged);
+				return;
+			}
+		}
+	}
+
+	// 커비가 맞았을때 데미지 상태
+	if (true == IsHitted && false == ImmuneState)
+	{
+		ChangeState(KirbyState::Damaged);
+		return;
+	}
+
 }
 

@@ -18,60 +18,10 @@ Enemy::~Enemy()
 }
 
 
-void Enemy::ChangeAnimationState(const std::string& _StateName)
-{
-
-	std::string AnimationName = "";
-
-	switch (Dir)
-	{
-	case ActorDir::Left:
-		AnimationName = "Left_";
-		break;
-	case ActorDir::Right:
-		AnimationName = "Right_";
-		break;
-	default:
-		break;
-	}
-
-	AnimationName += _StateName;
-
-	CurState = _StateName;
-
-	MainRenderer->ChangeAnimation(AnimationName);
-}
 
 
 
-
-
-bool Enemy::LeftGroundIsCliff()
-{
-	unsigned int LeftBottomColor = GetGroundColor(RGB(255, 255, 255), GroundLeftCheckPoint);
-	unsigned int RightBottomColor = GetGroundColor(RGB(255, 255, 255), GroundRightCheckPoint);
-	if (((RGB(0, 255, 255) != LeftBottomColor) && (RGB(0, 255, 255) == RightBottomColor))
-		|| (RGB(0, 0, 255) != LeftBottomColor && (RGB(0, 0, 255) == RightBottomColor)))
-	{
-		return true;
-	}
-
-	return false;
-}
-
-bool Enemy::RightGroundIsCliff()
-{
-	unsigned int LeftBottomColor = GetGroundColor(RGB(255, 255, 255), GroundLeftCheckPoint);
-	unsigned int RightBottomColor = GetGroundColor(RGB(255, 255, 255), GroundRightCheckPoint);
-	if (((RGB(0, 255, 255) == LeftBottomColor) && (RGB(0, 255, 255) != RightBottomColor))
-		|| (RGB(0, 0, 255) == LeftBottomColor && (RGB(0, 0, 255) != RightBottomColor)))
-	{
-		return true;
-	}
-
-	return false;
-}
-
+// 커비를 바라보는 함수
 void Enemy::GetKirbyDirection()
 {
 	if (nullptr == Kirby::GetMainKirby())
@@ -92,6 +42,7 @@ void Enemy::GetKirbyDirection()
 	}
 }
 
+// 커비 방향의 단위벡터를 반환
 float4 Enemy::GetKirbyUnitVector()
 {
 	if (nullptr == Kirby::GetMainKirby())
@@ -105,6 +56,7 @@ float4 Enemy::GetKirbyUnitVector()
 	return StartDir;
 }
 
+// 몬스터와 커비 사이의 거리를 반환
 float4 Enemy::GetKirbyOpponentDistance()
 {
 	float4 OpponentDistance = Kirby::GetMainKirby()->GetPos() - GetPos();
@@ -112,6 +64,39 @@ float4 Enemy::GetKirbyOpponentDistance()
 }
 
 
+// 왼쪽 절벽을 확인함
+bool Enemy::LeftGroundIsCliff()
+{
+	unsigned int LeftBottomColor = GetGroundColor(RGB(255, 255, 255), GroundLeftCheckPoint);
+	unsigned int RightBottomColor = GetGroundColor(RGB(255, 255, 255), GroundRightCheckPoint);
+	if (((RGB(0, 255, 255) != LeftBottomColor) && (RGB(0, 255, 255) == RightBottomColor))
+		|| (RGB(0, 0, 255) != LeftBottomColor && (RGB(0, 0, 255) == RightBottomColor)))
+	{
+		return true;
+	}
+
+	return false;
+}
+
+// 오른쪽 절벽을 확인함
+bool Enemy::RightGroundIsCliff()
+{
+	unsigned int LeftBottomColor = GetGroundColor(RGB(255, 255, 255), GroundLeftCheckPoint);
+	unsigned int RightBottomColor = GetGroundColor(RGB(255, 255, 255), GroundRightCheckPoint);
+	if (((RGB(0, 255, 255) == LeftBottomColor) && (RGB(0, 255, 255) != RightBottomColor))
+		|| (RGB(0, 0, 255) == LeftBottomColor && (RGB(0, 0, 255) != RightBottomColor)))
+	{
+		return true;
+	}
+
+	return false;
+}
+
+
+
+
+
+// 몬스터가가 카메라 밖으로 나가면 Off
 void Enemy::CheckOverScreen()
 {
 	float4 WinScale = GameEngineWindow::MainWindow.GetScale();
@@ -124,7 +109,8 @@ void Enemy::CheckOverScreen()
 	}
 }
 
-// 화면밖으로 나가면 TriggerOn
+
+// 리스폰 위치를 기준으로 화면 밖으로 나가면 부활가능
 void Enemy::RespawnLocationOverCamera()
 {
 	float4 CameraPos = GetLevel()->GetMainCamera()->GetPos();
@@ -159,6 +145,7 @@ void Enemy::RespawnLocationOverCamera()
 }
 
 
+// 리스폰 부활 전체 트리거
 void Enemy::RespawnTrigger()
 {
 	float4 WinScale = GameEngineWindow::MainWindow.GetScale();
@@ -183,6 +170,11 @@ void Enemy::RespawnTrigger()
 }
 
 
+
+
+
+
+// 커비를 바라보는 좌우 방향과 렌더러를 변경하는 함수
 void Enemy::SetDirectionAndFirstAnimation(const std::string& _StateName)
 {
 	if (nullptr == Kirby::GetMainKirby())
@@ -212,12 +204,41 @@ void Enemy::SetDirectionAndFirstAnimation(const std::string& _StateName)
 }
 
 
+// 몬스터 방향을 기준으로 몬스터의 렌더러를 좌,우 애니메이션 변경 함수
+void Enemy::ChangeAnimationState(const std::string& _StateName)
+{
 
+	std::string AnimationName = "";
+
+	switch (Dir)
+	{
+	case ActorDir::Left:
+		AnimationName = "Left_";
+		break;
+	case ActorDir::Right:
+		AnimationName = "Right_";
+		break;
+	default:
+		break;
+	}
+
+	AnimationName += _StateName;
+
+	CurState = _StateName;
+
+	MainRenderer->ChangeAnimation(AnimationName);
+}
+
+
+
+
+// 커비에게 빨려가는 상태패턴
 void Enemy::BeInhaledStart()
 {
 	StateTime = 0.0f;
 	IsChangeState = false;
 	IsInhaledStateOn = false;
+	BodyCollision->Off();
 	ActorDirUnitVector = GetKirbyOpponentDistance();
 	CurrentSpeed = 0.0f;
 }
@@ -266,13 +287,24 @@ void Enemy::BeInhaledUpdate(float _Delta)
 }
 
 
+// 피해를 입은 상태패턴
 void Enemy::HittedStart()
 {
 	StateTime = 0.0f;
 	IsChangeState = false;
 	IsHitted = true;
+
+
 	CrossDeathEffect* CrossDeathEffectPtr = GetLevel()->CreateActor<CrossDeathEffect>(UpdateOrder::Ability);
+	if (nullptr == CrossDeathEffectPtr)
+	{
+		MsgBoxAssert("액터가 Null 일리가 없어..");
+		return;
+	}
+
 	CrossDeathEffectPtr->init(GetPos(), Scale);
+
+
 	CurrentSpeed = 0.0f;
 }
 

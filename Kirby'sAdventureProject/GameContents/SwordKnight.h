@@ -32,7 +32,7 @@ enum class SwordKnightState
 	Max,
 };
 
-// 설명 :
+// 설명 : 검을 들고 항상 커비를 노리고 있는 파워몹 검사입니다.
 class SwordKnight : public PowerEnemies
 {
 public:
@@ -49,12 +49,16 @@ public:
 	void init(const std::string& _FileName, SwordKnightState _State, const float4& _Pos);
 
 protected:
+	// 상태패턴 함수
 	SwordKnightState State = SwordKnightState::Max;
 	SwordKnightState RespawnState = SwordKnightState::Max;
+
 
 	void StateUpdate(float _Delta) override;
 	void ChangeState(SwordKnightState _State);
 	void ChangeRespawnState() override;
+
+
 
 	void PendulumStrideStart();
 	void RaiseSwordStart();
@@ -67,6 +71,8 @@ protected:
 	void SlashUpdate(float _Delta);
 	void UnderhandUpdate(float _Delta);
 	void ReversingSlashUpdate(float _Delta);
+
+
 
 	void EnemyCollisionCheck();
 

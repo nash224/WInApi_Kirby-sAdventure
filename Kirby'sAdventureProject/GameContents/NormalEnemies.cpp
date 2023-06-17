@@ -41,6 +41,7 @@ void NormalEnemies::StateUpdate(float _Delta)
 	case NormalState::Fall:					return FallUpdate(_Delta);
 	case NormalState::Sweep:				return SweepUpdate(_Delta);
 	case NormalState::BeInhaled:			return BeInhaledUpdate(_Delta);
+	case NormalState::Hitted:				return HittedUpdate(_Delta);
 	default:
 		break;
 	}
@@ -59,6 +60,7 @@ void NormalEnemies::ChangeState(NormalState _State)
 		case NormalState::Fall:					FallStart();					break;
 		case NormalState::Sweep:				SweepStart();					break;
 		case NormalState::BeInhaled:			BeInhaledStart();				break;
+		case NormalState::Hitted:				HittedStart();					break;
 		default:
 			break;
 		}
@@ -77,22 +79,15 @@ void NormalEnemies::ChangeRespawnState()
 
 void NormalEnemies::EnemyCollisionCheck()
 {
-	std::vector<GameEngineCollision*> InhaledCol;
-	if (true == BodyCollision->Collision(CollisionOrder::KirbyInhaleAbility, InhaledCol, CollisionType::Rect, CollisionType::Rect))
+	if (true == IsInhaledStateOn)
 	{
-		if (true == IsInhaledStateOn)
-		{
-			IsInhaledStateOn = false;
-			BodyCollision->Off();
-			ChangeState(NormalState::BeInhaled);
-			return;
-		}
+		ChangeState(NormalState::BeInhaled);
+		return;
 	}
 
-	std::vector<GameEngineCollision*> AbilityCol;
-	if (true == BodyCollision->Collision(CollisionOrder::PlayerAbility, AbilityCol, CollisionType::Rect, CollisionType::Rect))
+	if (true == IsHitted)
 	{
-		/*ChangeState(HotHeadState::Hitted);*/
+		ChangeState(NormalState::Hitted);
 		return;
 	}
 }

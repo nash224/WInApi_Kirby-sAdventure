@@ -1,19 +1,12 @@
 #include "SwordKnight.h"
 #include "ContentsEnum.h"
 
-#include <GameEngineBase/GameEnginePath.h>
-#include <GameEngineBase/GameEngineTime.h>
-#include <GameEngineBase/GameEngineMath.h>
+
 #include <GameEngineBase/GameEngineRandom.h>
-#include <GameEnginePlatform/GameEngineWindow.h>
-#include <GameEnginePlatform/GameEngineWindowTexture.h>
-#include <GameEnginePlatform/GameEngineInput.h>
-#include <GameEngineCore/GameEngineCore.h>
 #include <GameEngineCore/GameEngineLevel.h>
-#include <GameEngineCore/GameEngineCamera.h>
 #include <GameEngineCore/GameEngineRenderer.h>
 #include <GameEngineCore/GameEngineCollision.h>
-#include <GameEngineCore/ResourcesManager.h>
+
 
 #include "GlobalContents.h"
 #include "Kirby.h"
@@ -61,11 +54,22 @@ void SwordKnight::Start()
 
 
 	BodyCollision = CreateCollision(CollisionOrder::MonsterBody);
+	if (nullptr == BodyCollision)
+	{
+		MsgBoxAssert("바디 콜리전이 Null일리가 없어..");
+		return;
+	}
 	BodyCollision->SetCollisionPos(float4{ 0.0f , -SMALLTYPECOLLISIONSCALE.hY() });
 	BodyCollision->SetCollisionScale(SMALLTYPECOLLISIONSCALE);
 	BodyCollision->SetCollisionType(CollisionType::Rect);
+	BodyCollision->On();
 
 	AbilityCollision = CreateCollision(CollisionOrder::MonsterAbility);
+	if (nullptr == AbilityCollision)
+	{
+		MsgBoxAssert("바디 콜리전이 Null일리가 없어..");
+		return;
+	}
 	AbilityCollision->SetCollisionScale(float4{ 141.0f, 99.0f });
 	AbilityCollision->SetCollisionType(CollisionType::Rect);
 	AbilityCollision->Off();
@@ -93,8 +97,6 @@ void SwordKnight::Update(float _Delta)
 	GroundCheck();
 
 	StateUpdate(_Delta);
-
-	//CheckOverScreen();
 }
 
 void SwordKnight::StateUpdate(float _Delta)
@@ -276,7 +278,6 @@ void SwordKnight::SlashStart()
 
 void SwordKnight::SlashUpdate(float _Delta)
 {
-
 	if (true == MainRenderer->IsAnimationEnd())
 	{
 		IsChangeState = true;
@@ -302,6 +303,10 @@ void SwordKnight::SlashUpdate(float _Delta)
 	}
 
 	EnemyCollisionCheck();
+	EnemyAbilityAttack();
+
+
+
 
 	BlockedByGround();
 	BlockedByWall();
@@ -385,6 +390,8 @@ void SwordKnight::ReversingSlashUpdate(float _Delta)
 	}
 
 	EnemyCollisionCheck();
+	EnemyAbilityAttack();
+
 
 	BlockedByGround();
 	BlockedByWall();
@@ -397,36 +404,16 @@ void SwordKnight::ReversingSlashUpdate(float _Delta)
 
 void SwordKnight::EnemyCollisionCheck()
 {
-	std::vector<GameEngineCollision*> InhaledCol;
-	if (true == BodyCollision->Collision(CollisionOrder::KirbyInhaleAbility, InhaledCol, CollisionType::Rect, CollisionType::Rect))
+	if (true == IsInhaledStateOn)
 	{
-		if (true == IsInhaledStateOn)
-		{
-			IsInhaledStateOn = false;
-			BodyCollision->Off();
-			ChangeState(SwordKnightState::BeInhaled);
-			return;
-		}
+		ChangeState(SwordKnightState::BeInhaled);
+		return;
 	}
 
-	if (false == IsHitted)
+	if (true == IsHitted)
 	{
-		std::vector<GameEngineCollision*> AbilityCol;
-		if (true == BodyCollision->Collision(CollisionOrder::PlayerAbility, AbilityCol, CollisionType::Rect, CollisionType::Rect))
-		{
-			ChangeState(SwordKnightState::Hitted);
-			return;
-		}
-	}
-
-	std::vector<GameEngineCollision*> BodyCol;
-	if (true == BodyCollision->Collision(CollisionOrder::PlayerBody, BodyCol, CollisionType::Rect, CollisionType::Rect))
-	{
-		if (false == IsHitted)
-		{
-			ChangeState(SwordKnightState::Hitted);
-			return;
-		}
+		ChangeState(SwordKnightState::Hitted);
+		return;
 	}
 }
 

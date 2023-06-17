@@ -41,7 +41,15 @@
 
 #define LOWERATTACKDUSTOCCURRENCECYCLE 0.08f
 
+// 커비 능력별 쿨타임
 #define KIRBYSPARKEFFECTCREATECYCLE 0.1f
+#define KIRBYFRAMEEFFECTCREATECYCLE 0.1f
+
+// 커비 데미지 상태 지속시간
+#define KirbyDamagedDuration 0.2f
+
+// 커비 무적시간
+#define KIRBYIMMUNEDURATION 3.0f
 
 
 enum class KirbyBodyState
@@ -82,6 +90,7 @@ enum class KirbyState
 	Contain_Gulp,
 	Contain_Disgorge,
 	GetAbility,
+	Damaged,
 	Max,
 };
 
@@ -163,6 +172,7 @@ protected:
 	void UseSpecialAbilityStart();
 	void ReleaseSpecialAbilityStart();
 	void GetAbilityStart();
+	void DamagedStart();
 
 	void Contain_IdleStart();
 	void Contain_WalkStart();
@@ -195,6 +205,7 @@ protected:
 	void UseSpecialAbilityUpdate(float _Delta);
 	void ReleaseSpecialAbilityUpdate(float _Delta);
 	void GetAbilityUpdate(float _Delta);
+	void DamagedUpdate(float _Delta);
 
 	void Contain_IdleUpdate(float _Delta);
 	void Contain_WalkUpdate(float _Delta);
@@ -206,6 +217,7 @@ protected:
 	void Contain_DisgorgeUpdate(float _Delta);
 
 	void DropAbility();
+	void CheckKirbyCollision();
 
 
 private:
@@ -213,12 +225,25 @@ private:
 
 
 private:
+
+	// 충돌체 
 	GameEngineCollision* LittleCollision = nullptr;
 	GameEngineCollision* LowerCollision = nullptr;
 	GameEngineCollision* FatCollision = nullptr;
+	GameEngineCollision* EmmuneCollision = nullptr;
+
 	GameEngineCollision* LowerAttackCollision = nullptr;
 	GameEngineCollision* InhaleEffectCollision = nullptr;
 	GameEngineCollision* SparkEffectCollision = nullptr;
+	GameEngineCollision* ThornEffectCollision = nullptr;
+
+
+	GameEngineCollision* GetKirbyCollison();
+	void KirbyBodyCollisonOn();
+	void KirbyBodyCollisonOff();
+
+
+
 	KirbyBodyState BodyState = KirbyBodyState::Max;	
 	AbilityStar CurrentAbilityStar = AbilityStar::Max;
 	KirbyState State = KirbyState::Max;
@@ -294,6 +319,19 @@ private:
 
 	KirbyStar Star;
 
+
+
+	// 무적
+	bool ImmuneState = false;
+	float ImmuneTime = 0.0f;
+
+
+public:
+	int m_KirbyHp = 0;
+
+
+
+private:
 
 };
 

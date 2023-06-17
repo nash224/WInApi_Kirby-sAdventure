@@ -58,9 +58,13 @@ void Kirby::Start()
 	BodyState = KirbyBodyState::Little;
 	Mode = AbilityStar::Normal;
 	CurMode = "Normal";
+	m_KirbyHp = 5;
+
+
 
 	ChangeState(KirbyState::Idle);
 	SetCheckPoint(GetKirbyScale());
+
 
 
 	LittleCollision = CreateCollision(CollisionOrder::PlayerBody);
@@ -69,11 +73,13 @@ void Kirby::Start()
 	LittleCollision->SetCollisionType(CollisionType::Rect);
 	LittleCollision->On();
 
+
 	LowerCollision = CreateCollision(CollisionOrder::PlayerBody);
 	LowerCollision->SetCollisionPos(float4{ 0.0f , -LOWERTYPECOLLISIONSCALE.Half().Y });
 	LowerCollision->SetCollisionScale(LOWERTYPECOLLISIONSCALE);
 	LowerCollision->SetCollisionType(CollisionType::Rect);
 	LowerCollision->Off();
+
 
 	FatCollision = CreateCollision(CollisionOrder::PlayerBody);
 	FatCollision->SetCollisionPos(float4{ 0.0f , -FATTYPECOLLISIONSCALE.Half().Y });
@@ -81,10 +87,19 @@ void Kirby::Start()
 	FatCollision->SetCollisionType(CollisionType::Rect);
 	FatCollision->Off();
 
+
 	LowerAttackCollision = CreateCollision(CollisionOrder::PlayerAbility);
 	LowerAttackCollision->SetCollisionScale(LOWERATTACKCOLLISIONSCALE);
 	LowerAttackCollision->SetCollisionType(CollisionType::Rect);
 	LowerAttackCollision->Off();
+
+
+	EmmuneCollision = CreateCollision(CollisionOrder::PlayerBody);
+	EmmuneCollision->SetCollisionPos(float4{ 0.0f , -SMALLTYPECOLLISIONSCALE.Half().Y });
+	EmmuneCollision->SetCollisionScale(SMALLTYPECOLLISIONSCALE);
+	EmmuneCollision->SetCollisionType(CollisionType::Rect);
+	EmmuneCollision->Off();
+
 
 	InhaleEffectCollision = CreateCollision(CollisionOrder::KirbyInhaleAbility);
 	InhaleEffectCollision->SetCollisionScale(INHALEEFFECTCOLLISIONSCALE);
@@ -97,40 +112,36 @@ void Kirby::Start()
 	SparkEffectCollision->SetCollisionScale(SPARKEFFECTCOLLISIONSCALE);
 	SparkEffectCollision->SetCollisionType(CollisionType::Rect);
 	SparkEffectCollision->Off();
+
+
+	ThornEffectCollision = CreateCollision(CollisionOrder::KirbyInhaleAbility);
+	ThornEffectCollision->SetCollisionPos(float4{ 0.0f , -SmallTypeScale.Half().Y });
+	ThornEffectCollision->SetCollisionScale(SPARKEFFECTCOLLISIONSCALE);
+	ThornEffectCollision->SetCollisionType(CollisionType::Rect);
+	ThornEffectCollision->Off();
 }
 
 
 /* ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ */
 
 
+
 void Kirby::Update(float _Delta)
 {
-	//std::vector<GameEngineCollision*> _Col;
-	//if (true == BodyCollision->Collision(CollisionOrder::MonsterBody, _Col
-	//	, CollisionType::CirCle
-	//	, CollisionType::CirCle))
-	//{
-	//	for (size_t i = 0; i < _Col.size(); i++)
-	//	{
-	//		GameEngineCollision* Collision = _Col[i];
-	//		ActorUtils* Actor = dynamic_cast<ActorUtils*>(Collision->GetActor());
-	//		Actor->;
-	//	}
-	//}
+	ImmuneTime += _Delta;
 
+	if (ImmuneTime > KIRBYIMMUNEDURATION)
+	{
+		ImmuneTime = 0.0f;
+		ImmuneState = false;
 
+		KirbyBodyCollisonOn();
+	}
 
 
 	if (true == GameEngineInput::IsDown('Y'))
 	{
 		GameEngineLevel::CollisionDebugRenderSwitch();
-	}
-
-	{
-		if (true == GameEngineInput::IsDown('L'))
-		{
-			Grunt::AllMonsterDeath();
-		}
 	}
 
 	PrevKirbyMovePos = GetPos();
@@ -139,13 +150,20 @@ void Kirby::Update(float _Delta)
 
 	KirbyMovePos = GetPos() - PrevKirbyMovePos;
 
+
+
 	if (true == GameEngineInput::IsDown(VK_SHIFT) && Mode != AbilityStar::Normal && Mode != AbilityStar::Max)
 	{
 		DropAbility();
 	}
 
+
+	// 카메라
 	CameraFocus();
 }
+
+
+
 
 void Kirby::StateUpdate(float _Delta)
 {
@@ -170,9 +188,10 @@ void Kirby::StateUpdate(float _Delta)
 	case KirbyState::TakeOff:				return TakeOffUpdate(_Delta);
 	case KirbyState::Fly:					return FlyUpdate(_Delta);
 	case KirbyState::ExhaleAttack:			return ExhaleAttackUpdate(_Delta);
-	case KirbyState::GetAbility:			return GetAbilityUpdate(_Delta);
 	case KirbyState::UseSpecialAbility:		return UseSpecialAbilityUpdate(_Delta);
 	case KirbyState::ReleaseSpecialAbility:	return ReleaseSpecialAbilityUpdate(_Delta);
+	case KirbyState::GetAbility:			return GetAbilityUpdate(_Delta);
+	case KirbyState::Damaged:				return DamagedUpdate(_Delta);
 	case KirbyState::Contain_Idle:			return Contain_IdleUpdate(_Delta);
 	case KirbyState::Contain_Walk:			return Contain_WalkUpdate(_Delta);
 	case KirbyState::Contain_Run:			return Contain_RunUpdate(_Delta);
@@ -211,9 +230,10 @@ void Kirby::ChangeState(KirbyState _State)
 		case KirbyState::TakeOff:				TakeOffStart();					break;
 		case KirbyState::Fly:					FlyStart();						break;
 		case KirbyState::ExhaleAttack:			ExhaleAttackStart();			break;
-		case KirbyState::GetAbility:			GetAbilityStart();				break;
 		case KirbyState::UseSpecialAbility:		UseSpecialAbilityStart();		break;
 		case KirbyState::ReleaseSpecialAbility:	ReleaseSpecialAbilityStart();	break;
+		case KirbyState::GetAbility:			GetAbilityStart();				break;
+		case KirbyState::Damaged:				DamagedStart();					break;
 		case KirbyState::Contain_Idle:			Contain_IdleStart();			break;
 		case KirbyState::Contain_Walk:			Contain_WalkStart();			break;
 		case KirbyState::Contain_Run:			Contain_RunStart();				break;
@@ -369,6 +389,60 @@ float4 Kirby::GetKirbyScale()
 
 	return float4{ 0.0f, 0.0f };
 }
+
+
+GameEngineCollision* Kirby::GetKirbyCollison()
+{
+	if (BodyState == KirbyBodyState::Little)
+	{
+		return LittleCollision;
+	}
+
+	if (BodyState == KirbyBodyState::Fat)
+	{
+		return FatCollision;
+	}
+
+	if (BodyState == KirbyBodyState::Lower)
+	{
+		return LowerCollision;
+	}
+
+	MsgBoxAssert("커비 충돌체 리턴에 실패했습니다.");
+	return BodyCollision;
+}
+
+
+
+void Kirby::KirbyBodyCollisonOn()
+{
+	if (BodyState == KirbyBodyState::Little)
+	{
+		LittleCollision->On();
+	}
+
+	if (BodyState == KirbyBodyState::Fat)
+	{
+		FatCollision->On();
+	}
+
+	if (BodyState == KirbyBodyState::Lower)
+	{
+		LowerCollision->On();
+	}
+
+	EmmuneCollision->Off();
+}
+
+
+void Kirby::KirbyBodyCollisonOff()
+{
+	LittleCollision->Off();
+	FatCollision->Off();
+	LowerCollision->Off();
+	EmmuneCollision->On();
+}
+
 
 
 // 이동 함수

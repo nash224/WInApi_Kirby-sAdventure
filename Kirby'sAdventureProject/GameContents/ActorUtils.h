@@ -28,7 +28,7 @@ enum class AbilityStar
 	Max,
 };
 
-// 설명 :
+// 설명 : 커비와 몬스터의 기능을 제공하는 부모 클래스입니다. 중력, 감지, 충돌, 이동을 제공합니다.
 class ActorUtils : public ContentsActor
 {
 public:
@@ -42,16 +42,18 @@ public:
 	ActorUtils& operator=(const ActorUtils& _Other) = delete;
 	ActorUtils& operator=(ActorUtils&& _Other) noexcept = delete;
 
-
-	GameEngineCollision* BodyCollision = nullptr;
+	// 커비 세계관 능력
 	AbilityStar Ability = AbilityStar::Max;
+
+
+	// 충돌 변수
 	bool IsCollisioned = false;
 	bool IsInhaledStateOn = false;
 	bool IsHitted = false;
 
 
+
 	float4 ActorCameraPos();
-	void SetGroundTexture(const std::string& _GroundTextureName);
 
 
 	void GravityOn()
@@ -70,21 +72,24 @@ public:
 	}
 
 
+
+	void SetGroundTexture(const std::string& _GroundTextureName);
+
 protected:
+	GameEngineCollision* BodyCollision = nullptr;
 	GameEngineRenderer* MainRenderer = nullptr;
-	float4 ActorDirUnitVector = float4::ZERO;
 
 
-	bool IsChangeState = true;
+	bool IsChangeState = false;
 	float StateTime = 0.0f;
 
-	float CurentVerticalSpeed = 0.0f;
 
 
-
-
-
+	// 좌우 방향 값 반환 함수
+	float4 ActorDirUnitVector = float4::ZERO;
 	float4 GetDirUnitVector() const;
+
+
 
 
 	// 충돌 감지
@@ -98,6 +103,8 @@ protected:
 	float4 CeilRightCheckPoint = float4::ZERO;
 
 	virtual void SetCheckPoint(const float4& _ScaleSize);
+
+
 	void GroundCheck();
 	bool CeilingCheck();
 	bool CheckLeftWall();
@@ -121,6 +128,7 @@ protected:
 
 	// 중력 함수
 	bool AbleJump = true;
+	float CurentVerticalSpeed = 0.0f;
 	float CurrentJumpDistance = 0.0f;
 
 
@@ -153,7 +161,8 @@ protected:
 		AirResistance = _AirResistance;
 	}
 
-	// 이동 함수
+
+	// X축 이동 함수
 	void VerticalDecelerationUpdate(float _Speed, float _Delta);
 	void VerticalSpeedLimitBasedlevitation(float _Speed);
 	void VerticalUpdateBasedlevitation(float _Delta);
@@ -163,6 +172,7 @@ protected:
 private:
 	class GameEngineWindowTexture* GroundTexture = nullptr;
 
+	// 중력에 관한 함수
 	bool isGround = false;
 	bool IsGravity = true;
 	float GravityPower = 800.0f;

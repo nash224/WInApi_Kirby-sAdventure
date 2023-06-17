@@ -1,23 +1,18 @@
 #include "Scarfy.h"
 #include "ContentsEnum.h"
 
-#include <GameEngineBase/GameEnginePath.h>
-#include <GameEngineBase/GameEngineTime.h>
-#include <GameEngineBase/GameEngineMath.h>
-#include <GameEnginePlatform/GameEngineWindow.h>
-#include <GameEnginePlatform/GameEngineWindowTexture.h>
-#include <GameEnginePlatform/GameEngineInput.h>
-#include <GameEngineCore/GameEngineCore.h>
+
 #include <GameEngineCore/GameEngineLevel.h>
-#include <GameEngineCore/GameEngineCamera.h>
 #include <GameEngineCore/GameEngineRenderer.h>
 #include <GameEngineCore/GameEngineCollision.h>
-#include <GameEngineCore/ResourcesManager.h>
+
 
 #include "GlobalContents.h"
 #include "Kirby.h"
 #include "AirExplosionEffect.h"
 #include <vector>
+
+
 
 Scarfy::Scarfy()
 {
@@ -50,9 +45,9 @@ void Scarfy::Start()
 	MainRenderer->CreateAnimation("Left_Bomb", "Left_AerialEnemy.bmp", 2, 5, 0.1f, true);
 	MainRenderer->CreateAnimation("Right_Bomb", "Right_AerialEnemy.bmp", 2, 5, 0.1f, true);
 
-
 	MainRenderer->SetRenderScaleToTexture();
 	MainRenderer->SetScaleRatio(3.0f);
+
 
 	Scale = float4{ 24.0f, 39.0f };
 	SetCheckPoint(Scale);
@@ -61,6 +56,12 @@ void Scarfy::Start()
 
 
 	BodyCollision = CreateCollision(CollisionOrder::MonsterBody);
+	if (nullptr == BodyCollision)
+	{
+		MsgBoxAssert("충돌체가 Null 입니다.");
+		return;
+	}
+
 	BodyCollision->SetCollisionPos(float4{ 0.0f , -SMALLTYPECOLLISIONSCALE.hY() });
 	BodyCollision->SetCollisionScale(SMALLTYPECOLLISIONSCALE);
 	BodyCollision->SetCollisionType(CollisionType::Rect);
@@ -83,12 +84,14 @@ void Scarfy::init(const std::string& _FileName, ScarfyState _State, const float4
 
 /* ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ */
 
+
+
 void Scarfy::Update(float _Delta)
 {
 	StateUpdate(_Delta);
-
-	//CheckOverScreen();
 }
+
+
 
 void Scarfy::StateUpdate(float _Delta)
 {
@@ -99,10 +102,13 @@ void Scarfy::StateUpdate(float _Delta)
 	case ScarfyState::TransFormingAfter:	return TransFormingAfterUpdate(_Delta);
 	case ScarfyState::Following:			return FollowingUpdate(_Delta);
 	case ScarfyState::Bomb:					return BombUpdate(_Delta);
+	case ScarfyState::Hitted:				return HittedUpdate(_Delta);
 	default:
 		break;
 	}
 }
+
+
 
 void Scarfy::ChangeState(ScarfyState _State)
 {
@@ -115,13 +121,16 @@ void Scarfy::ChangeState(ScarfyState _State)
 		case ScarfyState::TransFormingAfter:	TransFormingAfterStart();		break;
 		case ScarfyState::Following:			FollowingStart();				break;
 		case ScarfyState::Bomb:					BombStart();					break;
-		default:
+		case ScarfyState::Hitted:				HittedStart();					break;
+		default:	
 			break;
 		}
 	}
 
 	State = _State;
 }
+
+
 
 void Scarfy::ChangeRespawnState()
 {
@@ -161,17 +170,16 @@ void Scarfy::IdleUpdate(float _Delta)
 		IsChangeState = true;
 	}
 
+
+
+	if (true == IsInhaledStateOn)
+	{
+		ChangeState(ScarfyState::TransFormingBefore);
+		return;
+	}
+
 	EnemyCollisionCheck();
 
-	std::vector<GameEngineCollision*> InhaledCol;
-	if (true == BodyCollision->Collision(CollisionOrder::KirbyInhaleAbility, InhaledCol, CollisionType::Rect, CollisionType::Rect))
-	{
-		if (true == IsInhaledStateOn)
-		{
-			ChangeState(ScarfyState::TransFormingBefore);
-			return;
-		}
-	}
 
 	if (true == IsGravityReverse)
 	{
@@ -362,6 +370,12 @@ void Scarfy::BombUpdate(float _Delta)
 	if (30 == BombCount)
 	{
 		AirExplosionEffect* AirExplosionEffectPtr = GetLevel()->CreateActor<AirExplosionEffect>();
+		if (nullptr == AirExplosionEffectPtr)
+		{
+			MsgBoxAssert("액터가 Null 일리가 없어..");
+			return;
+		}
+
 		AirExplosionEffectPtr->init(GetPos(), Scale);
 		AirExplosionEffectPtr->SetActorCollision(CollisionOrder::MonsterAbility, CollisionType::Rect);
 
@@ -373,10 +387,36 @@ void Scarfy::BombUpdate(float _Delta)
 
 void Scarfy::EnemyCollisionCheck()
 {
-	//std::vector<GameEngineCollision*> AbilityCol;
-	//if (true == BodyCollision->Collision(CollisionOrder::PlayerAbility, AbilityCol, CollisionType::Rect, CollisionType::Rect))
-	//{
-	//	ChangeState(ScarfyState::Bomb);
-	//	return;
-	//}
+	if (true == IsHitted)
+	{
+		ChangeState(ScarfyState::Hitted);
+		return;
+	}
+}
+
+
+
+void Scarfy::HittedStart()
+{
+	StateTime = 0.0f;
+	IsChangeState = false;
+	IsHitted = true;
+
+
+	AirExplosionEffect* AirExplosionEffectPtr = GetLevel()->CreateActor<AirExplosionEffect>(UpdateOrder::Ability);
+	if (nullptr == AirExplosionEffectPtr)
+	{
+		MsgBoxAssert("액터가 Null 일리가 없어..");
+		return;
+	}
+
+	AirExplosionEffectPtr->init(GetPos(), Scale);
+	AirExplosionEffectPtr->SetActorCollision(CollisionOrder::MonsterAbility, CollisionType::Rect);
+
+}
+
+void Scarfy::HittedUpdate(float _Delta)
+{
+	IsHitted = false;
+	Off();
 }
