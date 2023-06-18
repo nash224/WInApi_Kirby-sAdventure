@@ -24,7 +24,7 @@
 #include "Togezo.h"
 #include "SwordKnight.h"
 #include "LaserBall.h"
-#include "PlayUIManager.h"
+#include "PlayUI.h"
 
 #include <map>
 
@@ -123,8 +123,8 @@ void VegetableValley11::Start()
 	LevelEnemy.insert(std::make_pair("LaserBall1", LaserBall1));
 
 
-	LevelUIManager = GameEngineLevel::CreateActor<PlayUIManager>(UpdateOrder::UI);
-	LevelUIManager->init("MainUI.bmp", "Resources\\UI");
+	LevelUIManager = GameEngineLevel::CreateActor<PlayUI>(UpdateOrder::UI);
+
 
 	GameEngineWindowTexture* Texture = ResourcesManager::GetInst().FindTexture("VegetableValley1_1.bmp");
 	BackGroundScale = Texture->GetScale();

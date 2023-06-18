@@ -18,7 +18,7 @@ public:
 	GlobalContents& operator=(GlobalContents&& _Other) noexcept = delete;
 
 	static GameEngineWindowTexture* TextureFileLoad(const std::string& _FileName, const std::string& _Path);
-	static void SpriteFileLoad(const std::string& _FileName, const std::string& _Path, int _XCount, int _YCount);
+	static GameEngineSprite* SpriteFileLoad(const std::string& _FileName, const std::string& _Path, int _XCount, int _YCount);
 
 protected:
 

@@ -303,6 +303,34 @@ void Kirby::CheckKirbyCollision()
 		}
 	}
 
+
+
+	// 면역상태일 때, 몬스터 충돌 
+	std::vector<GameEngineCollision*> MonsterBodyColToImmune;
+	if (true == ImmuneCollision->Collision(CollisionOrder::MonsterBody, MonsterBodyColToImmune, CollisionType::Rect, CollisionType::Rect))
+	{
+		for (size_t i = 0; i < MonsterBodyColToImmune.size(); i++)
+		{
+			GameEngineCollision* MonsterBodyPtr = MonsterBodyColToImmune[i];
+			if (nullptr == MonsterBodyPtr)
+			{
+				MsgBoxAssert("참조한 Monster 가 Null 입니다.");
+				return;
+			}
+
+			ActorUtils* Monster = dynamic_cast<ActorUtils*>(MonsterBodyPtr->GetActor());
+			if (nullptr == Monster)
+			{
+				MsgBoxAssert("다운 캐스팅 오류입니다.");
+				return;
+			}
+
+			Monster->IsHitted = true;
+		}
+	}
+
+
+
 	// 커비가 맞았을때 데미지 상태
 	if (true == IsHitted && false == ImmuneState)
 	{

@@ -16,7 +16,7 @@
 
 #include "Grunt.h"
 #include "VegetableValleyPlayLevel.h"
-#include "PlayUIManager.h"
+#include "PlayUI.h"
 
 #include <Windows.h>
 
@@ -94,11 +94,11 @@ void Kirby::Start()
 	LowerAttackCollision->Off();
 
 
-	EmmuneCollision = CreateCollision(CollisionOrder::PlayerBody);
-	EmmuneCollision->SetCollisionPos(float4{ 0.0f , -SMALLTYPECOLLISIONSCALE.Half().Y });
-	EmmuneCollision->SetCollisionScale(SMALLTYPECOLLISIONSCALE);
-	EmmuneCollision->SetCollisionType(CollisionType::Rect);
-	EmmuneCollision->Off();
+	ImmuneCollision = CreateCollision(CollisionOrder::PlayerBody);
+	ImmuneCollision->SetCollisionPos(float4{ 0.0f , -SMALLTYPECOLLISIONSCALE.Half().Y });
+	ImmuneCollision->SetCollisionScale(SMALLTYPECOLLISIONSCALE);
+	ImmuneCollision->SetCollisionType(CollisionType::Rect);
+	ImmuneCollision->Off();
 
 
 	InhaleEffectCollision = CreateCollision(CollisionOrder::KirbyInhaleAbility);
@@ -128,12 +128,16 @@ void Kirby::Start()
 
 void Kirby::Update(float _Delta)
 {
-	ImmuneTime += _Delta;
+	if (true == ImmuneState)
+	{
+		ImmuneTime += _Delta;
+	}
 
 	if (ImmuneTime > KIRBYIMMUNEDURATION)
 	{
 		ImmuneTime = 0.0f;
 		ImmuneState = false;
+		IsHitted = false;
 
 		KirbyBodyCollisonOn();
 	}
@@ -431,7 +435,7 @@ void Kirby::KirbyBodyCollisonOn()
 		LowerCollision->On();
 	}
 
-	EmmuneCollision->Off();
+	ImmuneCollision->Off();
 }
 
 
@@ -440,7 +444,7 @@ void Kirby::KirbyBodyCollisonOff()
 	LittleCollision->Off();
 	FatCollision->Off();
 	LowerCollision->Off();
-	EmmuneCollision->On();
+	ImmuneCollision->On();
 }
 
 
@@ -611,7 +615,7 @@ void Kirby::LevelStart()
 	CurrentLevelEnemiesCount = CurrentLevelPtr->GetLevelEnemyCount();
 	CurrentBackGroundScale = CurrentLevelPtr->GetLevelBackgroundScale();
 	CurrentLevelBitMapFileName = CurrentLevelPtr->GetLevelBitMapFileName();
-	CurrentUIScale = PlayUIManager::UI->UIScale;
+	CurrentUIScale = PlayUI::UI->UIScale;
 	
 }
 

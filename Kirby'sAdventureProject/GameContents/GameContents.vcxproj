@@ -190,6 +190,10 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="BossUI.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="BrontoBurt.h">
       <SubType>
       </SubType>
@@ -279,6 +283,10 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="HubUI.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="Item.h">
       <SubType>
       </SubType>
@@ -339,7 +347,7 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="PlayUIManager.h">
+    <ClInclude Include="PlayUI.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -372,6 +380,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="Togezo.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="UIManager.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -466,6 +478,10 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="BossUI.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="BrontoBurt.cpp">
       <SubType>
       </SubType>
@@ -554,6 +570,10 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="HubUI.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="Item.cpp">
       <SubType>
       </SubType>
@@ -635,7 +655,7 @@
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="PlayUIManager.cpp">
+    <ClCompile Include="PlayUI.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -668,6 +688,10 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="Togezo.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="UIManager.cpp">
       <SubType>
       </SubType>
     </ClCompile>

@@ -141,9 +141,6 @@
     <ClInclude Include="AirExplosionAEffect.h">
       <Filter>Global\Effect\SkillAbilityEffect\AirExplosionEffect</Filter>
     </ClInclude>
-    <ClInclude Include="PlayUIManager.h">
-      <Filter>Global</Filter>
-    </ClInclude>
     <ClInclude Include="ContentsActor.h">
       <Filter>Global</Filter>
     </ClInclude>
@@ -203,6 +200,18 @@
     </ClInclude>
     <ClInclude Include="MoveStarEffect.h">
       <Filter>Global\Effect\DeathEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayUI.h">
+      <Filter>Level\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="HubUI.h">
+      <Filter>Level\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="BossUI.h">
+      <Filter>Level\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="UIManager.h">
+      <Filter>Level\UI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -351,9 +360,6 @@
     <ClCompile Include="AirExplosionAEffect.cpp">
       <Filter>Global\Effect\SkillAbilityEffect\AirExplosionEffect</Filter>
     </ClCompile>
-    <ClCompile Include="PlayUIManager.cpp">
-      <Filter>Global</Filter>
-    </ClCompile>
     <ClCompile Include="ContentsActor.cpp">
       <Filter>Global</Filter>
     </ClCompile>
@@ -438,6 +444,18 @@
     <ClCompile Include="MoveStarEffect.cpp">
       <Filter>Global\Effect\DeathEffect</Filter>
     </ClCompile>
+    <ClCompile Include="PlayUI.cpp">
+      <Filter>Level\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="HubUI.cpp">
+      <Filter>Level\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="BossUI.cpp">
+      <Filter>Level\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="UIManager.cpp">
+      <Filter>Level\UI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Global">
@@ -493,6 +511,9 @@
     </Filter>
     <Filter Include="Global\Effect\SkillAbilityEffect\AirExplosionEffect">
       <UniqueIdentifier>{8b10c2d6-baf3-40c7-9e1b-efacbeea88c9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Level\UI">
+      <UniqueIdentifier>{7b2b5d89-01e6-452a-a522-2904d4d83ac1}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

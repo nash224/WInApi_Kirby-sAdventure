@@ -74,8 +74,8 @@ void Kirby::Normal_StateResourceLoad()
 	MainRenderer->CreateAnimation("Normal_Left_ReleaseSpecialAbility", "Normal_Left_Kirby.bmp", 25, 25, 0.15f, false);
 	MainRenderer->CreateAnimation("Normal_Right_ReleaseSpecialAbility", "Normal_RIght_Kirby.bmp", 25, 25, 0.15f, false);
 
-	MainRenderer->CreateAnimation("Normal_Left_Damaged", "Normal_Left_Kirby.bmp", 42, 42, 0.1f, false);
-	MainRenderer->CreateAnimation("Normal_Right_Damaged", "Normal_RIght_Kirby.bmp", 42, 42, 0.1f, false);
+	MainRenderer->CreateAnimation("Normal_Left_Damaged", "Normal_Left_Kirby.bmp", 12, 10, 0.1f, false);
+	MainRenderer->CreateAnimation("Normal_Right_Damaged", "Normal_RIght_Kirby.bmp", 12, 10, 0.1f, false);
 }
 
 // =============================================//
@@ -1218,7 +1218,7 @@ void Kirby::DamagedUpdate(float _Delta)
 
 
 	// 상태 지속시간
-	if (StateTime > KirbyDamagedDuration)
+	if (MainRenderer->IsAnimationEnd())
 	{
 		IsChangeState = true;
 	}
@@ -1234,7 +1234,7 @@ void Kirby::DamagedUpdate(float _Delta)
 
 
 	// 커비가 체공 상태일 때 => Fall
-	if (true == IsChangeState && true == GetGroundState())
+	if (true == IsChangeState && false == GetGroundState())
 	{
 		ChangeState(KirbyState::Fall);
 		return;

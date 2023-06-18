@@ -46,11 +46,21 @@ GameEngineWindowTexture* GlobalContents::TextureFileLoad(const std::string& _Fil
 	return Texture;
 }
 
-void GlobalContents::SpriteFileLoad(const std::string& _FileName, const std::string& _Path, int _XCount, int _YCount)
+GameEngineSprite* GlobalContents::SpriteFileLoad(const std::string& _FileName, const std::string& _Path, int _XCount, int _YCount)
 {
+	static GameEngineSprite* ReturnValue;
+
 	if (true == ResourcesManager::GetInst().IsLoadTexture(_FileName))
 	{
-		return;
+		GameEngineSprite* Sprite = ResourcesManager::GetInst().FindSprite(_FileName);
+		if (nullptr == Sprite)
+		{
+			// 터짐횟수 0
+			MsgBoxAssert("이게 왜 터지죠?");
+			return ReturnValue;
+		}
+
+		return Sprite;
 	}
 
 	GameEnginePath FilePath;
@@ -58,5 +68,14 @@ void GlobalContents::SpriteFileLoad(const std::string& _FileName, const std::str
 	FilePath.MoveParentToExistsChild(ParentPath);
 	FilePath.MoveChild(_Path);
 
-	ResourcesManager::GetInst().CreateSpriteSheet(FilePath.PlusFilePath(_FileName), _XCount, _YCount);
+	GameEngineSprite* Sprite = ResourcesManager::GetInst().CreateSpriteSheet(FilePath.PlusFilePath(_FileName), _XCount, _YCount);
+
+	if (nullptr == Sprite)
+	{
+		// 터짐횟수 0
+		MsgBoxAssert("이게 왜 터지죠?");
+		return ReturnValue;
+	}
+
+	return Sprite;
 }

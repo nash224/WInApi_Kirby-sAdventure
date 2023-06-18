@@ -42,7 +42,7 @@ public:
 	//}
 
 protected:
-	class PlayUIManager* LevelUIManager = nullptr;
+	class PlayUI* LevelUIManager = nullptr;
 	class BackGround* LevelBackGround = nullptr;
 	class GameEffect* LevelEffect = nullptr;
 	class Kirby* LevelPlayer = nullptr;

@@ -230,7 +230,7 @@ private:
 	GameEngineCollision* LittleCollision = nullptr;
 	GameEngineCollision* LowerCollision = nullptr;
 	GameEngineCollision* FatCollision = nullptr;
-	GameEngineCollision* EmmuneCollision = nullptr;
+	GameEngineCollision* ImmuneCollision = nullptr;
 
 	GameEngineCollision* LowerAttackCollision = nullptr;
 	GameEngineCollision* InhaleEffectCollision = nullptr;
@@ -328,6 +328,7 @@ private:
 
 public:
 	int m_KirbyHp = 0;
+	
 
 
 
