@@ -44,5 +44,6 @@ void SparkleEffect::Update(float _Delta)
 	{
 		Death();
 		EffectPointerRelease();
+		return;
 	}
 }

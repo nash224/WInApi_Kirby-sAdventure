@@ -37,5 +37,16 @@ void CommonSkillEffect::Update(float _Delta)
 	{
 		Death();
 		EffectPointerRelease();
+		return;
+	}
+
+
+	if (true == IsPlayerCollision)
+	{
+		AbilityToActorCollisionCheck(CollisionOrder::MonsterBody);
+	}
+	else if (false == IsPlayerCollision)
+	{
+		AbilityToActorCollisionCheck(CollisionOrder::PlayerBody);
 	}
 }

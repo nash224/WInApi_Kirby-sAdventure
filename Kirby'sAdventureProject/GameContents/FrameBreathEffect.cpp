@@ -89,7 +89,19 @@ void FrameBreathEffect::GroundPassUpdate(float _Delta)
 	{
 		Death();
 		EffectPointerRelease();
+		return;
 	}
+
+
+	if (true == IsPlayerCollision)
+	{
+		AbilityToActorCollisionCheck(CollisionOrder::MonsterBody);
+	}
+	else if (false == IsPlayerCollision)
+	{
+		AbilityToActorCollisionCheck(CollisionOrder::PlayerBody);
+	}
+
 
 	float EffectSpeed = FRAMEBREATHEFFECTDISTANCE / FRAMEBREATHEFFECTDURATION;
 	AddPos(EffectDir * EffectSpeed * _Delta);

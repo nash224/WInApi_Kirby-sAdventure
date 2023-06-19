@@ -39,6 +39,7 @@ void BeamEffect::SetActorCollision(CollisionOrder _Order, CollisionType _Type)
 {
 	BeamOrder = _Order;
 	BeamType = _Type;
+
 }
 
 void BeamEffect::Update(float _Delta)
@@ -92,27 +93,33 @@ void BeamEffect::Update(float _Delta)
 
 		if (1 == BeamChangePosCount)
 		{
+			// 첫번째 빔
 			{
 				EffectPos = BeamDir * BEAMEFFECTSHORTDISTANCE + GetPos();
+
 				CommonSkillEffect* BeamUnitEffectPtr = GetLevel()->CreateActor<CommonSkillEffect>();
 				if (nullptr == BeamUnitEffectPtr)
 				{
 					MsgBoxAssert("생성한 Effect가 Null입니다.");
 					return;
 				}
+
 				BeamUnitEffectPtr->init("Resources\\Effect\\SkillEffect", "BeamEffect_1x1_8x8.bmp", EffectPos);
 				BeamUnitEffectPtr->SetExpressionTime(BEAMEFFECTTIME);
 				BeamUnitEffectPtr->SetActorCollision(BeamOrder, BeamType);
 			}
 
+			// 두번째 빔
 			{
 				EffectPos = BeamDir * BEAMEFFECTMIDDLEDISTANCE + GetPos();
+
 				CommonSkillEffect* BeamUnitEffectPtr = GetLevel()->CreateActor<CommonSkillEffect>();
 				if (nullptr == BeamUnitEffectPtr)
 				{
 					MsgBoxAssert("생성한 Effect가 Null입니다.");
 					return;
 				}
+
 				BeamUnitEffectPtr->init("Resources\\Effect\\SkillEffect", "BeamEffect_1x1_8x8.bmp", EffectPos);
 				BeamUnitEffectPtr->SetExpressionTime(BEAMEFFECTTIME);
 				BeamUnitEffectPtr->SetActorCollision(BeamOrder, BeamType);
@@ -147,5 +154,6 @@ void BeamEffect::Update(float _Delta)
 	if (0 == EffectPosNumber)
 	{
 		Death();
+		return;
 	}
 }

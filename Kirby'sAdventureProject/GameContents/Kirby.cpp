@@ -181,35 +181,35 @@ void Kirby::StateUpdate(float _Delta)
 
 	switch (State)
 	{
-	case KirbyState::Idle:					return IdleUpdate(_Delta);
-	case KirbyState::Walk:					return WalkUpdate(_Delta);
-	case KirbyState::Run:					return RunUpdate(_Delta);
-	case KirbyState::Turn:					return TurnUpdate(_Delta);
-	case KirbyState::Jump:					return JumpUpdate(_Delta);
-	case KirbyState::AerialMotion:			return AerialMotionUpdate(_Delta);
-	case KirbyState::Fall:					return FallUpdate(_Delta);
-	case KirbyState::AccelerateDown:		return AccelerateDownUpdate(_Delta);
-	case KirbyState::Bounce:				return BounceUpdate(_Delta);
-	case KirbyState::Landing:				return LandingUpdate(_Delta);
-	case KirbyState::LowerPosture:			return LowerPostureUpdate(_Delta);
-	case KirbyState::LowerAttack:			return LowerAttackUpdate(_Delta);
-	case KirbyState::HittheWall:			return HittheWallUpdate(_Delta);
-	case KirbyState::HittheCeiling:			return HittheCeilingUpdate(_Delta);
-	case KirbyState::TakeOff:				return TakeOffUpdate(_Delta);
-	case KirbyState::Fly:					return FlyUpdate(_Delta);
-	case KirbyState::ExhaleAttack:			return ExhaleAttackUpdate(_Delta);
-	case KirbyState::UseSpecialAbility:		return UseSpecialAbilityUpdate(_Delta);
-	case KirbyState::ReleaseSpecialAbility:	return ReleaseSpecialAbilityUpdate(_Delta);
-	case KirbyState::GetAbility:			return GetAbilityUpdate(_Delta);
-	case KirbyState::Damaged:				return DamagedUpdate(_Delta);
-	case KirbyState::Contain_Idle:			return Contain_IdleUpdate(_Delta);
-	case KirbyState::Contain_Walk:			return Contain_WalkUpdate(_Delta);
-	case KirbyState::Contain_Run:			return Contain_RunUpdate(_Delta);
-	case KirbyState::Contain_Turn:			return Contain_TurnUpdate(_Delta);
-	case KirbyState::Contain_Jump:			return Contain_JumpUpdate(_Delta);
-	case KirbyState::Contain_Fall:			return Contain_FallUpdate(_Delta);
-	case KirbyState::Contain_Gulp:			return Contain_GulpUpdate(_Delta);
-	case KirbyState::Contain_Disgorge:		return Contain_DisgorgeUpdate(_Delta);
+	case KirbyState::Idle:						return IdleUpdate(_Delta);
+	case KirbyState::Walk:						return WalkUpdate(_Delta);
+	case KirbyState::Run:						return RunUpdate(_Delta);
+	case KirbyState::Turn:						return TurnUpdate(_Delta);
+	case KirbyState::Jump:						return JumpUpdate(_Delta);
+	case KirbyState::AerialMotion:				return AerialMotionUpdate(_Delta);
+	case KirbyState::Fall:						return FallUpdate(_Delta);
+	case KirbyState::AccelerateDown:			return AccelerateDownUpdate(_Delta);
+	case KirbyState::Bounce:					return BounceUpdate(_Delta);
+	case KirbyState::Landing:					return LandingUpdate(_Delta);
+	case KirbyState::LowerPosture:				return LowerPostureUpdate(_Delta);
+	case KirbyState::LowerAttack:				return LowerAttackUpdate(_Delta);
+	case KirbyState::HittheWall:				return HittheWallUpdate(_Delta);
+	case KirbyState::HittheCeiling:				return HittheCeilingUpdate(_Delta);
+	case KirbyState::TakeOff:					return TakeOffUpdate(_Delta);
+	case KirbyState::Fly:						return FlyUpdate(_Delta);
+	case KirbyState::ExhaleAttack:				return ExhaleAttackUpdate(_Delta);
+	case KirbyState::UseSpecialAbility:			return UseSpecialAbilityUpdate(_Delta);
+	case KirbyState::ReleaseSpecialAbility:		return ReleaseSpecialAbilityUpdate(_Delta);
+	case KirbyState::GetAbility:				return GetAbilityUpdate(_Delta);
+	case KirbyState::Damaged:					return DamagedUpdate(_Delta);
+	case KirbyState::Contain_Idle:				return Contain_IdleUpdate(_Delta);
+	case KirbyState::Contain_Walk:				return Contain_WalkUpdate(_Delta);
+	case KirbyState::Contain_Run:				return Contain_RunUpdate(_Delta);
+	case KirbyState::Contain_Turn:				return Contain_TurnUpdate(_Delta);
+	case KirbyState::Contain_Jump:				return Contain_JumpUpdate(_Delta);
+	case KirbyState::Contain_Fall:				return Contain_FallUpdate(_Delta);
+	case KirbyState::Contain_Gulp:				return Contain_GulpUpdate(_Delta);
+	case KirbyState::Contain_Disgorge:			return Contain_DisgorgeUpdate(_Delta);
 	default:
 		break;
 	}

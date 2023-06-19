@@ -31,6 +31,17 @@ void UIManager::PortraitState(float _Delta)
 	}
 
 
+	if (0 == m_KirbySteminaCount && true == KirbyPtr->IsKirbyRevive)
+	{
+		m_KirbySteminaCount = 6;
+
+		First_StaminaRenderer->ChangeAnimation("StaminaRemain");
+		Second_StaminaRenderer->ChangeAnimation("StaminaRemain");
+		Third_StaminaRenderer->ChangeAnimation("StaminaRemain");
+		Fourth_StaminaRenderer->ChangeAnimation("StaminaRemain");
+		Fifth_StaminaRenderer->ChangeAnimation("StaminaRemain");
+		Sixth_StaminaRenderer->ChangeAnimation("StaminaRemain");
+	}
 
 
 	// ªÔ≈¥ √ ªÛ»≠

@@ -36,10 +36,6 @@ public:
 		return BitMapFileName;
 	}
 
-	//float4 GetUIWindowScale() const
-	//{
-	//	return UIScale;
-	//}
 
 protected:
 	class PlayUI* LevelUIManager = nullptr;
@@ -50,7 +46,6 @@ protected:
 	std::map<std::string, Enemy*> LevelEnemy;
 	std::string BitMapFileName = "";
 
-	//const float4 UIScale = float4{ 768.0f , 216.0f };
 
 	float4 BackGroundScale = float4::ZERO;
 

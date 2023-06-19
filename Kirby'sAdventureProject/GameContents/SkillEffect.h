@@ -37,19 +37,30 @@ public:
 
 protected:
 	class GameEngineRenderer* MainRenderer = nullptr;
-	GameEngineCollision* EffectCollision = nullptr;
 
 	float4 Scale = float4::ZERO;
 	float4 EffectDir = float4::ZERO;
 	float Speed = 0.0f;
 	float EffectDuration = 0.0f;
 
+	bool IsPlayerCollision = true;
+
+
+
+
+	// 충돌 함수
+	GameEngineCollision* EffectCollision = nullptr;
+
+	void AbilityToActorCollisionCheck(CollisionOrder _ActorBodyCol);
+
+
+
 
 	// 카메라 위치 반환 함수
 	float4 GetCameraPos();
 
 
-	// 충돌 감지 함수
+	// 비트맵 충돌 감지 함수
 	void SetCheckPoint(const float4& _ScaleSize);
 	int GetGroundColor(unsigned int _DefaultColor, float4 _Pos = float4::ZERO);
 	bool CheckFrontPoint();

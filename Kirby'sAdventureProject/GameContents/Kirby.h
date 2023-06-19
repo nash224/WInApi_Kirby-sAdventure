@@ -271,6 +271,8 @@ private:
 	float DecelerationSpeed = 1.0f;
 	float FallDistance = 0.0f; 
 
+	float FrameTime = 0.0f;
+
 
 
 
@@ -301,9 +303,15 @@ private:
 	void UseAbilityUpdate(float _Delta);
 
 	void TriggerOneTimeAbility();
+	void TriggerMultiTimeAbility(float _Delta);
 
+	void OneTimeSpark();
 	void OneTimeLaser();
 	void OneTimeBeam();
+	void OneTimeThorn();
+
+
+	void TriggerFireAbilityAfterProcess(float _Delta);
 
 
 	void StarAttack();
@@ -360,6 +368,7 @@ public:
 
 
 private:
+	bool IsKirbyRevive = false;
 
 };
 

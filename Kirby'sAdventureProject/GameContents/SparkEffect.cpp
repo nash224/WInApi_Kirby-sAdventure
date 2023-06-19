@@ -48,10 +48,15 @@ void SparkEffect::Update(float _Delta)
 
 	AddPos(EffectDir * EffectSpeed * _Delta);
 
+
+
 	// 일정 범위를 넘어가면 죽어야됨
 	if (CurrentEffectDistance > SPARKEFFECTDISTANCE)
 	{
 		Death();
 		EffectPointerRelease();
 	}
+
+
+
 }

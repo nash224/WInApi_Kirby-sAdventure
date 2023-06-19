@@ -10,6 +10,7 @@
 #include <GameEngineCore/ResourcesManager.h>
 
 #include "GlobalContents.h"
+#include "ActorUtils.h"
 #include "ObejctDisapearingEffect.h"
 
 
@@ -51,20 +52,32 @@ void SmallStarFireEffect::init(const std::string& _FileName, const float4& _Pos,
 
 void SmallStarFireEffect::Update(float _Delta)
 {
+	// 앞쪽이 벽이면
 	if (true == CheckCenterPoint())
 	{
+		// 별이 사라지는 모션
 		ObejctDisapearingEffect* ObejctDisapearing = GetLevel()->CreateActor<ObejctDisapearingEffect>(UpdateOrder::Ability);
+		if (nullptr == ObejctDisapearing)
+		{
+			MsgBoxAssert("액터가 Null 입니다.");
+			return;
+		}
+
 		ObejctDisapearing->init(GetPos());
 
+
+		// 죽고 정리
 		Death();
 		EffectPointerRelease();
 
 		return;
 	}
 
+	// 카메라 밖으로 넘어가면 
 	float4 WinScale = GameEngineWindow::MainWindow.GetScale();
 	if (GetCameraPos().X > GetPos().X && GetPos().X > GetCameraPos().X + WinScale.X)
 	{
+		// 죽고 정리
 		Death();
 		EffectPointerRelease();
 
@@ -73,9 +86,11 @@ void SmallStarFireEffect::Update(float _Delta)
 
 
 
+	// 몬스터랑 부딪혔을 경우
 	std::vector<GameEngineCollision*> Col;
 	if (true == EffectCollision->Collision(CollisionOrder::MonsterBody, Col, CollisionType::Rect, CollisionType::Rect))
 	{
+		// 사라지는 효과
 		ObejctDisapearingEffect* ObejctDisapearing = GetLevel()->CreateActor<ObejctDisapearingEffect>(UpdateOrder::Ability);
 		if (nullptr == ObejctDisapearing)
 		{
@@ -86,8 +101,32 @@ void SmallStarFireEffect::Update(float _Delta)
 		ObejctDisapearing->init(GetPos());
 
 
+		// 죽고 정리
 		Death();
 		EffectPointerRelease();
+
+
+		// 벡터 순회
+		for (size_t i = 0; i < Col.size(); i++)
+		{
+			// 몬스터 콜리전 참조
+			GameEngineCollision* ActorBodyPtr = Col[i];
+			if (nullptr == ActorBodyPtr)
+			{
+				MsgBoxAssert("참조한 Actor 가 Null 입니다.");
+				return;
+			}
+
+			ActorUtils* Actor = dynamic_cast<ActorUtils*>(ActorBodyPtr->GetActor());
+			if (nullptr == Actor)
+			{
+				MsgBoxAssert("다운 캐스팅 오류입니다.");
+				return;
+			}
+
+			// 몬스터 상태 변경 트리거 On
+			Actor->IsHitted = true;
+		}
 
 		return;
 	}

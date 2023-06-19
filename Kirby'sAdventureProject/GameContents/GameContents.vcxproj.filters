@@ -144,9 +144,6 @@
     <ClInclude Include="ContentsActor.h">
       <Filter>Global</Filter>
     </ClInclude>
-    <ClInclude Include="CommonSkillEffect.h">
-      <Filter>Global\Effect</Filter>
-    </ClInclude>
     <ClInclude Include="BeamEffect.h">
       <Filter>Global\Effect\SkillAbilityEffect</Filter>
     </ClInclude>
@@ -212,6 +209,9 @@
     </ClInclude>
     <ClInclude Include="UIManager.h">
       <Filter>Level\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="CommonSkillEffect.h">
+      <Filter>Global\Effect\SkillAbilityEffect</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -363,9 +363,6 @@
     <ClCompile Include="ContentsActor.cpp">
       <Filter>Global</Filter>
     </ClCompile>
-    <ClCompile Include="CommonSkillEffect.cpp">
-      <Filter>Global\Effect</Filter>
-    </ClCompile>
     <ClCompile Include="Kirby_Mode_State.cpp">
       <Filter>Global\Object\Kirby</Filter>
     </ClCompile>
@@ -455,6 +452,9 @@
     </ClCompile>
     <ClCompile Include="UIManager.cpp">
       <Filter>Level\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="CommonSkillEffect.cpp">
+      <Filter>Global\Effect\SkillAbilityEffect</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

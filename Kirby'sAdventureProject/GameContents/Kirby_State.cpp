@@ -1260,6 +1260,8 @@ void Kirby::DamagedStart()
 	ChangeAnimationState("Damaged");
 }
 
+
+
 void Kirby::DamagedUpdate(float _Delta)
 {
 	StateTime += _Delta;

@@ -9,6 +9,7 @@
 
 #include "BeamEffect.h"
 #include "LaserEffect.h"
+#include "FrameBreathEffect.h"
 
 
 
@@ -135,6 +136,7 @@ void Kirby::TriggerOneTimeAbility()
 	switch (Mode)
 	{
 	case AbilityStar::Spark:
+		OneTimeSpark();
 		break;
 	case AbilityStar::Laser:
 		OneTimeLaser();
@@ -145,6 +147,7 @@ void Kirby::TriggerOneTimeAbility()
 	case AbilityStar::Fire:
 		break;
 	case AbilityStar::Thorn:
+		OneTimeThorn();
 		break;
 	case AbilityStar::Sword:
 		break;
@@ -186,6 +189,80 @@ void Kirby::OneTimeBeam()
 }
 
 
+void Kirby::OneTimeThorn()
+{
+	if (nullptr == ThornEffectCollision)
+	{
+		MsgBoxAssert("가시 충돌체가 Null 입니다.");
+		return;
+	}
+
+	ThornEffectCollision->On();
+}
+
+
+
+void Kirby::OneTimeSpark()
+{
+	if (nullptr == SparkEffectCollision)
+	{
+		MsgBoxAssert("전기 충돌체가 Null 입니다.");
+		return;
+	}
+
+	SparkEffectCollision->On();
+}
+
+
+void Kirby::TriggerMultiTimeAbility(float _Delta)
+{
+	switch (Mode)
+	{
+	case AbilityStar::Spark:
+		break;
+	case AbilityStar::Laser:
+		break;
+	case AbilityStar::Beam:
+		break;
+	case AbilityStar::Fire:
+		TriggerFireAbilityAfterProcess(_Delta);
+		break;
+	case AbilityStar::Thorn:
+		break;
+	case AbilityStar::Sword:
+		break;
+	default:
+		break;
+	}
+}
+
+
+void Kirby::TriggerFireAbilityAfterProcess(float _Delta)
+{
+	FrameTime += _Delta;
+
+
+	if (FrameTime > KIRBYFRAMEEFFECTCREATECYCLE)
+	{
+		FrameTime = 0.0f;
+
+		FrameBreathEffect* FrameBreathEffectPtr = GetLevel()->CreateActor<FrameBreathEffect>(UpdateOrder::Ability);
+
+		if (nullptr == FrameBreathEffectPtr)
+		{
+			MsgBoxAssert("액터가 Null입니다.");
+			return;
+		}
+
+		FrameBreathEffectPtr->init(GetPos(), GetKirbyScale(), GetDirUnitVector());
+		FrameBreathEffectPtr->SetActorCollision(CollisionOrder::PlayerAbility, CollisionType::Rect);
+	}
+
+
+}
+
+
+
 
 void Kirby::InhaleAbilityStart()
 {
@@ -209,6 +286,8 @@ void Kirby::InhaleAbilityStart()
 	InhaleEffectCollision->SetCollisionPos(KirbyDirUnitVector);
 	InhaleEffectCollision->On();
 }
+
+
 
 void Kirby::InhaleAbilityUpdate(float _Delta)
 {
@@ -312,11 +391,16 @@ void Kirby::InhaleAbilityUpdate(float _Delta)
 
 
 
+
+
 void Kirby::DropAbility()
 {
 	Mode = AbilityStar::Normal;
 	ChangeAnimationState(CurState);
 }
+
+
+
 
 
 

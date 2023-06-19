@@ -8,6 +8,9 @@
 #include <GameEngineCore/GameEngineCollision.h>
 
 #include "GlobalContents.h"
+#include "ActorUtils.h"
+
+
 
 SkillEffect::SkillEffect() 
 {
@@ -15,6 +18,46 @@ SkillEffect::SkillEffect()
 
 SkillEffect::~SkillEffect() 
 {
+}
+
+
+
+
+void SkillEffect::AbilityToActorCollisionCheck(CollisionOrder _ActorBodyCol)
+{
+
+	if (nullptr == EffectCollision)
+	{
+		MsgBoxAssert("충돌체가 Null 입니다.");
+		return;
+	}
+
+
+	std::vector<GameEngineCollision*> ActorCol;
+	if (true == EffectCollision->Collision(_ActorBodyCol, ActorCol, CollisionType::Rect, CollisionType::Rect))
+	{
+		// 벡터 순회
+		for (size_t i = 0; i < ActorCol.size(); i++)
+		{
+			// 몬스터 콜리전 참조
+			GameEngineCollision* ActorBodyPtr = ActorCol[i];
+			if (nullptr == ActorBodyPtr)
+			{
+				MsgBoxAssert("참조한 Actor 가 Null 입니다.");
+				return;
+			}
+
+			ActorUtils* Actor = dynamic_cast<ActorUtils*>(ActorBodyPtr->GetActor());
+			if (nullptr == Actor)
+			{
+				MsgBoxAssert("다운 캐스팅 오류입니다.");
+				return;
+			}
+
+			// 몬스터 상태 변경 트리거 On
+			Actor->IsHitted = true;
+		}
+	}
 }
 
 
@@ -37,6 +80,19 @@ void SkillEffect::SetActorCollision(CollisionOrder _Order, CollisionType _Type)
 
 	EffectCollision->SetCollisionScale(Scale);
 	EffectCollision->SetCollisionType(_Type);
+
+	
+	switch (_Order)
+	{
+	case CollisionOrder::PlayerAbility:
+		IsPlayerCollision = true;
+		break;
+	case CollisionOrder::MonsterAbility:
+		IsPlayerCollision = false;
+		break;
+	default:
+		break;
+	}
 }
 
 

@@ -664,8 +664,13 @@ void Kirby::GetAbilityUpdate(float _Delta)
 
 	if (StateTime > GetABilityStateEndTime)
 	{
+		ThornEffectCollision->Off();
+		SparkEffectCollision->Off();
 		IsChangeState = true;
 	}
+
+
+	TriggerMultiTimeAbility(_Delta);
 
 	if (true == GetGroundState() && true == IsChangeState && 0 == CurrentSpeed)
 	{

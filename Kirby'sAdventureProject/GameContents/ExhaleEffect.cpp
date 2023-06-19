@@ -9,6 +9,7 @@
 #include <GameEngineCore/GameEngineSprite.h>
 
 #include "GlobalContents.h"
+#include "ActorUtils.h"
 
 
 ExhaleEffect::ExhaleEffect()
@@ -78,5 +79,8 @@ void ExhaleEffect::Update(float _Delta)
 	{
 		Death();
 		EffectPointerRelease();
+		return;
 	}
+
+	AbilityToActorCollisionCheck(CollisionOrder::MonsterBody);
 }

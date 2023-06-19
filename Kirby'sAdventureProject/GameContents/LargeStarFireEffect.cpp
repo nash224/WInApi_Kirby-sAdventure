@@ -54,7 +54,12 @@ void LargeStarFireEffect::Update(float _Delta)
 	{
 		Death();
 		EffectPointerRelease();
+		return;
 	}
+
+
+	AbilityToActorCollisionCheck(CollisionOrder::MonsterBody);
+
 
 
 	AddPos(EffectDir * LARGESTARFIREEFFECTSPEED * _Delta);
