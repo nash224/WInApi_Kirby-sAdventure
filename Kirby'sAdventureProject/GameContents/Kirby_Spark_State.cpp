@@ -76,6 +76,9 @@ void Kirby::Spark_StateResourceLoad()
 	MainRenderer->CreateAnimation("Spark_Left_ReleaseSpecialAbility", "Ability_Left_Use.bmp", 0, 0, 0.1f, false);
 	MainRenderer->CreateAnimation("Spark_Right_ReleaseSpecialAbility", "Ability_Right_Use.bmp", 0, 0, 0.1f, false);
 
+	MainRenderer->CreateAnimation("Spark_Left_Enter", "Ability_Left_Kirby.bmp", 93, 94, 0.1f, false);
+	MainRenderer->CreateAnimation("Spark_Right_Enter", "Ability_Right_Kirby.bmp", 93, 94, 0.1f, false);
+
 	MainRenderer->CreateAnimation("Spark_Left_GetAbility", "Ability_Left_Use.bmp", 1, 2, 0.1f, true);
 	MainRenderer->CreateAnimation("Spark_Right_GetAbility", "Ability_Right_Use.bmp", 1, 2, 0.1f, true);
 }

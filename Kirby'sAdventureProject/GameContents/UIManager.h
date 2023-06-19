@@ -52,7 +52,7 @@ protected:
 	float IsGulpPortraitTime = 0.0f;
 	const float IsGulpPortraitDuration = 1.0f;
 
-
+	const float StaminaFramesInter = 0.6f;
 
 
 

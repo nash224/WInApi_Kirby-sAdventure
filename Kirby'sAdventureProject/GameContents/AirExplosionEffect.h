@@ -29,6 +29,7 @@ protected:
 
 private:
 	int ImagePosNumber = 0;
+	int EndCycle = 0;
 	float ImageFrameChangeTime = 0.0f;
 
 

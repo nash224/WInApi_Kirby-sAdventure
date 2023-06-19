@@ -31,8 +31,9 @@ void UIManager::PortraitState(float _Delta)
 	}
 
 
-	if (0 == m_KirbySteminaCount && true == KirbyPtr->IsKirbyRevive)
+	if (true == KirbyPtr->IsKirbyRevive && 0 == m_KirbySteminaCount)
 	{
+		// Hp 초기화
 		m_KirbySteminaCount = 6;
 
 		First_StaminaRenderer->ChangeAnimation("StaminaRemain");
@@ -41,6 +42,14 @@ void UIManager::PortraitState(float _Delta)
 		Fourth_StaminaRenderer->ChangeAnimation("StaminaRemain");
 		Fifth_StaminaRenderer->ChangeAnimation("StaminaRemain");
 		Sixth_StaminaRenderer->ChangeAnimation("StaminaRemain");
+
+
+		// 프레임간격 재설정
+		Fifth_StaminaRenderer->FindAnimation("StaminaRemain")->Inters = { 0.6f , 0.6f };
+		Fourth_StaminaRenderer->FindAnimation("StaminaRemain")->Inters = { 0.6f , 0.6f };
+		Third_StaminaRenderer->FindAnimation("StaminaRemain")->Inters = { 0.6f , 0.6f };
+		Second_StaminaRenderer->FindAnimation("StaminaRemain")->Inters = { 0.6f , 0.6f };
+		First_StaminaRenderer->FindAnimation("StaminaRemain")->Inters = { 0.6f , 0.6f };
 	}
 
 

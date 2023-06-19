@@ -6,6 +6,7 @@
 #include "GameEffect.h"
 
 
+bool VegetableValleyPlayLevel::NextLevelTriggerOn = false;
 float VegetableValleyPlayLevel::UpdateTime = 0.0f;
 
 VegetableValleyPlayLevel::VegetableValleyPlayLevel() 

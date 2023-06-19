@@ -202,6 +202,7 @@ void Kirby::StateUpdate(float _Delta)
 	case KirbyState::ReleaseSpecialAbility:		return ReleaseSpecialAbilityUpdate(_Delta);
 	case KirbyState::GetAbility:				return GetAbilityUpdate(_Delta);
 	case KirbyState::Damaged:					return DamagedUpdate(_Delta);
+	case KirbyState::Enter:						return EnterUpdate(_Delta);
 	case KirbyState::Contain_Idle:				return Contain_IdleUpdate(_Delta);
 	case KirbyState::Contain_Walk:				return Contain_WalkUpdate(_Delta);
 	case KirbyState::Contain_Run:				return Contain_RunUpdate(_Delta);
@@ -244,6 +245,7 @@ void Kirby::ChangeState(KirbyState _State)
 		case KirbyState::ReleaseSpecialAbility:	ReleaseSpecialAbilityStart();	break;
 		case KirbyState::GetAbility:			GetAbilityStart();				break;
 		case KirbyState::Damaged:				DamagedStart();					break;
+		case KirbyState::Enter:					EnterStart();					break;
 		case KirbyState::Contain_Idle:			Contain_IdleStart();			break;
 		case KirbyState::Contain_Walk:			Contain_WalkStart();			break;
 		case KirbyState::Contain_Run:			Contain_RunStart();				break;
@@ -609,6 +611,22 @@ void Kirby::CameraFocus()
 
 
 	GetLevel()->GetMainCamera()->AddPos(CameraMovePos);
+}
+
+
+bool Kirby::IsEnterPixel()
+{
+	unsigned int CeilingLeftColor = GetGroundColor(RGB(255, 255, 255), CeilLeftCheckPoint);
+	unsigned int CeilingRightColor = GetGroundColor(RGB(255, 255, 255), CeilRightCheckPoint);
+	unsigned int GroundLeftColor = GetGroundColor(RGB(255, 255, 255), GroundLeftCheckPoint);
+	unsigned int GroundRightColor = GetGroundColor(RGB(255, 255, 255), GroundRightCheckPoint);
+	if (CeilingLeftColor == RGB(0, 255, 0) || CeilingRightColor == RGB(0, 255, 0) ||
+		GroundLeftColor == RGB(0, 255, 0) || GroundRightColor == RGB(0, 255, 0))
+	{
+		return true;
+	}
+
+	return false;
 }
 
 

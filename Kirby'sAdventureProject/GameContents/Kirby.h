@@ -6,12 +6,14 @@
 #include <string>
 
 
+// 커비 몸통 및 스킬 충돌체 크기
 #define FATTYPECOLLISIONSCALE float4{ 66.0f , 66.0f }
 #define LOWERTYPECOLLISIONSCALE float4{ 48.0f , 27.0f }
 #define LOWERATTACKCOLLISIONSCALE float4 { 30.0f , 18.0f }
 #define INHALEEFFECTCOLLISIONSCALE float4 { 132.0f , 66.0f }
 #define SPARKEFFECTCOLLISIONSCALE float4 { 112.0f , 112.0f }
 
+// 커비 이동 상수
 #define WALKSPEED 500.0f
 #define WALKMAXSPEED 200.0f
 #define DECELERATIONSPEED  600.0f
@@ -20,6 +22,7 @@
 #define RUNSPEED 600.0f
 #define RUNMAXSPEED 350.0f
 
+// 커비 점프 상수
 #define JUMPTIME 0.3f
 #define JUMPMAXDISTANCE 100.0f
 
@@ -28,6 +31,7 @@
 #define BOUNCEPOWER 250.0f
 
 
+// 커비 Fly 상수
 #define TAKEOFFTIME 0.4f
 
 #define FLYPOWER 280.0f
@@ -36,10 +40,13 @@
 
 #define EXHALEATTACKTIME 0.08f
 
+// 커비 벽에 부딪혔는 시간
 #define HITTHEMAPTIME 0.08f
 
-
+// 슬라이딩 먼지 생성 시간 간격
 #define LOWERATTACKDUSTOCCURRENCECYCLE 0.08f
+// 슬라이딩 감속 시작 시간
+#define LOWERATTACKDECELECTIONSTARTTIME 0.3f
 
 // 커비 능력별 쿨타임
 #define KIRBYSPARKEFFECTCREATECYCLE 0.1f
@@ -85,6 +92,7 @@ enum class KirbyState
 	ExhaleAttack,
 	UseSpecialAbility,
 	ReleaseSpecialAbility,
+	Enter,
 	Contain_Idle,
 	Contain_Walk,
 	Contain_Run,
@@ -160,6 +168,9 @@ protected:
 	void VerticalUpdate(float _Delta) override;
 	void ChangeKirbyBodyState(KirbyBodyState _BodyState);
 
+	bool IsEnterPixel();
+
+
 
 	// 행동 시작전 함수
 	void IdleStart();
@@ -183,6 +194,7 @@ protected:
 	void ReleaseSpecialAbilityStart();
 	void GetAbilityStart();
 	void DamagedStart();
+	void EnterStart();
 
 	void Contain_IdleStart();
 	void Contain_WalkStart();
@@ -216,6 +228,7 @@ protected:
 	void ReleaseSpecialAbilityUpdate(float _Delta);
 	void GetAbilityUpdate(float _Delta);
 	void DamagedUpdate(float _Delta);
+	void EnterUpdate(float _Delta);
 
 	void Contain_IdleUpdate(float _Delta);
 	void Contain_WalkUpdate(float _Delta);
@@ -356,9 +369,13 @@ private:
 
 
 
-	// 무적
+	// 면역 변수
 	bool ImmuneState = false;
 	float ImmuneTime = 0.0f;
+
+
+	// 레벨 이동 변수
+	bool IsNextLevelTriggerOn = false;
 
 
 public:

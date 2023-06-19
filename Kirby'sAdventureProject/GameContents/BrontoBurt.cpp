@@ -94,8 +94,6 @@ void BrontoBurt::init(const std::string& _FileName, BrontoState _State, const fl
 void BrontoBurt::Update(float _Delta)
 {
 	StateUpdate(_Delta);
-
-	//CheckOverScreen();
 }
 
 

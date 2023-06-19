@@ -37,6 +37,15 @@ void VegetableValleyHub::Start()
 
 void VegetableValleyHub::Update(float _Delta)
 {
+	Kirby* KirbyPtr = Kirby::GetMainKirby();
+	if (nullptr == KirbyPtr)
+	{
+		MsgBoxAssert("커비가 Null 입니다.");
+		return;
+	}
+
+	float4 KirbyPos = KirbyPtr->GetPos();
+
 
 	if (true == GameEngineInput::IsDown('P'))
 	{
@@ -47,6 +56,13 @@ void VegetableValleyHub::Update(float _Delta)
 	{
 		GameEngineCore::ChangeLevel("VegetableValley11");
 	}
+
+	if (true == NextLevelTriggerOn && KirbyPos.X > 260.0f && KirbyPos.X < 320.0f )
+	{
+		NextLevelTriggerOn = false;
+		GameEngineCore::ChangeLevel("VegetableValley11");
+	}
+
 
 	if (true == GameEngineInput::IsDown('M'))
 	{

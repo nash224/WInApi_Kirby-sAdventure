@@ -433,8 +433,6 @@ void PlayUI::Update(float _Delta)
 	OuchState(_Delta);
 
 	PortraitState(_Delta);
-
-
 }
 
 
@@ -469,18 +467,33 @@ void PlayUI::OuchState(float _Delta)
 				break;
 			case 2:
 				Second_StaminaRenderer->ChangeAnimation("StaminaNone");
+				First_StaminaRenderer->FindAnimation("StaminaRemain")->Inters = { 0.1f , 0.1f };
 				break;
 			case 3:
 				Third_StaminaRenderer->ChangeAnimation("StaminaNone");
+				Second_StaminaRenderer->FindAnimation("StaminaRemain")->Inters = { 0.2f , 0.2f };
+				First_StaminaRenderer->FindAnimation("StaminaRemain")->Inters = { 0.2f , 0.2f };
 				break;
 			case 4:
 				Fourth_StaminaRenderer->ChangeAnimation("StaminaNone");
+				Third_StaminaRenderer->FindAnimation("StaminaRemain")->Inters = { 0.3f , 0.3f };
+				Second_StaminaRenderer->FindAnimation("StaminaRemain")->Inters = { 0.3f , 0.3f };
+				First_StaminaRenderer->FindAnimation("StaminaRemain")->Inters = { 0.3f , 0.3f };
 				break;
 			case 5:
 				Fifth_StaminaRenderer->ChangeAnimation("StaminaNone");
+				Fourth_StaminaRenderer->FindAnimation("StaminaRemain")->Inters = { 0.4f , 0.4f };
+				Third_StaminaRenderer->FindAnimation("StaminaRemain")->Inters = { 0.4f , 0.4f };
+				Second_StaminaRenderer->FindAnimation("StaminaRemain")->Inters = { 0.4f , 0.4f };
+				First_StaminaRenderer->FindAnimation("StaminaRemain")->Inters = { 0.4f , 0.4f };
 				break;
 			case 6:
 				Sixth_StaminaRenderer->ChangeAnimation("StaminaNone");
+				Fifth_StaminaRenderer->FindAnimation("StaminaRemain")->Inters = { 0.5f , 0.5f };
+				Fourth_StaminaRenderer->FindAnimation("StaminaRemain")->Inters = { 0.5f , 0.5f };
+				Third_StaminaRenderer->FindAnimation("StaminaRemain")->Inters = { 0.5f , 0.5f };
+				Second_StaminaRenderer->FindAnimation("StaminaRemain")->Inters = { 0.5f , 0.5f };
+				First_StaminaRenderer->FindAnimation("StaminaRemain")->Inters = { 0.5f , 0.5f };
 				break;
 			default:
 				break;
@@ -546,6 +559,7 @@ void PlayUI::LevelStart()
 	}
 
 
+	// 커비 모드
 	switch (KirbyMode)
 	{
 	case 0:

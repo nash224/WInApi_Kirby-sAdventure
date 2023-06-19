@@ -162,6 +162,12 @@ void VegetableValley11::Update(float _Delta)
 		GameEngineCore::ChangeLevel("VegetableValley12");
 	}
 
+	if (true == NextLevelTriggerOn)
+	{
+		NextLevelTriggerOn = false;
+		GameEngineCore::ChangeLevel("VegetableValley12");
+	}
+
 	if (true == GameEngineInput::IsDown('M'))
 	{
 		LevelBackGround->SwitchRender();

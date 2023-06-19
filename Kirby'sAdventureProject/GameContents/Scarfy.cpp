@@ -147,6 +147,7 @@ void Scarfy::IdleStart()
 	IsGravityReverse = false;
 	ChangeGravityDistance = RespawnLocation.Y + SCARFYFLIGHTCHANGRAVITYCONVERSIONPOINT;
 	GravityReset();
+
 	ChangeAnimationState("Idle");
 }
 
@@ -154,8 +155,11 @@ void Scarfy::IdleUpdate(float _Delta)
 {
 	StateTime += _Delta;
 
+	// 커비쪽으로 방향설정
 	GetKirbyDirection();
 
+
+	// 최고 및 최저 높이로 가면 중력반전
 	if (GetPos().Y > ChangeGravityDistance && false == IsGravityReverse)
 	{
 		IsGravityReverse = true;
@@ -165,22 +169,25 @@ void Scarfy::IdleUpdate(float _Delta)
 		IsGravityReverse = false;
 	}
 
-	if (SCARFYRECOGNITIONRANGE > abs(Kirby::GetMainKirby()->GetPos().X - GetPos().X))
-	{
-		IsChangeState = true;
-	}
 
-
-
+	// 빨려 들어가면 폼변환
 	if (true == IsInhaledStateOn)
 	{
 		ChangeState(ScarfyState::TransFormingBefore);
 		return;
 	}
 
+
+	// 방향 전환에 따라 애니메이션 변경
+	ChangeAnimationState("Idle");
+
+
+
+	// 충돌 검사
 	EnemyCollisionCheck();
 
 
+	// 중력 및 Y축 업데이트
 	if (true == IsGravityReverse)
 	{
 		ReverseGravity(_Delta);
@@ -207,6 +214,7 @@ void Scarfy::TransFormingBeforeUpdate(float _Delta)
 {
 	StateTime += _Delta;
 
+	// Scarfy 앞뒤로 떨림
 	if (StateTime > SCARFYWOBBLETIME)
 	{
 		StateTime = 0.0f;
@@ -235,17 +243,24 @@ void Scarfy::TransFormingBeforeUpdate(float _Delta)
 		}
 	}
 
+
+
+	// 다 떨었으면
 	if (6 == WobbleCount)
 	{
 		IsChangeState = true;
 	}
 
+	// 2차 폼변환
 	if (true == IsChangeState)
 	{
 		ChangeState(ScarfyState::TransFormingAfter);
 		return;
 	}
 
+
+
+	// 충돌검사
 	EnemyCollisionCheck();
 }
 
@@ -263,6 +278,8 @@ void Scarfy::TransFormingAfterUpdate(float _Delta)
 {
 	StateTime += _Delta;
 
+
+	// 10회 떨음
 	if (StateTime > SCARFYWOBBLETIME)
 	{
 		StateTime = 0.0f;
@@ -291,17 +308,24 @@ void Scarfy::TransFormingAfterUpdate(float _Delta)
 		} 
 	}
 
+
+
+	// 다 떨었으면 
 	if (10 == WobbleCount)
 	{
 		IsChangeState = true;
 	}
 
+
+	// 쫗아감
 	if (true == IsChangeState)
 	{
 		ChangeState(ScarfyState::Following);
 		return;
 	}
 
+
+	// 충돌검사
 	EnemyCollisionCheck();
 }
 
@@ -318,19 +342,26 @@ void Scarfy::FollowingUpdate(float _Delta)
 {
 	StateTime += _Delta;
 
+	// 일정 범위 밖으로 가거나 시간이 지나면
 	if (SCARFYRECOGNITIONRANGE > abs(Kirby::GetMainKirby()->GetPos().X - GetPos().X) || StateTime > SCARFYFOLLOWINGTIME)
 	{
 		IsChangeState = true;
 	}
 
+
+	// 터짐 상태 변환
 	if (true == IsChangeState)
 	{
 		ChangeState(ScarfyState::Bomb);
 		return;
 	}
 
+
+	// 충돌 검사
 	EnemyCollisionCheck();
 
+
+	// 커비를 향해 날아감
 	float4 KirbyUnitVector = GetKirbyUnitVector();
 	KirbyUnitVector *= SCARFYFOLLOWINGSPEED;
 
@@ -352,6 +383,7 @@ void Scarfy::BombUpdate(float _Delta)
 	StateTime += _Delta;
 
 
+	// 흔들다
 	if (StateTime >= SCARFYVIBRATIONTIME)
 	{
 		StateTime = 0.0f;
@@ -367,6 +399,8 @@ void Scarfy::BombUpdate(float _Delta)
 		}
 	}
 
+
+	// 시간되면 터짐
 	if (30 == BombCount)
 	{
 		AirExplosionEffect* AirExplosionEffectPtr = GetLevel()->CreateActor<AirExplosionEffect>();
@@ -385,6 +419,9 @@ void Scarfy::BombUpdate(float _Delta)
 }
 
 
+
+
+
 void Scarfy::EnemyCollisionCheck()
 {
 	if (true == IsHitted)
@@ -396,13 +433,15 @@ void Scarfy::EnemyCollisionCheck()
 
 
 
+
+
 void Scarfy::HittedStart()
 {
 	StateTime = 0.0f;
 	IsChangeState = false;
 	IsHitted = true;
 
-
+	// 맞으면 Bomb
 	AirExplosionEffect* AirExplosionEffectPtr = GetLevel()->CreateActor<AirExplosionEffect>(UpdateOrder::Ability);
 	if (nullptr == AirExplosionEffectPtr)
 	{
@@ -414,6 +453,7 @@ void Scarfy::HittedStart()
 	AirExplosionEffectPtr->SetActorCollision(CollisionOrder::MonsterAbility, CollisionType::Rect);
 
 }
+
 
 void Scarfy::HittedUpdate(float _Delta)
 {

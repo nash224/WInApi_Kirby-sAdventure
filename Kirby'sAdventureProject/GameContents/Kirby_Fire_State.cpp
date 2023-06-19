@@ -75,6 +75,9 @@ void Kirby::Fire_StateResourceLoad()
 	MainRenderer->CreateAnimation("Fire_Left_ReleaseSpecialAbility", "Ability_Left_Use.bmp", 4, 4, 0.1f, false);
 	MainRenderer->CreateAnimation("Fire_Right_ReleaseSpecialAbility", "Ability_Right_Use.bmp", 4, 4, 0.1f, false);
 
+	MainRenderer->CreateAnimation("Fire_Left_Enter", "Ability_Left_Kirby.bmp", 93, 94, 0.1f, false);
+	MainRenderer->CreateAnimation("Fire_Right_Enter", "Ability_Right_Kirby.bmp", 93, 94, 0.1f, false);
+
 	MainRenderer->CreateAnimation("Fire_Left_GetAbility", "Ability_Left_Use.bmp", 3, 4, 0.1f, true);
 	MainRenderer->CreateAnimation("Fire_Right_GetAbility", "Ability_Right_Use.bmp", 3, 4, 0.1f, true);
 }

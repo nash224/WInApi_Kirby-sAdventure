@@ -6,6 +6,10 @@
 // Ό³Έν :
 class VegetableValleyPlayLevel : public GameEngineLevel
 {
+public:
+	static bool NextLevelTriggerOn;
+
+
 protected:
 	static float UpdateTime;
 	float FPSText = 0.0f;
@@ -46,8 +50,9 @@ protected:
 	std::map<std::string, Enemy*> LevelEnemy;
 	std::string BitMapFileName = "";
 
-
 	float4 BackGroundScale = float4::ZERO;
+
+
 
 	void SetLevelBackgroundScale(const float4& _Scale)
 	{

@@ -10,6 +10,7 @@
 #include "DustEffect.h"
 #include "HitObjectEffect.h"
 #include "ExhaleEffect.h"
+#include "VegetableValleyPlayLevel.h"
 
 
 void Kirby::Normal_StateResourceLoad()
@@ -73,6 +74,9 @@ void Kirby::Normal_StateResourceLoad()
 
 	MainRenderer->CreateAnimation("Normal_Left_ReleaseSpecialAbility", "Normal_Left_Kirby.bmp", 25, 25, 0.15f, false);
 	MainRenderer->CreateAnimation("Normal_Right_ReleaseSpecialAbility", "Normal_RIght_Kirby.bmp", 25, 25, 0.15f, false);
+	
+	MainRenderer->CreateAnimation("Normal_Left_Enter", "Normal_Left_Kirby.bmp", 93, 94, 0.1f, false);
+	MainRenderer->CreateAnimation("Normal_Right_Enter", "Normal_RIght_Kirby.bmp", 93, 94, 0.1f, false);
 
 	MainRenderer->CreateAnimation("Normal_Left_Damaged", "Normal_Left_Kirby.bmp", 12, 10, 0.1f, false);
 	MainRenderer->CreateAnimation("Normal_Right_Damaged", "Normal_RIght_Kirby.bmp", 12, 10, 0.1f, false);
@@ -90,6 +94,13 @@ void Kirby::IdleStart()
 
 void Kirby::IdleUpdate(float _Delta)
 {
+	// 지정 점이 Green 이고 W를 누르고 있으면, Enter 상태 변환
+	if (true == IsEnterPixel() && true == GameEngineInput::IsPress('W'))
+	{
+		ChangeState(KirbyState::Enter);
+		return;
+	}
+
 
 	if (false == GetGroundState())
 	{
@@ -159,6 +170,13 @@ void Kirby::WalkStart()
 
 void Kirby::WalkUpdate(float _Delta)
 {
+	// 지정 점이 Green 이고 W를 누르고 있으면, Enter 상태 변환
+	if (true == IsEnterPixel() && true == GameEngineInput::IsPress('W'))
+	{
+		ChangeState(KirbyState::Enter);
+		return;
+	}
+
 	if (false == GetGroundState())
 	{
 		GravityReset();
@@ -252,6 +270,13 @@ void Kirby::RunStart()
 
 void Kirby::RunUpdate(float _Delta)
 {
+	// 지정 점이 Green 이고 W를 누르고 있으면, Enter 상태 변환
+	if (true == IsEnterPixel() && true == GameEngineInput::IsPress('W'))
+	{
+		ChangeState(KirbyState::Enter);
+		return;
+	}
+
 	if (false == GetGroundState())
 	{
 		GravityReset();
@@ -399,6 +424,17 @@ void Kirby::JumpUpdate(float _Delta)
 {
 	StateTime += _Delta;
 
+
+
+	// 지정 점이 Green 이고 W를 누르고 있으면, Enter 상태 변환
+	if (true == IsEnterPixel() && true == GameEngineInput::IsPress('W'))
+	{
+		ChangeState(KirbyState::Enter);
+		return;
+	}
+
+
+
 	if (true == GameEngineInput::IsFree('X'))
 	{
 		IsChangeState = true;
@@ -485,6 +521,17 @@ void Kirby::AerialMotionUpdate(float _Delta)
 
 	IsChangeState = MainRenderer->IsAnimationEnd();
 
+
+
+	// 지정 점이 Green 이고 W를 누르고 있으면, Enter 상태 변환
+	if (true == IsEnterPixel() && true == GameEngineInput::IsPress('W'))
+	{
+		ChangeState(KirbyState::Enter);
+		return;
+	}
+
+
+
 	if (true == GameEngineInput::IsDown('Z'))
 	{
 		ChangeState(KirbyState::UseSpecialAbility);
@@ -548,6 +595,18 @@ void Kirby::FallUpdate(float _Delta)
 	StateTime += _Delta;
 	FallDistance += GetGravityVector().Y * _Delta;
 
+
+
+	// 지정 점이 Green 이고 W를 누르고 있으면, Enter 상태 변환
+	if (true == IsEnterPixel() && true == GameEngineInput::IsPress('W'))
+	{
+		ChangeState(KirbyState::Enter);
+		return;
+	}
+
+
+
+
 	if (FallDistance > FALLDISTANCE)
 	{
 		ChangeState(KirbyState::AccelerateDown);
@@ -610,7 +669,14 @@ void Kirby::AccelerateDownStart()
 
 void Kirby::AccelerateDownUpdate(float _Delta)
 {
-	BlockedByWall();
+	// 지정 점이 Green 이고 W를 누르고 있으면, Enter 상태 변환
+	if (true == IsEnterPixel() && true == GameEngineInput::IsPress('W'))
+	{
+		ChangeState(KirbyState::Enter);
+		return;
+	}
+
+
 
 	if (true == GetGroundState())
 	{
@@ -798,7 +864,22 @@ void Kirby::LowerAttackStart()
 {
 	StateTime = 0.0f;
 	IsChangeState = false; 
+	Duration = 0.0f;
 
+
+	// 속도 지정
+	if (Dir == ActorDir::Left)
+	{
+		CurrentSpeed = -RUNMAXSPEED;
+	}
+
+	if (Dir == ActorDir::Right)
+	{
+		CurrentSpeed = RUNMAXSPEED;
+	}
+
+
+	// LowerCollison 위치 지정
 	float4 KirbyDirUnitVector = GetDirUnitVector();
 	if (KirbyDirUnitVector.X < 0.0f)
 	{
@@ -810,9 +891,18 @@ void Kirby::LowerAttackStart()
 		KirbyDirUnitVector =
 			float4{ (LOWERATTACKCOLLISIONSCALE + LOWERTYPECOLLISIONSCALE).Half().X, -LOWERATTACKCOLLISIONSCALE.Half().Y };
 	}
+
+	if (nullptr == LowerAttackCollision)
+	{
+		MsgBoxAssert("충돌체가 Null 입니다");
+		return;
+	}
+
 	LowerAttackCollision->SetCollisionPos(KirbyDirUnitVector);
+
 	LowerAttackCollision->On();
-	Duration = 0.0f;
+
+
 	ChangeAnimationState("LowerAttack");
 }
 
@@ -821,19 +911,14 @@ void Kirby::LowerAttackUpdate(float _Delta)
 	StateTime += _Delta;
 	Duration += _Delta;
 
-	if (StateTime < 0.3f)
-	{
-		if (Dir == ActorDir::Left)
-		{
-			CurrentSpeed = -RUNMAXSPEED;
-		}
 
-		if (Dir == ActorDir::Right)
-		{
-			CurrentSpeed = RUNMAXSPEED;
-		}
+	if (nullptr == LowerAttackCollision)
+	{
+		MsgBoxAssert("충돌체가 Null 입니다.");
+		return;
 	}
-	
+
+
 	// 벽에 막히면 벽에 부딫힘
 	if (true == CheckLeftWall() || true == CheckRightWall())
 	{
@@ -867,6 +952,33 @@ void Kirby::LowerAttackUpdate(float _Delta)
 	// 데미지 상태 패턴
 	CheckKirbyCollision();
 
+	std::vector<GameEngineCollision*> LowerAttackCol;
+	if (true == LowerAttackCollision->Collision(CollisionOrder::MonsterBody, LowerAttackCol, CollisionType::Rect, CollisionType::Rect))
+	{
+		// 벡터 순회
+		for (size_t i = 0; i < LowerAttackCol.size(); i++)
+		{
+			// 몬스터 콜리전 참조
+			GameEngineCollision* MonsterBodyPtr = LowerAttackCol[i];
+			if (nullptr == MonsterBodyPtr)
+			{
+				MsgBoxAssert("참조한 Monster 가 Null 입니다.");
+				return;
+			}
+
+			ActorUtils* Monster = dynamic_cast<ActorUtils*>(MonsterBodyPtr->GetActor());
+			if (nullptr == Monster)
+			{
+				MsgBoxAssert("다운 캐스팅 오류입니다.");
+				return;
+			}
+
+			// 몬스터 상태 변경 트리거 On
+			Monster->IsHitted = true;
+		}
+		
+	}
+
 
 
 
@@ -876,14 +988,28 @@ void Kirby::LowerAttackUpdate(float _Delta)
 		Duration = 0.0f;
 
 		DustEffect* DustEffectPtr = GetLevel()->CreateActor<DustEffect>();
+		if (nullptr == DustEffectPtr)
+		{
+			MsgBoxAssert("액터가 Null 입니다");
+			return;
+		}
+
 		DustEffectPtr->init(GetPos(), GetKirbyScale(), -GetDirUnitVector());
 	}
 
 
+	// 맵 블락
 	BlockedByWall();
 	BlockedByGround();
 
-	ActorUtils::DecelerationUpdate(_Delta, DECELERATIONSPEED);
+
+
+	// X축 감속 및 업데이트 
+	if (StateTime > LOWERATTACKDECELECTIONSTARTTIME)
+	{
+		ActorUtils::DecelerationUpdate(_Delta, DECELERATIONSPEED);
+	}
+
 	HorizontalUpdate(_Delta);
 }
 
@@ -1002,6 +1128,15 @@ void Kirby::TakeOffUpdate(float _Delta)
 {
 	IsChangeState = MainRenderer->IsAnimationEnd();
 
+	// 지정 점이 Green 이고 W를 누르고 있으면, Enter 상태 변환
+	if (true == IsEnterPixel() && true == GameEngineInput::IsPress('W'))
+	{
+		ChangeState(KirbyState::Enter);
+		return;
+	}
+
+
+
 	if (true == IsChangeState)
 	{
 		ChangeState(KirbyState::Fly);
@@ -1053,6 +1188,16 @@ void Kirby::FlyStart()
 void Kirby::FlyUpdate(float _Delta)
 {
 	StateTime += _Delta;
+
+	// 지정 점이 Green 이고 W를 누르고 있으면, Enter 상태 변환
+	if (true == IsEnterPixel() && true == GameEngineInput::IsPress('W'))
+	{
+		IsNextLevelTriggerOn = true;
+		ChangeState(KirbyState::ExhaleAttack);
+		return;
+	}
+
+
 
 	if (true == GameEngineInput::IsDown('Z'))
 	{
@@ -1151,6 +1296,16 @@ void Kirby::ExhaleAttackUpdate(float _Delta)
 	// 한 동작이 끝나면 
 	IsChangeState = MainRenderer->IsAnimationEnd();
 
+
+	// Fly 에서 Enter 상태 변환 조건을 충족했을 때
+	if (true == IsChangeState && true == IsNextLevelTriggerOn)
+	{
+		SetAirResistance(1.0f);
+		ChangeState(KirbyState::Enter);
+		return;
+	}
+
+
 	// 체공 상태일 경우 Fall
 	if (true == IsChangeState && false == GetGroundState())
 	{
@@ -1224,7 +1379,7 @@ void Kirby::DamagedStart()
 	// 맞으면 체력감소
 	if (m_KirbyHp > 0)
 	{
-		--m_KirbyHp;
+		--m_KirbyHp; 
 	}
 
 
@@ -1313,4 +1468,35 @@ void Kirby::DamagedUpdate(float _Delta)
 	// 감속
 	DecelerationUpdate(_Delta);
 	HorizontalUpdate(_Delta);
+}
+
+
+
+void Kirby::EnterStart()
+{
+	StateTime = 0.0f;
+	IsChangeState = false;
+	IsNextLevelTriggerOn = false;
+
+
+	GravityReset();
+	ChangeAnimationState("Enter");
+}
+
+void Kirby::EnterUpdate(float _Delta)
+{
+	StateTime += _Delta;
+
+	if (true == MainRenderer->IsAnimationEnd())
+	{
+		IsChangeState = true;
+	}
+
+
+	if (true == IsChangeState)
+	{
+		VegetableValleyPlayLevel::NextLevelTriggerOn = true;
+		ChangeState(KirbyState::Fall);
+		return;
+	}
 }

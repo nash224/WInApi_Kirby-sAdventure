@@ -2,12 +2,9 @@
 #include "ContentsEnum.h"
 
 #include <GameEngineBase/GameEngineRandom.h>
-#include <GameEnginePlatform/GameEngineWindow.h>
-#include <GameEnginePlatform/GameEngineWindowTexture.h>
 #include <GameEngineCore/GameEngineRenderer.h>
-#include <GameEngineCore/ResourcesManager.h>
-#include <GameEngineCore/GameEngineSprite.h>
-#include <GameENgineCore/GameEngineLevel.h>
+#include <GameEngineCore/GameEngineLevel.h>
+
 
 #include "GlobalContents.h"
 #include "AirExplosionAEffect.h"
@@ -41,10 +38,13 @@ void AirExplosionEffect::Update(float _Delta)
 	{
 		ImageFrameChangeTime = 0.0f;
 
+
+		// 위치선언
 		float4 AirExplosionAEffectPos = float4::ZERO;
 		float4 AirExplosionB1EffectPos = float4::ZERO;
 		float4 AirExplosionB2EffectPos = float4::ZERO;
 
+		// 몇 회차에 따라 등장위치가 특정 사각형 모서리 위치로 지정
 		switch (ImagePosNumber)
 		{
 		case 0:
@@ -63,10 +63,21 @@ void AirExplosionEffect::Update(float _Delta)
 			break;
 		}
 
+
+		// A이펙트 생성
 		AirExplosionAEffect* AirExplosionAEffectPtr = GetLevel()->CreateActor<AirExplosionAEffect>();
+		if (nullptr == AirExplosionAEffectPtr)
+		{
+			MsgBoxAssert("액터가 Null 입니다.");
+			return;
+		}
+		
 		AirExplosionAEffectPtr->init(AirExplosionAEffectPos + GetPos());
 
 
+
+
+		// 지정된 사각형 선위에 이펙트 생성
 		float XCoordinate = 0.0f;
 		float YCoordinate = 0.0f;
 
@@ -102,24 +113,53 @@ void AirExplosionEffect::Update(float _Delta)
 			break;
 		}
 
+
+		// 지정된 위치에 이펙트 생성
 		AirExplosionBEffect* AirExplosionB1EffectPtr = GetLevel()->CreateActor<AirExplosionBEffect>();
+		if (nullptr == AirExplosionB1EffectPtr)
+		{
+			MsgBoxAssert("액터가 Null 입니다.");
+			return;
+		}
+
 		AirExplosionB1EffectPtr->init(GetPos() + AirExplosionB1EffectPos);
 
+
+
+		// 지정된 위치에 이펙트 생성
 		AirExplosionBEffect* AirExplosionB2EffectPtr = GetLevel()->CreateActor<AirExplosionBEffect>();
+		if (nullptr == AirExplosionB2EffectPtr)
+		{
+			MsgBoxAssert("액터가 Null 입니다.");
+			return;
+		}
+
 		AirExplosionB2EffectPtr->init(GetPos() + AirExplosionB2EffectPos);
 
 
+		// A임펙트 이미지 위치변경
 		ImagePosNumber++;
 
+		// 4번째면 다시 처음으로
 		if (4 == ImagePosNumber)
 		{
 			ImagePosNumber = 0;
+			++EndCycle;
 		}
 	}
 
-	if (GetLiveTime() > AIREXPLOSIONEFFECTTIME)
+
+	// 해제하고 초기화
+	if (2 == EndCycle)
 	{
 		Death();
 		EffectPointerRelease();
+		return;
+	}
+
+
+	if (false == IsPlayerCollision)
+	{
+		AbilityToActorCollisionCheck(CollisionOrder::PlayerBody);
 	}
 }
