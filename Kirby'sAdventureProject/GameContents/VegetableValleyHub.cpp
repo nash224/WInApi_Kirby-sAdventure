@@ -29,6 +29,7 @@ void VegetableValleyHub::Start()
 	SetLevelBackgroundScale(BackScale);;
 
 	LevelPlayer = GameEngineLevel::CreateActor<Kirby>();
+	LevelPlayer->OverOn();
 
 
 	//GameEngineWindow::MainWindow.CursorOff();

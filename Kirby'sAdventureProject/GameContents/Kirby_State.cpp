@@ -1194,7 +1194,11 @@ void Kirby::DamagedStart()
 {
 	StateTime = 0.0f;
 	IsChangeState = false;
-
+	
+	if (m_KirbyHp > 0)
+	{
+		--m_KirbyHp;
+	}
 
 	ImmuneState = true;
 	KirbyBodyCollisonOff();

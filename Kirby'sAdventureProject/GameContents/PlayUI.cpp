@@ -6,6 +6,7 @@
 #include <GameEngineCore/GameEngineRenderer.h>
 
 #include "GlobalContents.h"
+#include "Kirby.h"
 
 
 
@@ -24,7 +25,8 @@ void PlayUI::Start()
 	LivesAniRendererSet();
 	PortraitRendererSet();
 	LivesNumberRendererSet();
-
+	StaminaCountRendererSet();
+	ScoreRendererSet();
 
 }
 
@@ -185,26 +187,346 @@ void PlayUI::LivesNumberRendererSet()
 }
 
 
- 
-void PlayUI::init(const std::string& _FileName, const std::string& _Path)
+
+
+void PlayUI::StaminaCountRendererSet()
 {
+	// UI StaminaAnimation
+	First_StaminaRenderer = CreateUIRenderer(RenderOrder::PlayUI);
+	if (nullptr == First_StaminaRenderer)
+	{
+		MsgBoxAssert("렌더러가 Null 입니다..");
+		return;
+	}
+
+	Second_StaminaRenderer = CreateUIRenderer(RenderOrder::PlayUI);
+	if (nullptr == Second_StaminaRenderer)
+	{
+		MsgBoxAssert("렌더러가 Null 입니다..");
+		return;
+	}
+
+	Third_StaminaRenderer = CreateUIRenderer(RenderOrder::PlayUI);
+	if (nullptr == Third_StaminaRenderer)
+	{
+		MsgBoxAssert("렌더러가 Null 입니다..");
+		return;
+	}
+
+	Fourth_StaminaRenderer = CreateUIRenderer(RenderOrder::PlayUI);
+	if (nullptr == Fourth_StaminaRenderer)
+	{
+		MsgBoxAssert("렌더러가 Null 입니다..");
+		return;
+	}
+
+	Fifth_StaminaRenderer = CreateUIRenderer(RenderOrder::PlayUI);
+	if (nullptr == Fifth_StaminaRenderer)
+	{
+		MsgBoxAssert("렌더러가 Null 입니다..");
+		return;
+	}
+
+	Sixth_StaminaRenderer = CreateUIRenderer(RenderOrder::PlayUI);
+	if (nullptr == Sixth_StaminaRenderer)
+	{
+		MsgBoxAssert("렌더러가 Null 입니다..");
+		return;
+	}
+
+
+	// Sprite Scale
+	GameEngineSprite* Sprite = GlobalContents::SpriteFileLoad("UI_LifeBar_3x1_24x42.bmp", "Resources\\UI", 3, 1);
+	if (nullptr == Sprite)
+	{
+		MsgBoxAssert("UI 텍스처가 널일리가 없어");
+		return;
+	}
+
+	float4 StaminaScale = Sprite->GetSprite(0).RenderScale;
+
+
+
+	// Set Stamina Render
+	First_StaminaRenderer->CreateAnimation("StaminaRemain", "UI_LifeBar_3x1_24x42.bmp", 0, 1, 0.6f, true);
+	First_StaminaRenderer->CreateAnimation("StaminaNone", "UI_LifeBar_3x1_24x42.bmp", 2, 2, 0.6f, false);
+	First_StaminaRenderer->ChangeAnimation("StaminaRemain");
+	First_StaminaRenderer->SetRenderPos(PLAY_STAMINAFIRSTNUMBERLOCATION + StaminaScale.Half());
+
+
+
+	Second_StaminaRenderer->CreateAnimation("StaminaRemain", "UI_LifeBar_3x1_24x42.bmp", 0, 1, 0.6f, true);
+	Second_StaminaRenderer->CreateAnimation("StaminaNone", "UI_LifeBar_3x1_24x42.bmp", 2, 2, 0.6f, false);
+	Second_StaminaRenderer->ChangeAnimation("StaminaRemain");
+	Second_StaminaRenderer->SetRenderPos(PLAY_STAMINAFIRSTNUMBERLOCATION + float4{ StaminaScale.X * 1.0f , 0.0f } + StaminaScale.Half());
+
+
+
+	Third_StaminaRenderer->CreateAnimation("StaminaRemain", "UI_LifeBar_3x1_24x42.bmp", 0, 1, 0.6f, true);
+	Third_StaminaRenderer->CreateAnimation("StaminaNone", "UI_LifeBar_3x1_24x42.bmp", 2, 2, 0.6f, false);
+	Third_StaminaRenderer->ChangeAnimation("StaminaRemain");
+	Third_StaminaRenderer->SetRenderPos(PLAY_STAMINAFIRSTNUMBERLOCATION + float4{ StaminaScale.X * 2.0f , 0.0f } + StaminaScale.Half());
+
+
+
+	Fourth_StaminaRenderer->CreateAnimation("StaminaRemain", "UI_LifeBar_3x1_24x42.bmp", 0, 1, 0.6f, true);
+	Fourth_StaminaRenderer->CreateAnimation("StaminaNone", "UI_LifeBar_3x1_24x42.bmp", 2, 2, 0.6f, false);
+	Fourth_StaminaRenderer->ChangeAnimation("StaminaRemain");
+	Fourth_StaminaRenderer->SetRenderPos(PLAY_STAMINAFIRSTNUMBERLOCATION + float4{ StaminaScale.X * 3.0f , 0.0f } + StaminaScale.Half());
+
+
+
+	Fifth_StaminaRenderer->CreateAnimation("StaminaRemain", "UI_LifeBar_3x1_24x42.bmp", 0, 1, 0.6f, true);
+	Fifth_StaminaRenderer->CreateAnimation("StaminaNone", "UI_LifeBar_3x1_24x42.bmp", 2, 2, 0.6f, false);
+	Fifth_StaminaRenderer->ChangeAnimation("StaminaRemain");
+	Fifth_StaminaRenderer->SetRenderPos(PLAY_STAMINAFIRSTNUMBERLOCATION + float4{ StaminaScale.X * 4.0f , 0.0f } + StaminaScale.Half());
+
+
+
+	Sixth_StaminaRenderer->CreateAnimation("StaminaRemain", "UI_LifeBar_3x1_24x42.bmp", 0, 1, 0.6f, true);
+	Sixth_StaminaRenderer->CreateAnimation("StaminaNone", "UI_LifeBar_3x1_24x42.bmp", 2, 2, 0.6f, false);
+	Sixth_StaminaRenderer->ChangeAnimation("StaminaRemain");
+	Sixth_StaminaRenderer->SetRenderPos(PLAY_STAMINAFIRSTNUMBERLOCATION + float4{ StaminaScale.X * 5.0f , 0.0f } + StaminaScale.Half());
+
 
 }
+
+
+void PlayUI::ScoreRendererSet()
+{
+	// 점수 1번째 자리
+	First_ScoreRenderer = CreateUIRenderer(RenderOrder::PlayUI);
+	if (nullptr == First_ScoreRenderer)
+	{
+		MsgBoxAssert("렌더러가 Null 입니다..");
+		return;
+	}
+
+	// 점수 2번째 자리
+	Second_ScoreRenderer = CreateUIRenderer(RenderOrder::PlayUI);
+	if (nullptr == Second_ScoreRenderer)
+	{
+		MsgBoxAssert("렌더러가 Null 입니다..");
+		return;
+	}
+
+	// 점수 3번째 자리
+	Third_ScoreRenderer = CreateUIRenderer(RenderOrder::PlayUI);
+	if (nullptr == Third_ScoreRenderer)
+	{
+		MsgBoxAssert("렌더러가 Null 입니다..");
+		return;
+	}
+
+	// 점수 4번째 자리
+	Fourth_ScoreRenderer = CreateUIRenderer(RenderOrder::PlayUI);
+	if (nullptr == Fourth_ScoreRenderer)
+	{
+		MsgBoxAssert("렌더러가 Null 입니다..");
+		return;
+	}
+
+	// 점수 5번째 자리
+	Fifth_ScoreRenderer = CreateUIRenderer(RenderOrder::PlayUI);
+	if (nullptr == Fifth_ScoreRenderer)
+	{
+		MsgBoxAssert("렌더러가 Null 입니다..");
+		return;
+	}
+
+	// 점수 6번째 자리
+	Sixth_ScoreRenderer = CreateUIRenderer(RenderOrder::PlayUI);
+	if (nullptr == Sixth_ScoreRenderer)
+	{
+		MsgBoxAssert("렌더러가 Null 입니다..");
+		return;
+	}
+
+	// 점수 7번째 자리
+	Seventh_ScoreRenderer = CreateUIRenderer(RenderOrder::PlayUI);
+	if (nullptr == Seventh_ScoreRenderer)
+	{
+		MsgBoxAssert("렌더러가 Null 입니다..");
+		return;
+	}
+
+
+	GameEngineWindowTexture* Texture = GlobalContents::TextureFileLoad("UI_Number_10x1_24x24.bmp", "Resources\\UI");
+	if (nullptr == Texture)
+	{
+		MsgBoxAssert("UI 텍스처가 널일리가 없어");
+		return;
+	}
+
+
+
+	// Set Score Position and Render
+	First_ScoreRenderer->SetTexture("UI_Number_10x1_24x24.bmp");
+	First_ScoreRenderer->SetCopyPos(float4::ZERO);
+	First_ScoreRenderer->SetCopyScale(NumberScale);
+	First_ScoreRenderer->SetRenderPos(PLAY_SCOREFIRSTNUMBERLOCATION + NumberScale.Half());
+	First_ScoreRenderer->SetRenderScale(NumberScale);
+
+
+
+	Second_ScoreRenderer->SetTexture("UI_Number_10x1_24x24.bmp");
+	Second_ScoreRenderer->SetCopyPos(float4::ZERO);
+	Second_ScoreRenderer->SetCopyScale(NumberScale);
+	Second_ScoreRenderer->SetRenderPos(PLAY_SCOREFIRSTNUMBERLOCATION + float4{ NumberScale.X , 0.0f } + NumberScale.Half());
+	Second_ScoreRenderer->SetRenderScale(NumberScale);
+
+
+
+	Third_ScoreRenderer->SetTexture("UI_Number_10x1_24x24.bmp");
+	Third_ScoreRenderer->SetCopyPos(float4::ZERO);
+	Third_ScoreRenderer->SetCopyScale(NumberScale);
+	Third_ScoreRenderer->SetRenderPos(PLAY_SCOREFIRSTNUMBERLOCATION + float4{ NumberScale.X * 2.0f , 0.0f } + NumberScale.Half());
+	Third_ScoreRenderer->SetRenderScale(NumberScale);
+
+
+
+	Fourth_ScoreRenderer->SetTexture("UI_Number_10x1_24x24.bmp");
+	Fourth_ScoreRenderer->SetCopyPos(float4::ZERO);
+	Fourth_ScoreRenderer->SetCopyScale(NumberScale);
+	Fourth_ScoreRenderer->SetRenderPos(PLAY_SCOREFIRSTNUMBERLOCATION + float4{ NumberScale.X * 3.0f , 0.0f } + NumberScale.Half());
+	Fourth_ScoreRenderer->SetRenderScale(NumberScale);
+
+
+
+	Fifth_ScoreRenderer->SetTexture("UI_Number_10x1_24x24.bmp");
+	Fifth_ScoreRenderer->SetCopyPos(float4::ZERO);
+	Fifth_ScoreRenderer->SetCopyScale(NumberScale);
+	Fifth_ScoreRenderer->SetRenderPos(PLAY_SCOREFIRSTNUMBERLOCATION + float4{ NumberScale.X * 4.0f, 0.0f } + NumberScale.Half());
+	Fifth_ScoreRenderer->SetRenderScale(NumberScale);
+
+
+
+	Sixth_ScoreRenderer->SetTexture("UI_Number_10x1_24x24.bmp");
+	Sixth_ScoreRenderer->SetCopyPos(float4::ZERO);
+	Sixth_ScoreRenderer->SetCopyScale(NumberScale);
+	Sixth_ScoreRenderer->SetRenderPos(PLAY_SCOREFIRSTNUMBERLOCATION + float4{ NumberScale.X * 5.0f , 0.0f } + NumberScale.Half());
+	Sixth_ScoreRenderer->SetRenderScale(NumberScale);
+
+
+
+	Seventh_ScoreRenderer->SetTexture("UI_Number_10x1_24x24.bmp");
+	Seventh_ScoreRenderer->SetCopyPos(float4::ZERO);
+	Seventh_ScoreRenderer->SetCopyScale(NumberScale);
+	Seventh_ScoreRenderer->SetRenderPos(PLAY_SCOREFIRSTNUMBERLOCATION + float4{ NumberScale.X * 6.0f , 0.0f } + NumberScale.Half());
+	Seventh_ScoreRenderer->SetRenderScale(NumberScale);
+
+}
+
+
 
 
 
 
 void PlayUI::Update(float _Delta)
 {
+	OuchState(_Delta);
+
 
 }
 
-void PlayUI::Render(float _Delta)
+
+
+void PlayUI::OuchState(float _Delta)
 {
+	if (true == Ouch_State)
+	{
+		Ouch_Time += _Delta;
+	}
 
+	if (Ouch_Time > Ouch_Duration)
+	{
+		Ouch_State = false;
+		PortraitRenderer->ChangeAnimation("Portrait_Normal");
+	}
+
+
+	// 커비의 체력과 UI의 체력이 다르면
+	if (m_KirbySteminaCount != KirbyPtr->m_KirbyHp && -1 != KirbyPtr->m_KirbyHp)
+	{
+		// 커비의 체력이 감소하면
+		if (m_KirbySteminaCount > KirbyPtr->m_KirbyHp)
+		{
+			switch (m_KirbySteminaCount)
+			{
+			case 1:
+				// 죽음
+				First_StaminaRenderer->ChangeAnimation("StaminaNone");
+				break;
+			case 2:
+				Second_StaminaRenderer->ChangeAnimation("StaminaNone");
+				break;
+			case 3:
+				Third_StaminaRenderer->ChangeAnimation("StaminaNone");
+				break;
+			case 4:
+				Fourth_StaminaRenderer->ChangeAnimation("StaminaNone");
+				break;
+			case 5:
+				Fifth_StaminaRenderer->ChangeAnimation("StaminaNone");
+				break;
+			case 6:
+				Sixth_StaminaRenderer->ChangeAnimation("StaminaNone");
+				break;
+			default:
+				break;
+			}
+
+			PortraitRenderer->ChangeAnimation("Portrait_OUCH");
+		}
+
+		m_KirbySteminaCount = KirbyPtr->m_KirbyHp;
+		Ouch_State = true;
+		Ouch_Time = 0.0f;
+	}
 }
+
 
 void PlayUI::LevelStart()
 {
 	UI = this;
+
+	KirbyPtr = Kirby::GetMainKirby();
+	if (nullptr == KirbyPtr)
+	{
+		MsgBoxAssert("Kirby가 Null 입니다.");
+		return;
+	}
+
+	switch (KirbyPtr->m_KirbyHp)
+	{
+	case 1:
+		Second_ScoreRenderer->ChangeAnimation("StaminaNone");
+		Third_StaminaRenderer->ChangeAnimation("StaminaNone");
+		Fourth_StaminaRenderer->ChangeAnimation("StaminaNone");
+		Fifth_StaminaRenderer->ChangeAnimation("StaminaNone");
+		Sixth_StaminaRenderer->ChangeAnimation("StaminaNone");
+		break;
+	case 2:
+		Third_StaminaRenderer->ChangeAnimation("StaminaNone");
+		Fourth_StaminaRenderer->ChangeAnimation("StaminaNone");
+		Fifth_StaminaRenderer->ChangeAnimation("StaminaNone");
+		Sixth_StaminaRenderer->ChangeAnimation("StaminaNone");
+		break;
+	case 3:
+		Fourth_StaminaRenderer->ChangeAnimation("StaminaNone");
+		Fifth_StaminaRenderer->ChangeAnimation("StaminaNone");
+		Sixth_StaminaRenderer->ChangeAnimation("StaminaNone");
+		break;
+	case 4:
+		Fifth_StaminaRenderer->ChangeAnimation("StaminaNone");
+		Sixth_StaminaRenderer->ChangeAnimation("StaminaNone");
+		break;
+	case 5:
+		Sixth_StaminaRenderer->ChangeAnimation("StaminaNone");
+		break;
+	case 6:
+		break;
+	default:
+		break;
+	}
 }

@@ -215,6 +215,7 @@ void GameEngineRenderer::CreateAnimation(
 
 	GameEngineRenderer::Animation& Animation = AllAnimation[UpperName];
 
+	Animation.Name = _AniamtionName;
 	Animation.Sprite = Sprite;
 
 	if (_Start != -1)
@@ -287,16 +288,12 @@ void GameEngineRenderer::CreateAnimationToFrame(
 
 	GameEngineRenderer::Animation& Animation = AllAnimation[UpperName];
 
+	Animation.Name = _AniamtionName;
 	Animation.Sprite = Sprite;
 	Animation.StartFrame = 0;
 	Animation.EndFrame = _Frame.size() - 1;
 
-	// 0 - 5 - 5
-	// ¿ª
-
-	// 0, 0
-	Animation.Inters.resize(_Frame.size());
-	Animation.Frames.resize(_Frame.size());
+	Animation.Inters.resize(_Frame.size() + 1);
 
 	Animation.Frames = _Frame;
 
@@ -307,6 +304,7 @@ void GameEngineRenderer::CreateAnimationToFrame(
 
 	Animation.Loop = _Loop;
 }
+
 
 
 void GameEngineRenderer::ChangeAnimation(const std::string& _AniamtionName, int _FrameCount, bool _ForceChange)

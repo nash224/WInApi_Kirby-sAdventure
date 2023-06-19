@@ -58,7 +58,7 @@ void Kirby::Start()
 	BodyState = KirbyBodyState::Little;
 	Mode = AbilityStar::Normal;
 	CurMode = "Normal";
-	m_KirbyHp = 5;
+	m_KirbyHp = 6;
 
 
 

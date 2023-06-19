@@ -44,17 +44,34 @@ void VegetableValley11::Start()
 	LevelBackGround = GameEngineLevel::CreateActor<BackGround>(UpdateOrder::BackGround);
 	LevelBackGround->init("VegetableValley1_1.bmp","VegetableValley1_1Pixel.bmp", "Resources\\Map");
 
+	BitMapFileName = "VegetableValley1_1Pixel.bmp";
+
+	GameEngineWindowTexture* Texture = ResourcesManager::GetInst().FindTexture("VegetableValley1_1.bmp");
+	BackGroundScale = Texture->GetScale();
+
+
 	LevelEffect = GameEngineLevel::CreateActor<GameEffect>(UpdateOrder::BackGroundEffect);
 	LevelEffect->LoadBackGroundEffect("CloudAndWater12x3_8x8.bmp", "Resources\\Effect\\MapEffect", 12, 4);
 
 	VegetableValley11BackGroundEffect(3.0f, 0.15f, true);
-	float4 BackScale = ResourcesManager::GetInst().FindTexture("VegetableValley1_1.bmp")->GetScale();
+
+
+
+	GameEngineWindowTexture* MapTexture = ResourcesManager::GetInst().FindTexture("VegetableValley1_1.bmp");
+	if (nullptr == MapTexture)
+	{
+		MsgBoxAssert("비트맵 로드에 실패했습니다.");
+		return;
+	}
+
+	float4 BackScale = MapTexture->GetScale();
 	SetLevelBackgroundScale(BackScale);
 
 
-	LevelPlayer = GameEngineLevel::CreateActor<Kirby>(UpdateOrder::Player);
-	LevelPlayer->SetGroundTexture("VegetableValley1_1Pixel.bmp");
-	BitMapFileName = "VegetableValley1_1Pixel.bmp";
+
+
+
+
 
 
 	// 몹1
@@ -124,10 +141,12 @@ void VegetableValley11::Start()
 
 
 	LevelUIManager = GameEngineLevel::CreateActor<PlayUI>(UpdateOrder::UI);
+	if (nullptr == LevelUIManager)
+	{
+		MsgBoxAssert("UI 생성에 실패했습니다.");
+		return;
+	}
 
-
-	GameEngineWindowTexture* Texture = ResourcesManager::GetInst().FindTexture("VegetableValley1_1.bmp");
-	BackGroundScale = Texture->GetScale();
 }
 
 
@@ -155,10 +174,14 @@ void VegetableValley11::Update(float _Delta)
 
 void VegetableValley11::LevelStart(GameEngineLevel* _PrevLevel)
 {
+	LevelPlayer = Kirby::GetMainKirby();
 	if (nullptr == LevelPlayer)
 	{
 		MsgBoxAssert("플레이어를 세팅해주지 않았습니다.");
 	}
+
+	LevelPlayer->SetGroundTexture(BitMapFileName);
+	LevelPlayer->SetPos(float4{ 200.0f, 200.0f });
 }
 
 

@@ -7,6 +7,11 @@ class UIManager : public GameEngineActor
 public:
 	static UIManager* UI;
 
+
+protected:
+	class Kirby* KirbyPtr = nullptr;
+
+
 public:
 	// constrcuter destructer
 	UIManager();
@@ -37,8 +42,8 @@ protected:
 
 
 	static int m_LivesCount;
+	static int m_KirbySteminaCount;
 
 private:
-
 };
 

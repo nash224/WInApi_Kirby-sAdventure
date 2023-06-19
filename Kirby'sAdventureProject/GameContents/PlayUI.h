@@ -11,6 +11,12 @@
 // 목숨 숫자 위치
 #define PLAY_LIVESFIRSTNUMBERLOCATION float4{ 636.0f , 78.0f}
 
+// 스태미나 위치
+#define PLAY_STAMINAFIRSTNUMBERLOCATION float4{ 228.0f , 45.0f}
+
+// 점수 위치
+#define PLAY_SCOREFIRSTNUMBERLOCATION float4{ 228.0f , 102.0f}
+
 
 
 
@@ -31,8 +37,6 @@ public:
 	PlayUI& operator=(const PlayUI& _Other) = delete;
 	PlayUI& operator=(PlayUI&& _Other) noexcept = delete;
 
-	void init(const std::string& _FileName, const std::string& _Path);
-
 
 protected:
 	GameEngineRenderer* LivesAniRenderer = nullptr;
@@ -50,17 +54,26 @@ protected:
 	void LivesAniRendererSet();
 	void PortraitRendererSet();
 	void LivesNumberRendererSet();
+	void StaminaCountRendererSet();
+	void ScoreRendererSet();
 		
 
 
 
 	void Start() override;
 	void Update(float _Delta) override;
-	void Render(float _Delta) override;
 
 	void LevelStart() override;
 
 private:
 	const float4 NumberScale = float4{ 24.0f, 24.0f };
+
+
+	bool Ouch_State = false;
+	float Ouch_Time = 0.0f;
+	const float Ouch_Duration = 1.0f;
+
+
+	void OuchState(float _Delta);
 };
 
