@@ -120,6 +120,43 @@ void Kirby::ThornAbilityUpdate(float _Delta)
 
 
 
+
+	// 커비 충돌검사
+	CheckKirbyCollision();
+	CheckKirbyAbilityCollision(ThornEffectCollision);
+
+
+
+
+	// Spark 충돌 검사
+	std::vector<GameEngineCollision*> NeedleCol;
+	if (true == SparkEffectCollision->Collision(CollisionOrder::MonsterBody, NeedleCol, CollisionType::Rect, CollisionType::Rect))
+	{
+		// 벡터 순회
+		for (size_t i = 0; i < NeedleCol.size(); i++)
+		{
+			// 몬스터 콜리전 참조
+			GameEngineCollision* MonsterBodyPtr = NeedleCol[i];
+			if (nullptr == MonsterBodyPtr)
+			{
+				MsgBoxAssert("참조한 Monster 가 Null 입니다.");
+				return;
+			}
+
+			ActorUtils* Monster = dynamic_cast<ActorUtils*>(MonsterBodyPtr->GetActor());
+			if (nullptr == Monster)
+			{
+				MsgBoxAssert("다운 캐스팅 오류입니다.");
+				return;
+			}
+
+			// 몬스터 상태 변경 트리거 On
+			Monster->IsHitted = true;
+		}
+	}
+
+
+
 	// 지형락
 	BlockedByGround();
 	BlockedByCeiling();

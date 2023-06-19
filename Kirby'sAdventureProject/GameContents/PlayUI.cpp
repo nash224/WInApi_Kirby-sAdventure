@@ -146,6 +146,8 @@ void PlayUI::PortraitRendererSet()
 
 
 
+
+
 void PlayUI::LivesNumberRendererSet()
 {
 	// 목숨 숫자 앞자리
@@ -185,6 +187,8 @@ void PlayUI::LivesNumberRendererSet()
 	Second_LivesRenderer->SetRenderPos(PLAY_LIVESFIRSTNUMBERLOCATION + float4{ NumberScale.X , 0.0f } + NumberScale.Half());
 	Second_LivesRenderer->SetRenderScale(NumberScale);
 }
+
+
 
 
 
@@ -290,6 +294,8 @@ void PlayUI::StaminaCountRendererSet()
 
 
 }
+
+
 
 
 void PlayUI::ScoreRendererSet()
@@ -426,10 +432,11 @@ void PlayUI::Update(float _Delta)
 {
 	OuchState(_Delta);
 
-	PortraitState();
+	PortraitState(_Delta);
 
 
 }
+
 
 
 
@@ -489,6 +496,8 @@ void PlayUI::OuchState(float _Delta)
 
 
 
+
+
 // 다음 레벨로 넘어갈 때 유지
 void PlayUI::LevelStart()
 {
@@ -536,6 +545,30 @@ void PlayUI::LevelStart()
 		break;
 	}
 
+
+	switch (KirbyMode)
+	{
+	case 0:
+		PortraitRenderer->ChangeAnimation("Portrait_Normal");
+		break;
+	case 1:
+		PortraitRenderer->ChangeAnimation("Portrait_Spark");
+		break;
+	case 2:
+		PortraitRenderer->ChangeAnimation("Portrait_Laser");
+		break;
+	case 3: 
+		PortraitRenderer->ChangeAnimation("Portrait_Beam");
+		break;
+	case 4:
+		PortraitRenderer->ChangeAnimation("Portrait_Fire");
+		break;
+	case 6:
+		PortraitRenderer->ChangeAnimation("Portrait_Needle");
+		break;
+	default:
+		break;
+	}
 
 
 	// 커비 목숨

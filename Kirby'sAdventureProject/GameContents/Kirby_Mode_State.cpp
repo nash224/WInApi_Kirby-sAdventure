@@ -7,6 +7,10 @@
 #include <GameEngineCore/GameEngineLevel.h>
 
 
+#include "BeamEffect.h"
+#include "LaserEffect.h"
+
+
 
 
 void Kirby::UseSpecialAbilityStart()
@@ -123,6 +127,62 @@ void Kirby::UseAbilityUpdate(float _Delta)
 	default:
 		break;
 	}
+}
+
+
+void Kirby::TriggerOneTimeAbility()
+{
+	switch (Mode)
+	{
+	case AbilityStar::Spark:
+		break;
+	case AbilityStar::Laser:
+		OneTimeLaser();
+		break;
+	case AbilityStar::Beam:
+		OneTimeBeam();
+		break;
+	case AbilityStar::Fire:
+		break;
+	case AbilityStar::Thorn:
+		break;
+	case AbilityStar::Sword:
+		break;
+	default:
+		break;
+	}
+}
+
+
+
+void Kirby::OneTimeLaser()
+{
+	// 레이저 소환
+	LaserEffect* LaserEffectPtr = GetLevel()->CreateActor<LaserEffect>();
+
+	if (nullptr == LaserEffectPtr)
+	{
+		MsgBoxAssert("Null인 액터에 참조하려고 했습니다.");
+		return;
+	}
+
+	LaserEffectPtr->init(GetPos(), GetKirbyScale(), GetDirUnitVector());
+	LaserEffectPtr->SetActorCollision(CollisionOrder::PlayerAbility, CollisionType::Rect);
+}
+
+
+void Kirby::OneTimeBeam()
+{
+	// 빔 소환
+	BeamEffect* BeamEffectPtr = GetLevel()->CreateActor<BeamEffect>();
+	if (nullptr == BeamEffectPtr)
+	{
+		MsgBoxAssert("액터가 Null일리가 없어...");
+		return;
+	}
+
+	BeamEffectPtr->init(GetPos(), GetKirbyScale(), GetDirUnitVector());
+	BeamEffectPtr->SetActorCollision(CollisionOrder::PlayerAbility, CollisionType::Rect);
 }
 
 
@@ -340,3 +400,41 @@ void Kirby::CheckKirbyCollision()
 
 }
 
+
+
+void Kirby::CheckKirbyAbilityCollision(GameEngineCollision* _CheckCol)
+{
+	if (nullptr == _CheckCol)
+	{
+		MsgBoxAssert("충돌 인자가 Null 입니다.");
+		return;
+	}
+
+
+	// 능력 충돌 검사
+	std::vector<GameEngineCollision*> AbilityCol;
+	if (true == _CheckCol->Collision(CollisionOrder::MonsterBody, AbilityCol, CollisionType::Rect, CollisionType::Rect))
+	{
+		// 벡터 순회
+		for (size_t i = 0; i < AbilityCol.size(); i++)
+		{
+			// 몬스터 콜리전 참조
+			GameEngineCollision* MonsterBodyPtr = AbilityCol[i];
+			if (nullptr == MonsterBodyPtr)
+			{
+				MsgBoxAssert("참조한 Monster 가 Null 입니다.");
+				return;
+			}
+
+			ActorUtils* Monster = dynamic_cast<ActorUtils*>(MonsterBodyPtr->GetActor());
+			if (nullptr == Monster)
+			{
+				MsgBoxAssert("다운 캐스팅 오류입니다.");
+				return;
+			}
+
+			// 몬스터 상태 변경 트리거 On
+			Monster->IsHitted = true;
+		}
+	}
+}

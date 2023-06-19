@@ -140,8 +140,10 @@ void Kirby::SparkAbilityUpdate(float _Delta)
 
 
 
+
 	// 데미지 상태 패턴
 	CheckKirbyCollision();
+	CheckKirbyAbilityCollision(SparkEffectCollision);
 
 
 

@@ -1118,15 +1118,28 @@ void Kirby::FlyUpdate(float _Delta)
 }
 
 
+// 공기 팡
 void Kirby::ExhaleAttackStart()
 {
 	StateTime = 0.0f;
 	IsChangeState = false;
+
+	// 몸 충돌체 및 크기 변경
 	ChangeKirbyBodyState(KirbyBodyState::Little);
 
+
+	// 임펙트 설정
 	ExhaleEffect* ExhaleEffectPtr = GetLevel()->CreateActor<ExhaleEffect>();
+	if (nullptr == ExhaleEffectPtr)
+	{
+		MsgBoxAssert("액터가 Null 입니다.");
+		return;
+	}
+
 	ExhaleEffectPtr->init(GetPos(), GetKirbyScale(), GetDirUnitVector());
 	ExhaleEffectPtr->SetActorCollision(CollisionOrder::PlayerAbility, CollisionType::Rect);
+
+
 
 	ChangeAnimationState("ExhaleAttack");
 }
@@ -1135,8 +1148,10 @@ void Kirby::ExhaleAttackUpdate(float _Delta)
 {
 	StateTime += _Delta;
 
+	// 한 동작이 끝나면 
 	IsChangeState = MainRenderer->IsAnimationEnd();
 
+	// 체공 상태일 경우 Fall
 	if (true == IsChangeState && false == GetGroundState())
 	{
 		SetAirResistance(1.0f);
@@ -1144,6 +1159,8 @@ void Kirby::ExhaleAttackUpdate(float _Delta)
 		return;
 	}
 
+
+	// 가만히 서있을 경우 Idle
 	if (true == IsChangeState && CurrentSpeed == 0.0f && true == GetGroundState())
 	{
 		SetAirResistance(1.0f);
@@ -1151,6 +1168,8 @@ void Kirby::ExhaleAttackUpdate(float _Delta)
 		return;
 	}
 
+
+	// 땅에 있는데 움직이면 Walk
 	if (true == IsChangeState && CurrentSpeed != 0.0f && true == GetGroundState())
 	{
 		SetAirResistance(1.0f);
@@ -1164,21 +1183,28 @@ void Kirby::ExhaleAttackUpdate(float _Delta)
 	CheckKirbyCollision();
 
 
-
+	// 청장에 닿으면 중력 리셋
 	if (true == CeilingCheck())
 	{
 		GravityReset();
 	}
 
 
+	// 좌우 움직임
+	MoveHorizontal(FLYSPEED, _Delta);
+
+
+	// 맵 블락
 	BlockedByGround();
 	BlockedByCeiling();
-	MoveHorizontal(FLYSPEED, _Delta);
 	BlockedByWall();
 
+
+	// 감속 및 X속도 업데이트
 	DecelerationUpdate(_Delta);
 	HorizontalUpdate(_Delta);
 
+	// 땅에 있으면 중력적용x
 	if (false == GetGroundState())
 	{
 		Gravity(_Delta);
@@ -1189,18 +1215,23 @@ void Kirby::ExhaleAttackUpdate(float _Delta)
 
 
 
-
+// 데미지 모션
 void Kirby::DamagedStart()
 {
 	StateTime = 0.0f;
 	IsChangeState = false;
 	
+	// 맞으면 체력감소
 	if (m_KirbyHp > 0)
 	{
 		--m_KirbyHp;
 	}
 
+
+	// 면역 On
 	ImmuneState = true;
+
+	// 커비 몸통 충돌체 Off
 	KirbyBodyCollisonOff();
 
 
@@ -1210,6 +1241,19 @@ void Kirby::DamagedStart()
 	{
 		Mode = AbilityStar::Normal;
 	}
+
+
+	// 튕겨나감
+	if (ActorDir::Left == Dir)
+	{
+		CurrentSpeed = BOUNCINGOFF_XPOWER;
+	}
+	else if (ActorDir::Right == Dir)
+	{
+		CurrentSpeed = -BOUNCINGOFF_XPOWER;
+	}
+
+	SetGravityVector(float4{ 0.0f , BOUNCINGOFF_YPOWER });
 
 
 

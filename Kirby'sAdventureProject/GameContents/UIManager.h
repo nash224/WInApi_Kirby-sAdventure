@@ -45,11 +45,18 @@ protected:
 	GameEngineRenderer* Sixth_StaminaRenderer= nullptr;
 
 
-	int KirbyMode = 9;
 
-	void PortraitState();
+	void PortraitState(float _Delta);
+
+	bool IsGulpPortraitDone = true;
+	float IsGulpPortraitTime = 0.0f;
+	const float IsGulpPortraitDuration = 1.0f;
 
 
+
+
+
+	static int KirbyMode;
 	static int m_LivesCount;
 	static int m_KirbySteminaCount;
 

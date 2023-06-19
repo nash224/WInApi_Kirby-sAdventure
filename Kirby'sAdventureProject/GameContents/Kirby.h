@@ -51,6 +51,10 @@
 // 커비 무적시간
 #define KIRBYIMMUNEDURATION 3.0f
 
+// 커비 튕겨나가는 거리
+#define BOUNCINGOFF_XPOWER 200.0f
+#define BOUNCINGOFF_YPOWER -200.0f
+
 
 enum class KirbyBodyState
 {
@@ -224,6 +228,7 @@ protected:
 
 	void DropAbility();
 	void CheckKirbyCollision();
+	void CheckKirbyAbilityCollision(GameEngineCollision* _CheckCol);
 
 
 private:
@@ -251,6 +256,8 @@ private:
 
 
 
+
+	// 상태 함수
 	KirbyBodyState BodyState = KirbyBodyState::Max;	
 	AbilityStar CurrentAbilityStar = AbilityStar::Max;
 	KirbyState State = KirbyState::Max;
@@ -265,12 +272,17 @@ private:
 	float FallDistance = 0.0f; 
 
 
+
+
+	// 상속
 	void Start() override;
 	void Update(float _Delta) override;
 	void Render(float _Detla) override;
 
 	void LevelStart() override;
 
+
+	// 카메라
 	void CameraFocus();
 
 
@@ -287,6 +299,12 @@ private:
 	// 모드별 공격 함수
 	void UseAbilityStart();
 	void UseAbilityUpdate(float _Delta);
+
+	void TriggerOneTimeAbility();
+
+	void OneTimeLaser();
+	void OneTimeBeam();
+
 
 	void StarAttack();
 
@@ -313,17 +331,20 @@ private:
 	class KirbyStar
 	{
 	public:
-		bool IsStarBreak = true;
 		int SwallowedEnemyNumber = 0;
 		int SwallowedPowerEnemyNumber = 0;
-		int StarDamage = 0;
 	};
 
+	KirbyStar Star;
+
+
+	// 삼킴 상태 함수
 	ActorUtils* SwallingEnemy = nullptr;
 	bool IsSwallowedtriggerOn = false;
 	bool swallowedObject = false;
 
-	KirbyStar Star;
+	bool IsGulpEnemy = false;
+
 
 
 

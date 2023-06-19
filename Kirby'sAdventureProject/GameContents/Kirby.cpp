@@ -142,6 +142,12 @@ void Kirby::Update(float _Delta)
 		KirbyBodyCollisonOn();
 	}
 
+	if (true == IsGulpEnemy)
+	{
+		IsGulpEnemy = false;
+	}
+
+
 
 	if (true == GameEngineInput::IsDown('Y'))
 	{

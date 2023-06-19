@@ -502,12 +502,14 @@ void Kirby::Contain_GulpUpdate(float _Delta)
 
 	if (true == IsChangeState && AbilityStar::Max == CurrentAbilityStar && true == GameEngineInput::IsPress('S'))
 	{
+		IsGulpEnemy = true;
 		ChangeState(KirbyState::LowerPosture);
 		return;
 	}
 
 	if (true == IsChangeState && AbilityStar::Max == CurrentAbilityStar && false == GameEngineInput::IsPress('S'))
 	{
+		IsGulpEnemy = true;
 		if (CurrentSpeed == 0.0f)
 		{
 			ChangeState(KirbyState::Idle);
@@ -641,9 +643,17 @@ void Kirby::GetAbilityStart()
 		return;
 	}
 
+
+	TriggerOneTimeAbility();
+
+
+	// Star구조체 및 별 초기화
 	CurrentAbilityStar = AbilityStar::Max;
+
 	Star.SwallowedEnemyNumber = 0;
 	Star.SwallowedPowerEnemyNumber = 0;
+
+
 
 	ChangeAnimationState("GetAbility"); 
 }
