@@ -190,6 +190,9 @@ void SwordKnight::PendulumStrideUpdate(float _Delta)
 		return;
 	}
 
+
+
+
 	EnemyCollisionCheck();
 
 	if (true == CheckLeftWall() || true == LeftGroundIsCliff() || 
@@ -210,8 +213,9 @@ void SwordKnight::PendulumStrideUpdate(float _Delta)
 	if (false == GetGroundState())
 	{
 		Gravity(_Delta);
+		GravityLimit(_Delta);
+		VerticalUpdate(_Delta);
 	}
-	VerticalUpdate(_Delta);
 
 	HorizontalUpdate(_Delta);
 }

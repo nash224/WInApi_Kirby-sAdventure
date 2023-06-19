@@ -194,8 +194,9 @@ void HotHead::WalkUpdate(float _Delta)
 	if (false == GetGroundState())
 	{
 		Gravity(_Delta);
+		GravityLimit(_Delta);
+		VerticalUpdate(_Delta);
 	}
-	VerticalUpdate(_Delta);
 	
 	HorizontalUpdate(_Delta);
 }

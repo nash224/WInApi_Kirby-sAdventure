@@ -84,8 +84,6 @@ void WaddleDoo::Update(float _Delta)
 	GroundCheck();
 
 	StateUpdate(_Delta);
-
-	//CheckOverScreen();
 }
 
 void WaddleDoo::StateUpdate(float _Delta)
@@ -196,9 +194,9 @@ void WaddleDoo::WalkUpdate(float _Delta)
 	if (false == GetGroundState())
 	{
 		Gravity(_Delta);
+		GravityLimit(_Delta);
+		VerticalUpdate(_Delta);
 	}
-	GravityLimit(WADDLEDOOGRAVITYLIMIT);
-	VerticalUpdate(_Delta);
 
 	HorizontalUpdate(_Delta);
 }

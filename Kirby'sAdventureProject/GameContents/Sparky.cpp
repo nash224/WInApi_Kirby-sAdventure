@@ -264,8 +264,8 @@ void Sparky::IdleUpdate(float _Delta)
 	if (false == GetGroundState())
 	{
 		Gravity(_Delta);
+		VerticalUpdate(_Delta);
 	}
-	VerticalUpdate(_Delta);
 }
 
 
