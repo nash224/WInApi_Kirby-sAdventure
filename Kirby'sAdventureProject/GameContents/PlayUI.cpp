@@ -426,6 +426,8 @@ void PlayUI::Update(float _Delta)
 {
 	OuchState(_Delta);
 
+	PortraitState();
+
 
 }
 
@@ -440,6 +442,7 @@ void PlayUI::OuchState(float _Delta)
 
 	if (Ouch_Time > Ouch_Duration)
 	{
+		Ouch_Time = 0.0f;
 		Ouch_State = false;
 		PortraitRenderer->ChangeAnimation("Portrait_Normal");
 	}
@@ -481,11 +484,12 @@ void PlayUI::OuchState(float _Delta)
 
 		m_KirbySteminaCount = KirbyPtr->m_KirbyHp;
 		Ouch_State = true;
-		Ouch_Time = 0.0f;
 	}
 }
 
 
+
+// 다음 레벨로 넘어갈 때 유지
 void PlayUI::LevelStart()
 {
 	UI = this;
@@ -497,6 +501,8 @@ void PlayUI::LevelStart()
 		return;
 	}
 
+
+	// 커비 체력
 	switch (KirbyPtr->m_KirbyHp)
 	{
 	case 1:
@@ -529,4 +535,10 @@ void PlayUI::LevelStart()
 	default:
 		break;
 	}
+
+
+
+	// 커비 목숨
+	First_LivesRenderer->SetCopyPos(float4{ NumberScale.X * static_cast<float>(m_LivesCount / 10), 0.0f });
+	Second_LivesRenderer->SetCopyPos(float4{ NumberScale.X * static_cast<float>(m_LivesCount % 10), 0.0f });
 }

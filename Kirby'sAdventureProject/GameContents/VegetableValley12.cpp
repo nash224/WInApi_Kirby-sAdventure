@@ -30,7 +30,7 @@ void VegetableValley12::Start()
 		return;
 	}
 
-	GameEngineWindowTexture* Texture = LevelBackGround->init("VegetableValley1_2Origin.bmp", "VegetableValley1_2OriginPixel.bmp", "Resources\\Map");
+	GameEngineWindowTexture* Texture = LevelBackGround->init("VegetableValley1_2.bmp", "VegetableValley1_2Pixel.bmp", "Resources\\Map");
 	if (nullptr == Texture)
 	{
 		MsgBoxAssert("비트맵 파일을 불러오지 못했습니다.");
@@ -39,7 +39,7 @@ void VegetableValley12::Start()
 
 	BackGroundScale = Texture->GetScale();
 
-	BitMapFileName = "VegetableValley1_2OriginPixel.bmp";
+	BitMapFileName = "VegetableValley1_2Pixel.bmp";
 
 
 

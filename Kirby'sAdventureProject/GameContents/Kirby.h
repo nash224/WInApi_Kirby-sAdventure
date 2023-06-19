@@ -98,6 +98,8 @@ enum class KirbyState
 
 class Kirby : public ActorUtils
 {
+	friend class UIManager;
+
 private:
 	bool IsLevelChange = true;
 	size_t CurrentLevelEnemiesCount = 0;
@@ -132,6 +134,10 @@ public:
 	}
 
 	float4 GetKirbyScale();
+
+
+	AbilityStar Mode = AbilityStar::Max;
+
 
 protected:
 	static Kirby* MainKirby;
@@ -234,6 +240,7 @@ private:
 
 	GameEngineCollision* LowerAttackCollision = nullptr;
 	GameEngineCollision* InhaleEffectCollision = nullptr;
+
 	GameEngineCollision* SparkEffectCollision = nullptr;
 	GameEngineCollision* ThornEffectCollision = nullptr;
 
@@ -247,7 +254,6 @@ private:
 	KirbyBodyState BodyState = KirbyBodyState::Max;	
 	AbilityStar CurrentAbilityStar = AbilityStar::Max;
 	KirbyState State = KirbyState::Max;
-	AbilityStar Mode = AbilityStar::Max;
 	std::string CurState = "";
 	std::string CurMode = "";
 

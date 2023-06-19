@@ -1,6 +1,6 @@
 #include "VegetableValley13.h"
-#include "Kirby.h"
-#include "BackGround.h"
+#include "ContentsEnum.h"
+
 
 #include <GameEngineBase/GameEngineMath.h>
 #include <GameEnginePlatform/GameEngineWindow.h>
@@ -8,6 +8,12 @@
 #include <GameEngineCore/GameEngineCore.h>
 #include <GameEngineCore/GameEngineCamera.h>
 #include <GameEngineCore/ResourcesManager.h>
+
+
+#include "Kirby.h"
+#include "PlayUI.h"
+#include "BackGround.h"
+
 
 
 VegetableValley13::VegetableValley13()
@@ -20,12 +26,35 @@ VegetableValley13::~VegetableValley13()
 
 void VegetableValley13::Start()
 {
+	// 배경 생성
 	LevelBackGround = GameEngineLevel::CreateActor<BackGround>();
-	GameEngineWindowTexture* Texture = LevelBackGround->init("VegetableValley1_3.bmp", "VegetableValley1_3Pixel.bmp", "Resources\\Map");
+	if (nullptr == LevelBackGround)
+	{
+		MsgBoxAssert("레벨 배경화면 생성에 실패했습니다.");
+		return;
+	}
+
+	GameEngineWindowTexture* Texture = LevelBackGround->init("VegetableValleyP.bmp", "VegetableValleyBossP.bmp", "Resources\\Map");
+	if (nullptr == Texture)
+	{
+		MsgBoxAssert("비트맵 파일을 불러오지 못했습니다.");
+		return;
+	}
+
 	BackGroundScale = Texture->GetScale();
 
-	LevelPlayer = GameEngineLevel::CreateActor<Kirby>();
-	LevelPlayer->SetGroundTexture("VegetableValley1_3Pixel.bmp");
+	BitMapFileName = "VegetableValleyBossP.bmp";
+
+
+
+
+	// UI생성
+	LevelUIManager = GameEngineLevel::CreateActor<PlayUI>(UpdateOrder::UI);
+	if (nullptr == LevelUIManager)
+	{
+		MsgBoxAssert("UI 생성에 실패했습니다.");
+		return;
+	}
 }
 
 void VegetableValley13::Update(float _Delta)
@@ -47,22 +76,19 @@ void VegetableValley13::Update(float _Delta)
 		LevelBackGround->SwitchRender();
 	}
 
-
-	//GameEngineWindowTexture* Texture = ResourceManager::GetInst().FindTexture("VegetableValley1");
-	//float4 Scale = Texture->GetScale();
-	if (LevelPlayer->GetPos().iX() >= 3048.0f)
-	{
-		GameEngineCore::ChangeLevel("EndingLevel");
-	}
 }
 
 
 void VegetableValley13::LevelStart(GameEngineLevel* _PrevLevel)
 {
+	LevelPlayer = Kirby::GetMainKirby();
 	if (nullptr == LevelPlayer)
 	{
 		MsgBoxAssert("플레이어를 세팅해주지 않았습니다.");
 	}
+
+	LevelPlayer->SetGroundTexture(BitMapFileName);
+	LevelPlayer->SetPos(float4{ 370.0f, 200.0f });
 }
 
 

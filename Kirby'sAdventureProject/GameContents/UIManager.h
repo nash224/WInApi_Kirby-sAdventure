@@ -1,6 +1,10 @@
 #pragma once
 #include <GameEngineCore/GameEngineActor.h>
 
+
+
+
+
 // Ό³Έν :
 class UIManager : public GameEngineActor
 {
@@ -39,6 +43,11 @@ protected:
 	GameEngineRenderer* Fourth_StaminaRenderer= nullptr;
 	GameEngineRenderer* Fifth_StaminaRenderer= nullptr;
 	GameEngineRenderer* Sixth_StaminaRenderer= nullptr;
+
+
+	int KirbyMode = 9;
+
+	void PortraitState();
 
 
 	static int m_LivesCount;
