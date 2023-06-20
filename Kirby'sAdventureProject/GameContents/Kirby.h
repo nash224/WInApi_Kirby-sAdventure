@@ -107,6 +107,8 @@ enum class KirbyState
 	Contain_Damaged,
 	GetAbility,
 	Damaged,
+	StageClear,
+	StageClearAfter,
 	Max,
 };
 
@@ -199,6 +201,8 @@ protected:
 	void GetAbilityStart();
 	void DamagedStart();
 	void EnterStart();
+	void StageClearStart();
+	void StageClearAfterStart();
 
 	void Contain_IdleStart();
 	void Contain_WalkStart();
@@ -234,6 +238,8 @@ protected:
 	void GetAbilityUpdate(float _Delta);
 	void DamagedUpdate(float _Delta);
 	void EnterUpdate(float _Delta);
+	void StageClearUpdate(float _Delta);
+	void StageClearAfterUpdate(float _Delta);
 
 	void Contain_IdleUpdate(float _Delta);
 	void Contain_WalkUpdate(float _Delta);

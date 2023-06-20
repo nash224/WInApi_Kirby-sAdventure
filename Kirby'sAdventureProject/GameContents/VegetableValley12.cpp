@@ -20,6 +20,7 @@
 #include "Kabu.h"
 #include "BackGround.h"
 
+
 VegetableValley12::VegetableValley12() 
 {
 }
@@ -214,8 +215,17 @@ void VegetableValley12::Update(float _Delta)
 
 	if (true == GameEngineInput::IsDown('N'))
 	{
-		GameEngineCore::ChangeLevel("VegetableValley13");
+		IsStageEnd = true;
+		GameEngineCore::ChangeLevel("VegetableValleyHub");
 	}
+
+	if (true == NextLevelTriggerOn)
+	{
+		NextLevelTriggerOn = false;
+		IsStageEnd = true;
+		GameEngineCore::ChangeLevel("VegetableValleyHub");
+	}
+
 
 	if (true == GameEngineInput::IsDown('M'))
 	{

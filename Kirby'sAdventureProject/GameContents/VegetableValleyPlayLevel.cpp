@@ -7,7 +7,9 @@
 
 
 bool VegetableValleyPlayLevel::NextLevelTriggerOn = false;
+bool VegetableValleyPlayLevel::IsStageEnd = false;
 float VegetableValleyPlayLevel::UpdateTime = 0.0f;
+int VegetableValleyPlayLevel::VegetableValleyEntertheDoorNumber = -1;
 
 VegetableValleyPlayLevel::VegetableValleyPlayLevel() 
 {

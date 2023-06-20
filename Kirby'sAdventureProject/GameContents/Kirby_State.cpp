@@ -77,15 +77,21 @@ void Kirby::Normal_StateResourceLoad()
 
 	MainRenderer->CreateAnimation("Normal_Left_ReleaseSpecialAbility", "Normal_Left_Kirby.bmp", 25, 25, 0.15f, false);
 	MainRenderer->CreateAnimation("Normal_Right_ReleaseSpecialAbility", "Normal_RIght_Kirby.bmp", 25, 25, 0.15f, false);
-	
-	MainRenderer->CreateAnimation("Normal_Left_Enter", "Normal_Left_Kirby.bmp", 93, 94, 0.1f, false);
-	MainRenderer->CreateAnimation("Normal_Right_Enter", "Normal_RIght_Kirby.bmp", 93, 94, 0.1f, false);
 
 	MainRenderer->CreateAnimation("Normal_Left_Damaged", "Normal_Left_Kirby.bmp", 12, 10, 0.1f, false);
 	MainRenderer->CreateAnimation("Normal_Right_Damaged", "Normal_RIght_Kirby.bmp", 12, 10, 0.1f, false);
 
 	MainRenderer->CreateAnimation("Normal_Left_Contain_Damaged", "Normal_Left_Kirby.bmp", 79, 79, 0.2f, false);
 	MainRenderer->CreateAnimation("Normal_Right_Contain_Damaged", "Normal_RIght_Kirby.bmp", 79, 79, 0.2f, false);
+	
+	MainRenderer->CreateAnimation("Normal_Left_Enter", "Normal_Left_Kirby.bmp", 93, 94, 0.1f, false);
+	MainRenderer->CreateAnimation("Normal_Right_Enter", "Normal_RIght_Kirby.bmp", 93, 94, 0.1f, false);
+
+	MainRenderer->CreateAnimation("Normal_Left_StageClear", "Normal_Left_Kirby.bmp", 93, 94, 0.1f, false);
+	MainRenderer->CreateAnimation("Normal_Right_StageClear", "Normal_RIght_Kirby.bmp", 93, 94, 0.1f, false);
+
+	MainRenderer->CreateAnimation("Normal_Left_StageClearAfter", "Normal_Left_Kirby.bmp", 93, 94, 0.1f, false);
+	MainRenderer->CreateAnimation("Normal_Right_StageClearAfter", "Normal_RIght_Kirby.bmp", 93, 94, 0.1f, false);
 }
 
 // =============================================//
@@ -1579,6 +1585,73 @@ void Kirby::EnterUpdate(float _Delta)
 	{
 		VegetableValleyPlayLevel::NextLevelTriggerOn = true;
 		ChangeState(KirbyState::Fall);
+		return;
+	}
+}
+
+
+// 스테이지 클리어 모션
+void Kirby::StageClearStart()
+{
+	StateTime = 0.0f;
+	IsChangeState = false;
+
+	ChangeAnimationState("StageClear");
+}
+
+
+void Kirby::StageClearUpdate(float _Delta)
+{
+	if (nullptr == MainRenderer)
+	{
+		MsgBoxAssert("랜더러가 Null 입니다.");
+		return;
+	}
+
+
+	if (true == MainRenderer->IsAnimationEnd())
+	{
+		IsChangeState = true;
+	}
+
+
+	if (true == IsChangeState)
+	{
+		ChangeState(KirbyState::StageClearAfter);
+		return;
+	}
+}
+
+
+
+// 스테이지 클리어 모션 후 모션
+void Kirby::StageClearAfterStart()
+{
+	StateTime = 0.0f;
+	IsChangeState = false;
+
+	ChangeAnimationState("StageClearAfter");
+}
+
+
+void Kirby::StageClearAfterUpdate(float _Delta)
+{
+	if (nullptr == MainRenderer)
+	{
+		MsgBoxAssert("랜더러가 Null 입니다.");
+		return;
+	}
+
+
+	if (true == MainRenderer->IsAnimationEnd())
+	{
+		IsChangeState = true;
+	}
+
+
+	if (true== IsChangeState)
+	{
+		ChangeState(KirbyState::Idle);
 		return;
 	}
 }

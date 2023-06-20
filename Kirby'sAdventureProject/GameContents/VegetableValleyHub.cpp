@@ -11,6 +11,7 @@
 #include <GameEngineCore/ResourcesManager.h>
 
 
+
 VegetableValleyHub::VegetableValleyHub()
 {
 }
@@ -54,12 +55,14 @@ void VegetableValleyHub::Update(float _Delta)
 
 	if (true == GameEngineInput::IsDown('N'))
 	{
+		VegetableValleyEntertheDoorNumber = 1;
 		GameEngineCore::ChangeLevel("VegetableValley11");
 	}
 
 	if (true == NextLevelTriggerOn && KirbyPos.X > 260.0f && KirbyPos.X < 320.0f )
 	{
 		NextLevelTriggerOn = false;
+		VegetableValleyEntertheDoorNumber = 1;
 		GameEngineCore::ChangeLevel("VegetableValley11");
 	}
 
@@ -78,6 +81,11 @@ void VegetableValleyHub::LevelStart(GameEngineLevel* _PrevLevel)
 	}
 
 	LevelPlayer->SetGroundTexture("VegetableValleyPixel.bmp");
+
+	if (1 == VegetableValleyEntertheDoorNumber)
+	{
+		LevelPlayer->SetPos(OneStageLocation);
+	}
 }
 
 void VegetableValleyHub::LevelEnd(GameEngineLevel* _NextLevel) { }

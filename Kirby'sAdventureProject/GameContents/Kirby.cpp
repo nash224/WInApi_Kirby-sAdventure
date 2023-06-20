@@ -187,7 +187,6 @@ void Kirby::Update(float _Delta)
 {
 	ImmuneFunc(_Delta);
 
-
 	if (true == IsGulpEnemy)
 	{
 		IsGulpEnemy = false;
@@ -249,6 +248,8 @@ void Kirby::StateUpdate(float _Delta)
 	case KirbyState::GetAbility:				return GetAbilityUpdate(_Delta);
 	case KirbyState::Damaged:					return DamagedUpdate(_Delta);
 	case KirbyState::Enter:						return EnterUpdate(_Delta);
+	case KirbyState::StageClear:				return StageClearUpdate(_Delta);
+	case KirbyState::StageClearAfter:			return StageClearAfterUpdate(_Delta);
 	case KirbyState::Contain_Idle:				return Contain_IdleUpdate(_Delta);
 	case KirbyState::Contain_Walk:				return Contain_WalkUpdate(_Delta);
 	case KirbyState::Contain_Run:				return Contain_RunUpdate(_Delta);
@@ -293,6 +294,8 @@ void Kirby::ChangeState(KirbyState _State)
 		case KirbyState::GetAbility:			GetAbilityStart();				break;
 		case KirbyState::Damaged:				DamagedStart();					break;
 		case KirbyState::Enter:					EnterStart();					break;
+		case KirbyState::StageClear:			StageClearStart();				break;
+		case KirbyState::StageClearAfter:		StageClearAfterStart();			break;
 		case KirbyState::Contain_Idle:			Contain_IdleStart();			break;
 		case KirbyState::Contain_Walk:			Contain_WalkStart();			break;
 		case KirbyState::Contain_Run:			Contain_RunStart();				break;

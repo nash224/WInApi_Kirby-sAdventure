@@ -8,9 +8,12 @@ class VegetableValleyPlayLevel : public GameEngineLevel
 {
 public:
 	static bool NextLevelTriggerOn;
+	static bool IsStageEnd;
 
 
 protected:
+	static int VegetableValleyEntertheDoorNumber;
+
 	static float UpdateTime;
 	float FPSText = 0.0f;
 
@@ -46,6 +49,8 @@ protected:
 	class BackGround* LevelBackGround = nullptr;
 	class GameEffect* LevelEffect = nullptr;
 	class Kirby* LevelPlayer = nullptr;
+
+	
 
 	std::map<std::string, Enemy*> LevelEnemy;
 	std::string BitMapFileName = "";

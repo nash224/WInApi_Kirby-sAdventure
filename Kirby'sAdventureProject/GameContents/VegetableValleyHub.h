@@ -23,6 +23,10 @@ private:
 	class Kirby* LevelPlayer = nullptr;
 	class BackGround* LevelBackGround = nullptr;
 
+	const float4 OneStageLocation = float4{ 288.0f , 863.0f };
+	const float4 OneStageBillBoardLocation = float4{ 228.0f , 813.0f };
+	
+
 	void Start() override;
 	void Update(float _Delta) override;
 };
