@@ -68,33 +68,67 @@ void Kirby::Start()
 
 
 	LittleCollision = CreateCollision(CollisionOrder::PlayerBody);
+	if (nullptr == LittleCollision)
+	{
+		MsgBoxAssert("액터가 NULL 입니다.");
+		return;
+	}
+
 	LittleCollision->SetCollisionPos(float4{ 0.0f , -SMALLTYPECOLLISIONSCALE.Half().Y });
 	LittleCollision->SetCollisionScale(SMALLTYPECOLLISIONSCALE);
 	LittleCollision->SetCollisionType(CollisionType::Rect);
 	LittleCollision->On();
 
 
+
 	LowerCollision = CreateCollision(CollisionOrder::PlayerBody);
+	if (nullptr == LowerCollision)
+	{
+		MsgBoxAssert("액터가 NULL 입니다.");
+		return;
+	}
+
 	LowerCollision->SetCollisionPos(float4{ 0.0f , -LOWERTYPECOLLISIONSCALE.Half().Y });
 	LowerCollision->SetCollisionScale(LOWERTYPECOLLISIONSCALE);
 	LowerCollision->SetCollisionType(CollisionType::Rect);
 	LowerCollision->Off();
 
 
+
 	FatCollision = CreateCollision(CollisionOrder::PlayerBody);
+	if (nullptr == FatCollision)
+	{
+		MsgBoxAssert("액터가 NULL 입니다.");
+		return;
+	}
+
 	FatCollision->SetCollisionPos(float4{ 0.0f , -FATTYPECOLLISIONSCALE.Half().Y });
 	FatCollision->SetCollisionScale(FATTYPECOLLISIONSCALE);
 	FatCollision->SetCollisionType(CollisionType::Rect);
 	FatCollision->Off();
 
 
+
 	LowerAttackCollision = CreateCollision(CollisionOrder::PlayerAbility);
+	if (nullptr == LowerAttackCollision)
+	{
+		MsgBoxAssert("액터가 NULL 입니다.");
+		return;
+	}
+
 	LowerAttackCollision->SetCollisionScale(LOWERATTACKCOLLISIONSCALE);
 	LowerAttackCollision->SetCollisionType(CollisionType::Rect);
 	LowerAttackCollision->Off();
 
 
+
 	ImmuneCollision = CreateCollision(CollisionOrder::PlayerBody);
+	if (nullptr == ImmuneCollision)
+	{
+		MsgBoxAssert("액터가 NULL 입니다.");
+		return;
+	}
+
 	ImmuneCollision->SetCollisionPos(float4{ 0.0f , -SMALLTYPECOLLISIONSCALE.Half().Y });
 	ImmuneCollision->SetCollisionScale(SMALLTYPECOLLISIONSCALE);
 	ImmuneCollision->SetCollisionType(CollisionType::Rect);
@@ -102,19 +136,42 @@ void Kirby::Start()
 
 
 	InhaleEffectCollision = CreateCollision(CollisionOrder::KirbyInhaleAbility);
+	if (nullptr == InhaleEffectCollision)
+	{
+		MsgBoxAssert("액터가 NULL 입니다.");
+		return;
+	}
+
 	InhaleEffectCollision->SetCollisionScale(INHALEEFFECTCOLLISIONSCALE);
 	InhaleEffectCollision->SetCollisionType(CollisionType::Rect);
 	InhaleEffectCollision->Off();
 
+
+
 	
 	SparkEffectCollision = CreateCollision(CollisionOrder::KirbyInhaleAbility);
+	if (nullptr == SparkEffectCollision)
+	{
+		MsgBoxAssert("액터가 NULL 입니다.");
+		return;
+	}
+
+
 	SparkEffectCollision->SetCollisionPos(float4{ 0.0f , -SmallTypeScale.Half().Y });
 	SparkEffectCollision->SetCollisionScale(SPARKEFFECTCOLLISIONSCALE);
 	SparkEffectCollision->SetCollisionType(CollisionType::Rect);
 	SparkEffectCollision->Off();
 
 
+
 	ThornEffectCollision = CreateCollision(CollisionOrder::KirbyInhaleAbility);
+	if (nullptr == ThornEffectCollision)
+	{
+		MsgBoxAssert("액터가 NULL 입니다.");
+		return;
+	}
+
+
 	ThornEffectCollision->SetCollisionPos(float4{ 0.0f , -SmallTypeScale.Half().Y });
 	ThornEffectCollision->SetCollisionScale(SPARKEFFECTCOLLISIONSCALE);
 	ThornEffectCollision->SetCollisionType(CollisionType::Rect);
@@ -125,22 +182,11 @@ void Kirby::Start()
 /* ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ */
 
 
-
+// 레벨에서 ActorUpdate()->Update
 void Kirby::Update(float _Delta)
 {
-	if (true == ImmuneState)
-	{
-		ImmuneTime += _Delta;
-	}
+	ImmuneFunc(_Delta);
 
-	if (ImmuneTime > KIRBYIMMUNEDURATION)
-	{
-		ImmuneTime = 0.0f;
-		ImmuneState = false;
-		IsHitted = false;
-
-		KirbyBodyCollisonOn();
-	}
 
 	if (true == IsGulpEnemy)
 	{
@@ -211,6 +257,7 @@ void Kirby::StateUpdate(float _Delta)
 	case KirbyState::Contain_Fall:				return Contain_FallUpdate(_Delta);
 	case KirbyState::Contain_Gulp:				return Contain_GulpUpdate(_Delta);
 	case KirbyState::Contain_Disgorge:			return Contain_DisgorgeUpdate(_Delta);
+	case KirbyState::Contain_Damaged:			return Contain_DamagedUpdate(_Delta);
 	default:
 		break;
 	}
@@ -254,6 +301,7 @@ void Kirby::ChangeState(KirbyState _State)
 		case KirbyState::Contain_Fall:			Contain_FallStart();			break;
 		case KirbyState::Contain_Gulp:			Contain_GulpStart();			break;
 		case KirbyState::Contain_Disgorge:		Contain_DisgorgeStart();		break;
+		case KirbyState::Contain_Damaged:		Contain_DamagedStart();			break;
 		default:
 			break;
 		}
@@ -647,4 +695,25 @@ void Kirby::LevelStart()
 void Kirby::Render(float _Detla)
 {
 	ActorCollisionDetectionPointRender();
+}
+
+
+
+// 면역 상태 함수
+void Kirby::ImmuneFunc(float _Delta)
+{
+	if (true == ImmuneState)
+	{
+		ImmuneTime += _Delta;
+	}
+
+
+	if (ImmuneTime > KIRBYIMMUNEDURATION)
+	{
+		ImmuneTime = 0.0f;
+		ImmuneState = false;
+		IsHitted = false;
+
+		KirbyBodyCollisonOn();
+	}
 }

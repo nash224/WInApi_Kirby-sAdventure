@@ -403,11 +403,9 @@ void Kirby::DropAbility()
 
 
 
-
+// 몸통 충돌검사 또는 외부에서 맞았을 경우 Damaged 상태
 void Kirby::CheckKirbyCollision()
 {
-
-
 	
 	GameEngineCollision* KirbyBodyCollision = GetKirbyCollison();
 	if (nullptr == KirbyBodyCollision)
@@ -416,6 +414,7 @@ void Kirby::CheckKirbyCollision()
 		return;
 	}
 
+	// 면역상태가 아닐때 충돌
 	std::vector<GameEngineCollision*> MonsterBodyCol;
 	if (true == KirbyBodyCollision->Collision(CollisionOrder::MonsterBody, MonsterBodyCol, CollisionType::Rect, CollisionType::Rect))
 	{
@@ -435,14 +434,28 @@ void Kirby::CheckKirbyCollision()
 				return;
 			}
 
+			// 맞았고
 			Monster->IsHitted = true;
 
 
-			// 커비가 면역상태가 아니면 데미지를 입어야함
+			// 커비가 면역상태가 아니면 데미지
 			if (false == ImmuneState)
 			{
-				ChangeState(KirbyState::Damaged);
-				return;
+				if (KirbyState::Fly != KeepDamagedState && KirbyState::Contain_Idle != KeepDamagedState)
+				{
+					ChangeState(KirbyState::Damaged);
+					return;
+				}
+				else if (KirbyState::Fly == KeepDamagedState || KirbyState::Contain_Idle == KeepDamagedState)
+				{
+					ChangeState(KirbyState::Contain_Damaged);
+					return;
+				}
+				else
+				{
+					MsgBoxAssert("커비의 KeepDamaged 변수가 이상합니다.");
+					return;
+				}
 			}
 		}
 	}
@@ -478,14 +491,27 @@ void Kirby::CheckKirbyCollision()
 	// 커비가 맞았을때 데미지 상태
 	if (true == IsHitted && false == ImmuneState)
 	{
-		ChangeState(KirbyState::Damaged);
-		return;
+		if (KirbyState::Fly != KeepDamagedState && KirbyState::Contain_Idle != KeepDamagedState)
+		{
+			ChangeState(KirbyState::Damaged);
+			return;
+		}
+		else if (KirbyState::Fly == KeepDamagedState || KirbyState::Contain_Idle == KeepDamagedState)
+		{
+			ChangeState(KirbyState::Contain_Damaged);
+			return;
+		}
+		else
+		{
+			MsgBoxAssert("커비의 KeepDamaged 변수가 이상합니다.");
+			return;
+		}
 	}
 
 }
 
 
-
+// 커비에 능력 충돌체가 있는 경우
 void Kirby::CheckKirbyAbilityCollision(GameEngineCollision* _CheckCol)
 {
 	if (nullptr == _CheckCol)
@@ -499,10 +525,8 @@ void Kirby::CheckKirbyAbilityCollision(GameEngineCollision* _CheckCol)
 	std::vector<GameEngineCollision*> AbilityCol;
 	if (true == _CheckCol->Collision(CollisionOrder::MonsterBody, AbilityCol, CollisionType::Rect, CollisionType::Rect))
 	{
-		// 벡터 순회
 		for (size_t i = 0; i < AbilityCol.size(); i++)
 		{
-			// 몬스터 콜리전 참조
 			GameEngineCollision* MonsterBodyPtr = AbilityCol[i];
 			if (nullptr == MonsterBodyPtr)
 			{

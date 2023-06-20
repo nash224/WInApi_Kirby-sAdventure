@@ -80,6 +80,9 @@ void Kirby::Normal_StateResourceLoad()
 
 	MainRenderer->CreateAnimation("Normal_Left_Damaged", "Normal_Left_Kirby.bmp", 12, 10, 0.1f, false);
 	MainRenderer->CreateAnimation("Normal_Right_Damaged", "Normal_RIght_Kirby.bmp", 12, 10, 0.1f, false);
+
+	MainRenderer->CreateAnimation("Normal_Left_Contain_Damaged", "Normal_Left_Kirby.bmp", 79, 79, 0.2f, false);
+	MainRenderer->CreateAnimation("Normal_Right_Contain_Damaged", "Normal_RIght_Kirby.bmp", 79, 79, 0.2f, false);
 }
 
 // =============================================//
@@ -148,16 +151,18 @@ void Kirby::IdleUpdate(float _Delta)
 
 
 
-	// 데미지 상태 패턴
-	CheckKirbyCollision();
-
-
 
 	BlockedByGround();
 	BlockedByWall();
 
 	DecelerationUpdate(_Delta);
 	HorizontalUpdate(_Delta);
+
+
+
+	// 데미지 상태 패턴
+	CheckKirbyCollision();
+
 }
 
 
@@ -244,9 +249,6 @@ void Kirby::WalkUpdate(float _Delta)
 	}
 
 
-	// 데미지 상태 패턴
-	CheckKirbyCollision();
-
 
 	
 	BlockedByGround();
@@ -255,6 +257,11 @@ void Kirby::WalkUpdate(float _Delta)
 
 	DecelerationUpdate(_Delta);
 	HorizontalUpdate(_Delta);
+
+
+
+	// 데미지 상태 패턴
+	CheckKirbyCollision();
 }
 
 
@@ -333,10 +340,6 @@ void Kirby::RunUpdate(float _Delta)
 
 
 
-	// 데미지 상태 패턴
-	CheckKirbyCollision();
-
-
 
 
 	BlockedByGround();
@@ -346,6 +349,11 @@ void Kirby::RunUpdate(float _Delta)
 	MoveHorizontal(RUNSPEED, _Delta);
 	DecelerationUpdate(_Delta);
 	HorizontalUpdate(_Delta);
+
+
+
+	// 데미지 상태 패턴
+	CheckKirbyCollision();
 }
 
 
@@ -396,10 +404,6 @@ void Kirby::TurnUpdate(float _Delta)
 
 
 
-	// 데미지 상태 패턴
-	CheckKirbyCollision();
-
-
 
 
 	BlockedByGround();
@@ -407,6 +411,12 @@ void Kirby::TurnUpdate(float _Delta)
 
 	ActorUtils::DecelerationUpdate(_Delta, BRAKESPEED);
 	HorizontalUpdate(_Delta);
+
+
+
+
+	// 데미지 상태 패턴
+	CheckKirbyCollision();
 }
 
 
@@ -466,9 +476,6 @@ void Kirby::JumpUpdate(float _Delta)
 
 
 
-	// 데미지 상태 패턴
-	CheckKirbyCollision();
-
 
 
 
@@ -504,6 +511,12 @@ void Kirby::JumpUpdate(float _Delta)
 	}
 	GravityLimit(_Delta);
 	VerticalUpdate(_Delta);
+
+
+
+
+	// 데미지 상태 패턴
+	CheckKirbyCollision();
 }
 
 
@@ -564,10 +577,6 @@ void Kirby::AerialMotionUpdate(float _Delta)
 
 
 
-	// 데미지 상태 패턴
-	CheckKirbyCollision();
-
-
 
 
 	BlockedByGround();
@@ -580,6 +589,12 @@ void Kirby::AerialMotionUpdate(float _Delta)
 	Gravity(_Delta);
 	GravityLimit(_Delta);
 	VerticalUpdate(_Delta);
+
+
+
+
+	// 데미지 상태 패턴
+	CheckKirbyCollision();
 }
 
 
@@ -642,9 +657,6 @@ void Kirby::FallUpdate(float _Delta)
 
 
 
-	// 데미지 상태 패턴
-	CheckKirbyCollision();
-
 
 
 	BlockedByGround();
@@ -658,6 +670,11 @@ void Kirby::FallUpdate(float _Delta)
 	Gravity(_Delta);
 	GravityLimit(_Delta);
 	VerticalUpdate(_Delta);
+
+
+
+	// 데미지 상태 패턴
+	CheckKirbyCollision();
 }
 
 
@@ -699,12 +716,6 @@ void Kirby::AccelerateDownUpdate(float _Delta)
 
 
 
-	// 데미지 상태 패턴
-	CheckKirbyCollision();
-
-
-
-
 	BlockedByGround();
 	BlockedByWall();
 
@@ -713,6 +724,11 @@ void Kirby::AccelerateDownUpdate(float _Delta)
 	Gravity(_Delta);
 	GravityLimit(_Delta);
 	VerticalUpdate(_Delta);
+
+
+
+	// 데미지 상태 패턴
+	CheckKirbyCollision();
 }
 
 
@@ -744,12 +760,6 @@ void Kirby::BounceUpdate(float _Delta)
 
 
 
-	// 데미지 상태 패턴
-	CheckKirbyCollision();
-
-
-
-
 
 	BlockedByGround();
 	BlockedByCeiling();
@@ -760,6 +770,11 @@ void Kirby::BounceUpdate(float _Delta)
 	Gravity(_Delta);
 	GravityLimit(_Delta);
 	VerticalUpdate(_Delta);
+
+
+
+	// 데미지 상태 패턴
+	CheckKirbyCollision();
 }
 
 
@@ -796,10 +811,6 @@ void Kirby::LandingUpdate(float _Delta)
 
 
 
-	// 데미지 상태 패턴
-	CheckKirbyCollision();
-
-
 
 
 
@@ -808,6 +819,11 @@ void Kirby::LandingUpdate(float _Delta)
 
 	DecelerationUpdate(_Delta);
 	HorizontalUpdate(_Delta);
+
+
+
+	// 데미지 상태 패턴
+	CheckKirbyCollision();
 }
 
 
@@ -847,9 +863,6 @@ void Kirby::LowerPostureUpdate(float _Delta)
 
 
 
-	// 데미지 상태 패턴
-	CheckKirbyCollision();
-
 
 
 	BlockedByWall();
@@ -857,6 +870,12 @@ void Kirby::LowerPostureUpdate(float _Delta)
 
 	ActorUtils::DecelerationUpdate(_Delta, DECELERATIONSPEED);
 	HorizontalUpdate(_Delta);
+
+
+
+
+	// 데미지 상태 패턴
+	CheckKirbyCollision();
 }
 
 
@@ -948,10 +967,7 @@ void Kirby::LowerAttackUpdate(float _Delta)
 	}
 
 
-
-	// 데미지 상태 패턴
-	CheckKirbyCollision();
-
+	// 슬라이딩 충돌 검사
 	std::vector<GameEngineCollision*> LowerAttackCol;
 	if (true == LowerAttackCollision->Collision(CollisionOrder::MonsterBody, LowerAttackCol, CollisionType::Rect, CollisionType::Rect))
 	{
@@ -1011,6 +1027,12 @@ void Kirby::LowerAttackUpdate(float _Delta)
 	}
 
 	HorizontalUpdate(_Delta);
+
+
+
+
+	// 데미지 상태 패턴
+	CheckKirbyCollision();
 }
 
 
@@ -1049,10 +1071,6 @@ void Kirby::HittheWallUpdate(float _Delta)
 
 
 
-	// 데미지 상태 패턴
-	CheckKirbyCollision();
-
-
 
 
 	if (false == GetGroundState())
@@ -1061,6 +1079,12 @@ void Kirby::HittheWallUpdate(float _Delta)
 		GravityLimit(_Delta);
 		VerticalUpdate(_Delta);
 	}
+
+
+
+
+	// 데미지 상태 패턴
+	CheckKirbyCollision();
 }
 
 
@@ -1094,9 +1118,6 @@ void Kirby::HittheCeilingUpdate(float _Delta)
 
 
 
-	// 데미지 상태 패턴
-	CheckKirbyCollision();
-
 
 
 
@@ -1112,6 +1133,12 @@ void Kirby::HittheCeilingUpdate(float _Delta)
 		GravityLimit(_Delta);
 		VerticalUpdate(_Delta);
 	}
+
+
+
+
+	// 데미지 상태 패턴
+	CheckKirbyCollision();
 }
 
 
@@ -1119,6 +1146,7 @@ void Kirby::TakeOffStart()
 {
 	StateTime = 0.0f;
 	IsChangeState = false;
+	KeepDamagedState = KirbyState::Fly;
 	ChangeKirbyBodyState(KirbyBodyState::Fat);
 	SetAirResistance(0.4f);
 	ChangeAnimationState("TakeOff");
@@ -1159,25 +1187,32 @@ void Kirby::TakeOffUpdate(float _Delta)
 
 
 
-	// 데미지 상태 패턴
-	CheckKirbyCollision();
-
+	MoveHorizontal(FLYSPEED, _Delta);
 
 
 	BlockedByGround();
 	BlockedByCeiling();
-	MoveHorizontal(FLYSPEED, _Delta);
 	BlockedByWall();
 
-	DecelerationUpdate(_Delta);
-	HorizontalUpdate(_Delta);
+
 
 	Gravity(_Delta);
 	GravityLimit(_Delta);
 	VerticalUpdate(_Delta);
+
+
+
+
+	DecelerationUpdate(_Delta);
+	HorizontalUpdate(_Delta);
+
+	// 데미지 상태 패턴
+	CheckKirbyCollision();
 }
 
 
+
+// 날기
 void Kirby::FlyStart()
 {
 	StateTime = 0.0f;
@@ -1198,7 +1233,7 @@ void Kirby::FlyUpdate(float _Delta)
 	}
 
 
-
+	// Z누르면 공기 팡
 	if (true == GameEngineInput::IsDown('Z'))
 	{
 		ChangeState(KirbyState::ExhaleAttack);
@@ -1206,6 +1241,7 @@ void Kirby::FlyUpdate(float _Delta)
 	}
 
 
+	// W나 X를 누르고 있으면 모션이 빨라지면서 올라감
 	if (true == GameEngineInput::IsPress('W') || true == GameEngineInput::IsPress('X'))
 	{
 		MainRenderer->FindAnimation("Normal_Left_Fly")->Inters = { 0.1f, 0.1f };
@@ -1213,6 +1249,8 @@ void Kirby::FlyUpdate(float _Delta)
 		SetGravityVector(float4::UP * FLYPOWER);
 	}
 
+
+	// W와 X를 누르지 않을경우 모션이 느려짐
 	if (false == GameEngineInput::IsPress('W') && false == GameEngineInput::IsPress('X'))
 	{
 		MainRenderer->FindAnimation("Normal_Left_Fly")->Inters = { 0.2f, 0.2f };
@@ -1231,35 +1269,46 @@ void Kirby::FlyUpdate(float _Delta)
 		GravityReset();
 	}
 
+	// 파란색 비트맵일때
 	if (true == IsPassableGround() && GetGravityVector().Y >= 0.0f && false == (GameEngineInput::IsPress('W') || GameEngineInput::IsPress('X')))
 	{
 		GravityReset();
 	}
 
 
+	// 좌우 이동
+	MoveHorizontal(FLYSPEED, _Delta);
 
-	// 데미지 상태 패턴
-	CheckKirbyCollision();
-
-
-
-
+	// 맵 블락
 	BlockedByGround();
 	BlockedByCeiling();
-	MoveHorizontal(FLYSPEED, _Delta);
 	BlockedByWall();
 
+	// 방향전환시 Fly모션 변경
 	ChangeAnimationState("Fly");
 
-	DecelerationUpdate(_Delta);
-	HorizontalUpdate(_Delta);
 
+
+	
 	if (false == GetGroundState() || (true == GameEngineInput::IsPress('W') || true == GameEngineInput::IsPress('X')))
 	{
 		Gravity(_Delta);
 	}
 	GravityLimit(_Delta);
 	VerticalUpdate(_Delta);
+
+
+
+
+	// X축 감속 및 업데이트
+	DecelerationUpdate(_Delta);
+	HorizontalUpdate(_Delta);
+
+
+
+
+	// 데미지 상태 패턴
+	CheckKirbyCollision();
 }
 
 
@@ -1268,7 +1317,7 @@ void Kirby::ExhaleAttackStart()
 {
 	StateTime = 0.0f;
 	IsChangeState = false;
-
+	KeepDamagedState = KirbyState::Idle;
 	// 몸 충돌체 및 크기 변경
 	ChangeKirbyBodyState(KirbyBodyState::Little);
 
@@ -1334,10 +1383,6 @@ void Kirby::ExhaleAttackUpdate(float _Delta)
 
 
 
-	// 데미지 상태 패턴
-	CheckKirbyCollision();
-
-
 	// 청장에 닿으면 중력 리셋
 	if (true == CeilingCheck())
 	{
@@ -1355,10 +1400,6 @@ void Kirby::ExhaleAttackUpdate(float _Delta)
 	BlockedByWall();
 
 
-	// 감속 및 X속도 업데이트
-	DecelerationUpdate(_Delta);
-	HorizontalUpdate(_Delta);
-
 	// 땅에 있으면 중력적용x
 	if (false == GetGroundState())
 	{
@@ -1366,6 +1407,19 @@ void Kirby::ExhaleAttackUpdate(float _Delta)
 		GravityLimit(_Delta);
 		VerticalUpdate(_Delta);
 	}
+
+
+
+
+	// 감속 및 X속도 업데이트
+	DecelerationUpdate(_Delta);
+	HorizontalUpdate(_Delta);
+
+
+
+
+	// 데미지 상태 패턴
+	CheckKirbyCollision();
 }
 
 
@@ -1397,6 +1451,8 @@ void Kirby::DamagedStart()
 		Mode = AbilityStar::Normal;
 	}
 
+	// 중력 초기화
+	GravityReset();
 
 	// 튕겨나감
 	if (ActorDir::Left == Dir)
@@ -1472,6 +1528,7 @@ void Kirby::DamagedUpdate(float _Delta)
 
 
 
+// 레벨 이동
 void Kirby::EnterStart()
 {
 	StateTime = 0.0f;
@@ -1487,12 +1544,13 @@ void Kirby::EnterUpdate(float _Delta)
 {
 	StateTime += _Delta;
 
+	// 한 동작이 끝나면 
 	if (true == MainRenderer->IsAnimationEnd())
 	{
 		IsChangeState = true;
 	}
 
-
+	// 다음 트리거 On시키고 떨어져라
 	if (true == IsChangeState)
 	{
 		VegetableValleyPlayLevel::NextLevelTriggerOn = true;

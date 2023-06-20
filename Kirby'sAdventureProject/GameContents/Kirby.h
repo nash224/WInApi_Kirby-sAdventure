@@ -62,6 +62,9 @@
 #define BOUNCINGOFF_XPOWER 200.0f
 #define BOUNCINGOFF_YPOWER -200.0f
 
+// 커비 데미지 상태 시간
+#define KIRBY_DAMAGED_STATETIME 0.2f
+
 
 enum class KirbyBodyState
 {
@@ -101,6 +104,7 @@ enum class KirbyState
 	Contain_Fall,
 	Contain_Gulp,
 	Contain_Disgorge,
+	Contain_Damaged,
 	GetAbility,
 	Damaged,
 	Max,
@@ -204,6 +208,7 @@ protected:
 	void Contain_FallStart();
 	void Contain_GulpStart();
 	void Contain_DisgorgeStart();
+	void Contain_DamagedStart();
 
 
 	// 행동 함수
@@ -238,6 +243,8 @@ protected:
 	void Contain_FallUpdate(float _Delta);
 	void Contain_GulpUpdate(float _Delta);
 	void Contain_DisgorgeUpdate(float _Delta);
+	void Contain_DamagedUpdate(float _Delta);
+
 
 	void DropAbility();
 	void CheckKirbyCollision();
@@ -274,15 +281,19 @@ private:
 	KirbyBodyState BodyState = KirbyBodyState::Max;	
 	AbilityStar CurrentAbilityStar = AbilityStar::Max;
 	KirbyState State = KirbyState::Max;
+	KirbyState KeepDamagedState = KirbyState::Max;
 	std::string CurState = "";
 	std::string CurMode = "";
 
+	// 바운스 상태 변수
 	bool IsBounce = false;
 
+
+	// 상태 변수
 	const float AbilityMinDuration = 1.0f;
 	float Duration = 0.0f;
-	float DecelerationSpeed = 1.0f;
 	float FallDistance = 0.0f; 
+	float DecelerationSpeed = 1.0f;
 
 	float FrameTime = 0.0f;
 
@@ -315,17 +326,6 @@ private:
 	void UseAbilityStart();
 	void UseAbilityUpdate(float _Delta);
 
-	void TriggerOneTimeAbility();
-	void TriggerMultiTimeAbility(float _Delta);
-
-	void OneTimeSpark();
-	void OneTimeLaser();
-	void OneTimeBeam();
-	void OneTimeThorn();
-
-
-	void TriggerFireAbilityAfterProcess(float _Delta);
-
 
 	void StarAttack();
 
@@ -345,10 +345,25 @@ private:
 	void ThornAbilityUpdate(float _Delta);
 	void SwordAbilityUpdate(float _Delta) {}
 
+
+	// GetAbility 함수 관련
+	void TriggerOneTimeAbility();
+	void TriggerMultiTimeAbility(float _Delta);
+
+	void OneTimeSpark();
+	void OneTimeLaser();
+	void OneTimeBeam();
+	void OneTimeThorn();
+
+
+	void TriggerFireAbilityAfterProcess(float _Delta);
+
 private:
+	// 능력획득 변수
 	class GetAbilityEffect* GetAbilityEffectPtr = nullptr;
 	const float ContainGulpChangeStateTime = 0.6f;
 
+	// 커비의 별 변수 
 	class KirbyStar
 	{
 	public:
@@ -371,7 +386,10 @@ private:
 
 	// 면역 변수
 	bool ImmuneState = false;
-	float ImmuneTime = 0.0f;
+	float ImmuneTime = 0.0f; 
+	
+	
+	void ImmuneFunc(float _Delta);
 
 
 	// 레벨 이동 변수
@@ -380,8 +398,6 @@ private:
 
 public:
 	int m_KirbyHp = 0;
-	
-
 
 
 private:

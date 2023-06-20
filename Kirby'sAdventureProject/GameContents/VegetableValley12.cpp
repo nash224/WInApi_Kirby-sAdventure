@@ -60,7 +60,7 @@ void VegetableValley12::Start()
 		return;
 	}
 
-	SwordKnight1->init("VegetableValley1_1Pixel.bmp", SwordKnightState::PendulumStride, float4{ 1634, 335 });
+	SwordKnight1->init("VegetableValley1_2Pixel.bmp", SwordKnightState::PendulumStride, float4{ 1634, 335 });
 	LevelEnemy.insert(std::make_pair("SwordKnight1", SwordKnight1));
 
 
@@ -72,7 +72,7 @@ void VegetableValley12::Start()
 		return;
 	}
 
-	PoppyBrosJr1->init("VegetableValley1_1Pixel.bmp", NormalState::Idle, float4{ 480, 335 });
+	PoppyBrosJr1->init("VegetableValley1_2Pixel.bmp", NormalState::Idle, float4{ 480, 335 });
 	LevelEnemy.insert(std::make_pair("PoppyBrosJr1", PoppyBrosJr1));
 
 
@@ -85,7 +85,7 @@ void VegetableValley12::Start()
 		return;
 	}
 
-	BroomHatter1->init("VegetableValley1_1Pixel.bmp", NormalState::Idle, float4{ 1170, 381 });
+	BroomHatter1->init("VegetableValley1_2Pixel.bmp", NormalState::Idle, float4{ 1170, 381 });
 	LevelEnemy.insert(std::make_pair("BroomHatter1", BroomHatter1));
 
 
@@ -98,7 +98,7 @@ void VegetableValley12::Start()
 		return;
 	}
 
-	Kabu1->init("VegetableValley1_1Pixel.bmp", NormalState::Idle, float4{ 700, 381 });
+	Kabu1->init("VegetableValley1_2Pixel.bmp", NormalState::Idle, float4{ 700, 381 });
 	LevelEnemy.insert(std::make_pair("Kabu1", Kabu1));
 
 
@@ -111,7 +111,7 @@ void VegetableValley12::Start()
 		return;
 	}
 
-	BrontoBurt1->init("VegetableValley1_1Pixel.bmp", BrontoState::Idle, float4{ 960, 288 });
+	BrontoBurt1->init("VegetableValley1_2Pixel.bmp", BrontoState::Idle, float4{ 960, 288 });
 	LevelEnemy.insert(std::make_pair("BrontoBurt1", BrontoBurt1));
 
 
@@ -124,7 +124,7 @@ void VegetableValley12::Start()
 		return;
 	}
 
-	Scarfy1->init("VegetableValley1_1Pixel.bmp", ScarfyState::Idle, float4{ 2500, 140 });
+	Scarfy1->init("VegetableValley1_2Pixel.bmp", ScarfyState::Idle, float4{ 2500, 140 });
 	LevelEnemy.insert(std::make_pair("Scarfy1", Scarfy1));
 
 
@@ -136,7 +136,7 @@ void VegetableValley12::Start()
 		return;
 	}
 
-	Scarfy2Ptr->init("VegetableValley1_1Pixel.bmp", ScarfyState::Idle, float4{ 2400, 200 });
+	Scarfy2Ptr->init("VegetableValley1_2Pixel.bmp", ScarfyState::Idle, float4{ 2400, 200 });
 	LevelEnemy.insert(std::make_pair("Scarfy2Ptr", Scarfy2Ptr));
 
 
@@ -149,7 +149,7 @@ void VegetableValley12::Start()
 		return;
 	}
 
-	Scarfy3Ptr->init("VegetableValley1_1Pixel.bmp", ScarfyState::Idle, float4{ 2600, 200 });
+	Scarfy3Ptr->init("VegetableValley1_2Pixel.bmp", ScarfyState::Idle, float4{ 2600, 200 });
 	LevelEnemy.insert(std::make_pair("Scarfy3Ptr", Scarfy3Ptr));
 
 
@@ -162,7 +162,7 @@ void VegetableValley12::Start()
 		return;
 	}
 
-	Togezo1->init("VegetableValley1_1Pixel.bmp", TogezoState::Walk, float4{ 2260, 286 });
+	Togezo1->init("VegetableValley1_2Pixel.bmp", TogezoState::Walk, float4{ 2260, 286 });
 	LevelEnemy.insert(std::make_pair("Togezo1", Togezo1));
 
 
@@ -175,7 +175,7 @@ void VegetableValley12::Start()
 		return;
 	}
 
-	LaserBall1->init("VegetableValley1_1Pixel.bmp", LaserBallState::Fly, float4{ 3100, 200 });
+	LaserBall1->init("VegetableValley1_2Pixel.bmp", LaserBallState::Fly, float4{ 3100, 200 });
 	LevelEnemy.insert(std::make_pair("LaserBall1", LaserBall1));
 
 	// ÆÄ¿ö¸÷ 6
@@ -186,7 +186,7 @@ void VegetableValley12::Start()
 		return;
 	}
 
-	LaserBall2Ptr->init("VegetableValley1_1Pixel.bmp", LaserBallState::Fly, float4{ 3200, 200 });
+	LaserBall2Ptr->init("VegetableValley1_2Pixel.bmp", LaserBallState::Fly, float4{ 3200, 200 });
 	LevelEnemy.insert(std::make_pair("LaserBall2Ptr", LaserBall2Ptr));
 
 

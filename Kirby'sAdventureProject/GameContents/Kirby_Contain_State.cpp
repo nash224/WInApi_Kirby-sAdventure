@@ -43,16 +43,19 @@ void Kirby::Contain_StateResourceLoad()
 	MainRenderer->CreateAnimation("Normal_Left_Contain_Disgorge", "Contain_Left_Kirby.bmp", 5, 8, 0.08f, false);
 	MainRenderer->CreateAnimation("Normal_Right_Contain_Disgorge", "Contain_Right_Kirby.bmp", 5, 8, 0.08f, false);
 
+
 	MainRenderer->FindAnimation("Normal_Left_Contain_Walk")->Inters = { 0.2f , 0.3f , 0.2f , 0.3f };
 	MainRenderer->FindAnimation("Normal_Right_Contain_Walk")->Inters = { 0.2f , 0.3f , 0.2f , 0.3f };
 
 	MainRenderer->FindAnimation("Normal_Left_Contain_Run")->Inters = { 0.12f , 0.2f , 0.12f , 0.2f };
 	MainRenderer->FindAnimation("Normal_Right_Contain_Run")->Inters = { 0.12f , 0.2f , 0.12f , 0.2f };
+
 }
 
 void Kirby::Contain_IdleStart()
 {
 	StateTime = 0.0f;
+	KeepDamagedState = KirbyState::Contain_Idle;
 	ChangeKirbyBodyState(KirbyBodyState::Fat);
 	ChangeAnimationState("Contain_Idle");
 }
@@ -95,11 +98,18 @@ void Kirby::Contain_IdleUpdate(float _Delta)
 		return;
 	}
 
+
+
 	BlockedByGround();
 	BlockedByWall();
 
 	DecelerationUpdate(_Delta);
 	HorizontalUpdate(_Delta);
+
+
+
+	// 데미지 상태 패턴
+	CheckKirbyCollision();
 }
 
 
@@ -187,14 +197,24 @@ void Kirby::Contain_WalkUpdate(float _Delta)
 	}
 
 
-	BlockedByGround();
+
 	MoveHorizontal(WALKSPEED, _Delta);
 
+	
 
+
+
+
+	BlockedByGround();
 	BlockedByWall();
 
 	DecelerationUpdate(_Delta);
 	HorizontalUpdate(_Delta);
+	
+
+
+	// 데미지 상태 패턴
+	CheckKirbyCollision();
 }
 
 
@@ -271,13 +291,25 @@ void Kirby::Contain_RunUpdate(float _Delta)
 		return;
 	}
 
-	BlockedByGround();
+
+
 	MoveHorizontal(RUNSPEED, _Delta);
 
+
+
+
+
+
+	BlockedByGround();
 	BlockedByWall();
 
 	DecelerationUpdate(_Delta);
 	HorizontalUpdate(_Delta);
+
+
+
+	// 데미지 상태 패턴
+	CheckKirbyCollision();
 }
 
 
@@ -332,11 +364,19 @@ void Kirby::Contain_TurnUpdate(float _Delta)
 	}
 
 
+
+
+
 	BlockedByGround();
 	BlockedByWall();
 
 	ActorUtils::DecelerationUpdate(_Delta, BRAKESPEED);
 	HorizontalUpdate(_Delta);
+
+
+
+	// 데미지 상태 패턴
+	CheckKirbyCollision();
 }
 
 
@@ -400,9 +440,17 @@ void Kirby::Contain_JumpUpdate(float _Delta)
 
 
 
+	MoveHorizontal(WALKSPEED, _Delta);
+
+
+
+
+
+
+
+
 	BlockedByCeiling();
 	BlockedByGround();
-	MoveHorizontal(WALKSPEED, _Delta);
 	BlockedByWall();
 
 
@@ -414,6 +462,11 @@ void Kirby::Contain_JumpUpdate(float _Delta)
 	Gravity(_Delta);
 	GravityLimit(_Delta);
 	VerticalUpdate(_Delta);
+
+
+
+	// 데미지 상태 패턴
+	CheckKirbyCollision();
 }
 
 
@@ -463,17 +516,33 @@ void Kirby::Contain_FallUpdate(float _Delta)
 	}
 
 
-	BlockedByGround();
 	MoveHorizontal(WALKSPEED, _Delta);
-	BlockedByWall();
+
+
 	ChangeAnimationState("Contain_Fall");
+
+
+
+
+
+	BlockedByGround();
+	BlockedByWall();
+
+	
+	
+	Gravity(_Delta);
+	GravityLimit(_Delta);
+	VerticalUpdate(_Delta);
+
+
 
 	DecelerationUpdate(_Delta);
 	HorizontalUpdate(_Delta);
 
-	Gravity(_Delta);
-	GravityLimit(_Delta);
-	VerticalUpdate(_Delta);
+
+
+	// 데미지 상태 패턴
+	CheckKirbyCollision();
 }
 
 
@@ -481,11 +550,20 @@ void Kirby::Contain_GulpStart()
 {
 	StateTime = 0.0f;
 	IsChangeState = false;
+
+	KeepDamagedState = KirbyState::Idle;
 	ChangeKirbyBodyState(KirbyBodyState::Little);
+
 
 	if (Star.SwallowedPowerEnemyNumber > 0)
 	{
 		GetAbilityEffectPtr = GetLevel()->CreateActor<GetAbilityEffect>(UpdateOrder::Ability);
+		if (nullptr == GetAbilityEffectPtr)
+		{
+			MsgBoxAssert("액터가 NULL 입니다");
+			return;
+		}
+
 		GetAbilityEffectPtr->init(GetPos(), GetKirbyScale());
 	}
 
@@ -532,6 +610,12 @@ void Kirby::Contain_GulpUpdate(float _Delta)
 	if (true == CheckLeftWallBasedSpeed())
 	{
 		HitObjectEffect* HitObjectEffectPtr = GetLevel()->CreateActor<HitObjectEffect>();
+		if (nullptr == HitObjectEffectPtr)
+		{
+			MsgBoxAssert("액터가 NULL 입니다.");
+			return;
+		}
+
 		HitObjectEffectPtr->init(GetPos(), float4::ZERO);
 
 		CurrentSpeed = 0.0f;
@@ -539,6 +623,12 @@ void Kirby::Contain_GulpUpdate(float _Delta)
 	if (true == CheckRightWallBasedSpeed())
 	{
 		HitObjectEffect* HitObjectEffectPtr = GetLevel()->CreateActor<HitObjectEffect>();
+		if (nullptr == HitObjectEffectPtr)
+		{
+			MsgBoxAssert("액터가 NULL 입니다.");
+			return;
+		}
+
 		HitObjectEffectPtr->init(GetPos(), float4::ZERO);
 
 		CurrentSpeed = 0.0f;
@@ -548,16 +638,27 @@ void Kirby::Contain_GulpUpdate(float _Delta)
 	BlockedByGround();
 	BlockedByWall();
 
+
+
 	DecelerationUpdate(_Delta);
 	HorizontalUpdate(_Delta);
+
+
+	// 데미지 상태 패턴
+	CheckKirbyCollision();
 }
 
 
 void Kirby::Contain_DisgorgeStart()
 {
 	StateTime = 0.0f;
+	KeepDamagedState = KirbyState::Idle;
 	ChangeKirbyBodyState(KirbyBodyState::Little);
+
+
 	StarAttack();
+
+
 	Star.SwallowedEnemyNumber = 0;
 	Star.SwallowedPowerEnemyNumber = 0;
 	CurrentAbilityStar = AbilityStar::Max;
@@ -581,14 +682,20 @@ void Kirby::Contain_DisgorgeUpdate(float _Delta)
 	}
 
 
+	MoveHorizontal(WALKSPEED, _Delta);
+
+
 
 
 	BlockedByGround();
-	MoveHorizontal(WALKSPEED, _Delta);
 	BlockedByWall();
+
+
 
 	DecelerationUpdate(_Delta);
 	HorizontalUpdate(_Delta);
+
+
 
 	if (false == GetGroundState())
 	{
@@ -596,6 +703,11 @@ void Kirby::Contain_DisgorgeUpdate(float _Delta)
 		GravityLimit(_Delta);
 		VerticalUpdate(_Delta);
 	}
+
+
+
+	// 데미지 상태 패턴
+	CheckKirbyCollision();
 }
 
 
@@ -609,6 +721,12 @@ void Kirby::StarAttack()
 	{
 		// 큰별
 		LargeStarFireEffect* LargeStarEffect = GetLevel()->CreateActor<LargeStarFireEffect>(UpdateOrder::Ability);
+		if (nullptr == LargeStarEffect)
+		{
+			MsgBoxAssert("액터가 NULL 입니다.");
+			return;
+		}
+
 		LargeStarEffect->init(GetPos(), GetKirbyScale(), GetDirUnitVector());
 		LargeStarEffect->SetActorCollision(CollisionOrder::PlayerAbility, CollisionType::Rect);
 	}
@@ -616,6 +734,12 @@ void Kirby::StarAttack()
 	{
 		// 작은별
 		SmallStarFireEffect* StarStarEffect = GetLevel()->CreateActor<SmallStarFireEffect>(UpdateOrder::Ability);
+		if (nullptr == StarStarEffect)
+		{
+			MsgBoxAssert("액터가 NULL 입니다.");
+			return;
+		}
+
 		StarStarEffect->init(CurrentLevelBitMapFileName, GetPos(), GetKirbyScale(), GetDirUnitVector());
 		StarStarEffect->SetActorCollision(CollisionOrder::PlayerAbility, CollisionType::Rect);
 	}
@@ -664,26 +788,45 @@ void Kirby::GetAbilityUpdate(float _Delta)
 
 	if (StateTime > GetABilityStateEndTime)
 	{
+		if (nullptr == ThornEffectCollision)
+		{
+			MsgBoxAssert("충돌체가 Null 입니다.");
+			return;
+		}
+
+		if (nullptr == SparkEffectCollision)
+		{
+			MsgBoxAssert("충돌체가 Null 입니다.");
+			return;
+		}
+
+		// 시간다되면 특수 능력 Off
 		ThornEffectCollision->Off();
 		SparkEffectCollision->Off();
 		IsChangeState = true;
 	}
 
 
+	// 지속적인 능력만 따로 해주는 함수
 	TriggerMultiTimeAbility(_Delta);
 
+
+	// 바닥이 있고 속도가 0이면 Idle
 	if (true == GetGroundState() && true == IsChangeState && 0 == CurrentSpeed)
 	{
 		ChangeState(KirbyState::Idle);
 		return;
 	}
 
+	// 바닥이 있고 속도가 있으면 Walk
 	if (true == GetGroundState() && true == IsChangeState && 0 != CurrentSpeed)
 	{
 		ChangeState(KirbyState::Walk);
 		return;
 	}
 
+
+	// 체공 상태이면 Fall
 	if (false == GetGroundState() && true == IsChangeState)
 	{
 		ChangeState(KirbyState::Fall);
@@ -692,10 +835,13 @@ void Kirby::GetAbilityUpdate(float _Delta)
 
 
 
+	// 맵 블락
 	BlockedByGround();
 	BlockedByCeiling();
 	BlockedByWall();
 
+
+	// 체공상태가 아니면 중력적용 x
 	if (false == GetGroundState())
 	{
 		Gravity(_Delta);
@@ -703,6 +849,108 @@ void Kirby::GetAbilityUpdate(float _Delta)
 		VerticalUpdate(_Delta);
 	}
 
+	// X축 감속 및 업데이트
 	Kirby::DecelerationUpdate(_Delta);
 	HorizontalUpdate(_Delta);
+}
+
+
+
+// 커비 입에 뭔가 있을때 데미지
+void Kirby::Contain_DamagedStart()
+{
+	StateTime = 0.0f;
+	IsChangeState = false;
+
+	// 맞으면 체력감소
+	if (m_KirbyHp > 0)
+	{
+		--m_KirbyHp;
+	}
+
+
+	// 면역 On
+	ImmuneState = true;
+
+	// 커비 몸통 충돌체 Off
+	KirbyBodyCollisonOff();
+
+
+
+	// 피해를 입으면 기본 상태로
+	if (AbilityStar::Normal != Mode)
+	{
+		Mode = AbilityStar::Normal;
+	}
+
+	// 중력 초기화
+	GravityReset();
+
+	// 튕겨나감
+	if (ActorDir::Left == Dir)
+	{
+		CurrentSpeed = BOUNCINGOFF_XPOWER;
+	}
+	else if (ActorDir::Right == Dir)
+	{
+		CurrentSpeed = -BOUNCINGOFF_XPOWER;
+	}
+
+	SetGravityVector(float4{ 0.0f , BOUNCINGOFF_YPOWER });
+
+
+	ChangeAnimationState("Contain_Damaged");
+}
+
+
+void Kirby::Contain_DamagedUpdate(float _Delta)
+{
+	StateTime += _Delta;
+
+	if (StateTime > KIRBY_DAMAGED_STATETIME)
+	{
+		IsChangeState = true;
+	}
+
+	
+	if (true == IsChangeState)
+	{
+		if (KirbyState::Fly == KeepDamagedState)
+		{
+			ChangeState(KirbyState::Fly);
+			return;
+		}
+		else if (KirbyState::Contain_Idle == KeepDamagedState)
+		{
+			ChangeState(KirbyState::Contain_Fall);
+			return;
+		}
+		else
+		{
+			int a = 0;
+		}
+	}
+
+
+
+	// 맵을 벗어나지 못함
+	BlockedByGround();
+	BlockedByCeiling();
+	BlockedByWall();
+
+
+
+	// 체공상태일 때 중력 적용
+	if (false == GetGroundState())
+	{
+		Gravity(_Delta);
+		GravityLimit(_Delta);
+		VerticalUpdate(_Delta);
+	}
+
+
+	// 감속
+	DecelerationUpdate(_Delta);
+	HorizontalUpdate(_Delta);
+
 }
