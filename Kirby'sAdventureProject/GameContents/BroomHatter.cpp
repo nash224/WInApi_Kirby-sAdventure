@@ -155,7 +155,7 @@ void BroomHatter::SweepUpdate(float _Delta)
 	if (CurrentSpeed == 0.0f)
 	{
 		float4 EffectDir = GetDirUnitVector();
-		DustEffect* DustEffectPtr = GetLevel()->CreateActor<DustEffect>();
+		DustEffect* DustEffectPtr = GetLevel()->CreateActor<DustEffect>(UpdateOrder::Ability);
 		if (nullptr == DustEffectPtr)
 		{
 			MsgBoxAssert("Null 일리가 없어..");

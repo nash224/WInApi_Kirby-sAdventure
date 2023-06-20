@@ -26,6 +26,8 @@ private:
 	void Start() override;
 	void Update(float _Delta) override;
 
+	void AbilityToActorCollisionCheck(CollisionOrder _ActorBodyCol) override;
+
 	void GroundPassUpdate(float _Delta) override;
 	void GroundNotPassUpdate(float _Delta) override;
 };

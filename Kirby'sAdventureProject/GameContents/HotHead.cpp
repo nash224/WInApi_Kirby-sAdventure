@@ -237,7 +237,7 @@ void HotHead::FireBallStart()
 
 	ActorDirUnitVector = GetDirUnitVector();
 
-	FireBallEffect* FireBallEffectPtr = GetLevel()->CreateActor<FireBallEffect>();
+	FireBallEffect* FireBallEffectPtr = GetLevel()->CreateActor<FireBallEffect>(UpdateOrder::Ability);
 	if (nullptr == FireBallEffectPtr)
 	{
 		MsgBoxAssert("액터가 Null 입니다..");
@@ -352,7 +352,7 @@ void HotHead::FlameBreathUpdate(float _Delta)
 		StateTime = 0.0f;
 		++WobbleCount;
 
-		FrameBreathEffect* FrameBreathEffectPtr = GetLevel()->CreateActor<FrameBreathEffect>();
+		FrameBreathEffect* FrameBreathEffectPtr = GetLevel()->CreateActor<FrameBreathEffect>(UpdateOrder::Ability);
 		FrameBreathEffectPtr->init(GetPos(), Scale, ActorDirUnitVector);
 		FrameBreathEffectPtr->SetActorCollision(CollisionOrder::MonsterAbility, CollisionType::Rect);
 

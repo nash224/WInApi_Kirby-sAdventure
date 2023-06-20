@@ -97,7 +97,7 @@ void BeamEffect::Update(float _Delta)
 			{
 				EffectPos = BeamDir * BEAMEFFECTSHORTDISTANCE + GetPos();
 
-				CommonSkillEffect* BeamUnitEffectPtr = GetLevel()->CreateActor<CommonSkillEffect>();
+				CommonSkillEffect* BeamUnitEffectPtr = GetLevel()->CreateActor<CommonSkillEffect>(UpdateOrder::Ability);
 				if (nullptr == BeamUnitEffectPtr)
 				{
 					MsgBoxAssert("생성한 Effect가 Null입니다.");
@@ -113,7 +113,7 @@ void BeamEffect::Update(float _Delta)
 			{
 				EffectPos = BeamDir * BEAMEFFECTMIDDLEDISTANCE + GetPos();
 
-				CommonSkillEffect* BeamUnitEffectPtr = GetLevel()->CreateActor<CommonSkillEffect>();
+				CommonSkillEffect* BeamUnitEffectPtr = GetLevel()->CreateActor<CommonSkillEffect>(UpdateOrder::Ability);
 				if (nullptr == BeamUnitEffectPtr)
 				{
 					MsgBoxAssert("생성한 Effect가 Null입니다.");
@@ -129,7 +129,7 @@ void BeamEffect::Update(float _Delta)
 		if (3 == BeamChangePosCount)
 		{
 			EffectPos = BeamDir * BEAMEFFECTLONGDISTANCE + GetPos();
-			CommonSkillEffect* BeamUnitEffectPtr = GetLevel()->CreateActor<CommonSkillEffect>();
+			CommonSkillEffect* BeamUnitEffectPtr = GetLevel()->CreateActor<CommonSkillEffect>(UpdateOrder::Ability);
 			if (nullptr == BeamUnitEffectPtr)
 			{
 				MsgBoxAssert("생성한 Effect가 Null입니다.");

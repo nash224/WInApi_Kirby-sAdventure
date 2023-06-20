@@ -65,7 +65,7 @@ void AirExplosionEffect::Update(float _Delta)
 
 
 		// A이펙트 생성
-		AirExplosionAEffect* AirExplosionAEffectPtr = GetLevel()->CreateActor<AirExplosionAEffect>();
+		AirExplosionAEffect* AirExplosionAEffectPtr = GetLevel()->CreateActor<AirExplosionAEffect>(UpdateOrder::Ability);
 		if (nullptr == AirExplosionAEffectPtr)
 		{
 			MsgBoxAssert("액터가 Null 입니다.");
@@ -115,7 +115,7 @@ void AirExplosionEffect::Update(float _Delta)
 
 
 		// 지정된 위치에 이펙트 생성
-		AirExplosionBEffect* AirExplosionB1EffectPtr = GetLevel()->CreateActor<AirExplosionBEffect>();
+		AirExplosionBEffect* AirExplosionB1EffectPtr = GetLevel()->CreateActor<AirExplosionBEffect>(UpdateOrder::Ability);
 		if (nullptr == AirExplosionB1EffectPtr)
 		{
 			MsgBoxAssert("액터가 Null 입니다.");
@@ -127,7 +127,7 @@ void AirExplosionEffect::Update(float _Delta)
 
 
 		// 지정된 위치에 이펙트 생성
-		AirExplosionBEffect* AirExplosionB2EffectPtr = GetLevel()->CreateActor<AirExplosionBEffect>();
+		AirExplosionBEffect* AirExplosionB2EffectPtr = GetLevel()->CreateActor<AirExplosionBEffect>(UpdateOrder::Ability);
 		if (nullptr == AirExplosionB2EffectPtr)
 		{
 			MsgBoxAssert("액터가 Null 입니다.");

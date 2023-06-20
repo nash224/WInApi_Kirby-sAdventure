@@ -179,7 +179,7 @@ void Kirby::Contain_WalkUpdate(float _Delta)
 
 	if (true == CheckLeftWallBasedSpeed())
 	{
-		HitObjectEffect* HitObjectEffectPtr = GetLevel()->CreateActor<HitObjectEffect>();
+		HitObjectEffect* HitObjectEffectPtr = GetLevel()->CreateActor<HitObjectEffect>(UpdateOrder::Ability);
 		HitObjectEffectPtr->init(GetPos(), float4::ZERO);
 
 		CurrentSpeed = 0.0f;
@@ -188,7 +188,7 @@ void Kirby::Contain_WalkUpdate(float _Delta)
 	}
 	if (true == CheckRightWallBasedSpeed())
 	{
-		HitObjectEffect* HitObjectEffectPtr = GetLevel()->CreateActor<HitObjectEffect>();
+		HitObjectEffect* HitObjectEffectPtr = GetLevel()->CreateActor<HitObjectEffect>(UpdateOrder::Ability);
 		HitObjectEffectPtr->init(GetPos(), float4::ZERO);
 
 		CurrentSpeed = 0.0f;
@@ -222,7 +222,7 @@ void Kirby::Contain_RunStart()
 {
 	StateTime = 0.0f;
 
-	DustEffect* DustEffectPtr = GetLevel()->CreateActor<DustEffect>();
+	DustEffect* DustEffectPtr = GetLevel()->CreateActor<DustEffect>(UpdateOrder::Ability);
 	DustEffectPtr->init(GetPos(), GetKirbyScale(), -GetDirUnitVector());
 	ChangeAnimationState("Contain_Run");
 }
@@ -273,7 +273,7 @@ void Kirby::Contain_RunUpdate(float _Delta)
 
 	if (true == CheckLeftWallBasedSpeed())
 	{
-		HitObjectEffect* HitObjectEffectPtr = GetLevel()->CreateActor<HitObjectEffect>();
+		HitObjectEffect* HitObjectEffectPtr = GetLevel()->CreateActor<HitObjectEffect>(UpdateOrder::Ability);
 		HitObjectEffectPtr->init(GetPos(), float4::ZERO);
 		CurrentSpeed = 0.0f;
 
@@ -283,7 +283,7 @@ void Kirby::Contain_RunUpdate(float _Delta)
 
 	if (true == CheckRightWallBasedSpeed())
 	{
-		HitObjectEffect* HitObjectEffectPtr = GetLevel()->CreateActor<HitObjectEffect>();
+		HitObjectEffect* HitObjectEffectPtr = GetLevel()->CreateActor<HitObjectEffect>(UpdateOrder::Ability);
 		HitObjectEffectPtr->init(GetPos(), float4::ZERO);
 		CurrentSpeed = 0.0f;
 
@@ -326,7 +326,7 @@ void Kirby::Contain_TurnStart()
 		Dir = ActorDir::Left;
 	}
 
-	DustEffect* DustEffectPtr = GetLevel()->CreateActor<DustEffect>();
+	DustEffect* DustEffectPtr = GetLevel()->CreateActor<DustEffect>(UpdateOrder::Ability);
 	DustEffectPtr->init(GetPos(), GetKirbyScale(), GetDirUnitVector());
 
 	ChangeAnimationState("Contain_Turn");
@@ -487,7 +487,7 @@ void Kirby::Contain_FallUpdate(float _Delta)
 	if (true == GetGroundState() && CurrentSpeed != 0.0f)
 	{
 
-		HitObjectEffect* HitObjectEffectPtr = GetLevel()->CreateActor<HitObjectEffect>();
+		HitObjectEffect* HitObjectEffectPtr = GetLevel()->CreateActor<HitObjectEffect>(UpdateOrder::Ability);
 		HitObjectEffectPtr->init(GetPos(), float4::ZERO);
 
 		ChangeState(KirbyState::Contain_Walk);
@@ -497,7 +497,7 @@ void Kirby::Contain_FallUpdate(float _Delta)
 	if (true == GetGroundState() && CurrentSpeed == 0.0f)
 	{
 
-		HitObjectEffect* HitObjectEffectPtr = GetLevel()->CreateActor<HitObjectEffect>();
+		HitObjectEffect* HitObjectEffectPtr = GetLevel()->CreateActor<HitObjectEffect>(UpdateOrder::Ability);
 		HitObjectEffectPtr->init(GetPos(), float4::ZERO);
 
 		ChangeState(KirbyState::Contain_Idle);
@@ -609,7 +609,7 @@ void Kirby::Contain_GulpUpdate(float _Delta)
 
 	if (true == CheckLeftWallBasedSpeed())
 	{
-		HitObjectEffect* HitObjectEffectPtr = GetLevel()->CreateActor<HitObjectEffect>();
+		HitObjectEffect* HitObjectEffectPtr = GetLevel()->CreateActor<HitObjectEffect>(UpdateOrder::Ability);
 		if (nullptr == HitObjectEffectPtr)
 		{
 			MsgBoxAssert("액터가 NULL 입니다.");
@@ -622,7 +622,7 @@ void Kirby::Contain_GulpUpdate(float _Delta)
 	}
 	if (true == CheckRightWallBasedSpeed())
 	{
-		HitObjectEffect* HitObjectEffectPtr = GetLevel()->CreateActor<HitObjectEffect>();
+		HitObjectEffect* HitObjectEffectPtr = GetLevel()->CreateActor<HitObjectEffect>(UpdateOrder::Ability);
 		if (nullptr == HitObjectEffectPtr)
 		{
 			MsgBoxAssert("액터가 NULL 입니다.");

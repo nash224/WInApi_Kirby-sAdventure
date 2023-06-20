@@ -287,7 +287,7 @@ void LaserBall::ShootUpdate(float _Delta)
 {
 	if (true == MainRenderer->IsAnimationEnd())
 	{
-		LaserEffect* LaserEffect1 = GetLevel()->CreateActor<LaserEffect>();
+		LaserEffect* LaserEffect1 = GetLevel()->CreateActor<LaserEffect>(UpdateOrder::Ability);
 		LaserEffect1->init(GetPos(), Scale, GetAbilityDir());
 		LaserEffect1->SetActorCollision(CollisionOrder::MonsterAbility, CollisionType::Rect);
 		--ShootCount;

@@ -403,7 +403,7 @@ void Scarfy::BombUpdate(float _Delta)
 	// 시간되면 터짐
 	if (30 == BombCount)
 	{
-		AirExplosionEffect* AirExplosionEffectPtr = GetLevel()->CreateActor<AirExplosionEffect>();
+		AirExplosionEffect* AirExplosionEffectPtr = GetLevel()->CreateActor<AirExplosionEffect>(UpdateOrder::Ability);
 		if (nullptr == AirExplosionEffectPtr)
 		{
 			MsgBoxAssert("액터가 Null 일리가 없어..");

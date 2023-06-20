@@ -347,7 +347,7 @@ void WaddleDoo::ActivateAbilityStart()
 {
 	StateTime = 0.0f;
 	IsChangeState = false;
-	BeamEffect* BeamEffectPtr = GetLevel()->CreateActor<BeamEffect>();
+	BeamEffect* BeamEffectPtr = GetLevel()->CreateActor<BeamEffect>(UpdateOrder::Ability);
 	BeamEffectPtr->init(GetPos(), Scale, GetDirUnitVector());
 	BeamEffectPtr->SetActorCollision(CollisionOrder::MonsterAbility, CollisionType::Rect);
 	ChangeAnimationState("ActivateAbility");

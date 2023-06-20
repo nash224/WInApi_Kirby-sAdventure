@@ -161,7 +161,7 @@ void Kirby::TriggerOneTimeAbility()
 void Kirby::OneTimeLaser()
 {
 	// 레이저 소환
-	LaserEffect* LaserEffectPtr = GetLevel()->CreateActor<LaserEffect>();
+	LaserEffect* LaserEffectPtr = GetLevel()->CreateActor<LaserEffect>(UpdateOrder::Ability);
 
 	if (nullptr == LaserEffectPtr)
 	{
@@ -177,7 +177,7 @@ void Kirby::OneTimeLaser()
 void Kirby::OneTimeBeam()
 {
 	// 빔 소환
-	BeamEffect* BeamEffectPtr = GetLevel()->CreateActor<BeamEffect>();
+	BeamEffect* BeamEffectPtr = GetLevel()->CreateActor<BeamEffect>(UpdateOrder::Ability);
 	if (nullptr == BeamEffectPtr)
 	{
 		MsgBoxAssert("액터가 Null일리가 없어...");

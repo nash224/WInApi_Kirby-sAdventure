@@ -548,7 +548,7 @@ void Sparky::SparkUpdate(float _Delta)
 	{
 		SparkCoolDown = 0.0f;
 
-		SparkEffect* SparkEffectPtr = GetLevel()->CreateActor<SparkEffect>();
+		SparkEffect* SparkEffectPtr = GetLevel()->CreateActor<SparkEffect>(UpdateOrder::Ability);
 		float Degree = GameEngineRandom::MainRandom.RandomFloat(0.0f, 360.0f);
 		float4 EffectDir = float4::GetUnitVectorFromDeg(Degree);
 		SparkEffectPtr->init(GetPos(), Scale, EffectDir);

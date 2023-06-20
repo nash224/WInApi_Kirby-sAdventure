@@ -51,7 +51,7 @@ protected:
 	// 충돌 함수
 	GameEngineCollision* EffectCollision = nullptr;
 
-	void AbilityToActorCollisionCheck(CollisionOrder _ActorBodyCol);
+	virtual void AbilityToActorCollisionCheck(CollisionOrder _ActorBodyCol);
 
 
 

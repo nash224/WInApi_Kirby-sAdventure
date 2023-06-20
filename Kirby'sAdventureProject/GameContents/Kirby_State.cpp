@@ -286,7 +286,13 @@ void Kirby::WalkUpdate(float _Delta)
 void Kirby::RunStart()
 {
 	StateTime = 0.0f;
-	DustEffect* DustEffectPtr = GetLevel()->CreateActor<DustEffect>();
+	DustEffect* DustEffectPtr = GetLevel()->CreateActor<DustEffect>(UpdateOrder::Ability);
+	if (nullptr == DustEffectPtr)
+	{
+		MsgBoxAssert("액터 생성에 실패했습니다.");
+		return;
+	}
+
 	DustEffectPtr->init(GetPos(), GetKirbyScale(), -GetDirUnitVector());
 
 	KirbyDirCheck();
@@ -389,7 +395,7 @@ void Kirby::TurnStart()
 		Dir = ActorDir::Left;
 	}
 
-	DustEffect* DustEffectPtr = GetLevel()->CreateActor<DustEffect>();
+	DustEffect* DustEffectPtr = GetLevel()->CreateActor<DustEffect>(UpdateOrder::Ability);
 	DustEffectPtr->init(GetPos(), GetKirbyScale(), GetDirUnitVector());
 	ChangeAnimationState("Turn");
 }
@@ -1021,7 +1027,7 @@ void Kirby::LowerAttackUpdate(float _Delta)
 	{
 		Duration = 0.0f;
 
-		DustEffect* DustEffectPtr = GetLevel()->CreateActor<DustEffect>();
+		DustEffect* DustEffectPtr = GetLevel()->CreateActor<DustEffect>(UpdateOrder::Ability);
 		if (nullptr == DustEffectPtr)
 		{
 			MsgBoxAssert("액터가 Null 입니다");
@@ -1061,7 +1067,7 @@ void Kirby::HittheWallStart()
 	CurrentSpeed = 0.0f;
 	IsChangeState = false;
 
-	HitObjectEffect* HitObjectEffectPtr = GetLevel()->CreateActor<HitObjectEffect>();
+	HitObjectEffect* HitObjectEffectPtr = GetLevel()->CreateActor<HitObjectEffect>(UpdateOrder::Ability);
 	HitObjectEffectPtr->init(GetPos(), float4::ZERO);
 
 	ChangeAnimationState("HittheWall");
@@ -1112,7 +1118,7 @@ void Kirby::HittheCeilingStart()
 	IsChangeState = false;
 	GravityReset();
 
-	HitObjectEffect* HitObjectEffectPtr = GetLevel()->CreateActor<HitObjectEffect>();
+	HitObjectEffect* HitObjectEffectPtr = GetLevel()->CreateActor<HitObjectEffect>(UpdateOrder::Ability);
 	HitObjectEffectPtr->init(GetPos(), float4::ZERO);
 
 	ChangeAnimationState("HittheCeiling");
@@ -1341,7 +1347,7 @@ void Kirby::ExhaleAttackStart()
 
 
 	// 임펙트 설정
-	ExhaleEffect* ExhaleEffectPtr = GetLevel()->CreateActor<ExhaleEffect>();
+	ExhaleEffect* ExhaleEffectPtr = GetLevel()->CreateActor<ExhaleEffect>(UpdateOrder::Ability);
 	if (nullptr == ExhaleEffectPtr)
 	{
 		MsgBoxAssert("액터가 Null 입니다.");
