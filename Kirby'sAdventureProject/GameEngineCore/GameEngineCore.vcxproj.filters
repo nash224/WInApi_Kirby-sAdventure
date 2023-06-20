@@ -30,7 +30,7 @@
       <Filter>Object</Filter>
     </ClInclude>
     <ClInclude Include="TileMap.h">
-      <Filter>TileMap</Filter>
+      <Filter>Object\TileMap</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -63,7 +63,7 @@
       <Filter>Object</Filter>
     </ClCompile>
     <ClCompile Include="TileMap.cpp">
-      <Filter>TileMap</Filter>
+      <Filter>Object\TileMap</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -79,7 +79,7 @@
     <Filter Include="Object\Collision">
       <UniqueIdentifier>{6dbb101b-1325-48e0-bc9d-c3d9f6bc94d7}</UniqueIdentifier>
     </Filter>
-    <Filter Include="TileMap">
+    <Filter Include="Object\TileMap">
       <UniqueIdentifier>{bc2e1628-d7ac-41c4-8068-05571a4e1ebd}</UniqueIdentifier>
     </Filter>
   </ItemGroup>

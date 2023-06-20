@@ -1,4 +1,7 @@
 #include "Kirby.h"
+
+
+#include <GameEngineBase/GameEngineRandom.h>
 #include <GameEnginePlatform/GameEngineInput.h>
 #include <GameEngineCore/GameEngineRenderer.h>
 #include <GameEngineCore/GameEngineCore.h>
@@ -18,8 +21,8 @@ void Kirby::Normal_StateResourceLoad()
 	GlobalContents::SpriteFileLoad("Normal_Left_Kirby.bmp", "Resources\\Unit\\Kirby", 10, 10);
 	GlobalContents::SpriteFileLoad("Normal_RIght_Kirby.bmp", "Resources\\Unit\\Kirby", 10, 10);
 
-	MainRenderer->CreateAnimation("Normal_Left_Idle", "Normal_Left_Kirby.bmp", 0, 1, 0.5f, true);
-	MainRenderer->CreateAnimation("Normal_Right_Idle", "Normal_RIght_Kirby.bmp", 0, 1, 0.5f, true);
+	MainRenderer->CreateAnimation("Normal_Left_Idle", "Normal_Left_Kirby.bmp", 0, 1, 0.1f, true);
+	MainRenderer->CreateAnimation("Normal_Right_Idle", "Normal_RIght_Kirby.bmp", 0, 1, 0.1f, true);
 
 	MainRenderer->CreateAnimation("Normal_Left_Walk", "Normal_Left_Kirby.bmp", 2, 5, 0.2f, true);
 	MainRenderer->CreateAnimation("Normal_Right_Walk", "Normal_RIght_Kirby.bmp", 2, 5, 0.2f, true);
@@ -97,6 +100,21 @@ void Kirby::IdleStart()
 
 void Kirby::IdleUpdate(float _Delta)
 {
+	if (nullptr == MainRenderer)
+	{
+		MsgBoxAssert("랜더러가 Null 입니다.");
+		return;
+	}
+
+
+	if (true == MainRenderer->IsAnimationEnd())
+	{
+		float OpenEyes = GameEngineRandom::MainRandom.RandomFloat(0.04f, 2.0f);
+		MainRenderer->FindAnimation("Normal_Left_Idle")->Inters = { OpenEyes , 0.06f };
+		MainRenderer->FindAnimation("Normal_Right_Idle")->Inters = { OpenEyes , 0.06f };
+	}
+
+
 	// 지정 점이 Green 이고 W를 누르고 있으면, Enter 상태 변환
 	if (true == IsEnterPixel() && true == GameEngineInput::IsPress('W'))
 	{

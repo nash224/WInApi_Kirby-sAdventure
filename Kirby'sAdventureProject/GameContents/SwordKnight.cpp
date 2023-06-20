@@ -53,16 +53,21 @@ void SwordKnight::Start()
 	Dir = ActorDir::Left;
 
 
+
+
 	BodyCollision = CreateCollision(CollisionOrder::MonsterBody);
 	if (nullptr == BodyCollision)
 	{
 		MsgBoxAssert("바디 콜리전이 Null일리가 없어..");
 		return;
 	}
+
 	BodyCollision->SetCollisionPos(float4{ 0.0f , -SMALLTYPECOLLISIONSCALE.hY() });
 	BodyCollision->SetCollisionScale(SMALLTYPECOLLISIONSCALE);
 	BodyCollision->SetCollisionType(CollisionType::Rect);
 	BodyCollision->On();
+
+
 
 	AbilityCollision = CreateCollision(CollisionOrder::MonsterAbility);
 	if (nullptr == AbilityCollision)
@@ -70,6 +75,7 @@ void SwordKnight::Start()
 		MsgBoxAssert("바디 콜리전이 Null일리가 없어..");
 		return;
 	}
+
 	AbilityCollision->SetCollisionScale(float4{ 141.0f, 99.0f });
 	AbilityCollision->SetCollisionType(CollisionType::Rect);
 	AbilityCollision->Off();
@@ -237,8 +243,19 @@ void SwordKnight::RaiseSwordStart()
 	{
 		CollisionPosX = 10.5f;
 	}
+
+
+
+	if (nullptr == AbilityCollision)
+	{
+		MsgBoxAssert("충돌체가 Null 입니다.");
+		return;
+	}
+
+
 	AbilityCollision->SetCollisionPos(float4{ CollisionPosX , -49.5f });
 	
+
 	ChangeAnimationState("RaiseSword");
 }
 
@@ -276,6 +293,13 @@ void SwordKnight::SlashStart()
 	{
 		CurrentSpeed = SWORDKNIGHTSLASHINSTANTANEOUSSPEED;
 	}
+	
+	if (nullptr == AbilityCollision)
+	{
+		MsgBoxAssert("충돌체가 Null 입니다.");
+		return;
+	}
+
 	AbilityCollision->On();
 	ChangeAnimationState("Slash");
 }
@@ -289,7 +313,15 @@ void SwordKnight::SlashUpdate(float _Delta)
 
 	if (true == IsChangeState)
 	{
+		if (nullptr == AbilityCollision)
+		{
+			MsgBoxAssert("충돌체가 Null 입니다.");
+			return;
+		}
+
 		AbilityCollision->Off();
+
+
 		int SlashLink = GameEngineRandom::MainRandom.RandomInt(0, 2) / 2;
 		switch (SlashLink)
 		{
@@ -306,9 +338,12 @@ void SwordKnight::SlashUpdate(float _Delta)
 		return;
 	}
 
-	EnemyCollisionCheck();
-	EnemyAbilityAttack();
 
+	if (true == CheckLeftWall() || true == LeftGroundIsCliff() || 
+		true == CheckRightWall() || true == RightGroundIsCliff())
+	{
+		CurrentSpeed = -CurrentSpeed;
+	}
 
 
 
@@ -317,6 +352,10 @@ void SwordKnight::SlashUpdate(float _Delta)
 
 	DecelerationUpdate(_Delta, SWORDKNIGHTDEACELECTIONSPEED);
 	HorizontalUpdate(_Delta);
+
+
+	EnemyCollisionCheck();
+	EnemyAbilityAttack();
 }
 
 
@@ -336,7 +375,16 @@ void SwordKnight::UnderhandStart()
 	{
 		CollisionPosX = 10.5f;
 	}
+
+
+	if (nullptr == AbilityCollision)
+	{
+		MsgBoxAssert("충돌체가 Null 입니다.");
+		return;
+	}
+
 	AbilityCollision->SetCollisionPos(float4{ CollisionPosX , -49.5f });
+
 
 	ChangeAnimationState("Underhand");
 }
@@ -374,6 +422,14 @@ void SwordKnight::ReversingSlashStart()
 	{
 		CurrentSpeed = SWORDKNIGHTUNDERHANDINSTANTANEOUSSPEED;
 	}
+
+
+	if (nullptr == AbilityCollision)
+	{
+		MsgBoxAssert("충돌체가 Null 입니다.");
+		return;
+	}
+
 	AbilityCollision->On();
 	ChangeAnimationState("ReversingSlash");
 }
@@ -393,15 +449,26 @@ void SwordKnight::ReversingSlashUpdate(float _Delta)
 		return;
 	}
 
-	EnemyCollisionCheck();
-	EnemyAbilityAttack();
+
+	if (true == CheckLeftWall() || true == LeftGroundIsCliff() ||
+		true == CheckRightWall() || true == RightGroundIsCliff())
+	{
+		CurrentSpeed = -CurrentSpeed;
+	}
+
 
 
 	BlockedByGround();
 	BlockedByWall();
 
+
 	DecelerationUpdate(_Delta, SWORDKNIGHTDEACELECTIONSPEED);
 	HorizontalUpdate(_Delta);
+
+
+
+	EnemyCollisionCheck();
+	EnemyAbilityAttack();
 }
 
 
