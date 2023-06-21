@@ -213,6 +213,12 @@
     <ClInclude Include="CommonSkillEffect.h">
       <Filter>Global\Effect\SkillAbilityEffect</Filter>
     </ClInclude>
+    <ClInclude Include="DoorObject.h">
+      <Filter>Global\Object\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="BillboardsObject.h">
+      <Filter>Global\Object\Objects</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="TitleLevel.cpp">
@@ -456,6 +462,15 @@
     <ClCompile Include="CommonSkillEffect.cpp">
       <Filter>Global\Effect\SkillAbilityEffect</Filter>
     </ClCompile>
+    <ClCompile Include="VegetableValley11_Func.cpp">
+      <Filter>Level\Map\VegetableValley</Filter>
+    </ClCompile>
+    <ClCompile Include="DoorObject.cpp">
+      <Filter>Global\Object\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="BillboardsObject.cpp">
+      <Filter>Global\Object\Objects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Global">
@@ -514,6 +529,9 @@
     </Filter>
     <Filter Include="Level\UI">
       <UniqueIdentifier>{7b2b5d89-01e6-452a-a522-2904d4d83ac1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Global\Object\Objects">
+      <UniqueIdentifier>{ab6fff16-21f2-405b-a079-9c27fda83fe4}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

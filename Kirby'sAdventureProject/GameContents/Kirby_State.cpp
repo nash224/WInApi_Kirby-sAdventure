@@ -87,11 +87,16 @@ void Kirby::Normal_StateResourceLoad()
 	MainRenderer->CreateAnimation("Normal_Left_Enter", "Normal_Left_Kirby.bmp", 93, 94, 0.1f, false);
 	MainRenderer->CreateAnimation("Normal_Right_Enter", "Normal_RIght_Kirby.bmp", 93, 94, 0.1f, false);
 
-	MainRenderer->CreateAnimation("Normal_Left_StageClear", "Normal_Left_Kirby.bmp", 93, 94, 0.1f, false);
-	MainRenderer->CreateAnimation("Normal_Right_StageClear", "Normal_RIght_Kirby.bmp", 93, 94, 0.1f, false);
 
-	MainRenderer->CreateAnimation("Normal_Left_StageClearAfter", "Normal_Left_Kirby.bmp", 93, 94, 0.1f, false);
-	MainRenderer->CreateAnimation("Normal_Right_StageClearAfter", "Normal_RIght_Kirby.bmp", 93, 94, 0.1f, false);
+
+
+	GlobalContents::SpriteFileLoad("Normal_KirbyOpenTheDoor.bmp", "Resources\\Unit\\Kirby", 5, 2);
+
+	MainRenderer->CreateAnimation("Normal_Left_StageClear", "Normal_KirbyOpenTheDoor.bmp", 0, 8, 0.1f, false);
+	MainRenderer->CreateAnimation("Normal_Right_StageClear", "Normal_KirbyOpenTheDoor.bmp", 0, 8, 0.1f, false);
+
+	MainRenderer->CreateAnimation("Normal_Left_StageClearAfter", "Normal_KirbyOpenTheDoor.bmp", 0, 1, 0.1f, false);
+	MainRenderer->CreateAnimation("Normal_Right_StageClearAfter", "Normal_KirbyOpenTheDoor.bmp", 0, 1, 0.1f, false);
 }
 
 // =============================================//
@@ -1189,6 +1194,7 @@ void Kirby::TakeOffUpdate(float _Delta)
 	// 지정 점이 Green 이고 W를 누르고 있으면, Enter 상태 변환
 	if (true == IsEnterPixel() && true == GameEngineInput::IsPress('W'))
 	{
+		SetAirResistance(1.0f);
 		ChangeState(KirbyState::Enter);
 		return;
 	}
@@ -1584,7 +1590,7 @@ void Kirby::EnterUpdate(float _Delta)
 	if (true == IsChangeState)
 	{
 		VegetableValleyPlayLevel::NextLevelTriggerOn = true;
-		ChangeState(KirbyState::Fall);
+		ChangeState(KirbyState::Idle);
 		return;
 	}
 }

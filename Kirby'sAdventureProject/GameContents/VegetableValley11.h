@@ -25,6 +25,8 @@ private:
 	void Update(float _Delta) override;
 	void Render(float _Delta) override;
 
+	void EnemySummon() override;
+
 	void VegetableValley11BackGroundEffect(float _Ratio, float _Inter, bool _Loop);
 };
 

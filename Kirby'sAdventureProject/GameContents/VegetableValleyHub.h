@@ -23,8 +23,17 @@ private:
 	class Kirby* LevelPlayer = nullptr;
 	class BackGround* LevelBackGround = nullptr;
 
+	class DoorObject* VegetableValley_Stage1_PlayDoor = nullptr;
+	class DoorObject* VegetableValley_Stage1_BossDoor = nullptr;
+	class DoorObject* VegetableValley_Museum_Door = nullptr;
+
+	//void DoorRender();
+
+
 	const float4 OneStageLocation = float4{ 288.0f , 863.0f };
 	const float4 OneStageBillBoardLocation = float4{ 228.0f , 813.0f };
+
+
 	
 
 	void Start() override;

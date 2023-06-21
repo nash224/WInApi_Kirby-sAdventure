@@ -66,6 +66,7 @@ protected:
 
 
 
+	virtual void EnemySummon() {}
 	void CheckRespawnEnemy();
 
 	void CreateAndSetupBackgroundEffectRenderer(

@@ -2,11 +2,9 @@
 #include "ContentsEnum.h"
 
 #include <GameEngineBase/GameEngineMath.h>
-#include <GameEnginePlatform/GameEngineWindow.h>
 #include <GameEnginePlatform/GameEngineInput.h>
 #include <GameEngineCore/GameEngineCore.h>
 #include <GameEngineCore/GameEngineCamera.h>
-#include <GameEngineCore/ResourcesManager.h>
 
 #include "Kirby.h"
 #include "PlayUI.h"
