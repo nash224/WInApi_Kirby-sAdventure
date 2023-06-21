@@ -1,7 +1,9 @@
 #pragma once
 #include <string>
+
 #include <GameEnginePlatform/GameEngineWindowTexture.h>
 #include <GameEngineCore/GameEngineSprite.h>
+#include <GameEngineCore/GameEngineLevel.h>
 
 // 설명 : 모든 Contents 영역에서 공통적으로 사용하는 기능을 제공합니다.
 class GlobalContents
@@ -19,6 +21,10 @@ public:
 
 	static GameEngineWindowTexture* TextureFileLoad(const std::string& _FileName, const std::string& _Path);
 	static GameEngineSprite* SpriteFileLoad(const std::string& _FileName, const std::string& _Path, int _XCount, int _YCount);
+
+	static void FadeOut(GameEngineLevel* _Level);
+	static void FadeIn(GameEngineLevel* _Level);
+
 
 protected:
 

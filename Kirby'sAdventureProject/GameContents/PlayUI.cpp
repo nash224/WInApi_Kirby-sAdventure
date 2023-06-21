@@ -432,6 +432,7 @@ void PlayUI::Update(float _Delta)
 {
 	OuchState(_Delta);
 
+	StaminaState();
 	PortraitState(_Delta);
 }
 
@@ -528,7 +529,7 @@ void PlayUI::LevelStart()
 	switch (KirbyPtr->m_KirbyHp)
 	{
 	case 1:
-		Second_ScoreRenderer->ChangeAnimation("StaminaNone");
+		Second_StaminaRenderer->ChangeAnimation("StaminaNone");
 		Third_StaminaRenderer->ChangeAnimation("StaminaNone");
 		Fourth_StaminaRenderer->ChangeAnimation("StaminaNone");
 		Fifth_StaminaRenderer->ChangeAnimation("StaminaNone");

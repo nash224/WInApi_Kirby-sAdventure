@@ -1,5 +1,6 @@
 #include "VegetableValley11.h"
 #include "ContentsEnum.h"
+#include "GlobalContents.h"
 
 #include <GameEngineBase/GameEngineMath.h>
 #include <GameEnginePlatform/GameEngineWindow.h>
@@ -14,6 +15,7 @@
 #include "GameEffect.h"
 
 #include "PlayUI.h"
+#include "FadeObject.h"
 
 #include <map>
 
@@ -31,15 +33,34 @@ VegetableValley11::~VegetableValley11()
 void VegetableValley11::Start() 
 {
 	LevelBackGround = GameEngineLevel::CreateActor<BackGround>(UpdateOrder::BackGround);
+	if (nullptr == LevelBackGround)
+	{
+		MsgBoxAssert("생성한 액터가 Null 입니다.");
+		return;
+	}
+
 	LevelBackGround->init("VegetableValley1_1.bmp","VegetableValley1_1Pixel.bmp", "Resources\\Map");
 
 	BitMapFileName = "VegetableValley1_1Pixel.bmp";
 
 	GameEngineWindowTexture* Texture = ResourcesManager::GetInst().FindTexture("VegetableValley1_1.bmp");
+	if (nullptr == Texture)
+	{
+		MsgBoxAssert("텍스처를 불러오지 못했습니다.");
+		return;
+	}
+
 	BackGroundScale = Texture->GetScale();
 
 
+
 	LevelEffect = GameEngineLevel::CreateActor<GameEffect>(UpdateOrder::BackGroundEffect);
+	if (nullptr == LevelEffect)
+	{
+		MsgBoxAssert("생성한 액터가 Null 입니다.");
+		return;
+	}
+
 	LevelEffect->LoadBackGroundEffect("CloudAndWater12x3_8x8.bmp", "Resources\\Effect\\MapEffect", 12, 4);
 
 	VegetableValley11BackGroundEffect(3.0f, 0.15f, true);
@@ -82,13 +103,40 @@ void VegetableValley11::Update(float _Delta)
 
 	if (true == GameEngineInput::IsDown('N'))
 	{
+		NextLevelTriggerOn = false;
 		GameEngineCore::ChangeLevel("VegetableValley12");
 	}
 
 	if (true == NextLevelTriggerOn)
 	{
-		NextLevelTriggerOn = false;
-		GameEngineCore::ChangeLevel("VegetableValley12");
+		KirbyStateTime += _Delta;
+
+		if (KirbyStateTime > KIRBY_ENTERSTATETIME)
+		{
+			KirbyStateTime = 0.0f;
+
+			GlobalContents::FadeOut(this);
+
+			IsPlayerEnter = true;
+		}
+
+		if (true == IsPlayerEnter)
+		{
+			FadeTime += _Delta;
+		}
+
+		// 페이드 아웃이 다 끝나면 다음 레벨로
+		if (FadeTime > FADEOUT_ENDTIME)
+		{
+			NextLevelTriggerOn = false;
+			IsPlayerEnter = false;
+			FadeTime = 0.0f;
+
+			GameEngineCore::ChangeLevel("VegetableValley12");
+		}
+
+
+		return;
 	}
 
 	if (true == GameEngineInput::IsDown('M'))
@@ -110,7 +158,9 @@ void VegetableValley11::LevelStart(GameEngineLevel* _PrevLevel)
 	}
 
 	LevelPlayer->SetGroundTexture(BitMapFileName);
-	LevelPlayer->SetPos(float4{ 200.0f, 200.0f });
+	LevelPlayer->SetPos(float4{ 200.0f , 382.0f });
+
+	GlobalContents::FadeIn(this);
 }
 
 
@@ -135,18 +185,3 @@ void VegetableValley11::Render(float _Delta)
 }
 
 
-
-/*
-	밝기 4단계 
-	fade out & fade in : TotalFrameInter 0.04f, OneFrameInter 0.04f
-	
-	맵 오픈
-	1. fade in : TotalFrameInter 0.04f, OneFrameInter 0.04f
-	2. Open Door : TotalFrameInter 0.16f, OneFrameInter 0.04f
-	3. Hellow NewWorld  0.1f, 0.3f, 0.1f, 0.2f, 0.2f , After WabbleInter 0.04f
-	4. CameraMove And Open New Stage
-	5. CameraOrigin Positon
-	6. Dumbling 15.9 16.1 16.4 16.8 17.07 17.45 17.52 Idle
-	7. ChangeForm ClearDoor & BombEffect 
-	
-*/ 

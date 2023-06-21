@@ -47,6 +47,7 @@ protected:
 
 
 	void PortraitState(float _Delta);
+	void StaminaState();
 
 	bool IsGulpPortraitDone = true;
 	float IsGulpPortraitTime = 0.0f;

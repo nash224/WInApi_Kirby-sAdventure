@@ -14,7 +14,6 @@
 #include <GameEngineCore/GameEngineCollision.h>
 #include <GameEngineCore/ResourcesManager.h>
 
-#include "Grunt.h"
 #include "VegetableValleyPlayLevel.h"
 #include "PlayUI.h"
 
@@ -36,7 +35,19 @@ Kirby::~Kirby()
 
 void Kirby::Start()
 {
+	MainKirby = this;
+	if (nullptr == MainKirby)
+	{
+		MsgBoxAssert("커비를 등록하지 못했습니다.");
+		return;
+	}
+
 	MainRenderer = CreateRenderer(RenderOrder::Play);
+	if (nullptr == MainRenderer)
+	{
+		MsgBoxAssert("렌더러를 생성하지 못했습니다.");
+		return;
+	}
 
 	Normal_StateResourceLoad();
 	Spark_StateResourceLoad();

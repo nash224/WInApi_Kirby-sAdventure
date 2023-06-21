@@ -3,12 +3,22 @@
 
 #include "Enemy.h"
 
+// 페이드 아웃 지속시간
+#define FADEOUT_ENDTIME 0.2f
+// 커비 Enter 시간
+#define KIRBY_ENTERSTATETIME 0.2f
+
+
 // 설명 :
 class VegetableValleyPlayLevel : public GameEngineLevel
 {
 public:
 	static bool NextLevelTriggerOn;
 	static bool IsStageEnd;
+
+	static bool IsPlayerEnter;
+	static float FadeTime;
+	static float KirbyStateTime;
 
 
 protected:
@@ -45,7 +55,7 @@ public:
 
 
 protected:
-	class PlayUI* LevelUIManager = nullptr;
+	class UIManager* LevelUIManager = nullptr;
 	class BackGround* LevelBackGround = nullptr;
 	class GameEffect* LevelEffect = nullptr;
 	class Kirby* LevelPlayer = nullptr;

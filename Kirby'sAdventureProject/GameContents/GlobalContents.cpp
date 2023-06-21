@@ -1,6 +1,10 @@
 #include "GlobalContents.h"
+#include "ContentsEnum.h"
 
 #include <GameEngineCore/ResourcesManager.h>
+
+#include "FadeObject.h"
+
 
 GlobalContents::GlobalContents() 
 {
@@ -78,4 +82,44 @@ GameEngineSprite* GlobalContents::SpriteFileLoad(const std::string& _FileName, c
 	}
 
 	return Sprite;
+}
+
+
+
+
+void GlobalContents::FadeOut(GameEngineLevel* _Level)
+{
+	if (nullptr == _Level)
+	{
+		MsgBoxAssert("레벨이 Null 입니다.");
+		return;
+	}
+
+	FadeObject* LevelFade = _Level->CreateActor<FadeObject>(UpdateOrder::UI);
+	if (nullptr == LevelFade)
+	{
+		MsgBoxAssert("생성한 액터가 Null 입니다.");
+		return;
+	}
+
+	LevelFade->RequestFadeOut();
+}
+
+
+void GlobalContents::FadeIn(GameEngineLevel* _Level)
+{
+	if (nullptr == _Level)
+	{
+		MsgBoxAssert("레벨이 Null 입니다.");
+		return;
+	}
+
+	FadeObject* LevelFade = _Level->CreateActor<FadeObject>(UpdateOrder::UI);
+	if (nullptr == LevelFade)
+	{
+		MsgBoxAssert("생성한 액터가 Null 입니다.");
+		return;
+	}
+
+	LevelFade->RequestFadeIn();
 }

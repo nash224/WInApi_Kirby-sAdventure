@@ -22,15 +22,9 @@ UIManager::~UIManager()
 }
 
 
-
-void UIManager::PortraitState(float _Delta)
+// 죽었을 때 스테미나 
+void UIManager::StaminaState()
 {
-	if (0 == m_KirbySteminaCount)
-	{
-		PortraitRenderer->ChangeAnimation("Portrait_Miss");
-	}
-
-
 	if (true == KirbyPtr->IsKirbyRevive && 0 == m_KirbySteminaCount)
 	{
 		// Hp 초기화
@@ -51,6 +45,18 @@ void UIManager::PortraitState(float _Delta)
 		Second_StaminaRenderer->FindAnimation("StaminaRemain")->Inters = { 0.6f , 0.6f };
 		First_StaminaRenderer->FindAnimation("StaminaRemain")->Inters = { 0.6f , 0.6f };
 	}
+
+}
+
+
+
+void UIManager::PortraitState(float _Delta)
+{
+	if (0 == m_KirbySteminaCount)
+	{
+		PortraitRenderer->ChangeAnimation("Portrait_Miss");
+	}
+
 
 
 	// 삼킴 초상화

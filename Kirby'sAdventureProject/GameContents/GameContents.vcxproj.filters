@@ -81,9 +81,6 @@
       <Filter>Level\Map\VegetableValley</Filter>
     </ClInclude>
     <ClInclude Include="ContentsEnum.h" />
-    <ClInclude Include="Grunt.h">
-      <Filter>Global\Object</Filter>
-    </ClInclude>
     <ClInclude Include="Kirby.h">
       <Filter>Global\Object\Kirby</Filter>
     </ClInclude>
@@ -219,6 +216,9 @@
     <ClInclude Include="BillboardsObject.h">
       <Filter>Global\Object\Objects</Filter>
     </ClInclude>
+    <ClInclude Include="FadeObject.h">
+      <Filter>Global</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="TitleLevel.cpp">
@@ -302,9 +302,6 @@
     </ClCompile>
     <ClCompile Include="BackGroundEffectList.cpp">
       <Filter>Level\Map\VegetableValley</Filter>
-    </ClCompile>
-    <ClCompile Include="Grunt.cpp">
-      <Filter>Global\Object</Filter>
     </ClCompile>
     <ClCompile Include="Kirby.cpp">
       <Filter>Global\Object\Kirby</Filter>
@@ -470,6 +467,9 @@
     </ClCompile>
     <ClCompile Include="BillboardsObject.cpp">
       <Filter>Global\Object\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="FadeObject.cpp">
+      <Filter>Global</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

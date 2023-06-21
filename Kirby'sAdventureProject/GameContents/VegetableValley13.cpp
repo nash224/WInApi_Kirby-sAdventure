@@ -78,7 +78,6 @@ void VegetableValley13::Update(float _Delta)
 
 }
 
-
 void VegetableValley13::LevelStart(GameEngineLevel* _PrevLevel)
 {
 	LevelPlayer = Kirby::GetMainKirby();

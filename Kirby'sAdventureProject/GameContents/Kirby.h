@@ -117,6 +117,7 @@ enum class KirbyState
 class Kirby : public ActorUtils
 {
 	friend class UIManager;
+	friend class VegetableValleyPlayLevel;
 
 private:
 	bool IsLevelChange = true;

@@ -1,5 +1,7 @@
 #include "VegetableValley12.h"
 #include "ContentsEnum.h"
+#include "GlobalContents.h"
+
 
 #include <GameEngineBase/GameEngineMath.h>
 #include <GameEnginePlatform/GameEngineInput.h>
@@ -219,9 +221,36 @@ void VegetableValley12::Update(float _Delta)
 
 	if (true == NextLevelTriggerOn)
 	{
-		NextLevelTriggerOn = false;
+		KirbyStateTime += _Delta;
+
 		IsStageEnd = true;
-		GameEngineCore::ChangeLevel("VegetableValleyHub");
+
+		if (KirbyStateTime > KIRBY_ENTERSTATETIME)
+		{
+			KirbyStateTime = 0.0f;
+
+			GlobalContents::FadeOut(this);
+
+			IsPlayerEnter = true;
+		}
+
+		if (true == IsPlayerEnter)
+		{
+			FadeTime += _Delta;
+		}
+
+		// 페이드 아웃이 다 끝나면 다음 레벨로
+		if (FadeTime > FADEOUT_ENDTIME)
+		{
+			NextLevelTriggerOn = false;
+			IsPlayerEnter = false;
+			FadeTime = 0.0f;
+
+			GameEngineCore::ChangeLevel("VegetableValleyHub");
+		}
+
+
+		return;
 	}
 
 
@@ -244,7 +273,9 @@ void VegetableValley12::LevelStart(GameEngineLevel* _PrevLevel)
 	}
 
 	LevelPlayer->SetGroundTexture(BitMapFileName);
-	LevelPlayer->SetPos(float4{ 200.0f, 200.0f });
+	LevelPlayer->SetPos(float4{ 83.0f, 383.0f });
+
+	GlobalContents::FadeIn(this);
 }
 
 void VegetableValley12::LevelEnd(GameEngineLevel* _NextLevel) { }
