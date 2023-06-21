@@ -1,8 +1,10 @@
 #pragma once
+#include <GameEngineCore/GameEngineActor.h>
 
 // Ό³Έν :
-class BillboardsObject
+class BillboardsObject : public GameEngineActor
 {
+	friend class VegetableValleyHub;
 public:
 	// constrcuter destructer
 	BillboardsObject();
@@ -14,7 +16,19 @@ public:
 	BillboardsObject& operator=(const BillboardsObject& _Other) = delete;
 	BillboardsObject& operator=(BillboardsObject&& _Other) noexcept = delete;
 
+
+	void StageOneBillBoardinit(const float4& _StageOneBillBoardPos);
+	void StageBossBillBoardinit(const float4& _StageBossBillBoardPos);
+
 protected:
+	GameEngineRenderer* StageOne_BillBoard = nullptr;
+	GameEngineRenderer* StageBoss_BillBoard = nullptr;
+
+private:
+
+	void Start() override;
+	void Update(float _Delta) override;
+
 
 private:
 

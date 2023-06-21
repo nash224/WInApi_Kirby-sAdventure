@@ -68,7 +68,7 @@ void VegetableValley13::Update(float _Delta)
 
 	if (true == GameEngineInput::IsDown('N'))
 	{
-		GameEngineCore::ChangeLevel("EndingLevel");
+		GameEngineCore::ChangeLevel("VegetableValleyHub");
 	}
 
 	if (true == GameEngineInput::IsDown('M'))

@@ -430,10 +430,11 @@ void PlayUI::ScoreRendererSet()
 
 void PlayUI::Update(float _Delta)
 {
+	PortraitState(_Delta);
+
 	OuchState(_Delta);
 
 	StaminaState();
-	PortraitState(_Delta);
 }
 
 
@@ -454,7 +455,7 @@ void PlayUI::OuchState(float _Delta)
 	}
 
 
-	// 커비의 체력과 UI의 체력이 다르면
+	// 커비의 체력과 UI의 체력이 다르면+
 	if (m_KirbySteminaCount != KirbyPtr->m_KirbyHp && -1 != KirbyPtr->m_KirbyHp)
 	{
 		// 커비의 체력이 감소하면

@@ -13,6 +13,7 @@
 
 #include "Kirby.h"
 #include "DoorObject.h"
+#include "BillboardsObject.h"
 #include "FadeObject.h"
 #include "BackGround.h"
 #include "HubUI.h"
@@ -74,7 +75,21 @@ void VegetableValleyHub::Start()
 		MsgBoxAssert("생성한 액터가 Null 입니다.");
 		return;
 	}
-	VegetableValley_Stage1_PlayDoor->init(OneStageLocation);
+	VegetableValley_Stage1_PlayDoor->init(StageOneLocation);
+
+
+	// HubMap BillboardActor
+	VegetableValley_Billboard = GameEngineLevel::CreateActor<BillboardsObject>(UpdateOrder::BackGroundEffect);
+	if (nullptr == VegetableValley_Billboard)
+	{
+		MsgBoxAssert("생성한 액터가 Null 입니다.");
+		return;
+	}
+
+	VegetableValley_Billboard->StageOneBillBoardinit(StageOneBillBoardLocation);
+	VegetableValley_Billboard->StageBossBillBoardinit(StageBossBillBoardLocation);
+
+
 
 
 	LevelUIManager = GameEngineLevel::CreateActor<HubUI>(UpdateOrder::UI);
@@ -83,6 +98,9 @@ void VegetableValleyHub::Start()
 		MsgBoxAssert("생성한 UI 가 Null 입니다.");
 		return;
 	}
+
+
+
 
 
 	//GameEngineWindow::MainWindow.CursorOff();
@@ -161,8 +179,9 @@ void VegetableValleyHub::Update(float _Delta)
 	}
 
 
-	if (true == NextLevelTriggerOn && KirbyPos.X > 695.0f && KirbyPos.X < 750.0f)
+	if (true == NextLevelTriggerOn && KirbyPos.X > 695.0f && KirbyPos.X < 750.0f && KirbyPos.Y > 910.0f)
 	{
+		VegetableValleyEntertheDoorNumber = 2;
 		NextLevelTriggerOn = false;
 		GameEngineCore::ChangeLevel("VegetableValley13");
 		return;
@@ -188,12 +207,49 @@ void VegetableValleyHub::LevelStart(GameEngineLevel* _PrevLevel)
 		MsgBoxAssert("플레이어를 세팅해주지 않았습니다.");
 	}
 
+	if (nullptr == LevelUIManager)
+	{
+		MsgBoxAssert("UI를 불러오지 못했습니다.");
+		return;
+	}
+
+
 	LevelPlayer->SetGroundTexture("VegetableValleyPixel.bmp");
 
-	if (1 == VegetableValleyEntertheDoorNumber)
+
+	// 카메라 위치 지정
+	GameEngineCamera* MainCameraPtr = GetMainCamera();
+	if (nullptr == MainCameraPtr)
 	{
-		LevelPlayer->SetPos(OneStageLocation);
+		MsgBoxAssert("카메라를 불러오지 못했습니다.");
+		return;
 	}
+
+
+	switch (VegetableValleyEntertheDoorNumber)
+	{
+	case -1:
+		LevelPlayer->SetPos(StageOneLocation);
+		break;
+	case 1:
+		LevelPlayer->SetPos(StageOneLocation);
+		break;
+	case 2:
+		LevelPlayer->SetPos(StageTwoLocation);
+		break;
+	default:
+		break;
+	}
+
+	float4 WinScale = GameEngineWindow::MainWindow.GetScale();
+	float4 KirbyPos = LevelPlayer->GetPos();
+	float4 HUB_UIScale = LevelUIManager->UIScale;
+
+	float4 CameraPos = float4{ KirbyPos.X - WinScale.Half().Half().X , KirbyPos.Y - (WinScale - HUB_UIScale).Y * 0.8f};
+
+	MainCameraPtr->SetPos(CameraPos);
+
+
 
 	GlobalContents::FadeIn(this);
 }

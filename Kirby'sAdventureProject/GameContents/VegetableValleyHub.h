@@ -27,11 +27,15 @@ private:
 	class DoorObject* VegetableValley_Stage1_BossDoor = nullptr;
 	class DoorObject* VegetableValley_Museum_Door = nullptr;
 
+	class BillboardsObject* VegetableValley_Billboard = nullptr;
+
 	//void DoorRender();
 
 
-	const float4 OneStageLocation = float4{ 288.0f , 863.0f };
-	const float4 OneStageBillBoardLocation = float4{ 228.0f , 813.0f };
+	const float4 StageOneLocation = float4{ 288.0f , 865.0f };
+	const float4 StageTwoLocation = float4{ 720.0f , 961.0f };
+	const float4 StageOneBillBoardLocation = float4{ 288.0f , 813.0f };
+	const float4 StageBossBillBoardLocation = float4{ 720.0f , 909.0f };
 
 	
 
