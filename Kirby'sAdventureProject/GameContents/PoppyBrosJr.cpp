@@ -13,6 +13,41 @@
 
 
 
+
+
+// ½´µµÄÚµå
+// GameEngienRenderer* AppleRender = CreateRenderer()
+// AppleRender->SetRenderPos(0,0,0)
+
+// ½´µµÄÚµå
+// GameEngienRenderer* MonsterRender = CreateRenderer()
+// MonsterRender->SetRenderPos(0,-90,0)
+
+// AppleRunStart() 
+//{
+//   AppleRender->Change("AppleRun");
+//   MonsterRender->Change("AppleRun");
+//}
+
+// AppleDeathStart() 
+//{
+//   AppleRender->Death();
+//   AppleRender = nullptr;
+//   MonsterRender->Change("AppleRun");
+//   MonsterRender->SetRenderPos({0, 0, 0});
+//}
+
+// AppleDeathUpdate() 
+//{
+//   AppleRender->Death();
+//   AppleRender = nullptr;
+//   MonsterRender->Change("AppleRun");
+//   MonsterRender->SetRenderPos();
+//}
+
+
+
+
 PoppyBrosJr::PoppyBrosJr()
 {
 }

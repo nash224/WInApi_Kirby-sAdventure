@@ -4,6 +4,47 @@
 #include <vector>
 #include "GameEngineActor.h"
 
+enum AppleMonster
+{
+	AppleRun,
+	AppleIdle,
+	AppleAtt,
+	AppleDeath,
+	Run,
+	Idle,
+	Att,
+};
+
+// ½´µµÄÚµå
+// GameEngienRenderer* AppleRender = CreateRenderer()
+// AppleRender->SetRenderPos(0,0,0)
+
+// ½´µµÄÚµå
+// GameEngienRenderer* MonsterRender = CreateRenderer()
+// MonsterRender->SetRenderPos(0,-90,0)
+
+// AppleRunStart() 
+//{
+//   AppleRender->Change("AppleRun");
+//   MonsterRender->Change("AppleRun");
+//}
+
+// AppleDeathStart() 
+//{
+//   AppleRender->Death();
+//   AppleRender = nullptr;
+//   MonsterRender->Change("AppleRun");
+//   MonsterRender->SetRenderPos({0, 0, 0});
+//}
+
+// AppleDeathUpdate() 
+//{
+//   AppleRender->Death();
+//   AppleRender = nullptr;
+//   MonsterRender->Change("AppleRun");
+//   MonsterRender->SetRenderPos();
+//}
+
 // ¼³¸í :
 class GameEngineSprite;
 class TileMap : public GameEngineActor
@@ -30,6 +71,10 @@ public:
 	void SetTile(int X, int Y, int _Index, float4 _TilePos = float4::ZERO, bool _IsImageSize = false);
 
 	void SetTile(float4 _Pos, int _Index, float4 _TilePos = float4::ZERO, bool _IsImageSize = false);
+
+	void DeathTile(float4 _Pos);
+
+	void DeathTile(int X, int Y);
 
 	bool IsOver(int X, int Y);
 
