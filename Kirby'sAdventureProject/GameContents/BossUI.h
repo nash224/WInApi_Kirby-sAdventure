@@ -1,7 +1,7 @@
 #pragma once
 #include "UIManager.h"
 
-#include <map>
+#include <vector>
 
 
 // 이미지 좌상단 기준
@@ -27,6 +27,11 @@
 // 설명 :
 class BossUI : public UIManager
 {
+	friend class WhispyWood;
+
+public:
+	int m_BossHp = 0;
+
 public:
 	// constrcuter destructer
 	BossUI();
@@ -41,12 +46,6 @@ public:
 
 protected:
 	GameEngineRenderer* LivesAniRenderer = nullptr;
-
-
-	std::map<int, GameEngineRenderer*> Boss_StaminaRenderer;
-	const int Boss_StaminaCount = 28;
-	const float Boss_Stamina_Image_Inter = 6.0f;
-	float4 Boss_StaminaScale = float4::ZERO;
 
 
 
@@ -67,14 +66,35 @@ protected:
 	void LevelStart() override;
 
 private:
+
 	const float4 NumberScale = float4{ 24.0f, 24.0f };
 
 
+	// Ouch 상태 관련
 	bool Ouch_State = false;
 	float Ouch_Time = 0.0f;
 	const float Ouch_Duration = 1.0f;
 
 
 	void OuchState(float _Delta);
+
+
+
+	// 보스 체력 재생 관련
+	class WhispyWood* BossPtr = nullptr;
+	std::vector<GameEngineRenderer*> Boss_StaminaRenderer;
+	float4 Boss_StaminaScale = float4::ZERO;
+	const int Boss_MaxStaminaCount = 28;
+
+
+	const float Boss_Stamina_Image_Inter = 6.0f;
+	bool IsBossStaminaFull = false;
+	const float Boss_Stamina_Full_Inter = 0.1f;
+	float Boss_Stamina_Full_Time = 0.0f;
+	
+
+	bool Boss_Stamina_Full_Done = false;
+
+	void BossAppearance(float _Delta);
 };
 

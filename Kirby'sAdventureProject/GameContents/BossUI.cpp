@@ -7,6 +7,7 @@
 
 #include "GlobalContents.h"
 #include "Kirby.h"
+#include "WhispyWood.h"
 
 
 
@@ -308,8 +309,10 @@ void BossUI::BossStaminaRendererSet()
 	Boss_StaminaScale = float4{ Temprary_Boss_StaminaScale.Half().X , Temprary_Boss_StaminaScale.Y };
 
 
+	Boss_StaminaRenderer.reserve(Boss_MaxStaminaCount);
+
 	// 초기설정
-	for (int i = 0; i < Boss_StaminaCount; i++)
+	for (int i = 0; i < Boss_MaxStaminaCount; i++)
 	{
 		GameEngineRenderer* BossStaminaRenderer = CreateUIRenderer(RenderOrder::PlayUI);
 		if (nullptr == BossStaminaRenderer)
@@ -319,16 +322,15 @@ void BossUI::BossStaminaRendererSet()
 		}
 
 		BossStaminaRenderer->SetTexture("Boss_UI_LifeBar_2x1_9x24.bmp");
-		BossStaminaRenderer->SetCopyPos(float4{ 0.0f , 0.0f });
+		BossStaminaRenderer->SetCopyPos(float4{ Boss_StaminaScale.X , 0.0f });
 		BossStaminaRenderer->SetCopyScale(Boss_StaminaScale);
 		BossStaminaRenderer->SetRenderPos(BOSS_STAMINA_FIRSTNUMBERLOCATION
 			+ float4{ Boss_Stamina_Image_Inter * static_cast<int>(i) , 0.0f } + Boss_StaminaScale.Half());
 		BossStaminaRenderer->SetRenderScale(Boss_StaminaScale);
 
 
-		Boss_StaminaRenderer.insert(std::make_pair(i, BossStaminaRenderer));
+		Boss_StaminaRenderer.push_back(BossStaminaRenderer);
 	}
-
 }
 
 
@@ -336,14 +338,73 @@ void BossUI::BossStaminaRendererSet()
 
 void BossUI::Update(float _Delta)
 {
+	// 피 다 채웠으면 들어가지 못함
+	if (false == Boss_Stamina_Full_Done)
+	{
+		BossAppearance(_Delta);
+	}
+
+
 	PortraitState(_Delta);
 
 	OuchState(_Delta);
 
 	StaminaState();
+
+
 }
 
 
+
+
+void BossUI::BossAppearance(float _Delta)
+{
+	if (nullptr == BossPtr)
+	{
+		MsgBoxAssert("보스를 불러오지 못했습니다.");
+		return;
+	}
+
+	// 보스가 플레이어를 찾았으면, 피를채움
+	if (true == BossPtr->IsBossFindKirby)
+	{
+		BossPtr->IsBossFindKirby = false;
+		IsBossStaminaFull = true;
+	}
+
+	if (true == IsBossStaminaFull)
+	{
+		Boss_Stamina_Full_Time += _Delta;
+	}
+
+
+	// 일정 간격마다
+	if (Boss_Stamina_Full_Time > Boss_Stamina_Full_Inter)
+	{
+		Boss_Stamina_Full_Time = 0.0f;
+
+		// 2번 피를 채움
+		for (size_t i = 0; i < 2; i++)
+		{
+			GameEngineRenderer* Boss_Stamina_RendererPtr = Boss_StaminaRenderer[m_BossHp];
+			if (nullptr == Boss_Stamina_RendererPtr)
+			{
+				MsgBoxAssert("참조하지 못했습니다.");
+				return;
+			}
+
+			Boss_Stamina_RendererPtr->SetCopyPos(float4::ZERO);
+
+			++m_BossHp;
+		}
+
+
+		if (Boss_MaxStaminaCount == m_BossHp)
+		{
+			Boss_Stamina_Full_Done = true;
+		}
+	}
+}
 
 
 void BossUI::OuchState(float _Delta)
@@ -428,6 +489,14 @@ void BossUI::LevelStart()
 	if (nullptr == KirbyPtr)
 	{
 		MsgBoxAssert("Kirby가 Null 입니다.");
+		return;
+	}
+
+
+	BossPtr = WhispyWood::GetWhispyWoodPtr();
+	if (nullptr == BossPtr)
+	{
+		MsgBoxAssert("보스를 불러오지 못했습니다.");
 		return;
 	}
 

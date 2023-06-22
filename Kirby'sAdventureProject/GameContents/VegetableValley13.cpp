@@ -12,6 +12,7 @@
 
 #include "Kirby.h"
 #include "BossUI.h"
+#include "WhispyWood.h"
 #include "BackGround.h"
 
 
@@ -44,6 +45,16 @@ void VegetableValley13::Start()
 	BackGroundScale = Texture->GetScale();
 
 	BitMapFileName = "VegetableValleyBossP.bmp";
+
+
+	LevelBoss = GameEngineLevel::CreateActor<WhispyWood>(UpdateOrder::Monster);
+	if (nullptr == LevelBoss)
+	{
+		MsgBoxAssert("생성한 액터가 Null입니다.");
+		return;
+	}
+
+
 
 
 

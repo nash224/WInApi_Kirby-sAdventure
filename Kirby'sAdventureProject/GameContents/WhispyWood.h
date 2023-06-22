@@ -21,6 +21,9 @@ enum class WhispyWoodState
 // 설명 : 1스테이지 마왕군단 초 정예병 휫파람 괴물 나무 보스입니다.
 class WhispyWood : public Boss
 {
+	friend class BossUI;
+
+	static WhispyWood* WhispyWoodPtr;
 public:
 	// constrcuter destructer
 	WhispyWood();
@@ -64,9 +67,26 @@ private:
 
 
 private:
+	class BossUI* BossUIPtr = nullptr;
+	int m_BossHp = 28;
+
+	bool IsBossFindKirby = false;
+	const float BossFindPlayer_Y_Distance = 500.0f;
+
+
+	static WhispyWood* GetWhispyWoodPtr()
+	{
+		return WhispyWoodPtr;
+	}
+
+
+
+private:
 	void Start() override;
 	void Update(float _Delta) override;
 	void Render(float _Delta) override;
+
+	void LevelStart() override;
 
 };
 

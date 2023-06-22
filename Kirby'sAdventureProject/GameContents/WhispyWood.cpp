@@ -10,10 +10,15 @@
 
 #include "GlobalContents.h"
 #include "Kirby.h"
-#include <vector>
+#include "BossUI.h"
 
+
+
+
+WhispyWood* WhispyWood::WhispyWoodPtr = nullptr;
 WhispyWood::WhispyWood()
 {
+	WhispyWoodPtr = this;
 }
 
 WhispyWood::~WhispyWood()
@@ -24,12 +29,20 @@ WhispyWood::~WhispyWood()
 void WhispyWood::Start()
 {
 	MainRenderer = CreateRenderer(RenderOrder::Play);
+	if (nullptr == MainRenderer)
+	{
+		MsgBoxAssert("렌더러 생성에 실패했습니다.");
+		return;
+	}
 
+	// 로드
 	GlobalContents::SpriteFileLoad("WhispyWood_3x4_144x264.bmp", "Resources\\Unit\\Boss", 3, 4);
 
+	// 애니메이션 생성
 	MainRenderer->CreateAnimation("Left_Idle", "WhispyWood_3x4_144x264.bmp", 0, 0, 0.15f, false);
 
 	MainRenderer->CreateAnimationToFrame("Left_SummonApple", "WhispyWood_3x4_144x264.bmp", { 0, 1, 2, 1, 0 }, 0.1f, true);
+	MainRenderer->FindAnimation("Left_SummonApple")->Inters = { 0.1f, 0.1f, 0.2f, 0.1f, 5.0f, };
 
 	MainRenderer->CreateAnimationToFrame("Left_Whispy", "WhispyWood_3x4_144x264.bmp", { 3, 5, 4, 5, 3 }, 0.1f, false);
 
@@ -40,19 +53,21 @@ void WhispyWood::Start()
 	MainRenderer->CreateAnimation("Left_CryingFace", "WhispyWood_3x4_144x264.bmp", 9, 9, 0.15f, false);
 
 
-
+	// 기본설정
 	Scale = WHISPYWOOD_SCALE;
 
 	Dir = ActorDir::Left;
 
 
-	SetPos(WHISPYWOOD_RESPAWNLOCATION);
+	SetPos(WHISPYWOOD_RESPAWNLOCATION - float4{ 0.0f, Scale.Half().Y});
 	ChangeState(WhispyWoodState::Idle);
 
 	Attribute = AttributeType::None;
 
 
 
+
+	// 충돌체 세팅
 	BodyCollision = CreateCollision(CollisionOrder::BossBody);
 	if (nullptr == BodyCollision)
 	{
@@ -63,8 +78,7 @@ void WhispyWood::Start()
 	BodyCollision->SetCollisionPos(float4::ZERO);
 	BodyCollision->SetCollisionScale(Scale);
 	BodyCollision->SetCollisionType(CollisionType::Rect);
-	BodyCollision->On();
-
+	BodyCollision->Off();
 }
 
 
@@ -73,8 +87,6 @@ void WhispyWood::Start()
 
 void WhispyWood::Update(float _Delta)
 {
-	GroundCheck();
-
 	StateUpdate(_Delta);
 }
 
@@ -121,15 +133,43 @@ void WhispyWood::IdleStart()
 {
 	StateTime = 0.0f;
 	IsChangeState = false;
-	GravityReset();
-	GetKirbyDirection();
-	ChangeAnimationState("PendulumStride");
+	IsBossFindKirby = false;
+
+	ChangeAnimationState("Idle");
 }
 
 void WhispyWood::IdleUpdate(float _Delta)
 {
 	StateTime += _Delta;
+	
+	Kirby* KirbyPtr = Kirby::GetMainKirby();
+	if (nullptr == KirbyPtr)
+	{
+		MsgBoxAssert("커비를 불러오지 못했습니다.");
+		return;
+	}
 
+	if (nullptr == BossUIPtr)
+	{
+		MsgBoxAssert("UI를 불러오지 못했습니다.");
+		return;
+	}
+
+
+	if (true == BossUIPtr->Boss_Stamina_Full_Done)
+	{
+		ChangeState(WhispyWoodState::SummonApple);
+		return;
+	}
+
+
+	float4 KirbyPos = KirbyPtr->GetPos();
+
+
+	if (false == BossUIPtr->IsBossStaminaFull && KirbyPos.Y > BossFindPlayer_Y_Distance)
+	{
+		IsBossFindKirby = true;
+	}
 }
 
 
@@ -139,7 +179,7 @@ void WhispyWood::SummonAppleStart()
 	IsChangeState = false;
 
 
-	ChangeAnimationState("RaiseSword");
+	ChangeAnimationState("SummonApple");
 }
 
 void WhispyWood::SummonAppleUpdate(float _Delta)
@@ -218,6 +258,23 @@ void WhispyWood::EnemyCollisionCheck()
 }
 
 
+
+void WhispyWood::LevelStart()
+{
+	UIManager* UIPtr = UIManager::UI;
+	if (nullptr == UIPtr)
+	{
+		MsgBoxAssert("UI를 불러오지 못했습니다.");
+		return;
+	}
+
+	BossUIPtr = dynamic_cast<BossUI*>(UIPtr);
+	if (nullptr == BossUIPtr)
+	{
+		MsgBoxAssert("다운 캐스팅을 실패했습니다.");
+		return;
+	}
+}
 
 
 void WhispyWood::Render(float _Delta)

@@ -20,6 +20,10 @@ protected:
 	void LevelEnd(GameEngineLevel* _NextLevel) override;
 
 private:
+	class WhispyWood* LevelBoss = nullptr;
+
+
+
 	void Start() override;
 	void Update(float _Delta) override;
 };
