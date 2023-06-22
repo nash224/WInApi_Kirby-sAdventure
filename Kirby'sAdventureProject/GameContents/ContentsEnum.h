@@ -33,6 +33,7 @@ enum class CollisionOrder
 	PlayerAbility,
 	KirbyInhaleAbility,
 	MonsterBody,
+	BossBody,
 	MonsterAbility,
 	Object,
 	Max,

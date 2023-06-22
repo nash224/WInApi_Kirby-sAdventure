@@ -295,7 +295,7 @@ void BossUI::StaminaCountRendererSet()
 
 void BossUI::BossStaminaRendererSet()
 {
-
+	// 로드
 	GameEngineWindowTexture* Texture = GlobalContents::TextureFileLoad("Boss_UI_LifeBar_2x1_9x24.bmp", "Resources\\UI");
 	if (nullptr == Texture)
 	{
@@ -303,10 +303,12 @@ void BossUI::BossStaminaRendererSet()
 		return;
 	}
 
+	// 이미지 한칸 사이즈
 	float4 Temprary_Boss_StaminaScale = Texture->GetScale();
 	Boss_StaminaScale = float4{ Temprary_Boss_StaminaScale.Half().X , Temprary_Boss_StaminaScale.Y };
 
 
+	// 초기설정
 	for (int i = 0; i < Boss_StaminaCount; i++)
 	{
 		GameEngineRenderer* BossStaminaRenderer = CreateUIRenderer(RenderOrder::PlayUI);
@@ -461,7 +463,7 @@ void BossUI::LevelStart()
 	case 6:
 		break;
 	default:
-		break;
+		break; 
 	}
 
 

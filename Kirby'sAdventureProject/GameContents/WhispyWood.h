@@ -1,39 +1,25 @@
 #pragma once
-#include "PowerEnemies.h"
+#include "Boss.h"
 
-#define SWORDKNIGHTSPEED 80.0f
-#define SWORDKNIGHTSLASHCOOLDOWN 2.0f
+#define WHISPYWOOD_SCALE float4{ 144.0f , 264.0f }
+#define WHISPYWOOD_RESPAWNLOCATION float4 { 600.0f , 621.0f }
 
-#define SWORDKNIGHTRANGEDETECTION 200.0f
-
-#define SWORDKNIGHTRAISESWORDTIME 0.2f
-#define SWORDKNIGHTSLASHINSTANTANEOUSSPEED 800.0f
-#define SWORDKNIGHTSLASHTIME 0.35f
-#define SWORDKNIGHTSLASHFRAMETIME 0.05f
-
-#define SWORDKNIGHTUNDERHANDTIME SWORDKNIGHTRAISESWORDTIME
-#define SWORDKNIGHTUNDERHANDINSTANTANEOUSSPEED 600.0f
-#define SWORDKNIGHTUNDERSLASHTIME SWORDKNIGHTSLASHTIME
-#define SWORDKNIGHTUNDERSLASHFRAMETIME SWORDKNIGHTSLASHFRAMETIME
-
-
-#define SWORDKNIGHTDEACELECTIONSPEED SWORDKNIGHTSLASHINSTANTANEOUSSPEED / SWORDKNIGHTSLASHTIME
 
 
 enum class WhispyWoodState
 {
-	PendulumStride,
-	RaiseSword,
-	Slash,
-	Underhand,
-	ReversingSlash,
-	BeInhaled,
-	Hitted,
+	Idle,
+	SummonApple,
+	Whispy,
+	Frown,
+	Kaonashi,
+	CryingFace,
 	Max,
 };
 
-// 설명 : 검을 들고 항상 커비를 노리고 있는 파워몹 검사입니다.
-class WhispyWood : public PowerEnemies
+
+// 설명 : 1스테이지 마왕군단 초 정예병 휫파람 괴물 나무 보스입니다.
+class WhispyWood : public Boss
 {
 public:
 	// constrcuter destructer
@@ -46,35 +32,36 @@ public:
 	WhispyWood& operator=(const WhispyWood& _Other) = delete;
 	WhispyWood& operator=(WhispyWood&& _Other) noexcept = delete;
 
-	void init(const std::string& _FileName, WhispyWoodState _State, const float4& _Pos);
 
-protected:
+private:
 	// 상태패턴 함수
 	WhispyWoodState State = WhispyWoodState::Max;
-	WhispyWoodState RespawnState = WhispyWoodState::Max;
+
+
 
 
 	void StateUpdate(float _Delta) override;
 	void ChangeState(WhispyWoodState _State);
-	void ChangeRespawnState() override;
 
 
+	void IdleStart();
+	void SummonAppleStart();
+	void WhispyStart();
+	void FrownStart();
+	void KaonashiStart();
+	void CryingFaceStart();
 
-	void PendulumStrideStart();
-	void RaiseSwordStart();
-	void SlashStart();
-	void UnderhandStart();
-	void ReversingSlashStart();
 
-	void PendulumStrideUpdate(float _Delta);
-	void RaiseSwordUpdate(float _Delta);
-	void SlashUpdate(float _Delta);
-	void UnderhandUpdate(float _Delta);
-	void ReversingSlashUpdate(float _Delta);
-
+	void IdleUpdate(float _Delta);
+	void SummonAppleUpdate(float _Delta);
+	void WhispyUpdate(float _Delta);
+	void FrownUpdate(float _Delta);
+	void KaonashiUpdate(float _Delta);
+	void CryingFaceUpdate(float _Delta);
 
 
 	void EnemyCollisionCheck();
+
 
 private:
 	void Start() override;

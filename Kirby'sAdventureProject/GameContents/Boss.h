@@ -1,7 +1,8 @@
 #pragma once
+#include "Enemy.h"
 
 // Ό³Έν :
-class Boss
+class Boss : public Enemy
 {
 public:
 	// constrcuter destructer
