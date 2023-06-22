@@ -417,6 +417,8 @@ private:
 	// Fade
 	const float FadeOutDuration = 0.6f;
 	float FadeOutTime = 0.0f;
+
+public:
 	bool IsFadeOut = false;
 };
 

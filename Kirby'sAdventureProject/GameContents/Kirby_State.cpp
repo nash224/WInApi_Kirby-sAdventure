@@ -1605,6 +1605,7 @@ void Kirby::EnterUpdate(float _Delta)
 	// 레벨 이동 트리거
 	if (true == IsChangeState)
 	{
+		IsFadeOut = false;
 		VegetableValleyPlayLevel::NextLevelTriggerOn = true;
 		ChangeState(KirbyState::Idle);
 		return;

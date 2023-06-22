@@ -8,6 +8,7 @@
 #include <GameEngineCore/ResourcesManager.h>
 
 #include "VegetableValleyPlayLevel.h"
+#include "Kirby.h"
 
 
 
@@ -82,7 +83,7 @@ void FadeObject::Update(float _Delta)
 				break;
 			default:
 				break;
-			}
+			} 
 			
 
 			// 알파값 설정
@@ -90,7 +91,18 @@ void FadeObject::Update(float _Delta)
 
 		}
 
-		if (2 == FadeNumber)
+
+		Kirby* KirbyPtr = Kirby::GetMainKirby();
+		if (nullptr == KirbyPtr)
+		{
+			MsgBoxAssert("커비를 불러오지 못했습니다.");
+			return;
+		}
+
+		
+
+
+		if (FadeNumber >= 2 && false == KirbyPtr->IsFadeOut)
 		{
 			Death();
 			if (nullptr != MainRenderer)
@@ -129,10 +141,10 @@ void FadeObject::Update(float _Delta)
 
 			// 설정
 			MainRenderer->SetAlpha(static_cast<unsigned char>(AlphaCount));
-
 		}
 
-		if (2 == FadeNumber)
+
+		if (FadeNumber >= 2)
 		{
 			Death();
 			if (nullptr != MainRenderer)
