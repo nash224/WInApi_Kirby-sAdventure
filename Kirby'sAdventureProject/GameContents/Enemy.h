@@ -77,7 +77,8 @@ protected:
 
 
 
-private:
-
+protected:
+	// ÃÖÀûÈ­ 
+	void EnemyPointerRelease();
 };
 

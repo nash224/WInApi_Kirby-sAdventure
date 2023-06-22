@@ -39,6 +39,7 @@ public:
 private:
 	// 상태패턴 함수
 	WhispyWoodState State = WhispyWoodState::Max;
+	WhispyWoodState PrevState = WhispyWoodState::Max;
 
 
 
@@ -67,17 +68,28 @@ private:
 
 
 private:
+	// BossUI 관련
 	class BossUI* BossUIPtr = nullptr;
 	int m_BossHp = 28;
 
 	bool IsBossFindKirby = false;
 	const float BossFindPlayer_Y_Distance = 500.0f;
 
-
 	static WhispyWood* GetWhispyWoodPtr()
 	{
 		return WhispyWoodPtr;
 	}
+
+
+	// SummonApple 관련
+	int TwinkleCount_ToSummonApple = 0;
+	float SummonAppleTime = 0.0f;
+	const float SummonAppleDuration = 0.8f;
+	const float SummonApple_Height = 250.0f;
+	const float SummonApple_Min_Width = 60.0f;
+	const float SummonApple_Max_Width = 460.0f;
+
+
 
 
 

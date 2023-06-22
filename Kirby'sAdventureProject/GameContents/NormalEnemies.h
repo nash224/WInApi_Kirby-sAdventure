@@ -10,6 +10,9 @@ enum class NormalState
 	Fall,
 	Sweep,
 	StepOn,
+	Bounce,
+	Roll,
+	BounceMove,
 	BeInhaled,
 	Hitted,
 	Max,
@@ -49,6 +52,9 @@ protected:
 	virtual void SitStart() {}
 	virtual void JumpStart() {}
 	virtual void FallStart() {}
+	virtual void BounceStart() {}
+	virtual void RollStart() {}
+	virtual void BounceMoveStart() {}
 	virtual void SweepStart() {}
 
 
@@ -57,6 +63,9 @@ protected:
 	virtual void SitUpdate(float _Delta) {}
 	virtual void JumpUpdate(float _Delta) {}
 	virtual void FallUpdate(float _Delta) {}
+	virtual void BounceUpdate(float _Delta) {}
+	virtual void RollUpdate(float _Delta) {}
+	virtual void BounceMoveUpdate(float _Delta) {}
 	virtual void SweepUpdate(float _Delta) {}
 
 	void EnemyCollisionCheck();

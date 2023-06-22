@@ -78,6 +78,7 @@ public:
 protected:
 	GameEngineCollision* BodyCollision = nullptr;
 	GameEngineRenderer* MainRenderer = nullptr;
+	class GameEngineWindowTexture* GroundTexture = nullptr;
 
 
 	bool IsChangeState = false;
@@ -170,7 +171,6 @@ protected:
 
 
 private:
-	class GameEngineWindowTexture* GroundTexture = nullptr;
 
 	// 중력에 관한 함수
 	bool isGround = false;

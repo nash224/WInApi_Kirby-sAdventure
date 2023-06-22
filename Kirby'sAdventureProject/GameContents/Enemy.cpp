@@ -2,6 +2,7 @@
 #include "ContentsEnum.h"
 
 #include <GameEnginePlatform/GameEngineWindow.h>
+#include <GameEnginePlatform/GameEngineWindowTexture.h>
 #include <GameEngineCore/GameEngineLevel.h>
 #include <GameEngineCore/GameEngineCamera.h>
 #include <GameEngineCore/GameEngineCollision.h>
@@ -312,4 +313,24 @@ void Enemy::HittedUpdate(float _Delta)
 {
 	IsHitted = false;
 	Off();
+}
+
+
+
+
+
+void Enemy::EnemyPointerRelease()
+{
+	if (nullptr != MainRenderer)
+	{
+		MainRenderer = nullptr;
+	}
+	if (nullptr != BodyCollision)
+	{
+		BodyCollision = nullptr;
+	}
+	if (nullptr != GroundTexture)
+	{
+		GroundTexture = nullptr;
+	}
 }

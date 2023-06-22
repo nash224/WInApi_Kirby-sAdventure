@@ -10,6 +10,7 @@
 
 #include "GlobalContents.h"
 #include "Kirby.h"
+#include "Apple.h"
 #include "BossUI.h"
 
 
@@ -158,6 +159,14 @@ void WhispyWood::IdleUpdate(float _Delta)
 
 	if (true == BossUIPtr->Boss_Stamina_Full_Done)
 	{
+		if (nullptr == BodyCollision)
+		{
+			MsgBoxAssert("충돌체가 Null 입니다.");
+			return;
+		}
+
+		BodyCollision->On();
+
 		ChangeState(WhispyWoodState::SummonApple);
 		return;
 	}
@@ -178,7 +187,6 @@ void WhispyWood::SummonAppleStart()
 	StateTime = 0.0f;
 	IsChangeState = false;
 
-
 	ChangeAnimationState("SummonApple");
 }
 
@@ -186,6 +194,67 @@ void WhispyWood::SummonAppleUpdate(float _Delta)
 {
 	StateTime += _Delta;
 
+
+	if (nullptr == MainRenderer)
+	{
+		MsgBoxAssert("렌더러를 불러오는데 실패했습니다.");
+		return;
+	}
+
+	if (true == MainRenderer->IsAnimationEnd())
+	{
+		// 랜덤 눈깜빡임
+		float NextCloseEyesTurn = GameEngineRandom::MainRandom.RandomFloat(0.0f, 3.0f) + 2.0f;
+		MainRenderer->FindAnimation("Left_SummonApple")->Inters = { 0.1f, 0.1f, 0.2f, 0.1f, NextCloseEyesTurn };
+
+		++TwinkleCount_ToSummonApple;
+	}
+
+	if (1 == TwinkleCount_ToSummonApple || 3 == TwinkleCount_ToSummonApple)
+	{
+		// 사과소환 로직
+		SummonAppleTime += 0.0f;
+
+		if (SummonAppleTime > SummonAppleDuration)
+		{
+			SummonAppleTime = 0.0f;
+
+			// 사과 소환 가로 위치
+			float Summon_WidthDistance = GameEngineRandom::MainRandom.RandomFloat(SummonApple_Min_Width, SummonApple_Max_Width);
+
+			GameEngineLevel* CurLevelPtr = GetLevel();
+			if (nullptr == CurLevelPtr)
+			{
+				MsgBoxAssert("레벨을 불러오지 못했습니다.");
+				return;
+			}
+
+			Apple* ApplePtr = CurLevelPtr->CreateActor<Apple>(UpdateOrder::Monster);
+			if (nullptr == ApplePtr)
+			{
+				MsgBoxAssert("액터 생성에 실패했습니다.");
+				return;
+			}
+
+			// Apple->SetPos
+			ApplePtr->init(float4{ Summon_WidthDistance , SummonApple_Height });
+		}
+	}
+
+	if (5 == TwinkleCount_ToSummonApple)
+	{
+		TwinkleCount_ToSummonApple = 0;
+		IsChangeState = true;
+	}
+
+	if (true == IsChangeState)
+	{
+		ChangeState(WhispyWoodState::Whispy);
+		return;
+	}
+
+
+	EnemyCollisionCheck();
 }
 
 
@@ -193,6 +262,7 @@ void WhispyWood::WhispyStart()
 {
 	StateTime = 0.0f;
 	IsChangeState = false;
+	PrevState = WhispyWoodState::Whispy;
 
 	ChangeAnimationState("Whispy");
 }
@@ -250,9 +320,15 @@ void WhispyWood::CryingFaceUpdate(float _Delta)
 
 void WhispyWood::EnemyCollisionCheck()
 {
+	if (true == IsHitted && WhispyWoodState::Whispy == PrevState)
+	{
+		ChangeState(WhispyWoodState::SummonApple);
+		return;
+	}
+
 	if (true == IsHitted)
 	{
-		ChangeState(WhispyWoodState::Frown);
+		ChangeState(WhispyWoodState::SummonApple);
 		return;
 	}
 }

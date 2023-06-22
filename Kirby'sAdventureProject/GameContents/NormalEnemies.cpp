@@ -39,6 +39,9 @@ void NormalEnemies::StateUpdate(float _Delta)
 	case NormalState::Sit:					return SitUpdate(_Delta);
 	case NormalState::Jump:					return JumpUpdate(_Delta);
 	case NormalState::Fall:					return FallUpdate(_Delta);
+	case NormalState::Bounce:				return BounceUpdate(_Delta);
+	case NormalState::Roll:					return RollUpdate(_Delta);
+	case NormalState::BounceMove:			return BounceMoveUpdate(_Delta);
 	case NormalState::Sweep:				return SweepUpdate(_Delta);
 	case NormalState::BeInhaled:			return BeInhaledUpdate(_Delta);
 	case NormalState::Hitted:				return HittedUpdate(_Delta);
@@ -58,6 +61,9 @@ void NormalEnemies::ChangeState(NormalState _State)
 		case NormalState::Sit:					SitStart();						break;
 		case NormalState::Jump:					JumpStart();					break;
 		case NormalState::Fall:					FallStart();					break;
+		case NormalState::Bounce:				BounceStart();					break;
+		case NormalState::Roll:					RollStart();					break;
+		case NormalState::BounceMove:			BounceMoveStart();				break;
 		case NormalState::Sweep:				SweepStart();					break;
 		case NormalState::BeInhaled:			BeInhaledStart();				break;
 		case NormalState::Hitted:				HittedStart();					break;
