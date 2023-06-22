@@ -1,13 +1,8 @@
 #include "Kirby.h"
 #include "ContentsEnum.h"
 
-#include <GameEngineBase/GameEnginePath.h>
-#include <GameEngineBase/GameEngineTime.h>
-#include <GameEngineBase/GameEngineMath.h>
 #include <GameEnginePlatform/GameEngineWindow.h>
-#include <GameEnginePlatform/GameEngineWindowTexture.h>
 #include <GameEnginePlatform/GameEngineInput.h>
-#include <GameEngineCore/GameEngineCore.h>
 #include <GameEngineCore/GameEngineLevel.h>
 #include <GameEngineCore/GameEngineCamera.h>
 #include <GameEngineCore/GameEngineRenderer.h>

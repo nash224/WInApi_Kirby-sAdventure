@@ -7,6 +7,8 @@
 #include <GameEngineCore/GameEngineRenderer.h>
 #include <GameEngineCore/ResourcesManager.h>
 
+#include "VegetableValleyPlayLevel.h"
+
 
 
 
@@ -61,7 +63,7 @@ void FadeObject::Update(float _Delta)
 	// FadeOut을 요청받았을 때
 	if (true == IsChangeFade && true == IsFadeOut)
 	{
-		// 0.04f초 마다
+		// 간격마다
 		if (ChangeFadeAlphaTime > ChangeFadeAlphaDuration)
 		{
 			ChangeFadeAlphaTime = 0.0f;
@@ -76,9 +78,6 @@ void FadeObject::Update(float _Delta)
 				AlphaCount = 200;
 				break;
 			case 2:
-				AlphaCount = 240;
-				break;
-			case 3:
 				AlphaCount = 255;
 				break;
 			default:
@@ -86,12 +85,12 @@ void FadeObject::Update(float _Delta)
 			}
 			
 
-			// 설정
+			// 알파값 설정
 			MainRenderer->SetAlpha(static_cast<unsigned char>(AlphaCount));
 
 		}
 
-		if (3 == FadeNumber)
+		if (2 == FadeNumber)
 		{
 			Death();
 			if (nullptr != MainRenderer)
@@ -101,50 +100,47 @@ void FadeObject::Update(float _Delta)
 		}
 	}
 	else if (true == IsChangeFade && false == IsFadeOut)
+	{
+		// 0.04f초 마다
+		if (ChangeFadeAlphaTime > ChangeFadeAlphaDuration)
 		{
-			// 0.04f초 마다
-			if (ChangeFadeAlphaTime > ChangeFadeAlphaDuration)
+			ChangeFadeAlphaTime = 0.0f;
+
+			++FadeNumber;
+
+
+
+			switch (FadeNumber)
 			{
-				ChangeFadeAlphaTime = 0.0f;
-
-				++FadeNumber;
-
-
-
-				switch (FadeNumber)
-				{
-				case 0:
-					AlphaCount = 128;
-					break;
-				case 1:
-					AlphaCount = 55;
-					break;
-				case 2:
-					AlphaCount = 15;
-					break;
-				case 3:
-					AlphaCount = 0;
-					break;
-				default:
-					break;
-				}
-
-
-
-				// 설정
-				MainRenderer->SetAlpha(static_cast<unsigned char>(AlphaCount));
-
+			case 0:
+				AlphaCount = 128;
+				break;
+			case 1:
+				AlphaCount = 55;
+				break;
+			case 2:
+				AlphaCount = 0;
+				break;
+			default:
+				break;
 			}
 
-			if (3 == FadeNumber)
+
+
+			// 설정
+			MainRenderer->SetAlpha(static_cast<unsigned char>(AlphaCount));
+
+		}
+
+		if (2 == FadeNumber)
+		{
+			Death();
+			if (nullptr != MainRenderer)
 			{
-				Death();
-				if (nullptr != MainRenderer)
-				{
-					MainRenderer = nullptr;
-				}
+				MainRenderer = nullptr;
 			}
 		}
+	}
 }
 
 

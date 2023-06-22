@@ -107,37 +107,17 @@ void VegetableValley11::Update(float _Delta)
 		GameEngineCore::ChangeLevel("VegetableValley12");
 	}
 
+
+
 	if (true == NextLevelTriggerOn)
 	{
-		KirbyStateTime += _Delta;
-
-		if (KirbyStateTime > KIRBY_ENTERSTATETIME)
-		{
-			KirbyStateTime = 0.0f;
-
-			GlobalContents::FadeOut(this);
-
-			IsPlayerEnter = true;
-		}
-
-		if (true == IsPlayerEnter)
-		{
-			FadeTime += _Delta;
-		}
-
-		// 페이드 아웃이 다 끝나면 다음 레벨로
-		if (FadeTime > FADEOUT_ENDTIME)
-		{
-			NextLevelTriggerOn = false;
-			IsPlayerEnter = false;
-			FadeTime = 0.0f;
-
-			GameEngineCore::ChangeLevel("VegetableValley12");
-		}
-
+		NextLevelTriggerOn = false;
+		GameEngineCore::ChangeLevel("VegetableValley12");
 
 		return;
 	}
+
+
 
 	if (true == GameEngineInput::IsDown('M'))
 	{
@@ -158,7 +138,7 @@ void VegetableValley11::LevelStart(GameEngineLevel* _PrevLevel)
 	}
 
 	LevelPlayer->SetGroundTexture(BitMapFileName);
-	LevelPlayer->SetPos(float4{ 200.0f , 382.0f });
+	LevelPlayer->SetPos(float4{ 200.0f , 384.0f });
 
 	GlobalContents::FadeIn(this);
 }

@@ -132,7 +132,7 @@ void VegetableValleyHub::Update(float _Delta)
 
 
 	// 첫번째 스테이지에 들어가면
-	if (true == NextLevelTriggerOn && KirbyPos.X > 260.0f && KirbyPos.X < 320.0f )
+	if (true == IsPlayerEnter && KirbyPos.X > 260.0f && KirbyPos.X < 320.0f )
 	{
 		if (nullptr == VegetableValley_Stage1_PlayDoor)
 		{
@@ -144,33 +144,12 @@ void VegetableValleyHub::Update(float _Delta)
 		VegetableValley_Stage1_PlayDoor->IsDoorOpen = true;
 
 
-		GameEngineRenderer* DoorRenderer = VegetableValley_Stage1_PlayDoor->MainRenderer;
 
-		if (nullptr == DoorRenderer)
-		{
-			MsgBoxAssert("오브젝트의 렌더러가 Null 입니다.")
-		}
-
-		// 문여는 동작이 끝나면 페이드 아웃
-		if (true == DoorRenderer->IsAnimationEnd() && false == IsPlayerEnter)
-		{
-			GlobalContents::FadeOut(this);
-
-			IsPlayerEnter = true;
-		}
-
-		if (true == IsPlayerEnter)
-		{
-			FadeTime += _Delta;
-		}
-
-		// 페이드 아웃이 다 끝나면 다음 레벨로
-		if (FadeTime > FADEOUT_ENDTIME)
+		if (true == NextLevelTriggerOn)
 		{
 			VegetableValleyEntertheDoorNumber = 1;
 			NextLevelTriggerOn = false;
 			IsPlayerEnter = false;
-			FadeTime = 0.0f;
 
 			GameEngineCore::ChangeLevel("VegetableValley11");
 		}
@@ -179,18 +158,19 @@ void VegetableValleyHub::Update(float _Delta)
 	}
 
 
-	if (true == NextLevelTriggerOn && KirbyPos.X > 695.0f && KirbyPos.X < 750.0f && KirbyPos.Y > 910.0f)
+	if (true == IsPlayerEnter && KirbyPos.X > 695.0f && KirbyPos.X < 750.0f && KirbyPos.Y > 910.0f)
 	{
 		VegetableValleyEntertheDoorNumber = 2;
 		NextLevelTriggerOn = false;
+		IsPlayerEnter = false;
 		GameEngineCore::ChangeLevel("VegetableValley13");
 		return;
 	}
 
 
-	if (true == NextLevelTriggerOn)
+	if (true == IsPlayerEnter)
 	{
-		NextLevelTriggerOn = false;
+		IsPlayerEnter = false;
 	}
 
 

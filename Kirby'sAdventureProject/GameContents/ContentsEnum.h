@@ -9,6 +9,7 @@ enum class UpdateOrder
 	Player,
 	Monster,
 	Ability,
+	Other,
 };
 
 

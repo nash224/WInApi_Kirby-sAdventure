@@ -12,6 +12,7 @@
 // Ό³Έν :
 class VegetableValleyPlayLevel : public GameEngineLevel
 {
+
 public:
 	static bool NextLevelTriggerOn;
 	static bool IsStageEnd;

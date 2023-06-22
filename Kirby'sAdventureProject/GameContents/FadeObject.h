@@ -46,7 +46,7 @@ private:
 	bool IsChangeFade = false;
 	int FadeNumber = -1;
 	float ChangeFadeAlphaTime = 0.0f;
-	const float ChangeFadeAlphaDuration = 0.08f;
+	const float ChangeFadeAlphaDuration = 0.1f;
 	int AlphaCount = 0;
 
 };

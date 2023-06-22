@@ -1569,7 +1569,11 @@ void Kirby::EnterStart()
 {
 	StateTime = 0.0f;
 	IsChangeState = false;
-	IsNextLevelTriggerOn = false;
+
+	VegetableValleyPlayLevel::IsPlayerEnter = true;
+
+	IsFadeOut = false;
+	FadeOutTime = 0.0f;
 
 
 	GravityReset();
@@ -1578,15 +1582,27 @@ void Kirby::EnterStart()
 
 void Kirby::EnterUpdate(float _Delta)
 {
-	StateTime += _Delta;
-
 	// 한 동작이 끝나면 
-	if (true == MainRenderer->IsAnimationEnd())
+	if (true == MainRenderer->IsAnimationEnd() && false == IsFadeOut)
+	{
+		// FadeOut
+		GlobalContents::FadeOut(GetLevel());
+		IsFadeOut = true;
+	}
+
+
+	if (true == IsFadeOut)
+	{
+		FadeOutTime += _Delta;
+	}
+
+	if (FadeOutTime > FadeOutDuration)
 	{
 		IsChangeState = true;
 	}
 
-	// 다음 트리거 On시키고 떨어져라
+
+	// 레벨 이동 트리거
 	if (true == IsChangeState)
 	{
 		VegetableValleyPlayLevel::NextLevelTriggerOn = true;

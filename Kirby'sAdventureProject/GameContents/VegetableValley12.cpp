@@ -19,6 +19,7 @@
 #include "PoppyBrosJr.h"
 #include "Kabu.h"
 #include "BackGround.h"
+#include "FadeObject.h"
 
 
 VegetableValley12::VegetableValley12() 
@@ -219,39 +220,16 @@ void VegetableValley12::Update(float _Delta)
 		GameEngineCore::ChangeLevel("VegetableValleyHub");
 	}
 
+
+
 	if (true == NextLevelTriggerOn)
 	{
-		KirbyStateTime += _Delta;
-
-		IsStageEnd = true;
-
-		if (KirbyStateTime > KIRBY_ENTERSTATETIME)
-		{
-			KirbyStateTime = 0.0f;
-
-			GlobalContents::FadeOut(this);
-
-			IsPlayerEnter = true;
-		}
-
-		if (true == IsPlayerEnter)
-		{
-			FadeTime += _Delta;
-		}
-
-		// 페이드 아웃이 다 끝나면 다음 레벨로
-		if (FadeTime > FADEOUT_ENDTIME)
-		{
-			NextLevelTriggerOn = false;
-			IsPlayerEnter = false;
-			FadeTime = 0.0f;
-
-			GameEngineCore::ChangeLevel("VegetableValleyHub");
-		}
-
+		NextLevelTriggerOn = false;
+		GameEngineCore::ChangeLevel("VegetableValleyHub");
 
 		return;
 	}
+
 
 
 	if (true == GameEngineInput::IsDown('M'))

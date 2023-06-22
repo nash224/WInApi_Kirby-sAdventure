@@ -120,6 +120,7 @@ class Kirby : public ActorUtils
 	friend class VegetableValleyPlayLevel;
 
 private:
+	// ·¹º§°ü·Ã
 	bool IsLevelChange = true;
 	size_t CurrentLevelEnemiesCount = 0;
 	float4 CurrentBackGroundScale = float4::ZERO;
@@ -381,7 +382,7 @@ private:
 	KirbyStar Star;
 
 
-	// »ïÅ´ »óÅÂ ÇÔ¼ö
+	// »ïÅ´ »óÅÂ
 	ActorUtils* SwallingEnemy = nullptr;
 	bool IsSwallowedtriggerOn = false;
 	bool swallowedObject = false;
@@ -408,7 +409,14 @@ public:
 
 
 private:
+	// ºÎÈ°
 	bool IsKirbyRevive = false;
 
+
+
+	// Fade
+	const float FadeOutDuration = 0.6f;
+	float FadeOutTime = 0.0f;
+	bool IsFadeOut = false;
 };
 
