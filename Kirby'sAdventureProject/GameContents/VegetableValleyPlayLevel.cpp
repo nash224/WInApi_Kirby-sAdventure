@@ -2,8 +2,10 @@
 #include "ContentsEnum.h"
 
 #include <GameEngineCore/GameEngineRenderer.h>
+#include <GameEngineCore/GameEngineCamera.h>
 
 #include "GameEffect.h"
+#include "Kirby.h"
 
 
 bool VegetableValleyPlayLevel::NextLevelTriggerOn = false;
@@ -21,6 +23,31 @@ VegetableValleyPlayLevel::VegetableValleyPlayLevel()
 VegetableValleyPlayLevel::~VegetableValleyPlayLevel() 
 {
 }
+
+
+
+void VegetableValleyPlayLevel::SetPlayerPosAndCameraPos(const float4& _PlayerPos, const float4& _CameraPos)
+{
+	LevelPlayer = Kirby::GetMainKirby();
+	if (nullptr == LevelPlayer)
+	{
+		MsgBoxAssert("플레이어를 세팅해주지 않았습니다.");
+	}
+
+	GameEngineCamera* MainCameraPtr = GetMainCamera();
+	if (nullptr == MainCameraPtr)
+	{
+		MsgBoxAssert("카메라가 NUll 입니다.");
+		return;
+	}
+
+
+	LevelPlayer->SetGroundTexture(BitMapFileName);
+
+	LevelPlayer->SetPos(_PlayerPos);
+	MainCameraPtr->SetPos(_CameraPos);
+}
+
 
 
 

@@ -78,6 +78,7 @@ protected:
 
 
 	virtual void EnemySummon() {}
+	void SetPlayerPosAndCameraPos(const float4& _PlayerPos, const float4& _CameraPos);
 	void CheckRespawnEnemy();
 
 	void CreateAndSetupBackgroundEffectRenderer(

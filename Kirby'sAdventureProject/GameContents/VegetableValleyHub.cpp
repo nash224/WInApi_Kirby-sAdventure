@@ -158,7 +158,7 @@ void VegetableValleyHub::Update(float _Delta)
 	}
 
 
-	if (true == IsPlayerEnter && KirbyPos.X > 695.0f && KirbyPos.X < 750.0f && KirbyPos.Y > 910.0f)
+	if (true == NextLevelTriggerOn && KirbyPos.X > 695.0f && KirbyPos.X < 750.0f && KirbyPos.Y > 910.0f)
 	{
 		VegetableValleyEntertheDoorNumber = 2;
 		NextLevelTriggerOn = false;
@@ -173,12 +173,24 @@ void VegetableValleyHub::Update(float _Delta)
 		IsPlayerEnter = false;
 	}
 
+	if (true == NextLevelTriggerOn)
+	{
+		NextLevelTriggerOn = false;
+	}
+
 
 	if (true == GameEngineInput::IsDown('M'))
 	{
 		LevelBackGround->SwitchRender();
 	}
 }
+
+
+
+
+
+
+
 
 void VegetableValleyHub::LevelStart(GameEngineLevel* _PrevLevel)
 {

@@ -4,9 +4,11 @@
 
 
 #include <GameEngineBase/GameEngineMath.h>
+#include <GameEnginePlatform/GameEngineWindow.h>
 #include <GameEnginePlatform/GameEngineInput.h>
 #include <GameEngineCore/GameEngineCore.h>
 #include <GameEngineCore/GameEngineCamera.h>
+
 
 #include "Kirby.h"
 #include "PlayUI.h"
@@ -209,6 +211,13 @@ void VegetableValley12::Start()
 
 void VegetableValley12::Update(float _Delta)
 {
+	if (nullptr == LevelPlayer)
+	{
+		MsgBoxAssert("플레이어를 불러오지 못했습니다.");
+		return;
+	}
+
+
 	if (true == GameEngineInput::IsDown('P'))
 	{
 		GameEngineCore::ChangeLevel("PauseLevel");
@@ -216,8 +225,22 @@ void VegetableValley12::Update(float _Delta)
 
 	if (true == GameEngineInput::IsDown('N'))
 	{
-		IsStageEnd = true;
 		GameEngineCore::ChangeLevel("VegetableValleyHub");
+	}
+
+	if (true == GameEngineInput::IsDown('6'))
+	{
+		GameEngineCamera* MainCameraPtr = GetMainCamera();
+		if (nullptr == MainCameraPtr)
+		{
+			MsgBoxAssert("카메라가 NUll 입니다.");
+			return;
+		}
+
+		float4 WinScale = GameEngineWindow::MainWindow.GetScale();
+
+		LevelPlayer->SetPos(float4{ 3457.0f , 383.0f });
+		MainCameraPtr->SetPos(float4{ BackGroundScale.X - WinScale.X , 0.0f });
 	}
 
 
@@ -228,6 +251,12 @@ void VegetableValley12::Update(float _Delta)
 		GameEngineCore::ChangeLevel("VegetableValleyHub");
 
 		return;
+	}
+
+
+	if (true == NextLevelTriggerOn)
+	{
+		NextLevelTriggerOn = false;
 	}
 
 
@@ -250,8 +279,11 @@ void VegetableValley12::LevelStart(GameEngineLevel* _PrevLevel)
 		MsgBoxAssert("플레이어를 세팅해주지 않았습니다.");
 	}
 
-	LevelPlayer->SetGroundTexture(BitMapFileName);
-	LevelPlayer->SetPos(float4{ 83.0f, 383.0f });
+	SetPlayerPosAndCameraPos(float4{ 83.0f, 384.0f }, float4::ZERO);
+
+
+	// 스테이지 끝남
+	IsStageEnd = true;
 
 	GlobalContents::FadeIn(this);
 }

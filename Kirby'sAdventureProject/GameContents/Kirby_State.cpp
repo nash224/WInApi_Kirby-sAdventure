@@ -92,6 +92,12 @@ void Kirby::Normal_StateResourceLoad()
 
 	GlobalContents::SpriteFileLoad("Normal_KirbyOpenTheDoor.bmp", "Resources\\Unit\\Kirby", 5, 2);
 
+
+	MainRenderer->CreateAnimation("Normal_Right_OpenDoorAndRaiseFlag", "Normal_KirbyOpenTheDoor.bmp", 0, 8, 0.1f, false);
+
+	MainRenderer->CreateAnimationToFrame("Normal_Right_OpenDoorAndRaiseFlagAfter", "Normal_Right_Kirby.bmp", { 13 , 12 , 11 , 13 , 7 }, 0.1f, false);
+
+
 	MainRenderer->CreateAnimation("Normal_Left_StageClear", "Normal_KirbyOpenTheDoor.bmp", 0, 8, 0.1f, false);
 	MainRenderer->CreateAnimation("Normal_Right_StageClear", "Normal_KirbyOpenTheDoor.bmp", 0, 8, 0.1f, false);
 
@@ -1602,6 +1608,16 @@ void Kirby::EnterUpdate(float _Delta)
 	}
 
 
+	if (true == IsChangeState && true == VegetableValleyPlayLevel::IsStageEnd)
+	{
+		IsFadeOut = false;
+		VegetableValleyPlayLevel::NextLevelTriggerOn = true;
+		ChangeState(KirbyState::OpenDoorAndRaiseFlag);
+		return;
+	}
+
+
+
 	// 레벨 이동 트리거
 	if (true == IsChangeState)
 	{
@@ -1611,6 +1627,99 @@ void Kirby::EnterUpdate(float _Delta)
 		return;
 	}
 }
+
+
+
+// 문열고 깃발 꽂는 모션
+void Kirby::OpenDoorAndRaiseFlagStart()
+{
+	StateTime = 0.0f;
+	IsChangeState = false;
+	Dir = ActorDir::Right;
+
+	CurState = "OpenDoorAndRaiseFlag";
+
+	if (nullptr == MainRenderer)
+	{
+		MsgBoxAssert("렌더러를 불러오는데 실패했습니다.");
+		return;
+	}
+
+	MainRenderer->ChangeAnimation("Normal_Right_OpenDoorAndRaiseFlag");
+}
+
+
+void Kirby::OpenDoorAndRaiseFlagUpdate(float _Delta)
+{
+	if (nullptr == MainRenderer)
+	{
+		MsgBoxAssert("랜더러가 Null 입니다.");
+		return;
+	}
+
+
+	if (true == MainRenderer->IsAnimationEnd())
+	{
+		IsChangeState = true;
+	}
+
+
+	if (true == IsChangeState)
+	{
+		ChangeState(KirbyState::OpenDoorAndRaiseFlagAfter);
+		return;
+	}
+}
+
+
+
+// 스테이지 클리어 모션 후 모션
+void Kirby::OpenDoorAndRaiseFlagAfterStart()
+{
+	StateTime = 0.0f;
+	IsChangeState = false;
+	Dir = ActorDir::Right;
+
+	CurState = "OpenDoorAndRaiseFlagAfter";
+
+	if (nullptr == MainRenderer)
+	{
+		MsgBoxAssert("렌더러를 불러오는데 실패했습니다.");
+		return;
+	}
+
+	MainRenderer->ChangeAnimation("Normal_Right_OpenDoorAndRaiseFlagAfter");
+}
+
+
+void Kirby::OpenDoorAndRaiseFlagAfterUpdate(float _Delta)
+{
+	if (nullptr == MainRenderer)
+	{
+		MsgBoxAssert("랜더러가 Null 입니다.");
+		return;
+	}
+
+
+	if (true == MainRenderer->IsAnimationEnd())
+	{
+		IsChangeState = true;
+	}
+
+
+	if (true == IsChangeState)
+	{
+		ChangeState(KirbyState::Idle);
+		return;
+	}
+}
+
+
+
+
+
+
+
 
 
 // 스테이지 클리어 모션

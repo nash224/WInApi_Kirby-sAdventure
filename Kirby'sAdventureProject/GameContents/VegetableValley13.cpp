@@ -11,7 +11,7 @@
 
 
 #include "Kirby.h"
-#include "PlayUI.h"
+#include "BossUI.h"
 #include "BackGround.h"
 
 
@@ -49,7 +49,7 @@ void VegetableValley13::Start()
 
 
 	// UI생성
-	LevelUIManager = GameEngineLevel::CreateActor<PlayUI>(UpdateOrder::UI);
+	LevelUIManager = GameEngineLevel::CreateActor<BossUI>(UpdateOrder::UI);
 	if (nullptr == LevelUIManager)
 	{
 		MsgBoxAssert("UI 생성에 실패했습니다.");
@@ -66,10 +66,29 @@ void VegetableValley13::Update(float _Delta)
 		GameEngineCore::ChangeLevel("PauseLevel");
 	}
 
+
+
 	if (true == GameEngineInput::IsDown('N'))
 	{
 		GameEngineCore::ChangeLevel("VegetableValleyHub");
+		return;
 	}
+
+
+	if (true == NextLevelTriggerOn)
+	{
+		NextLevelTriggerOn = false;
+		GameEngineCore::ChangeLevel("VegetableValleyHub");
+		return;
+	}
+
+
+	if (true == NextLevelTriggerOn)
+	{
+		NextLevelTriggerOn = false;
+	}
+
+
 
 	if (true == GameEngineInput::IsDown('M'))
 	{

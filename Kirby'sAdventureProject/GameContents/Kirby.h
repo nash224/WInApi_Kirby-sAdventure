@@ -96,6 +96,8 @@ enum class KirbyState
 	UseSpecialAbility,
 	ReleaseSpecialAbility,
 	Enter,
+	OpenDoorAndRaiseFlag,
+	OpenDoorAndRaiseFlagAfter,
 	Contain_Idle,
 	Contain_Walk,
 	Contain_Run,
@@ -203,6 +205,8 @@ protected:
 	void GetAbilityStart();
 	void DamagedStart();
 	void EnterStart();
+	void OpenDoorAndRaiseFlagStart();
+	void OpenDoorAndRaiseFlagAfterStart();
 	void StageClearStart();
 	void StageClearAfterStart();
 
@@ -240,6 +244,8 @@ protected:
 	void GetAbilityUpdate(float _Delta);
 	void DamagedUpdate(float _Delta);
 	void EnterUpdate(float _Delta);
+	void OpenDoorAndRaiseFlagUpdate(float _Delta);
+	void OpenDoorAndRaiseFlagAfterUpdate(float _Delta);
 	void StageClearUpdate(float _Delta);
 	void StageClearAfterUpdate(float _Delta);
 

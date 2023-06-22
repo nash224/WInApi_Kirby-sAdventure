@@ -118,6 +118,11 @@ void VegetableValley11::Update(float _Delta)
 	}
 
 
+	if (true == NextLevelTriggerOn)
+	{
+		NextLevelTriggerOn = false;
+	}
+
 
 	if (true == GameEngineInput::IsDown('M'))
 	{
