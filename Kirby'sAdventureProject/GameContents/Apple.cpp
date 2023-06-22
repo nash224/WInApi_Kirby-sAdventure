@@ -44,17 +44,17 @@ void Apple::Start()
 	MainRenderer->CreateAnimationToFrame("Left_Idle", "Left_NormalEnemy.bmp", { 8 , 19 }, 0.1f, true);
 	MainRenderer->CreateAnimationToFrame("Right_Idle", "Right_NormalEnemy.bmp", { 8 , 19 }, 0.1f, true);
 
-	MainRenderer->CreateAnimation("Left_Fall", "Left_NormalEnemy.bmp", 8, 8, 0.1f, false);
-	MainRenderer->CreateAnimation("Right_Fall", "Right_NormalEnemy.bmp", 8, 8, 0.1f, false);
+	MainRenderer->CreateAnimation("Left_Fall", "Left_NormalEnemy.bmp", 8, 8, 0.2f, false);
+	MainRenderer->CreateAnimation("Right_Fall", "Right_NormalEnemy.bmp", 8, 8, 0.2f, false);
 
 	MainRenderer->CreateAnimation("Left_Bounce", "Left_NormalEnemy.bmp", 8, 8, 0.5f, false);
 	MainRenderer->CreateAnimation("Right_Bounce", "Right_NormalEnemy.bmp", 8, 8, 0.5f, false);
 
-	MainRenderer->CreateAnimation("Left_Roll", "Left_NormalEnemy.bmp", 8, 11, 0.1f, true);
-	MainRenderer->CreateAnimation("Right_Roll", "Right_NormalEnemy.bmp", 8, 11, 0.1f, true);
+	MainRenderer->CreateAnimation("Left_Roll", "Left_NormalEnemy.bmp", 8, 11, 0.2f, true);
+	MainRenderer->CreateAnimation("Right_Roll", "Right_NormalEnemy.bmp", 8, 11, 0.2f, true);
 
-	MainRenderer->CreateAnimation("Left_BounceMove", "Left_NormalEnemy.bmp", 8, 11, 0.1f, true);
-	MainRenderer->CreateAnimation("Right_BounceMove", "Right_NormalEnemy.bmp", 8, 11, 0.1f, true);
+	MainRenderer->CreateAnimation("Left_BounceMove", "Left_NormalEnemy.bmp", 8, 11, 0.2f, true);
+	MainRenderer->CreateAnimation("Right_BounceMove", "Right_NormalEnemy.bmp", 8, 11, 0.2f, true);
 
 	// 배율 조정
 	MainRenderer->SetRenderScaleToTexture();
@@ -130,9 +130,6 @@ void Apple::IdleUpdate(float _Delta)
 		ChangeState(NormalState::Fall);
 		return;
 	}
-
-	EnemyCollisionCheck();
-
 }
 
 
@@ -160,7 +157,20 @@ void Apple::FallUpdate(float _Delta)
 
 	if (true == IsChangeState)
 	{
-		ChangeState(NormalState::Bounce);
+		int RandomValue = GameEngineRandom::MainRandom.RandomInt(1, 2);
+
+		switch (RandomValue)
+		{
+		case 1:
+			ChangeState(NormalState::Bounce);
+			break;
+		case 2:
+			ChangeState(NormalState::BounceMove);
+			break;
+		default:
+			break;
+		}
+		
 		return;
 	}
 
@@ -190,7 +200,6 @@ void Apple::BounceStart()
 
 	SetGravityVector(float4::UP * 300.0f);
 
-	GravityReset();
 	ChangeAnimationState("Bounce");
 }
 
@@ -240,7 +249,7 @@ void Apple::RollStart()
 	}
 
 	GravityReset();
-	ChangeAnimationState("Bounce");
+	ChangeAnimationState("Roll");
 }
 
 void Apple::RollUpdate(float _Delta)
@@ -268,6 +277,7 @@ void Apple::RollUpdate(float _Delta)
 	{
 		Death();
 		EnemyPointerRelease();
+		return;
 	}
 
 
@@ -286,6 +296,7 @@ void Apple::RollUpdate(float _Delta)
 void Apple::BounceMoveStart()
 {
 	IsSecondBounce = false;
+	StopBounce = false;
 
 	GetKirbyDirection();
 
@@ -327,6 +338,11 @@ void Apple::BounceMoveUpdate(float _Delta)
 		SetGravityVector(float4::UP * SecondBouncePower);
 	}
 
+	if (true == IsSecondBounce && true == GetGroundState() && GetGravityVector().Y > 0.0f)
+	{
+		StopBounce = true;
+	}
+
 
 
 
@@ -338,16 +354,20 @@ void Apple::BounceMoveUpdate(float _Delta)
 	{
 		Death();
 		EnemyPointerRelease();
+		return;
 	}
 
 	
 	BlockedByGround();
 
 
+	if (false == StopBounce)
+	{
+		Gravity(_Delta);
+		GravityLimit(_Delta);
+		VerticalUpdate(_Delta);
+	}
 
-	Gravity(_Delta);
-	GravityLimit(_Delta);
-	VerticalUpdate(_Delta);
 
 
 	HorizontalUpdate(_Delta);

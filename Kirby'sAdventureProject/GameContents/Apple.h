@@ -39,11 +39,12 @@ protected:
 private:
 	int TwinkilingCount = 0;
 	const float BouncePower = 300.0f;
-	const float FirstBouncePower = 500.0f;
-	const float SecondBouncePower = 400.0f;
+	const float FirstBouncePower = 400.0f;
+	const float SecondBouncePower = 300.0f;
 	const float RollPower = 100.0f;
 
 	bool IsSecondBounce = false;
+	bool StopBounce = false;
 
 
 

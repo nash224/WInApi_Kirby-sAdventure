@@ -16,6 +16,7 @@ public:
 	Boss& operator=(Boss&& _Other) noexcept = delete;
 
 protected:
+	std::string CurLevel_BitMap_FileName = "";
 
 private:
 

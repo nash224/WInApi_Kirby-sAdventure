@@ -84,7 +84,7 @@ private:
 	// SummonApple ฐüทร
 	int TwinkleCount_ToSummonApple = 0;
 	float SummonAppleTime = 0.0f;
-	const float SummonAppleDuration = 0.8f;
+	const float SummonAppleDuration = 1.5f;
 	const float SummonApple_Height = 250.0f;
 	const float SummonApple_Min_Width = 60.0f;
 	const float SummonApple_Max_Width = 460.0f;

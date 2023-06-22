@@ -9,6 +9,7 @@
 
 
 #include "GlobalContents.h"
+#include "VegetableValleyPlayLevel.h"
 #include "Kirby.h"
 #include "Apple.h"
 #include "BossUI.h"
@@ -213,7 +214,7 @@ void WhispyWood::SummonAppleUpdate(float _Delta)
 	if (1 == TwinkleCount_ToSummonApple || 3 == TwinkleCount_ToSummonApple)
 	{
 		// 사과소환 로직
-		SummonAppleTime += 0.0f;
+		SummonAppleTime += _Delta;
 
 		if (SummonAppleTime > SummonAppleDuration)
 		{
@@ -238,10 +239,11 @@ void WhispyWood::SummonAppleUpdate(float _Delta)
 
 			// Apple->SetPos
 			ApplePtr->init(float4{ Summon_WidthDistance , SummonApple_Height });
+			ApplePtr->SetGroundTexture(CurLevel_BitMap_FileName);
 		}
 	}
 
-	if (5 == TwinkleCount_ToSummonApple)
+	if (7 == TwinkleCount_ToSummonApple)
 	{
 		TwinkleCount_ToSummonApple = 0;
 		IsChangeState = true;
@@ -269,6 +271,10 @@ void WhispyWood::WhispyStart()
 
 void WhispyWood::WhispyUpdate(float _Delta)
 {
+
+
+
+	PrevState = WhispyWoodState::Max;
 
 }
 
@@ -350,6 +356,24 @@ void WhispyWood::LevelStart()
 		MsgBoxAssert("다운 캐스팅을 실패했습니다.");
 		return;
 	}
+
+	GameEngineLevel* CurLevelPtr = GetLevel();
+	if (nullptr == CurLevelPtr)
+	{
+		MsgBoxAssert("레벨을 불러오지 못했습니다.");
+		return;
+	}
+
+	VegetableValleyPlayLevel* PlayLevelPtr = dynamic_cast<VegetableValleyPlayLevel*>(CurLevelPtr);
+	if (nullptr == PlayLevelPtr)
+	{
+		MsgBoxAssert("다운캐스팅을 실패했습니다.");
+		return;
+	}
+
+	CurLevel_BitMap_FileName = PlayLevelPtr->GetLevelBitMapFileName();
+
+
 }
 
 
