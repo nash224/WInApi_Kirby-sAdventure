@@ -166,6 +166,7 @@ void BackGround::WhispyChangeMap(float _Delta)
 			return;
 		}
 
+		WhispyWoodPtr->BossChangeMapPattern = true;
 
 		IsBossChangeMap = false;
 	}

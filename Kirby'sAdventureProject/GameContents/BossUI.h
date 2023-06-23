@@ -30,7 +30,7 @@ class BossUI : public UIManager
 	friend class WhispyWood;
 
 public:
-	int m_BossHp = 0;
+	int UI_BossStamina = 0;
 
 public:
 	// constrcuter destructer
@@ -96,5 +96,9 @@ private:
 	bool Boss_Stamina_Full_Done = false;
 
 	void BossAppearance(float _Delta);
+
+
+	// 보스 스태미나 관련
+	void BossStaminaState(float _Delta);
 };
 

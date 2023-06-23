@@ -297,7 +297,7 @@ void BossUI::StaminaCountRendererSet()
 void BossUI::BossStaminaRendererSet()
 {
 	// 로드
-	GameEngineWindowTexture* Texture = GlobalContents::TextureFileLoad("Boss_UI_LifeBar_2x1_9x24.bmp", "Resources\\UI");
+	GameEngineWindowTexture* Texture = GlobalContents::TextureFileLoad("Boss_UI_LifeBar_1x1_9x24.bmp", "Resources\\UI");
 	if (nullptr == Texture)
 	{
 		MsgBoxAssert("텍스처를 불러오지 못했습니다.");
@@ -305,9 +305,7 @@ void BossUI::BossStaminaRendererSet()
 	}
 
 	// 이미지 한칸 사이즈
-	float4 Temprary_Boss_StaminaScale = Texture->GetScale();
-	Boss_StaminaScale = float4{ Temprary_Boss_StaminaScale.Half().X , Temprary_Boss_StaminaScale.Y };
-
+	Boss_StaminaScale = Texture->GetScale();
 
 	Boss_StaminaRenderer.reserve(Boss_MaxStaminaCount);
 
@@ -321,12 +319,13 @@ void BossUI::BossStaminaRendererSet()
 			return;
 		}
 
-		BossStaminaRenderer->SetTexture("Boss_UI_LifeBar_2x1_9x24.bmp");
-		BossStaminaRenderer->SetCopyPos(float4{ Boss_StaminaScale.X , 0.0f });
+		BossStaminaRenderer->SetTexture("Boss_UI_LifeBar_1x1_9x24.bmp");
+		BossStaminaRenderer->SetCopyPos(float4::ZERO);
 		BossStaminaRenderer->SetCopyScale(Boss_StaminaScale);
 		BossStaminaRenderer->SetRenderPos(BOSS_STAMINA_FIRSTNUMBERLOCATION
 			+ float4{ Boss_Stamina_Image_Inter * static_cast<int>(i) , 0.0f } + Boss_StaminaScale.Half());
 		BossStaminaRenderer->SetRenderScale(Boss_StaminaScale);
+		BossStaminaRenderer->Off();
 
 
 		Boss_StaminaRenderer.push_back(BossStaminaRenderer);
@@ -351,6 +350,10 @@ void BossUI::Update(float _Delta)
 
 	StaminaState();
 
+	if (true == Boss_Stamina_Full_Done)
+	{
+		BossStaminaState(_Delta);
+	}
 
 }
 
@@ -386,20 +389,20 @@ void BossUI::BossAppearance(float _Delta)
 		// 2번 피를 채움
 		for (size_t i = 0; i < 2; i++)
 		{
-			GameEngineRenderer* Boss_Stamina_RendererPtr = Boss_StaminaRenderer[m_BossHp];
+			GameEngineRenderer* Boss_Stamina_RendererPtr = Boss_StaminaRenderer[UI_BossStamina];
 			if (nullptr == Boss_Stamina_RendererPtr)
 			{
 				MsgBoxAssert("참조하지 못했습니다.");
 				return;
 			}
 
-			Boss_Stamina_RendererPtr->SetCopyPos(float4::ZERO);
+			Boss_Stamina_RendererPtr->On();
 
-			++m_BossHp;
+			++UI_BossStamina;
 		}
 
 
-		if (Boss_MaxStaminaCount == m_BossHp)
+		if (Boss_MaxStaminaCount == UI_BossStamina)
 		{
 			Boss_Stamina_Full_Done = true;
 		}
@@ -565,4 +568,43 @@ void BossUI::LevelStart()
 	// 커비 목숨
 	First_LivesRenderer->SetCopyPos(float4{ NumberScale.X * static_cast<float>(m_LivesCount / 10), 0.0f });
 	Second_LivesRenderer->SetCopyPos(float4{ NumberScale.X * static_cast<float>(m_LivesCount % 10), 0.0f });
+}
+
+
+
+
+void BossUI::BossStaminaState(float _Delta)
+{
+	if (nullptr == BossPtr)
+	{
+		MsgBoxAssert("보스를 불러오지 못했습니다.");
+		return;
+	}
+
+	int Current_BossHp = BossPtr->m_BossHp;
+
+
+	if (UI_BossStamina != Current_BossHp)
+	{
+		for (size_t i = Current_BossHp; i < UI_BossStamina; i++)
+		{
+			GameEngineRenderer* CurStaminarenderer = Boss_StaminaRenderer[i];
+			if (nullptr == CurStaminarenderer)
+			{
+				MsgBoxAssert("벡터의 렌더러를 불러오지 못했습니다.");
+				return;
+			}
+
+			CurStaminarenderer->Off();
+		}
+
+		UI_BossStamina = Current_BossHp;
+	}
+
+
+
+	if (UI_BossStamina <= 0)
+	{
+		//
+	}
 }

@@ -6,6 +6,7 @@
 
 #include "GameEffect.h"
 #include "Kirby.h"
+#include <vector>
 
 
 bool VegetableValleyPlayLevel::NextLevelTriggerOn = false;
@@ -53,12 +54,9 @@ void VegetableValleyPlayLevel::SetPlayerPosAndCameraPos(const float4& _PlayerPos
 
 void VegetableValleyPlayLevel::CheckRespawnEnemy()
 {
-	std::map<std::string, Enemy*>::iterator StartIter = LevelEnemy.begin();
-	std::map<std::string, Enemy*>::iterator EndtIter = LevelEnemy.end();
-
-	for (; StartIter != EndtIter; ++StartIter)
+	for (size_t i = 0; i < LevelEnemy.size(); i++)
 	{
-		Enemy* Enemy = StartIter->second;
+		Enemy* Enemy = LevelEnemy[i];
 		Enemy->RespawnTrigger();
 	}
 }

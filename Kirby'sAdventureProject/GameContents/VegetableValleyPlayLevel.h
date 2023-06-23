@@ -2,6 +2,7 @@
 #include <GameEngineCore/GameEngineLevel.h>
 
 #include "Enemy.h"
+#include <vector>
 
 // 페이드 아웃 지속시간
 #define FADEOUT_ENDTIME 0.2f
@@ -68,7 +69,7 @@ protected:
 
 	
 
-	std::map<std::string, Enemy*> LevelEnemy;
+	std::vector<Enemy*> LevelEnemy;
 	std::string BitMapFileName = "";
 
 	float4 BackGroundScale = float4::ZERO;

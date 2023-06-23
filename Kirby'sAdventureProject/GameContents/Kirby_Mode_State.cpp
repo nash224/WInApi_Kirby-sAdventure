@@ -351,7 +351,11 @@ void Kirby::InhaleAbilityUpdate(float _Delta)
 	// ¸ÔÀ¸¸é
 	if (Star.SwallowedEnemyNumber > 0)
 	{
-		if (false == SwallingEnemy->IsUpdate() || true == SwallingEnemy->IsDeath())
+		float4 EnemyPos = SwallingEnemy->GetPos();
+		float4 KribyPos = GetPos();
+		
+
+		if (false == SwallingEnemy->IsUpdate() || Swallowed_Distance > abs(KribyPos.X - EnemyPos.X))
 		{
 			InhaleEffectCollision->Off();
 			ChangeState(KirbyState::Contain_Idle);

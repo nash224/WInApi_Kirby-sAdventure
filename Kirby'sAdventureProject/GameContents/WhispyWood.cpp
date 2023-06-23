@@ -259,14 +259,10 @@ void WhispyWood::SummonAppleUpdate(float _Delta)
 
 			--SummonAppleCount;
 
-			if (0 == SummonAppleCount)
-			{
-				IsCharge_SummonAppleCount = false;
-			}
 		}
 	}
 
-	if (false == IsReCharge_SummonAppleCount && false == IsCharge_SummonAppleCount && TwinkleCount >= 2)
+	if (false == IsReCharge_SummonAppleCount && true == IsCharge_SummonAppleCount && TwinkleCount >= 2)
 	{
 		SummonAppleCount = 4;
 		IsReCharge_SummonAppleCount = true;
@@ -278,6 +274,7 @@ void WhispyWood::SummonAppleUpdate(float _Delta)
 	if (3 == TwinkleCount)
 	{
 		TwinkleCount = 0;
+		IsCharge_SummonAppleCount = false;
 		IsReCharge_SummonAppleCount = false;
 
 		IsChangeState = true;
@@ -420,19 +417,11 @@ void WhispyWood::FrownUpdate(float _Delta)
 
 void WhispyWood::KaonashiStart()
 {
-	StateTime = 0.0f;
-	IsChangeState = false;
-
-
-
 	ChangeAnimationState("Kaonashi");
 }
 
 void WhispyWood::KaonashiUpdate(float _Delta)
 {
-	
-
-
 	if (true == BossChangeMapPattern)
 	{
 		ChangeState(WhispyWoodState::CryingFace);

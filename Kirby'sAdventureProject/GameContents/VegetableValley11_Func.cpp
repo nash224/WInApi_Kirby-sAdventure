@@ -17,11 +17,12 @@
 #include "Sparky.h"
 #include "SwordKnight.h"
 
-#include <map>
+#include <vector>
 
 
 void VegetableValley11::EnemySummon()
 {
+	LevelEnemy.reserve(9);
 
 	// 各1
 	WaddleDee* WaddleDee1 = GameEngineLevel::CreateActor<WaddleDee>(UpdateOrder::Monster);
@@ -32,7 +33,7 @@ void VegetableValley11::EnemySummon()
 	}
 
 	WaddleDee1->init("VegetableValley1_1Pixel.bmp", NormalState::Walk, float4{ 892.0f, 336.0f });
-	LevelEnemy.insert(std::make_pair("WaddleDee1", WaddleDee1));
+	LevelEnemy.push_back(WaddleDee1);
 
 
 	// 颇况各 1
@@ -44,7 +45,7 @@ void VegetableValley11::EnemySummon()
 	}
 
 	WaddleDoo1->init("VegetableValley1_1Pixel.bmp", WaddleDooState::Walk, float4{ 1200.0f , 386.0f });
-	LevelEnemy.insert(std::make_pair("WaddleDoo1", WaddleDoo1));
+	LevelEnemy.push_back(WaddleDoo1);
 
 
 	// 傍吝各 1-2
@@ -56,7 +57,7 @@ void VegetableValley11::EnemySummon()
 	}
 
 	BrontoBurt2->init("VegetableValley1_1Pixel.bmp", BrontoState::WaveFlightFall, float4{ 1760.0f, 130.0f });
-	LevelEnemy.insert(std::make_pair("BrontoBurt2", BrontoBurt2));
+	LevelEnemy.push_back(BrontoBurt2);
 
 
 	// 傍吝各 1-2
@@ -68,7 +69,7 @@ void VegetableValley11::EnemySummon()
 	}
 
 	BrontoBurt3->init("VegetableValley1_1Pixel.bmp", BrontoState::WaveFlightFall, float4{ 1860.0f, 130.0f });
-	LevelEnemy.insert(std::make_pair("BrontoBurt3", BrontoBurt3));
+	LevelEnemy.push_back(BrontoBurt3);
 
 
 
@@ -81,7 +82,7 @@ void VegetableValley11::EnemySummon()
 	}
 
 	BrontoBurt4->init("VegetableValley1_1Pixel.bmp", BrontoState::WaveFlightFall, float4{ 1960.0f, 130.0f });
-	LevelEnemy.insert(std::make_pair("BrontoBurt4", BrontoBurt4));
+	LevelEnemy.push_back(BrontoBurt4);
 
 
 
@@ -94,7 +95,7 @@ void VegetableValley11::EnemySummon()
 	}
 
 	HotHead1->init("VegetableValley1_1Pixel.bmp", HotHeadState::Walk, float4{ 2700.0f, 386.0f });
-	LevelEnemy.insert(std::make_pair("HotHead1", HotHead1));
+	LevelEnemy.push_back(HotHead1);
 
 
 
@@ -107,7 +108,7 @@ void VegetableValley11::EnemySummon()
 	}
 
 	Sparky1->init("VegetableValley1_1Pixel.bmp", SparkyState::Idle, float4{ 2000.0f, 386.0f });
-	LevelEnemy.insert(std::make_pair("Sparky1", Sparky1));
+	LevelEnemy.push_back(Sparky1);
 
 
 
@@ -121,5 +122,5 @@ void VegetableValley11::EnemySummon()
 	}
 
 	SwordKnightPtr->init("VegetableValley1_1Pixel.bmp", SwordKnightState::PendulumStride, float4{ 2420.0f, 143.0f });
-	LevelEnemy.insert(std::make_pair("SwordKnightPtr", SwordKnightPtr));
+	LevelEnemy.push_back(SwordKnightPtr);
 }

@@ -22,6 +22,7 @@
 #include "Kabu.h"
 #include "BackGround.h"
 #include "FadeObject.h"
+#include <vector>
 
 
 VegetableValley12::VegetableValley12() 
@@ -56,6 +57,8 @@ void VegetableValley12::Start()
 
 
 
+	LevelEnemy.reserve(12);
+
 	// 颇况各 5
 	SwordKnight* SwordKnight1 = GameEngineLevel::CreateActor<SwordKnight>(UpdateOrder::Monster);
 	if (nullptr == SwordKnight1)
@@ -65,7 +68,7 @@ void VegetableValley12::Start()
 	}
 
 	SwordKnight1->init("VegetableValley1_2Pixel.bmp", SwordKnightState::PendulumStride, float4{ 1634.0f, 335.0f });
-	LevelEnemy.insert(std::make_pair("SwordKnight1", SwordKnight1));
+	LevelEnemy.push_back(SwordKnight1);
 
 
 	// 各 4-1
@@ -77,7 +80,7 @@ void VegetableValley12::Start()
 	}
 
 	PoppyBrosJr1->init("VegetableValley1_2Pixel.bmp", NormalState::Idle, float4{ 480.0f , 335.0f });
-	LevelEnemy.insert(std::make_pair("PoppyBrosJr1", PoppyBrosJr1));
+	LevelEnemy.push_back(PoppyBrosJr1);
 
 
 
@@ -90,7 +93,7 @@ void VegetableValley12::Start()
 	}
 
 	BroomHatter1->init("VegetableValley1_2Pixel.bmp", NormalState::Idle, float4{ 1170.0f , 381.0f });
-	LevelEnemy.insert(std::make_pair("BroomHatter1", BroomHatter1));
+	LevelEnemy.push_back(BroomHatter1);
 
 
 
@@ -103,7 +106,7 @@ void VegetableValley12::Start()
 	}
 
 	Kabu1->init("VegetableValley1_2Pixel.bmp", NormalState::Idle, float4{ 700.0f , 381.0f });
-	LevelEnemy.insert(std::make_pair("Kabu1", Kabu1));
+	LevelEnemy.push_back(Kabu1);
 
 
 
@@ -116,7 +119,7 @@ void VegetableValley12::Start()
 	}
 
 	BrontoBurt1->init("VegetableValley1_2Pixel.bmp", BrontoState::Idle, float4{ 960.0f , 288.0f });
-	LevelEnemy.insert(std::make_pair("BrontoBurt1", BrontoBurt1));
+	LevelEnemy.push_back(BrontoBurt1);
 
 
 
@@ -129,7 +132,7 @@ void VegetableValley12::Start()
 	}
 
 	Scarfy1->init("VegetableValley1_2Pixel.bmp", ScarfyState::Idle, float4{ 2500.0f , 140.0f });
-	LevelEnemy.insert(std::make_pair("Scarfy1", Scarfy1));
+	LevelEnemy.push_back(Scarfy1);
 
 
 	// 傍吝各 2
@@ -141,7 +144,7 @@ void VegetableValley12::Start()
 	}
 
 	Scarfy2Ptr->init("VegetableValley1_2Pixel.bmp", ScarfyState::Idle, float4{ 2400.0f , 200.0f });
-	LevelEnemy.insert(std::make_pair("Scarfy2Ptr", Scarfy2Ptr));
+	LevelEnemy.push_back(Scarfy2Ptr);
 
 
 
@@ -154,7 +157,7 @@ void VegetableValley12::Start()
 	}
 
 	Scarfy3Ptr->init("VegetableValley1_2Pixel.bmp", ScarfyState::Idle, float4{ 2600.0f , 200.0f });
-	LevelEnemy.insert(std::make_pair("Scarfy3Ptr", Scarfy3Ptr));
+	LevelEnemy.push_back(Scarfy3Ptr);
 
 
 
@@ -167,7 +170,7 @@ void VegetableValley12::Start()
 	}
 
 	Togezo1->init("VegetableValley1_2Pixel.bmp", TogezoState::Walk, float4{ 2260.0f , 286.0f });
-	LevelEnemy.insert(std::make_pair("Togezo1", Togezo1));
+	LevelEnemy.push_back(Togezo1);
 
 
 
@@ -180,7 +183,7 @@ void VegetableValley12::Start()
 	}
 
 	LaserBall1->init("VegetableValley1_2Pixel.bmp", LaserBallState::Fly, float4{ 3100.0f , 200.0f });
-	LevelEnemy.insert(std::make_pair("LaserBall1", LaserBall1));
+	LevelEnemy.push_back(LaserBall1);
 
 	// 颇况各 6
 	LaserBall* LaserBall2Ptr = GameEngineLevel::CreateActor<LaserBall>(UpdateOrder::Monster);
@@ -191,7 +194,7 @@ void VegetableValley12::Start()
 	}
 
 	LaserBall2Ptr->init("VegetableValley1_2Pixel.bmp", LaserBallState::Fly, float4{ 3200.0f , 200.0f });
-	LevelEnemy.insert(std::make_pair("LaserBall2Ptr", LaserBall2Ptr));
+	LevelEnemy.push_back(LaserBall2Ptr);
 
 
 
