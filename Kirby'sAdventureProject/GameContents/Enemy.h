@@ -50,10 +50,10 @@ protected:
 	float InhaleTargetPosXDistance = 0.0f;
 
 
-	void BeInhaledStart();
+	virtual void BeInhaledStart();
 	virtual void HittedStart();
 
-	void BeInhaledUpdate(float _Delta);
+	virtual void BeInhaledUpdate(float _Delta);
 	virtual void HittedUpdate(float _Delta);
 
 

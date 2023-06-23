@@ -347,12 +347,15 @@ void Kirby::InhaleAbilityUpdate(float _Delta)
 	
 
 
-	// 
-	if ((Star.SwallowedEnemyNumber > 0 && false == SwallingEnemy->IsUpdate()) || StateTime > 3.0f)
+	// 먹으면
+	if (Star.SwallowedEnemyNumber > 0)
 	{
-		InhaleEffectCollision->Off();
-		ChangeState(KirbyState::Contain_Idle);
-		return;
+		if (false == SwallingEnemy->IsUpdate() || true == SwallingEnemy->IsDeath())
+		{
+			InhaleEffectCollision->Off();
+			ChangeState(KirbyState::Contain_Idle);
+			return;
+		}
 	}
 
 
@@ -414,6 +417,9 @@ void Kirby::CheckKirbyCollision()
 		return;
 	}
 
+
+
+
 	// 면역상태가 아닐때 충돌
 	std::vector<GameEngineCollision*> MonsterBodyCol;
 	if (true == KirbyBodyCollision->Collision(CollisionOrder::MonsterBody, MonsterBodyCol, CollisionType::Rect, CollisionType::Rect))
@@ -462,7 +468,9 @@ void Kirby::CheckKirbyCollision()
 
 
 
-	// 면역상태일 때, 몬스터 충돌 
+
+
+	// 면역상태일 때, 몬스터 사각타입 충돌 
 	std::vector<GameEngineCollision*> MonsterBodyColToImmune;
 	if (true == ImmuneCollision->Collision(CollisionOrder::MonsterBody, MonsterBodyColToImmune, CollisionType::Rect, CollisionType::Rect))
 	{
@@ -485,6 +493,9 @@ void Kirby::CheckKirbyCollision()
 			Monster->IsHitted = true;
 		}
 	}
+
+
+
 
 
 

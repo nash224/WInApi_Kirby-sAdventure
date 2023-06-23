@@ -271,7 +271,7 @@ private:
 
 private:
 
-	// 충돌체 
+	// 충돌체 관련
 	GameEngineCollision* LittleCollision = nullptr;
 	GameEngineCollision* LowerCollision = nullptr;
 	GameEngineCollision* FatCollision = nullptr;

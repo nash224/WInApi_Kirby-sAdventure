@@ -6,6 +6,7 @@ enum class UpdateOrder
 	BackGround,
 	BackGroundEffect,
 	UI,
+	Item,
 	Player,
 	Monster,
 	Ability,

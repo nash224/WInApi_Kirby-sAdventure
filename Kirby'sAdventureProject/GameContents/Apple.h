@@ -36,6 +36,18 @@ protected:
 	void RollUpdate(float _Delta) override;
 	void BounceMoveUpdate(float _Delta) override;
 
+
+
+
+
+	void BeInhaledStart() override;
+	void HittedStart() override;
+
+	void BeInhaledUpdate(float _Delta) override;
+	void HittedUpdate(float _Delta) override;
+
+
+
 private:
 	int TwinkilingCount = 0;
 	const float BouncePower = 300.0f;
@@ -45,6 +57,8 @@ private:
 
 	bool IsSecondBounce = false;
 	bool StopBounce = false;
+
+
 
 
 

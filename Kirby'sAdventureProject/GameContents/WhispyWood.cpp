@@ -230,7 +230,7 @@ void WhispyWood::SummonAppleUpdate(float _Delta)
 				return;
 			}
 
-			Apple* ApplePtr = CurLevelPtr->CreateActor<Apple>(UpdateOrder::Monster);
+			Apple* ApplePtr = CurLevelPtr->CreateActor<Apple>(UpdateOrder::Item);
 			if (nullptr == ApplePtr)
 			{
 				MsgBoxAssert("액터 생성에 실패했습니다.");

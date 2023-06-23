@@ -12,6 +12,7 @@
 
 #include "GlobalContents.h"
 #include "Kirby.h"
+#include "CrossDeathEffect.h"
 
 
 
@@ -67,6 +68,9 @@ void Apple::Start()
 
 	Dir = ActorDir::Left;
 	ChangeState(NormalState::Idle);
+
+
+	Ability = AbilityStar::Normal;
 
 
 
@@ -374,4 +378,88 @@ void Apple::BounceMoveUpdate(float _Delta)
 
 
 	EnemyCollisionCheck();
+}
+
+
+
+
+// 커비에게 빨려가는 상태패턴
+void Apple::BeInhaledStart()
+{
+	StateTime = 0.0f;
+	IsChangeState = false;
+	IsInhaledStateOn = false;
+	BodyCollision->Off();
+	ActorDirUnitVector = GetKirbyOpponentDistance();
+	CurrentSpeed = 0.0f;
+}
+
+void Apple::BeInhaledUpdate(float _Delta)
+{
+	StateTime += _Delta;
+
+	InhaleTargetPos = GetKirbyOpponentDistance();
+	InhaleTargetPosYDistance = InhaleTargetPos.Y - KIRBYCENTERYPOINT;
+	InhaleTargetPosXDistance = InhaleTargetPos.X;
+	CurentVerticalSpeed += InhaleTargetPosYDistance / INHALETIME * _Delta;
+
+	float4 KirbyPos = Kirby::GetMainKirby()->GetPos();
+
+
+	if (ActorDirUnitVector.X < 0.0f)
+	{
+		float InhaleXSpeed = InhaleTargetPosXDistance / INHALETIME * _Delta;
+		CurrentSpeed += InhaleXSpeed;
+
+		if (GetPos().X < KirbyPos.X)
+		{
+			Death();
+			EnemyPointerRelease();
+			return;
+		}
+	}
+	else if (ActorDirUnitVector.X > 0.0f)
+	{
+		float InhaleXSpeed = InhaleTargetPosXDistance / INHALETIME * _Delta;
+		CurrentSpeed += InhaleXSpeed;
+
+		if (GetPos().X > KirbyPos.X)
+		{
+			Death();
+			EnemyPointerRelease();
+			return;
+		}
+	}
+
+
+	VerticalUpdateBasedlevitation(_Delta);
+
+	HorizontalUpdate(_Delta);
+}
+
+
+
+
+// 피해를 입은 상태패턴
+void Apple::HittedStart()
+{
+	StateTime = 0.0f;
+	IsChangeState = false;
+
+
+	CrossDeathEffect* CrossDeathEffectPtr = GetLevel()->CreateActor<CrossDeathEffect>(UpdateOrder::Ability);
+	if (nullptr == CrossDeathEffectPtr)
+	{
+		MsgBoxAssert("액터가 Null 일리가 없어..");
+		return;
+	}
+
+	CrossDeathEffectPtr->init(GetPos(), Scale);
+
+}
+
+void Apple::HittedUpdate(float _Delta)
+{
+	Death();
+	EnemyPointerRelease();
 }
