@@ -12,6 +12,7 @@
 #include "VegetableValleyPlayLevel.h"
 #include "Kirby.h"
 #include "Apple.h"
+#include "Boss_WhispyEffect.h"
 #include "BossUI.h"
 
 
@@ -46,7 +47,7 @@ void WhispyWood::Start()
 	MainRenderer->CreateAnimationToFrame("Left_SummonApple", "WhispyWood_3x4_144x264.bmp", { 0, 1, 2, 1, 0 }, 0.1f, true);
 	MainRenderer->FindAnimation("Left_SummonApple")->Inters = { 0.1f, 0.1f, 0.2f, 0.1f, 5.0f, };
 
-	MainRenderer->CreateAnimationToFrame("Left_Whispy", "WhispyWood_3x4_144x264.bmp", { 3, 5, 4, 5, 3 }, 0.1f, false);
+	MainRenderer->CreateAnimationToFrame("Left_Whispy", "WhispyWood_3x4_144x264.bmp", { 3, 5, 4, 5, 3, 0 }, 0.1f, false);
 
 	MainRenderer->CreateAnimation("Left_Frown", "WhispyWood_3x4_144x264.bmp", 6, 7, 0.15f, false);
 
@@ -188,6 +189,7 @@ void WhispyWood::SummonAppleStart()
 	StateTime = 0.0f;
 	IsChangeState = false;
 
+	SummonAppleCount = 0;
 	ChangeAnimationState("SummonApple");
 }
 
@@ -208,10 +210,20 @@ void WhispyWood::SummonAppleUpdate(float _Delta)
 		float NextCloseEyesTurn = GameEngineRandom::MainRandom.RandomFloat(0.0f, 3.0f) + 2.0f;
 		MainRenderer->FindAnimation("Left_SummonApple")->Inters = { 0.1f, 0.1f, 0.2f, 0.1f, NextCloseEyesTurn };
 
-		++TwinkleCount_ToSummonApple;
+		++TwinkleCount;
 	}
 
-	if (1 == TwinkleCount_ToSummonApple || 3 == TwinkleCount_ToSummonApple)
+	// 사과 첫번째 젠
+	if (0 == TwinkleCount  && false == IsCharge_SummonAppleCount)
+	{
+		SummonAppleCount = 4;
+
+		IsCharge_SummonAppleCount = true;
+	}
+
+
+	// 사과 잔탄이 있으면
+	if (0 != SummonAppleCount)
 	{
 		// 사과소환 로직
 		SummonAppleTime += _Delta;
@@ -240,12 +252,31 @@ void WhispyWood::SummonAppleUpdate(float _Delta)
 			// Apple->SetPos
 			ApplePtr->init(float4{ Summon_WidthDistance , SummonApple_Height });
 			ApplePtr->SetGroundTexture(CurLevel_BitMap_FileName);
+
+
+			--SummonAppleCount;
+
+			if (0 == SummonAppleCount)
+			{
+				IsCharge_SummonAppleCount = false;
+			}
 		}
 	}
 
-	if (7 == TwinkleCount_ToSummonApple)
+	if (false == IsReCharge_SummonAppleCount && false == IsCharge_SummonAppleCount && TwinkleCount >= 2)
 	{
-		TwinkleCount_ToSummonApple = 0;
+		SummonAppleCount = 4;
+		IsReCharge_SummonAppleCount = true;
+	}
+
+
+
+
+	if (3 == TwinkleCount)
+	{
+		TwinkleCount = 0;
+		IsReCharge_SummonAppleCount = false;
+
 		IsChangeState = true;
 	}
 
@@ -266,16 +297,84 @@ void WhispyWood::WhispyStart()
 	IsChangeState = false;
 	PrevState = WhispyWoodState::Whispy;
 
+
+	if (nullptr == MainRenderer)
+	{
+		MsgBoxAssert("렌더러를 불러오는데 실패했습니다.");
+		return;
+	}
+
+
+	// Whispy 장전
+	if (-1 == Whispy_RemainCount)
+	{
+		int SetWhispyCount = GameEngineRandom::MainRandom.RandomInt(0, 3) / 3;
+
+		switch (SetWhispyCount)
+		{
+		case 0:
+			MainRenderer->FindAnimation("Left_Whispy")->Inters = { 0.1f, 0.1f, 1.6f, 0.1f, 0.1f, 0.3f };
+			Whispy_RemainCount = 2;
+			break;
+		case 1:
+			MainRenderer->FindAnimation("Left_Whispy")->Inters = { 0.1f, 0.1f, 2.4f, 0.1f, 0.1f, 0.3f };
+			Whispy_RemainCount = 4;
+			break;
+		default:
+			break;
+		}
+	}
+	else
+	{
+		float WhispyThirdFrametime = static_cast<float>(Whispy_RemainCount + 2) * Whispy_FireCycle;
+		MainRenderer->FindAnimation("Left_Whispy")->Inters = { 0.1f, 0.1f, WhispyThirdFrametime, 0.1f, 0.1f, 0.3f };
+		MainRenderer->FindAnimation("Left_Whispy")->CurFrame = 2;
+	}
+
 	ChangeAnimationState("Whispy");
 }
 
 void WhispyWood::WhispyUpdate(float _Delta)
 {
+	if (nullptr == MainRenderer)
+	{
+		MsgBoxAssert("렌더러를 불러오는데 실패했습니다.");
+		return;
+	}
+	
+
+	// 특정 시간마다 바람공격
+	if (2 == MainRenderer->FindAnimation("Left_Whispy")->CurFrame)
+	{
+		Whispy_ReChargeTime += _Delta;
+
+		if (Whispy_ReChargeTime > Whispy_FireCycle)
+		{
+			Whispy_ReChargeTime = 0.0f;
+
+			GameEngineLevel* CurLevelPtr = GetLevel();
+			if (nullptr == CurLevelPtr)
+			{
+				MsgBoxAssert("레벨을 불러오지 못했습니다.");
+				return;
+			}
+
+			Boss_WhispyEffect* Boss_WhispyEffectPtr = CurLevelPtr->CreateActor<Boss_WhispyEffect>(UpdateOrder::Ability);
+			Boss_WhispyEffectPtr->init(GetPos(), WHISPYWOOD_SCALE);
+			Boss_WhispyEffectPtr->SetActorCollision(CollisionOrder::MonsterAbility, CollisionType::Rect);
+		}
+	}
 
 
 
-	PrevState = WhispyWoodState::Max;
+	if (true == MainRenderer->IsAnimationEnd())
+	{
+		Whispy_RemainCount = -1;
+		PrevState = WhispyWoodState::Max;
 
+		ChangeState(WhispyWoodState::SummonApple);
+		return;
+	}
 }
 
 

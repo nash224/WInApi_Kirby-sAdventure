@@ -158,7 +158,8 @@ void VegetableValleyHub::Update(float _Delta)
 	}
 
 
-	if (true == NextLevelTriggerOn && KirbyPos.X > 695.0f && KirbyPos.X < 750.0f && KirbyPos.Y > 910.0f)
+	// WhispyWood 보스 스테이지
+	if (true == NextLevelTriggerOn && KirbyPos.X > 650.0f && KirbyPos.X < 790.0f && KirbyPos.Y > 910.0f)
 	{
 		VegetableValleyEntertheDoorNumber = 2;
 		NextLevelTriggerOn = false;

@@ -53,7 +53,7 @@ private:
 	const float BouncePower = 300.0f;
 	const float FirstBouncePower = 400.0f;
 	const float SecondBouncePower = 300.0f;
-	const float RollPower = 100.0f;
+	const float RollPower = 150.0f;
 
 	bool IsSecondBounce = false;
 	bool StopBounce = false;

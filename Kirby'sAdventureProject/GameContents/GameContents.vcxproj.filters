@@ -222,6 +222,9 @@
     <ClInclude Include="Apple.h">
       <Filter>Global\Object\Enemy\NomalEnemy</Filter>
     </ClInclude>
+    <ClInclude Include="Boss_WhispyEffect.h">
+      <Filter>Global\Effect\SkillAbilityEffect</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="TitleLevel.cpp">
@@ -476,6 +479,9 @@
     </ClCompile>
     <ClCompile Include="Apple.cpp">
       <Filter>Global\Object\Enemy\NomalEnemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Boss_WhispyEffect.cpp">
+      <Filter>Global\Effect\SkillAbilityEffect</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -202,6 +202,10 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="Boss_WhispyEffect.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="BrontoBurt.h">
       <SubType>
       </SubType>
@@ -499,6 +503,10 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="BossUI.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Boss_WhispyEffect.cpp">
       <SubType>
       </SubType>
     </ClCompile>

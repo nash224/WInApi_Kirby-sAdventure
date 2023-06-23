@@ -82,13 +82,21 @@ private:
 
 
 	// SummonApple 관련
-	int TwinkleCount_ToSummonApple = 0;
+	bool IsCharge_SummonAppleCount = false;
+	bool IsReCharge_SummonAppleCount = false;
+	int TwinkleCount = 0;
+	int SummonAppleCount = 0;
 	float SummonAppleTime = 0.0f;
-	const float SummonAppleDuration = 1.5f;
+	const float SummonAppleDuration = 1.2f;
 	const float SummonApple_Height = 250.0f;
 	const float SummonApple_Min_Width = 60.0f;
 	const float SummonApple_Max_Width = 460.0f;
 
+
+	// Whispy 관련
+	int Whispy_RemainCount = -1;
+	const float Whispy_FireCycle = 0.4f;
+	float Whispy_ReChargeTime = 0.0f;
 
 
 
