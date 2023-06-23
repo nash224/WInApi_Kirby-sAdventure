@@ -54,6 +54,11 @@ public:
 		return BitMapFileName;
 	}
 
+	class UIManager* GetUIManager()
+	{
+		return LevelUIManager;
+	}
+
 
 protected:
 	class UIManager* LevelUIManager = nullptr;

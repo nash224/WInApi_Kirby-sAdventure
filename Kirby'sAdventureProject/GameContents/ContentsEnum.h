@@ -5,10 +5,10 @@ enum class UpdateOrder
 {
 	BackGround,
 	BackGroundEffect,
-	UI,
-	Item,
 	Player,
 	Monster,
+	Item,
+	UI,
 	Ability,
 	Other,
 };

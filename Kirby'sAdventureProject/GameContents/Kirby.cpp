@@ -699,11 +699,34 @@ bool Kirby::IsEnterPixel()
 void Kirby::LevelStart()
 {
 	MainKirby = this;
-	VegetableValleyPlayLevel* CurrentLevelPtr = dynamic_cast<VegetableValleyPlayLevel*>(GetLevel());
+
+	GameEngineLevel* CurLevel = GetLevel();
+	if (nullptr == CurLevel)
+	{
+		MsgBoxAssert("레벨을 불러오지 못했습니다.");
+		return;
+	}
+
+	VegetableValleyPlayLevel* CurrentLevelPtr = dynamic_cast<VegetableValleyPlayLevel*>(CurLevel);
+	if (nullptr == CurrentLevelPtr)
+	{
+		MsgBoxAssert("다운 캐스팅을 하지 못했습니다.");
+		return;
+	}
+
 	CurrentLevelEnemiesCount = CurrentLevelPtr->GetLevelEnemyCount();
 	CurrentBackGroundScale = CurrentLevelPtr->GetLevelBackgroundScale();
 	CurrentLevelBitMapFileName = CurrentLevelPtr->GetLevelBitMapFileName();
-	CurrentUIScale = PlayUI::UI->UIScale;
+
+	UIManager* UIManagerPtr = CurrentLevelPtr->GetUIManager();
+	if (nullptr == UIManagerPtr)
+	{
+		MsgBoxAssert("레벨 UI 를 불러오지 못했습니다.");
+		return;
+	}
+
+	CurrentUIScale = UIManagerPtr->UIScale;
+
 	
 }
 

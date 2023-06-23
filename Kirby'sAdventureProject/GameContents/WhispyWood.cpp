@@ -493,23 +493,6 @@ void WhispyWood::EnemyCollisionCheck()
 void WhispyWood::LevelStart()
 {
 
-
-	// UI 참조
-	UIManager* UIPtr = UIManager::UI;
-	if (nullptr == UIPtr)
-	{
-		MsgBoxAssert("UI를 불러오지 못했습니다.");
-		return;
-	}
-
-	BossUIPtr = dynamic_cast<BossUI*>(UIPtr);
-	if (nullptr == BossUIPtr)
-	{
-		MsgBoxAssert("다운 캐스팅을 실패했습니다.");
-		return;
-	}
-
-
 	// 레벨 참조
 	GameEngineLevel* CurLevelPtr = GetLevel();
 	if (nullptr == CurLevelPtr)
@@ -524,6 +507,23 @@ void WhispyWood::LevelStart()
 		MsgBoxAssert("다운캐스팅을 실패했습니다.");
 		return;
 	}
+
+
+	// UI 참조
+	UIManager* UIPtr =  PlayLevelPtr->GetUIManager();
+	if (nullptr == UIPtr)
+	{
+		MsgBoxAssert("UI를 불러오지 못했습니다.");
+		return;
+	}
+
+	BossUIPtr = dynamic_cast<BossUI*>(UIPtr);
+	if (nullptr == BossUIPtr)
+	{
+		MsgBoxAssert("다운 캐스팅을 실패했습니다.");
+		return;
+	}
+
 
 	CurLevel_BitMap_FileName = PlayLevelPtr->GetLevelBitMapFileName();
 
