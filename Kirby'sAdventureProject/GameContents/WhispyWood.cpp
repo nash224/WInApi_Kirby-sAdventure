@@ -14,14 +14,13 @@
 #include "Apple.h"
 #include "Boss_WhispyEffect.h"
 #include "BossUI.h"
+#include "BackGround.h"
 
 
 
 
-WhispyWood* WhispyWood::WhispyWoodPtr = nullptr;
 WhispyWood::WhispyWood()
 {
-	WhispyWoodPtr = this;
 }
 
 WhispyWood::~WhispyWood()
@@ -50,6 +49,7 @@ void WhispyWood::Start()
 	MainRenderer->CreateAnimationToFrame("Left_Whispy", "WhispyWood_3x4_144x264.bmp", { 3, 5, 4, 5, 3, 0 }, 0.1f, false);
 
 	MainRenderer->CreateAnimation("Left_Frown", "WhispyWood_3x4_144x264.bmp", 6, 7, 0.15f, false);
+	MainRenderer->FindAnimation("Left_Frown")->Inters = { 0.15f, 1.05f};
 
 	MainRenderer->CreateAnimation("Left_Kaonashi", "WhispyWood_3x4_144x264.bmp", 10, 10, 0.15f, false);
 	
@@ -60,6 +60,7 @@ void WhispyWood::Start()
 	Scale = WHISPYWOOD_SCALE;
 
 	Dir = ActorDir::Left;
+
 
 
 	SetPos(WHISPYWOOD_RESPAWNLOCATION - float4{ 0.0f, Scale.Half().Y});
@@ -137,6 +138,8 @@ void WhispyWood::IdleStart()
 	StateTime = 0.0f;
 	IsChangeState = false;
 	IsBossFindKirby = false;
+
+	MainBossPtr = this;
 
 	ChangeAnimationState("Idle");
 }
@@ -344,7 +347,7 @@ void WhispyWood::WhispyUpdate(float _Delta)
 	
 
 	// 특정 시간마다 바람공격
-	if (2 == MainRenderer->FindAnimation("Left_Whispy")->CurFrame)
+	if (2 == MainRenderer->FindAnimation("Left_Whispy")->CurFrame && Whispy_RemainCount > 0)
 	{
 		Whispy_ReChargeTime += _Delta;
 
@@ -362,6 +365,8 @@ void WhispyWood::WhispyUpdate(float _Delta)
 			Boss_WhispyEffect* Boss_WhispyEffectPtr = CurLevelPtr->CreateActor<Boss_WhispyEffect>(UpdateOrder::Ability);
 			Boss_WhispyEffectPtr->init(GetPos(), WHISPYWOOD_SCALE);
 			Boss_WhispyEffectPtr->SetActorCollision(CollisionOrder::MonsterAbility, CollisionType::Rect);
+
+			--Whispy_RemainCount;
 		}
 	}
 
@@ -380,17 +385,36 @@ void WhispyWood::WhispyUpdate(float _Delta)
 
 void WhispyWood::FrownStart()
 {
-	StateTime = 0.0f;
-	IsChangeState = false;
+	IsImmune = true;
 	ChangeAnimationState("Frown");
 }
 
 void WhispyWood::FrownUpdate(float _Delta)
 {
-	StateTime += _Delta;
+	if (nullptr == MainRenderer)
+	{
+		MsgBoxAssert("렌더러를 불러오는데 실패했습니다.");
+		return;
+	}
 
 
-	EnemyCollisionCheck();
+	// 지진효과
+	if (true == MainRenderer->IsAnimationEnd())
+	{
+		IsImmune = false;
+		BodyCollision->On();
+
+		if (WhispyWoodState::Whispy == PrevState)
+		{
+			ChangeState(WhispyWoodState::Whispy);
+		}
+		else
+		{
+			ChangeState(WhispyWoodState::SummonApple);
+		}
+
+		return;
+	}
 }
 
 
@@ -399,11 +423,21 @@ void WhispyWood::KaonashiStart()
 	StateTime = 0.0f;
 	IsChangeState = false;
 
+
+
 	ChangeAnimationState("Kaonashi");
 }
 
 void WhispyWood::KaonashiUpdate(float _Delta)
 {
+	
+
+
+	if (true == BossChangeMapPattern)
+	{
+		ChangeState(WhispyWoodState::CryingFace);
+		return;
+	}
 
 }
 
@@ -425,16 +459,32 @@ void WhispyWood::CryingFaceUpdate(float _Delta)
 
 void WhispyWood::EnemyCollisionCheck()
 {
-	if (true == IsHitted && WhispyWoodState::Whispy == PrevState)
+	if (true == IsHitted && false == IsImmune)
 	{
-		ChangeState(WhispyWoodState::SummonApple);
-		return;
-	}
+		if (nullptr == BodyCollision)
+		{
+			MsgBoxAssert("충돌체를 불러오지 못했습니다.");
+			return;
+		}
 
-	if (true == IsHitted)
-	{
-		ChangeState(WhispyWoodState::SummonApple);
-		return;
+		BodyCollision->Off();
+
+
+		IsHitted = false;
+		
+
+		if (m_BossHp > 0)
+		{
+			ChangeState(WhispyWoodState::Frown);
+			return;
+		}
+		else if (m_BossHp <= 0)
+		{
+			m_BossHp = 0;
+
+			ChangeState(WhispyWoodState::Kaonashi);
+			return;
+		}
 	}
 }
 
@@ -442,6 +492,9 @@ void WhispyWood::EnemyCollisionCheck()
 
 void WhispyWood::LevelStart()
 {
+
+
+	// UI 참조
 	UIManager* UIPtr = UIManager::UI;
 	if (nullptr == UIPtr)
 	{
@@ -456,6 +509,8 @@ void WhispyWood::LevelStart()
 		return;
 	}
 
+
+	// 레벨 참조
 	GameEngineLevel* CurLevelPtr = GetLevel();
 	if (nullptr == CurLevelPtr)
 	{

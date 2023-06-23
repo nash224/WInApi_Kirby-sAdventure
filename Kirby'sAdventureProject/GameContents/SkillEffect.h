@@ -44,6 +44,7 @@ protected:
 	float EffectDuration = 0.0f;
 
 	bool IsPlayerCollision = true;
+	bool IsAbilityCollisionCheck = false;
 
 
 
@@ -51,7 +52,8 @@ protected:
 	// 충돌 함수
 	GameEngineCollision* EffectCollision = nullptr;
 
-	virtual void AbilityToActorCollisionCheck(CollisionOrder _ActorBodyCol);
+	virtual void AbilityToActorCollisionCheck(CollisionOrder _ActorBodyCol, bool _IsDeath = false);
+	void AbilityToBossCollisionCheck(CollisionOrder _ActorBodyCol, int _Damage = 1, bool _IsDeath = false);
 
 
 

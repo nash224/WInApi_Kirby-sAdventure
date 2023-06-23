@@ -57,5 +57,6 @@ void KirbySparkEffect::Update(float _Delta)
 	{
 		Death();
 		EffectPointerRelease();
+		return;
 	}
 }

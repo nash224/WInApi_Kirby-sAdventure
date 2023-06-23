@@ -81,7 +81,7 @@ private:
 
 
 	// 보스 체력 재생 관련
-	class WhispyWood* BossPtr = nullptr;
+	class Boss* BossPtr = nullptr;
 	std::vector<GameEngineRenderer*> Boss_StaminaRenderer;
 	float4 Boss_StaminaScale = float4::ZERO;
 	const int Boss_MaxStaminaCount = 28;

@@ -96,6 +96,9 @@ void FrameBreathEffect::GroundPassUpdate(float _Delta)
 	if (true == IsPlayerCollision)
 	{
 		AbilityToActorCollisionCheck(CollisionOrder::MonsterBody);
+
+		int Damage = GameEngineRandom::MainRandom.RandomInt(1, 3);
+		AbilityToBossCollisionCheck(CollisionOrder::BossBody, Damage);
 	}
 	else if (false == IsPlayerCollision)
 	{

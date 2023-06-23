@@ -9,6 +9,7 @@
 
 #include "BeamEffect.h"
 #include "LaserEffect.h"
+#include "Boss.h"
 #include "FrameBreathEffect.h"
 
 
@@ -523,7 +524,7 @@ void Kirby::CheckKirbyCollision()
 
 
 // 커비에 능력 충돌체가 있는 경우
-void Kirby::CheckKirbyAbilityCollision(GameEngineCollision* _CheckCol)
+void Kirby::CheckKirbyAbilityCollision(GameEngineCollision* _CheckCol, int _Damage /*= 1*/)
 {
 	if (nullptr == _CheckCol)
 	{
@@ -556,4 +557,53 @@ void Kirby::CheckKirbyAbilityCollision(GameEngineCollision* _CheckCol)
 			Monster->IsHitted = true;
 		}
 	}
+
+	// 능력 대 보스 콜리전
+	CheckKirbyAbilityToBossCollision(_CheckCol);
+}
+
+
+
+// 능력 대 보스 콜리전
+void Kirby::CheckKirbyAbilityToBossCollision(GameEngineCollision* _CheckCol, int _Damage/* = 1*/)
+{
+	if (nullptr == _CheckCol)
+	{
+		MsgBoxAssert("충돌체가 Null 입니다.");
+		return;
+	}
+
+
+	std::vector<GameEngineCollision*> BossCol;
+	if (true == _CheckCol->Collision(CollisionOrder::BossBody, BossCol, CollisionType::Rect, CollisionType::Rect))
+	{
+		for (size_t i = 0; i < BossCol.size(); i++)
+		{
+			GameEngineCollision* BossCollision = BossCol[i];
+			if (nullptr == BossCollision)
+			{
+				MsgBoxAssert("보스를 불러오지 못했습니다.");
+				return;
+			}
+
+			GameEngineActor* BossActorPtr = BossCollision->GetActor();
+			if (nullptr == BossActorPtr)
+			{
+				MsgBoxAssert("참조한 Actor 가 Null 입니다.");
+				return;
+			}
+
+			Boss* Actor = dynamic_cast<Boss*>(BossActorPtr);
+			if (nullptr == Actor)
+			{
+				MsgBoxAssert("다운 캐스팅 오류입니다.");
+				return;
+			}
+
+			// 몬스터 상태 변경 트리거 On
+			Actor->IsHitted = true;
+			Actor->m_BossHp -= _Damage;
+		}
+	}
+
 }

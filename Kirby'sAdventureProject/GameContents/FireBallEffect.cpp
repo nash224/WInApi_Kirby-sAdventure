@@ -67,7 +67,7 @@ void FireBallEffect::Update(float _Delta)
 	}
 
 
-	AbilityToActorCollisionCheck(CollisionOrder::PlayerBody);
+	AbilityToActorCollisionCheck(CollisionOrder::PlayerBody, true);
 
 
 	AddPos(EffectDir * FIREBALLEFFECTSPEED * _Delta);

@@ -1,6 +1,8 @@
 #include "CommonSkillEffect.h"
 #include "ContentsEnum.h"
 
+
+#include <GameEngineBase/GameEngineRandom.h>
 #include <GameEnginePlatform/GameEngineWindow.h>
 #include <GameEnginePlatform/GameEngineWindowTexture.h>
 #include <GameEngineCore/GameEngineRenderer.h>
@@ -44,6 +46,9 @@ void CommonSkillEffect::Update(float _Delta)
 	if (true == IsPlayerCollision)
 	{
 		AbilityToActorCollisionCheck(CollisionOrder::MonsterBody);
+
+		int Damage = GameEngineRandom::MainRandom.RandomInt(1, 4);
+		AbilityToBossCollisionCheck(CollisionOrder::BossBody, Damage);
 	}
 	else if (false == IsPlayerCollision)
 	{

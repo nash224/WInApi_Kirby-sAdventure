@@ -9,6 +9,7 @@
 
 #include "GlobalContents.h"
 #include "ActorUtils.h"
+#include "Boss.h"
 
 
 
@@ -23,7 +24,7 @@ SkillEffect::~SkillEffect()
 
 
 
-void SkillEffect::AbilityToActorCollisionCheck(CollisionOrder _ActorBodyCol)
+void SkillEffect::AbilityToActorCollisionCheck(CollisionOrder _ActorBodyCol, bool _IsDeath /*= false*/)
 {
 
 	if (nullptr == EffectCollision)
@@ -56,6 +57,65 @@ void SkillEffect::AbilityToActorCollisionCheck(CollisionOrder _ActorBodyCol)
 
 			// 몬스터 상태 변경 트리거 On
 			Actor->IsHitted = true;
+
+
+			if (true == _IsDeath)
+			{
+				IsAbilityCollisionCheck = true;
+				Death();
+				EffectPointerRelease();
+				return;
+			}
+		}
+	}
+}
+
+
+
+void SkillEffect::AbilityToBossCollisionCheck(CollisionOrder _ActorBodyCol, int _Damage/* = 1*/, bool _IsDeath /*= false*/)
+{
+	if (nullptr == EffectCollision)
+	{
+		MsgBoxAssert("충돌체가 Null 입니다.");
+		return;
+	}
+
+	std::vector<GameEngineCollision*> BossCol;
+	if (true == EffectCollision->Collision(CollisionOrder::BossBody, BossCol, CollisionType::Rect, CollisionType::Rect))
+	{
+		for (size_t i = 0; i < BossCol.size(); i++)
+		{
+			GameEngineCollision* BossCollision = BossCol[i];
+			if (nullptr == BossCollision)
+			{
+				MsgBoxAssert("보스를 불러오지 못했습니다.");
+				return;
+			}
+
+			GameEngineActor* BossActorPtr = BossCollision->GetActor();
+			if (nullptr == BossActorPtr)
+			{
+				MsgBoxAssert("참조한 Actor 가 Null 입니다.");
+				return;
+			}
+
+			Boss* Actor = dynamic_cast<Boss*>(BossActorPtr);
+			if (nullptr == Actor)
+			{
+				MsgBoxAssert("다운 캐스팅 오류입니다.");
+				return;
+			}
+
+			// 몬스터 상태 변경 트리거 On
+			Actor->IsHitted = true;
+			Actor->m_BossHp -= _Damage;
+
+			if (true == _IsDeath)
+			{
+				Death();
+				EffectPointerRelease();
+				return;
+			}
 		}
 	}
 }

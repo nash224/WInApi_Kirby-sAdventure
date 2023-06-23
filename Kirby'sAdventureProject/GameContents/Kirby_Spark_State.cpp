@@ -1,6 +1,7 @@
 #include "Kirby.h"
 #include "ContentsEnum.h"
 
+#include <GameEngineBase/GameEngineRandom.h>
 #include <GameEnginePlatform/GameEngineInput.h>
 #include <GameEngineCore/GameEngineRenderer.h>
 #include <GameEngineCore/GameEngineLevel.h>
@@ -146,7 +147,10 @@ void Kirby::SparkAbilityUpdate(float _Delta)
 
 	// 데미지 상태 패턴
 	CheckKirbyCollision();
-	CheckKirbyAbilityCollision(SparkEffectCollision);
+
+	// 능력 충돌 검사
+	int DamageValue = GameEngineRandom::MainRandom.RandomInt(1, 3);
+	CheckKirbyAbilityCollision(SparkEffectCollision, DamageValue);
 
 
 

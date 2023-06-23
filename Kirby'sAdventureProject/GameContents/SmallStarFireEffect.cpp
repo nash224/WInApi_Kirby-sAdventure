@@ -1,9 +1,8 @@
 #include "SmallStarFireEffect.h"
 #include "ContentsEnum.h"
 
+#include <GameEngineBase/GameEngineRandom.h>
 #include <GameEnginePlatform/GameEngineWindow.h>
-#include <GameEnginePlatform/GameEngineWindowTexture.h>
-#include <GameEngineCore/GameEngineLevel.h>
 #include <GameEngineCore/GameEngineSprite.h>
 #include <GameEngineCore/GameEngineCollision.h>
 #include <GameEngineCore/GameEngineRenderer.h>
@@ -86,49 +85,12 @@ void SmallStarFireEffect::Update(float _Delta)
 
 
 
-	// 몬스터랑 부딪혔을 경우
-	std::vector<GameEngineCollision*> Col;
-	if (true == EffectCollision->Collision(CollisionOrder::MonsterBody, Col, CollisionType::Rect, CollisionType::Rect))
+	AbilityToActorCollisionCheck(CollisionOrder::MonsterBody, true);
+
+	if (false == IsAbilityCollisionCheck)
 	{
-		// 사라지는 효과
-		ObejctDisapearingEffect* ObejctDisapearing = GetLevel()->CreateActor<ObejctDisapearingEffect>(UpdateOrder::Ability);
-		if (nullptr == ObejctDisapearing)
-		{
-			MsgBoxAssert("액터가 널일 이유가 없어..");
-			return;
-		}
-
-		ObejctDisapearing->init(GetPos());
-
-
-		// 죽고 정리
-		Death();
-		EffectPointerRelease();
-
-
-		// 벡터 순회
-		for (size_t i = 0; i < Col.size(); i++)
-		{
-			// 몬스터 콜리전 참조
-			GameEngineCollision* ActorBodyPtr = Col[i];
-			if (nullptr == ActorBodyPtr)
-			{
-				MsgBoxAssert("참조한 Actor 가 Null 입니다.");
-				return;
-			}
-
-			ActorUtils* Actor = dynamic_cast<ActorUtils*>(ActorBodyPtr->GetActor());
-			if (nullptr == Actor)
-			{
-				MsgBoxAssert("다운 캐스팅 오류입니다.");
-				return;
-			}
-
-			// 몬스터 상태 변경 트리거 On
-			Actor->IsHitted = true;
-		}
-
-		return;
+		int Damage = GameEngineRandom::MainRandom.RandomInt(2, 3);
+		AbilityToBossCollisionCheck(CollisionOrder::BossBody, Damage);
 	}
 
 	AddPos(EffectDir * SMALLSTARFIREEFFECTSPEED * _Delta);

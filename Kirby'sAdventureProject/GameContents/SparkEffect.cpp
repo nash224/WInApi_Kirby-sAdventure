@@ -1,12 +1,13 @@
 #include "SparkEffect.h"
 #include "ContentsEnum.h"
 
-#include <GameEnginePlatform/GameEngineWindow.h>
+
 #include <GameEnginePlatform/GameEngineWindowTexture.h>
 #include <GameEngineCore/GameEngineRenderer.h>
-#include <GameEngineCore/ResourcesManager.h>
+
 
 #include "GlobalContents.h"
+
 
 SparkEffect::SparkEffect()
 {
@@ -55,6 +56,7 @@ void SparkEffect::Update(float _Delta)
 	{
 		Death();
 		EffectPointerRelease();
+		return;
 	}
 
 

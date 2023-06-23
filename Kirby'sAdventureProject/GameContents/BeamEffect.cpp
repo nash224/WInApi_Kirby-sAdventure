@@ -42,6 +42,9 @@ void BeamEffect::SetActorCollision(CollisionOrder _Order, CollisionType _Type)
 
 }
 
+
+
+
 void BeamEffect::Update(float _Delta)
 {
 	EffectFrameChangeTime += _Delta;

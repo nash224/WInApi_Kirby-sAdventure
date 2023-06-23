@@ -23,7 +23,6 @@ class WhispyWood : public Boss
 {
 	friend class BossUI;
 
-	static WhispyWood* WhispyWoodPtr;
 public:
 	// constrcuter destructer
 	WhispyWood();
@@ -68,17 +67,8 @@ private:
 
 
 private:
-	// BossUI 관련
-	class BossUI* BossUIPtr = nullptr;
-	int m_BossHp = 28;
-
-	bool IsBossFindKirby = false;
 	const float BossFindPlayer_Y_Distance = 500.0f;
 
-	static WhispyWood* GetWhispyWoodPtr()
-	{
-		return WhispyWoodPtr;
-	}
 
 
 	// SummonApple 관련
@@ -97,6 +87,11 @@ private:
 	int Whispy_RemainCount = -1;
 	const float Whispy_FireCycle = 0.4f;
 	float Whispy_ReChargeTime = 0.0f;
+
+
+
+	// Frown 관련
+	bool IsImmune = false;
 
 
 

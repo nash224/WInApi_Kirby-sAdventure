@@ -1,4 +1,6 @@
 #include "Kirby.h"
+
+#include <GameEngineBase/GameEngineRandom.h>
 #include <GameEnginePlatform/GameEngineInput.h>
 #include <GameEngineCore/GameEngineRenderer.h>
 #include <GameEngineCore/GameEngineCamera.h>
@@ -100,6 +102,14 @@ void Kirby::ThornAbilityUpdate(float _Delta)
 {
 	StateTime += _Delta;
 
+
+	if (nullptr == ThornEffectCollision)
+	{
+		MsgBoxAssert("가시모드 콜리전이 Null입니다.");
+		return;
+	}
+
+
 	// 능력 최소 지속시간
 	if (StateTime > AbilityMinDuration && false == IsChangeState)
 	{
@@ -110,11 +120,6 @@ void Kirby::ThornAbilityUpdate(float _Delta)
 	// 'Z' 키 를 때면 능력 해제
 	if (true == GameEngineInput::IsFree('Z') && true == IsChangeState)
 	{
-		if (nullptr == ThornEffectCollision)
-		{
-			MsgBoxAssert("가시모드 콜리전이 Null입니다.");
-			return;
-		}
 
 		ThornEffectCollision->Off();
 		ChangeState(KirbyState::ReleaseSpecialAbility);
@@ -126,14 +131,18 @@ void Kirby::ThornAbilityUpdate(float _Delta)
 
 	// 커비 충돌검사
 	CheckKirbyCollision();
-	CheckKirbyAbilityCollision(ThornEffectCollision);
+
+
+	// 능력 충돌 검사
+	int DamageValue = GameEngineRandom::MainRandom.RandomInt(2, 3);
+	CheckKirbyAbilityCollision(ThornEffectCollision, DamageValue);
 
 
 
 
 	// Spark 충돌 검사
 	std::vector<GameEngineCollision*> NeedleCol;
-	if (true == SparkEffectCollision->Collision(CollisionOrder::MonsterBody, NeedleCol, CollisionType::Rect, CollisionType::Rect))
+	if (true == ThornEffectCollision->Collision(CollisionOrder::MonsterBody, NeedleCol, CollisionType::Rect, CollisionType::Rect))
 	{
 		// 벡터 순회
 		for (size_t i = 0; i < NeedleCol.size(); i++)

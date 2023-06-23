@@ -126,9 +126,6 @@
     <ClInclude Include="ActorUtils.h">
       <Filter>Global\Object</Filter>
     </ClInclude>
-    <ClInclude Include="BackGround.h">
-      <Filter>Level</Filter>
-    </ClInclude>
     <ClInclude Include="AirExplosionEffect.h">
       <Filter>Global\Effect\SkillAbilityEffect\AirExplosionEffect</Filter>
     </ClInclude>
@@ -224,6 +221,9 @@
     </ClInclude>
     <ClInclude Include="Boss_WhispyEffect.h">
       <Filter>Global\Effect\SkillAbilityEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="BackGround.h">
+      <Filter>Global</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -357,9 +357,6 @@
     <ClCompile Include="ActorUtils.cpp">
       <Filter>Global\Object</Filter>
     </ClCompile>
-    <ClCompile Include="BackGround.cpp">
-      <Filter>Level</Filter>
-    </ClCompile>
     <ClCompile Include="AirExplosionEffect.cpp">
       <Filter>Global\Effect\SkillAbilityEffect\AirExplosionEffect</Filter>
     </ClCompile>
@@ -482,6 +479,9 @@
     </ClCompile>
     <ClCompile Include="Boss_WhispyEffect.cpp">
       <Filter>Global\Effect\SkillAbilityEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="BackGround.cpp">
+      <Filter>Global</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

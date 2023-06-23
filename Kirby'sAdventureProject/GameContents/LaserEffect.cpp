@@ -1,6 +1,8 @@
 #include "LaserEffect.h"
 #include "ContentsEnum.h"
 
+
+#include <GameEngineBase/GameEngineRandom.h>
 #include <GameEnginePlatform/GameEngineWindow.h>
 #include <GameEnginePlatform/GameEngineWindowTexture.h>
 #include <GameEngineCore/GameEngineLevel.h>
@@ -80,11 +82,17 @@ void LaserEffect::GroundPassUpdate(float _Delta)
 
 	if (true == IsPlayerCollision)
 	{
-		AbilityToActorCollisionCheck(CollisionOrder::MonsterBody);
+		AbilityToActorCollisionCheck(CollisionOrder::MonsterBody, true);
+
+		if (false == IsAbilityCollisionCheck)
+		{
+			int DamageValue = GameEngineRandom::MainRandom.RandomInt(2, 3);
+			AbilityToBossCollisionCheck(CollisionOrder::BossBody, DamageValue, true);
+		}
 	}
 	else if (false == IsPlayerCollision)
 	{
-		AbilityToActorCollisionCheck(CollisionOrder::PlayerBody);
+		AbilityToActorCollisionCheck(CollisionOrder::PlayerBody, true);
 	}
 
 }
@@ -95,58 +103,3 @@ void LaserEffect::GroundNotPassUpdate(float _Delta)
 
 }
 
-
-
-// 재정의 충돌 함수
-void LaserEffect::AbilityToActorCollisionCheck(CollisionOrder _ActorBodyCol)
-{
-
-	if (nullptr == EffectCollision)
-	{
-		MsgBoxAssert("충돌체가 Null 입니다.");
-		return;
-	}
-
-
-	std::vector<GameEngineCollision*> ActorCol;
-	if (true == EffectCollision->Collision(_ActorBodyCol, ActorCol, CollisionType::Rect, CollisionType::Rect))
-	{
-		// 벡터 순회
-		for (size_t i = 0; i < ActorCol.size(); i++)
-		{
-			// 몬스터 콜리전 참조
-			GameEngineCollision* ActorBodyPtr = ActorCol[i];
-			if (nullptr == ActorBodyPtr)
-			{
-				MsgBoxAssert("참조한 Actor 가 Null 입니다.");
-				return;
-			}
-
-			ActorUtils* Actor = dynamic_cast<ActorUtils*>(ActorBodyPtr->GetActor());
-			if (nullptr == Actor)
-			{
-				MsgBoxAssert("다운 캐스팅 오류입니다.");
-				return;
-			}
-
-			// 몬스터 상태 변경 트리거 On
-			Actor->IsHitted = true;
-
-			// 맞으면 먼지효과
-			DustEffect* DustEffectPtr = GetLevel()->CreateActor<DustEffect>(UpdateOrder::Ability);
-			if (nullptr == DustEffectPtr)
-			{
-				MsgBoxAssert("액터를 생성하지 못했습니다.");
-				return;
-			}
-
-			DustEffectPtr->init(GetPos(), float4::ZERO, EffectDir);
-
-
-
-			Death();
-			EffectPointerRelease();
-			return;
-		}
-	}
-}

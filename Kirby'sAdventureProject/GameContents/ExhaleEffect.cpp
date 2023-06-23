@@ -82,5 +82,5 @@ void ExhaleEffect::Update(float _Delta)
 		return;
 	}
 
-	AbilityToActorCollisionCheck(CollisionOrder::MonsterBody);
+	AbilityToActorCollisionCheck(CollisionOrder::MonsterBody, true);
 }

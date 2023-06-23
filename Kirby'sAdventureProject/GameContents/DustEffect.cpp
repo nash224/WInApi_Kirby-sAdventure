@@ -60,5 +60,6 @@ void DustEffect::Update(float _Delta)
 	{
 		Death();
 		EffectPointerRelease();
+		return;
 	}
 }

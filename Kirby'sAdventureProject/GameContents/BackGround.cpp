@@ -11,8 +11,11 @@
 #pragma comment(lib, "msimg32.lib")
 
 #include "GlobalContents.h"
+#include "Boss.h"
 
 
+
+int BackGround::BossStage = 0;
 BackGround::BackGround() 
 {
 }
@@ -86,6 +89,20 @@ GameEngineRenderer* BackGround::SpriteInit(const std::string& _FileName, const s
 
 void BackGround::Update(float _Delta)
 {
+	if (true == IsBossChangeMap)
+	{
+		switch (BossStage)
+		{
+		case 1:
+			WhispyChangeMap(_Delta);
+			break;
+		case 2:
+			break;
+		default:
+			break;
+		}
+	}
+
 }
 
 
@@ -101,5 +118,55 @@ void BackGround::SwitchRender()
 	else {
 		Renderer->Off();
 		DebugRenderer->On();
+	}
+}
+
+
+
+void BackGround::WhispyChangeMap(float _Delta)
+{
+	if (nullptr == Renderer)
+	{
+		MsgBoxAssert("배경 렌더러를 불러오지 못했습니다.");
+		return;
+	}
+
+
+	Whispy_ChangeMap_Time += _Delta;
+
+	if (Whispy_ChangeMap_Time > Whispy_ChangeMap_Cycle)
+	{
+		Whispy_ChangeMap_Time = 0.0f;
+
+		switch (Whispy_ChangeMap_Number % 3)
+		{
+		case 0:
+			Renderer->SetTexture("VegetableValleyP_Black.bmp");
+			break;
+		case 1:
+			Renderer->SetTexture("VegetableValleyP_Orange_Black.bmp");
+			break;
+		case 2:
+			Renderer->SetTexture("VegetableValleyP.bmp");
+			break;
+		default:
+			break;
+		}
+
+
+		++Whispy_ChangeMap_Number;
+	}
+
+	if (20 == Whispy_ChangeMap_Number)
+	{
+		Boss* WhispyWoodPtr = Boss::GetMainBossPtr();
+		if (nullptr == WhispyWoodPtr)
+		{
+			MsgBoxAssert("보스를 불러오지 못했습니다.");
+			return;
+		}
+
+
+		IsBossChangeMap = false;
 	}
 }

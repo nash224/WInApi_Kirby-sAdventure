@@ -7,7 +7,7 @@
 
 #include "GlobalContents.h"
 #include "Kirby.h"
-#include "WhispyWood.h"
+#include "Boss.h"
 
 
 
@@ -493,7 +493,7 @@ void BossUI::LevelStart()
 	}
 
 
-	BossPtr = WhispyWood::GetWhispyWoodPtr();
+	BossPtr = Boss::GetMainBossPtr();
 	if (nullptr == BossPtr)
 	{
 		MsgBoxAssert("보스를 불러오지 못했습니다.");

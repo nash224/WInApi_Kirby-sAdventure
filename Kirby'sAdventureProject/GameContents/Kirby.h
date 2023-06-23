@@ -262,7 +262,8 @@ protected:
 
 	void DropAbility();
 	void CheckKirbyCollision();
-	void CheckKirbyAbilityCollision(GameEngineCollision* _CheckCol);
+	void CheckKirbyAbilityCollision(GameEngineCollision* _CheckCol, int _Damage = 1);
+	void CheckKirbyAbilityToBossCollision(GameEngineCollision* _CheckCol, int _Damage = 1);
 
 
 private:

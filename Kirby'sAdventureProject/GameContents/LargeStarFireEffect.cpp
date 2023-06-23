@@ -1,10 +1,9 @@
 #include "LargeStarFireEffect.h"
 #include "ContentsEnum.h"
 
+#include <GameEngineBase/GameEngineRandom.h>
 #include <GameEnginePlatform/GameEngineWindow.h>
-#include <GameEnginePlatform/GameEngineWindowTexture.h>
 #include <GameEngineCore/GameEngineLevel.h>
-#include <GameEngineCore/GameEngineSprite.h>
 #include <GameEngineCore/GameEngineCollision.h>
 #include <GameEngineCore/GameEngineRenderer.h>
 #include <GameEngineCore/ResourcesManager.h>
@@ -59,6 +58,9 @@ void LargeStarFireEffect::Update(float _Delta)
 
 
 	AbilityToActorCollisionCheck(CollisionOrder::MonsterBody);
+
+	int Damage = GameEngineRandom::MainRandom.RandomInt(3, 5);
+	AbilityToBossCollisionCheck(CollisionOrder::BossBody, Damage);
 
 
 
