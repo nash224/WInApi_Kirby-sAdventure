@@ -41,13 +41,27 @@ public:
 	}
 
 
+	void RequestFadeScreen(int _AlphaCount = 0);
+
+
 private:
+	// Fade In & Out 
 	bool IsFadeOut = false;
 	bool IsChangeFade = false;
 	int FadeNumber = -1;
 	float ChangeFadeAlphaTime = 0.0f;
 	const float ChangeFadeAlphaDuration = 0.1f;
 	int AlphaCount = 0;
+
+
+	void FadeOut(float _Delta);
+	void FadeIn(float _Delta);
+
+
+	// FadeScreen
+	bool IsFadeScreen = false;
+
+	void FadeScreen(float _Delta);
 
 };
 

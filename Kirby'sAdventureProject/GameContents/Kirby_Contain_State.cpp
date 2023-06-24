@@ -15,6 +15,7 @@
 #include "SmallStarFireEffect.h"
 #include "LargeStarFireEffect.h"
 #include "GetAbilityEffect.h"
+#include "FadeObject.h"
 
 
 
@@ -559,6 +560,7 @@ void Kirby::Contain_GulpStart()
 	ChangeKirbyBodyState(KirbyBodyState::Little);
 
 
+	// 파워몹 하나라도 먹으면
 	if (Star.SwallowedPowerEnemyNumber > 0)
 	{
 		GetAbilityEffectPtr = GetLevel()->CreateActor<GetAbilityEffect>(UpdateOrder::Other);
@@ -571,6 +573,26 @@ void Kirby::Contain_GulpStart()
 		GetAbilityEffectPtr->init(GetPos(), GetKirbyScale());
 
 
+		// Fade 설정
+		GameEngineLevel* CurLevelPtr = GetLevel();
+		if (nullptr == CurLevelPtr)
+		{
+			MsgBoxAssert("레벨을 불러오지 못했습니다.");
+			return;
+		}
+
+
+		FadeObject* LevelFade = CurLevelPtr->CreateActor<FadeObject>(UpdateOrder::UI);
+		if (nullptr == LevelFade)
+		{
+			MsgBoxAssert("생성한 액터가 Null 입니다.");
+			return;
+		}
+
+		LevelFade->RequestFadeScreen(FadeAlphaValue);
+
+		
+		// 시간 설정
 		GameEngineTime::MainTimer.SetAllTimeScale(0.0f);
 		GameEngineTime::MainTimer.SetTimeScale(UpdateOrder::Player, 1.0f);
 		GameEngineTime::MainTimer.SetTimeScale(UpdateOrder::Other, 1.0f);
@@ -826,7 +848,10 @@ void Kirby::GetAbilityUpdate(float _Delta)
 
 	if (true == IsChangeState)
 	{
-		
+		// Fade 해제
+		IsFadeScreenRelease = true;
+
+		// 시간 Delta Reset
 		GameEngineTime::MainTimer.SetAllTimeScale(1.0f);
 
 		// 바닥이 있고 속도가 0이면 Idle
@@ -859,18 +884,6 @@ void Kirby::GetAbilityUpdate(float _Delta)
 	BlockedByCeiling();
 	BlockedByWall();
 
-
-	//// 체공상태가 아니면 중력적용 x
-	//if (false == GetGroundState())
-	//{
-	//	Gravity(_Delta);
-	//	GravityLimit(_Delta);
-	//	VerticalUpdate(_Delta);
-	//}
-
-	//// X축 감속 및 업데이트
-	//Kirby::DecelerationUpdate(_Delta);
-	//HorizontalUpdate(_Delta);
 }
 
 

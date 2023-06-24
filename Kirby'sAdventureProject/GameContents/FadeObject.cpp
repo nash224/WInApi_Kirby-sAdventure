@@ -62,97 +62,25 @@ void FadeObject::Update(float _Delta)
 	}
 
 	// FadeOut을 요청받았을 때
-	if (true == IsChangeFade && true == IsFadeOut)
+	if (true == IsChangeFade)
 	{
-		// 간격마다
-		if (ChangeFadeAlphaTime > ChangeFadeAlphaDuration)
+		if (true == IsFadeOut)
 		{
-			ChangeFadeAlphaTime = 0.0f;
-			++FadeNumber;
-
-			switch (FadeNumber)
-			{
-			case 0:
-				AlphaCount = 128;
-				break;
-			case 1:
-				AlphaCount = 200;
-				break;
-			case 2:
-				AlphaCount = 255;
-				break;
-			default:
-				break;
-			} 
-			
-
-			// 알파값 설정
-			MainRenderer->SetAlpha(static_cast<unsigned char>(AlphaCount));
-
+			FadeOut(_Delta);
 		}
-
-
-		Kirby* KirbyPtr = Kirby::GetMainKirby();
-		if (nullptr == KirbyPtr)
+		else if (false == IsFadeOut)
 		{
-			MsgBoxAssert("커비를 불러오지 못했습니다.");
-			return;
-		}
-
-		
-
-
-		if (FadeNumber >= 2 && false == KirbyPtr->IsFadeOut)
-		{
-			Death();
-			if (nullptr != MainRenderer)
-			{
-				MainRenderer = nullptr;
-			}
+			FadeIn(_Delta);
 		}
 	}
-	else if (true == IsChangeFade && false == IsFadeOut)
+
+
+	if (true == IsFadeScreen)
 	{
-		// 0.04f초 마다
-		if (ChangeFadeAlphaTime > ChangeFadeAlphaDuration)
-		{
-			ChangeFadeAlphaTime = 0.0f;
-
-			++FadeNumber;
-
-
-
-			switch (FadeNumber)
-			{
-			case 0:
-				AlphaCount = 128;
-				break;
-			case 1:
-				AlphaCount = 55;
-				break;
-			case 2:
-				AlphaCount = 0;
-				break;
-			default:
-				break;
-			}
-
-
-
-			// 설정
-			MainRenderer->SetAlpha(static_cast<unsigned char>(AlphaCount));
-		}
-
-
-		if (FadeNumber >= 2)
-		{
-			Death();
-			if (nullptr != MainRenderer)
-			{
-				MainRenderer = nullptr;
-			}
-		}
+		FadeScreen(_Delta);
 	}
+
+
 }
 
 
@@ -171,4 +99,136 @@ void FadeObject::RequestFadeIn()
 	IsFadeOut = false;
 
 	AlphaCount = 255;
+}
+
+
+void FadeObject::FadeOut(float _Delta)
+{
+	// 간격마다
+	if (ChangeFadeAlphaTime > ChangeFadeAlphaDuration)
+	{
+		ChangeFadeAlphaTime = 0.0f;
+		++FadeNumber;
+
+		switch (FadeNumber)
+		{
+		case 0:
+			AlphaCount = 128;
+			break;
+		case 1:
+			AlphaCount = 200;
+			break;
+		case 2:
+			AlphaCount = 255;
+			break;
+		default:
+			break;
+		}
+
+
+		// 알파값 설정
+		MainRenderer->SetAlpha(static_cast<unsigned char>(AlphaCount));
+
+	}
+
+
+	Kirby* KirbyPtr = Kirby::GetMainKirby();
+	if (nullptr == KirbyPtr)
+	{
+		MsgBoxAssert("커비를 불러오지 못했습니다.");
+		return;
+	}
+
+
+
+
+	if (FadeNumber >= 2 && false == KirbyPtr->IsFadeOut)
+	{
+		Death();
+		if (nullptr != MainRenderer)
+		{
+			MainRenderer = nullptr;
+		}
+	}
+}
+
+
+void FadeObject::FadeIn(float _Delta)
+{
+	// 0.04f초 마다
+	if (ChangeFadeAlphaTime > ChangeFadeAlphaDuration)
+	{
+		ChangeFadeAlphaTime = 0.0f;
+
+		++FadeNumber;
+
+
+
+		switch (FadeNumber)
+		{
+		case 0:
+			AlphaCount = 128;
+			break;
+		case 1:
+			AlphaCount = 55;
+			break;
+		case 2:
+			AlphaCount = 0;
+			break;
+		default:
+			break;
+		}
+
+
+		// 설정
+		MainRenderer->SetAlpha(static_cast<unsigned char>(AlphaCount));
+	}
+
+
+	if (FadeNumber >= 2)
+	{
+		Death();
+		if (nullptr != MainRenderer)
+		{
+			MainRenderer = nullptr;
+		}
+	}
+
+}
+
+
+
+
+void FadeObject::RequestFadeScreen(int _AlphaCount /*= 0*/)
+{
+	IsFadeScreen = true;
+
+	AlphaCount = _AlphaCount;
+
+	MainRenderer->SetAlpha(static_cast<unsigned char>(AlphaCount));
+}
+
+
+void FadeObject::FadeScreen(float _Delta)
+{
+
+	Kirby* KirbyPtr = Kirby::GetMainKirby();
+	if (nullptr == KirbyPtr)
+	{
+		MsgBoxAssert("커비를 불러오지 못했습니다.");
+		return;
+	}
+
+
+	if (true == KirbyPtr->IsFadeScreenRelease)
+	{
+		KirbyPtr->IsFadeScreenRelease = false;
+
+		Death();
+		if (nullptr != MainRenderer)
+		{
+			MainRenderer = nullptr;
+		}
+		return;
+	}
 }

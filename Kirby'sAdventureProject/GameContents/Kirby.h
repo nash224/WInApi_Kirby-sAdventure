@@ -394,6 +394,7 @@ private:
 	ActorUtils* SwallingEnemy = nullptr;
 	bool IsSwallowedtriggerOn = false;
 	bool swallowedObject = false;
+	bool KirbySwalling = false;
 
 	bool IsGulpEnemy = false;
 	const float Swallowed_Distance = 10.0f;
@@ -433,6 +434,10 @@ private:
 	bool IsReachedStarStick = false;
 
 public:
+	// Fade Out & In, FadeScreen ฐüทร
 	bool IsFadeOut = false;
+	bool IsFadeScreenRelease = false;
+
+	int FadeAlphaValue = 70;
 };
 

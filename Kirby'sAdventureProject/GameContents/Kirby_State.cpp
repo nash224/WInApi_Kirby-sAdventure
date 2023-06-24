@@ -91,19 +91,23 @@ void Kirby::Normal_StateResourceLoad()
 
 
 
-	GlobalContents::SpriteFileLoad("Normal_KirbyOpenTheDoor.bmp", "Resources\\Unit\\Kirby", 5, 2);
+	GlobalContents::SpriteFileLoad("1Normal_KirbyOpenTheDoor.bmp", "Resources\\Unit\\Kirby", 5, 4);
 
 
-	MainRenderer->CreateAnimation("Normal_Right_OpenDoorAndRaiseFlag", "Normal_KirbyOpenTheDoor.bmp", 0, 8, 0.1f, false);
+	MainRenderer->CreateAnimation("Normal_Right_OpenDoorAndRaiseFlag", "1Normal_KirbyOpenTheDoor.bmp", 0, 8, 0.1f, false);
 
 	MainRenderer->CreateAnimationToFrame("Normal_Right_OpenDoorAndRaiseFlagAfter", "Normal_Right_Kirby.bmp", { 13 , 12 , 11 , 13 , 7 }, 0.1f, false);
 
 
-	MainRenderer->CreateAnimation("Normal_Left_StageClear", "Normal_KirbyOpenTheDoor.bmp", 0, 8, 0.1f, false);
-	MainRenderer->CreateAnimation("Normal_Right_StageClear", "Normal_KirbyOpenTheDoor.bmp", 0, 8, 0.1f, false);
 
-	MainRenderer->CreateAnimation("Normal_Left_StageClearAfter", "Normal_KirbyOpenTheDoor.bmp", 0, 1, 0.1f, false);
-	MainRenderer->CreateAnimation("Normal_Right_StageClearAfter", "Normal_KirbyOpenTheDoor.bmp", 0, 1, 0.1f, false);
+	MainRenderer->CreateAnimation("Normal_Left_StageClearWalk", "Normal_Left_Kirby.bmp", 2, 5, 0.1f, false);
+	MainRenderer->CreateAnimation("Normal_Right_StageClearWalk", "Normal_Right_Kirby.bmp", 2, 5, 0.1f, false);
+
+	MainRenderer->CreateAnimation("Normal_Left_StageClear", "1Normal_KirbyOpenTheDoor.bmp", 9, 15, 0.1f, false);
+	MainRenderer->CreateAnimation("Normal_Right_StageClear", "1Normal_KirbyOpenTheDoor.bmp", 9, 15, 0.1f, false);
+
+	MainRenderer->CreateAnimation("Normal_Left_StageClearAfter", "1Normal_KirbyOpenTheDoor.bmp", 0, 1, 0.1f, false);
+	MainRenderer->CreateAnimation("Normal_Right_StageClearAfter", "1Normal_KirbyOpenTheDoor.bmp", 0, 1, 0.1f, false);
 }
 
 // =============================================//

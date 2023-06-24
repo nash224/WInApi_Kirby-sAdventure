@@ -123,3 +123,4 @@ void GlobalContents::FadeIn(GameEngineLevel* _Level)
 
 	LevelFade->RequestFadeIn();
 }
+
