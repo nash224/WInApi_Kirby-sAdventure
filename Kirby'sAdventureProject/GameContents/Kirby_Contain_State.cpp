@@ -1,9 +1,13 @@
 #include "Kirby.h"
+
+
+#include <GameEngineBase/GameEngineTime.h>
 #include <GameEnginePlatform/GameEngineInput.h>
 #include <GameEngineCore/GameEngineRenderer.h>
 #include <GameEngineCore/GameEngineCamera.h>
 #include <GameEngineCore/GameEngineLevel.h>
 #include <GameEngineCore/ResourcesManager.h>
+
 
 #include "GlobalContents.h"
 #include "DustEffect.h"
@@ -557,7 +561,7 @@ void Kirby::Contain_GulpStart()
 
 	if (Star.SwallowedPowerEnemyNumber > 0)
 	{
-		GetAbilityEffectPtr = GetLevel()->CreateActor<GetAbilityEffect>(UpdateOrder::Ability);
+		GetAbilityEffectPtr = GetLevel()->CreateActor<GetAbilityEffect>(UpdateOrder::Other);
 		if (nullptr == GetAbilityEffectPtr)
 		{
 			MsgBoxAssert("액터가 NULL 입니다");
@@ -565,6 +569,12 @@ void Kirby::Contain_GulpStart()
 		}
 
 		GetAbilityEffectPtr->init(GetPos(), GetKirbyScale());
+
+
+		GameEngineTime::MainTimer.SetAllTimeScale(0.0f);
+		GameEngineTime::MainTimer.SetTimeScale(UpdateOrder::Player, 1.0f);
+		GameEngineTime::MainTimer.SetTimeScale(UpdateOrder::Other, 1.0f);
+		GameEngineTime::MainTimer.SetTimeScale(UpdateOrder::UI, 1.0f);
 	}
 
 	ChangeAnimationState("Contain_Gulp");
@@ -639,9 +649,12 @@ void Kirby::Contain_GulpUpdate(float _Delta)
 	BlockedByWall();
 
 
+	if (Star.SwallowedPowerEnemyNumber == 0)
+	{
+		DecelerationUpdate(_Delta);
+		HorizontalUpdate(_Delta);
+	}
 
-	DecelerationUpdate(_Delta);
-	HorizontalUpdate(_Delta);
 
 
 	// 데미지 상태 패턴
@@ -811,27 +824,33 @@ void Kirby::GetAbilityUpdate(float _Delta)
 	TriggerMultiTimeAbility(_Delta);
 
 
-	// 바닥이 있고 속도가 0이면 Idle
-	if (true == GetGroundState() && true == IsChangeState && 0 == CurrentSpeed)
+	if (true == IsChangeState)
 	{
-		ChangeState(KirbyState::Idle);
-		return;
+		
+		GameEngineTime::MainTimer.SetAllTimeScale(1.0f);
+
+		// 바닥이 있고 속도가 0이면 Idle
+		if (true == GetGroundState() && 0 == CurrentSpeed)
+		{
+			ChangeState(KirbyState::Idle);
+			return;
+		}
+
+		// 바닥이 있고 속도가 있으면 Walk
+		if (true == GetGroundState() && 0 != CurrentSpeed)
+		{
+			ChangeState(KirbyState::Walk);
+			return;
+		}
+
+		// 체공 상태이면 Fall
+		if (false == GetGroundState())
+		{
+			ChangeState(KirbyState::Fall);
+			return;
+		}
 	}
 
-	// 바닥이 있고 속도가 있으면 Walk
-	if (true == GetGroundState() && true == IsChangeState && 0 != CurrentSpeed)
-	{
-		ChangeState(KirbyState::Walk);
-		return;
-	}
-
-
-	// 체공 상태이면 Fall
-	if (false == GetGroundState() && true == IsChangeState)
-	{
-		ChangeState(KirbyState::Fall);
-		return;
-	}
 
 
 
@@ -841,17 +860,17 @@ void Kirby::GetAbilityUpdate(float _Delta)
 	BlockedByWall();
 
 
-	// 체공상태가 아니면 중력적용 x
-	if (false == GetGroundState())
-	{
-		Gravity(_Delta);
-		GravityLimit(_Delta);
-		VerticalUpdate(_Delta);
-	}
+	//// 체공상태가 아니면 중력적용 x
+	//if (false == GetGroundState())
+	//{
+	//	Gravity(_Delta);
+	//	GravityLimit(_Delta);
+	//	VerticalUpdate(_Delta);
+	//}
 
-	// X축 감속 및 업데이트
-	Kirby::DecelerationUpdate(_Delta);
-	HorizontalUpdate(_Delta);
+	//// X축 감속 및 업데이트
+	//Kirby::DecelerationUpdate(_Delta);
+	//HorizontalUpdate(_Delta);
 }
 
 

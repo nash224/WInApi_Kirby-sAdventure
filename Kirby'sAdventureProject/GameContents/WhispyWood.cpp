@@ -1,6 +1,7 @@
 #include "WhispyWood.h"
 #include "ContentsEnum.h"
 
+#include <GameEngineBase/GameEngineTime.h>
 #include <GameEnginePlatform/GameEngineInput.h>
 #include <GameEngineBase/GameEngineRandom.h>
 #include <GameEngineCore/GameEngineLevel.h>
@@ -175,6 +176,7 @@ void WhispyWood::IdleUpdate(float _Delta)
 		}
 
 		BodyCollision->On();
+		GameEngineTime::MainTimer.SetTimeScale(UpdateOrder::Player, 1.0f);
 
 		ChangeState(WhispyWoodState::SummonApple);
 		return;
@@ -186,6 +188,7 @@ void WhispyWood::IdleUpdate(float _Delta)
 
 	if (false == BossUIPtr->IsBossStaminaFull && KirbyPos.Y > BossFindPlayer_Y_Distance)
 	{
+		GameEngineTime::MainTimer.SetTimeScale(UpdateOrder::Player, 0.0f);
 		IsBossFindKirby = true;
 	}
 }
@@ -249,7 +252,7 @@ void WhispyWood::SummonAppleUpdate(float _Delta)
 				return;
 			}
 
-			Apple* ApplePtr = CurLevelPtr->CreateActor<Apple>(UpdateOrder::Item);
+			Apple* ApplePtr = CurLevelPtr->CreateActor<Apple>(UpdateOrder::Monster);
 			if (nullptr == ApplePtr)
 			{
 				MsgBoxAssert("액터 생성에 실패했습니다.");
@@ -432,6 +435,8 @@ void WhispyWood::KaonashiStart()
 {
 	// 배경 바꿔달라고 요청
 	BossBackGroundPtr->IsBossChangeMap = true;
+	GameEngineTime::MainTimer.SetTimeScale(UpdateOrder::Player, 0.0f);
+	GameEngineTime::MainTimer.SetTimeScale(UpdateOrder::Monster, 0.0f);
 
 	ChangeAnimationState("Kaonashi");
 }
@@ -441,6 +446,8 @@ void WhispyWood::KaonashiUpdate(float _Delta)
 	// BackGround 에서 값 변경
 	if (true == BossChangeMapPattern)
 	{
+		GameEngineTime::MainTimer.SetTimeScale(UpdateOrder::Player, 1.0f);
+		GameEngineTime::MainTimer.SetTimeScale(UpdateOrder::Monster, 1.0f);
 		ChangeState(WhispyWoodState::CryingFace);
 		return;
 	}

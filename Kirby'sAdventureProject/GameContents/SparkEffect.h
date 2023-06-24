@@ -1,7 +1,7 @@
 #pragma once
 #include "SkillEffect.h"
 
-#define SPARKEFFECTDISTANCE 21.0f
+#define SPARKEFFECTDISTANCE 39.0f
 #define SPARKEFFECTTIME 0.15f
 
 

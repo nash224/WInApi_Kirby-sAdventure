@@ -162,7 +162,7 @@ void Kirby::TriggerOneTimeAbility()
 void Kirby::OneTimeLaser()
 {
 	// 레이저 소환
-	LaserEffect* LaserEffectPtr = GetLevel()->CreateActor<LaserEffect>(UpdateOrder::Ability);
+	LaserEffect* LaserEffectPtr = GetLevel()->CreateActor<LaserEffect>(UpdateOrder::UI);
 
 	if (nullptr == LaserEffectPtr)
 	{
@@ -178,7 +178,7 @@ void Kirby::OneTimeLaser()
 void Kirby::OneTimeBeam()
 {
 	// 빔 소환
-	BeamEffect* BeamEffectPtr = GetLevel()->CreateActor<BeamEffect>(UpdateOrder::Ability);
+	BeamEffect* BeamEffectPtr = GetLevel()->CreateActor<BeamEffect>(UpdateOrder::UI);
 	if (nullptr == BeamEffectPtr)
 	{
 		MsgBoxAssert("액터가 Null일리가 없어...");
@@ -247,7 +247,7 @@ void Kirby::TriggerFireAbilityAfterProcess(float _Delta)
 	{
 		FrameTime = 0.0f;
 
-		FrameBreathEffect* FrameBreathEffectPtr = GetLevel()->CreateActor<FrameBreathEffect>(UpdateOrder::Ability);
+		FrameBreathEffect* FrameBreathEffectPtr = GetLevel()->CreateActor<FrameBreathEffect>(UpdateOrder::UI);
 
 		if (nullptr == FrameBreathEffectPtr)
 		{

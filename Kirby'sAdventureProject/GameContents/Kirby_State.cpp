@@ -1,6 +1,7 @@
 #include "Kirby.h"
 
 
+#include <GameEngineBase/GameEngineTime.h>
 #include <GameEngineBase/GameEngineRandom.h>
 #include <GameEnginePlatform/GameEngineInput.h>
 #include <GameEngineCore/GameEngineRenderer.h>
@@ -1581,6 +1582,10 @@ void Kirby::EnterStart()
 	IsFadeOut = false;
 	FadeOutTime = 0.0f;
 
+	GameEngineTime::MainTimer.SetAllTimeScale(0.0f);
+	GameEngineTime::MainTimer.SetTimeScale(UpdateOrder::Player, 1.0f);
+	GameEngineTime::MainTimer.SetTimeScale(UpdateOrder::Other, 1.0f);
+	GameEngineTime::MainTimer.SetTimeScale(UpdateOrder::UI, 1.0f);
 
 	GravityReset();
 	ChangeAnimationState("Enter");
@@ -1608,24 +1613,25 @@ void Kirby::EnterUpdate(float _Delta)
 	}
 
 
-	if (true == IsChangeState && true == VegetableValleyPlayLevel::IsStageEnd)
-	{
-		IsFadeOut = false;
-		VegetableValleyPlayLevel::NextLevelTriggerOn = true;
-		ChangeState(KirbyState::OpenDoorAndRaiseFlag);
-		return;
-	}
-
-
-
 	// 레벨 이동 트리거
 	if (true == IsChangeState)
 	{
+		GameEngineTime::MainTimer.SetAllTimeScale(1.0f);
 		IsFadeOut = false;
 		VegetableValleyPlayLevel::NextLevelTriggerOn = true;
+
+
+		if (true == VegetableValleyPlayLevel::IsStageEnd)
+		{
+			ChangeState(KirbyState::OpenDoorAndRaiseFlag);
+			return;
+		}
+
 		ChangeState(KirbyState::Idle);
 		return;
 	}
+
+
 }
 
 
