@@ -36,11 +36,9 @@ public:
 
 
 private:
-	// 상태패턴 함수
+	// 상태패턴 관련
 	WhispyWoodState State = WhispyWoodState::Max;
 	WhispyWoodState PrevState = WhispyWoodState::Max;
-
-
 
 
 	void StateUpdate(float _Delta) override;
@@ -69,6 +67,8 @@ private:
 private:
 	const float BossFindPlayer_Y_Distance = 500.0f;
 
+	// 보스 숏컷
+	void DebugShortcut();
 
 
 	// SummonApple 관련

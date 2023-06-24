@@ -42,11 +42,19 @@ void VegetableValley13::Start()
 		return;
 	}
 
+	LevelBackGround->ExtraMapSet("VegetableValleyP_Black.bmp", "Resources\\Map");
+	LevelBackGround->ExtraMapSet("VegetableValleyP_Orange_Black.bmp", "Resources\\Map");
+
+	// 보스 배경 패턴을 위한 스테이지 설정
+	LevelBackGround->BossStage = 1;
+
+	// 설정
 	BackGroundScale = Texture->GetScale();
 
 	BitMapFileName = "VegetableValleyBossP.bmp";
 
 
+	// 보스생성
 	LevelBoss = GameEngineLevel::CreateActor<WhispyWood>(UpdateOrder::Monster);
 	if (nullptr == LevelBoss)
 	{

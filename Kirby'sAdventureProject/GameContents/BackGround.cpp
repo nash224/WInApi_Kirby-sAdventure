@@ -87,6 +87,15 @@ GameEngineRenderer* BackGround::SpriteInit(const std::string& _FileName, const s
 }
 
 
+
+void BackGround::ExtraMapSet(const std::string& _FileName, const std::string& _Path)
+{
+	GlobalContents::TextureFileLoad(_FileName, _Path);
+}
+
+
+
+
 void BackGround::Update(float _Delta)
 {
 	if (true == IsBossChangeMap)
@@ -138,7 +147,7 @@ void BackGround::WhispyChangeMap(float _Delta)
 	{
 		Whispy_ChangeMap_Time = 0.0f;
 
-		switch (Whispy_ChangeMap_Number % 3)
+		switch (Whispy_ChangeMap_Number % 4)
 		{
 		case 0:
 			Renderer->SetTexture("VegetableValleyP_Black.bmp");
@@ -157,7 +166,7 @@ void BackGround::WhispyChangeMap(float _Delta)
 		++Whispy_ChangeMap_Number;
 	}
 
-	if (20 == Whispy_ChangeMap_Number)
+	if (27 == Whispy_ChangeMap_Number)
 	{
 		Boss* WhispyWoodPtr = Boss::GetMainBossPtr();
 		if (nullptr == WhispyWoodPtr)

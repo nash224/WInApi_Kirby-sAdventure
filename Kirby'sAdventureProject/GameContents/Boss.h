@@ -36,6 +36,10 @@ protected:
 	// BossUI 관련
 	class BossUI* BossUIPtr = nullptr;
 
+
+	// BossBackGround 관련
+	class BackGround* BossBackGroundPtr = nullptr;
+
 	bool IsBossFindKirby = false;
 
 private:

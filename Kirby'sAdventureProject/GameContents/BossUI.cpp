@@ -588,6 +588,11 @@ void BossUI::BossStaminaState(float _Delta)
 	{
 		for (size_t i = Current_BossHp; i < UI_BossStamina; i++)
 		{
+			if (i < 0)
+			{
+				i = 0;
+			}
+
 			GameEngineRenderer* CurStaminarenderer = Boss_StaminaRenderer[i];
 			if (nullptr == CurStaminarenderer)
 			{

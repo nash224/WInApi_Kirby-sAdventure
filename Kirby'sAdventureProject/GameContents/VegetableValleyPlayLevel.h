@@ -60,6 +60,10 @@ public:
 		return LevelUIManager;
 	}
 
+	class BackGround* GetLevelBackGroundPtr()
+	{
+		return LevelBackGround;
+	}
 
 protected:
 	class UIManager* LevelUIManager = nullptr;

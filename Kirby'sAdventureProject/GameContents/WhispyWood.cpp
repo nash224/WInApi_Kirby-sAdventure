@@ -1,7 +1,7 @@
 #include "WhispyWood.h"
 #include "ContentsEnum.h"
 
-
+#include <GameEnginePlatform/GameEngineInput.h>
 #include <GameEngineBase/GameEngineRandom.h>
 #include <GameEngineCore/GameEngineLevel.h>
 #include <GameEngineCore/GameEngineRenderer.h>
@@ -91,6 +91,9 @@ void WhispyWood::Start()
 
 void WhispyWood::Update(float _Delta)
 {
+	DebugShortcut();
+
+
 	StateUpdate(_Delta);
 }
 
@@ -417,11 +420,15 @@ void WhispyWood::FrownUpdate(float _Delta)
 
 void WhispyWood::KaonashiStart()
 {
+	// 배경 바꿔달라고 요청
+	BossBackGroundPtr->IsBossChangeMap = true;
+
 	ChangeAnimationState("Kaonashi");
 }
 
 void WhispyWood::KaonashiUpdate(float _Delta)
 {
+	// BackGround 에서 값 변경
 	if (true == BossChangeMapPattern)
 	{
 		ChangeState(WhispyWoodState::CryingFace);
@@ -498,6 +505,14 @@ void WhispyWood::LevelStart()
 	}
 
 
+	BossBackGroundPtr = PlayLevelPtr->GetLevelBackGroundPtr();
+	if (nullptr == BossBackGroundPtr)
+	{
+		MsgBoxAssert("백그라운드를 읽어오지 못했습니다.");
+		return;
+	}
+
+
 	// UI 참조
 	UIManager* UIPtr =  PlayLevelPtr->GetUIManager();
 	if (nullptr == UIPtr)
@@ -522,4 +537,13 @@ void WhispyWood::LevelStart()
 
 void WhispyWood::Render(float _Delta)
 {
+}
+
+
+void WhispyWood::DebugShortcut()
+{
+	if (true == GameEngineInput::IsDown('B'))
+	{
+		m_BossHp = 1;
+	}
 }

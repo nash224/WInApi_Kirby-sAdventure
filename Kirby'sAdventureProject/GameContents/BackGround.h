@@ -9,6 +9,7 @@ class BackGround : public GameEngineActor
 {
 public:
 	static int BossStage;
+
 public:
 	// constrcuter destructer
 	BackGround();
@@ -40,14 +41,19 @@ private:
 
 
 
+public:
 	// 보스 관련
 	bool IsBossChangeMap = false;
 
-	void WhispyChangeMap(float _Delta);
-	const float Whispy_ChangeMap_Cycle = 0.06f;
+
+private:
+
+	// Whispy 보스 관련
+	const float Whispy_ChangeMap_Cycle = 0.04f;
 	float Whispy_ChangeMap_Time = 0.0f;
 	int Whispy_ChangeMap_Number = 0;
 
+	void WhispyChangeMap(float _Delta);
 
 
 private:
