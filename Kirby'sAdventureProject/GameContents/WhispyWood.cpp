@@ -12,6 +12,7 @@
 #include "VegetableValleyPlayLevel.h"
 #include "Kirby.h"
 #include "Apple.h"
+#include "StarStick.h"
 #include "Boss_WhispyEffect.h"
 #include "BossUI.h"
 #include "BackGround.h"
@@ -258,6 +259,7 @@ void WhispyWood::SummonAppleUpdate(float _Delta)
 			// Apple->SetPos
 			ApplePtr->init(float4{ Summon_WidthDistance , SummonApple_Height });
 			ApplePtr->SetGroundTexture(CurLevel_BitMap_FileName);
+			WhispyApple_list.push_back(ApplePtr);
 
 
 			--SummonAppleCount;
@@ -292,6 +294,8 @@ void WhispyWood::SummonAppleUpdate(float _Delta)
 
 	EnemyCollisionCheck();
 }
+
+
 
 
 void WhispyWood::WhispyStart()
@@ -380,6 +384,9 @@ void WhispyWood::WhispyUpdate(float _Delta)
 		ChangeState(WhispyWoodState::SummonApple);
 		return;
 	}
+
+
+	EnemyCollisionCheck();
 }
 
 
@@ -399,6 +406,9 @@ void WhispyWood::FrownUpdate(float _Delta)
 
 
 	// 지진효과
+
+
+
 	if (true == MainRenderer->IsAnimationEnd())
 	{
 		IsImmune = false;
@@ -442,6 +452,48 @@ void WhispyWood::CryingFaceStart()
 {
 	StateTime = 0.0f;
 	IsChangeState = false;
+
+	// 사과 없앰
+	std::list<Apple*>::iterator StarIter = WhispyApple_list.begin();
+	std::list<Apple*>::iterator EndIter = WhispyApple_list.end();
+
+	for (;StarIter != EndIter; ++StarIter)
+	{
+		Apple* ApplePtr = *StarIter;
+
+		if (nullptr == ApplePtr)
+		{
+			MsgBoxAssert("이 사과는 이미 처리된 객체입니다.");
+			return;
+		}
+
+		ApplePtr->Death();
+		ApplePtr->EnemyPointerRelease();
+	}
+
+
+	// 스타 스틱 생성
+	GameEngineLevel* CurLevelPtr = GetLevel();
+	if (nullptr == CurLevelPtr)
+	{
+		MsgBoxAssert("레벨을 불러오지 못했습니다.");
+		return;
+	}
+
+
+	StarStick* StarStickPtr = CurLevelPtr->CreateActor<StarStick>(UpdateOrder::Item);
+	if (nullptr == StarStickPtr)
+	{
+		MsgBoxAssert("스타 스틱을 불러오지 못했습니다.");
+		return;
+	}
+
+	float4 CurrentPos = GetPos();
+
+	StarStickPtr->init(CurrentPos, StickTargetPos);
+
+
+
 
 	ChangeAnimationState("CryingFace");
 }

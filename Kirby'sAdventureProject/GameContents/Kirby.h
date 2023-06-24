@@ -120,6 +120,7 @@ class Kirby : public ActorUtils
 {
 	friend class UIManager;
 	friend class VegetableValleyPlayLevel;
+	friend class Item;
 
 private:
 	// 레벨관련
@@ -425,6 +426,11 @@ private:
 	// Fade
 	const float FadeOutDuration = 0.6f;
 	float FadeOutTime = 0.0f;
+
+
+private:
+	// 아이템 관련
+	bool IsReachedStarStick = false;
 
 public:
 	bool IsFadeOut = false;

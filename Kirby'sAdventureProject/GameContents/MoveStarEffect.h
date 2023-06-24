@@ -26,6 +26,16 @@ public:
 protected:
 
 private:
+	float StarEffectSpeed = 400.0f;
+	float StarEffectMoveDuration = 0.16f;
+
+
+
+public:
+	void SetSpeedAndDuration(float _Speed, float _Duration);
+
+private:
+
 
 	void Start() override;
 	void Update(float _Delta) override;

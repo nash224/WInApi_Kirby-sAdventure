@@ -1,5 +1,6 @@
 #pragma once
 #include "Boss.h"
+#include <list>
 
 #define WHISPYWOOD_SCALE float4{ 144.0f , 264.0f }
 #define WHISPYWOOD_RESPAWNLOCATION float4 { 600.0f , 621.0f }
@@ -19,9 +20,13 @@ enum class WhispyWoodState
 
 
 // 설명 : 1스테이지 마왕군단 초 정예병 휫파람 괴물 나무 보스입니다.
+class Apple;
 class WhispyWood : public Boss
 {
 	friend class BossUI;
+
+private:
+	std::list<Apple*> WhispyApple_list;
 
 public:
 	// constrcuter destructer
@@ -94,6 +99,9 @@ private:
 	bool IsImmune = false;
 
 
+
+	// stiack 관련
+	const float4 StickTargetPos = float4{ 288.0f , 415.0f };
 
 
 private:

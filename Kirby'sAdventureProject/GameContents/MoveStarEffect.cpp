@@ -45,13 +45,19 @@ void MoveStarEffect::init(const float4& _Pos, const float4& _Dir)
 	SetPos(_Pos);
 }
 
+void MoveStarEffect::SetSpeedAndDuration(float _Speed, float _Duration)
+{
+	StarEffectSpeed = _Speed;
+	StarEffectMoveDuration = _Duration;
+}
+
 
 // 지정된 방향대로 움직이다 꺼짐
 void MoveStarEffect::Update(float _Delta)
 {
-	AddPos(EffectDir * STAREFFECTSPEED * _Delta);
+	AddPos(EffectDir * StarEffectSpeed * _Delta);
 
-	if (GetLiveTime() > STAREFFECTMOVETIME)
+	if (GetLiveTime() > StarEffectMoveDuration)
 	{
 		Death();
 		EffectPointerRelease();

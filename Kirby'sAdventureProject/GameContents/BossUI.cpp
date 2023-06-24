@@ -539,7 +539,7 @@ void BossUI::LevelStart()
 	}
 
 
-	// 커비 모드
+	// 커비 모드 초상화
 	switch (KirbyMode)
 	{
 	case 0:
@@ -590,7 +590,7 @@ void BossUI::BossStaminaState(float _Delta)
 		{
 			if (i < 0)
 			{
-				i = 0;
+				continue;
 			}
 
 			GameEngineRenderer* CurStaminarenderer = Boss_StaminaRenderer[i];
