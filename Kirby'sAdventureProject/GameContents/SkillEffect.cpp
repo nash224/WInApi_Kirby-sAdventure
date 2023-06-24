@@ -62,6 +62,8 @@ void SkillEffect::AbilityToActorCollisionCheck(CollisionOrder _ActorBodyCol, boo
 			if (true == _IsDeath)
 			{
 				IsAbilityCollisionCheck = true;
+
+				SkillDeathEffect();
 				Death();
 				EffectPointerRelease();
 				return;
@@ -112,6 +114,7 @@ void SkillEffect::AbilityToBossCollisionCheck(CollisionOrder _ActorBodyCol, int 
 
 			if (true == _IsDeath)
 			{
+				SkillDeathEffect();
 				Death();
 				EffectPointerRelease();
 				return;
@@ -128,20 +131,31 @@ float4 SkillEffect::GetCameraPos()
 	return CameraPos;
 }
 
-void SkillEffect::SetActorCollision(CollisionOrder _Order, CollisionType _Type)
+void SkillEffect::SetActorCollision(CollisionOrder _Order, CollisionType _Type, const float4& _CollisionScale)
 {
+	// Create Collision
 	EffectCollision = CreateCollision(_Order);
-
 	if (nullptr == EffectCollision)
 	{
 		MsgBoxAssert("콜리전이 Null입니다.");
 		return;
 	}
 
-	EffectCollision->SetCollisionScale(Scale);
+	// Set CollsionScale
+	if (float4::ZERO == _CollisionScale)
+	{
+		EffectCollision->SetCollisionScale(Scale);
+	}
+	else if (float4::ZERO != _CollisionScale)
+	{
+		EffectCollision->SetCollisionScale(_CollisionScale);
+	}
+
+	// Set CollisionType
 	EffectCollision->SetCollisionType(_Type);
 
 	
+	// Set Whose Collision
 	switch (_Order)
 	{
 	case CollisionOrder::PlayerAbility:

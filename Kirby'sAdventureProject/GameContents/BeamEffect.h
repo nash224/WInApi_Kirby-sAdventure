@@ -24,7 +24,7 @@ public:
 	BeamEffect& operator=(BeamEffect&& _Other) noexcept = delete;
 
 	void init(const float4& _Pos, const float4& _MaterScale, const float4& _EffectDir);
-	void SetActorCollision(CollisionOrder _Order, CollisionType _Type) override;
+	void SetActorCollision(CollisionOrder _Order, CollisionType _Type, const float4& _None = float4::ZERO) override;
 
 
 protected:

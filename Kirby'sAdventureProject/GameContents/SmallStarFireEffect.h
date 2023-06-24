@@ -27,5 +27,8 @@ private:
 
 	void Start() override;
 	void Update(float _Delta) override;
+
+
+	void SkillDeathEffect() override;
 };
 

@@ -21,7 +21,7 @@ public:
 	void SetGroundTexture(const std::string& _GroundTextureName);
 
 	// 외부에서 충돌을 지정하는 함수
-	virtual void SetActorCollision(CollisionOrder _Order, CollisionType _Type);
+	virtual void SetActorCollision(CollisionOrder _Order, CollisionType _Type, const float4& _CollisionScale = float4::ZERO);
 
 	// 방향 및 속도를 지정하는 함수
 	void SetEffectDir(const float4& _Dir)
@@ -52,8 +52,9 @@ protected:
 	// 충돌 함수
 	GameEngineCollision* EffectCollision = nullptr;
 
-	virtual void AbilityToActorCollisionCheck(CollisionOrder _ActorBodyCol, bool _IsDeath = false);
+	void AbilityToActorCollisionCheck(CollisionOrder _ActorBodyCol, bool _IsDeath = false);
 	void AbilityToBossCollisionCheck(CollisionOrder _ActorBodyCol, int _Damage = 1, bool _IsDeath = false);
+	virtual void SkillDeathEffect() {}
 
 
 

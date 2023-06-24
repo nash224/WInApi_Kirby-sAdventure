@@ -11,6 +11,7 @@
 #include "GlobalContents.h"
 #include "ActorUtils.h"
 #include "ObejctDisapearingEffect.h"
+#include "Boss.h"
 
 
 
@@ -90,9 +91,26 @@ void SmallStarFireEffect::Update(float _Delta)
 	if (false == IsAbilityCollisionCheck)
 	{
 		int Damage = GameEngineRandom::MainRandom.RandomInt(2, 3);
-		AbilityToBossCollisionCheck(CollisionOrder::BossBody, Damage);
+		AbilityToBossCollisionCheck(CollisionOrder::BossBody, Damage, true);
 	}
 
 	AddPos(EffectDir * SMALLSTARFIREEFFECTSPEED * _Delta);
 }
+
+
+
+void SmallStarFireEffect::SkillDeathEffect()
+{
+	// 별이 사라지는 모션
+	ObejctDisapearingEffect* ObejctDisapearing = GetLevel()->CreateActor<ObejctDisapearingEffect>(UpdateOrder::Ability);
+	if (nullptr == ObejctDisapearing)
+	{
+		MsgBoxAssert("액터가 Null 입니다.");
+		return;
+	}
+
+	ObejctDisapearing->init(GetPos());
+
+}
+
 

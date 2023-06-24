@@ -741,7 +741,7 @@ void Kirby::StarAttack()
 		}
 
 		StarStarEffect->init(CurrentLevelBitMapFileName, GetPos(), GetKirbyScale(), GetDirUnitVector());
-		StarStarEffect->SetActorCollision(CollisionOrder::PlayerAbility, CollisionType::Rect);
+		StarStarEffect->SetActorCollision(CollisionOrder::PlayerAbility, CollisionType::Rect, float4{ 12.0f , 12.0f });
 	}
 } 
 

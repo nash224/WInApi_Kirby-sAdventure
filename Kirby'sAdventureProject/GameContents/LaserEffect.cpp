@@ -103,3 +103,16 @@ void LaserEffect::GroundNotPassUpdate(float _Delta)
 
 }
 
+
+void LaserEffect::SkillDeathEffect()
+{
+	// 별이 사라지는 모션
+	DustEffect* DustEffectPtr = GetLevel()->CreateActor<DustEffect>(UpdateOrder::Ability);
+	if (nullptr == DustEffectPtr)
+	{
+		MsgBoxAssert("액터가 Null 입니다.");
+		return;
+	}
+
+	DustEffectPtr->init(GetPos(), Scale, EffectDir);
+}

@@ -35,7 +35,7 @@ void BeamEffect::init(const float4& _Pos, const float4& _MaterScale, const float
 
 
 
-void BeamEffect::SetActorCollision(CollisionOrder _Order, CollisionType _Type)
+void BeamEffect::SetActorCollision(CollisionOrder _Order, CollisionType _Type, const float4& _None)
 {
 	BeamOrder = _Order;
 	BeamType = _Type;
