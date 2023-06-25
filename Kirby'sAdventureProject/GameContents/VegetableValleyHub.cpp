@@ -69,7 +69,7 @@ void VegetableValleyHub::Start()
 
 
 	// HubMap DoorActor
-	VegetableValley_Stage1_PlayDoor = GameEngineLevel::CreateActor<DoorObject>(UpdateOrder::BackGroundEffect);
+	VegetableValley_Stage1_PlayDoor = GameEngineLevel::CreateActor<DoorObject>(UpdateOrder::Other);
 	if (nullptr == VegetableValley_Stage1_PlayDoor)
 	{
 		MsgBoxAssert("생성한 액터가 Null 입니다.");
@@ -108,13 +108,6 @@ void VegetableValleyHub::Start()
 
 void VegetableValleyHub::Update(float _Delta)
 {
-	if (nullptr == LevelPlayer)
-	{
-		MsgBoxAssert("레벨에 플레이어를 지정해주지 않았습니다.");
-		return;
-	}
-
-	float4 KirbyPos = LevelPlayer->GetPos();
 
 
 	if (true == GameEngineInput::IsDown('P'))
@@ -130,49 +123,13 @@ void VegetableValleyHub::Update(float _Delta)
 		return;
 	}
 
+	Kirby_StageClear();
 
-	// 첫번째 스테이지에 들어가면
-	if (true == IsPlayerEnter && KirbyPos.X > 260.0f && KirbyPos.X < 320.0f )
-	{
-		if (nullptr == VegetableValley_Stage1_PlayDoor)
-		{
-			MsgBoxAssert("오브젝트가 Null 입니다.");
-			return;
-		}
-
-		// 문열고
-		VegetableValley_Stage1_PlayDoor->IsDoorOpen = true;
+	VegetableValleyStage_1_Func();
+	VegetableValleyStage_2_Func();
 
 
 
-		if (true == NextLevelTriggerOn)
-		{
-			VegetableValleyEntertheDoorNumber = 1;
-			NextLevelTriggerOn = false;
-			IsPlayerEnter = false;
-
-			GameEngineCore::ChangeLevel("VegetableValley11");
-		}
-
-		return;
-	}
-
-
-	// WhispyWood 보스 스테이지
-	if (true == NextLevelTriggerOn && KirbyPos.X > 650.0f && KirbyPos.X < 790.0f && KirbyPos.Y > 910.0f)
-	{
-		VegetableValleyEntertheDoorNumber = 2;
-		NextLevelTriggerOn = false;
-		IsPlayerEnter = false;
-		GameEngineCore::ChangeLevel("VegetableValley13");
-		return;
-	}
-
-
-	if (true == IsPlayerEnter)
-	{
-		IsPlayerEnter = false;
-	}
 
 	if (true == NextLevelTriggerOn)
 	{
@@ -189,6 +146,86 @@ void VegetableValleyHub::Update(float _Delta)
 
 
 
+void VegetableValleyHub::VegetableValleyStage_1_Func()
+{
+	if (nullptr == LevelPlayer)
+	{
+		MsgBoxAssert("레벨에 플레이어를 지정해주지 않았습니다.");
+		return;
+	}
+
+	float4 KirbyPos = LevelPlayer->GetPos();
+
+
+
+	// 첫번째 스테이지에 들어가면
+	if (true == IsPlayerEnter && KirbyPos.X > 260.0f && KirbyPos.X < 320.0f)
+	{
+		if (nullptr == VegetableValley_Stage1_PlayDoor)
+		{
+			MsgBoxAssert("오브젝트가 Null 입니다.");
+			return;
+		}
+
+		// 문열고
+		if (false == IsRequestDoorOpen)
+		{
+			VegetableValley_Stage1_PlayDoor->IsDoorOpen = true;
+			IsRequestDoorOpen = true;
+		}
+
+
+
+		if (true == NextLevelTriggerOn)
+		{
+			VegetableValleyEntertheDoorNumber = 1;
+			NextLevelTriggerOn = false;
+			IsPlayerEnter = false;
+			IsRequestDoorOpen = false;
+
+			VegetableValley_Stage1_PlayDoor->IsDoorIdle = true;
+
+			GameEngineCore::ChangeLevel("VegetableValley11");
+		}
+
+		return;
+	}
+
+
+
+}
+
+
+void VegetableValleyHub::VegetableValleyStage_2_Func()
+{
+	if (nullptr == LevelPlayer)
+	{
+		MsgBoxAssert("레벨에 플레이어를 지정해주지 않았습니다.");
+		return;
+	}
+
+	float4 KirbyPos = LevelPlayer->GetPos();
+
+
+	// WhispyWood 보스 스테이지
+	if (true == NextLevelTriggerOn && KirbyPos.X > 650.0f && KirbyPos.X < 790.0f && KirbyPos.Y > 910.0f)
+	{
+		VegetableValleyEntertheDoorNumber = 2;
+		NextLevelTriggerOn = false;
+		IsPlayerEnter = false;
+		GameEngineCore::ChangeLevel("VegetableValley13");
+		return;
+	}
+}
+
+
+void VegetableValleyHub::Kirby_StageClear()
+{
+	if (true)
+	{
+
+	}
+}
 
 
 

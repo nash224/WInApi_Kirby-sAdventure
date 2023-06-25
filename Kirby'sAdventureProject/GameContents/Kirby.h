@@ -435,10 +435,6 @@ private:
 	float FadeOutTime = 0.0f;
 
 
-	// 아이템 관련
-	bool IsReachedStarStick = false;
-
-
 
 public:
 	// Fade Out & In, FadeScreen 관련
@@ -447,17 +443,32 @@ public:
 
 	int FadeAlphaValue = 70;
 
+
+
+	// 아이템 관련
+	bool IsReachedStarStick = false;
+
+
 private:
+	// OpenDoorAndRaiseFlag 상태 관련
+	bool IsKirbyOpenDoor = false;
+
+
 	// StageClear 상태 관련
 	const float StageClear_WalkingScalar = 100.0f;
 	float StageClear_X_CenterPos = 0.0f;
 
 
+
+	// Performance 패턴 관련
 	GameEngineRenderer* Left_KirbyRenderer = nullptr;
 	GameEngineRenderer* Right_KirbyRenderer = nullptr;
 
 	const float KirbyAndEgo_Inter = 100.0f;
 
 	bool IsPerformance_17Frames_FallStartTime = false;
+	float Kirby_Performance_StartXPos = 0.0f;
+	bool IsKirby_FinishPosCheck = false;
+	float Kirby_SetFinishPos = 0.0f;
 };
 

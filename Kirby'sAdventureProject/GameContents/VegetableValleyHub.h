@@ -39,6 +39,21 @@ private:
 
 	
 
+	// Stage ฐüทร
+
+	bool IsRequestDoorOpen = false;
+
+	bool IsStage1Clear = false;
+	bool IsStage2Clear = false;
+
+
+	void VegetableValleyStage_1_Func();
+	void VegetableValleyStage_2_Func();
+
+	void Kirby_StageClear();
+
+
+
 
 
 private:

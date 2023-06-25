@@ -355,6 +355,9 @@ void BossUI::Update(float _Delta)
 		BossStaminaState(_Delta);
 	}
 
+
+	ChangePortrait_StarStick();
+
 }
 
 
@@ -481,6 +484,75 @@ void BossUI::OuchState(float _Delta)
 
 
 
+void BossUI::BossStaminaState(float _Delta)
+{
+	if (nullptr == BossPtr)
+	{
+		MsgBoxAssert("보스를 불러오지 못했습니다.");
+		return;
+	}
+
+	int Current_BossHp = BossPtr->m_BossHp;
+
+
+	if (UI_BossStamina != Current_BossHp)
+	{
+		for (size_t i = Current_BossHp; i < UI_BossStamina; i++)
+		{
+			if (i < 0)
+			{
+				continue;
+			}
+
+			GameEngineRenderer* CurStaminarenderer = Boss_StaminaRenderer[i];
+			if (nullptr == CurStaminarenderer)
+			{
+				MsgBoxAssert("벡터의 렌더러를 불러오지 못했습니다.");
+				return;
+			}
+
+			CurStaminarenderer->Off();
+		}
+
+		UI_BossStamina = Current_BossHp;
+	}
+
+
+
+	if (UI_BossStamina <= 0)
+	{
+		//
+	}
+}
+
+
+
+void BossUI::ChangePortrait_StarStick()
+{
+	if (nullptr == KirbyPtr)
+	{
+		MsgBoxAssert("커비를 불러오지 못했습니다.");
+		return;
+	}
+
+	if (true == KirbyPtr->IsReachedStarStick)
+	{
+		if (false == IsChangeStarStick)
+		{
+			if (nullptr == PortraitRenderer)
+			{
+				MsgBoxAssert("초상화 렌더러를 불러오지 못했습니다.");
+				return;
+			}
+
+			PortraitRenderer->ChangeAnimation("Portrait_Clear");
+
+			IsChangeStarStick = true;
+		}
+	}
+}
+
+
 
 
 // 다음 레벨로 넘어갈 때 유지
@@ -568,48 +640,4 @@ void BossUI::LevelStart()
 	// 커비 목숨
 	First_LivesRenderer->SetCopyPos(float4{ NumberScale.X * static_cast<float>(m_LivesCount / 10), 0.0f });
 	Second_LivesRenderer->SetCopyPos(float4{ NumberScale.X * static_cast<float>(m_LivesCount % 10), 0.0f });
-}
-
-
-
-
-void BossUI::BossStaminaState(float _Delta)
-{
-	if (nullptr == BossPtr)
-	{
-		MsgBoxAssert("보스를 불러오지 못했습니다.");
-		return;
-	}
-
-	int Current_BossHp = BossPtr->m_BossHp;
-
-
-	if (UI_BossStamina != Current_BossHp)
-	{
-		for (size_t i = Current_BossHp; i < UI_BossStamina; i++)
-		{
-			if (i < 0)
-			{
-				continue;
-			}
-
-			GameEngineRenderer* CurStaminarenderer = Boss_StaminaRenderer[i];
-			if (nullptr == CurStaminarenderer)
-			{
-				MsgBoxAssert("벡터의 렌더러를 불러오지 못했습니다.");
-				return;
-			}
-
-			CurStaminarenderer->Off();
-		}
-
-		UI_BossStamina = Current_BossHp;
-	}
-
-
-
-	if (UI_BossStamina <= 0)
-	{
-		//
-	}
 }

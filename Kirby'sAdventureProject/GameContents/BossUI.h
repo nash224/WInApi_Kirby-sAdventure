@@ -100,5 +100,11 @@ private:
 
 	// 보스 스태미나 관련
 	void BossStaminaState(float _Delta);
+
+
+	// StarStick 관련
+	bool IsChangeStarStick = false;
+
+	void ChangePortrait_StarStick();
 };
 

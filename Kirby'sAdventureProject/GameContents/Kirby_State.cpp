@@ -122,15 +122,14 @@ void Kirby::Normal_StateResourceLoad()
 
 
 
-
-
 	GlobalContents::SpriteFileLoad("1Normal_KirbyOpenTheDoor.bmp", "Resources\\Unit\\Kirby", 5, 4);
 	GlobalContents::SpriteFileLoad("Kirby_Performance.bmp", "Resources\\Unit\\Kirby", 8, 4);
 	GlobalContents::SpriteFileLoad("Summon_KirbyEgo.bmp", "Resources\\Unit\\Kirby", 9, 1);
 
 
 
-	MainRenderer->CreateAnimation("Normal_Right_OpenDoorAndRaiseFlag", "1Normal_KirbyOpenTheDoor.bmp", 0, 8, 0.1f, false);
+	MainRenderer->CreateAnimationToFrame("Normal_Right_OpenDoorAndRaiseFlag", "1Normal_KirbyOpenTheDoor.bmp", { 19 , 0 , 1 , 2 , 3 , 4 , 5 , 6 , 7 , 8 }, 0.1f, false);
+	MainRenderer->FindAnimation("Normal_Right_OpenDoorAndRaiseFlag")->Inters = { 2.0f , 0.1f, 0.3f, 0.1f, 5.0f , 5.0f , 0.04f , 0.04f , 0.04f , 0.04f };
 
 	MainRenderer->CreateAnimationToFrame("Normal_Right_OpenDoorAndRaiseFlagAfter", "Normal_Right_Kirby.bmp", { 13 , 12 , 11 , 13 , 7 }, 0.1f, false);
 
@@ -140,6 +139,7 @@ void Kirby::Normal_StateResourceLoad()
 	MainRenderer->CreateAnimation("Normal_Right_StageClearWalk", "Normal_Right_Kirby.bmp", 2, 5, 0.2f, true);
 
 	MainRenderer->CreateAnimation("Normal_Right_StageClear", "1Normal_KirbyOpenTheDoor.bmp", 9, 15, 0.1f, false);
+	MainRenderer->FindAnimation("Normal_Right_StageClear")->Inters = { 0.1f , 0.1f , 0.1f , 0.1f , 0.1f , 0.1f , 1.0f };
 	Left_KirbyRenderer->CreateAnimation("StarSpin", "Summon_KirbyEgo.bmp", 0, 8, 0.075f, false);
 	Right_KirbyRenderer->CreateAnimation("StarSpin", "Summon_KirbyEgo.bmp", 0, 8, 0.075f, false);
 
@@ -149,7 +149,7 @@ void Kirby::Normal_StateResourceLoad()
 
 	MainRenderer->FindAnimation("Normal_Right_Performance")->Inters
 		= { 0.2f , 0.2f , 0.2f , 0.2f , 0.2f , 0.2f , 0.2f , 0.2f , 5.0f , 0.05f , 0.05f , 0.05f , 0.05f , 5.0f
-		, 0.2f , 0.3f , 0.2f , 5.0f , 0.1f , 0.15f , 0.1f , 0.15f , 0.1f , 0.1f , 0.1f , 0.1f , 0.1f , 0.1f , 0.2f , 2.0f };
+		, 0.2f , 0.3f , 0.2f , 5.0f , 0.1f , 0.15f , 0.1f , 0.15f , 0.1f , 0.1f , 0.1f , 0.1f , 0.1f , 0.1f , 0.2f , 1.0f };
 }
 
 // =============================================//
@@ -1704,9 +1704,9 @@ void Kirby::OpenDoorAndRaiseFlagStart()
 {
 	StateTime = 0.0f;
 	IsChangeState = false;
-	Dir = ActorDir::Right;
+	IsKirbyOpenDoor = false;
 
-	CurState = "OpenDoorAndRaiseFlag";
+	Dir = ActorDir::Right;
 
 	if (nullptr == MainRenderer)
 	{
@@ -1725,6 +1725,17 @@ void Kirby::OpenDoorAndRaiseFlagUpdate(float _Delta)
 		MsgBoxAssert("랜더러가 Null 입니다.");
 		return;
 	}
+
+
+	if (1 == MainRenderer->GetCurFrame())
+	{
+		if (false == IsKirbyOpenDoor)
+		{
+			IsKirbyOpenDoor = true;
+		}
+	}
+
+
 
 
 	if (true == MainRenderer->IsAnimationEnd())
@@ -1749,7 +1760,6 @@ void Kirby::OpenDoorAndRaiseFlagAfterStart()
 	IsChangeState = false;
 	Dir = ActorDir::Right;
 
-	CurState = "OpenDoorAndRaiseFlagAfter";
 
 	if (nullptr == MainRenderer)
 	{
@@ -1914,6 +1924,9 @@ void Kirby::PerformanceStart()
 	IsChangeState = false;
 	CurrentSpeed = 0.0f;
 	IsPerformance_17Frames_FallStartTime = false;
+	IsKirby_FinishPosCheck = false;
+
+	Kirby_Performance_StartXPos = GetPos().X;
 
 	GravityReset();
 	ChangeAnimationState("Performance");
@@ -1978,7 +1991,7 @@ void Kirby::PerformanceUpdate(float _Delta)
 			VerticalUpdate(_Delta);
 
 			CurrentSpeed += 300.0f * _Delta;
-			HorizontalSpeedLimit(300.0f);
+			HorizontalSpeedLimit(150.0f);
 			HorizontalUpdate(_Delta);
 		}
 		else if (true == GetGroundState())
@@ -1997,23 +2010,23 @@ void Kirby::PerformanceUpdate(float _Delta)
 
 	if (14 == MainRenderer->GetCurFrame())
 	{
-		CurrentSpeed = 100.0f;
-		CurentVerticalSpeed = -100.0f;
+		CurrentSpeed = 400.0f;
+		CurentVerticalSpeed = -60.0f;
 	}
 
 	if (15 == MainRenderer->GetCurFrame())
 	{
-		VerticalDecelerationUpdate(100.0f * 0.3f, _Delta);
+		VerticalDecelerationUpdate(60.0f / 0.3f, _Delta);
 		VerticalUpdateBasedlevitation(_Delta);
 
-		ActorUtils::DecelerationUpdate(_Delta, 100.0f * 0.3f);
+		ActorUtils::DecelerationUpdate(_Delta, 400.0f / 0.3f);
 		HorizontalUpdate(_Delta);
 	}
 
 	if (16 == MainRenderer->GetCurFrame())
 	{
-		CurrentSpeed = -100.0f;
-		CurentVerticalSpeed = -100.0f;
+		CurrentSpeed = -400.0f;
+		CurentVerticalSpeed = -60.0f;
 	}
 
 
@@ -2021,10 +2034,10 @@ void Kirby::PerformanceUpdate(float _Delta)
 	{
 		if (false == IsPerformance_17Frames_FallStartTime)
 		{
-			VerticalDecelerationUpdate(100.0f * 0.3f, _Delta);
+			VerticalDecelerationUpdate(60.0f / 0.3f, _Delta);
 			VerticalUpdateBasedlevitation(_Delta);
 
-			ActorUtils::DecelerationUpdate(_Delta, 100.0f * 0.3f);
+			ActorUtils::DecelerationUpdate(_Delta, 400.0f / 0.3f);
 			HorizontalUpdate(_Delta);
 		}
 		else if (true == IsPerformance_17Frames_FallStartTime)
@@ -2039,42 +2052,60 @@ void Kirby::PerformanceUpdate(float _Delta)
 			}
 		}
 
-		if (false == IsPerformance_17Frames_FallStartTime && MainRenderer->FindAnimation("Normal_Right_Performance")->CurInter > 0.3f)
+		if (false == IsPerformance_17Frames_FallStartTime && 0.0f == CurrentSpeed)
 		{
+			MainRenderer->FindAnimation("Normal_Right_Performance")->CurInter;
 			IsPerformance_17Frames_FallStartTime = true;
-			GravityReset();
+			SetGravityVector(float4::DOWN * 200.0f);
 		}
 	}
 
 	if (18 == MainRenderer->GetCurFrame() || 20 == MainRenderer->GetCurFrame())
 	{
-		CurrentSpeed = 100.0f;
+		CurrentSpeed = 200.0f;
 	}
 
 	if (19 == MainRenderer->GetCurFrame() || 21 == MainRenderer->GetCurFrame())
 	{
-		ActorUtils::DecelerationUpdate(_Delta, 100.0f * 0.15f);
+		ActorUtils::DecelerationUpdate(_Delta, 200.0f * 0.15f);
 		HorizontalUpdate(_Delta);
 	}
 
 
-	if (MainRenderer->GetCurFrame() >= 0 && MainRenderer->GetCurFrame() <= 7)
+	if (MainRenderer->GetCurFrame() >= 22 && MainRenderer->GetCurFrame() <= 27)
 	{
+		if (false == IsKirby_FinishPosCheck)
+		{
+			IsKirby_FinishPosCheck = true;
+			Kirby_SetFinishPos = GetPos().X - Kirby_Performance_StartXPos;
+		}
 
+		CurrentSpeed = -Kirby_SetFinishPos / 0.6f;
+		HorizontalUpdate(_Delta);
 	}
 
 
 
 	if (true == MainRenderer->IsAnimationEnd())
 	{
+		GameEngineLevel* CurLevelPtr = GetLevel();
+		if (nullptr == CurLevelPtr)
+		{
+			MsgBoxAssert("레벨을 불러오지 못했습니다.");
+			return;
+		}
+
+		GlobalContents::FadeOut(CurLevelPtr);
 		IsChangeState = true;
 	}
 
+
 	if (true== IsChangeState)
 	{
+		IsFadeOut = false;
+		VegetableValleyPlayLevel::NextLevelTriggerOn = true;
 		ChangeState(KirbyState::Idle);
 		return;
 	}
-
 
 }
