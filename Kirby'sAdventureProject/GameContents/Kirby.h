@@ -109,8 +109,9 @@ enum class KirbyState
 	Contain_Damaged,
 	GetAbility,
 	Damaged,
+	StageClearWalk,
 	StageClear,
-	StageClearAfter,
+	Performance,
 	Max,
 };
 
@@ -208,8 +209,9 @@ protected:
 	void EnterStart();
 	void OpenDoorAndRaiseFlagStart();
 	void OpenDoorAndRaiseFlagAfterStart();
+	void StageClearWalkStart();
 	void StageClearStart();
-	void StageClearAfterStart();
+	void PerformanceStart();
 
 	void Contain_IdleStart();
 	void Contain_WalkStart();
@@ -247,8 +249,9 @@ protected:
 	void EnterUpdate(float _Delta);
 	void OpenDoorAndRaiseFlagUpdate(float _Delta);
 	void OpenDoorAndRaiseFlagAfterUpdate(float _Delta);
+	void StageClearWalkUpdate(float _Delta);
 	void StageClearUpdate(float _Delta);
-	void StageClearAfterUpdate(float _Delta);
+	void PerformanceUpdate(float _Delta);
 
 	void Contain_IdleUpdate(float _Delta);
 	void Contain_WalkUpdate(float _Delta);
@@ -418,6 +421,9 @@ public:
 	int m_KirbyHp = 0;
 
 
+
+
+
 private:
 	// 부활
 	bool IsKirbyRevive = false;
@@ -429,9 +435,10 @@ private:
 	float FadeOutTime = 0.0f;
 
 
-private:
 	// 아이템 관련
 	bool IsReachedStarStick = false;
+
+
 
 public:
 	// Fade Out & In, FadeScreen 관련
@@ -439,5 +446,18 @@ public:
 	bool IsFadeScreenRelease = false;
 
 	int FadeAlphaValue = 70;
+
+private:
+	// StageClear 상태 관련
+	const float StageClear_WalkingScalar = 100.0f;
+	float StageClear_X_CenterPos = 0.0f;
+
+
+	GameEngineRenderer* Left_KirbyRenderer = nullptr;
+	GameEngineRenderer* Right_KirbyRenderer = nullptr;
+
+	const float KirbyAndEgo_Inter = 100.0f;
+
+	bool IsPerformance_17Frames_FallStartTime = false;
 };
 

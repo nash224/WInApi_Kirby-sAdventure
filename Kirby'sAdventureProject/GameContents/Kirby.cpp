@@ -207,6 +207,15 @@ void Kirby::Update(float _Delta)
 		GameEngineLevel::CollisionDebugRenderSwitch();
 	}
 
+
+
+	if (true == GameEngineInput::IsDown('J'))
+	{
+		ChangeState(KirbyState::StageClear);
+		return;
+	}
+
+
 	PrevKirbyMovePos = GetPos();
 
 	StateUpdate(_Delta);
@@ -259,8 +268,9 @@ void Kirby::StateUpdate(float _Delta)
 	case KirbyState::Enter:							return EnterUpdate(_Delta);
 	case KirbyState::OpenDoorAndRaiseFlag:			return OpenDoorAndRaiseFlagUpdate(_Delta);
 	case KirbyState::OpenDoorAndRaiseFlagAfter:		return OpenDoorAndRaiseFlagAfterUpdate(_Delta);
+	case KirbyState::StageClearWalk:				return StageClearWalkUpdate(_Delta);
 	case KirbyState::StageClear:					return StageClearUpdate(_Delta);
-	case KirbyState::StageClearAfter:				return StageClearAfterUpdate(_Delta);
+	case KirbyState::Performance:					return PerformanceUpdate(_Delta);
 	case KirbyState::Contain_Idle:					return Contain_IdleUpdate(_Delta);
 	case KirbyState::Contain_Walk:					return Contain_WalkUpdate(_Delta);
 	case KirbyState::Contain_Run:					return Contain_RunUpdate(_Delta);
@@ -307,8 +317,9 @@ void Kirby::ChangeState(KirbyState _State)
 		case KirbyState::Enter:						EnterStart();						break;
 		case KirbyState::OpenDoorAndRaiseFlag:		OpenDoorAndRaiseFlagStart();		break;
 		case KirbyState::OpenDoorAndRaiseFlagAfter:	OpenDoorAndRaiseFlagAfterStart();	break;
+		case KirbyState::StageClearWalk:			StageClearWalkStart();				break;
 		case KirbyState::StageClear:				StageClearStart();					break;
-		case KirbyState::StageClearAfter:			StageClearAfterStart();				break;
+		case KirbyState::Performance:				PerformanceStart();					break;
 		case KirbyState::Contain_Idle:				Contain_IdleStart();				break;
 		case KirbyState::Contain_Walk:				Contain_WalkStart();				break;
 		case KirbyState::Contain_Run:				Contain_RunStart();					break;

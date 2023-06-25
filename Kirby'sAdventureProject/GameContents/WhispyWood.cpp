@@ -63,6 +63,7 @@ void WhispyWood::Start()
 
 	Dir = ActorDir::Left;
 
+	Boss_Map_X_Center = 264.0f;
 
 
 	SetPos(WHISPYWOOD_RESPAWNLOCATION - float4{ 0.0f, Scale.Half().Y});

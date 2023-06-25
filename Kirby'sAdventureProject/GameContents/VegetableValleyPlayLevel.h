@@ -65,11 +65,18 @@ public:
 		return LevelBackGround;
 	}
 
+	class Boss* GetLevelBossPtr()
+	{
+		return LevelBoss;
+	}
+
+
 protected:
 	class UIManager* LevelUIManager = nullptr;
 	class BackGround* LevelBackGround = nullptr;
 	class GameEffect* LevelEffect = nullptr;
 	class Kirby* LevelPlayer = nullptr;
+	class Boss* LevelBoss = nullptr;
 
 	
 

@@ -5,6 +5,9 @@
 class Boss : public Enemy
 {
 	friend class BossUI;
+
+
+
 public:
 	static Boss* MainBossPtr;
 	
@@ -29,6 +32,9 @@ public:
 	Boss(Boss&& _Other) noexcept = delete;
 	Boss& operator=(const Boss& _Other) = delete;
 	Boss& operator=(Boss&& _Other) noexcept = delete;
+
+	// 보스 지형관련
+	float Boss_Map_X_Center = 0.0f;
 
 protected:
 	std::string CurLevel_BitMap_FileName = "";
