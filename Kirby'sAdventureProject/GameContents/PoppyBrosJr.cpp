@@ -2,6 +2,7 @@
 #include "ContentsEnum.h"
 
 
+#include <GameEnginePlatform/GameEngineSound.h>
 #include <GameEngineCore/GameEngineLevel.h>
 #include <GameEngineCore/GameEngineRenderer.h>
 #include <GameEngineCore/GameEngineCollision.h>
@@ -93,6 +94,10 @@ void PoppyBrosJr::Start()
 	BodyCollision->SetCollisionPos(float4{ 0.0f , -SMALLTYPECOLLISIONSCALE.hY() });
 	BodyCollision->SetCollisionScale(SMALLTYPECOLLISIONSCALE);
 	BodyCollision->SetCollisionType(CollisionType::Rect);
+
+
+	// 사운드 재생
+	GlobalContents::SoundFileLoad("Jr_Sound.wav", "Resources\\SoundResources\\EffectVoice");
 }
 
 void PoppyBrosJr::Update(float _Delta)
@@ -145,6 +150,10 @@ void PoppyBrosJr::JumpStart()
 	AbleJump = true;
 	CurrentJumpDistance = 0.0f;
 	GravityReset();
+
+	// 사운드 재생
+	GameEngineSound::SoundPlay("Jr_Sound.wav");
+
 	ChangeAnimationState("Jump");
 }
 

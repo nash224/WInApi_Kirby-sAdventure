@@ -3,6 +3,7 @@
 
 #include <GameEnginePlatform/GameEngineWindow.h>
 #include <GameEnginePlatform/GameEngineWindowTexture.h>
+#include <GameEnginePlatform/GameEngineSound.h>
 #include <GameEngineCore/GameEngineRenderer.h>
 #include <GameEngineCore/ResourcesManager.h>
 #include <GameEngineCore/GameEngineSprite.h>
@@ -31,11 +32,18 @@ void ObejctDisapearingEffect::Start()
 
 	MainRenderer->CreateAnimation("ObejctDisapearing", "DispareringEffect_1x3_16x16.bmp" , 0, 2, ChangeEffectFramesInter, false);
 	MainRenderer->ChangeAnimation("ObejctDisapearing");
+
+
+	// 사운드
+	GlobalContents::SoundFileLoad("Effect_DisapearSound.wav", "Resources\\SoundResources\\EffectVoice");
 }
 
 void ObejctDisapearingEffect::init(const float4& _Pos)
 {
 	SetPos(_Pos);
+
+	// 사운드 재생
+	GameEngineSound::SoundPlay("Effect_DisapearSound.wav");
 }
 
 void ObejctDisapearingEffect::Update(float _Delta)

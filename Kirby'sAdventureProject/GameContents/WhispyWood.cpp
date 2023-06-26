@@ -86,6 +86,12 @@ void WhispyWood::Start()
 	BodyCollision->SetCollisionScale(Scale);
 	BodyCollision->SetCollisionType(CollisionType::Rect);
 	BodyCollision->Off();
+
+
+	// 사운드
+	GlobalContents::SoundFileLoad("Boss_HittedSound.wav", "Resources\\SoundResources\\EffectVoice");
+	GlobalContents::SoundFileLoad("Boss_0Hp.wav", "Resources\\SoundResources\\EffectVoice");
+	GlobalContents::SoundFileLoad("Boss_StealtheStarStick.wav", "Resources\\SoundResources\\EffectVoice");
 }
 
 
@@ -191,6 +197,11 @@ void WhispyWood::IdleUpdate(float _Delta)
 	{
 		GameEngineTime::MainTimer.SetTimeScale(UpdateOrder::Player, 0.0f);
 		IsBossFindKirby = true;
+
+
+		// 사운드
+		VegetableValleyPlayLevel::BGM_Player = GameEngineSound::SoundPlay("07_Boss.mp3");
+		VegetableValleyPlayLevel::IsBGM_On = true;
 	}
 }
 
@@ -397,6 +408,10 @@ void WhispyWood::WhispyUpdate(float _Delta)
 void WhispyWood::FrownStart()
 {
 	IsImmune = true;
+
+	// 사운드
+	GameEngineSound::SoundPlay("Boss_HittedSound.wav");
+
 	ChangeAnimationState("Frown");
 }
 
@@ -438,6 +453,17 @@ void WhispyWood::KaonashiStart()
 	BossBackGroundPtr->IsBossChangeMap = true;
 	GameEngineTime::MainTimer.SetTimeScale(UpdateOrder::Player, 0.0f);
 	GameEngineTime::MainTimer.SetTimeScale(UpdateOrder::Monster, 0.0f);
+
+
+	// 사운드
+	GameEngineSound::SoundPlay("Boss_0Hp.wav");
+
+	if (true == VegetableValleyPlayLevel::IsBGM_On)
+	{
+		VegetableValleyPlayLevel::BGM_Player.Stop();
+		VegetableValleyPlayLevel::IsBGM_On = false;
+	}
+
 
 	ChangeAnimationState("Kaonashi");
 }
@@ -503,12 +529,24 @@ void WhispyWood::CryingFaceStart()
 
 
 
+	// 사운드
+	GameEngineSound::SoundPlay("Boss_StealtheStarStick.wav");
+
+
+
 	ChangeAnimationState("CryingFace");
 }
 
 void WhispyWood::CryingFaceUpdate(float _Delta)
 {
+	StateTime += _Delta;
 
+	if (StateTime > Boss_StealtheStarStick_Duration && false == IsBoss_StealtheStarStickDone)
+	{
+		IsBoss_StealtheStarStickDone = true;
+
+		VegetableValleyPlayLevel::BGM_Player = GameEngineSound::SoundPlay("30_Level_Clear.mp3");
+	}
 }
 
 

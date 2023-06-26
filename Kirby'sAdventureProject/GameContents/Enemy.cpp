@@ -3,6 +3,7 @@
 
 #include <GameEnginePlatform/GameEngineWindow.h>
 #include <GameEnginePlatform/GameEngineWindowTexture.h>
+#include <GameEnginePlatform/GameEngineSound.h>
 #include <GameEngineCore/GameEngineLevel.h>
 #include <GameEngineCore/GameEngineCamera.h>
 #include <GameEngineCore/GameEngineCollision.h>
@@ -305,6 +306,9 @@ void Enemy::HittedStart()
 
 	CrossDeathEffectPtr->init(GetPos(), Scale);
 
+
+
+	GameEngineSound::SoundPlay("Enemy_DeathSound.wav");
 
 	CurrentSpeed = 0.0f;
 }

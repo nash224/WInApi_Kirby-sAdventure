@@ -1,6 +1,8 @@
 #pragma once
 #include "ActorUtils.h"
 
+#include <GameEnginePlatform/GameEngineSound.h>
+
 #include <map>
 #include <vector>
 #include <string>
@@ -485,5 +487,10 @@ private:
 	float Kirby_Performance_StartXPos = 0.0f;
 	bool IsKirby_FinishPosCheck = false;
 	float Kirby_SetFinishPos = 0.0f;
+
+
+
+	// 사운드 관련
+	GameEngineSoundPlayer InhaleSound;
 };
 

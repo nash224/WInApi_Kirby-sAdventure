@@ -104,6 +104,7 @@ void VegetableValleyHub::Start()
 
 	// Sound Load
 	GlobalContents::SoundFileLoad("05_LEVEL1.mp3", "Resources\\SoundResources\\SoundTrack");
+	GlobalContents::SoundFileLoad("Enemy_DeathSound.wav", "Resources\\SoundResources\\EffectVoice");
 
 
 	//GameEngineWindow::MainWindow.CursorOff();

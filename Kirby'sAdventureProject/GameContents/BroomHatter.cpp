@@ -2,6 +2,7 @@
 #include "ContentsEnum.h"
 
 
+#include <GameEnginePlatform/GameEngineSound.h>
 #include <GameEngineCore/GameEngineLevel.h>
 #include <GameEngineCore/GameEngineRenderer.h>
 #include <GameEngineCore/GameEngineCollision.h>
@@ -64,6 +65,11 @@ void BroomHatter::Start()
 	BodyCollision->SetCollisionPos(float4{ 0.0f , -SMALLTYPECOLLISIONSCALE.hY() });
 	BodyCollision->SetCollisionScale(SMALLTYPECOLLISIONSCALE);
 	BodyCollision->SetCollisionType(CollisionType::Rect);
+
+
+
+	// 사운드 로드
+	GlobalContents::SoundFileLoad("HatterSound.wav", "Resources\\SoundResources\\EffectVoice");
 }
 
 
@@ -146,6 +152,10 @@ void BroomHatter::SweepStart()
 		}
 		CurrentSpeed = -CurrentSpeed;
 	}
+
+	
+	GameEngineSound::SoundPlay("HatterSound.wav");
+
 
 	ChangeAnimationState("Sweep");
 }

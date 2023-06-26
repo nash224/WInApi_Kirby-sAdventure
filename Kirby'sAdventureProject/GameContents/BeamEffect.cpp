@@ -4,6 +4,7 @@
 #include <GameEngineBase/GameEngineRandom.h>
 #include <GameEnginePlatform/GameEngineWindow.h>
 #include <GameEnginePlatform/GameEngineWindowTexture.h>
+#include <GameEnginePlatform/GameEngineSound.h>
 #include <GameEngineCore/GameEngineRenderer.h>
 #include <GameEngineCore/ResourcesManager.h>
 #include <GameEngineCore/GameEngineSprite.h>
@@ -24,6 +25,10 @@ BeamEffect::~BeamEffect()
 
 void BeamEffect::Start()
 {
+
+	// 사운드 로드
+	GlobalContents::SoundFileLoad("BeamSound.wav", "Resources\\SoundResources\\EffectVoice");
+	GlobalContents::SoundFileLoad("BeamExtraSound.wav", "Resources\\SoundResources\\EffectVoice");
 }
 
 void BeamEffect::init(const float4& _Pos, const float4& _MaterScale, const float4& _EffectDir)
@@ -110,6 +115,10 @@ void BeamEffect::Update(float _Delta)
 				BeamUnitEffectPtr->init("Resources\\Effect\\SkillEffect", "BeamEffect_1x1_8x8.bmp", EffectPos);
 				BeamUnitEffectPtr->SetExpressionTime(BEAMEFFECTTIME);
 				BeamUnitEffectPtr->SetActorCollision(BeamOrder, BeamType);
+
+
+				// 사운드 재생
+				GameEngineSound::SoundPlay("BeamSound.wav");
 			}
 
 			// 두번째 빔
@@ -141,6 +150,10 @@ void BeamEffect::Update(float _Delta)
 			BeamUnitEffectPtr->init("Resources\\Effect\\SkillEffect", "BeamEffect_1x1_8x8.bmp", EffectPos);
 			BeamUnitEffectPtr->SetExpressionTime(BEAMEFFECTTIME);
 			BeamUnitEffectPtr->SetActorCollision(BeamOrder, BeamType);
+
+
+			// 사운드 재생
+			GameEngineSound::SoundPlay("BeamExtraSound.wav");
 		}
 
 

@@ -286,6 +286,10 @@ void Kirby::InhaleAbilityStart()
 	}
 	InhaleEffectCollision->SetCollisionPos(KirbyDirUnitVector);
 	InhaleEffectCollision->On();
+
+
+	// 사운드 재생
+	InhaleSound = GameEngineSound::SoundPlay("Kirby_Inhale.wav");
 }
 
 
@@ -294,7 +298,11 @@ void Kirby::InhaleAbilityUpdate(float _Delta)
 {
 	StateTime += _Delta;
 
-	IsChangeState = MainRenderer->IsAnimationEnd();
+	if (true == MainRenderer->IsAnimationEnd())
+	{
+		IsChangeState = true;
+	}
+	
 
 
 	// 기본커비 특수 스킬 충돌검사
@@ -380,6 +388,7 @@ void Kirby::InhaleAbilityUpdate(float _Delta)
 			KirbyBodyCollision->On();
 			KirbySwalling = false;
 
+			InhaleSound.Stop();
 			ChangeState(KirbyState::Contain_Idle);
 			return;
 		}
@@ -390,8 +399,9 @@ void Kirby::InhaleAbilityUpdate(float _Delta)
 	if (true == IsChangeState && true == GameEngineInput::IsFree('Z') && 0 == Star.SwallowedEnemyNumber)
 	{
 		Star.SwallowedPowerEnemyNumber;
-
 		InhaleEffectCollision->Off();
+
+		InhaleSound.Stop();
 		ChangeState(KirbyState::ReleaseSpecialAbility);
 		return;
 	}
@@ -427,6 +437,8 @@ void Kirby::DropAbility()
 {
 	Mode = AbilityStar::Normal;
 	ChangeAnimationState(CurState);
+
+	GameEngineSound::SoundPlay("Kirby_DropStar.wav");
 }
 
 

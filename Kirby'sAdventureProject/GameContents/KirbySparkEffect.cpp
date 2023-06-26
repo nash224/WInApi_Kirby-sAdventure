@@ -4,6 +4,7 @@
 #include <GameEngineBase/GameEngineRandom.h>
 #include <GameEnginePlatform/GameEngineWindow.h>
 #include <GameEnginePlatform/GameEngineWindowTexture.h>
+#include <GameEnginePlatform/GameEngineSound.h>
 #include <GameEngineCore/GameEngineRenderer.h>
 #include <GameEngineCore/ResourcesManager.h>
 #include <GameEngineCore/GameEngineSprite.h>
@@ -35,6 +36,10 @@ void KirbySparkEffect::Start()
 
 	MainRenderer->CreateAnimation("KirbySparkEffect", "KirbySparkEffect_1x3_144x48.bmp", 0, 2, KIRBYSPARKCHANGEFRAMESTIME, false);
 	MainRenderer->ChangeAnimation("KirbySparkEffect");
+
+
+	// 사운드 로드
+	GlobalContents::SoundFileLoad("Ability_Spark1.wav", "Resources\\SoundResources\\EffectVoice");
 }
 
 void KirbySparkEffect::init(const float4& _Pos, const float4& _MaterScale)
@@ -46,6 +51,10 @@ void KirbySparkEffect::init(const float4& _Pos, const float4& _MaterScale)
 	StartPos = EffectDir * StartDistance;
 
 	SetPos(_Pos + float4{ 0.0f , -_MaterScale.Half().Y } + StartPos);
+
+	
+	GameEngineSound::SoundPlay("Ability_Spark1.wav");
+
 }
 
 

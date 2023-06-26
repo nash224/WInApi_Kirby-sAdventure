@@ -109,10 +109,14 @@ void Kirby::Normal_StateResourceLoad()
 	GlobalContents::SoundFileLoad("Kirby_SlidingSound.wav", "Resources\\SoundResources\\EffectVoice");
 	GlobalContents::SoundFileLoad("Kirby_LandingSound.wav", "Resources\\SoundResources\\EffectVoice");
 	GlobalContents::SoundFileLoad("Kirby_DropStar.wav", "Resources\\SoundResources\\EffectVoice");
+	GlobalContents::SoundFileLoad("Kirby_TakeOffSound.wav", "Resources\\SoundResources\\EffectVoice");
 	GlobalContents::SoundFileLoad("Kirby_ExhaleSound.wav", "Resources\\SoundResources\\EffectVoice");
 	GlobalContents::SoundFileLoad("Kirby_StarAttackSound.wav", "Resources\\SoundResources\\EffectVoice");
 	GlobalContents::SoundFileLoad("Kirby_LargeStarAttack.wav", "Resources\\SoundResources\\EffectVoice");
 	GlobalContents::SoundFileLoad("Kirby_Hitted.wav", "Resources\\SoundResources\\EffectVoice");
+	GlobalContents::SoundFileLoad("NothingSound.wav", "Resources\\SoundResources\\EffectVoice");
+	GlobalContents::SoundFileLoad("GetAbility.wav", "Resources\\SoundResources\\EffectVoice");
+	GlobalContents::SoundFileLoad("Kirby_Inhale.wav", "Resources\\SoundResources\\EffectVoice");
 
 }
 
@@ -1296,6 +1300,12 @@ void Kirby::TakeOffStart()
 	KeepDamagedState = KirbyState::Fly;
 	ChangeKirbyBodyState(KirbyBodyState::Fat);
 	SetAirResistance(0.4f);
+
+
+
+	// 사운드 재생
+	GameEngineSound::SoundPlay("Kirby_TakeOffSound.wav");
+
 	ChangeAnimationState("TakeOff");
 }
 

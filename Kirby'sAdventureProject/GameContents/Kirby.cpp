@@ -206,6 +206,11 @@ void Kirby::Update(float _Delta)
 	if (true == IsGulpEnemy)
 	{
 		IsGulpEnemy = false;
+
+
+		// 사운드 재생
+		GameEngineSound::SoundPlay("NothingSound.wav");
+
 	}
 
 	KirbysDebugShortcut(_Delta);

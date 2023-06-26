@@ -598,6 +598,10 @@ void Kirby::Contain_GulpStart()
 		GameEngineTime::MainTimer.SetTimeScale(UpdateOrder::Player, 1.0f);
 		GameEngineTime::MainTimer.SetTimeScale(UpdateOrder::Other, 1.0f);
 		GameEngineTime::MainTimer.SetTimeScale(UpdateOrder::UI, 1.0f);
+
+
+		// 사운드 재생
+		GameEngineSound::SoundPlay("GetAbility.wav");
 	}
 
 	ChangeAnimationState("Contain_Gulp");

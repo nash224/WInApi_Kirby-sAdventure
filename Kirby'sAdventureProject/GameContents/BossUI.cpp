@@ -3,6 +3,7 @@
 
 #include <GameEnginePlatform/GameEngineWindow.h>
 #include <GameEnginePlatform/GameEngineWindowTexture.h>
+#include <GameEnginePlatform/GameEngineSound.h>
 #include <GameEngineCore/GameEngineRenderer.h>
 
 #include "GlobalContents.h"
@@ -291,6 +292,9 @@ void BossUI::StaminaCountRendererSet()
 	Sixth_StaminaRenderer->SetRenderPos(BOSS_STAMINAFIRSTNUMBERLOCATION + float4{ StaminaScale.X * 5.0f , 0.0f } + StaminaScale.Half());
 
 
+
+	// 사운드
+	GlobalContents::SoundFileLoad("Kirby_LowerHP.wav", "Resources\\SoundResources\\EffectVoice");
 }
 
 
@@ -330,6 +334,10 @@ void BossUI::BossStaminaRendererSet()
 
 		Boss_StaminaRenderer.push_back(BossStaminaRenderer);
 	}
+
+
+	// 사운드
+	GlobalContents::SoundFileLoad("Boss_StaminaFullSound.wav", "Resources\\SoundResources\\EffectVoice");
 }
 
 
@@ -337,7 +345,7 @@ void BossUI::BossStaminaRendererSet()
 
 void BossUI::Update(float _Delta)
 {
-	// 피 다 채웠으면 들어가지 못함
+	// 피 다 채웠으면 실행 x
 	if (false == Boss_Stamina_Full_Done)
 	{
 		BossAppearance(_Delta);
@@ -405,6 +413,10 @@ void BossUI::BossAppearance(float _Delta)
 		}
 
 
+		// 사운드 재생
+		GameEngineSound::SoundPlay("Boss_StaminaFullSound.wav");
+
+
 		if (Boss_MaxStaminaCount == UI_BossStamina)
 		{
 			Boss_Stamina_Full_Done = true;
@@ -443,6 +455,9 @@ void BossUI::OuchState(float _Delta)
 			case 2:
 				Second_StaminaRenderer->ChangeAnimation("StaminaNone");
 				First_StaminaRenderer->FindAnimation("StaminaRemain")->Inters = { 0.1f , 0.1f };
+
+				// 사운드 재생
+				GameEngineSound::SoundPlay("Kirby_ExhaleSound.wav");
 				break;
 			case 3:
 				Third_StaminaRenderer->ChangeAnimation("StaminaNone");

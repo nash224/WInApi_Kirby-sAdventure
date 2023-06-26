@@ -79,6 +79,13 @@ void Kirby::MoveLevel_StateResourceLoad()
 		= { 0.2f , 0.2f , 0.2f , 0.2f , 0.2f , 0.2f , 0.2f , 0.2f , 5.0f , 0.05f , 0.05f , 0.05f , 0.05f , 5.0f
 		, 0.2f , 0.3f , 0.2f , 5.0f , 0.1f , 0.15f , 0.1f , 0.15f , 0.1f , 0.1f , 0.1f , 0.1f , 0.1f , 0.1f , 0.2f , 1.0f };
 
+
+
+	// »ç¿îµå
+	GlobalContents::SoundFileLoad("08_Level_Cleared_Dance.mp3", "Resources\\SoundResources\\SoundTrack");
+	GlobalContents::SoundFileLoad("EnterSound.wav", "Resources\\SoundResources\\EffectVoice");
+
+
 }
 
 
@@ -102,6 +109,8 @@ void Kirby::EnterStart()
 	GameEngineTime::MainTimer.SetTimeScale(UpdateOrder::Player, 1.0f);
 	GameEngineTime::MainTimer.SetTimeScale(UpdateOrder::Other, 1.0f);
 	GameEngineTime::MainTimer.SetTimeScale(UpdateOrder::UI, 1.0f);
+
+	GameEngineSound::SoundPlay("EnterSound.wav");
 
 	GravityReset();
 	ChangeAnimationState("Enter");
@@ -343,6 +352,14 @@ void Kirby::StageClearStart()
 
 	Dir = ActorDir::Right;
 
+	if (true == VegetableValleyPlayLevel::IsBGM_On)
+	{
+		VegetableValleyPlayLevel::IsBGM_On = false;
+
+		VegetableValleyPlayLevel::BGM_Player.Stop();
+	}
+	
+
 	ChangeAnimationState("StageClear");
 }
 
@@ -380,6 +397,9 @@ void Kirby::PerformanceStart()
 	IsKirby_FinishPosCheck = false;
 
 	Kirby_Performance_StartXPos = GetPos().X;
+
+	VegetableValleyPlayLevel::BGM_Player = GameEngineSound::SoundPlay("08_Level_Cleared_Dance.mp3");
+
 
 	GravityReset();
 	ChangeAnimationState("Performance");
@@ -463,8 +483,8 @@ void Kirby::PerformanceUpdate(float _Delta)
 
 	if (14 == MainRenderer->GetCurFrame())
 	{
-		CurrentSpeed = 400.0f;
 		CurentVerticalSpeed = -60.0f;
+		CurrentSpeed = 400.0f;
 	}
 
 	if (15 == MainRenderer->GetCurFrame())
@@ -478,8 +498,8 @@ void Kirby::PerformanceUpdate(float _Delta)
 
 	if (16 == MainRenderer->GetCurFrame())
 	{
-		CurrentSpeed = -400.0f;
 		CurentVerticalSpeed = -60.0f;
+		CurrentSpeed = -400.0f;
 	}
 
 
@@ -520,7 +540,7 @@ void Kirby::PerformanceUpdate(float _Delta)
 
 	if (19 == MainRenderer->GetCurFrame() || 21 == MainRenderer->GetCurFrame())
 	{
-		ActorUtils::DecelerationUpdate(_Delta, 200.0f * 0.15f);
+		ActorUtils::DecelerationUpdate(_Delta, 200.0f / 0.24f);
 		HorizontalUpdate(_Delta);
 	}
 

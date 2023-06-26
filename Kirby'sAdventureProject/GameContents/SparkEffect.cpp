@@ -2,6 +2,7 @@
 #include "ContentsEnum.h"
 
 
+#include <GameEnginePlatform/GameEngineSound.h>
 #include <GameEnginePlatform/GameEngineWindowTexture.h>
 #include <GameEngineCore/GameEngineRenderer.h>
 
@@ -33,12 +34,18 @@ void SparkEffect::Start()
 	MainRenderer->SetTexture("SparkEffect_1x1_16x16.bmp");
 
 	Scale = Texture->GetScale();
+
+
+	GlobalContents::SoundFileLoad("Ability_Spark1.wav", "Resources\\SoundResources\\EffectVoice");
+
 }
 
 void SparkEffect::init(const float4& _Pos, const float4& _MaterScale, const float4& _Dir)
 {
 	EffectDir = _Dir;
 	SetPos(_Pos + _Dir * _MaterScale.Half().Max2D() + float4{ 0.0f , -_MaterScale.Half().Y });
+
+	GameEngineSound::SoundPlay("Ability_Spark1.wav");
 }
 
 

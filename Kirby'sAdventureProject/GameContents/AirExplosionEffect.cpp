@@ -2,6 +2,7 @@
 #include "ContentsEnum.h"
 
 #include <GameEngineBase/GameEngineRandom.h>
+#include <GameEnginePlatform/GameEngineSound.h>
 #include <GameEngineCore/GameEngineRenderer.h>
 #include <GameEngineCore/GameEngineLevel.h>
 
@@ -22,11 +23,19 @@ AirExplosionEffect::~AirExplosionEffect()
 void AirExplosionEffect::Start()
 {
 	Scale = float4{ (AIREXPLOSIONEFFECTDISTANCE) * 2.0f , (AIREXPLOSIONEFFECTDISTANCE) * 2.0f };
+
+
+	// 사운드 로드
+	GlobalContents::SoundFileLoad("Scrafy_Bomb.wav", "Resources\\SoundResources\\EffectVoice");
 }
 
 void AirExplosionEffect::init(const float4& _Pos, const float4& _MaterScale)
 {
 	SetPos(_Pos + float4{ 0.0f , -_MaterScale.Half().Y });
+
+	
+	// 사운드 재생
+	GameEngineSound::SoundPlay("Scrafy_Bomb.wav");
 }
 
 

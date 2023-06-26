@@ -26,6 +26,11 @@ public:
 	static float KirbyStateTime;
 
 
+	// 사운드
+	static GameEngineSoundPlayer BGM_Player;
+	static bool IsBGM_On;
+
+
 protected:
 	static int VegetableValleyEntertheDoorNumber;
 
@@ -82,9 +87,6 @@ protected:
 	class Boss* LevelBoss = nullptr;
 
 
-	// 사운드
-	static GameEngineSoundPlayer BGM_Player;
-	static bool IsBGM_On;
 
 	
 

@@ -3,6 +3,7 @@
 
 
 #include <GameEngineBase/GameEngineRandom.h>
+#include <GameEnginePlatform/GameEngineSound.h>
 #include <GameEngineCore/GameEngineLevel.h>
 #include <GameEngineCore/GameEngineRenderer.h>
 #include <GameEngineCore/GameEngineCollision.h>
@@ -79,6 +80,10 @@ void SwordKnight::Start()
 	AbilityCollision->SetCollisionScale(float4{ 141.0f, 99.0f });
 	AbilityCollision->SetCollisionType(CollisionType::Rect);
 	AbilityCollision->Off();
+
+
+	// 사운드 로드
+	GlobalContents::SoundFileLoad("SwordKnight_AttackSound.wav", "Resources\\SoundResources\\EffectVoice");
 }
 
 void SwordKnight::init(const std::string& _FileName, SwordKnightState _State, const float4& _Pos)
@@ -300,6 +305,12 @@ void SwordKnight::SlashStart()
 		return;
 	}
 
+
+	// 사운드 재생
+	GameEngineSound::SoundPlay("SwordKnight_AttackSound.wav");
+
+
+
 	AbilityCollision->On();
 	ChangeAnimationState("Slash");
 }
@@ -429,6 +440,12 @@ void SwordKnight::ReversingSlashStart()
 		MsgBoxAssert("충돌체가 Null 입니다.");
 		return;
 	}
+
+
+
+	// 사운드 재생
+	GameEngineSound::SoundPlay("SwordKnight_AttackSound.wav");
+
 
 	AbilityCollision->On();
 	ChangeAnimationState("ReversingSlash");

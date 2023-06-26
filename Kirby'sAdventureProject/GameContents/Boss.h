@@ -48,6 +48,12 @@ protected:
 
 	bool IsBossFindKirby = false;
 
+
+	// 사운드 관련
+	bool IsBoss_StealtheStarStickDone = false;
+	const float Boss_StealtheStarStick_Duration = 1.6f;
+	
+
 private:
 
 };

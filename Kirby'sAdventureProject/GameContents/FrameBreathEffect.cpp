@@ -4,6 +4,7 @@
 #include <GameEngineBase/GameEngineRandom.h>
 #include <GameEnginePlatform/GameEngineWindow.h>
 #include <GameEnginePlatform/GameEngineWindowTexture.h>
+#include <GameEnginePlatform/GameEngineSound.h>
 #include <GameEngineCore/GameEngineRenderer.h>
 #include <GameEngineCore/ResourcesManager.h>
 
@@ -39,6 +40,11 @@ void FrameBreathEffect::Start()
 
 	Scale = float4{ 48.0f , 48.0f };
 	SetCheckPoint(Scale);
+
+
+
+	// 사운드 로드
+	GlobalContents::SoundFileLoad("Ability_Frame.wav", "Resources\\SoundResources\\EffectVoice");
 }
 
 void FrameBreathEffect::init(const float4& _Pos, const float4& _MaterScale, const float4& _Dir)
@@ -67,6 +73,10 @@ void FrameBreathEffect::init(const float4& _Pos, const float4& _MaterScale, cons
 		float Degree = GameEngineRandom::MainRandom.RandomFloat(-15.0f, 15.0f);
 		EffectDir = float4::GetUnitVectorFromDeg(Degree);
 	}
+
+
+	// 사운드 재생
+	GameEngineSound::SoundPlay("Ability_Frame.wav");
 }
 
 

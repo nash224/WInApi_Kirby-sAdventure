@@ -31,10 +31,13 @@ void HitObjectEffect::Start()
 
 	GlobalContents::TextureFileLoad("Left_StarEffect_1x1_8x8.bmp", "Resources\\Effect\\KirbyBaseEffect");
 
+
 	MainRenderer->SetTexture("Left_StarEffect_1x1_8x8.bmp");
 
 	Scale = float4{ 16.0f , 16.0f };
 	MainRenderer->SetRenderScale(Scale);
+
+
 }
 
 

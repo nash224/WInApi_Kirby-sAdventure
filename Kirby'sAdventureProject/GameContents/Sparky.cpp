@@ -3,6 +3,7 @@
 
 
 #include <GameEngineBase/GameEngineRandom.h>
+#include <GameEnginePlatform/GameEngineSound.h>
 #include <GameEngineCore/GameEngineLevel.h>
 #include <GameEngineCore/GameEngineRenderer.h>
 #include <GameEngineCore/GameEngineCollision.h>
@@ -79,6 +80,10 @@ void Sparky::Start()
 	AbilityCollision->SetCollisionScale(SMALLTYPECOLLISIONSCALE);
 	AbilityCollision->SetCollisionType(CollisionType::Rect);
 	AbilityCollision->Off();
+
+
+	// 사운드 로드
+	GlobalContents::SoundFileLoad("SparkyMove_Sound.wav", "Resources\\SoundResources\\EffectVoice");
 }
 
 void Sparky::init(const std::string& _FileName, SparkyState _State, const float4& _Pos)
@@ -499,6 +504,12 @@ void Sparky::LandingStart()
 {
 	StateTime = 0.0f;
 	IsChangeState = false;
+
+
+	// 사운드 재생
+	GameEngineSound::SoundPlay("SparkyMove_Sound.wav");
+
+
 	ChangeAnimationState("Landing");
 }
 

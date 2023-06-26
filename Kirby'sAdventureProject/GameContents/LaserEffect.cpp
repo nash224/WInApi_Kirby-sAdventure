@@ -5,6 +5,7 @@
 #include <GameEngineBase/GameEngineRandom.h>
 #include <GameEnginePlatform/GameEngineWindow.h>
 #include <GameEnginePlatform/GameEngineWindowTexture.h>
+#include <GameEnginePlatform/GameEngineSound.h>
 #include <GameEngineCore/GameEngineLevel.h>
 #include <GameEngineCore/GameEngineRenderer.h>
 #include <GameEngineCore/ResourcesManager.h>
@@ -44,12 +45,32 @@ void LaserEffect::Start()
 
 	Scale = Texture->GetScale();
 	SetCheckPoint(Scale);
+
+
+	// 사운드 로드
+	GlobalContents::SoundFileLoad("Kirby_Laser.wav", "Resources\\SoundResources\\EffectVoice");
+	GlobalContents::SoundFileLoad("Enemy_Laser.wav", "Resources\\SoundResources\\EffectVoice");
+
 }
 
 void LaserEffect::init(const float4& _Pos, const float4& _MaterScale , const float4& _Dir)
 {
 	EffectDir = _Dir;
 	SetPos(_Pos + EffectDir * (_MaterScale.Half().X + Scale.Half().X) + float4{ 0.0f, -_MaterScale.Half().Y });
+
+
+}
+
+void LaserEffect::Soundinit()
+{
+	if (true == IsPlayerCollision)
+	{
+		GameEngineSound::SoundPlay("Kirby_Laser.wav");
+	}
+	else if (true == IsPlayerCollision)
+	{
+		GameEngineSound::SoundPlay("Enemy_Laser.wav");
+	}
 }
 
 
@@ -68,6 +89,14 @@ void LaserEffect::Update(float _Delta)
 
 void LaserEffect::GroundPassUpdate(float _Delta)
 {
+	if (false == IsSoundinit)
+	{
+		IsSoundinit = true;
+
+		Soundinit();
+	}
+
+
 	AddPos(EffectDir * LaserEffectSPEED * _Delta);
 
 	float4 WinScale = GameEngineWindow::MainWindow.GetScale();

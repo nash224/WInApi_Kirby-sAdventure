@@ -77,6 +77,8 @@ void VegetableValley13::Start()
 
 
 	GlobalContents::SoundFileLoad("07_Boss.mp3", "Resources\\SoundResources\\SoundTrack");
+	GlobalContents::SoundFileLoad("30_Level_Clear.mp3", "Resources\\SoundResources\\SoundTrack");
+
 }
 
 void VegetableValley13::Update(float _Delta)
@@ -130,9 +132,6 @@ void VegetableValley13::LevelStart(GameEngineLevel* _PrevLevel)
 	LevelPlayer->SetGroundTexture(BitMapFileName);
 	LevelPlayer->SetPos(float4{ 370.0f, 200.0f });
 
-	// »ç¿îµå
-	BGM_Player = GameEngineSound::SoundPlay("07_Boss.mp3");
-	IsBGM_On = true;
 }
 
 

@@ -86,6 +86,7 @@ GameEngineSprite* GlobalContents::SpriteFileLoad(const std::string& _FileName, c
 }
 
 
+//GlobalContents::SoundFileLoad("Kirby_LowerHP.wav", "Resources\\SoundResources\\EffectVoice");
 
 void GlobalContents::SoundFileLoad(const std::string& _FileName, const std::string& _Path)
 {

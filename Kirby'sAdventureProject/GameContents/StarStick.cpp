@@ -231,7 +231,7 @@ void StarStick::ItemReachedState()
 		}
 
 
-		float CreateDirDeg = 180.0f;
+		float CreateDirDeg = 0.0f;
 
 		for (size_t i = 0; i < 4; i++)
 		{
@@ -242,12 +242,28 @@ void StarStick::ItemReachedState()
 				return;
 			}
 
-			CreateDirDeg += 36.0f;
+			switch (i)
+			{
+			case 0:
+				CreateDirDeg = 0.0f;
+				break;
+			case 1:
+				CreateDirDeg = 30.0f;
+				break;
+			case 2:
+				CreateDirDeg = 150.0f;
+				break;
+			case 3:
+				CreateDirDeg = 180.0f;
+				break;
+			default:
+				break;
+			}
 
 			float4 StarEffectDir = float4::GetUnitVectorFromDeg(CreateDirDeg);
 
 			MoveStarEffectPtr->init(GetPos(), StarEffectDir);
-			MoveStarEffectPtr->SetSpeedAndDuration(80.0f, 1.2f);
+			MoveStarEffectPtr->SetSpeedAndDuration(200.0f, 1.5f);
 		}
 
 

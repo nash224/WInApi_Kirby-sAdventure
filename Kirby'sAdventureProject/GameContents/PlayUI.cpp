@@ -3,6 +3,7 @@
 
 #include <GameEnginePlatform/GameEngineWindow.h>
 #include <GameEnginePlatform/GameEngineWindowTexture.h>
+#include <GameEnginePlatform/GameEngineSound.h>
 #include <GameEngineCore/GameEngineRenderer.h>
 
 #include "GlobalContents.h"
@@ -293,6 +294,10 @@ void PlayUI::StaminaCountRendererSet()
 	Sixth_StaminaRenderer->SetRenderPos(PLAY_STAMINAFIRSTNUMBERLOCATION + float4{ StaminaScale.X * 5.0f , 0.0f } + StaminaScale.Half());
 
 
+
+
+	// 사운드
+	GlobalContents::SoundFileLoad("Kirby_LowerHP.wav", "Resources\\SoundResources\\EffectVoice");
 }
 
 
@@ -470,6 +475,9 @@ void PlayUI::OuchState(float _Delta)
 			case 2:
 				Second_StaminaRenderer->ChangeAnimation("StaminaNone");
 				First_StaminaRenderer->FindAnimation("StaminaRemain")->Inters = { 0.1f , 0.1f };
+
+				// 사운드 재생
+				GameEngineSound::SoundPlay("Kirby_ExhaleSound.wav");
 				break;
 			case 3:
 				Third_StaminaRenderer->ChangeAnimation("StaminaNone");

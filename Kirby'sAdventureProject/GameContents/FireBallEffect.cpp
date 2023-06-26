@@ -3,6 +3,7 @@
 
 #include <GameEnginePlatform/GameEngineWindow.h>
 #include <GameEnginePlatform/GameEngineWindowTexture.h>
+#include <GameEnginePlatform/GameEngineSound.h>
 #include <GameEngineCore/GameEngineRenderer.h>
 #include <GameEngineCore/ResourcesManager.h>
 
@@ -38,6 +39,10 @@ void FireBallEffect::Start()
 
 	Scale = float4{ 48.0f , 48.0f };
 	SetCheckPoint(Scale);
+
+
+	// 사운드 로드
+	GlobalContents::SoundFileLoad("Ability_Frame.wav", "Resources\\SoundResources\\EffectVoice");
 }
 
 void FireBallEffect::init(const float4& _Pos, const float4& _MaterScale, const float4& _Dir)
@@ -53,6 +58,8 @@ void FireBallEffect::init(const float4& _Pos, const float4& _MaterScale, const f
 	{
 		MainRenderer->ChangeAnimation("Right_FireEffect");
 	}
+
+	GameEngineSound::SoundPlay("Ability_Frame.wav");
 }
 
 
