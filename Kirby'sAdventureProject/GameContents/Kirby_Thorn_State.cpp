@@ -82,8 +82,10 @@ void Kirby::Thorn_StateResourceLoad()
 	MainRenderer->CreateAnimation("Thorn_Left_Enter", "Ability_Left_Kirby.bmp", 93, 94, 0.1f, false);
 	MainRenderer->CreateAnimation("Thorn_Right_Enter", "Ability_Right_Kirby.bmp", 93, 94, 0.1f, false);
 
-	MainRenderer->CreateAnimation("Thorn_Left_GetAbility", "Thorn_Left_Use.bmp", 0, 5, 0.04f, false);
-	MainRenderer->CreateAnimation("Thorn_Right_GetAbility", "Thorn_Right_Use.bmp", 0, 5, 0.04f, false);
+	MainRenderer->CreateAnimationToFrame("Thorn_Left_GetAbility", "Thorn_Left_Use.bmp", { 0 , 1 , 2 , 3 , 4 , 5 , 4 , 3 , 2, 1 , 0 } , 0.04f, false);
+	MainRenderer->CreateAnimationToFrame("Thorn_Right_GetAbility", "Thorn_Right_Use.bmp", { 0 , 1 , 2 , 3 , 4 , 5 , 4 , 3 , 2, 1 , 0 }, 0.04f, false);
+	MainRenderer->FindAnimation("Thorn_Left_GetAbility")->Inters = { 0.04f ,0.04f ,0.04f ,0.04f ,1.0f ,0.04f ,0.04f ,0.04f ,0.04f , 0.04f };
+	MainRenderer->FindAnimation("Thorn_Right_GetAbility")->Inters = { 0.04f ,0.04f ,0.04f ,0.04f ,1.0f ,0.04f ,0.04f ,0.04f ,0.04f , 0.04f };
 }
 
 

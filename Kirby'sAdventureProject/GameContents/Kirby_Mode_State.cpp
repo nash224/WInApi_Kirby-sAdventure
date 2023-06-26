@@ -10,6 +10,7 @@
 #include "BeamEffect.h"
 #include "LaserEffect.h"
 #include "Boss.h"
+#include "KirbySparkEffect.h"
 #include "FrameBreathEffect.h"
 
 
@@ -220,6 +221,7 @@ void Kirby::TriggerMultiTimeAbility(float _Delta)
 	switch (Mode)
 	{
 	case AbilityStar::Spark:
+		TriggerSparkAbilityAfterProcess(_Delta);
 		break;
 	case AbilityStar::Laser:
 		break;
@@ -257,6 +259,30 @@ void Kirby::TriggerFireAbilityAfterProcess(float _Delta)
 
 		FrameBreathEffectPtr->init(GetPos(), GetKirbyScale(), GetDirUnitVector());
 		FrameBreathEffectPtr->SetActorCollision(CollisionOrder::PlayerAbility, CollisionType::Rect);
+	}
+
+
+}
+
+
+void Kirby::TriggerSparkAbilityAfterProcess(float _Delta)
+{
+	SparkTime += _Delta;
+
+
+	// 스킬 쿨타임이 돌았으면 변개 효과
+	if (SparkTime > KIRBYSPARKEFFECTCREATECYCLE)
+	{
+		SparkTime = 0.0f;
+
+		KirbySparkEffect* KirbySparkEffectPtr = GetLevel()->CreateActor<KirbySparkEffect>(UpdateOrder::Ability);
+		if (nullptr == KirbySparkEffectPtr)
+		{
+			MsgBoxAssert("액터가 Null일리가 없어..");
+			return;
+		}
+
+		KirbySparkEffectPtr->init(GetPos(), GetKirbyScale());
 	}
 
 

@@ -90,7 +90,7 @@ void SmallStarFireEffect::Update(float _Delta)
 
 	if (false == IsAbilityCollisionCheck)
 	{
-		int Damage = GameEngineRandom::MainRandom.RandomInt(2, 3);
+		int Damage = GameEngineRandom::MainRandom.RandomInt(3, 5);
 		AbilityToBossCollisionCheck(CollisionOrder::BossBody, Damage, true);
 	}
 

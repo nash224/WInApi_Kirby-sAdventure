@@ -110,11 +110,13 @@ protected:
 	bool CeilingCheck();
 	bool CheckLeftWall();
 	bool CheckRightWall();
-	bool CheckLeftWallBasedSpeed();
-	bool CheckRightWallBasedSpeed();
+	bool CheckLeftWallBasedSpeed(unsigned int _DefaultColor = RGB(0 , 255 , 255));
+	bool CheckRightWallBasedSpeed(unsigned int _DefaultColor = RGB(0, 255, 255));
+	bool CheckCeilingBasedSpeed(unsigned int _DefaultColor = RGB(0, 255, 255));
 	void BlockedByWall();
 	void BlockedByGround();
 	void BlockedByCeiling();
+	void BlockedByAll();
 	bool IsSolidGround();
 	bool IsPassableGround();
 

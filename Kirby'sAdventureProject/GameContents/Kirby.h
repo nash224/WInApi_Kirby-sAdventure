@@ -117,6 +117,7 @@ enum class KirbyState
 	StageClearWalk,
 	StageClear,
 	Performance,
+	Miss,
 	Max,
 };
 
@@ -228,6 +229,7 @@ protected:
 	void StageClearWalkStart();
 	void StageClearStart();
 	void PerformanceStart();
+	void MissStart();
 
 	void Contain_IdleStart();
 	void Contain_WalkStart();
@@ -268,6 +270,7 @@ protected:
 	void StageClearWalkUpdate(float _Delta);
 	void StageClearUpdate(float _Delta);
 	void PerformanceUpdate(float _Delta);
+	void MissUpdate(float _Delta);
 
 	void Contain_IdleUpdate(float _Delta);
 	void Contain_WalkUpdate(float _Delta);
@@ -331,6 +334,7 @@ private:
 	float DecelerationSpeed = 1.0f;
 
 	float FrameTime = 0.0f;
+	float SparkTime = 0.0f;
 
 
 
@@ -393,6 +397,7 @@ private:
 
 
 	void TriggerFireAbilityAfterProcess(float _Delta);
+	void TriggerSparkAbilityAfterProcess(float _Delta);
 
 private:
 	// 능력획득 변수
@@ -442,6 +447,9 @@ public:
 
 
 private:
+	// Death 상태 관련
+
+
 	// 부활
 	bool IsKirbyRevive = false;
 

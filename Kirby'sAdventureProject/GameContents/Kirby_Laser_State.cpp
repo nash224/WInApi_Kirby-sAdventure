@@ -68,17 +68,17 @@ void Kirby::Laser_StateResourceLoad()
 	MainRenderer->CreateAnimation("Laser_Left_ExhaleAttack", "Ability_Left_Kirby.bmp", 21, 24, EXHALEATTACKTIME, false);
 	MainRenderer->CreateAnimation("Laser_Right_ExhaleAttack", "Ability_Right_Kirby.bmp", 21, 24, EXHALEATTACKTIME, false);
 
-	MainRenderer->CreateAnimation("Laser_Left_UseSpecialAbility", "Ability_Left_Use.bmp", 7, 8, 0.1f, false);
-	MainRenderer->CreateAnimation("Laser_Right_UseSpecialAbility", "Ability_Right_Use.bmp", 7, 8, 0.1f, false);
+	MainRenderer->CreateAnimation("Laser_Left_UseSpecialAbility", "Ability_Left_Use.bmp", 7, 7, 0.04f, false);
+	MainRenderer->CreateAnimation("Laser_Right_UseSpecialAbility", "Ability_Right_Use.bmp", 7, 7, 0.04f, false);
 
-	MainRenderer->CreateAnimation("Laser_Left_ReleaseSpecialAbility", "Ability_Left_Use.bmp", 8, 8, 0.1f, false);
-	MainRenderer->CreateAnimation("Laser_Right_ReleaseSpecialAbility", "Ability_Right_Use.bmp", 8, 8, 0.1f, false);
+	MainRenderer->CreateAnimation("Laser_Left_ReleaseSpecialAbility", "Ability_Left_Use.bmp", 8, 8, 0.04f, false);
+	MainRenderer->CreateAnimation("Laser_Right_ReleaseSpecialAbility", "Ability_Right_Use.bmp", 8, 8, 0.04f, false);
 
 	MainRenderer->CreateAnimation("Laser_Left_Enter", "Ability_Left_Kirby.bmp", 93, 94, 0.1f, false);
 	MainRenderer->CreateAnimation("Laser_Right_Enter", "Ability_Right_Kirby.bmp", 93, 94, 0.1f, false);
 
-	MainRenderer->CreateAnimation("Laser_Left_GetAbility", "Ability_Left_Use.bmp", 7, 8, 0.1f, false);
-	MainRenderer->CreateAnimation("Laser_Right_GetAbility", "Ability_Right_Use.bmp", 7, 8, 0.1f, false);
+	MainRenderer->CreateAnimation("Laser_Left_GetAbility", "Ability_Left_Use.bmp", 7, 8, 0.04f, false);
+	MainRenderer->CreateAnimation("Laser_Right_GetAbility", "Ability_Right_Use.bmp", 7, 8, 0.04f, false);
 }
 
 

@@ -11,6 +11,7 @@
 
 
 #include "GlobalContents.h"
+#include "VegetableValleyPlayLevel.h"
 #include "DustEffect.h"
 #include "HitObjectEffect.h"
 #include "SmallStarFireEffect.h"
@@ -855,6 +856,7 @@ void Kirby::GetAbilityUpdate(float _Delta)
 	}
 
 
+
 	// 지속적인 능력만 따로 해주는 함수
 	TriggerMultiTimeAbility(_Delta);
 
@@ -866,6 +868,9 @@ void Kirby::GetAbilityUpdate(float _Delta)
 
 		// 시간 Delta Reset
 		GameEngineTime::MainTimer.SetAllTimeScale(1.0f);
+
+
+		
 
 		// 바닥이 있고 속도가 0이면 Idle
 		if (true == GetGroundState() && 0 == CurrentSpeed)

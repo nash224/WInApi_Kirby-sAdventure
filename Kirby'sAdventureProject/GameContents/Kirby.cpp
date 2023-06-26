@@ -331,6 +331,7 @@ void Kirby::StateUpdate(float _Delta)
 	case KirbyState::StageClearWalk:				return StageClearWalkUpdate(_Delta);
 	case KirbyState::StageClear:					return StageClearUpdate(_Delta);
 	case KirbyState::Performance:					return PerformanceUpdate(_Delta);
+	case KirbyState::Miss:							return MissUpdate(_Delta);
 	case KirbyState::Contain_Idle:					return Contain_IdleUpdate(_Delta);
 	case KirbyState::Contain_Walk:					return Contain_WalkUpdate(_Delta);
 	case KirbyState::Contain_Run:					return Contain_RunUpdate(_Delta);
@@ -380,6 +381,7 @@ void Kirby::ChangeState(KirbyState _State)
 		case KirbyState::StageClearWalk:			StageClearWalkStart();				break;
 		case KirbyState::StageClear:				StageClearStart();					break;
 		case KirbyState::Performance:				PerformanceStart();					break;
+		case KirbyState::Miss:						MissStart();						break;
 		case KirbyState::Contain_Idle:				Contain_IdleStart();				break;
 		case KirbyState::Contain_Walk:				Contain_WalkStart();				break;
 		case KirbyState::Contain_Run:				Contain_RunStart();					break;
@@ -827,3 +829,5 @@ void Kirby::ImmuneFunc(float _Delta)
 		KirbyBodyCollisonOn();
 	}
 }
+
+

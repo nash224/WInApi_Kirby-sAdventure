@@ -207,6 +207,10 @@ void VegetableValley12::Start()
 		MsgBoxAssert("UI 생성에 실패했습니다.");
 		return;
 	}
+
+
+	// 사운드 로드
+	GlobalContents::SoundFileLoad("06_Underground_Level.mp3", "Resources\\SoundResources\\SoundTrack");
 }
 
 
@@ -285,10 +289,23 @@ void VegetableValley12::LevelStart(GameEngineLevel* _PrevLevel)
 	SetPlayerPosAndCameraPos(float4{ 83.0f, 384.0f }, float4::ZERO);
 
 
+
+	// 사운드 재생
+	GameEngineSound::SoundPlay("06_Underground_Level.mp3");
+
+
+
 	// 스테이지 끝남
 	IsStageEnd = true;
 
 	GlobalContents::FadeIn(this);
 }
 
-void VegetableValley12::LevelEnd(GameEngineLevel* _NextLevel) { }
+void VegetableValley12::LevelEnd(GameEngineLevel* _NextLevel) 
+{
+	if (true == IsBGM_On)
+	{
+		BGM_Player.Stop();
+		IsBGM_On = false;
+	}
+}

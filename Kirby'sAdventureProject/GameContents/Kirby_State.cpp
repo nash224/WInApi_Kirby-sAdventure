@@ -304,6 +304,7 @@ void Kirby::WalkUpdate(float _Delta)
 	BlockedByGround();
 	MoveHorizontal(WALKSPEED, _Delta);
 	BlockedByWall();
+	BlockedByAll();
 
 	DecelerationUpdate(_Delta);
 	HorizontalUpdate(_Delta);
@@ -1693,3 +1694,29 @@ void Kirby::DamagedUpdate(float _Delta)
 	HorizontalUpdate(_Delta);
 }
 
+
+
+
+void Kirby::MissStart()
+{
+	IsChangeState = false;
+
+	m_KirbyHp = 0;
+
+
+	if (true == VegetableValleyPlayLevel::IsBGM_On)
+	{
+		VegetableValleyPlayLevel::IsBGM_On = false;
+		VegetableValleyPlayLevel::BGM_Player.Stop();
+	}
+
+	Dir = ActorDir::Right;
+
+	ChangeAnimationState("Miss");
+}
+
+
+void Kirby::MissUpdate(float _Delta)
+{
+
+}

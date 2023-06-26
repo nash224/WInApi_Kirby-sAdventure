@@ -201,13 +201,13 @@ bool ActorUtils::CheckRightWall()
 	return false;
 }
 
-bool ActorUtils::CheckLeftWallBasedSpeed()
+bool ActorUtils::CheckLeftWallBasedSpeed(unsigned int _DefaultColor)
 {
 	if (CurrentSpeed < 0.0f)
 	{
 		unsigned int ColorBottom = GetGroundColor(RGB(255, 255, 255), WallBotLeftCheckPoint);
 		unsigned int ColorTop = GetGroundColor(RGB(255, 255, 255), WallTopLeftCheckPoint);
-		if (ColorBottom == RGB(0, 255, 255) || ColorTop == RGB(0, 255, 255))
+		if (ColorBottom == _DefaultColor || ColorTop == _DefaultColor)
 		{
 			return true;
 		}
@@ -216,13 +216,29 @@ bool ActorUtils::CheckLeftWallBasedSpeed()
 	return false;
 }
 
-bool ActorUtils::CheckRightWallBasedSpeed()
+bool ActorUtils::CheckRightWallBasedSpeed(unsigned int _DefaultColor)
 {
 	if (CurrentSpeed > 0.0f)
 	{
 		unsigned int ColorBottom = GetGroundColor(RGB(255, 255, 255), WallBotRightCheckPoint);
 		unsigned int ColorTop = GetGroundColor(RGB(255, 255, 255), WallTopRightCheckPoint);
-		if (ColorBottom == RGB(0, 255, 255) || ColorTop == RGB(0, 255, 255))
+		if (ColorBottom == _DefaultColor || ColorTop == _DefaultColor)
+		{
+			return true;
+		}
+	}
+
+	return false;
+}
+
+
+bool ActorUtils::CheckCeilingBasedSpeed(unsigned int _DefaultColor)
+{
+	if (CurrentSpeed > 0.0f)
+	{
+		unsigned int ColorLeft = GetGroundColor(RGB(255, 255, 255), CeilLeftCheckPoint);
+		unsigned int ColorRight = GetGroundColor(RGB(255, 255, 255), CeilRightCheckPoint);
+		if (ColorLeft == _DefaultColor || ColorRight == _DefaultColor)
 		{
 			return true;
 		}
@@ -305,6 +321,71 @@ void ActorUtils::BlockedByCeiling()
 		}
 	}
 }
+
+
+void ActorUtils::BlockedByAll()
+{
+	if (true == CheckLeftWallBasedSpeed(RGB(255, 255, 0)) && CurrentSpeed < 0.0f)
+	{
+		CurrentSpeed = 0.0f;
+	}
+	if (true == CheckRightWallBasedSpeed(RGB(255, 255, 0)) && CurrentSpeed > 0.0f)
+	{
+		CurrentSpeed = 0.0f;
+	}
+
+	{
+		unsigned int BottomWallCheckColor = GetGroundColor(RGB(255, 255, 255), WallBotLeftCheckPoint + float4{ CHECKGAP , 0.0f });
+		unsigned int TopWallCheckColor = GetGroundColor(RGB(255, 255, 255), WallTopLeftCheckPoint + float4{ CHECKGAP , 0.0f });
+
+		if ((BottomWallCheckColor == RGB(255, 255, 0)) || (TopWallCheckColor == RGB(255, 255, 0)))
+		{
+			while ((BottomWallCheckColor == RGB(255, 255, 0)) || (TopWallCheckColor == RGB(255, 255, 0)))
+			{
+				BottomWallCheckColor = GetGroundColor(RGB(255, 255, 255), WallBotLeftCheckPoint + float4{ CHECKGAP , 0.0f });
+				TopWallCheckColor = GetGroundColor(RGB(255, 255, 255), WallTopLeftCheckPoint + float4{ CHECKGAP , 0.0f });
+				AddPos(float4::RIGHT * 3);
+			}
+		}
+	}
+
+	{
+		unsigned int BottomWallCheckColor = GetGroundColor(RGB(255, 255, 255), WallBotRightCheckPoint + float4{ -CHECKGAP , 0.0f });
+		unsigned int TopWallCheckColor = GetGroundColor(RGB(255, 255, 255), WallTopRightCheckPoint + float4{ -CHECKGAP , 0.0f });
+
+		if ((BottomWallCheckColor == RGB(255, 255, 0)) || (TopWallCheckColor == RGB(255, 255, 0)))
+		{
+			while ((BottomWallCheckColor == RGB(255, 255, 0)) || (TopWallCheckColor == RGB(255, 255, 0)))
+			{
+				BottomWallCheckColor = GetGroundColor(RGB(255, 255, 255), WallBotRightCheckPoint + float4{ -CHECKGAP , 0.0f });
+				TopWallCheckColor = GetGroundColor(RGB(255, 255, 255), WallTopRightCheckPoint + float4{ -CHECKGAP , 0.0f });
+				AddPos(float4::LEFT * 3);
+			}
+		}
+	}
+
+
+	if (true == CheckCeilingBasedSpeed(RGB(255, 255, 0)) && GravityVector.Y < 0.0f)
+	{
+		GravityReset();
+	}
+
+	unsigned int LeftCeilingCheckColor = GetGroundColor(RGB(255, 255, 255), CeilLeftCheckPoint + float4{ CHECKGAP , CHECKGAP });
+	unsigned int RightCeilingCheckColor = GetGroundColor(RGB(255, 255, 255), CeilRightCheckPoint + float4{ -CHECKGAP , CHECKGAP });
+
+	if ((LeftCeilingCheckColor == RGB(255, 255, 0)))
+	{
+		while ((LeftCeilingCheckColor == RGB(255, 255, 0)))
+		{
+			LeftCeilingCheckColor = GetGroundColor(RGB(255, 255, 255), CeilLeftCheckPoint + float4{ CHECKGAP , CHECKGAP });
+			RightCeilingCheckColor = GetGroundColor(RGB(255, 255, 255), CeilRightCheckPoint + float4{ -CHECKGAP , CHECKGAP });
+			AddPos(float4::DOWN * 3);
+		}
+	}
+
+}
+
+
 
 
 void ActorUtils::SetCheckPoint(const float4& _ScaleSize)

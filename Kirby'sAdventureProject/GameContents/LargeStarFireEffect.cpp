@@ -59,7 +59,7 @@ void LargeStarFireEffect::Update(float _Delta)
 
 	AbilityToActorCollisionCheck(CollisionOrder::MonsterBody);
 
-	int Damage = GameEngineRandom::MainRandom.RandomInt(3, 5);
+	int Damage = GameEngineRandom::MainRandom.RandomInt(4, 7);
 	AbilityToBossCollisionCheck(CollisionOrder::BossBody, Damage);
 
 
