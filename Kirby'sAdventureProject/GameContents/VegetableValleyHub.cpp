@@ -6,6 +6,7 @@
 #include <GameEngineBase/GameEngineMath.h>
 #include <GameEnginePlatform/GameEngineWindow.h>
 #include <GameEnginePlatform/GameEngineInput.h>
+#include <GameEnginePlatform/GameEngineSound.h>
 #include <GameEngineCore/GameEngineCore.h>
 #include <GameEngineCore/GameEngineCamera.h>
 #include <GameEngineCore/ResourcesManager.h>
@@ -91,7 +92,7 @@ void VegetableValleyHub::Start()
 
 
 
-
+	// UI Load
 	LevelUIManager = GameEngineLevel::CreateActor<HubUI>(UpdateOrder::UI);
 	if (nullptr == LevelUIManager)
 	{
@@ -101,6 +102,8 @@ void VegetableValleyHub::Start()
 
 
 
+	// Sound Load
+	GlobalContents::SoundFileLoad("05_LEVEL1.mp3", "Resources\\SoundResources\\SoundTrack");
 
 
 	//GameEngineWindow::MainWindow.CursorOff();
@@ -263,6 +266,8 @@ void VegetableValleyHub::LevelStart(GameEngineLevel* _PrevLevel)
 		break;
 	case 1:
 		LevelPlayer->SetPos(StageOneLocation);
+		BGM_Player = GameEngineSound::SoundPlay("05_LEVEL1.mp3", 255);
+		IsBGM_On = true;
 		break;
 	case 2:
 		LevelPlayer->SetPos(StageTwoLocation);
@@ -284,7 +289,14 @@ void VegetableValleyHub::LevelStart(GameEngineLevel* _PrevLevel)
 	GlobalContents::FadeIn(this);
 }
 
-void VegetableValleyHub::LevelEnd(GameEngineLevel* _NextLevel) { }
+void VegetableValleyHub::LevelEnd(GameEngineLevel* _NextLevel) 
+{
+	if (true == IsBGM_On)
+	{
+		BGM_Player.Stop();
+		IsBGM_On = false;
+	}
+}
 
 
 

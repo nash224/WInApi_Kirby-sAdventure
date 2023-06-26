@@ -489,6 +489,9 @@
     <ClCompile Include="StarStick.cpp">
       <Filter>Global\Object\Item</Filter>
     </ClCompile>
+    <ClCompile Include="Kirby_MoveLevel.cpp">
+      <Filter>Global\Object\Kirby</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Global">

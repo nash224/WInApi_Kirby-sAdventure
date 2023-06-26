@@ -640,6 +640,7 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="Kirby_MoveLevel.cpp" />
     <ClCompile Include="Kirby_Spark_State.cpp" />
     <ClCompile Include="Kirby_State.cpp" />
     <ClCompile Include="Kirby_Sword_State.cpp" />

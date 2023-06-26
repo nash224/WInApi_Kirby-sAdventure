@@ -6,6 +6,9 @@
 #include <string>
 
 
+#define MAX_VOLUME_AMOUNT 1.0f
+
+
 // 커비 몸통 및 스킬 충돌체 크기
 #define FATTYPECOLLISIONSCALE float4{ 66.0f , 66.0f }
 #define LOWERTYPECOLLISIONSCALE float4{ 48.0f , 27.0f }
@@ -165,6 +168,17 @@ public:
 
 protected:
 	static Kirby* MainKirby;
+
+
+	// 커비 숏컷
+	static float SoundVol;
+	float SoundVolPressKeyTime = 0.0f;
+	const float SoundVol_OneTime_AmountOfChange = 0.05f;
+	const float SoundVol_KeyDownCycle = 0.2f;
+	
+
+	void KirbysDebugShortcut(float _Delta);
+
 
 
 	// 상태변경 함수
@@ -340,6 +354,7 @@ private:
 	void Fire_StateResourceLoad();
 	void Thorn_StateResourceLoad();
 	//void Sword_StateResourceLoad();
+	void MoveLevel_StateResourceLoad();
 
 	// 모드별 공격 함수
 	void UseAbilityStart();

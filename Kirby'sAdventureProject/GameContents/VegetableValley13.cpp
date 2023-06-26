@@ -11,6 +11,7 @@
 
 
 #include "Kirby.h"
+#include "GlobalContents.h"
 #include "BossUI.h"
 #include "WhispyWood.h"
 #include "BackGround.h"
@@ -73,6 +74,9 @@ void VegetableValley13::Start()
 		MsgBoxAssert("UI 생성에 실패했습니다.");
 		return;
 	}
+
+
+	GlobalContents::SoundFileLoad("07_Boss.mp3", "Resources\\SoundResources\\SoundTrack");
 }
 
 void VegetableValley13::Update(float _Delta)
@@ -125,7 +129,18 @@ void VegetableValley13::LevelStart(GameEngineLevel* _PrevLevel)
 
 	LevelPlayer->SetGroundTexture(BitMapFileName);
 	LevelPlayer->SetPos(float4{ 370.0f, 200.0f });
+
+	// 사운드
+	BGM_Player = GameEngineSound::SoundPlay("07_Boss.mp3");
+	IsBGM_On = true;
 }
 
 
-void VegetableValley13::LevelEnd(GameEngineLevel* _NextLevel) { }
+void VegetableValley13::LevelEnd(GameEngineLevel* _NextLevel)
+{
+	if (true == IsBGM_On)
+	{
+		BGM_Player.Stop();
+		IsBGM_On = false;
+	}
+}

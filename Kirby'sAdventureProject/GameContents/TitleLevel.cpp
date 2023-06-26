@@ -24,7 +24,7 @@ void TitleLevel::Start()
 		GameEnginePath FilePath;
 		FilePath.SetCurrentPath();
 		FilePath.MoveParentToExistsChild("Resources");
-		FilePath.MoveChild("Resources\\SoundTrack");
+		FilePath.MoveChild("Resources\\SoundResources\\SoundTrack");
 
 		GameEngineSound::SoundLoad(FilePath.PlusFilePath("02_Title_Screen.mp3"));
 	}

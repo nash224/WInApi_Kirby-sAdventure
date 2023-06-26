@@ -3,6 +3,7 @@
 
 #include <GameEngineBase/GameEngineTime.h>
 #include <GameEnginePlatform/GameEngineInput.h>
+#include <GameEnginePlatform/GameEngineSound.h>
 #include <GameEngineCore/GameEngineRenderer.h>
 #include <GameEngineCore/GameEngineCamera.h>
 #include <GameEngineCore/GameEngineLevel.h>
@@ -764,6 +765,10 @@ void Kirby::StarAttack()
 
 		LargeStarEffect->init(GetPos(), GetKirbyScale(), GetDirUnitVector());
 		LargeStarEffect->SetActorCollision(CollisionOrder::PlayerAbility, CollisionType::Rect);
+
+
+		// 사운드 재생
+		GameEngineSound::SoundPlay("Kirby_LargeStarAttack.wav");
 	}
 	else if (1 == Star.SwallowedEnemyNumber)
 	{
@@ -777,6 +782,10 @@ void Kirby::StarAttack()
 
 		StarStarEffect->init(CurrentLevelBitMapFileName, GetPos(), GetKirbyScale(), GetDirUnitVector());
 		StarStarEffect->SetActorCollision(CollisionOrder::PlayerAbility, CollisionType::Rect, float4{ 12.0f , 12.0f });
+
+
+		// 사운드 재생
+		GameEngineSound::SoundPlay("Kirby_StarAttackSound.wav");
 	}
 } 
 

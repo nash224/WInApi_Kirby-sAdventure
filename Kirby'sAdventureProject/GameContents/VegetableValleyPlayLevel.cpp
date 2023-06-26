@@ -16,6 +16,8 @@ float VegetableValleyPlayLevel::FadeTime = 0.0f;
 float VegetableValleyPlayLevel::KirbyStateTime = 0.0f;
 float VegetableValleyPlayLevel::UpdateTime = 0.0f;
 int VegetableValleyPlayLevel::VegetableValleyEntertheDoorNumber = -1;
+GameEngineSoundPlayer VegetableValleyPlayLevel::BGM_Player;
+bool VegetableValleyPlayLevel::IsBGM_On = false;
 
 VegetableValleyPlayLevel::VegetableValleyPlayLevel() 
 {

@@ -3,6 +3,7 @@
 
 #include <GameEnginePlatform/GameEngineWindow.h>
 #include <GameEnginePlatform/GameEngineInput.h>
+#include <GameEnginePlatform/GameEngineSound.h>
 #include <GameEngineCore/GameEngineLevel.h>
 #include <GameEngineCore/GameEngineCamera.h>
 #include <GameEngineCore/GameEngineRenderer.h>
@@ -16,6 +17,7 @@
 
 
 Kirby* Kirby::MainKirby = nullptr;
+float Kirby::SoundVol = 0.0f;
 
 
 Kirby::Kirby()
@@ -51,6 +53,7 @@ void Kirby::Start()
 	Fire_StateResourceLoad();
 	Thorn_StateResourceLoad();
 	Contain_StateResourceLoad();
+	MoveLevel_StateResourceLoad();
 
 	MainRenderer->SetRenderScaleToTexture();
 	MainRenderer->SetScaleRatio(3.0f);
@@ -182,6 +185,11 @@ void Kirby::Start()
 	ThornEffectCollision->SetCollisionScale(SPARKEFFECTCOLLISIONSCALE);
 	ThornEffectCollision->SetCollisionType(CollisionType::Rect);
 	ThornEffectCollision->Off();
+
+
+
+	// 사운드
+	SoundVol = GameEngineSound::GetGlobalVolume();
 }
 
 
@@ -200,20 +208,7 @@ void Kirby::Update(float _Delta)
 		IsGulpEnemy = false;
 	}
 
-
-	// 디버그 렌더링 전환키
-	if (true == GameEngineInput::IsDown('Y'))
-	{
-		GameEngineLevel::CollisionDebugRenderSwitch();
-	}
-
-
-
-	if (true == GameEngineInput::IsDown('J'))
-	{
-		ChangeState(KirbyState::StageClear);
-		return;
-	}
+	KirbysDebugShortcut(_Delta);
 
 
 	PrevKirbyMovePos = GetPos();
@@ -235,6 +230,66 @@ void Kirby::Update(float _Delta)
 	CameraFocus();
 }
 
+
+
+
+
+void Kirby::KirbysDebugShortcut(float _Delta)
+{
+	// 디버그 렌더링 전환키
+	if (true == GameEngineInput::IsDown('Y'))
+	{
+		GameEngineLevel::CollisionDebugRenderSwitch();
+	}
+
+
+
+	if (true == GameEngineInput::IsDown('J'))
+	{
+		ChangeState(KirbyState::StageClear);
+		return;
+	}
+
+
+	SoundVolPressKeyTime += _Delta;
+
+	if (SoundVolPressKeyTime > SoundVol_KeyDownCycle)
+	{
+		if (true == GameEngineInput::IsPress(VK_OEM_6))
+		{
+			float SoundVolumeReturnValue = GameEngineSound::GetGlobalVolume();
+
+			if (SoundVolumeReturnValue < MAX_VOLUME_AMOUNT)
+			{
+				SoundVol = SoundVolumeReturnValue + SoundVol_OneTime_AmountOfChange;
+			}
+
+			GameEngineSound::SetGlobalVolume(SoundVol);
+
+			SoundVolPressKeyTime = 0.0f;
+		}
+		else if (true == GameEngineInput::IsPress(VK_OEM_4))
+		{
+			float SoundVolumeReturnValue = GameEngineSound::GetGlobalVolume();
+
+			if (SoundVolumeReturnValue > 0.0f)
+			{
+				SoundVol = SoundVolumeReturnValue - SoundVol_OneTime_AmountOfChange;
+
+				if (SoundVol < 0.0f)
+				{
+					SoundVol = 0.0f;
+				}
+			}
+
+			GameEngineSound::SetGlobalVolume(SoundVol);
+
+			SoundVolPressKeyTime = 0.0f;
+		}
+	}
+
+
+}
 
 
 

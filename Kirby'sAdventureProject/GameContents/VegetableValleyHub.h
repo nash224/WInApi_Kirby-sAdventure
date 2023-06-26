@@ -1,6 +1,10 @@
 #pragma once
 #include "VegetableValleyPlayLevel.h"
 
+
+
+
+
 // Ό³Έν :
 class VegetableValleyHub : public VegetableValleyPlayLevel
 {
@@ -29,7 +33,8 @@ private:
 
 	class BillboardsObject* VegetableValley_Billboard = nullptr;
 
-	//void DoorRender();
+
+
 
 
 	const float4 StageOneLocation = float4{ 288.0f , 865.0f };

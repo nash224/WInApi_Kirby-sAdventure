@@ -21,6 +21,7 @@ public:
 
 	static GameEngineWindowTexture* TextureFileLoad(const std::string& _FileName, const std::string& _Path);
 	static GameEngineSprite* SpriteFileLoad(const std::string& _FileName, const std::string& _Path, int _XCount, int _YCount);
+	static void SoundFileLoad(const std::string& _FileName, const std::string& _Path);
 
 	static void FadeOut(GameEngineLevel* _Level);
 	static void FadeIn(GameEngineLevel* _Level);

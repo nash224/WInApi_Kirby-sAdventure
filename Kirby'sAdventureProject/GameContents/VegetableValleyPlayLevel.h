@@ -1,6 +1,9 @@
 #pragma once
 #include <GameEngineCore/GameEngineLevel.h>
 
+
+#include <GameEnginePlatform/GameEngineSound.h>
+
 #include "Enemy.h"
 #include <vector>
 
@@ -78,11 +81,18 @@ protected:
 	class Kirby* LevelPlayer = nullptr;
 	class Boss* LevelBoss = nullptr;
 
+
+	// »ç¿îµå
+	static GameEngineSoundPlayer BGM_Player;
+	static bool IsBGM_On;
+
 	
 
 	std::vector<Enemy*> LevelEnemy;
-	std::string BitMapFileName = "";
 
+
+
+	std::string BitMapFileName = "";
 	float4 BackGroundScale = float4::ZERO;
 
 
