@@ -29,6 +29,7 @@ public:
 
 
 
+
 	// »ç¿îµå
 	static GameEngineSoundPlayer BGM_Player;
 	static bool IsBGM_On;
@@ -81,6 +82,7 @@ public:
 	}
 
 
+
 protected:
 	class UIManager* LevelUIManager = nullptr;
 	class BackGround* LevelBackGround = nullptr;
@@ -97,6 +99,7 @@ protected:
 
 
 	std::string BitMapFileName = "";
+
 	float4 BackGroundScale = float4::ZERO;
 
 
@@ -119,7 +122,18 @@ protected:
 		float4 _Pos, float _Ratio,
 		float _Inter = 0.1f, bool _Loop = true);
 
+
+public:
+	// Kirby Repsawn
+	float4 Kirby_RespawnPos = float4::ZERO;
+
+	std::string LevelBgmFileName = "";
+
+	void RePlayBGM();
+
 private:
 
+
+	
 };
 

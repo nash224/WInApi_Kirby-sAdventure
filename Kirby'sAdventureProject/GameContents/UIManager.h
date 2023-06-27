@@ -36,6 +36,9 @@ protected:
 	GameEngineRenderer* First_LivesRenderer = nullptr;
 	GameEngineRenderer* Second_LivesRenderer = nullptr;
 
+	const float4 NumberScale = float4{ 24.0f, 24.0f };
+
+
 
 	GameEngineRenderer* First_StaminaRenderer= nullptr;
 	GameEngineRenderer* Second_StaminaRenderer= nullptr;
@@ -58,8 +61,10 @@ protected:
 
 
 	static int KirbyMode;
-	static int m_LivesCount;
 	static int m_KirbySteminaCount;
+
+public:
+	static int m_LivesCount;
 
 private:
 };

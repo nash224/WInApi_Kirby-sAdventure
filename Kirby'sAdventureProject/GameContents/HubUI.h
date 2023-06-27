@@ -55,7 +55,6 @@ protected:
 
 private:
 	const float4 HUB_StaminaScale = float4{ 24.0f, 24.0f };
-	const float4 NumberScale = float4{ 24.0f, 24.0f };
 
 
 

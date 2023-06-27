@@ -61,7 +61,7 @@
 #define KirbyDamagedDuration 0.2f
 
 // 커비 무적시간
-#define KIRBYIMMUNEDURATION 3.0f
+#define KIRBYIMMUNEDURATION 2.0f
 
 // 커비 튕겨나가는 거리
 #define BOUNCINGOFF_XPOWER 200.0f
@@ -69,6 +69,9 @@
 
 // 커비 데미지 상태 시간
 #define KIRBY_DAMAGED_STATETIME 0.2f
+
+// 커비 Miss
+#define KIRBY_MISS_STATETIME 2.0f
 
 
 enum class KirbyBodyState
@@ -118,6 +121,7 @@ enum class KirbyState
 	StageClear,
 	Performance,
 	Miss,
+	MissRaiseUp,
 	Max,
 };
 
@@ -230,6 +234,7 @@ protected:
 	void StageClearStart();
 	void PerformanceStart();
 	void MissStart();
+	void MissRaiseUpStart();
 
 	void Contain_IdleStart();
 	void Contain_WalkStart();
@@ -271,6 +276,7 @@ protected:
 	void StageClearUpdate(float _Delta);
 	void PerformanceUpdate(float _Delta);
 	void MissUpdate(float _Delta);
+	void MissRaiseUpUpdate(float _Delta);
 
 	void Contain_IdleUpdate(float _Delta);
 	void Contain_WalkUpdate(float _Delta);
@@ -466,6 +472,7 @@ private:
 public:
 	// Fade Out & In, FadeScreen 관련
 	bool IsFadeOut = false;
+	bool IsKirby_FadeRequest = false;
 	bool IsFadeScreenRelease = false;
 
 	int FadeAlphaValue = 70;

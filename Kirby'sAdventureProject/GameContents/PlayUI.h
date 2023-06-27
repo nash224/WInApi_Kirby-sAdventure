@@ -66,7 +66,6 @@ protected:
 	void LevelStart() override;
 
 private:
-	const float4 NumberScale = float4{ 24.0f, 24.0f };
 
 
 	bool Ouch_State = false;

@@ -1,6 +1,7 @@
 #include "VegetableValleyPlayLevel.h"
 #include "ContentsEnum.h"
 
+#include <GameEnginePlatform/GameEngineSound.h>
 #include <GameEngineCore/GameEngineRenderer.h>
 #include <GameEngineCore/GameEngineCamera.h>
 
@@ -28,6 +29,14 @@ VegetableValleyPlayLevel::~VegetableValleyPlayLevel()
 {
 }
 
+
+
+
+void VegetableValleyPlayLevel::RePlayBGM()
+{
+	BGM_Player = GameEngineSound::SoundPlay(LevelBgmFileName);
+	IsBGM_On = true;
+}
 
 
 void VegetableValleyPlayLevel::SetPlayerPosAndCameraPos(const float4& _PlayerPos, const float4& _CameraPos)

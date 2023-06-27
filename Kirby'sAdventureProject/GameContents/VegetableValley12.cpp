@@ -59,6 +59,10 @@ void VegetableValley12::Start()
 
 	// 사운드 로드
 	GlobalContents::SoundFileLoad("06_Underground_Level.mp3", "Resources\\SoundResources\\SoundTrack");
+	LevelBgmFileName = "06_Underground_Level.mp3";
+
+	// 리스폰 세팅
+	Kirby_RespawnPos = float4{ 83.0f, 384.0f };
 }
 
 
@@ -171,12 +175,16 @@ void VegetableValley12::LevelStart(GameEngineLevel* _PrevLevel)
 		MsgBoxAssert("플레이어를 세팅해주지 않았습니다.");
 	}
 
-	SetPlayerPosAndCameraPos(float4{ 83.0f, 384.0f }, float4::ZERO);
+	SetPlayerPosAndCameraPos(Kirby_RespawnPos, float4::ZERO);
 
 
 
 	// 사운드 재생
-	GameEngineSound::SoundPlay("06_Underground_Level.mp3");
+	if (false == IsBGM_On)
+	{
+		BGM_Player = GameEngineSound::SoundPlay("06_Underground_Level.mp3");
+		IsBGM_On = true;
+	}
 
 
 

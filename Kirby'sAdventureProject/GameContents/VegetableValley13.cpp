@@ -76,7 +76,11 @@ void VegetableValley13::Start()
 
 	GlobalContents::SoundFileLoad("07_Boss.mp3", "Resources\\SoundResources\\SoundTrack");
 	GlobalContents::SoundFileLoad("30_Level_Clear.mp3", "Resources\\SoundResources\\SoundTrack");
+	LevelBgmFileName = "07_Boss.mp3";
 
+
+	// 리스폰 세팅
+	Kirby_RespawnPos = float4{ 370.0f, 200.0f };
 }
 
 void VegetableValley13::Update(float _Delta)
@@ -161,7 +165,7 @@ void VegetableValley13::LevelStart(GameEngineLevel* _PrevLevel)
 	}
 
 	LevelPlayer->SetGroundTexture(BitMapFileName);
-	LevelPlayer->SetPos(float4{ 370.0f, 200.0f });
+	LevelPlayer->SetPos(Kirby_RespawnPos);
 
 }
 

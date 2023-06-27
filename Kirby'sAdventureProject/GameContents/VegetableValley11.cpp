@@ -91,6 +91,10 @@ void VegetableValley11::Start()
 
 	// 사운드 로드
 	GlobalContents::SoundFileLoad("03_Plains_Level.mp3", "Resources\\SoundResources\\SoundTrack");
+	LevelBgmFileName = "03_Plains_Level.mp3";
+
+	// 리스폰 세팅
+	Kirby_RespawnPos = float4{ 200.0f , 384.0f };
 }
 
 
@@ -143,7 +147,7 @@ void VegetableValley11::LevelStart(GameEngineLevel* _PrevLevel)
 	}
 
 	LevelPlayer->SetGroundTexture(BitMapFileName);
-	LevelPlayer->SetPos(float4{ 200.0f , 384.0f });
+	LevelPlayer->SetPos(Kirby_RespawnPos);
 
 
 	if (false == IsBGM_On)

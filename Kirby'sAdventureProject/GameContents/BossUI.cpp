@@ -450,35 +450,35 @@ void BossUI::OuchState(float _Delta)
 			{
 			case 1:
 				// 죽음
-				First_StaminaRenderer->ChangeAnimation("StaminaNone");
+				First_StaminaRenderer->Off();
 				break;
 			case 2:
-				Second_StaminaRenderer->ChangeAnimation("StaminaNone");
+				Second_StaminaRenderer->Off();
 				First_StaminaRenderer->FindAnimation("StaminaRemain")->Inters = { 0.1f , 0.1f };
 
 				// 사운드 재생
-				GameEngineSound::SoundPlay("Kirby_ExhaleSound.wav");
+				GameEngineSound::SoundPlay("Kirby_LowerHP.wav");
 				break;
 			case 3:
-				Third_StaminaRenderer->ChangeAnimation("StaminaNone");
+				Third_StaminaRenderer->Off();
 				Second_StaminaRenderer->FindAnimation("StaminaRemain")->Inters = { 0.2f , 0.2f };
 				First_StaminaRenderer->FindAnimation("StaminaRemain")->Inters = { 0.2f , 0.2f };
 				break;
 			case 4:
-				Fourth_StaminaRenderer->ChangeAnimation("StaminaNone");
+				Fourth_StaminaRenderer->Off();
 				Third_StaminaRenderer->FindAnimation("StaminaRemain")->Inters = { 0.3f , 0.3f };
 				Second_StaminaRenderer->FindAnimation("StaminaRemain")->Inters = { 0.3f , 0.3f };
 				First_StaminaRenderer->FindAnimation("StaminaRemain")->Inters = { 0.3f , 0.3f };
 				break;
 			case 5:
-				Fifth_StaminaRenderer->ChangeAnimation("StaminaNone");
+				Fifth_StaminaRenderer->Off();
 				Fourth_StaminaRenderer->FindAnimation("StaminaRemain")->Inters = { 0.4f , 0.4f };
 				Third_StaminaRenderer->FindAnimation("StaminaRemain")->Inters = { 0.4f , 0.4f };
 				Second_StaminaRenderer->FindAnimation("StaminaRemain")->Inters = { 0.4f , 0.4f };
 				First_StaminaRenderer->FindAnimation("StaminaRemain")->Inters = { 0.4f , 0.4f };
 				break;
 			case 6:
-				Sixth_StaminaRenderer->ChangeAnimation("StaminaNone");
+				Sixth_StaminaRenderer->Off();
 				Fifth_StaminaRenderer->FindAnimation("StaminaRemain")->Inters = { 0.5f , 0.5f };
 				Fourth_StaminaRenderer->FindAnimation("StaminaRemain")->Inters = { 0.5f , 0.5f };
 				Third_StaminaRenderer->FindAnimation("StaminaRemain")->Inters = { 0.5f , 0.5f };
@@ -595,29 +595,29 @@ void BossUI::LevelStart()
 	switch (KirbyPtr->m_KirbyHp)
 	{
 	case 1:
-		Second_StaminaRenderer->ChangeAnimation("StaminaNone");
-		Third_StaminaRenderer->ChangeAnimation("StaminaNone");
-		Fourth_StaminaRenderer->ChangeAnimation("StaminaNone");
-		Fifth_StaminaRenderer->ChangeAnimation("StaminaNone");
-		Sixth_StaminaRenderer->ChangeAnimation("StaminaNone");
+		Second_StaminaRenderer->Off();
+		Third_StaminaRenderer->Off();
+		Fourth_StaminaRenderer->Off();
+		Fifth_StaminaRenderer->Off();
+		Sixth_StaminaRenderer->Off();
 		break;
 	case 2:
-		Third_StaminaRenderer->ChangeAnimation("StaminaNone");
-		Fourth_StaminaRenderer->ChangeAnimation("StaminaNone");
-		Fifth_StaminaRenderer->ChangeAnimation("StaminaNone");
-		Sixth_StaminaRenderer->ChangeAnimation("StaminaNone");
+		Third_StaminaRenderer->Off();
+		Fourth_StaminaRenderer->Off();
+		Fifth_StaminaRenderer->Off();
+		Sixth_StaminaRenderer->Off();
 		break;
 	case 3:
-		Fourth_StaminaRenderer->ChangeAnimation("StaminaNone");
-		Fifth_StaminaRenderer->ChangeAnimation("StaminaNone");
-		Sixth_StaminaRenderer->ChangeAnimation("StaminaNone");
+		Fourth_StaminaRenderer->Off();
+		Fifth_StaminaRenderer->Off();
+		Sixth_StaminaRenderer->Off();
 		break;
 	case 4:
-		Fifth_StaminaRenderer->ChangeAnimation("StaminaNone");
-		Sixth_StaminaRenderer->ChangeAnimation("StaminaNone");
+		Fifth_StaminaRenderer->Off();
+		Sixth_StaminaRenderer->Off();
 		break;
 	case 5:
-		Sixth_StaminaRenderer->ChangeAnimation("StaminaNone");
+		Sixth_StaminaRenderer->Off();
 		break;
 	case 6:
 		break;

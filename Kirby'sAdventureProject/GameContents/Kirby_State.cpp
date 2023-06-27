@@ -11,7 +11,9 @@
 #include <GameEngineCore/GameEngineLevel.h>
 #include <GameEngineCore/ResourcesManager.h>
 
+
 #include "GlobalContents.h"
+#include "UIManager.h"
 #include "DustEffect.h"
 #include "HitObjectEffect.h"
 #include "ExhaleEffect.h"
@@ -100,6 +102,14 @@ void Kirby::Normal_StateResourceLoad()
 
 
 
+
+	GlobalContents::SpriteFileLoad("Kirby_Miss.bmp", "Resources\\Unit\\Kirby", 4, 1);
+
+	MainRenderer->CreateAnimation("Normal_Right_Miss", "Kirby_Miss.bmp", 0, 0, 0.1f, false);
+	MainRenderer->CreateAnimation("Normal_Right_MissRaiseUp", "Kirby_Miss.bmp", 0, 3, 0.1f, true);
+
+
+
 	// 사운드 로드
 	GlobalContents::SoundFileLoad("Kirby_Bounce.wav", "Resources\\SoundResources\\EffectVoice");
 	GlobalContents::SoundFileLoad("Kirby_TurnSound.wav", "Resources\\SoundResources\\EffectVoice");
@@ -117,6 +127,9 @@ void Kirby::Normal_StateResourceLoad()
 	GlobalContents::SoundFileLoad("NothingSound.wav", "Resources\\SoundResources\\EffectVoice");
 	GlobalContents::SoundFileLoad("GetAbility.wav", "Resources\\SoundResources\\EffectVoice");
 	GlobalContents::SoundFileLoad("Kirby_Inhale.wav", "Resources\\SoundResources\\EffectVoice");
+	GlobalContents::SoundFileLoad("Miss.wav", "Resources\\SoundResources\\EffectVoice");
+
+	GlobalContents::SoundFileLoad("38_Miss.mp3", "Resources\\SoundResources\\SoundTrack");
 
 }
 
@@ -1722,9 +1735,32 @@ void Kirby::DamagedUpdate(float _Delta)
 
 void Kirby::MissStart()
 {
+	StateTime = 0.0f;
 	IsChangeState = false;
 
 	m_KirbyHp = 0;
+
+
+	// 커비 몸통 충돌체 Off
+	KirbyBodyCollisonOff();
+
+	BodyState = KirbyBodyState::Little;
+	Dir = ActorDir::Right;
+
+	// 피해를 입으면 기본 상태로
+	if (AbilityStar::Normal != Mode)
+	{
+		Mode = AbilityStar::Normal;
+	}
+
+	// 사운드 재생
+	GameEngineSound::SoundPlay("Miss.wav");
+
+
+	GameEngineTime::MainTimer.SetAllTimeScale(0.0f);
+	GameEngineTime::MainTimer.SetTimeScale(UpdateOrder::Player,	1.0f);
+	GameEngineTime::MainTimer.SetTimeScale(UpdateOrder::UI, 1.0f);
+	GameEngineTime::MainTimer.SetTimeScale(UpdateOrder::Other, 1.0f);
 
 
 	if (true == VegetableValleyPlayLevel::IsBGM_On)
@@ -1733,13 +1769,131 @@ void Kirby::MissStart()
 		VegetableValleyPlayLevel::BGM_Player.Stop();
 	}
 
-	Dir = ActorDir::Right;
-
 	ChangeAnimationState("Miss");
 }
 
 
 void Kirby::MissUpdate(float _Delta)
 {
+	StateTime += _Delta;
+	
+	if (StateTime > KIRBY_MISS_STATETIME)
+	{
+		ChangeState(KirbyState::MissRaiseUp);
+		return;
+	}
+}
 
+
+
+
+void Kirby::MissRaiseUpStart()
+{
+	StateTime = 0.0f;
+	IsChangeState = false;
+	IsKirbyRevive = false;
+	IsKirby_FadeRequest = false;
+
+	// 중력 초기값
+	SetGravityVector(float4::UP * 600.0f);
+
+
+
+	// 사운드 재생
+	if (false == VegetableValleyPlayLevel::IsBGM_On)
+	{
+		VegetableValleyPlayLevel::IsBGM_On = true;
+		VegetableValleyPlayLevel::BGM_Player = GameEngineSound::SoundPlay("38_Miss.mp3");
+	}
+
+
+	ChangeAnimationState("MissRaiseUp");
+}
+
+
+void Kirby::MissRaiseUpUpdate(float _Delta)
+{
+	StateTime += _Delta;
+
+
+
+	if (GetPos().Y < CurrentBackGroundScale.Y + 96.0f)
+	{
+		Gravity(_Delta);
+		VerticalUpdate(_Delta);
+	}
+	else if (GetPos().Y > CurrentBackGroundScale.Y + 96.0f)
+	{
+		GameEngineLevel* CurLevelPtr = GetLevel();
+		if (nullptr == CurLevelPtr)
+		{
+			MsgBoxAssert("레벨을 불러오지 못했습니다..");
+			return;
+		}
+
+		if (false == IsKirby_FadeRequest)
+		{
+			GlobalContents::FadeOut(CurLevelPtr);
+			IsKirby_FadeRequest = true;
+			IsFadeOut = true;
+		}
+	}
+
+	if (StateTime > 4.0f)
+	{
+		GameEngineLevel* CurLevelPtr = GetLevel();
+		if (nullptr == CurLevelPtr)
+		{
+			MsgBoxAssert("레벨을 불러오지 못했습니다..");
+			return;
+		}
+
+		GameEngineCamera* MainCameraPtr = CurLevelPtr->GetMainCamera();
+		if (nullptr == MainCameraPtr)
+		{
+			MsgBoxAssert("카메라를 불러오지 못했습니다.");
+			return;
+		}
+
+
+
+		VegetableValleyPlayLevel* PlayLevelPtr = dynamic_cast<VegetableValleyPlayLevel*>(CurLevelPtr);
+		if (nullptr == PlayLevelPtr)
+		{
+			MsgBoxAssert("다운 캐스팅 오류입니다.");
+			return;
+		}
+
+		float4 KirbyRespawnPos = PlayLevelPtr->Kirby_RespawnPos;
+		MainCameraPtr->SetPos(float4::ZERO);
+
+		// 리스폰 지역 세팅
+		SetPos(KirbyRespawnPos);
+		
+		// 피 설정
+		m_KirbyHp = 6;
+
+		// 페이드 아웃 풀림
+		IsFadeOut = false;
+
+		// 커비 바디 충돌체 ON
+		KirbyBodyCollisonOn();
+
+		// UI에게 피채워달라고 요청
+		IsKirbyRevive = true;
+
+		// BGM_Off
+		VegetableValleyPlayLevel::IsBGM_On = false;
+
+		// TimeSet
+		GameEngineTime::MainTimer.SetAllTimeScale(1.0f);
+
+
+		GlobalContents::FadeIn(CurLevelPtr);
+		
+		PlayLevelPtr->RePlayBGM();
+
+		ChangeState(KirbyState::Idle);
+		return;
+	}
 }

@@ -512,7 +512,12 @@ void Kirby::CheckKirbyCollision()
 			// 커비가 면역상태가 아니면 데미지
 			if (false == ImmuneState)
 			{
-				if (KirbyState::Fly != KeepDamagedState && KirbyState::Contain_Idle != KeepDamagedState)
+				if (1 == m_KirbyHp)
+				{
+					ChangeState(KirbyState::Miss);
+					return;
+				}
+				else if (KirbyState::Fly != KeepDamagedState && KirbyState::Contain_Idle != KeepDamagedState)
 				{
 					ChangeState(KirbyState::Damaged);
 					return;
@@ -567,7 +572,12 @@ void Kirby::CheckKirbyCollision()
 	// 커비가 맞았을때 데미지 상태
 	if (true == IsHitted && false == ImmuneState)
 	{
-		if (KirbyState::Fly != KeepDamagedState && KirbyState::Contain_Idle != KeepDamagedState)
+		if (1 == m_KirbyHp)
+		{
+			ChangeState(KirbyState::Miss);
+			return;
+		}
+		else if (KirbyState::Fly != KeepDamagedState && KirbyState::Contain_Idle != KeepDamagedState)
 		{
 			ChangeState(KirbyState::Damaged);
 			return;

@@ -25,17 +25,21 @@ UIManager::~UIManager()
 // 죽었을 때 스테미나 
 void UIManager::StaminaState()
 {
-	if (true == KirbyPtr->IsKirbyRevive && 0 == m_KirbySteminaCount)
+	if (true == KirbyPtr->IsKirbyRevive)
 	{
+		// 라이프 1감소 
+		--m_LivesCount;
+
 		// Hp 초기화
 		m_KirbySteminaCount = 6;
 
-		First_StaminaRenderer->ChangeAnimation("StaminaRemain");
-		Second_StaminaRenderer->ChangeAnimation("StaminaRemain");
-		Third_StaminaRenderer->ChangeAnimation("StaminaRemain");
-		Fourth_StaminaRenderer->ChangeAnimation("StaminaRemain");
-		Fifth_StaminaRenderer->ChangeAnimation("StaminaRemain");
-		Sixth_StaminaRenderer->ChangeAnimation("StaminaRemain");
+
+		First_StaminaRenderer->On();
+		Second_StaminaRenderer->On();
+		Third_StaminaRenderer->On();
+		Fourth_StaminaRenderer->On();
+		Fifth_StaminaRenderer->On();
+		Sixth_StaminaRenderer->On();
 
 
 		// 프레임간격 재설정
@@ -44,6 +48,27 @@ void UIManager::StaminaState()
 		Third_StaminaRenderer->FindAnimation("StaminaRemain")->Inters = { 0.6f , 0.6f };
 		Second_StaminaRenderer->FindAnimation("StaminaRemain")->Inters = { 0.6f , 0.6f };
 		First_StaminaRenderer->FindAnimation("StaminaRemain")->Inters = { 0.6f , 0.6f };
+		Sixth_StaminaRenderer->FindAnimation("StaminaRemain")->Inters = { 0.6f , 0.6f };
+
+		First_StaminaRenderer->FindAnimation("StaminaRemain")->CurInter = 0.0f;
+		Second_StaminaRenderer->FindAnimation("StaminaRemain")->CurInter = 0.0f;
+		Third_StaminaRenderer->FindAnimation("StaminaRemain")->CurInter = 0.0f;
+		Fourth_StaminaRenderer->FindAnimation("StaminaRemain")->CurInter = 0.0f;
+		Fifth_StaminaRenderer->FindAnimation("StaminaRemain")->CurInter = 0.0f;
+		Sixth_StaminaRenderer->FindAnimation("StaminaRemain")->CurInter = 0.0f;
+
+		First_StaminaRenderer->FindAnimation("StaminaRemain")->CurFrame = 0;
+		Second_StaminaRenderer->FindAnimation("StaminaRemain")->CurFrame = 0;
+		Third_StaminaRenderer->FindAnimation("StaminaRemain")->CurFrame = 0;
+		Fourth_StaminaRenderer->FindAnimation("StaminaRemain")->CurFrame = 0;
+		Fifth_StaminaRenderer->FindAnimation("StaminaRemain")->CurFrame = 0;
+		Sixth_StaminaRenderer->FindAnimation("StaminaRemain")->CurFrame = 0;
+
+		PortraitRenderer->ChangeAnimation("Portrait_Normal");
+
+		KirbyPtr->IsKirbyRevive = false;
+
+		Second_LivesRenderer->SetCopyPos(float4{ NumberScale.X * static_cast<float>(m_LivesCount), 0.0f });
 	}
 
 }
