@@ -443,10 +443,6 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="VegetableValleyBoss.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
     <ClInclude Include="VegetableValleyHub.h">
       <SubType>
       </SubType>
@@ -770,10 +766,6 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="VegetableValley13.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
-    <ClCompile Include="VegetableValleyBoss.cpp">
       <SubType>
       </SubType>
     </ClCompile>

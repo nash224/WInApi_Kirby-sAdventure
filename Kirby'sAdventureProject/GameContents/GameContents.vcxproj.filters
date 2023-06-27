@@ -65,9 +65,6 @@
     <ClInclude Include="VegetableValleyIntro.h">
       <Filter>Level\02.Map\VegetableValley</Filter>
     </ClInclude>
-    <ClInclude Include="VegetableValleyBoss.h">
-      <Filter>Level\02.Map\VegetableValley</Filter>
-    </ClInclude>
     <ClInclude Include="ContentsEnum.h" />
     <ClInclude Include="Kirby.h">
       <Filter>Global\Object\Kirby</Filter>
@@ -292,9 +289,6 @@
       <Filter>Level\02.Map\VegetableValley</Filter>
     </ClCompile>
     <ClCompile Include="VegetableValleyIntro.cpp">
-      <Filter>Level\02.Map\VegetableValley</Filter>
-    </ClCompile>
-    <ClCompile Include="VegetableValleyBoss.cpp">
       <Filter>Level\02.Map\VegetableValley</Filter>
     </ClCompile>
     <ClCompile Include="BackGroundEffectList.cpp">

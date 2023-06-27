@@ -24,7 +24,13 @@ void TitleLevel::Start()
 {
 	GameEngineSound::SetGlobalVolume(0.25f);
 
-	LevelBackGround = GameEngineLevel::CreateActor<BackGround>();
+	LevelBackGround = GameEngineLevel::CreateActor<BackGround>(UpdateOrder::BackGround);
+	if (nullptr == LevelBackGround)
+	{
+		MsgBoxAssert("배경을 생성하지 못했습니다.");
+		return;
+	}
+
 	LevelBackGround->init("KirbyTitle.bmp", "Resources\\Map");
 
 	// 사운드 로드
@@ -33,13 +39,6 @@ void TitleLevel::Start()
 
 void TitleLevel::Update(float _DeltaTime)
 {
-	if (true == GameEngineInput::IsDown('O'))
-	{
-		BGMPlayer.Stop();
-	}
-
-
-
 	if (true == GameEngineInput::IsDown('W') ||
 		GameEngineInput::IsDown('S') || 
 		GameEngineInput::IsDown('A') || 
@@ -51,11 +50,20 @@ void TitleLevel::Update(float _DeltaTime)
 
 void TitleLevel::LevelStart(GameEngineLevel* _PrevLevel)
 {
-	BGMPlayer = GameEngineSound::SoundPlay("02_Title_Screen.mp3");
+	if (false == IsBGMOn)
+	{
+		BGMPlayer = GameEngineSound::SoundPlay("02_Title_Screen.mp3");
+		IsBGMOn = true;
+	}
+
 }
 
 
 void TitleLevel::LevelEnd(GameEngineLevel* _NextLevel)
 {
-
+	if (true == IsBGMOn)
+	{
+		BGMPlayer.Stop();
+		IsBGMOn = false;
+	}
 }

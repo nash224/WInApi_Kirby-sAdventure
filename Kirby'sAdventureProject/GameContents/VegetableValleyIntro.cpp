@@ -1,12 +1,9 @@
 #include "VegetableValleyIntro.h"
 
 
-#include <GameEngineBase/GameEngineMath.h>
-#include <GameEnginePlatform/GameEngineWindow.h>
 #include <GameEnginePlatform/GameEngineInput.h>
 #include <GameEnginePlatform/GameEngineSound.h>
 #include <GameEngineCore/GameEngineCore.h>
-#include <GameEngineCore/GameEngineCamera.h>
 
 
 #include "GlobalContents.h"

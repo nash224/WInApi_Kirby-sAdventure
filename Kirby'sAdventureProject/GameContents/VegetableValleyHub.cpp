@@ -3,7 +3,6 @@
 #include "GlobalContents.h"
 
 
-#include <GameEngineBase/GameEngineMath.h>
 #include <GameEnginePlatform/GameEngineWindow.h>
 #include <GameEnginePlatform/GameEngineInput.h>
 #include <GameEnginePlatform/GameEngineSound.h>
@@ -15,7 +14,6 @@
 #include "Kirby.h"
 #include "DoorObject.h"
 #include "BillboardsObject.h"
-#include "FadeObject.h"
 #include "BackGround.h"
 #include "HubUI.h"
 

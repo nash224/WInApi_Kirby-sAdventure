@@ -24,6 +24,7 @@ private:
 	class BackGround* LevelBackGround = nullptr;
 
 	GameEngineSoundPlayer BGMPlayer;
+	bool IsBGMOn = false;
 
 	void Start() override;
 	void Update(float _DeltaTime) override;

@@ -2,23 +2,18 @@
 #include "ContentsEnum.h"
 #include "GlobalContents.h"
 
-#include <GameEngineBase/GameEngineMath.h>
 #include <GameEnginePlatform/GameEngineWindow.h>
 #include <GameEnginePlatform/GameEngineInput.h>
 #include <GameEnginePlatform/GameEngineSound.h>
 #include <GameEngineCore/GameEngineCore.h>
-#include <GameEngineCore/GameEngineCamera.h>
 #include <GameEngineCore/ResourcesManager.h>
 
 // contents
 #include "BackGround.h"
 #include "Kirby.h"
 #include "GameEffect.h"
-
 #include "PlayUI.h"
-#include "FadeObject.h"
 
-#include <map>
 
 
 VegetableValley11::VegetableValley11() 
