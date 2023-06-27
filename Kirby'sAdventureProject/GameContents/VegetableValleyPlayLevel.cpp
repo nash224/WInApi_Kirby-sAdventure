@@ -10,6 +10,7 @@
 #include <vector>
 
 
+bool VegetableValleyPlayLevel::PrevLevelTriggerOn = false;
 bool VegetableValleyPlayLevel::NextLevelTriggerOn = false;
 bool VegetableValleyPlayLevel::IsStageEnd = false;
 bool VegetableValleyPlayLevel::IsPlayerEnter = false;

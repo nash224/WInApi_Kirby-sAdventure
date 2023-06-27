@@ -102,6 +102,15 @@ void VegetableValley12::Update(float _Delta)
 		MainCameraPtr->SetPos(float4{ BackGroundScale.X - WinScale.X , 0.0f });
 	}
 
+	
+	if (true == PrevLevelTriggerOn)
+	{
+		PrevLevelTriggerOn = false;
+		GameEngineCore::ChangeLevel("VegetableValleyHub");
+		return;
+	}
+	
+
 
 	if (true == IsPlayerEnter)
 	{
@@ -117,6 +126,11 @@ void VegetableValley12::Update(float _Delta)
 		}
 	}
 
+
+	if (true == PrevLevelTriggerOn)
+	{
+		PrevLevelTriggerOn = false;
+	}
 
 	if (true == NextLevelTriggerOn)
 	{

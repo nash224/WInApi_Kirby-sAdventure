@@ -1745,6 +1745,7 @@ void Kirby::MissStart()
 	KirbyBodyCollisonOff();
 
 	BodyState = KirbyBodyState::Little;
+	KeepDamagedState = KirbyState::Idle;
 	Dir = ActorDir::Right;
 
 	// 피해를 입으면 기본 상태로
@@ -1889,9 +1890,10 @@ void Kirby::MissRaiseUpUpdate(float _Delta)
 		GameEngineTime::MainTimer.SetAllTimeScale(1.0f);
 
 
-		GlobalContents::FadeIn(CurLevelPtr);
+		// LevelDown
+		VegetableValleyPlayLevel::PrevLevelTriggerOn = true;
+
 		
-		PlayLevelPtr->RePlayBGM();
 
 		ChangeState(KirbyState::Idle);
 		return;

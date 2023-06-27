@@ -382,8 +382,15 @@ void WhispyWood::WhispyUpdate(float _Delta)
 			}
 
 			Boss_WhispyEffect* Boss_WhispyEffectPtr = CurLevelPtr->CreateActor<Boss_WhispyEffect>(UpdateOrder::Ability);
+			if (nullptr == Boss_WhispyEffectPtr)
+			{
+				MsgBoxAssert("액터를 생성하지 못했습니다.");
+				return;
+			}
+
 			Boss_WhispyEffectPtr->init(GetPos(), WHISPYWOOD_SCALE);
 			Boss_WhispyEffectPtr->SetActorCollision(CollisionOrder::MonsterAbility, CollisionType::Rect);
+			WhispyEffect_list.push_back(Boss_WhispyEffectPtr);
 
 			--Whispy_RemainCount;
 		}
@@ -630,6 +637,58 @@ void WhispyWood::LevelStart()
 	CurLevel_BitMap_FileName = PlayLevelPtr->GetLevelBitMapFileName();
 
 
+}
+
+void WhispyWood::LevelEnd()
+{
+	// 사과 없앰
+	std::list<Apple*>::iterator StarIter = WhispyApple_list.begin();
+	std::list<Apple*>::iterator EndIter = WhispyApple_list.end();
+
+	for (; StarIter != EndIter; ++StarIter)
+	{
+		Apple* ApplePtr = *StarIter;
+
+		if (nullptr == ApplePtr)
+		{
+			MsgBoxAssert("이 사과는 이미 처리된 객체입니다.");
+			return;
+		}
+
+		ApplePtr->Death();
+		ApplePtr->EnemyPointerRelease();
+	}
+
+	// 휫바람 없앰
+	std::list<Boss_WhispyEffect*>::iterator WhispyStarIter = WhispyEffect_list.begin();
+	std::list<Boss_WhispyEffect*>::iterator WhispyEndIter = WhispyEffect_list.end();
+
+	for (; WhispyStarIter != WhispyEndIter; ++WhispyStarIter)
+	{
+		Boss_WhispyEffect* WhispyEffectPtr = *WhispyStarIter;
+
+		if (nullptr == WhispyEffectPtr)
+		{
+			MsgBoxAssert("이 사과는 이미 처리된 객체입니다.");
+			return;
+		}
+
+		WhispyEffectPtr->Death();
+		WhispyEffectPtr->EffectPointerRelease();
+	}
+
+	
+	Death();
+
+	if (nullptr != MainRenderer)
+	{
+		MainRenderer = nullptr;
+	}
+
+	if (nullptr != BodyCollision)
+	{
+		BodyCollision = nullptr;
+	}
 }
 
 

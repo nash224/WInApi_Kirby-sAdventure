@@ -409,6 +409,7 @@ void BossUI::BossAppearance(float _Delta)
 
 			Boss_Stamina_RendererPtr->On();
 
+
 			++UI_BossStamina;
 		}
 
@@ -655,4 +656,24 @@ void BossUI::LevelStart()
 	// Ä¿ºñ ¸ñ¼û
 	First_LivesRenderer->SetCopyPos(float4{ NumberScale.X * static_cast<float>(m_LivesCount / 10), 0.0f });
 	Second_LivesRenderer->SetCopyPos(float4{ NumberScale.X * static_cast<float>(m_LivesCount % 10), 0.0f });
+}
+
+void BossUI::LevelEnd()
+{
+
+	for (size_t i = 0; i < Boss_StaminaRenderer.size(); i++)
+	{
+		GameEngineRenderer* StaminaRenderer = Boss_StaminaRenderer[i];
+		if (nullptr == StaminaRenderer)
+		{
+			MsgBoxAssert("Æã");
+			return;
+		}
+
+		StaminaRenderer->Off();
+	}
+
+	Boss_Stamina_Full_Done = false;
+	IsBossStaminaFull = false;
+	UI_BossStamina = 0;
 }

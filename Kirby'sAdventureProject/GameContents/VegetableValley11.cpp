@@ -113,6 +113,14 @@ void VegetableValley11::Update(float _Delta)
 
 
 
+	if (true == PrevLevelTriggerOn)
+	{
+		PrevLevelTriggerOn = false;
+		GameEngineCore::ChangeLevel("VegetableValleyHub");
+		return;
+	}
+
+
 	if (true == NextLevelTriggerOn)
 	{
 		NextLevelTriggerOn = false;
@@ -121,6 +129,12 @@ void VegetableValley11::Update(float _Delta)
 		return;
 	}
 
+
+
+	if (true == PrevLevelTriggerOn)
+	{
+		PrevLevelTriggerOn = false;
+	}
 
 	if (true == NextLevelTriggerOn)
 	{

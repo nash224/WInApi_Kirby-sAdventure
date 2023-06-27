@@ -53,14 +53,6 @@ void VegetableValley13::Start()
 	BitMapFileName = "VegetableValleyBossP.bmp";
 
 
-	// 보스생성
-	LevelBoss = GameEngineLevel::CreateActor<WhispyWood>(UpdateOrder::Monster);
-	if (nullptr == LevelBoss)
-	{
-		MsgBoxAssert("생성한 액터가 Null입니다.");
-		return;
-	}
-
 
 
 
@@ -101,11 +93,30 @@ void VegetableValley13::Update(float _Delta)
 	}
 
 
+
+
+	if (true == PrevLevelTriggerOn)
+	{
+		PrevLevelTriggerOn = false;
+		GameEngineCore::ChangeLevel("VegetableValleyHub");
+		return;
+	}
+
+
+
+
 	if (true == NextLevelTriggerOn)
 	{
 		NextLevelTriggerOn = false;
 		GameEngineCore::ChangeLevel("VegetableValleyHub");
 		return;
+	}
+
+
+
+	if (true == PrevLevelTriggerOn)
+	{
+		PrevLevelTriggerOn = false;
 	}
 
 
@@ -166,6 +177,16 @@ void VegetableValley13::LevelStart(GameEngineLevel* _PrevLevel)
 
 	LevelPlayer->SetGroundTexture(BitMapFileName);
 	LevelPlayer->SetPos(Kirby_RespawnPos);
+
+
+
+	// 보스생성
+	LevelBoss = GameEngineLevel::CreateActor<WhispyWood>(UpdateOrder::Monster);
+	if (nullptr == LevelBoss)
+	{
+		MsgBoxAssert("생성한 액터가 Null입니다.");
+		return;
+	}
 
 }
 

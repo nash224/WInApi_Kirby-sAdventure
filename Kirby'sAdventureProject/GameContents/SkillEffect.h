@@ -76,6 +76,7 @@ protected:
 	virtual void GroundNotPassUpdate(float _Delta) {}
 
 
+public:
 	// 메모리 해제 함수
 	void EffectPointerRelease();
 

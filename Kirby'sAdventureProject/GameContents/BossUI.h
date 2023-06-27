@@ -64,6 +64,7 @@ protected:
 	void Update(float _Delta) override;
 
 	void LevelStart() override;
+	void LevelEnd() override;
 
 private:
 

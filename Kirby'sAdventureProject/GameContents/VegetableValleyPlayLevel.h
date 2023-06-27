@@ -18,6 +18,7 @@ class VegetableValleyPlayLevel : public GameEngineLevel
 {
 
 public:
+	static bool PrevLevelTriggerOn;
 	static bool NextLevelTriggerOn;
 	static bool IsStageEnd;
 

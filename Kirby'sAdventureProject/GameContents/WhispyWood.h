@@ -21,12 +21,14 @@ enum class WhispyWoodState
 
 // 설명 : 1스테이지 마왕군단 초 정예병 휫파람 괴물 나무 보스입니다.
 class Apple;
+class Boss_WhispyEffect;
 class WhispyWood : public Boss
 {
 	friend class BossUI;
 
 private:
 	std::list<Apple*> WhispyApple_list;
+	std::list<Boss_WhispyEffect*> WhispyEffect_list;
 
 public:
 	// constrcuter destructer
@@ -110,6 +112,7 @@ private:
 	void Render(float _Delta) override;
 
 	void LevelStart() override;
+	void LevelEnd() override;
 
 };
 
