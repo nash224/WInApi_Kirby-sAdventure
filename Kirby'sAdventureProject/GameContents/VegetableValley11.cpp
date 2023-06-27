@@ -5,6 +5,7 @@
 #include <GameEnginePlatform/GameEngineWindow.h>
 #include <GameEnginePlatform/GameEngineInput.h>
 #include <GameEnginePlatform/GameEngineSound.h>
+#include <GameEngineCore/GameEngineCamera.h>
 #include <GameEngineCore/GameEngineCore.h>
 #include <GameEngineCore/ResourcesManager.h>
 
@@ -171,19 +172,50 @@ void VegetableValley11::LevelEnd(GameEngineLevel* _NextLevel)
 
 void VegetableValley11::Render(float _Delta)
 {
-	UpdateTime += _Delta;
-
-	std::string Text = "";
-	Text += "프레임 : ";
-	if (UpdateTime >= 1.0f)
-	{
-		UpdateTime = 0.0f;
-
-		FPSText = 1.0f / _Delta;
-	}
-	Text += std::to_string(static_cast<int>(FPSText));
 	HDC dc = GameEngineWindow::MainWindow.GetBackBuffer()->GetImageDC();
-	TextOutA(dc, 2, 3, Text.c_str(), static_cast<int>(Text.size()));
+
+	GameEngineCamera* MainCameraPtr = GetMainCamera();
+	if (nullptr == MainCameraPtr)
+	{
+		MsgBoxAssert("카메라를 불러오지 못했습니다.");
+		return;
+	}
+
+
+	{
+		UpdateTime += _Delta;
+
+
+		std::string Text = "";
+		Text += "프레임 : ";
+		if (UpdateTime >= 1.0f)
+		{
+			UpdateTime = 0.0f;
+
+			FPSText = 1.0f / _Delta;
+		}
+		Text += std::to_string(FPSText);
+		TextOutA(dc, 2, 3, Text.c_str(), static_cast<int>(Text.size()));
+	}
+
+
+	float4 MousePos = GameEngineWindow::MainWindow.GetMousePos();
+	float4 CameraPos = MainCameraPtr->GetPos();
+
+	{
+		std::string Text = "";
+		Text += "마우스 X좌표 : ";
+		Text += std::to_string(MousePos.iX() + CameraPos.iX());
+		TextOutA(dc, 2, 20, Text.c_str(), static_cast<int>(Text.size()));
+	}
+
+	{
+
+		std::string Text = "";
+		Text += "마우스 Y좌표 : ";
+		Text += std::to_string(MousePos.iY() + CameraPos.iY());
+		TextOutA(dc, 2, 37, Text.c_str(), static_cast<int>(Text.size()));
+	}
 }
 
 

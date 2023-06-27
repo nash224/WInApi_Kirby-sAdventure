@@ -257,6 +257,8 @@ void Togezo::RollStart()
 	StateTime = 0.0f;
 	IsChangeState = false;
 	IsRollingSpeedZero = false;
+	RollingSpeedZeroTime = 1.0f;
+
 	if (ActorDir::Left == Dir)
 	{
 		CurrentSpeed = -TOGEZOROLLINGSPEED;
@@ -326,8 +328,11 @@ void Togezo::RollUpdate(float _Delta)
 		{
 			Dir = ActorDir::Left;
 		}
-		CurrentSpeed = !CurrentSpeed;
+		CurrentSpeed = -CurrentSpeed;
+
 		ChangeAnimationState("Roll");
+
+		RollingSpeedZeroTime = 1.0f;
 		IsRollingSpeedZero = false;
 	}
 
@@ -356,5 +361,3 @@ void Togezo::EnemyCollisionCheck()
 		return;
 	}
 }
-
-

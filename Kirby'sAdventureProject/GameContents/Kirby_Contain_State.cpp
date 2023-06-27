@@ -214,6 +214,7 @@ void Kirby::Contain_WalkUpdate(float _Delta)
 
 	BlockedByGround();
 	BlockedByWall();
+	BlockedByAll();
 
 	DecelerationUpdate(_Delta);
 	HorizontalUpdate(_Delta);
@@ -309,6 +310,8 @@ void Kirby::Contain_RunUpdate(float _Delta)
 
 	BlockedByGround();
 	BlockedByWall();
+	BlockedByAll();
+
 
 	DecelerationUpdate(_Delta);
 	HorizontalUpdate(_Delta);
@@ -376,6 +379,8 @@ void Kirby::Contain_TurnUpdate(float _Delta)
 
 	BlockedByGround();
 	BlockedByWall();
+	BlockedByAll();
+
 
 	ActorUtils::DecelerationUpdate(_Delta, BRAKESPEED);
 	HorizontalUpdate(_Delta);
@@ -535,6 +540,7 @@ void Kirby::Contain_FallUpdate(float _Delta)
 
 	BlockedByGround();
 	BlockedByWall();
+	BlockedByAll();
 
 	
 	
@@ -680,6 +686,7 @@ void Kirby::Contain_GulpUpdate(float _Delta)
 
 	BlockedByGround();
 	BlockedByWall();
+	BlockedByAll();
 
 
 	if (Star.SwallowedPowerEnemyNumber == 0)

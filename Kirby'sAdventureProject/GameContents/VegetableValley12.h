@@ -16,13 +16,16 @@ public:
 	VegetableValley12& operator=(VegetableValley12&& _Other) noexcept = delete;
 
 protected:
-	void LevelStart(GameEngineLevel* _PrevLevel) override;
-	void LevelEnd(GameEngineLevel* _NextLevel) override;
 
 private:
+
+
+	void EnemySummon() override;
 
 	void Start() override;
 	void Update(float _Delta) override;
 
+	void LevelStart(GameEngineLevel* _PrevLevel) override;
+	void LevelEnd(GameEngineLevel* _NextLevel) override;
 };
 

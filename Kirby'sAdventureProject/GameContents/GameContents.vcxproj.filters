@@ -447,7 +447,7 @@
     <ClCompile Include="CommonSkillEffect.cpp">
       <Filter>Global\Effect\SkillAbilityEffect</Filter>
     </ClCompile>
-    <ClCompile Include="VegetableValley11_Func.cpp">
+    <ClCompile Include="VegetableValley_EnemyList.cpp">
       <Filter>Level\02.Map\VegetableValley</Filter>
     </ClCompile>
     <ClCompile Include="DoorObject.cpp">

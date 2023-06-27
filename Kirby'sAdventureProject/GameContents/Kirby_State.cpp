@@ -407,6 +407,7 @@ void Kirby::RunUpdate(float _Delta)
 
 	BlockedByGround();
 	BlockedByWall();
+	BlockedByAll();
 
 
 	MoveHorizontal(RUNSPEED, _Delta);
@@ -485,6 +486,7 @@ void Kirby::TurnUpdate(float _Delta)
 
 	BlockedByGround();
 	BlockedByWall();
+	BlockedByAll();
 
 	ActorUtils::DecelerationUpdate(_Delta, BRAKESPEED);
 	HorizontalUpdate(_Delta);
@@ -671,6 +673,7 @@ void Kirby::AerialMotionUpdate(float _Delta)
 
 	BlockedByGround();
 	BlockedByWall();
+	BlockedByAll();
 
 	DecelerationUpdate(_Delta);
 	HorizontalUpdate(_Delta);
@@ -754,7 +757,11 @@ void Kirby::FallUpdate(float _Delta)
 
 	BlockedByGround();
 	BlockedByWall();
+	BlockedByAll();
+
+
 	ChangeAnimationState("Fall");
+
 
 	DecelerationUpdate(_Delta);
 	HorizontalUpdate(_Delta);
@@ -810,6 +817,8 @@ void Kirby::AccelerateDownUpdate(float _Delta)
 
 	BlockedByGround();
 	BlockedByWall();
+	BlockedByAll();
+
 
 	HorizontalUpdate(_Delta);
 
@@ -866,6 +875,7 @@ void Kirby::BounceUpdate(float _Delta)
 	BlockedByGround();
 	BlockedByCeiling();
 	BlockedByWall();
+	BlockedByAll();
 
 	HorizontalUpdate(_Delta);
 
@@ -937,6 +947,8 @@ void Kirby::LandingUpdate(float _Delta)
 
 	BlockedByWall();
 	BlockedByGround();
+	BlockedByAll();
+
 
 	DecelerationUpdate(_Delta);
 	HorizontalUpdate(_Delta);
@@ -994,6 +1006,8 @@ void Kirby::LowerPostureUpdate(float _Delta)
 
 	BlockedByWall();
 	BlockedByGround();
+	BlockedByAll();
+
 
 	ActorUtils::DecelerationUpdate(_Delta, DECELERATIONSPEED);
 	HorizontalUpdate(_Delta);
@@ -1149,6 +1163,7 @@ void Kirby::LowerAttackUpdate(float _Delta)
 	// ¸Ê ºí¶ô
 	BlockedByWall();
 	BlockedByGround();
+	BlockedByAll();
 
 
 
@@ -1276,6 +1291,8 @@ void Kirby::HittheCeilingUpdate(float _Delta)
 
 	BlockedByCeiling();
 	BlockedByWall();
+	BlockedByAll();
+
 
 	DecelerationUpdate(_Delta);
 	HorizontalUpdate(_Delta);
