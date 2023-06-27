@@ -584,6 +584,7 @@ void Kirby::JumpUpdate(float _Delta)
 	BlockedByCeiling();
 	BlockedByGround();
 	BlockedByWall();
+	BlockedByAll();
 
 
 	ChangeAnimationState("Jump");
@@ -1352,6 +1353,7 @@ void Kirby::TakeOffUpdate(float _Delta)
 	BlockedByGround();
 	BlockedByCeiling();
 	BlockedByWall();
+	BlockedByAll();
 
 
 
@@ -1442,6 +1444,7 @@ void Kirby::FlyUpdate(float _Delta)
 	BlockedByGround();
 	BlockedByCeiling();
 	BlockedByWall();
+	BlockedByAll();
 
 	// 방향전환시 Fly모션 변경
 	ChangeAnimationState("Fly");
@@ -1561,6 +1564,8 @@ void Kirby::ExhaleAttackUpdate(float _Delta)
 	BlockedByGround();
 	BlockedByCeiling();
 	BlockedByWall();
+	BlockedByAll();
+
 
 
 	// 땅에 있으면 중력적용x
@@ -1677,6 +1682,7 @@ void Kirby::DamagedUpdate(float _Delta)
 	BlockedByGround();
 	BlockedByCeiling();
 	BlockedByWall();
+	BlockedByAll();
 
 
 

@@ -133,7 +133,7 @@ void ActorUtils::SetGroundTexture(const std::string& _GroundTextureName)
 }
 
 // ¹Ù´Ú »öÀ» ºÒ·¯¿È
-int ActorUtils::GetGroundColor(unsigned int _DefaultColor, float4 _Pos/* = float4::ZERO*/)
+int ActorUtils::GetGroundColor(unsigned int _DefaultColor /*= RGB(255, 255, 0)*/, float4 _Pos/* = float4::ZERO*/)
 {
 	if (nullptr == GroundTexture)
 	{
@@ -205,8 +205,8 @@ bool ActorUtils::CheckLeftWallBasedSpeed(unsigned int _DefaultColor)
 {
 	if (CurrentSpeed < 0.0f)
 	{
-		unsigned int ColorBottom = GetGroundColor(RGB(255, 255, 255), WallBotLeftCheckPoint);
-		unsigned int ColorTop = GetGroundColor(RGB(255, 255, 255), WallTopLeftCheckPoint);
+		unsigned int ColorBottom = GetGroundColor(_DefaultColor, WallBotLeftCheckPoint);
+		unsigned int ColorTop = GetGroundColor(_DefaultColor, WallTopLeftCheckPoint);
 		if (ColorBottom == _DefaultColor || ColorTop == _DefaultColor)
 		{
 			return true;
@@ -220,8 +220,8 @@ bool ActorUtils::CheckRightWallBasedSpeed(unsigned int _DefaultColor)
 {
 	if (CurrentSpeed > 0.0f)
 	{
-		unsigned int ColorBottom = GetGroundColor(RGB(255, 255, 255), WallBotRightCheckPoint);
-		unsigned int ColorTop = GetGroundColor(RGB(255, 255, 255), WallTopRightCheckPoint);
+		unsigned int ColorBottom = GetGroundColor(_DefaultColor, WallBotRightCheckPoint);
+		unsigned int ColorTop = GetGroundColor(_DefaultColor, WallTopRightCheckPoint);
 		if (ColorBottom == _DefaultColor || ColorTop == _DefaultColor)
 		{
 			return true;
@@ -234,10 +234,10 @@ bool ActorUtils::CheckRightWallBasedSpeed(unsigned int _DefaultColor)
 
 bool ActorUtils::CheckCeilingBasedSpeed(unsigned int _DefaultColor)
 {
-	if (CurrentSpeed > 0.0f)
+	if (GravityVector.Y < 0.0f)
 	{
-		unsigned int ColorLeft = GetGroundColor(RGB(255, 255, 255), CeilLeftCheckPoint);
-		unsigned int ColorRight = GetGroundColor(RGB(255, 255, 255), CeilRightCheckPoint);
+		unsigned int ColorLeft = GetGroundColor(_DefaultColor, CeilLeftCheckPoint);
+		unsigned int ColorRight = GetGroundColor(_DefaultColor, CeilRightCheckPoint);
 		if (ColorLeft == _DefaultColor || ColorRight == _DefaultColor)
 		{
 			return true;
@@ -325,11 +325,11 @@ void ActorUtils::BlockedByCeiling()
 
 void ActorUtils::BlockedByAll()
 {
-	if (true == CheckLeftWallBasedSpeed(RGB(255, 255, 0)) && CurrentSpeed < 0.0f)
+	if (true == CheckLeftWallBasedSpeed(RGB(255, 255, 0)))
 	{
 		CurrentSpeed = 0.0f;
 	}
-	if (true == CheckRightWallBasedSpeed(RGB(255, 255, 0)) && CurrentSpeed > 0.0f)
+	if (true == CheckRightWallBasedSpeed(RGB(255, 255, 0)))
 	{
 		CurrentSpeed = 0.0f;
 	}
@@ -365,7 +365,7 @@ void ActorUtils::BlockedByAll()
 	}
 
 
-	if (true == CheckCeilingBasedSpeed(RGB(255, 255, 0)) && GravityVector.Y < 0.0f)
+	if (true == CheckCeilingBasedSpeed(RGB(255, 255, 0)))
 	{
 		GravityReset();
 	}
@@ -377,9 +377,9 @@ void ActorUtils::BlockedByAll()
 	{
 		while ((LeftCeilingCheckColor == RGB(255, 255, 0)))
 		{
+			AddPos(float4::DOWN * 3);
 			LeftCeilingCheckColor = GetGroundColor(RGB(255, 255, 255), CeilLeftCheckPoint + float4{ CHECKGAP , CHECKGAP });
 			RightCeilingCheckColor = GetGroundColor(RGB(255, 255, 255), CeilRightCheckPoint + float4{ -CHECKGAP , CHECKGAP });
-			AddPos(float4::DOWN * 3);
 		}
 	}
 

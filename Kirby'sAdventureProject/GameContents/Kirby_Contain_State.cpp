@@ -459,6 +459,7 @@ void Kirby::Contain_JumpUpdate(float _Delta)
 	BlockedByCeiling();
 	BlockedByGround();
 	BlockedByWall();
+	BlockedByAll();
 
 
 	ChangeAnimationState("Contain_Jump");
@@ -734,6 +735,8 @@ void Kirby::Contain_DisgorgeUpdate(float _Delta)
 
 	BlockedByGround();
 	BlockedByWall();
+	BlockedByCeiling();
+	BlockedByAll();
 
 
 
@@ -904,7 +907,6 @@ void Kirby::GetAbilityUpdate(float _Delta)
 
 	// ¸Ê ºí¶ô
 	BlockedByGround();
-	BlockedByCeiling();
 	BlockedByWall();
 
 }
@@ -992,6 +994,7 @@ void Kirby::Contain_DamagedUpdate(float _Delta)
 	BlockedByGround();
 	BlockedByCeiling();
 	BlockedByWall();
+	BlockedByAll();
 
 
 

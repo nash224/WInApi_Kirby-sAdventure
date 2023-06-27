@@ -120,7 +120,7 @@ protected:
 	bool IsSolidGround();
 	bool IsPassableGround();
 
-	int GetGroundColor(unsigned int _DefaultColor, float4 _Pos = float4::ZERO);
+	int GetGroundColor(unsigned int _DefaultColor = RGB(255, 255, 255), float4 _Pos = float4::ZERO);
 	bool GetGroundState() const
 	{
 		return isGround;
