@@ -28,14 +28,14 @@ private:
 	class BackGround* LevelBackGround = nullptr;
 
 	class DoorObject* VegetableValley_Stage1_PlayDoor = nullptr;
-	class DoorObject* VegetableValley_Stage1_BossDoor = nullptr;
+	class DoorObject* VegetableValley_Stage2_BossDoor = nullptr;
 	class DoorObject* VegetableValley_Museum_Door = nullptr;
 
 	class BillboardsObject* VegetableValley_Billboard = nullptr;
 
 
 
-
+	const float4 StageDoorSize = float4{ 48.0f , 48.0f };
 
 	const float4 StageOneLocation = float4{ 288.0f , 865.0f };
 	const float4 StageTwoLocation = float4{ 720.0f , 961.0f };
@@ -47,10 +47,10 @@ private:
 	// Stage ฐüทร
 
 	bool IsRequestDoorOpen = false;
+	int VegetableValleyEntertheDoorNumber = -1;
 
 	bool IsStage1Clear = false;
 	bool IsStage2Clear = false;
-
 
 	void VegetableValleyStage_1_Func();
 	void VegetableValleyStage_2_Func();

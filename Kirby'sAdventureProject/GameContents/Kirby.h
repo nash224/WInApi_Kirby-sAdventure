@@ -476,9 +476,16 @@ public:
 	bool IsReachedStarStick = false;
 
 
-private:
 	// OpenDoorAndRaiseFlag 상태 관련
-	bool IsKirbyOpenDoor = false;
+public:
+	static bool IsKirbyOpenDoorToLevel;
+	static bool IsKirbyCloseDoorToLevel;
+
+private:
+	bool IsKirbyOpenedDoor = false;
+	bool IsKirbyClosedDoor = false;
+	bool IsCheckRaiseUpWithFlag = false;
+
 
 
 	// StageClear 상태 관련

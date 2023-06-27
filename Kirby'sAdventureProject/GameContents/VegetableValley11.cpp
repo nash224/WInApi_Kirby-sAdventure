@@ -209,8 +209,8 @@ void VegetableValley11::Render(float _Delta)
 		TextOutA(dc, 2, 20, Text.c_str(), static_cast<int>(Text.size()));
 	}
 
-	{
 
+	{
 		std::string Text = "";
 		Text += "¸¶¿ì½º YÁÂÇ¥ : ";
 		Text += std::to_string(MousePos.iY() + CameraPos.iY());

@@ -18,6 +18,8 @@
 
 Kirby* Kirby::MainKirby = nullptr;
 float Kirby::SoundVol = 0.0f;
+bool Kirby::IsKirbyOpenDoorToLevel = false;
+bool Kirby::IsKirbyCloseDoorToLevel = false;
 
 
 Kirby::Kirby()

@@ -24,6 +24,9 @@ public:
 	static bool IsPlayerEnter;
 	static float FadeTime;
 	static float KirbyStateTime;
+	static bool ChangeClearDoor;
+
+
 
 
 	// »ç¿îµå
@@ -32,7 +35,6 @@ public:
 
 
 protected:
-	static int VegetableValleyEntertheDoorNumber;
 
 	static float UpdateTime;
 	float FPSText = 0.0f;

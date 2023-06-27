@@ -14,6 +14,7 @@
 #include "Kirby.h"
 #include "DoorObject.h"
 #include "BillboardsObject.h"
+#include "ObejctDisapearingEffect.h"
 #include "BackGround.h"
 #include "HubUI.h"
 
@@ -77,6 +78,16 @@ void VegetableValleyHub::Start()
 	VegetableValley_Stage1_PlayDoor->init(StageOneLocation);
 
 
+	VegetableValley_Stage2_BossDoor = GameEngineLevel::CreateActor<DoorObject>(UpdateOrder::Other);
+	if (nullptr == VegetableValley_Stage2_BossDoor)
+	{
+		MsgBoxAssert("생성한 액터가 Null 입니다.");
+		return;
+	}
+	VegetableValley_Stage2_BossDoor->init(StageTwoLocation);
+
+
+
 	// HubMap BillboardActor
 	VegetableValley_Billboard = GameEngineLevel::CreateActor<BillboardsObject>(UpdateOrder::BackGroundEffect);
 	if (nullptr == VegetableValley_Billboard)
@@ -98,6 +109,9 @@ void VegetableValleyHub::Start()
 		return;
 	}
 
+
+
+	VegetableValleyEntertheDoorNumber = -1;
 
 
 	// Sound Load
@@ -124,6 +138,7 @@ void VegetableValleyHub::Update(float _Delta)
 		GameEngineCore::ChangeLevel("VegetableValley11");
 		return;
 	}
+
 
 	Kirby_StageClear();
 
@@ -181,11 +196,18 @@ void VegetableValleyHub::VegetableValleyStage_1_Func()
 		if (true == NextLevelTriggerOn)
 		{
 			VegetableValleyEntertheDoorNumber = 1;
-			NextLevelTriggerOn = false;
-			IsPlayerEnter = false;
 			IsRequestDoorOpen = false;
+			IsPlayerEnter = false;
+			NextLevelTriggerOn = false;
 
-			VegetableValley_Stage1_PlayDoor->IsDoorIdle = true;
+			if (true == IsStage1Clear)
+			{
+				VegetableValley_Stage1_PlayDoor->IsDoorClear = true;
+			}
+			else if (false == IsStage1Clear)
+			{
+				VegetableValley_Stage1_PlayDoor->IsDoorIdle = true;
+			}
 
 			GameEngineCore::ChangeLevel("VegetableValley11");
 		}
@@ -209,24 +231,146 @@ void VegetableValleyHub::VegetableValleyStage_2_Func()
 	float4 KirbyPos = LevelPlayer->GetPos();
 
 
+
 	// WhispyWood 보스 스테이지
-	if (true == NextLevelTriggerOn && KirbyPos.X > 650.0f && KirbyPos.X < 790.0f && KirbyPos.Y > 910.0f)
+	if (true == IsPlayerEnter && KirbyPos.X > 650.0f && KirbyPos.X < 790.0f && KirbyPos.Y > 910.0f)
 	{
-		VegetableValleyEntertheDoorNumber = 2;
-		NextLevelTriggerOn = false;
-		IsPlayerEnter = false;
-		GameEngineCore::ChangeLevel("VegetableValley13");
+		if (nullptr == VegetableValley_Stage1_PlayDoor)
+		{
+			MsgBoxAssert("오브젝트가 Null 입니다.");
+			return;
+		}
+
+		// 문열고
+		if (false == IsRequestDoorOpen)
+		{
+			VegetableValley_Stage2_BossDoor->IsDoorOpen = true;
+			IsRequestDoorOpen = true;
+		}
+
+
+
+		if (true == NextLevelTriggerOn)
+		{
+			VegetableValleyEntertheDoorNumber = 2;
+			IsRequestDoorOpen = false;
+			IsPlayerEnter = false;
+			NextLevelTriggerOn = false;
+
+			if (true == IsStage1Clear)
+			{
+				VegetableValley_Stage2_BossDoor->IsDoorClear = true;
+			}
+			else if (false == IsStage1Clear)
+			{
+				VegetableValley_Stage2_BossDoor->IsDoorIdle = true;
+			}
+
+			GameEngineCore::ChangeLevel("VegetableValley13");
+		}
+
 		return;
 	}
+
+
+	//if (true == NextLevelTriggerOn && KirbyPos.X > 650.0f && KirbyPos.X < 790.0f && KirbyPos.Y > 910.0f)
+	//{
+	//	VegetableValleyEntertheDoorNumber = 2;
+	//	NextLevelTriggerOn = false;
+	//	IsPlayerEnter = false;
+	//	GameEngineCore::ChangeLevel("VegetableValley13");
+	//	return;
+	//}
 }
 
 
 void VegetableValleyHub::Kirby_StageClear()
 {
-	if (true)
+	if (nullptr == VegetableValley_Stage1_PlayDoor)
 	{
-
+		MsgBoxAssert("액터를 불러오지 못했습니다.");
+		return;
 	}
+
+	if (nullptr == VegetableValley_Stage2_BossDoor)
+	{
+		MsgBoxAssert("액터를 불러오지 못했습니다.");
+		return;
+	}
+
+
+
+	if (true == Kirby::IsKirbyOpenDoorToLevel)
+	{
+		Kirby::IsKirbyOpenDoorToLevel = false;
+
+		switch (VegetableValleyEntertheDoorNumber)
+		{
+		case 1:
+			VegetableValley_Stage1_PlayDoor->IsDoorOpen = true;
+			break;
+		case 2:
+			VegetableValley_Stage2_BossDoor->IsDoorOpen = true;
+			break;
+		case 30:
+			break;
+		case 3:
+			break;
+		default:
+			break;
+		}
+	}
+
+
+	if (true == Kirby::IsKirbyCloseDoorToLevel)
+	{
+		Kirby::IsKirbyCloseDoorToLevel = false;
+
+		switch (VegetableValleyEntertheDoorNumber)
+		{
+		case 1:
+			VegetableValley_Stage1_PlayDoor->IsDoorClose = true;
+			break;
+		case 2:
+			VegetableValley_Stage2_BossDoor->IsDoorClose = true;
+			break;
+		case 30:
+			break;
+		case 3:
+			break;
+		default:
+			break;
+		}
+	}
+
+	if (true == ChangeClearDoor)
+	{
+		ChangeClearDoor = false;
+
+		switch (VegetableValleyEntertheDoorNumber)
+		{
+		case 1:
+			VegetableValley_Stage1_PlayDoor->IsDoorClear = true;
+			IsStage1Clear = true;
+			break;
+		case 2:
+			VegetableValley_Stage2_BossDoor->IsDoorClear = true;
+			IsStage2Clear = true;
+			break;
+		default:
+			break;
+		}
+
+		ObejctDisapearingEffect* ObejctDisapearingEffectPtr = CreateActor<ObejctDisapearingEffect>(UpdateOrder::UI);
+		if (nullptr == ObejctDisapearingEffectPtr)
+		{
+			MsgBoxAssert("액터를 생성하지 못했습니다.");
+			return;
+		}
+
+		ObejctDisapearingEffectPtr->init(StageOneLocation + float4{ 0.0f, -StageDoorSize.Half().Y});
+	}
+
 }
 
 
@@ -314,6 +458,8 @@ void VegetableValleyHub::LevelStart(GameEngineLevel* _PrevLevel)
 	MainCameraPtr->SetPos(CameraPos);
 
 
+	// 레벨 이동관련
+	IsStageEnd = false;
 
 	GlobalContents::FadeIn(this);
 }

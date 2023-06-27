@@ -14,6 +14,7 @@
 
 #include "GlobalContents.h"
 #include "VegetableValleyPlayLevel.h"
+#include "VegetableValleyHub.h"
 #include "Boss.h"
 
 
@@ -57,7 +58,7 @@ void Kirby::MoveLevel_StateResourceLoad()
 
 
 	MainRenderer->CreateAnimationToFrame("Normal_Right_OpenDoorAndRaiseFlag", "1Normal_KirbyOpenTheDoor.bmp", { 19 , 0 , 1 , 2 , 3 , 4 , 5 , 6 , 7 , 8 }, 0.1f, false);
-	MainRenderer->FindAnimation("Normal_Right_OpenDoorAndRaiseFlag")->Inters = { 2.0f , 0.1f, 0.3f, 0.1f, 5.0f , 5.0f , 0.04f , 0.04f , 0.04f , 0.04f };
+	MainRenderer->FindAnimation("Normal_Right_OpenDoorAndRaiseFlag")->Inters = { 1.0f , 0.2f, 0.3f, 0.1f, 0.27f , 5.0f , 0.1f , 0.1f , 0.1f , 0.1f };
 
 	MainRenderer->CreateAnimationToFrame("Normal_Right_OpenDoorAndRaiseFlagAfter", "Normal_Right_Kirby.bmp", { 13 , 12 , 11 , 13 , 7 }, 0.1f, false);
 
@@ -166,7 +167,10 @@ void Kirby::OpenDoorAndRaiseFlagStart()
 {
 	StateTime = 0.0f;
 	IsChangeState = false;
-	IsKirbyOpenDoor = false;
+	IsKirbyOpenDoorToLevel = false;
+	IsKirbyOpenedDoor = false;
+	IsKirbyClosedDoor = false;
+	IsCheckRaiseUpWithFlag = false;
 
 	Dir = ActorDir::Right;
 
@@ -191,14 +195,57 @@ void Kirby::OpenDoorAndRaiseFlagUpdate(float _Delta)
 
 	if (1 == MainRenderer->GetCurFrame())
 	{
-		if (false == IsKirbyOpenDoor)
+		if (false == IsKirbyOpenedDoor)
 		{
-			IsKirbyOpenDoor = true;
+			IsKirbyOpenDoorToLevel = true;
+			IsKirbyOpenedDoor = true;
+		}
+	}
+
+	if (3 == MainRenderer->GetCurFrame())
+	{
+		if (false == IsKirbyClosedDoor)
+		{
+			IsKirbyCloseDoorToLevel = true;
+			IsKirbyClosedDoor = true;
+			CurrentSpeed = 20.0f * 10.0f;
+		}
+
+		HorizontalUpdate(_Delta);
+	}
+
+
+	if (4 == MainRenderer->GetCurFrame())
+	{
+		if (false == IsCheckRaiseUpWithFlag)
+		{
+			IsCheckRaiseUpWithFlag = true;
+			CurrentSpeed = 0.0f;
+			SetGravityVector(float4::UP * 300.0f);
+		}
+
+		Gravity(_Delta);
+		VerticalUpdate(_Delta);
+
+		if (GetGravityVector().Y > 0.0f)
+		{
+			//MainRenderer->FindAnimation("Normal_Right_OpenDoorAndRaiseFlag")->CurFrame = 5;
+			//MainRenderer->FindAnimation("Normal_Right_OpenDoorAndRaiseFlag")->CurInter = 0.0f;
 		}
 	}
 
 
+	if (5 == MainRenderer->GetCurFrame())
+	{
+		Gravity(_Delta);
+		VerticalUpdate(_Delta);
 
+		if (true == GetGroundState())
+		{
+			MainRenderer->FindAnimation("Normal_Right_OpenDoorAndRaiseFlag")->CurFrame = 6;
+			MainRenderer->FindAnimation("Normal_Right_OpenDoorAndRaiseFlag")->CurInter = 0.0f;
+		}
+	}
 
 	if (true == MainRenderer->IsAnimationEnd())
 	{
@@ -211,6 +258,9 @@ void Kirby::OpenDoorAndRaiseFlagUpdate(float _Delta)
 		ChangeState(KirbyState::OpenDoorAndRaiseFlagAfter);
 		return;
 	}
+
+
+	BlockedByGround();
 }
 
 
@@ -222,6 +272,10 @@ void Kirby::OpenDoorAndRaiseFlagAfterStart()
 	IsChangeState = false;
 	Dir = ActorDir::Right;
 
+	CurrentSpeed = -150.0f;
+	SetGravityVector(float4::UP * 300.0f);
+
+	VegetableValleyPlayLevel::ChangeClearDoor = true;
 
 	if (nullptr == MainRenderer)
 	{
@@ -250,9 +304,15 @@ void Kirby::OpenDoorAndRaiseFlagAfterUpdate(float _Delta)
 
 	if (true == IsChangeState)
 	{
+
 		ChangeState(KirbyState::Idle);
 		return;
 	}
+
+	Gravity(_Delta);
+	VerticalUpdate(_Delta);
+
+	HorizontalUpdate(_Delta);
 }
 
 

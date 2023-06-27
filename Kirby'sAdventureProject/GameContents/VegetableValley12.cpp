@@ -99,13 +99,18 @@ void VegetableValley12::Update(float _Delta)
 	}
 
 
-
-	if (true == NextLevelTriggerOn)
+	if (true == IsPlayerEnter)
 	{
-		NextLevelTriggerOn = false;
-		GameEngineCore::ChangeLevel("VegetableValleyHub");
+		IsStageEnd = true;
 
-		return;
+		if (true == NextLevelTriggerOn)
+		{
+			NextLevelTriggerOn = false;
+			IsPlayerEnter = false;
+			GameEngineCore::ChangeLevel("VegetableValleyHub");
+
+			return;
+		}
 	}
 
 
@@ -175,8 +180,6 @@ void VegetableValley12::LevelStart(GameEngineLevel* _PrevLevel)
 
 
 
-	// 스테이지 끝남
-	IsStageEnd = true;
 
 	GlobalContents::FadeIn(this);
 }
