@@ -424,6 +424,8 @@ private:
 	bool IsGulpEnemy = false;
 	const float Swallowed_Distance = 10.0f;
 
+	bool GettingAbility = false;
+
 
 
 

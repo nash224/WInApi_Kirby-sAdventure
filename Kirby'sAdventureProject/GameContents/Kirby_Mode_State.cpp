@@ -275,7 +275,7 @@ void Kirby::TriggerSparkAbilityAfterProcess(float _Delta)
 	{
 		SparkTime = 0.0f;
 
-		KirbySparkEffect* KirbySparkEffectPtr = GetLevel()->CreateActor<KirbySparkEffect>(UpdateOrder::Ability);
+		KirbySparkEffect* KirbySparkEffectPtr = GetLevel()->CreateActor<KirbySparkEffect>(UpdateOrder::UI);
 		if (nullptr == KirbySparkEffectPtr)
 		{
 			MsgBoxAssert("액터가 Null일리가 없어..");

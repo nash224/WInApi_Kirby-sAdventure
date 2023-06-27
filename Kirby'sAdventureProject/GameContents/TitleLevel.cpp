@@ -1,8 +1,16 @@
 #include "TitleLevel.h"
-#include "BackGround.h"
+#include "ContentsEnum.h"
 
 #include <GameEnginePlatform/GameEngineInput.h>
+#include <GameEnginePlatform/GameEngineSound.h>
 #include <GameEngineCore/GameEngineCore.h>
+
+
+#include "GlobalContents.h"
+#include "BackGround.h"
+
+
+
 
 TitleLevel::TitleLevel() 
 {
@@ -19,15 +27,8 @@ void TitleLevel::Start()
 	LevelBackGround = GameEngineLevel::CreateActor<BackGround>();
 	LevelBackGround->init("KirbyTitle.bmp", "Resources\\Map");
 
-	if (nullptr == GameEngineSound::FindSound("02_Title_Screen.mp3"))
-	{
-		GameEnginePath FilePath;
-		FilePath.SetCurrentPath();
-		FilePath.MoveParentToExistsChild("Resources");
-		FilePath.MoveChild("Resources\\SoundResources\\SoundTrack");
-
-		GameEngineSound::SoundLoad(FilePath.PlusFilePath("02_Title_Screen.mp3"));
-	}
+	// 사운드 로드
+	GlobalContents::SoundFileLoad("02_Title_Screen.mp3", "Resources\\SoundResources\\SoundTrack");
 }
 
 void TitleLevel::Update(float _DeltaTime)

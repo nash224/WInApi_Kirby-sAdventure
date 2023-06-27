@@ -1,17 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClInclude Include="EndingLevel.h">
-      <Filter>Level</Filter>
-    </ClInclude>
     <ClInclude Include="CraneFever.h">
-      <Filter>Level\BonusGame</Filter>
+      <Filter>Level\00.BonusGame</Filter>
     </ClInclude>
     <ClInclude Include="Museums.h">
-      <Filter>Level\BonusGame</Filter>
+      <Filter>Level\00.BonusGame</Filter>
     </ClInclude>
     <ClInclude Include="BonusGameSubScreens.h">
-      <Filter>Level\BonusGame</Filter>
+      <Filter>Level\00.BonusGame</Filter>
     </ClInclude>
     <ClInclude Include="Boss.h">
       <Filter>Global\Object\Enemy\Boss</Filter>
@@ -52,33 +49,24 @@
     <ClInclude Include="WaddleDoo.h">
       <Filter>Global\Object\Enemy\PowerEnemy</Filter>
     </ClInclude>
-    <ClInclude Include="PauseLevel.h">
-      <Filter>Level</Filter>
-    </ClInclude>
-    <ClInclude Include="GameOverLevel.h">
-      <Filter>Level</Filter>
-    </ClInclude>
     <ClInclude Include="ContentsCore.h" />
     <ClInclude Include="VegetableValley12.h">
-      <Filter>Level\Map\VegetableValley</Filter>
-    </ClInclude>
-    <ClInclude Include="TitleLevel.h">
-      <Filter>Level</Filter>
+      <Filter>Level\02.Map\VegetableValley</Filter>
     </ClInclude>
     <ClInclude Include="VegetableValley11.h">
-      <Filter>Level\Map\VegetableValley</Filter>
+      <Filter>Level\02.Map\VegetableValley</Filter>
     </ClInclude>
     <ClInclude Include="VegetableValley13.h">
-      <Filter>Level\Map\VegetableValley</Filter>
+      <Filter>Level\02.Map\VegetableValley</Filter>
     </ClInclude>
     <ClInclude Include="VegetableValleyHub.h">
-      <Filter>Level\Map\VegetableValley</Filter>
+      <Filter>Level\02.Map\VegetableValley</Filter>
     </ClInclude>
     <ClInclude Include="VegetableValleyIntro.h">
-      <Filter>Level\Map\VegetableValley</Filter>
+      <Filter>Level\02.Map\VegetableValley</Filter>
     </ClInclude>
     <ClInclude Include="VegetableValleyBoss.h">
-      <Filter>Level\Map\VegetableValley</Filter>
+      <Filter>Level\02.Map\VegetableValley</Filter>
     </ClInclude>
     <ClInclude Include="ContentsEnum.h" />
     <ClInclude Include="Kirby.h">
@@ -109,7 +97,7 @@
       <Filter>Global\Object\Enemy</Filter>
     </ClInclude>
     <ClInclude Include="VegetableValleyPlayLevel.h">
-      <Filter>Level\Map\VegetableValley</Filter>
+      <Filter>Level\02.Map\VegetableValley</Filter>
     </ClInclude>
     <ClInclude Include="AerialEnemies.h">
       <Filter>Global\Object\Enemy\AerialEnemy</Filter>
@@ -193,16 +181,16 @@
       <Filter>Global\Effect\DeathEffect</Filter>
     </ClInclude>
     <ClInclude Include="PlayUI.h">
-      <Filter>Level\UI</Filter>
+      <Filter>Level\01.UI</Filter>
     </ClInclude>
     <ClInclude Include="HubUI.h">
-      <Filter>Level\UI</Filter>
+      <Filter>Level\01.UI</Filter>
     </ClInclude>
     <ClInclude Include="BossUI.h">
-      <Filter>Level\UI</Filter>
+      <Filter>Level\01.UI</Filter>
     </ClInclude>
     <ClInclude Include="UIManager.h">
-      <Filter>Level\UI</Filter>
+      <Filter>Level\01.UI</Filter>
     </ClInclude>
     <ClInclude Include="CommonSkillEffect.h">
       <Filter>Global\Effect\SkillAbilityEffect</Filter>
@@ -228,22 +216,28 @@
     <ClInclude Include="StarStick.h">
       <Filter>Global\Object\Item</Filter>
     </ClInclude>
+    <ClInclude Include="TitleLevel.h">
+      <Filter>Level</Filter>
+    </ClInclude>
+    <ClInclude Include="EndingLevel.h">
+      <Filter>Level</Filter>
+    </ClInclude>
+    <ClInclude Include="GameOverLevel.h">
+      <Filter>Level</Filter>
+    </ClInclude>
+    <ClInclude Include="PauseLevel.h">
+      <Filter>Level</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="TitleLevel.cpp">
-      <Filter>Level</Filter>
-    </ClCompile>
-    <ClCompile Include="EndingLevel.cpp">
-      <Filter>Level</Filter>
-    </ClCompile>
     <ClCompile Include="CraneFever.cpp">
-      <Filter>Level\BonusGame</Filter>
+      <Filter>Level\00.BonusGame</Filter>
     </ClCompile>
     <ClCompile Include="Museums.cpp">
-      <Filter>Level\BonusGame</Filter>
+      <Filter>Level\00.BonusGame</Filter>
     </ClCompile>
     <ClCompile Include="BonusGameSubScreens.cpp">
-      <Filter>Level\BonusGame</Filter>
+      <Filter>Level\00.BonusGame</Filter>
     </ClCompile>
     <ClCompile Include="Boss.cpp">
       <Filter>Global\Object\Enemy\Boss</Filter>
@@ -284,33 +278,27 @@
     <ClCompile Include="WaddleDoo.cpp">
       <Filter>Global\Object\Enemy\PowerEnemy</Filter>
     </ClCompile>
-    <ClCompile Include="PauseLevel.cpp">
-      <Filter>Level</Filter>
-    </ClCompile>
-    <ClCompile Include="GameOverLevel.cpp">
-      <Filter>Level</Filter>
-    </ClCompile>
     <ClCompile Include="ContentsCore.cpp" />
     <ClCompile Include="VegetableValley12.cpp">
-      <Filter>Level\Map\VegetableValley</Filter>
+      <Filter>Level\02.Map\VegetableValley</Filter>
     </ClCompile>
     <ClCompile Include="VegetableValley11.cpp">
-      <Filter>Level\Map\VegetableValley</Filter>
+      <Filter>Level\02.Map\VegetableValley</Filter>
     </ClCompile>
     <ClCompile Include="VegetableValley13.cpp">
-      <Filter>Level\Map\VegetableValley</Filter>
+      <Filter>Level\02.Map\VegetableValley</Filter>
     </ClCompile>
     <ClCompile Include="VegetableValleyHub.cpp">
-      <Filter>Level\Map\VegetableValley</Filter>
+      <Filter>Level\02.Map\VegetableValley</Filter>
     </ClCompile>
     <ClCompile Include="VegetableValleyIntro.cpp">
-      <Filter>Level\Map\VegetableValley</Filter>
+      <Filter>Level\02.Map\VegetableValley</Filter>
     </ClCompile>
     <ClCompile Include="VegetableValleyBoss.cpp">
-      <Filter>Level\Map\VegetableValley</Filter>
+      <Filter>Level\02.Map\VegetableValley</Filter>
     </ClCompile>
     <ClCompile Include="BackGroundEffectList.cpp">
-      <Filter>Level\Map\VegetableValley</Filter>
+      <Filter>Level\02.Map\VegetableValley</Filter>
     </ClCompile>
     <ClCompile Include="Kirby.cpp">
       <Filter>Global\Object\Kirby</Filter>
@@ -343,7 +331,7 @@
       <Filter>Global\Object\Enemy</Filter>
     </ClCompile>
     <ClCompile Include="VegetableValleyPlayLevel.cpp">
-      <Filter>Level\Map\VegetableValley</Filter>
+      <Filter>Level\02.Map\VegetableValley</Filter>
     </ClCompile>
     <ClCompile Include="AerialEnemies.cpp">
       <Filter>Global\Object\Enemy\AerialEnemy</Filter>
@@ -451,22 +439,22 @@
       <Filter>Global\Effect\DeathEffect</Filter>
     </ClCompile>
     <ClCompile Include="PlayUI.cpp">
-      <Filter>Level\UI</Filter>
+      <Filter>Level\01.UI</Filter>
     </ClCompile>
     <ClCompile Include="HubUI.cpp">
-      <Filter>Level\UI</Filter>
+      <Filter>Level\01.UI</Filter>
     </ClCompile>
     <ClCompile Include="BossUI.cpp">
-      <Filter>Level\UI</Filter>
+      <Filter>Level\01.UI</Filter>
     </ClCompile>
     <ClCompile Include="UIManager.cpp">
-      <Filter>Level\UI</Filter>
+      <Filter>Level\01.UI</Filter>
     </ClCompile>
     <ClCompile Include="CommonSkillEffect.cpp">
       <Filter>Global\Effect\SkillAbilityEffect</Filter>
     </ClCompile>
     <ClCompile Include="VegetableValley11_Func.cpp">
-      <Filter>Level\Map\VegetableValley</Filter>
+      <Filter>Level\02.Map\VegetableValley</Filter>
     </ClCompile>
     <ClCompile Include="DoorObject.cpp">
       <Filter>Global\Object\Objects</Filter>
@@ -491,6 +479,18 @@
     </ClCompile>
     <ClCompile Include="Kirby_MoveLevel.cpp">
       <Filter>Global\Object\Kirby</Filter>
+    </ClCompile>
+    <ClCompile Include="EndingLevel.cpp">
+      <Filter>Level</Filter>
+    </ClCompile>
+    <ClCompile Include="GameOverLevel.cpp">
+      <Filter>Level</Filter>
+    </ClCompile>
+    <ClCompile Include="PauseLevel.cpp">
+      <Filter>Level</Filter>
+    </ClCompile>
+    <ClCompile Include="TitleLevel.cpp">
+      <Filter>Level</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -527,15 +527,6 @@
     <Filter Include="Level">
       <UniqueIdentifier>{c48bda09-ac6f-4661-a193-86efece953e9}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Level\Map">
-      <UniqueIdentifier>{dfe21694-0b7a-4e50-a873-1fc0b5ad1a85}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Level\Map\VegetableValley">
-      <UniqueIdentifier>{4cd6af2d-814d-44c5-a5c0-bc0554558c9e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Level\BonusGame">
-      <UniqueIdentifier>{d1136692-8bb9-4d94-8eaf-f74616439112}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Global\Effect\SkillAbilityEffect">
       <UniqueIdentifier>{64cc594e-6473-4168-9042-2553726a9cc6}</UniqueIdentifier>
     </Filter>
@@ -548,11 +539,20 @@
     <Filter Include="Global\Effect\SkillAbilityEffect\AirExplosionEffect">
       <UniqueIdentifier>{8b10c2d6-baf3-40c7-9e1b-efacbeea88c9}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Level\UI">
-      <UniqueIdentifier>{7b2b5d89-01e6-452a-a522-2904d4d83ac1}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Global\Object\Objects">
       <UniqueIdentifier>{ab6fff16-21f2-405b-a079-9c27fda83fe4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Level\00.BonusGame">
+      <UniqueIdentifier>{d1136692-8bb9-4d94-8eaf-f74616439112}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Level\01.UI">
+      <UniqueIdentifier>{7b2b5d89-01e6-452a-a522-2904d4d83ac1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Level\02.Map">
+      <UniqueIdentifier>{dfe21694-0b7a-4e50-a873-1fc0b5ad1a85}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Level\02.Map\VegetableValley">
+      <UniqueIdentifier>{4cd6af2d-814d-44c5-a5c0-bc0554558c9e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

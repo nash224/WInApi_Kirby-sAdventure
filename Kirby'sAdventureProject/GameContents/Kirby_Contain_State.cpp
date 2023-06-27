@@ -575,6 +575,10 @@ void Kirby::Contain_GulpStart()
 		GetAbilityEffectPtr->init(GetPos(), GetKirbyScale());
 
 
+		// 능력을 얻는 도중에 모드 해제하면 터져서 변수 추가 
+		GettingAbility = true;
+
+
 		// Fade 설정
 		GameEngineLevel* CurLevelPtr = GetLevel();
 		if (nullptr == CurLevelPtr)
@@ -870,6 +874,7 @@ void Kirby::GetAbilityUpdate(float _Delta)
 		GameEngineTime::MainTimer.SetAllTimeScale(1.0f);
 
 
+		GettingAbility = false;
 		
 
 		// 바닥이 있고 속도가 0이면 Idle

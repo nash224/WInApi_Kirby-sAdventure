@@ -5,6 +5,7 @@
 #include <GameEngineBase/GameEngineMath.h>
 #include <GameEnginePlatform/GameEngineWindow.h>
 #include <GameEnginePlatform/GameEngineInput.h>
+#include <GameEnginePlatform/GameEngineSound.h>
 #include <GameEngineCore/GameEngineCore.h>
 #include <GameEngineCore/GameEngineCamera.h>
 #include <GameEngineCore/ResourcesManager.h>
@@ -91,6 +92,9 @@ void VegetableValley11::Start()
 		return;
 	}
 
+
+	// 사운드 로드
+	GlobalContents::SoundFileLoad("03_Plains_Level.mp3", "Resources\\SoundResources\\SoundTrack");
 }
 
 
@@ -145,11 +149,29 @@ void VegetableValley11::LevelStart(GameEngineLevel* _PrevLevel)
 	LevelPlayer->SetGroundTexture(BitMapFileName);
 	LevelPlayer->SetPos(float4{ 200.0f , 384.0f });
 
+
+	if (false == IsBGM_On)
+	{
+		IsBGM_On = true;
+
+		BGM_Player = GameEngineSound::SoundPlay("03_Plains_Level.mp3");
+	}
+
+
 	GlobalContents::FadeIn(this);
 }
 
 
-void VegetableValley11::LevelEnd(GameEngineLevel* _NextLevel) { }
+void VegetableValley11::LevelEnd(GameEngineLevel* _NextLevel) 
+{
+	if (true == IsBGM_On)
+	{
+		BGM_Player.Stop();
+
+		IsBGM_On = false;
+	}
+
+}
 
 
 void VegetableValley11::Render(float _Delta)

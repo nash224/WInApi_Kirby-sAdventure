@@ -1,12 +1,16 @@
 #include "VegetableValleyIntro.h"
 
-#include "BackGround.h"
 
 #include <GameEngineBase/GameEngineMath.h>
 #include <GameEnginePlatform/GameEngineWindow.h>
 #include <GameEnginePlatform/GameEngineInput.h>
+#include <GameEnginePlatform/GameEngineSound.h>
 #include <GameEngineCore/GameEngineCore.h>
 #include <GameEngineCore/GameEngineCamera.h>
+
+
+#include "GlobalContents.h"
+#include "BackGround.h"
 
 
 VegetableValleyIntro::VegetableValleyIntro()
@@ -24,7 +28,10 @@ void VegetableValleyIntro::Start()
 	LevelBackGround = GameEngineLevel::CreateActor<BackGround>();
 	LevelBackGround->init("VegetableValleyIntro.bmp", "Resources\\Map");
 
-	//LevelPlayer = GameEngineLevel::CreateActor<Player>();
+
+
+	// 사운드 로드
+	GlobalContents::SoundFileLoad("03_Plains_Level.mp3", "Resources\\SoundResources\\SoundTrack");
 }
 
 void VegetableValleyIntro::Update(float _Delta)
@@ -46,7 +53,12 @@ void VegetableValleyIntro::Update(float _Delta)
 
 void VegetableValleyIntro::LevelStart(GameEngineLevel* _PrevLevel)
 {
+	if (false == IsBGM_On)
+	{
+		BGM_Player = GameEngineSound::SoundPlay("03_Plains_Level.mp3");
 
+		IsBGM_On = true;
+	}
 }
 
 void VegetableValleyIntro::LevelEnd(GameEngineLevel* _NextLevel) { }

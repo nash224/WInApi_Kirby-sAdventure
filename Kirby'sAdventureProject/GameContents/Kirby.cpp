@@ -225,7 +225,7 @@ void Kirby::Update(float _Delta)
 
 
 	// 능력 해제
-	if (true == GameEngineInput::IsDown(VK_SHIFT) && Mode != AbilityStar::Normal && Mode != AbilityStar::Max)
+	if (true == GameEngineInput::IsDown(VK_SHIFT) && Mode != AbilityStar::Normal && Mode != AbilityStar::Max && false == GettingAbility)
 	{
 		DropAbility();
 	}
