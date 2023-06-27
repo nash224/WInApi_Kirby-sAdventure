@@ -126,6 +126,38 @@ void VegetableValley12::Update(float _Delta)
 }
 
 
+void VegetableValley12::Render(float _Delta)
+{
+	HDC dc = GameEngineWindow::MainWindow.GetBackBuffer()->GetImageDC();
+
+	GameEngineCamera* MainCameraPtr = GetMainCamera();
+	if (nullptr == MainCameraPtr)
+	{
+		MsgBoxAssert("카메라를 불러오지 못했습니다.");
+		return;
+	}
+
+
+	{
+		UpdateTime += _Delta;
+
+
+		std::string Text = "";
+		Text += "프레임 : ";
+		if (UpdateTime >= 1.0f)
+		{
+			UpdateTime = 0.0f;
+
+			FPSText = 1.0f / _Delta;
+		}
+		Text += std::to_string(FPSText);
+		TextOutA(dc, 2, 3, Text.c_str(), static_cast<int>(Text.size()));
+	}
+}
+
+
+
+
 void VegetableValley12::LevelStart(GameEngineLevel* _PrevLevel)
 {
 	LevelPlayer = Kirby::GetMainKirby();
@@ -157,3 +189,4 @@ void VegetableValley12::LevelEnd(GameEngineLevel* _NextLevel)
 		IsBGM_On = false;
 	}
 }
+

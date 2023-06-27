@@ -5,6 +5,7 @@
 #include <GameEnginePlatform/GameEngineWindow.h>
 #include <GameEnginePlatform/GameEngineInput.h>
 #include <GameEngineCore/GameEngineCore.h>
+#include <GameEngineCore/GameEngineCamera.h>
 
 
 #include "Kirby.h"
@@ -117,6 +118,39 @@ void VegetableValley13::Update(float _Delta)
 	}
 
 }
+
+
+
+void VegetableValley13::Render(float _Delta)
+{
+	HDC dc = GameEngineWindow::MainWindow.GetBackBuffer()->GetImageDC();
+
+	GameEngineCamera* MainCameraPtr = GetMainCamera();
+	if (nullptr == MainCameraPtr)
+	{
+		MsgBoxAssert("카메라를 불러오지 못했습니다.");
+		return;
+	}
+
+
+	{
+		UpdateTime += _Delta;
+
+
+		std::string Text = "";
+		Text += "프레임 : ";
+		if (UpdateTime >= 1.0f)
+		{
+			UpdateTime = 0.0f;
+
+			FPSText = 1.0f / _Delta;
+		}
+		Text += std::to_string(FPSText);
+		TextOutA(dc, 2, 3, Text.c_str(), static_cast<int>(Text.size()));
+	}
+}
+
+
 
 void VegetableValley13::LevelStart(GameEngineLevel* _PrevLevel)
 {
