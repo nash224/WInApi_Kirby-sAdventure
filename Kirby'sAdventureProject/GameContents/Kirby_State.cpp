@@ -1883,6 +1883,9 @@ void Kirby::MissRaiseUpUpdate(float _Delta)
 		// UI에게 피채워달라고 요청
 		IsKirbyRevive = true;
 
+		// 공기저항 초기화
+		SetAirResistance(1.0f);
+
 		// BGM_Off
 		VegetableValleyPlayLevel::IsBGM_On = false;
 
