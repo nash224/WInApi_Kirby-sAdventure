@@ -223,6 +223,15 @@ void Kirby::IdleUpdate(float _Delta)
 
 
 
+
+
+	// 능력 해제
+	if (true == GameEngineInput::IsDown(VK_SHIFT) && Mode != AbilityStar::Normal && Mode != AbilityStar::Max && false == GettingAbility)
+	{
+		DropAbility();
+	}
+
+
 	// 데미지 상태 패턴
 	CheckKirbyCollision();
 
@@ -322,6 +331,14 @@ void Kirby::WalkUpdate(float _Delta)
 	DecelerationUpdate(_Delta);
 	HorizontalUpdate(_Delta);
 
+
+
+
+	// 능력 해제
+	if (true == GameEngineInput::IsDown(VK_SHIFT) && Mode != AbilityStar::Normal && Mode != AbilityStar::Max && false == GettingAbility)
+	{
+		DropAbility();
+	}
 
 
 	// 데미지 상태 패턴
@@ -429,6 +446,15 @@ void Kirby::RunUpdate(float _Delta)
 
 
 
+
+	// 능력 해제
+	if (true == GameEngineInput::IsDown(VK_SHIFT) && Mode != AbilityStar::Normal && Mode != AbilityStar::Max && false == GettingAbility)
+	{
+		DropAbility();
+	}
+
+
+
 	// 데미지 상태 패턴
 	CheckKirbyCollision();
 }
@@ -505,6 +531,13 @@ void Kirby::TurnUpdate(float _Delta)
 	HorizontalUpdate(_Delta);
 
 
+
+
+	// 능력 해제
+	if (true == GameEngineInput::IsDown(VK_SHIFT) && Mode != AbilityStar::Normal && Mode != AbilityStar::Max && false == GettingAbility)
+	{
+		DropAbility();
+	}
 
 
 	// 데미지 상태 패턴
@@ -617,6 +650,13 @@ void Kirby::JumpUpdate(float _Delta)
 
 
 
+	// 능력 해제
+	if (true == GameEngineInput::IsDown(VK_SHIFT) && Mode != AbilityStar::Normal && Mode != AbilityStar::Max && false == GettingAbility)
+	{
+		DropAbility();
+	}
+
+
 	// 데미지 상태 패턴
 	CheckKirbyCollision();
 }
@@ -696,6 +736,13 @@ void Kirby::AerialMotionUpdate(float _Delta)
 	VerticalUpdate(_Delta);
 
 
+
+
+	// 능력 해제
+	if (true == GameEngineInput::IsDown(VK_SHIFT) && Mode != AbilityStar::Normal && Mode != AbilityStar::Max && false == GettingAbility)
+	{
+		DropAbility();
+	}
 
 
 	// 데미지 상태 패턴
@@ -785,6 +832,16 @@ void Kirby::FallUpdate(float _Delta)
 
 
 
+
+
+	// 능력 해제
+	if (true == GameEngineInput::IsDown(VK_SHIFT) && Mode != AbilityStar::Normal && Mode != AbilityStar::Max && false == GettingAbility)
+	{
+		DropAbility();
+	}
+
+
+
 	// 데미지 상태 패턴
 	CheckKirbyCollision();
 
@@ -844,6 +901,14 @@ void Kirby::AccelerateDownUpdate(float _Delta)
 	Gravity(_Delta);
 	GravityLimit(_Delta);
 	VerticalUpdate(_Delta);
+
+
+
+	// 능력 해제
+	if (true == GameEngineInput::IsDown(VK_SHIFT) && Mode != AbilityStar::Normal && Mode != AbilityStar::Max && false == GettingAbility)
+	{
+		DropAbility();
+	}
 
 
 
@@ -907,6 +972,14 @@ void Kirby::BounceUpdate(float _Delta)
 	Gravity(_Delta);
 	GravityLimit(_Delta);
 	VerticalUpdate(_Delta);
+
+
+
+	// 능력 해제
+	if (true == GameEngineInput::IsDown(VK_SHIFT) && Mode != AbilityStar::Normal && Mode != AbilityStar::Max && false == GettingAbility)
+	{
+		DropAbility();
+	}
 
 
 
@@ -987,6 +1060,16 @@ void Kirby::LandingUpdate(float _Delta)
 
 
 
+
+
+	// 능력 해제
+	if (true == GameEngineInput::IsDown(VK_SHIFT) && Mode != AbilityStar::Normal && Mode != AbilityStar::Max && false == GettingAbility)
+	{
+		DropAbility();
+	}
+
+
+
 	// 데미지 상태 패턴
 	CheckKirbyCollision();
 }
@@ -1044,6 +1127,15 @@ void Kirby::LowerPostureUpdate(float _Delta)
 	ActorUtils::DecelerationUpdate(_Delta, DECELERATIONSPEED);
 	HorizontalUpdate(_Delta);
 
+
+
+
+
+	// 능력 해제
+	if (true == GameEngineInput::IsDown(VK_SHIFT) && Mode != AbilityStar::Normal && Mode != AbilityStar::Max && false == GettingAbility)
+	{
+		DropAbility();
+	}
 
 
 
@@ -1210,6 +1302,13 @@ void Kirby::LowerAttackUpdate(float _Delta)
 
 
 
+	// 능력 해제
+	if (true == GameEngineInput::IsDown(VK_SHIFT) && Mode != AbilityStar::Normal && Mode != AbilityStar::Max && false == GettingAbility)
+	{
+		DropAbility();
+	}
+
+
 	// 데미지 상태 패턴
 	CheckKirbyCollision();
 }
@@ -1271,6 +1370,13 @@ void Kirby::HittheWallUpdate(float _Delta)
 
 
 
+
+
+	// 능력 해제
+	if (true == GameEngineInput::IsDown(VK_SHIFT) && Mode != AbilityStar::Normal && Mode != AbilityStar::Max && false == GettingAbility)
+	{
+		DropAbility();
+	}
 
 	// 데미지 상태 패턴
 	CheckKirbyCollision();
@@ -1337,6 +1443,13 @@ void Kirby::HittheCeilingUpdate(float _Delta)
 	}
 
 
+
+
+	// 능력 해제
+	if (true == GameEngineInput::IsDown(VK_SHIFT) && Mode != AbilityStar::Normal && Mode != AbilityStar::Max && false == GettingAbility)
+	{
+		DropAbility();
+	}
 
 
 	// 데미지 상태 패턴
@@ -1415,6 +1528,15 @@ void Kirby::TakeOffUpdate(float _Delta)
 
 	DecelerationUpdate(_Delta);
 	HorizontalUpdate(_Delta);
+
+
+
+	// 능력 해제
+	if (true == GameEngineInput::IsDown(VK_SHIFT) && Mode != AbilityStar::Normal && Mode != AbilityStar::Max && false == GettingAbility)
+	{
+		DropAbility();
+	}
+
 
 	// 데미지 상태 패턴
 	CheckKirbyCollision();
@@ -1516,6 +1638,14 @@ void Kirby::FlyUpdate(float _Delta)
 	HorizontalUpdate(_Delta);
 
 
+
+
+
+	// 능력 해제
+	if (true == GameEngineInput::IsDown(VK_SHIFT) && Mode != AbilityStar::Normal && Mode != AbilityStar::Max && false == GettingAbility)
+	{
+		DropAbility();
+	}
 
 
 	// 데미지 상태 패턴
@@ -1643,6 +1773,14 @@ void Kirby::ExhaleAttackUpdate(float _Delta)
 
 
 
+	// 능력 해제
+	if (true == GameEngineInput::IsDown(VK_SHIFT) && Mode != AbilityStar::Normal && Mode != AbilityStar::Max && false == GettingAbility)
+	{
+		DropAbility();
+	}
+
+
+
 	// 데미지 상태 패턴
 	CheckKirbyCollision();
 
@@ -1680,12 +1818,13 @@ void Kirby::DamagedStart()
 	KirbyBodyCollisonOff();
 
 
-
-	// 피해를 입으면 기본 상태로
-	if (AbilityStar::Normal != Mode)
+	// 능력 해제
+	if (Mode != AbilityStar::Normal && Mode != AbilityStar::Max)
 	{
-		Mode = AbilityStar::Normal;
+		DropAbility();
 	}
+
+
 
 	// 중력 초기화
 	GravityReset();

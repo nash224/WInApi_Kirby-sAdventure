@@ -166,7 +166,10 @@ void VegetableValley11::LevelStart(GameEngineLevel* _PrevLevel)
 	}
 
 	LevelPlayer->SetGroundTexture(BitMapFileName);
-	LevelPlayer->SetPos(Kirby_RespawnPos);
+
+
+	SetPlayerPosAndCameraPos(Kirby_RespawnPos, float4::ZERO);
+
 
 
 	if (false == IsBGM_On)

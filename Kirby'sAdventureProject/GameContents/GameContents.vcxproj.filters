@@ -228,6 +228,9 @@
     <ClInclude Include="WanderingStar.h">
       <Filter>Global\Object\Item</Filter>
     </ClInclude>
+    <ClInclude Include="Flag.h">
+      <Filter>Global\Object\Objects</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CraneFever.cpp">
@@ -491,6 +494,9 @@
     </ClCompile>
     <ClCompile Include="WanderingStar.cpp">
       <Filter>Global\Object\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="Flag.cpp">
+      <Filter>Global\Object\Objects</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

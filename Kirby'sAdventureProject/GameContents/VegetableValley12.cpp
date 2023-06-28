@@ -195,6 +195,8 @@ void VegetableValley12::LevelStart(GameEngineLevel* _PrevLevel)
 		MsgBoxAssert("플레이어를 세팅해주지 않았습니다.");
 	}
 
+	LevelPlayer->SetGroundTexture(BitMapFileName);
+
 	SetPlayerPosAndCameraPos(Kirby_RespawnPos, float4::ZERO);
 
 

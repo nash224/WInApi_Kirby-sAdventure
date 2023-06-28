@@ -27,36 +27,37 @@ private:
 	class Kirby* LevelPlayer = nullptr;
 	class BackGround* LevelBackGround = nullptr;
 
-	class DoorObject* VegetableValley_Stage1_PlayDoor = nullptr;
-	class DoorObject* VegetableValley_Stage2_BossDoor = nullptr;
-	class DoorObject* VegetableValley_Museum_Door = nullptr;
-
 	class BillboardsObject* VegetableValley_Billboard = nullptr;
 
 
 
-	const float4 StageDoorSize = float4{ 48.0f , 48.0f };
-
-	const float4 StageOneLocation = float4{ 288.0f , 865.0f };
-	const float4 StageTwoLocation = float4{ 720.0f , 961.0f };
-	const float4 StageOneBillBoardLocation = float4{ 288.0f , 813.0f };
-	const float4 StageBossBillBoardLocation = float4{ 720.0f , 909.0f };
-
-	
 
 	// Stage ฐüทร
+	const float4 StageDoorSize = float4{ 48.0f , 48.0f };
+
 
 	bool IsRequestDoorOpen = false;
 	int VegetableValleyEntertheDoorNumber = -1;
 
-	bool IsStage1Clear = false;
-	bool IsStage2Clear = false;
 
 	void VegetableValleyStage_1_Func();
 	void VegetableValleyStage_2_Func();
 
 	void Kirby_StageClear();
 
+
+	class StageElemnet
+	{
+	public:
+		bool IsStageClear = false;
+		float4 StageLocation = float4::ZERO;
+		float4 BillBoardLocation = float4::ZERO;
+		class DoorObject* DoorPtr = nullptr;
+	};
+
+
+	StageElemnet Stage1;
+	StageElemnet Stage2;
 
 
 

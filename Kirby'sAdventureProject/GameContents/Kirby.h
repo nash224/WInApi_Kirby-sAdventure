@@ -451,7 +451,7 @@ private:
 	bool KirbySwalling = false;
 
 	bool IsGulpEnemy = false;
-	const float Swallowed_Distance = 10.0f;
+	const float Swallowed_Distance = 5.0f;
 
 	bool GettingAbility = false;
 
