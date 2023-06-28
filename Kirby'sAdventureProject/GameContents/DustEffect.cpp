@@ -64,3 +64,10 @@ void DustEffect::Update(float _Delta)
 		return;
 	}
 }
+
+
+void DustEffect::LevelEnd()
+{
+	Death();
+	EffectPointerRelease();
+}

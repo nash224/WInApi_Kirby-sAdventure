@@ -125,3 +125,12 @@ void FrameBreathEffect::GroundNotPassUpdate(float _Delta)
 {
 
 }
+
+
+
+
+void FrameBreathEffect::LevelEnd()
+{
+	Death();
+	EffectPointerRelease();
+}

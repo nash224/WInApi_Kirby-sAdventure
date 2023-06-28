@@ -433,9 +433,11 @@ void Kirby::InhaleAbilityUpdate(float _Delta)
 	}
 
 
-
-	// 데미지 상태 패턴
-	CheckKirbyCollision();
+	if (Star.SwallowedEnemyNumber == 0)
+	{
+		// 데미지 상태 패턴
+		CheckKirbyCollision();
+	}
 
 
 

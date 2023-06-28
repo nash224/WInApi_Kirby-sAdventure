@@ -55,3 +55,10 @@ void ObejctDisapearingEffect::Update(float _Delta)
 		return;
 	}
 }
+
+
+void ObejctDisapearingEffect::LevelEnd()
+{
+	Death();
+	EffectPointerRelease();
+}

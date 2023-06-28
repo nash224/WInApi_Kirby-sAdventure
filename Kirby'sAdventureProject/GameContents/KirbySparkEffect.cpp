@@ -69,3 +69,11 @@ void KirbySparkEffect::Update(float _Delta)
 		return;
 	}
 }
+
+
+
+void KirbySparkEffect::LevelEnd()
+{
+	Death();
+	EffectPointerRelease();
+}

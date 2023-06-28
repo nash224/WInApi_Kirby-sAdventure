@@ -43,3 +43,12 @@ void SparkleEffect::Update(float _Delta)
 		return;
 	}
 }
+
+
+
+
+void SparkleEffect::LevelEnd()
+{
+	Death();
+	EffectPointerRelease();
+}

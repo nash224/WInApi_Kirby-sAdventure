@@ -55,3 +55,12 @@ void CommonSkillEffect::Update(float _Delta)
 		AbilityToActorCollisionCheck(CollisionOrder::PlayerBody);
 	}
 }
+
+
+
+
+void CommonSkillEffect::LevelEnd()
+{
+	Death();
+	EffectPointerRelease();
+}

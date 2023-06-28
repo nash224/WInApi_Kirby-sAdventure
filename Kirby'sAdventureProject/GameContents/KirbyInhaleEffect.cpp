@@ -40,3 +40,11 @@ void KirbyInhaleEffect::Update(float _Delta)
 		Death();
 	}
 }
+
+
+
+void KirbyInhaleEffect::LevelEnd()
+{
+	Death();
+	EffectPointerRelease();
+}

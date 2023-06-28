@@ -69,3 +69,12 @@ void SparkEffect::Update(float _Delta)
 
 
 }
+
+
+
+
+void SparkEffect::LevelEnd()
+{
+	Death();
+	EffectPointerRelease();
+}

@@ -118,6 +118,18 @@ void Boss_WhispyEffect::Update(float _Delta)
 }
 
 
+
+
+
+
+void Boss_WhispyEffect::LevelEnd()
+{
+	Death();
+	EffectPointerRelease();
+}
+
+
+
 /*
 *	1. 지정 범위까지 1:4 각도로 로 날아간다.
 *	2. 일정 범위로 도달하면 X 속도가 0으로 되게 하고 Y도 점점 빨라진다.

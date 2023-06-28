@@ -96,3 +96,10 @@ void HitObjectEffect::Update(float _Delta)
 		return;
 	}
 }
+
+
+void HitObjectEffect::LevelEnd()
+{
+	Death();
+	EffectPointerRelease();
+}

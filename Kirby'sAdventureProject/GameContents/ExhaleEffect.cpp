@@ -84,3 +84,12 @@ void ExhaleEffect::Update(float _Delta)
 
 	AbilityToActorCollisionCheck(CollisionOrder::MonsterBody, true);
 }
+
+
+
+
+void ExhaleEffect::LevelEnd()
+{
+	Death();
+	EffectPointerRelease();
+}

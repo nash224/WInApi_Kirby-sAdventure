@@ -73,3 +73,11 @@ void CrossDeathEffect::Update(float _Delta)
 		EffectPointerRelease();
 	}
 }
+
+
+
+void CrossDeathEffect::LevelEnd()
+{
+	Death();
+	EffectPointerRelease();
+}

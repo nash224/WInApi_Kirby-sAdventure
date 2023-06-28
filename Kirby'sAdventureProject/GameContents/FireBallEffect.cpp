@@ -79,3 +79,12 @@ void FireBallEffect::Update(float _Delta)
 
 	AddPos(EffectDir * FIREBALLEFFECTSPEED * _Delta);
 }
+
+
+
+
+void FireBallEffect::LevelEnd()
+{
+	Death();
+	EffectPointerRelease();
+}

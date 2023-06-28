@@ -50,3 +50,11 @@ void AirExplosionAEffect::Update(float _Delta)
 		}
 	}
 }
+
+
+
+void AirExplosionAEffect::LevelEnd()
+{
+	Death();
+	EffectPointerRelease();
+}

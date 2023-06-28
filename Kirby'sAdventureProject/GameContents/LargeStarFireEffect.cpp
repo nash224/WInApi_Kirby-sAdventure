@@ -67,3 +67,9 @@ void LargeStarFireEffect::Update(float _Delta)
 	AddPos(EffectDir * LARGESTARFIREEFFECTSPEED * _Delta);
 }
 
+
+void LargeStarFireEffect::LevelEnd()
+{
+	Death();
+	EffectPointerRelease();
+}

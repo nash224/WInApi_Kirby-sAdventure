@@ -114,3 +114,10 @@ void SmallStarFireEffect::SkillDeathEffect()
 }
 
 
+
+
+void SmallStarFireEffect::LevelEnd()
+{
+	Death();
+	EffectPointerRelease();
+}

@@ -172,3 +172,12 @@ void AirExplosionEffect::Update(float _Delta)
 		AbilityToActorCollisionCheck(CollisionOrder::PlayerBody);
 	}
 }
+
+
+
+
+void AirExplosionEffect::LevelEnd()
+{
+	Death();
+	EffectPointerRelease();
+}

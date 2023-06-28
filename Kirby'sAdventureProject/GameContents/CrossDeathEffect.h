@@ -31,5 +31,6 @@ private:
 
 	void Start() override;
 	void Update(float _Delta) override;
+	void LevelEnd() override;
 };
 

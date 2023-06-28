@@ -173,3 +173,11 @@ void BeamEffect::Update(float _Delta)
 		return;
 	}
 }
+
+
+
+void BeamEffect::LevelEnd()
+{
+	Death();
+	EffectPointerRelease();
+}

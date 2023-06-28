@@ -61,3 +61,11 @@ void GetAbilityEffect::Update(float _Delta)
 		Death();
 	}
 }
+
+
+
+void GetAbilityEffect::LevelEnd()
+{
+	Death();
+	EffectPointerRelease();
+}

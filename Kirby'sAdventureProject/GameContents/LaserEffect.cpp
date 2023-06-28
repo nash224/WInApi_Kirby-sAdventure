@@ -145,3 +145,11 @@ void LaserEffect::SkillDeathEffect()
 
 	DustEffectPtr->init(GetPos(), Scale, EffectDir);
 }
+
+
+
+void LaserEffect::LevelEnd()
+{
+	Death();
+	EffectPointerRelease();
+}

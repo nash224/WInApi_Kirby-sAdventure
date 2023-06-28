@@ -63,3 +63,10 @@ void MoveStarEffect::Update(float _Delta)
 		EffectPointerRelease();
 	}
 }
+
+
+void MoveStarEffect::LevelEnd()
+{
+	Death();
+	EffectPointerRelease();
+}
