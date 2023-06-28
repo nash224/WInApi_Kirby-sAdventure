@@ -225,6 +225,9 @@
     <ClInclude Include="PauseLevel.h">
       <Filter>Level</Filter>
     </ClInclude>
+    <ClInclude Include="WanderingStar.h">
+      <Filter>Global\Object\Item</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CraneFever.cpp">
@@ -485,6 +488,9 @@
     </ClCompile>
     <ClCompile Include="TitleLevel.cpp">
       <Filter>Level</Filter>
+    </ClCompile>
+    <ClCompile Include="WanderingStar.cpp">
+      <Filter>Global\Object\Item</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

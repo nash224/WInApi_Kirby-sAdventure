@@ -110,9 +110,12 @@ protected:
 	bool CeilingCheck();
 	bool CheckLeftWall();
 	bool CheckRightWall();
-	bool CheckLeftWallBasedSpeed(unsigned int _DefaultColor = RGB(0 , 255 , 255));
-	bool CheckRightWallBasedSpeed(unsigned int _DefaultColor = RGB(0, 255, 255));
-	bool CheckCeilingBasedSpeed(unsigned int _DefaultColor = RGB(0, 255, 255));
+	bool CheckLeftWallBasedSpeed(unsigned int _DefaultColor = RGB(255, 255 , 255));
+	bool CheckRightWallBasedSpeed(unsigned int _DefaultColor = RGB(255, 255, 255));
+	bool CheckCeilingBasedSpeed(unsigned int _DefaultColor = RGB(255, 255, 255));
+	bool CheckMapLeftWallBasedSpeed(unsigned int _DefaultColor = RGB(255, 255, 255));
+	bool CheckMapRightWallBasedSpeed(unsigned int _DefaultColor = RGB(255, 255, 255));
+	bool CheckMapCeilingBasedSpeed(unsigned int _DefaultColor = RGB(255, 255, 255));
 	void BlockedByWall();
 	void BlockedByGround();
 	void BlockedByCeiling();

@@ -61,7 +61,14 @@ float4 Enemy::GetKirbyUnitVector()
 // 몬스터와 커비 사이의 거리를 반환
 float4 Enemy::GetKirbyOpponentDistance()
 {
-	float4 OpponentDistance = Kirby::GetMainKirby()->GetPos() - GetPos();
+	Kirby* KirbyPtr = Kirby::GetMainKirby();
+	if (nullptr == KirbyPtr)
+	{
+		MsgBoxAssert("커비를 불러오지 못했습니다.");
+		return float4::ZERO;
+	}
+
+	float4 OpponentDistance = KirbyPtr->GetPos() - GetPos();
 	return OpponentDistance;
 }
 

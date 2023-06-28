@@ -463,6 +463,10 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="WanderingStar.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="WhispyWood.h">
       <SubType>
       </SubType>
@@ -786,6 +790,10 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="WaddleDoo.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="WanderingStar.cpp">
       <SubType>
       </SubType>
     </ClCompile>

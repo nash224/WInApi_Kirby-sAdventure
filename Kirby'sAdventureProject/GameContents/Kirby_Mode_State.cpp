@@ -11,6 +11,7 @@
 #include "LaserEffect.h"
 #include "Boss.h"
 #include "KirbySparkEffect.h"
+#include "WanderingStar.h"
 #include "FrameBreathEffect.h"
 
 
@@ -394,6 +395,61 @@ void Kirby::InhaleAbilityUpdate(float _Delta)
 	
 
 
+
+	// 기본커비 특수 스킬 충돌검사
+	std::vector<GameEngineCollision*> InhaleItemCol;
+	if (true == InhaleEffectCollision->Collision(CollisionOrder::WanderingStarBody, InhaleItemCol, CollisionType::Rect, CollisionType::Rect))
+	{
+		for (size_t i = 0; i < InhaleItemCol.size(); i++)
+		{
+			GameEngineCollision* Collision = InhaleItemCol[i];
+			if (nullptr == Collision)
+			{
+				MsgBoxAssert("충돌한 객체가 Null 입니다.");
+				return;
+			}
+
+			ActorUtils* ItemPtr = dynamic_cast<ActorUtils*>(Collision->GetActor());
+			if (nullptr == ItemPtr)
+			{
+				MsgBoxAssert("다운 캐스팅이 잘못되었습니다.");
+				return;
+			}
+
+
+			// 이미 충돌한 객체는 다시 못들어옴
+			if (true == ItemPtr->IsInhaledStateOn)
+			{
+				continue;
+			}
+
+
+			// 충돌되면 충돌했다는 변수를 변경하고, 몬스터의 능력 정보를 가져옴
+			ItemPtr->IsInhaledStateOn = true;
+
+
+			// 별을 먹을 삼켰다면
+			if ("WanderingStar" == ItemPtr->GetName())
+			{
+				AbilityStar EnemyAbility = ItemPtr->Ability;
+				++Star.SwallowedEnemyNumber;
+				++Star.SwallowedPowerEnemyNumber;
+				SwallingEnemy = ItemPtr;
+				CurrentAbilityStar = EnemyAbility;
+
+				if (AbilityStar::Max == EnemyAbility || AbilityStar::Normal == EnemyAbility)
+				{
+					MsgBoxAssert("커비가 이상한 별사탕을 먹었습니다.");
+					return;
+				}
+			}
+		}
+	}
+
+
+
+
+
 	// 먹으면
 	if (Star.SwallowedEnemyNumber > 0)
 	{
@@ -463,6 +519,26 @@ void Kirby::InhaleAbilityUpdate(float _Delta)
 
 void Kirby::DropAbility()
 {
+	// 별생성
+	GameEngineLevel* CurLevelPtr = GetLevel();
+	if (nullptr == CurLevelPtr)
+	{
+		MsgBoxAssert("레벨을 불러오지 못했습니다.");
+		return;
+	}
+
+	WanderingStar* WanderingStarPtr = CurLevelPtr->CreateActor<WanderingStar>(UpdateOrder::Item);
+	if (nullptr == WanderingStarPtr)
+	{
+		MsgBoxAssert("액터를 생성하지 못했습니다.");
+		return;
+	}
+
+	WanderingStarPtr->init(GetPos(), GetKirbyScale(), Mode);
+	WanderingStarPtr->SetGroundTexture(CurrentLevelBitMapFileName);
+
+
+
 	Mode = AbilityStar::Normal;
 	ChangeAnimationState(CurState);
 

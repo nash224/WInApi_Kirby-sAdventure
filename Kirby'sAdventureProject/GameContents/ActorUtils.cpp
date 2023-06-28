@@ -207,7 +207,7 @@ bool ActorUtils::CheckLeftWallBasedSpeed(unsigned int _DefaultColor)
 	{
 		unsigned int ColorBottom = GetGroundColor(_DefaultColor, WallBotLeftCheckPoint);
 		unsigned int ColorTop = GetGroundColor(_DefaultColor, WallTopLeftCheckPoint);
-		if (ColorBottom == _DefaultColor || ColorTop == _DefaultColor)
+		if (ColorBottom == RGB(0, 255, 255) || ColorTop == RGB(0, 255, 255))
 		{
 			return true;
 		}
@@ -222,7 +222,7 @@ bool ActorUtils::CheckRightWallBasedSpeed(unsigned int _DefaultColor)
 	{
 		unsigned int ColorBottom = GetGroundColor(_DefaultColor, WallBotRightCheckPoint);
 		unsigned int ColorTop = GetGroundColor(_DefaultColor, WallTopRightCheckPoint);
-		if (ColorBottom == _DefaultColor || ColorTop == _DefaultColor)
+		if (ColorBottom == RGB(0, 255, 255) || ColorTop == RGB(0, 255, 255))
 		{
 			return true;
 		}
@@ -230,6 +230,43 @@ bool ActorUtils::CheckRightWallBasedSpeed(unsigned int _DefaultColor)
 
 	return false;
 }
+
+
+
+
+bool ActorUtils::CheckMapLeftWallBasedSpeed(unsigned int _DefaultColor)
+{
+	if (CurrentSpeed < 0.0f)
+	{
+		unsigned int ColorBottom = GetGroundColor(_DefaultColor, WallBotLeftCheckPoint);
+		unsigned int ColorTop = GetGroundColor(_DefaultColor, WallTopLeftCheckPoint);
+		if (ColorBottom == RGB(255, 255, 0) || ColorTop == RGB(255, 255, 0))
+		{
+			return true;
+		}
+	}
+
+	return false;
+}
+
+bool ActorUtils::CheckMapRightWallBasedSpeed(unsigned int _DefaultColor)
+{
+	if (CurrentSpeed > 0.0f)
+	{
+		unsigned int ColorBottom = GetGroundColor(_DefaultColor, WallBotRightCheckPoint);
+		unsigned int ColorTop = GetGroundColor(_DefaultColor, WallTopRightCheckPoint);
+		if (ColorBottom == RGB(255, 255, 0) || ColorTop == RGB(255, 255, 0))
+		{
+			return true;
+		}
+	}
+
+	return false;
+}
+
+
+
+
 
 
 bool ActorUtils::CheckCeilingBasedSpeed(unsigned int _DefaultColor)
@@ -238,7 +275,7 @@ bool ActorUtils::CheckCeilingBasedSpeed(unsigned int _DefaultColor)
 	{
 		unsigned int ColorLeft = GetGroundColor(_DefaultColor, CeilLeftCheckPoint);
 		unsigned int ColorRight = GetGroundColor(_DefaultColor, CeilRightCheckPoint);
-		if (ColorLeft == _DefaultColor || ColorRight == _DefaultColor)
+		if (ColorLeft == RGB(0, 255, 255) || ColorRight == RGB(0, 255, 255))
 		{
 			return true;
 		}
@@ -246,6 +283,24 @@ bool ActorUtils::CheckCeilingBasedSpeed(unsigned int _DefaultColor)
 
 	return false;
 }
+
+
+
+bool ActorUtils::CheckMapCeilingBasedSpeed(unsigned int _DefaultColor)
+{
+	if (GravityVector.Y < 0.0f)
+	{
+		unsigned int ColorLeft = GetGroundColor(_DefaultColor, CeilLeftCheckPoint);
+		unsigned int ColorRight = GetGroundColor(_DefaultColor, CeilRightCheckPoint);
+		if (ColorLeft == RGB(255, 255, 0) || ColorRight == RGB(255, 255, 0))
+		{
+			return true;
+		}
+	}
+
+	return false;
+}
+
 
 
 void ActorUtils::BlockedByWall()
@@ -325,11 +380,11 @@ void ActorUtils::BlockedByCeiling()
 
 void ActorUtils::BlockedByAll()
 {
-	if (true == CheckLeftWallBasedSpeed(RGB(255, 255, 0)))
+	if (true == CheckMapLeftWallBasedSpeed(RGB(255, 255, 0)))
 	{
 		CurrentSpeed = 0.0f;
 	}
-	if (true == CheckRightWallBasedSpeed(RGB(255, 255, 0)))
+	if (true == CheckMapRightWallBasedSpeed(RGB(255, 255, 0)))
 	{
 		CurrentSpeed = 0.0f;
 	}
@@ -365,7 +420,7 @@ void ActorUtils::BlockedByAll()
 	}
 
 
-	if (true == CheckCeilingBasedSpeed(RGB(255, 255, 0)))
+	if (true == CheckMapCeilingBasedSpeed(RGB(255, 255, 0)))
 	{
 		GravityReset();
 	}

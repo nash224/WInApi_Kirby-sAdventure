@@ -2,7 +2,9 @@
 #include "ContentsEnum.h"
 
 
+#include <GameEngineCore/GameEngineRenderer.h>
 #include <GameEngineCore/GameEngineCollision.h>
+#include <GameEngineCore/ResourcesManager.h>
 
 
 #include "Kirby.h"
@@ -15,6 +17,65 @@ Item::Item()
 Item::~Item() 
 {
 }
+
+
+
+void Item::SetGroundTexture(const std::string& _GroundTextureName)
+{
+	GroundTexture = ResourcesManager::GetInst().FindTexture(_GroundTextureName);
+
+	if (nullptr == GroundTexture)
+	{
+		MsgBoxAssert(" 픽셀충돌 맵을 찾을 수 없습니다. " + _GroundTextureName);
+		return;
+	}
+}
+
+
+
+
+void Item::StateUpdate(float _Delta)
+{
+	switch (State)
+	{
+	case ItemState::Idle:					return IdleUpdate(_Delta);
+	case ItemState::BounceOff:				return BounceOffUpdate(_Delta);
+	case ItemState::BeInhaled:				return BeInhaledUpdate(_Delta);
+	default:
+		break;
+	}
+}
+
+void Item::ChangeState(ItemState _State)
+{
+	if (_State != State)
+	{
+		switch (_State)
+		{
+		case ItemState::Idle:					IdleStart();					break;
+		case ItemState::BounceOff:				BounceOffStart();				break;
+		case ItemState::BeInhaled:				BeInhaledStart();				break;
+		default:
+			break;
+		}
+	}
+
+	State = _State;
+}
+
+
+
+// 상태 패턴
+void Item::ChangeAnimationState(const std::string& _StateName)
+{
+	std::string AnimationName = GetName();
+	CurState = _StateName;
+	AnimationName += "_";
+	AnimationName += _StateName;
+	MainRenderer->ChangeAnimation(AnimationName);
+}
+
+
 
 
 void Item::ItemCollisionCheck()
@@ -68,6 +129,26 @@ void Item::ItemCollisionCheck()
 }
 
 
+
+
+// 아이템와 커비 사이의 거리를 반환
+float4 Item::GetKirbyOpponentDistance()
+{
+	Kirby* KirbyPtr = Kirby::GetMainKirby();
+	if (nullptr == KirbyPtr)
+	{
+		MsgBoxAssert("커비를 불러오지 못했습니다.");
+		return float4::ZERO;
+	}
+
+	float4 OpponentDistance = KirbyPtr->GetPos() - GetPos();
+	return OpponentDistance;
+}
+
+
+
+
+
 void Item::ItemPointerRelease()
 {
 	if (nullptr != MainRenderer)
@@ -83,3 +164,21 @@ void Item::ItemPointerRelease()
 		GroundTexture = nullptr;
 	}
 }
+
+
+void Item::ObjectPointerRelease()
+{
+	if (nullptr != MainRenderer)
+	{
+		MainRenderer = nullptr;
+	}
+	if (nullptr != BodyCollision)
+	{
+		BodyCollision = nullptr;
+	}
+	if (nullptr != GroundTexture)
+	{
+		GroundTexture = nullptr;
+	}
+}
+

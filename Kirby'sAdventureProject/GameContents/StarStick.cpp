@@ -242,19 +242,21 @@ void StarStick::ItemReachedState()
 				return;
 			}
 
+			CreateDirDeg = 180.0f;
+
 			switch (i)
 			{
 			case 0:
-				CreateDirDeg = 0.0f;
+				CreateDirDeg += 0.0f;
 				break;
 			case 1:
-				CreateDirDeg = 30.0f;
+				CreateDirDeg += 30.0f;
 				break;
 			case 2:
-				CreateDirDeg = 150.0f;
+				CreateDirDeg += 150.0f;
 				break;
 			case 3:
-				CreateDirDeg = 180.0f;
+				CreateDirDeg += 180.0f;
 				break;
 			default:
 				break;

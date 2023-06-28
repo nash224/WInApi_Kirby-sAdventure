@@ -28,14 +28,13 @@ enum class RenderOrder
 
 enum class CollisionOrder
 {
-	Map,
-	Potal,
 	PlayerBody,
 	PlayerAbility,
 	KirbyInhaleAbility,
 	MonsterBody,
 	BossBody,
 	MonsterAbility,
+	WanderingStarBody,
 	Object,
 	Max,
 };
