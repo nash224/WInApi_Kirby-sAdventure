@@ -58,7 +58,7 @@ void Kirby::MoveLevel_StateResourceLoad()
 
 
 	MainRenderer->CreateAnimationToFrame("Normal_Right_OpenDoorAndRaiseFlag", "1Normal_KirbyOpenTheDoor.bmp", { 19 , 0 , 1 , 2 , 3 , 4 , 5 , 6 , 7 , 8 }, 0.1f, false);
-	MainRenderer->FindAnimation("Normal_Right_OpenDoorAndRaiseFlag")->Inters = { 1.0f , 0.2f, 0.3f, 0.1f, 0.4f , 5.0f , 0.15f , 0.15f , 0.15f , 0.15f };
+	MainRenderer->FindAnimation("Normal_Right_OpenDoorAndRaiseFlag")->Inters = { 1.0f , 0.2f, 0.3f, 0.1f, 0.5f , 5.0f , 0.15f , 0.15f , 0.15f , 0.15f };
 
 	MainRenderer->CreateAnimationToFrame("Normal_Right_OpenDoorAndRaiseFlagAfter", "Normal_Right_Kirby.bmp", { 13 , 12 , 11 , 13 , 7 }, 0.1f, false);
 

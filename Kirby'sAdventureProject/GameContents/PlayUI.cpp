@@ -466,38 +466,43 @@ void PlayUI::OuchState(float _Delta)
 		// 커비의 체력이 감소하면
 		if (m_KirbySteminaCount > KirbyPtr->m_KirbyHp)
 		{
-			switch (m_KirbySteminaCount)
+			switch (KirbyPtr->m_KirbyHp)
 			{
-			case 1:
+			case 0:
 				// 죽음
 				First_StaminaRenderer->Off();
+				Second_StaminaRenderer->Off();
+				Third_StaminaRenderer->Off();
+				Fourth_StaminaRenderer->Off();
+				Fifth_StaminaRenderer->Off();
+				Sixth_StaminaRenderer->Off();
 				break;
-			case 2:
+			case 1:
 				Second_StaminaRenderer->Off();
 				First_StaminaRenderer->FindAnimation("StaminaRemain")->Inters = { 0.1f , 0.1f };
 
 				// 사운드 재생
 				GameEngineSound::SoundPlay("Kirby_LowerHP.wav");
 				break;
-			case 3:
+			case 2:
 				Third_StaminaRenderer->Off();
 				Second_StaminaRenderer->FindAnimation("StaminaRemain")->Inters = { 0.2f , 0.2f };
 				First_StaminaRenderer->FindAnimation("StaminaRemain")->Inters = { 0.2f , 0.2f };
 				break;
-			case 4:
+			case 3:
 				Fourth_StaminaRenderer->Off();
 				Third_StaminaRenderer->FindAnimation("StaminaRemain")->Inters = { 0.3f , 0.3f };
 				Second_StaminaRenderer->FindAnimation("StaminaRemain")->Inters = { 0.3f , 0.3f };
 				First_StaminaRenderer->FindAnimation("StaminaRemain")->Inters = { 0.3f , 0.3f };
 				break;
-			case 5:
+			case 4:
 				Fifth_StaminaRenderer->Off();
 				Fourth_StaminaRenderer->FindAnimation("StaminaRemain")->Inters = { 0.4f , 0.4f };
 				Third_StaminaRenderer->FindAnimation("StaminaRemain")->Inters = { 0.4f , 0.4f };
 				Second_StaminaRenderer->FindAnimation("StaminaRemain")->Inters = { 0.4f , 0.4f };
 				First_StaminaRenderer->FindAnimation("StaminaRemain")->Inters = { 0.4f , 0.4f };
 				break;
-			case 6:
+			case 5:
 				Sixth_StaminaRenderer->Off();
 				Fifth_StaminaRenderer->FindAnimation("StaminaRemain")->Inters = { 0.5f , 0.5f };
 				Fourth_StaminaRenderer->FindAnimation("StaminaRemain")->Inters = { 0.5f , 0.5f };

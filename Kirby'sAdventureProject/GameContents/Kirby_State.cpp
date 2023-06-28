@@ -14,10 +14,11 @@
 
 #include "GlobalContents.h"
 #include "UIManager.h"
+#include "VegetableValleyPlayLevel.h"
 #include "DustEffect.h"
 #include "HitObjectEffect.h"
 #include "ExhaleEffect.h"
-#include "VegetableValleyPlayLevel.h"
+#include "KirbyDeathEffect.h"
 #include "Boss.h"
 
 
@@ -1990,6 +1991,34 @@ void Kirby::MissRaiseUpStart()
 	// 중력 초기값
 	SetGravityVector(float4::UP * 600.0f);
 
+
+	GameEngineLevel* CurLevelPtr = GetLevel();
+	if (nullptr == CurLevelPtr)
+	{
+		MsgBoxAssert("레벨을 불러오지 못했습니다.");
+		return;
+	}
+
+
+	float4 SetDir = float4::ZERO;
+
+	float Deg = 0.0f;
+
+	for (size_t i = 0; i < 8; i++)
+	{
+		SetDir = float4::GetUnitVectorFromDeg(Deg);
+
+		KirbyDeathEffect* KirbyDeathEffectPtr = CurLevelPtr->CreateActor<KirbyDeathEffect>(UpdateOrder::UI);
+		if (nullptr == KirbyDeathEffectPtr)
+		{
+			MsgBoxAssert("액터를 생성하지 못했습니다.");
+			return;
+		}
+
+		KirbyDeathEffectPtr->init(GetPos(), SetDir);
+
+		Deg += 45.0f;
+	}
 
 
 	// 사운드 재생

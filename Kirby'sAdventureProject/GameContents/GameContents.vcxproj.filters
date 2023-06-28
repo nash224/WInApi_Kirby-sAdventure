@@ -234,6 +234,9 @@
     <ClInclude Include="EnergeDrink.h">
       <Filter>Global\Object\Item</Filter>
     </ClInclude>
+    <ClInclude Include="KirbyDeathEffect.h">
+      <Filter>Global\Effect\DeathEffect</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CraneFever.cpp">
@@ -503,6 +506,9 @@
     </ClCompile>
     <ClCompile Include="EnergeDrink.cpp">
       <Filter>Global\Object\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="KirbyDeathEffect.cpp">
+      <Filter>Global\Effect\DeathEffect</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
