@@ -787,6 +787,12 @@ void Kirby::FallUpdate(float _Delta)
 
 	// 데미지 상태 패턴
 	CheckKirbyCollision();
+
+	if (GetPos().Y > CurrentBackGroundScale.Y - CHECKGAP)
+	{
+		ChangeState(KirbyState::Miss);
+		return;
+	}
 }
 
 
@@ -843,6 +849,12 @@ void Kirby::AccelerateDownUpdate(float _Delta)
 
 	// 데미지 상태 패턴
 	CheckKirbyCollision();
+
+	if (GetPos().Y > CurrentBackGroundScale.Y - CHECKGAP)
+	{
+		ChangeState(KirbyState::Miss);
+		return;
+	}
 }
 
 
@@ -900,6 +912,13 @@ void Kirby::BounceUpdate(float _Delta)
 
 	// 데미지 상태 패턴
 	CheckKirbyCollision();
+
+	// 추락 Miss
+	if (GetPos().Y > CurrentBackGroundScale.Y - CHECKGAP)
+	{
+		ChangeState(KirbyState::Miss);
+		return;
+	}
 }
 
 
@@ -1501,6 +1520,14 @@ void Kirby::FlyUpdate(float _Delta)
 
 	// 데미지 상태 패턴
 	CheckKirbyCollision();
+
+
+	// 추락 Miss
+	if (GetPos().Y > CurrentBackGroundScale.Y - CHECKGAP)
+	{
+		ChangeState(KirbyState::Miss);
+		return;
+	}
 }
 
 
@@ -1618,6 +1645,14 @@ void Kirby::ExhaleAttackUpdate(float _Delta)
 
 	// 데미지 상태 패턴
 	CheckKirbyCollision();
+
+
+	// 추락 Miss
+	if (GetPos().Y > CurrentBackGroundScale.Y - CHECKGAP)
+	{
+		ChangeState(KirbyState::Miss);
+		return;
+	}
 }
 
 
@@ -1627,6 +1662,9 @@ void Kirby::DamagedStart()
 {
 	StateTime = 0.0f;
 	IsChangeState = false;
+	
+	// 지진요청
+	++Camera_ShakeCount;
 	
 	// 맞으면 체력감소
 	if (m_KirbyHp > 0)
@@ -1728,6 +1766,14 @@ void Kirby::DamagedUpdate(float _Delta)
 	// 감속
 	DecelerationUpdate(_Delta);
 	HorizontalUpdate(_Delta);
+
+
+	// 추락 Miss
+	if (GetPos().Y > CurrentBackGroundScale.Y - CHECKGAP)
+	{
+		ChangeState(KirbyState::Miss);
+		return;
+	}
 }
 
 
@@ -1739,6 +1785,13 @@ void Kirby::MissStart()
 	IsChangeState = false;
 
 	m_KirbyHp = 0;
+
+
+	// 지진요청
+	for (size_t i = 0; i < 2; i++)
+	{
+		++Camera_ShakeCount;
+	}
 
 
 	// 커비 몸통 충돌체 Off

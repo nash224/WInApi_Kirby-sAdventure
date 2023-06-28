@@ -378,6 +378,12 @@ void VegetableValleyHub::Kirby_StageClear()
 
 void VegetableValleyHub::Render(float _Delta)
 {
+	if (false == Level_DebugRenderIsOn)
+	{
+		return;
+	}
+
+
 	HDC dc = GameEngineWindow::MainWindow.GetBackBuffer()->GetImageDC();
 
 	GameEngineCamera* MainCameraPtr = GetMainCamera();

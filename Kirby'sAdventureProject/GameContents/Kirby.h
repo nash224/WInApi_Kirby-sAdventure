@@ -354,7 +354,30 @@ private:
 
 
 	// 카메라
-	void CameraFocus();
+	static float Camera_ShakeMagnitude;
+	static int Camera_ShakeCount;
+	int Camera_ShakeNumber = 0;
+
+	const float Camera_ShakeCycle = 0.04f;
+	float Camera_ShakeTime = 0.0f;
+
+public:
+	static void RequestShakeCountToKirby(size_t _Value = 1)
+	{
+		for (size_t i = 0; i < _Value; i++)
+		{
+			++Camera_ShakeCount;
+		}
+	}
+
+	static void RequestShakeMagnitudeToKirby(float _Value = 3.0f)
+	{
+		Camera_ShakeMagnitude = _Value;
+	}
+
+private:
+	void CameraFocus(float _Delta);
+
 
 
 	// 리소스 로드
@@ -516,5 +539,8 @@ private:
 
 	// 사운드 관련
 	GameEngineSoundPlayer InhaleSound;
+
+	// 치트
+	bool Cheat_Invincibility = false;
 };
 

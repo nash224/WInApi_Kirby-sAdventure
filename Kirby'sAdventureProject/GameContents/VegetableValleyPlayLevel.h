@@ -27,7 +27,7 @@ public:
 	static float KirbyStateTime;
 	static bool ChangeClearDoor;
 
-
+	static bool Level_DebugRenderIsOn;
 
 
 

@@ -20,6 +20,8 @@ Kirby* Kirby::MainKirby = nullptr;
 float Kirby::SoundVol = 0.0f;
 bool Kirby::IsKirbyOpenDoorToLevel = false;
 bool Kirby::IsKirbyCloseDoorToLevel = false;
+int Kirby::Camera_ShakeCount = 0;
+float Kirby::Camera_ShakeMagnitude = 3.0f;
 
 
 Kirby::Kirby()
@@ -209,13 +211,10 @@ void Kirby::Update(float _Delta)
 	{
 		IsGulpEnemy = false;
 
-
 		// 사운드 재생
 		GameEngineSound::SoundPlay("NothingSound.wav");
-
 	}
 
-	KirbysDebugShortcut(_Delta);
 
 
 	PrevKirbyMovePos = GetPos();
@@ -226,6 +225,7 @@ void Kirby::Update(float _Delta)
 	KirbyMovePos = GetPos() - PrevKirbyMovePos;
 
 
+
 	// 능력 해제
 	if (true == GameEngineInput::IsDown(VK_SHIFT) && Mode != AbilityStar::Normal && Mode != AbilityStar::Max && false == GettingAbility)
 	{
@@ -234,7 +234,9 @@ void Kirby::Update(float _Delta)
 
 
 	// 카메라
-	CameraFocus();
+	CameraFocus(_Delta);
+
+	KirbysDebugShortcut(_Delta);
 }
 
 
@@ -244,18 +246,30 @@ void Kirby::Update(float _Delta)
 void Kirby::KirbysDebugShortcut(float _Delta)
 {
 	// 디버그 렌더링 전환키
-	if (true == GameEngineInput::IsDown('Y'))
+	if (true == GameEngineInput::IsDown('L'))
 	{
 		GameEngineLevel::CollisionDebugRenderSwitch();
 	}
 
 
+	// 치트 무적키
+	if (true == GameEngineInput::IsDown('1'))
+	{
+		Cheat_Invincibility = !Cheat_Invincibility;
+	}
 
+	// 지정 상태 확인키
 	if (true == GameEngineInput::IsDown('J'))
 	{
 		ChangeState(KirbyState::StageClear);
 		return;
 	}
+
+	if (true == GameEngineInput::IsDown('2'))
+	{
+		++Camera_ShakeCount;
+	}
+
 
 
 	SoundVolPressKeyTime += _Delta;
@@ -272,6 +286,7 @@ void Kirby::KirbysDebugShortcut(float _Delta)
 			}
 
 			GameEngineSound::SetGlobalVolume(SoundVol);
+			VegetableValleyPlayLevel::BGM_Player.SetVolume(SoundVol);
 
 			SoundVolPressKeyTime = 0.0f;
 		}
@@ -290,6 +305,7 @@ void Kirby::KirbysDebugShortcut(float _Delta)
 			}
 
 			GameEngineSound::SetGlobalVolume(SoundVol);
+			VegetableValleyPlayLevel::BGM_Player.SetVolume(SoundVol);
 
 			SoundVolPressKeyTime = 0.0f;
 		}
@@ -702,7 +718,7 @@ void Kirby::VerticalUpdate(float _Delta)
 * 
 * 
 */
-void Kirby::CameraFocus()
+void Kirby::CameraFocus(float _Delta)
 {
 	float4 WinScale = GameEngineWindow::MainWindow.GetScale();
 	float4 CameraPos = GetLevel()->GetMainCamera()->GetPos();
@@ -751,8 +767,62 @@ void Kirby::CameraFocus()
 	}
 
 
+	// 지진로직
+	if (Camera_ShakeCount >= 1)
+	{
+		Camera_ShakeTime += _Delta;
+
+		if (Camera_ShakeTime > Camera_ShakeCycle)
+		{
+			Camera_ShakeTime = 0.0f;
+
+
+			++Camera_ShakeNumber;
+
+			float4 ShakeAddPos = float4::ZERO;
+
+			switch (Camera_ShakeNumber)
+			{
+			case 1:
+				ShakeAddPos = float4{ -Camera_ShakeMagnitude , -Camera_ShakeMagnitude };
+				break;
+			case 2:
+				ShakeAddPos = float4{ Camera_ShakeMagnitude * 2.0f , Camera_ShakeMagnitude * 2.0f };
+				break;
+			case 3:
+				ShakeAddPos = float4{ -Camera_ShakeMagnitude * 2.0f , 0.0f };
+				break;
+			case 4:
+				ShakeAddPos = float4{ Camera_ShakeMagnitude * 2.0f , -Camera_ShakeMagnitude * 2.0f };
+				break;
+			case 5:
+				ShakeAddPos = float4{ -Camera_ShakeMagnitude , Camera_ShakeMagnitude };
+				break;
+			default:
+				break;
+			}
+
+			if (5 == Camera_ShakeNumber)
+			{
+				Camera_ShakeNumber = 0;
+				--Camera_ShakeCount;
+			}
+
+			if (0 == Camera_ShakeCount)
+			{
+				Camera_ShakeMagnitude = 3.0f;
+			}
+
+			CameraMovePos += ShakeAddPos;
+		}
+	}
+
+
+
 	GetLevel()->GetMainCamera()->AddPos(CameraMovePos);
 }
+
+
 
 
 bool Kirby::IsEnterPixel()
@@ -810,7 +880,12 @@ void Kirby::LevelStart()
 
 void Kirby::Render(float _Detla)
 {
-	//ActorCollisionDetectionPointRender();
+	if (false == VegetableValleyPlayLevel::Level_DebugRenderIsOn)
+	{
+		return;
+	}
+
+	ActorCollisionDetectionPointRender();
 }
 
 

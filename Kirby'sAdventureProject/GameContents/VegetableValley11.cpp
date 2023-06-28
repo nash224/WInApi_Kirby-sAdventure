@@ -147,6 +147,11 @@ void VegetableValley11::Update(float _Delta)
 		LevelBackGround->SwitchRender();
 	}
 
+	if (true == GameEngineInput::IsDown('Y'))
+	{
+		Level_DebugRenderIsOn = !Level_DebugRenderIsOn;
+	}
+
 	CheckRespawnEnemy();
 }
 
@@ -190,6 +195,12 @@ void VegetableValley11::LevelEnd(GameEngineLevel* _NextLevel)
 
 void VegetableValley11::Render(float _Delta)
 {
+	if (false == Level_DebugRenderIsOn)
+	{
+		return;
+	}
+
+
 	HDC dc = GameEngineWindow::MainWindow.GetBackBuffer()->GetImageDC();
 
 	GameEngineCamera* MainCameraPtr = GetMainCamera();

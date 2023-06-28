@@ -20,6 +20,7 @@ float VegetableValleyPlayLevel::UpdateTime = 0.0f;
 GameEngineSoundPlayer VegetableValleyPlayLevel::BGM_Player;
 bool VegetableValleyPlayLevel::IsBGM_On = false;
 bool VegetableValleyPlayLevel::ChangeClearDoor = false;
+bool VegetableValleyPlayLevel::Level_DebugRenderIsOn = false;
 
 
 VegetableValleyPlayLevel::VegetableValleyPlayLevel() 

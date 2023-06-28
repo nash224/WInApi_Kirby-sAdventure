@@ -557,6 +557,14 @@ void Kirby::Contain_FallUpdate(float _Delta)
 
 	// 데미지 상태 패턴
 	CheckKirbyCollision();
+
+
+	// 추락 Miss
+	if (GetPos().Y > CurrentBackGroundScale.Y - CHECKGAP)
+	{
+		ChangeState(KirbyState::Miss);
+		return;
+	}
 }
 
 
@@ -763,6 +771,14 @@ void Kirby::Contain_DisgorgeUpdate(float _Delta)
 
 	// 데미지 상태 패턴
 	CheckKirbyCollision();
+
+
+	// 추락 Miss
+	if (GetPos().Y > CurrentBackGroundScale.Y - CHECKGAP)
+	{
+		ChangeState(KirbyState::Miss);
+		return;
+	}
 }
 
 
@@ -926,6 +942,11 @@ void Kirby::Contain_DamagedStart()
 	StateTime = 0.0f;
 	IsChangeState = false;
 
+
+	// 지진요청
+	++Camera_ShakeCount;
+
+
 	// 맞으면 체력감소
 	if (m_KirbyHp > 0)
 	{
@@ -1018,4 +1039,11 @@ void Kirby::Contain_DamagedUpdate(float _Delta)
 	DecelerationUpdate(_Delta);
 	HorizontalUpdate(_Delta);
 
+
+	// 추락 Miss
+	if (GetPos().Y > CurrentBackGroundScale.Y - CHECKGAP)
+	{
+		ChangeState(KirbyState::Miss);
+		return;
+	}
 }

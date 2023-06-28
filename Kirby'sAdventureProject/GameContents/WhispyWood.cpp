@@ -416,6 +416,10 @@ void WhispyWood::FrownStart()
 {
 	IsImmune = true;
 
+
+	Kirby::RequestShakeCountToKirby(2);
+
+
 	// 사운드
 	GameEngineSound::SoundPlay("Boss_HittedSound.wav");
 
@@ -460,6 +464,11 @@ void WhispyWood::KaonashiStart()
 	BossBackGroundPtr->IsBossChangeMap = true;
 	GameEngineTime::MainTimer.SetTimeScale(UpdateOrder::Player, 0.0f);
 	GameEngineTime::MainTimer.SetTimeScale(UpdateOrder::Monster, 0.0f);
+	GameEngineTime::MainTimer.SetTimeScale(UpdateOrder::Ability, 0.0f);
+
+
+	Kirby::RequestShakeCountToKirby(4);
+	Kirby::RequestShakeMagnitudeToKirby(6.0f);
 
 
 	// 사운드
@@ -480,8 +489,7 @@ void WhispyWood::KaonashiUpdate(float _Delta)
 	// BackGround 에서 값 변경
 	if (true == BossChangeMapPattern)
 	{
-		GameEngineTime::MainTimer.SetTimeScale(UpdateOrder::Player, 1.0f);
-		GameEngineTime::MainTimer.SetTimeScale(UpdateOrder::Monster, 1.0f);
+		GameEngineTime::MainTimer.SetAllTimeScale(1.0f);
 		ChangeState(WhispyWoodState::CryingFace);
 		return;
 	}
@@ -498,7 +506,7 @@ void WhispyWood::CryingFaceStart()
 	std::list<Apple*>::iterator StarIter = WhispyApple_list.begin();
 	std::list<Apple*>::iterator EndIter = WhispyApple_list.end();
 
-	for (;StarIter != EndIter; ++StarIter)
+	for (; StarIter != EndIter; ++StarIter)
 	{
 		Apple* ApplePtr = *StarIter;
 
@@ -510,6 +518,25 @@ void WhispyWood::CryingFaceStart()
 
 		ApplePtr->Death();
 		ApplePtr->EnemyPointerRelease();
+	}
+
+
+	// 휫바람 없앰
+	std::list<Boss_WhispyEffect*>::iterator WhispyStarIter = WhispyEffect_list.begin();
+	std::list<Boss_WhispyEffect*>::iterator WhispyEndIter = WhispyEffect_list.end();
+
+	for (; WhispyStarIter != WhispyEndIter; ++WhispyStarIter)
+	{
+		Boss_WhispyEffect* WhispyEffectPtr = *WhispyStarIter;
+
+		if (nullptr == WhispyEffectPtr)
+		{
+			MsgBoxAssert("이 사과는 이미 처리된 객체입니다.");
+			return;
+		}
+
+		WhispyEffectPtr->Death();
+		WhispyEffectPtr->EffectPointerRelease();
 	}
 
 
@@ -641,43 +668,6 @@ void WhispyWood::LevelStart()
 
 void WhispyWood::LevelEnd()
 {
-	// 사과 없앰
-	std::list<Apple*>::iterator StarIter = WhispyApple_list.begin();
-	std::list<Apple*>::iterator EndIter = WhispyApple_list.end();
-
-	for (; StarIter != EndIter; ++StarIter)
-	{
-		Apple* ApplePtr = *StarIter;
-
-		if (nullptr == ApplePtr)
-		{
-			MsgBoxAssert("이 사과는 이미 처리된 객체입니다.");
-			return;
-		}
-
-		ApplePtr->Death();
-		ApplePtr->EnemyPointerRelease();
-	}
-
-	// 휫바람 없앰
-	std::list<Boss_WhispyEffect*>::iterator WhispyStarIter = WhispyEffect_list.begin();
-	std::list<Boss_WhispyEffect*>::iterator WhispyEndIter = WhispyEffect_list.end();
-
-	for (; WhispyStarIter != WhispyEndIter; ++WhispyStarIter)
-	{
-		Boss_WhispyEffect* WhispyEffectPtr = *WhispyStarIter;
-
-		if (nullptr == WhispyEffectPtr)
-		{
-			MsgBoxAssert("이 사과는 이미 처리된 객체입니다.");
-			return;
-		}
-
-		WhispyEffectPtr->Death();
-		WhispyEffectPtr->EffectPointerRelease();
-	}
-
-	
 	Death();
 
 	if (nullptr != MainRenderer)

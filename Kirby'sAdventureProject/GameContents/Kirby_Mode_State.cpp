@@ -512,6 +512,12 @@ void Kirby::CheckKirbyCollision()
 			// 커비가 면역상태가 아니면 데미지
 			if (false == ImmuneState)
 			{
+				if (true == Cheat_Invincibility)
+				{
+					IsHitted = false;
+					return;
+				}
+
 				if (1 == m_KirbyHp)
 				{
 					ChangeState(KirbyState::Miss);
@@ -572,6 +578,12 @@ void Kirby::CheckKirbyCollision()
 	// 커비가 맞았을때 데미지 상태
 	if (true == IsHitted && false == ImmuneState)
 	{
+		if (true == Cheat_Invincibility)
+		{
+			IsHitted = false;
+			return;
+		}
+
 		if (1 == m_KirbyHp)
 		{
 			ChangeState(KirbyState::Miss);

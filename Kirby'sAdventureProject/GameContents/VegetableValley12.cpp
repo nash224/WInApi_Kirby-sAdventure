@@ -151,6 +151,12 @@ void VegetableValley12::Update(float _Delta)
 
 void VegetableValley12::Render(float _Delta)
 {
+	if (false == Level_DebugRenderIsOn)
+	{
+		return;
+	}
+
+
 	HDC dc = GameEngineWindow::MainWindow.GetBackBuffer()->GetImageDC();
 
 	GameEngineCamera* MainCameraPtr = GetMainCamera();
