@@ -53,6 +53,7 @@ private:
 		float4 StageLocation = float4::ZERO;
 		float4 BillBoardLocation = float4::ZERO;
 		class DoorObject* DoorPtr = nullptr;
+		class Flag* FlagPtr = nullptr;
 	};
 
 

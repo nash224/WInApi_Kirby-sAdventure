@@ -17,7 +17,7 @@ public:
 	Flag& operator=(Flag&& _Other) noexcept = delete;
 
 
-	void StageOneBillBoardinit(const float4& _StageOneDoorPos);
+	void init(const float4& _StageOneDoorPos);
 
 protected:
 	GameEngineRenderer* FlagRenderer = nullptr;

@@ -14,6 +14,7 @@
 #include "Kirby.h"
 #include "DoorObject.h"
 #include "BillboardsObject.h"
+#include "Flag.h"
 #include "ObejctDisapearingEffect.h"
 #include "BackGround.h"
 #include "HubUI.h"
@@ -107,6 +108,27 @@ void VegetableValleyHub::Start()
 
 	VegetableValley_Billboard->StageOneBillBoardinit(Stage1.BillBoardLocation);
 	VegetableValley_Billboard->StageBossBillBoardinit(Stage2.BillBoardLocation);
+
+
+	// Create Flag Actor
+	Stage1.FlagPtr = GameEngineLevel::CreateActor<Flag>(UpdateOrder::BackGroundEffect);
+	if (nullptr == Stage1.FlagPtr)
+	{
+		MsgBoxAssert("액터를 생성하지 못했습니다.");
+		return;
+	}
+
+	Stage1.FlagPtr->init(Stage1.StageLocation);
+
+
+	Stage2.FlagPtr = GameEngineLevel::CreateActor<Flag>(UpdateOrder::BackGroundEffect);
+	if (nullptr == Stage2.FlagPtr)
+	{
+		MsgBoxAssert("액터를 생성하지 못했습니다.");
+		return;
+	}
+
+	Stage2.FlagPtr->init(Stage2.StageLocation);
 
 
 
@@ -368,12 +390,36 @@ void VegetableValleyHub::Kirby_StageClear()
 		switch (VegetableValleyEntertheDoorNumber)
 		{
 		case 1:
+			if (nullptr == Stage1.DoorPtr)
+			{
+				MsgBoxAssert("액터를 불러오지 못했습니다.");
+				return;
+			}
+			if (nullptr == Stage1.FlagPtr)
+			{
+				MsgBoxAssert("액터를 불러오지 못했습니다.");
+				return;
+			}
+
 			Stage1.DoorPtr->IsDoorClear = true;
 			Stage1.IsStageClear = true;
+			Stage1.FlagPtr->On();
 			break;
 		case 2:
+			if (nullptr == Stage2.DoorPtr)
+			{
+				MsgBoxAssert("액터를 불러오지 못했습니다.");
+				return;
+			}
+			if (nullptr == Stage2.FlagPtr)
+			{
+				MsgBoxAssert("액터를 불러오지 못했습니다.");
+				return;
+			}
+
 			Stage2.DoorPtr->IsDoorClear = true;
 			Stage2.IsStageClear = true;
+			Stage2.FlagPtr->On();
 			break;
 		default:
 			break;

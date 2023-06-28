@@ -43,7 +43,7 @@ void Flag::Start()
 }
 
 
-void Flag::StageOneBillBoardinit(const float4& _StageOneDoorPos)
+void Flag::init(const float4& _StageOneDoorPos)
 {
 	if (nullptr == FlagRenderer)
 	{
