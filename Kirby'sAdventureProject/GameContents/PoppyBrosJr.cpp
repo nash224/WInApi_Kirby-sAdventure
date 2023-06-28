@@ -63,21 +63,30 @@ PoppyBrosJr::~PoppyBrosJr()
 void PoppyBrosJr::Start()
 {
 	MainRenderer = CreateRenderer(RenderOrder::Play);
+	if (nullptr == MainRenderer)
+	{
+		MsgBoxAssert("렌더러 생성에 실패했습니다.");
+		return;
+	}
 
 	GlobalContents::SpriteFileLoad("Left_NormalEnemy.bmp", "Resources\\Unit\\Grunt", 4, 5);
 	GlobalContents::SpriteFileLoad("Right_NormalEnemy.bmp", "Resources\\Unit\\Grunt", 4, 5);
 
+
+	MainRenderer->CreateAnimation("Left_AppleRun", "Left_NormalEnemy.bmp", 16, 17, 0.2f, true);
+	MainRenderer->CreateAnimation("Right_AppleRun", "Right_NormalEnemy.bmp", 16, 17, 0.2f, true);
+
+	MainRenderer->CreateAnimation("Left_Escape", "Left_NormalEnemy.bmp", 17, 17, 0.5f, false);
+	MainRenderer->CreateAnimation("Right_Escape", "Right_NormalEnemy.bmp", 17, 17, 0.5f, false);
+
 	MainRenderer->CreateAnimation("Left_Idle", "Left_NormalEnemy.bmp", 16, 16, 0.5f, false);
 	MainRenderer->CreateAnimation("Right_Idle", "Right_NormalEnemy.bmp", 16, 16, 0.5f, false);
-
-	MainRenderer->CreateAnimation("Left_Walk", "Left_NormalEnemy.bmp", 16, 17, 0.5f, true);
-	MainRenderer->CreateAnimation("Right_Walk", "Right_NormalEnemy.bmp", 16, 17, 0.5f, true);
 
 	MainRenderer->CreateAnimation("Left_Jump", "Left_NormalEnemy.bmp", 17, 17, 0.5f, false);
 	MainRenderer->CreateAnimation("Right_Jump", "Right_NormalEnemy.bmp", 17, 17, 0.5f, false);
 
-	MainRenderer->CreateAnimation("Left_Fall", "Left_NormalEnemy.bmp", 16, 17, 0.5f, true);
-	MainRenderer->CreateAnimation("Right_Fall", "Right_NormalEnemy.bmp", 16, 17, 0.5f, true);
+	MainRenderer->CreateAnimation("Left_Fall", "Left_NormalEnemy.bmp", 17, 17, 0.5f, false);
+	MainRenderer->CreateAnimation("Right_Fall", "Right_NormalEnemy.bmp", 17, 17, 0.5f, false);
 
 
 	MainRenderer->SetRenderScaleToTexture();
@@ -91,6 +100,12 @@ void PoppyBrosJr::Start()
 
 
 	BodyCollision = CreateCollision(CollisionOrder::MonsterBody);
+	if (nullptr == BodyCollision)
+	{
+		MsgBoxAssert("충돌체를 생성하지 못했습니다.");
+		return;
+	}
+
 	BodyCollision->SetCollisionPos(float4{ 0.0f , -SMALLTYPECOLLISIONSCALE.hY() });
 	BodyCollision->SetCollisionScale(SMALLTYPECOLLISIONSCALE);
 	BodyCollision->SetCollisionType(CollisionType::Rect);
@@ -106,6 +121,87 @@ void PoppyBrosJr::Update(float _Delta)
 
 	StateUpdate(_Delta);
 }
+
+
+
+
+void PoppyBrosJr::AppleRunStart()
+{
+	SetCheckPoint(float4{ 48.0f , 96.0f });
+
+	StateTime = 0.0f;
+	IsChangeState = false;
+	ChangeAnimationState("AppleRun");
+}
+
+
+
+void PoppyBrosJr::AppleRunUpdate(float _Delta)
+{
+	StateTime += _Delta;
+
+	if (StateTime >= POPPYBROSJRCHANGETIME)
+	{
+		IsChangeState = true;
+	}
+
+	if (true == IsChangeState)
+	{
+		ChangeState(NormalState::Jump);
+		return;
+	}
+
+	EnemyCollisionCheck();
+
+	BlockedByGround();
+	BlockedByWall();
+
+	if (false == GetGroundState())
+	{
+		Gravity(_Delta);
+		GravityLimit(_Delta);
+		VerticalUpdate(_Delta);
+	}
+}
+
+
+
+
+void PoppyBrosJr::EscapeStart()
+{
+	StateTime = 0.0f;
+	IsChangeState = false;
+	ChangeAnimationState("Idle");
+}
+
+void PoppyBrosJr::EscapeUpdate(float _Delta)
+{
+	StateTime += _Delta;
+
+	if (StateTime >= POPPYBROSJRCHANGETIME)
+	{
+		IsChangeState = true;
+	}
+
+	if (true == IsChangeState)
+	{
+		ChangeState(NormalState::Jump);
+		return;
+	}
+
+	EnemyCollisionCheck();
+
+	BlockedByGround();
+	BlockedByWall();
+
+	if (false == GetGroundState())
+	{
+		Gravity(_Delta);
+		GravityLimit(_Delta);
+		VerticalUpdate(_Delta);
+	}
+}
+
 
 
 void PoppyBrosJr::IdleStart()

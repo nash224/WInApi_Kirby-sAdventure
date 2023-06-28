@@ -34,6 +34,8 @@ void NormalEnemies::StateUpdate(float _Delta)
 {
 	switch (State)
 	{
+	case NormalState::AppleRun:				return AppleRunUpdate(_Delta);
+	case NormalState::Escape:				return EscapeUpdate(_Delta);
 	case NormalState::Idle:					return IdleUpdate(_Delta);
 	case NormalState::Walk:					return WalkUpdate(_Delta);
 	case NormalState::Sit:					return SitUpdate(_Delta);
@@ -56,6 +58,8 @@ void NormalEnemies::ChangeState(NormalState _State)
 	{
 		switch (_State)
 		{
+		case NormalState::AppleRun:				AppleRunStart();				break;
+		case NormalState::Escape:				EscapeStart();					break;
 		case NormalState::Idle:					IdleStart();					break;
 		case NormalState::Walk:					WalkStart();					break;
 		case NormalState::Sit:					SitStart();						break;

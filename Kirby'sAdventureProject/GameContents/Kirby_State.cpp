@@ -486,7 +486,7 @@ void Kirby::TurnStart()
 	DustEffectPtr->init(GetPos(), GetKirbyScale(), GetDirUnitVector());
 
 
-
+	// 사운드 재생
 	GameEngineSound::SoundPlay("Kirby_TurnSound.wav");
 
 

@@ -1,6 +1,11 @@
 #pragma once
 #include "NormalEnemies.h"
 
+#include <GameEngineCore/GameEngineRenderer.h>
+#include <GameEngineCore/GameEngineCollision.h>
+
+
+
 #define POPPYBROSJRSPEED 100.0f
 #define POPPYBROSJRCHANGETIME 0.1f
 
@@ -24,18 +29,21 @@ public:
 
 protected:
 
+	void AppleRunStart() override;
+	void EscapeStart() override;
 	void IdleStart() override;
-	//void WalkStart() override;
 	void JumpStart() override;
 	void FallStart() override;
 
 
+	void AppleRunUpdate(float _Delta) override;
+	void EscapeUpdate(float _Delta) override;
 	void IdleUpdate(float _Delta) override;
-	//void WalkUpdate(float _Delta) override;
 	void JumpUpdate(float _Delta) override;
 	void FallUpdate(float _Delta) override;
 
 private:
+
 
 	void Start() override;
 	void Update(float _Delta) override;

@@ -35,6 +35,7 @@ enum class CollisionOrder
 	BossBody,
 	MonsterAbility,
 	WanderingStarBody,
+	Item,
 	Object,
 	Max,
 };

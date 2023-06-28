@@ -187,6 +187,12 @@ void Kirby::Contain_WalkUpdate(float _Delta)
 	if (true == CheckLeftWallBasedSpeed())
 	{
 		HitObjectEffect* HitObjectEffectPtr = GetLevel()->CreateActor<HitObjectEffect>(UpdateOrder::Ability);
+		if (nullptr == HitObjectEffectPtr)
+		{
+			MsgBoxAssert("액터를 생성하지 못했습니다.");
+			return;
+		}
+
 		HitObjectEffectPtr->init(GetPos(), float4::ZERO);
 
 		CurrentSpeed = 0.0f;
@@ -196,6 +202,12 @@ void Kirby::Contain_WalkUpdate(float _Delta)
 	if (true == CheckRightWallBasedSpeed())
 	{
 		HitObjectEffect* HitObjectEffectPtr = GetLevel()->CreateActor<HitObjectEffect>(UpdateOrder::Ability);
+		if (nullptr == HitObjectEffectPtr)
+		{
+			MsgBoxAssert("액터를 생성하지 못했습니다.");
+			return;
+		}
+
 		HitObjectEffectPtr->init(GetPos(), float4::ZERO);
 
 		CurrentSpeed = 0.0f;
@@ -231,7 +243,19 @@ void Kirby::Contain_RunStart()
 	StateTime = 0.0f;
 
 	DustEffect* DustEffectPtr = GetLevel()->CreateActor<DustEffect>(UpdateOrder::Ability);
+	if (nullptr == DustEffectPtr)
+	{
+		MsgBoxAssert("액터를 생성하지 못했습니다.");
+		return;
+	}
+
 	DustEffectPtr->init(GetPos(), GetKirbyScale(), -GetDirUnitVector());
+
+
+	// 사운드 재생
+	GameEngineSound::SoundPlay("Kirby_RunSound.wav");
+
+
 	ChangeAnimationState("Contain_Run");
 }
 
@@ -282,6 +306,12 @@ void Kirby::Contain_RunUpdate(float _Delta)
 	if (true == CheckLeftWallBasedSpeed())
 	{
 		HitObjectEffect* HitObjectEffectPtr = GetLevel()->CreateActor<HitObjectEffect>(UpdateOrder::Ability);
+		if (nullptr == HitObjectEffectPtr)
+		{
+			MsgBoxAssert("액터를 생성하지 못했습니다.");
+			return;
+		}
+
 		HitObjectEffectPtr->init(GetPos(), float4::ZERO);
 		CurrentSpeed = 0.0f;
 
@@ -292,6 +322,12 @@ void Kirby::Contain_RunUpdate(float _Delta)
 	if (true == CheckRightWallBasedSpeed())
 	{
 		HitObjectEffect* HitObjectEffectPtr = GetLevel()->CreateActor<HitObjectEffect>(UpdateOrder::Ability);
+		if (nullptr == HitObjectEffectPtr)
+		{
+			MsgBoxAssert("액터를 생성하지 못했습니다.");
+			return;
+		}
+
 		HitObjectEffectPtr->init(GetPos(), float4::ZERO);
 		CurrentSpeed = 0.0f;
 
@@ -337,7 +373,17 @@ void Kirby::Contain_TurnStart()
 	}
 
 	DustEffect* DustEffectPtr = GetLevel()->CreateActor<DustEffect>(UpdateOrder::Ability);
+	if (nullptr == DustEffectPtr)
+	{
+		MsgBoxAssert("액터를 생성하지 못했습니다.");
+			return;
+	}
+
 	DustEffectPtr->init(GetPos(), GetKirbyScale(), GetDirUnitVector());
+
+
+	// 사운드 재생
+	GameEngineSound::SoundPlay("Kirby_TurnSound.wav");
 
 	ChangeAnimationState("Contain_Turn");
 }
@@ -400,6 +446,12 @@ void Kirby::Contain_JumpStart()
 	CurrentJumpDistance = 0.0f;
 	KirbyDirCheck();
 	GravityReset();
+
+
+	// 사운드 재생
+	GameEngineSound::SoundPlay("Kirby_JumpSound.wav");
+
+
 	ChangeAnimationState("Contain_Jump");
 }
 

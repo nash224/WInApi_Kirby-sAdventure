@@ -231,6 +231,9 @@
     <ClInclude Include="Flag.h">
       <Filter>Global\Object\Objects</Filter>
     </ClInclude>
+    <ClInclude Include="EnergeDrink.h">
+      <Filter>Global\Object\Item</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CraneFever.cpp">
@@ -497,6 +500,9 @@
     </ClCompile>
     <ClCompile Include="Flag.cpp">
       <Filter>Global\Object\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="EnergeDrink.cpp">
+      <Filter>Global\Object\Item</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

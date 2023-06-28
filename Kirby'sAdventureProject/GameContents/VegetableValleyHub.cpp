@@ -147,8 +147,6 @@ void VegetableValleyHub::Start()
 
 
 
-
-
 	// Sound Load
 	GlobalContents::SoundFileLoad("05_LEVEL1.mp3", "Resources\\SoundResources\\SoundTrack");
 	GlobalContents::SoundFileLoad("Enemy_DeathSound.wav", "Resources\\SoundResources\\EffectVoice");
@@ -307,16 +305,6 @@ void VegetableValleyHub::VegetableValleyStage_2_Func()
 
 		return;
 	}
-
-
-	//if (true == NextLevelTriggerOn && KirbyPos.X > 650.0f && KirbyPos.X < 790.0f && KirbyPos.Y > 910.0f)
-	//{
-	//	VegetableValleyEntertheDoorNumber = 2;
-	//	NextLevelTriggerOn = false;
-	//	IsPlayerEnter = false;
-	//	GameEngineCore::ChangeLevel("VegetableValley13");
-	//	return;
-	//}
 }
 
 

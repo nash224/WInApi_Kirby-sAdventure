@@ -162,10 +162,10 @@ void Enemy::RespawnTrigger()
 	float4 KirbyPos = Kirby::GetMainKirby()->GetKirbyMovePos();
 
 	RespawnLocationOverCamera();
-	if (CameraPos.X + WinScale.X + KirbyPos.X > RespawnLocation.X &&
-		CameraPos.X + KirbyPos.X < RespawnLocation.X &&
-		CameraPos.Y + KirbyPos.Y < RespawnLocation.Y &&
-		CameraPos.Y + WinScale.Y + KirbyPos.Y > RespawnLocation.Y)
+	if (CameraPos.X + WinScale.X + KirbyPos.X >= RespawnLocation.X &&
+		CameraPos.X + KirbyPos.X <= RespawnLocation.X &&
+		CameraPos.Y + KirbyPos.Y <= RespawnLocation.Y &&
+		CameraPos.Y + WinScale.Y + KirbyPos.Y >= RespawnLocation.Y)
 	{
 		if (true == IsRespawnLocationOverCamera && false == IsUpdate())
 		{

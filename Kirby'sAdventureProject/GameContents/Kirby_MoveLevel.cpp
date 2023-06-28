@@ -58,7 +58,7 @@ void Kirby::MoveLevel_StateResourceLoad()
 
 
 	MainRenderer->CreateAnimationToFrame("Normal_Right_OpenDoorAndRaiseFlag", "1Normal_KirbyOpenTheDoor.bmp", { 19 , 0 , 1 , 2 , 3 , 4 , 5 , 6 , 7 , 8 }, 0.1f, false);
-	MainRenderer->FindAnimation("Normal_Right_OpenDoorAndRaiseFlag")->Inters = { 1.0f , 0.2f, 0.3f, 0.1f, 0.27f , 5.0f , 0.1f , 0.1f , 0.1f , 0.1f };
+	MainRenderer->FindAnimation("Normal_Right_OpenDoorAndRaiseFlag")->Inters = { 1.0f , 0.2f, 0.3f, 0.1f, 0.4f , 5.0f , 0.15f , 0.15f , 0.15f , 0.15f };
 
 	MainRenderer->CreateAnimationToFrame("Normal_Right_OpenDoorAndRaiseFlagAfter", "Normal_Right_Kirby.bmp", { 13 , 12 , 11 , 13 , 7 }, 0.1f, false);
 
@@ -69,6 +69,7 @@ void Kirby::MoveLevel_StateResourceLoad()
 
 	MainRenderer->CreateAnimation("Normal_Right_StageClear", "1Normal_KirbyOpenTheDoor.bmp", 9, 15, 0.1f, false);
 	MainRenderer->FindAnimation("Normal_Right_StageClear")->Inters = { 0.1f , 0.1f , 0.1f , 0.1f , 0.1f , 0.1f , 1.0f };
+
 	Left_KirbyRenderer->CreateAnimation("StarSpin", "Summon_KirbyEgo.bmp", 0, 8, 0.075f, false);
 	Right_KirbyRenderer->CreateAnimation("StarSpin", "Summon_KirbyEgo.bmp", 0, 8, 0.075f, false);
 
@@ -78,7 +79,7 @@ void Kirby::MoveLevel_StateResourceLoad()
 
 	MainRenderer->FindAnimation("Normal_Right_Performance")->Inters
 		= { 0.2f , 0.2f , 0.2f , 0.2f , 0.2f , 0.2f , 0.2f , 0.2f , 5.0f , 0.05f , 0.05f , 0.05f , 0.05f , 5.0f
-		, 0.2f , 0.3f , 0.2f , 5.0f , 0.1f , 0.15f , 0.1f , 0.15f , 0.1f , 0.1f , 0.1f , 0.1f , 0.1f , 0.1f , 0.2f , 1.0f };
+		, 0.2f , 0.3f , 0.2f , 5.0f , 0.1f , 0.15f , 0.1f , 0.15f , 0.1f , 0.1f , 0.1f , 0.1f , 0.1f , 0.1f , 0.3f , 1.0f };
 
 
 
@@ -221,7 +222,7 @@ void Kirby::OpenDoorAndRaiseFlagUpdate(float _Delta)
 		{
 			IsCheckRaiseUpWithFlag = true;
 			CurrentSpeed = 0.0f;
-			SetGravityVector(float4::UP * 300.0f);
+			SetGravityVector(float4::UP * 400.0f);
 		}
 
 		Gravity(_Delta);
@@ -640,5 +641,4 @@ void Kirby::PerformanceUpdate(float _Delta)
 		ChangeState(KirbyState::Idle);
 		return;
 	}
-
 }

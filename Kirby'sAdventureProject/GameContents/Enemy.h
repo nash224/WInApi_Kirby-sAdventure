@@ -10,7 +10,7 @@
 #define KIRBYCENTERYPOINT 15.0f
 
 
-#define CHECKOVERSCREENGAP 80.0f
+#define CHECKOVERSCREENGAP 120.0f
 
 
 
@@ -41,7 +41,7 @@ protected:
 	std::string CurState = "";
 
 	virtual void StateUpdate(float _Delta) {}
-	void ChangeAnimationState(const std::string& _StateName);
+	virtual void ChangeAnimationState(const std::string& _StateName);
 
 
 

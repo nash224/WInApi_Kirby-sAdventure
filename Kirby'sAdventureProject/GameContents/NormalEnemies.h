@@ -13,6 +13,8 @@ enum class NormalState
 	Bounce,
 	Roll,
 	BounceMove,
+	AppleRun,
+	Escape,
 	BeInhaled,
 	Hitted,
 	Max,
@@ -47,6 +49,8 @@ protected:
 	void ChangeRespawnState() override;
 
 
+	virtual void AppleRunStart() {}
+	virtual void EscapeStart() {}
 	virtual void IdleStart() {}
 	virtual void WalkStart() {}
 	virtual void SitStart() {}
@@ -58,6 +62,9 @@ protected:
 	virtual void SweepStart() {}
 
 
+
+	virtual void AppleRunUpdate(float _Delta) {}
+	virtual void EscapeUpdate(float _Delta) {}
 	virtual void IdleUpdate(float _Delta) {}
 	virtual void WalkUpdate(float _Delta) {}
 	virtual void SitUpdate(float _Delta) {}
