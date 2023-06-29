@@ -66,13 +66,17 @@ protected:
 	void LevelStart() override;
 
 private:
-
-
+	// Hp 감소 패턴
 	bool Ouch_State = false;
 	float Ouch_Time = 0.0f;
 	const float Ouch_Duration = 1.0f;
 
 
 	void OuchState(float _Delta);
+
+	// Hp 증가 패턴
+	float Increase_Hp_Time = 0.0f;
+	const float Increase_Hp_Cycle = 0.12f;
+	bool IsIncresing_Hp = false;
 };
 

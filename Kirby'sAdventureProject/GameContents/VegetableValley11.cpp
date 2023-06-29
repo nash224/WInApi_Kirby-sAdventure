@@ -13,6 +13,7 @@
 #include "BackGround.h"
 #include "Kirby.h"
 #include "GameEffect.h"
+#include "EnergeDrink.h"
 #include "PlayUI.h"
 
 
@@ -77,6 +78,17 @@ void VegetableValley11::Start()
 
 
 	EnemySummon();
+
+
+	EnergeDrink* EnergeDrinkPtr = GameEngineLevel::CreateActor<EnergeDrink>(UpdateOrder::Item);
+	if (nullptr == EnergeDrinkPtr)
+	{
+		MsgBoxAssert("액터를 생성하지 못했습니다.");
+		return;
+	}
+
+	EnergeDrinkPtr->init(float4{ 2500.0f , 240.0f });
+	EnergeDrinkPtr->SetGroundTexture(BitMapFileName);
 
 
 

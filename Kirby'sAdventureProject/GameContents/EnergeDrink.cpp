@@ -45,16 +45,21 @@ void EnergeDrink::Start()
 		return;
 	}
 
+
 	SetName("EnergeDrink");
 
 
 	Scale = float4{ 48.0f , 48.0f };
-	SetCheckPoint(Scale);
 
-	MainRenderer->SetCopyPos(float4{ 0.0f , Scale.X * 2.0f });
+	MainRenderer->SetTexture("Items_4x3_48x48.bmp");
+	MainRenderer->SetCopyPos(float4{ 0.0f , Scale.Y * 2.0f });
 	MainRenderer->SetCopyScale(Scale);
+	MainRenderer->SetRenderPos(float4{ 0.0f , -Scale.Half().Y });
 	MainRenderer->SetRenderScale(Scale);
 
+
+	Scale = float4{ 24.0f , 48.0f };
+	SetCheckPoint(Scale);
 
 	Dir = ActorDir::Left;
 
@@ -101,10 +106,12 @@ void EnergeDrink::IdleUpdate(float _Delta)
 	BlockedByGround();
 	BlockedByWall();
 
-
-	Gravity(_Delta);
-	GravityLimit(_Delta);
-	VerticalUpdate(_Delta);
+	if (false == GetGroundState())
+	{
+		Gravity(_Delta);
+		GravityLimit(_Delta);
+		VerticalUpdate(_Delta);
+	}
 
 
 
@@ -143,6 +150,11 @@ void EnergeDrink::IdleUpdate(float _Delta)
 			{
 				KirbyPtr->m_KirbyHp = 6;
 			}
+
+
+			Death();
+			ObjectPointerRelease();
+			return;
 		}
 	}
 }

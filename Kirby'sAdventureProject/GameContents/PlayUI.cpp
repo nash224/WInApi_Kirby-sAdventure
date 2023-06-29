@@ -1,6 +1,7 @@
 #include "PlayUI.h"
 #include "ContentsEnum.h"
 
+#include <GameEngineBase/GameEngineTime.h>
 #include <GameEnginePlatform/GameEngineWindow.h>
 #include <GameEnginePlatform/GameEngineWindowTexture.h>
 #include <GameEnginePlatform/GameEngineSound.h>
@@ -304,6 +305,7 @@ void PlayUI::StaminaCountRendererSet()
 
 	// 사운드
 	GlobalContents::SoundFileLoad("Kirby_LowerHP.wav", "Resources\\SoundResources\\EffectVoice");
+	GlobalContents::SoundFileLoad("Boss_StaminaFullSound.wav", "Resources\\SoundResources\\EffectVoice");
 }
 
 
@@ -464,8 +466,7 @@ void PlayUI::OuchState(float _Delta)
 		Ouch_State = false;
 		PortraitRenderer->ChangeAnimation("Portrait_Normal");
 	}
-
-
+	
 	// 커비의 체력과 UI의 체력이 다르면+
 	if (m_KirbySteminaCount != KirbyPtr->m_KirbyHp && -1 != KirbyPtr->m_KirbyHp)
 	{
@@ -520,16 +521,61 @@ void PlayUI::OuchState(float _Delta)
 				}
 
 
+				Ouch_State = true;
 				PortraitRenderer->ChangeAnimation("Portrait_OUCH");
 			}
 
-			Ouch_State = true;
+			m_KirbySteminaCount = KirbyPtr->m_KirbyHp;
 		}
 
-		m_KirbySteminaCount = KirbyPtr->m_KirbyHp;
+		// 커비의 체력이 증가하면
+		if (m_KirbySteminaCount < KirbyPtr->m_KirbyHp && m_KirbySteminaCount < 6)
+		{
+			Increase_Hp_Time += _Delta;
+
+			if (Increase_Hp_Time > Increase_Hp_Cycle || false == IsIncresing_Hp)
+			{
+				Increase_Hp_Time = 0.0f;
+
+				if (false == IsIncresing_Hp)
+				{
+					GameEngineTime::MainTimer.SetTimeScale(UpdateOrder::Player, 0.0f);
+					GameEngineTime::MainTimer.SetTimeScale(UpdateOrder::Monster, 0.0f);
+					GameEngineTime::MainTimer.SetTimeScale(UpdateOrder::Ability, 0.0f);
+					IsIncresing_Hp = true;
+				}
+
+				for (size_t i = 0; i < m_KirbySteminaCount + 1; i++)
+				{
+					GameEngineRenderer* StaminaRenderer = StaminaRenderer_vec[i];
+					if (nullptr == StaminaRenderer)
+					{
+						MsgBoxAssert("렌더러를 불러오지 못했습니다.");
+						return;
+					}
+
+
+					StaminaRenderer->On();
+
+					float Stamina_Inter = 0.1f * static_cast<float>(KirbyPtr->m_KirbyHp);
+					StaminaRenderer->FindAnimation("StaminaRemain")->Inters = { Stamina_Inter , Stamina_Inter };
+					StaminaRenderer->FindAnimation("StaminaRemain")->CurInter = 0.0f;
+					StaminaRenderer->FindAnimation("StaminaRemain")->CurFrame = 0;
+				}
+
+				++m_KirbySteminaCount;
+
+				GameEngineSound::SoundPlay("Boss_StaminaFullSound.wav");
+
+
+				if (m_KirbySteminaCount == KirbyPtr->m_KirbyHp)
+				{
+					GameEngineTime::MainTimer.SetAllTimeScale(1.0f);
+					IsIncresing_Hp = false;
+				}
+			}
+		}
 	}
-
-
 }
 
 
