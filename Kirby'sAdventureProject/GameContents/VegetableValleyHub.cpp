@@ -42,6 +42,8 @@ void VegetableValleyHub::Start()
 
 	LevelBackGround->init("VegetableValley.bmp", "VegetableValleyPixel.bmp", "Resources\\Map");
 
+	BitMapFileName = "VegetableValleyPixel.bmp";
+
 
 	GameEngineWindowTexture* Texture = ResourcesManager::GetInst().FindTexture("VegetableValley.bmp");
 	if (nullptr == Texture)
@@ -478,16 +480,18 @@ void VegetableValleyHub::LevelStart(GameEngineLevel* _PrevLevel)
 	}
 
 
-	LevelPlayer->SetGroundTexture("VegetableValleyPixel.bmp");
+	LevelPlayer->SetGroundTexture(BitMapFileName);
 
 
 	// Kirby come out Location
 	switch (VegetableValleyEntertheDoorNumber)
 	{
 	case -1:
+		AreYouJustInterSeen = true;
 		LevelPlayer->SetPos(Stage1.StageLocation);
 		break;
 	case 1:
+		AreYouJustInterSeen = false;
 		LevelPlayer->SetPos(Stage1.StageLocation);
 		BGM_Player = GameEngineSound::SoundPlay("05_LEVEL1.mp3", 255);
 		IsBGM_On = true;
@@ -568,7 +572,7 @@ void VegetableValleyHub::LevelStart(GameEngineLevel* _PrevLevel)
 
 void VegetableValleyHub::LevelEnd(GameEngineLevel* _NextLevel) 
 {
-	if (true == IsBGM_On)
+	if (true == IsBGM_On && false == AreYouJustInterSeen)
 	{
 		BGM_Player.Stop();
 		IsBGM_On = false;

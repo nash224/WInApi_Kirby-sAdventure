@@ -5,6 +5,11 @@
 class FadeObject : public GameEngineActor
 {
 public:
+	static bool IsFadeScreenRelease;
+	static bool IsFadeDone;
+
+
+public:
 	// constrcuter destructer
 	FadeObject();
 	~FadeObject();
@@ -23,12 +28,18 @@ protected:
 private:
 	void Start() override;
 	void Update(float _Delta) override;
+	void LevelEnd() override;
 
 
 
 public:
 	void RequestFadeOut();
 	void RequestFadeIn();
+	void Request_WhiteFadeIn();
+	void Request_WhiteFadeOut();
+
+	void RequestFadeScreen(int _AlphaCount = 0);
+
 
 	bool IsFadeEnd()
 	{
@@ -41,21 +52,24 @@ public:
 	}
 
 
-	void RequestFadeScreen(int _AlphaCount = 0);
 
 
 private:
 	// Fade In & Out 
 	bool IsFadeOut = false;
 	bool IsChangeFade = false;
+	bool IsChangeWhiteFade = false;
 	int FadeNumber = -1;
 	float ChangeFadeAlphaTime = 0.0f;
-	const float ChangeFadeAlphaDuration = 0.1f;
+	const float ChangeFadeAlphaDuration = 0.12f;
 	int AlphaCount = 0;
 
 
 	void FadeOut(float _Delta);
 	void FadeIn(float _Delta);
+
+	void White_FadeOut(float _Delta);
+	void White_FadeIn(float _Delta);
 
 
 	// FadeScreen

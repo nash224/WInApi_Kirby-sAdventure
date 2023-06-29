@@ -1,6 +1,7 @@
 #include "Kirby.h"
 #include "ContentsEnum.h"
 
+#include <GameEngineBase/GameEngineTime.h>
 #include <GameEnginePlatform/GameEngineWindow.h>
 #include <GameEnginePlatform/GameEngineInput.h>
 #include <GameEnginePlatform/GameEngineSound.h>
@@ -902,3 +903,8 @@ void Kirby::ImmuneFunc(float _Delta)
 }
 
 
+void Kirby::LevelEnd()
+{
+	// TimeSet
+	GameEngineTime::MainTimer.SetAllTimeScale(1.0f);
+}

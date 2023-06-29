@@ -144,3 +144,41 @@ void GlobalContents::FadeIn(GameEngineLevel* _Level)
 	LevelFade->RequestFadeIn();
 }
 
+
+
+void GlobalContents::WhiteFadeOut(GameEngineLevel* _Level)
+{
+	if (nullptr == _Level)
+	{
+		MsgBoxAssert("레벨이 Null 입니다.");
+		return;
+	}
+
+	FadeObject* LevelFade = _Level->CreateActor<FadeObject>(UpdateOrder::UI);
+	if (nullptr == LevelFade)
+	{
+		MsgBoxAssert("생성한 액터가 Null 입니다.");
+		return;
+	}
+
+	LevelFade->Request_WhiteFadeOut();
+}
+
+
+void GlobalContents::WhiteFadeIn(GameEngineLevel* _Level)
+{
+	if (nullptr == _Level)
+	{
+		MsgBoxAssert("레벨이 Null 입니다.");
+		return;
+	}
+
+	FadeObject* LevelFade = _Level->CreateActor<FadeObject>(UpdateOrder::UI);
+	if (nullptr == LevelFade)
+	{
+		MsgBoxAssert("생성한 액터가 Null 입니다.");
+		return;
+	}
+
+	LevelFade->Request_WhiteFadeIn();
+}

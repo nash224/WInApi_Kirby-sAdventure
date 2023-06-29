@@ -351,6 +351,7 @@ private:
 	void Render(float _Detla) override;
 
 	void LevelStart() override;
+	void LevelEnd() override;
 
 
 	// 카메라
@@ -496,7 +497,6 @@ public:
 	// Fade Out & In, FadeScreen 관련
 	bool IsFadeOut = false;
 	bool IsKirby_FadeRequest = false;
-	bool IsFadeScreenRelease = false;
 
 	int FadeAlphaValue = 70;
 

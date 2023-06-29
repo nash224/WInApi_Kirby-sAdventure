@@ -20,8 +20,6 @@ public:
 	VegetableValleyHub& operator=(VegetableValleyHub&& _Other) noexcept = delete;
 
 protected:
-	void LevelStart(GameEngineLevel* _PrevLevel) override;
-	void LevelEnd(GameEngineLevel* _NextLevel) override;
 
 private:
 	class Kirby* LevelPlayer = nullptr;
@@ -37,6 +35,7 @@ private:
 
 
 	bool IsRequestDoorOpen = false;
+	bool AreYouJustInterSeen = true;
 	int VegetableValleyEntertheDoorNumber = -1;
 
 
@@ -67,6 +66,9 @@ private:
 	void Start() override;
 	void Update(float _Delta) override;
 	void Render(float _Delta) override;
+
+	void LevelStart(GameEngineLevel* _PrevLevel) override;
+	void LevelEnd(GameEngineLevel* _NextLevel) override;
 
 
 };

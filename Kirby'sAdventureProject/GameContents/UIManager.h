@@ -38,11 +38,13 @@ protected:
 	GameEngineRenderer* First_LivesRenderer = nullptr;
 	GameEngineRenderer* Second_LivesRenderer = nullptr;
 
+	std::vector<GameEngineRenderer*> StaminaRenderer_vec;
+
+
 	const float4 NumberScale = float4{ 24.0f, 24.0f };
 
 
 
-	std::vector<GameEngineRenderer*> StaminaRenderer_vec;
 
 
 

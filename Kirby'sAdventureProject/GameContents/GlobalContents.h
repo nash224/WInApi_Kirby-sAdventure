@@ -25,6 +25,8 @@ public:
 
 	static void FadeOut(GameEngineLevel* _Level);
 	static void FadeIn(GameEngineLevel* _Level);
+	static void WhiteFadeOut(GameEngineLevel* _Level);
+	static void WhiteFadeIn(GameEngineLevel* _Level);
 
 
 protected:

@@ -237,6 +237,9 @@
     <ClInclude Include="KirbyDeathEffect.h">
       <Filter>Global\Effect\DeathEffect</Filter>
     </ClInclude>
+    <ClInclude Include="VegetableValleyCutScene.h">
+      <Filter>Level\03.Scene</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CraneFever.cpp">
@@ -510,6 +513,9 @@
     <ClCompile Include="KirbyDeathEffect.cpp">
       <Filter>Global\Effect\DeathEffect</Filter>
     </ClCompile>
+    <ClCompile Include="VegetableValleyCutScene.cpp">
+      <Filter>Level\03.Scene</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Global">
@@ -571,6 +577,9 @@
     </Filter>
     <Filter Include="Level\02.Map\VegetableValley">
       <UniqueIdentifier>{4cd6af2d-814d-44c5-a5c0-bc0554558c9e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Level\03.Scene">
+      <UniqueIdentifier>{9ba44343-b27b-4267-89d6-351ee3a0a6a1}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

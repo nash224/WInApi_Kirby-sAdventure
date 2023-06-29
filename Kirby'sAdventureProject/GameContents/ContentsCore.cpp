@@ -35,7 +35,7 @@ void ContentsCore::Start()
 	GameEngineCore::CreateLevel<PauseLevel>("PauseLevel");
 	GameEngineCore::CreateLevel<EndingLevel>("EndingLevel");
 
-	GameEngineCore::ChangeLevel("VegetableValleyHub");
+	GameEngineCore::ChangeLevel("VegetableValleyIntro");
 }
 
 void ContentsCore::Update(float _Delta)

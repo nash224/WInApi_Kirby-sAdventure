@@ -169,44 +169,6 @@ void VegetableValley11::Update(float _Delta)
 
 
 
-void VegetableValley11::LevelStart(GameEngineLevel* _PrevLevel)
-{
-	LevelPlayer = Kirby::GetMainKirby();
-	if (nullptr == LevelPlayer)
-	{
-		MsgBoxAssert("플레이어를 세팅해주지 않았습니다.");
-	}
-
-	LevelPlayer->SetGroundTexture(BitMapFileName);
-
-
-	SetPlayerPosAndCameraPos(Kirby_RespawnPos, float4::ZERO);
-
-
-
-	if (false == IsBGM_On)
-	{
-		IsBGM_On = true;
-
-		BGM_Player = GameEngineSound::SoundPlay("03_Plains_Level.mp3");
-	}
-
-
-	GlobalContents::FadeIn(this);
-}
-
-
-void VegetableValley11::LevelEnd(GameEngineLevel* _NextLevel) 
-{
-	if (true == IsBGM_On)
-	{
-		BGM_Player.Stop();
-
-		IsBGM_On = false;
-	}
-
-}
-
 
 void VegetableValley11::Render(float _Delta)
 {
@@ -262,4 +224,42 @@ void VegetableValley11::Render(float _Delta)
 	}
 }
 
+
+void VegetableValley11::LevelStart(GameEngineLevel* _PrevLevel)
+{
+	LevelPlayer = Kirby::GetMainKirby();
+	if (nullptr == LevelPlayer)
+	{
+		MsgBoxAssert("플레이어를 세팅해주지 않았습니다.");
+	}
+
+	LevelPlayer->SetGroundTexture(BitMapFileName);
+
+
+	SetPlayerPosAndCameraPos(Kirby_RespawnPos, float4::ZERO);
+
+
+
+	if (false == IsBGM_On)
+	{
+		IsBGM_On = true;
+
+		BGM_Player = GameEngineSound::SoundPlay("03_Plains_Level.mp3");
+	}
+
+
+	GlobalContents::FadeIn(this);
+}
+
+
+void VegetableValley11::LevelEnd(GameEngineLevel* _NextLevel)
+{
+	if (true == IsBGM_On)
+	{
+		BGM_Player.Stop();
+
+		IsBGM_On = false;
+	}
+
+}
 

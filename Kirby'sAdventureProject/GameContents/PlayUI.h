@@ -47,14 +47,6 @@ protected:
 	std::vector<GameEngineRenderer*> ScoreRenderer_vec;
 
 
-	//GameEngineRenderer* First_ScoreRenderer = nullptr;
-	//GameEngineRenderer* Second_ScoreRenderer = nullptr;
-	//GameEngineRenderer* Third_ScoreRenderer = nullptr;
-	//GameEngineRenderer* Fourth_ScoreRenderer = nullptr;
-	//GameEngineRenderer* Fifth_ScoreRenderer = nullptr;
-	//GameEngineRenderer* Sixth_ScoreRenderer = nullptr;
-	//GameEngineRenderer* Seventh_ScoreRenderer = nullptr;
-
 
 	void HubRendererSet();
 	void LivesAniRendererSet();

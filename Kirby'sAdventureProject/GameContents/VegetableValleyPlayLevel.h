@@ -132,9 +132,5 @@ public:
 
 	void RePlayBGM();
 
-private:
-
-
-	
 };
 

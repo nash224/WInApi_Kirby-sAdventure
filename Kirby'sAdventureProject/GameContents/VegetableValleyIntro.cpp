@@ -1,4 +1,5 @@
 #include "VegetableValleyIntro.h"
+#include "ContentsEnum.h"
 
 
 #include <GameEnginePlatform/GameEngineInput.h>
@@ -7,6 +8,7 @@
 
 
 #include "GlobalContents.h"
+#include "VegetableValleyCutScene.h"
 #include "BackGround.h"
 
 
@@ -22,9 +24,24 @@ VegetableValleyIntro::~VegetableValleyIntro()
 
 void VegetableValleyIntro::Start()
 {
-	LevelBackGround = GameEngineLevel::CreateActor<BackGround>();
+	LevelBackGround = GameEngineLevel::CreateActor<BackGround>(UpdateOrder::BackGround);
+	if (nullptr == LevelBackGround)
+	{
+		MsgBoxAssert("액터를 생성하지 못했습니다.");
+		return;
+	}
+
 	LevelBackGround->init("VegetableValleyIntro.bmp", "Resources\\Map");
 
+
+	LevelScene = GameEngineLevel::CreateActor<VegetableValleyCutScene>(UpdateOrder::BackGroundEffect);
+	if (nullptr == LevelScene)
+	{
+		MsgBoxAssert("액터를 생성하지 못했습니다.");
+		return;
+	}
+
+	
 
 
 	// 사운드 로드
@@ -33,11 +50,6 @@ void VegetableValleyIntro::Start()
 
 void VegetableValleyIntro::Update(float _Delta)
 {
-	if (true == GameEngineInput::IsDown('P'))
-	{
-		GameEngineCore::ChangeLevel("PauseLevel");
-	}
-
 
 	if (true == GameEngineInput::IsDown('A') ||
 		true == GameEngineInput::IsDown('D') || 
@@ -56,6 +68,9 @@ void VegetableValleyIntro::LevelStart(GameEngineLevel* _PrevLevel)
 
 		IsBGM_On = true;
 	}
+
+
+	GlobalContents::WhiteFadeIn(this);
 }
 
 void VegetableValleyIntro::LevelEnd(GameEngineLevel* _NextLevel) { }

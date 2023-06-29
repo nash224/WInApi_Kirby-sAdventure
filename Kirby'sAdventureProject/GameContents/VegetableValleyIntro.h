@@ -21,6 +21,7 @@ protected:
 
 private:
 	class BackGround* LevelBackGround = nullptr;
+	class VegetableValleyCutScene* LevelScene = nullptr;
 
 	void Start() override;
 	void Update(float _Delta) override;

@@ -553,6 +553,11 @@ void Kirby::Contain_FallUpdate(float _Delta)
 	{
 
 		HitObjectEffect* HitObjectEffectPtr = GetLevel()->CreateActor<HitObjectEffect>(UpdateOrder::Ability);
+		if (nullptr == HitObjectEffectPtr)
+		{
+			MsgBoxAssert("액터를 생성하지 못했습니다.");
+			return;
+		}
 		HitObjectEffectPtr->init(GetPos(), float4::ZERO);
 
 		ChangeState(KirbyState::Contain_Walk);
@@ -563,6 +568,11 @@ void Kirby::Contain_FallUpdate(float _Delta)
 	{
 
 		HitObjectEffect* HitObjectEffectPtr = GetLevel()->CreateActor<HitObjectEffect>(UpdateOrder::Ability);
+		if (nullptr == HitObjectEffectPtr)
+		{
+			MsgBoxAssert("액터를 생성하지 못했습니다.");
+			return;
+		}
 		HitObjectEffectPtr->init(GetPos(), float4::ZERO);
 
 		ChangeState(KirbyState::Contain_Idle);
@@ -946,7 +956,7 @@ void Kirby::GetAbilityUpdate(float _Delta)
 	if (true == IsChangeState)
 	{
 		// Fade 해제
-		IsFadeScreenRelease = true;
+		FadeObject::IsFadeScreenRelease = true;
 
 		// 시간 Delta Reset
 		GameEngineTime::MainTimer.SetAllTimeScale(1.0f);
