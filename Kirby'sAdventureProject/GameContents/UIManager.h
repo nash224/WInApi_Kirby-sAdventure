@@ -1,6 +1,8 @@
 #pragma once
 #include <GameEngineCore/GameEngineActor.h>
 
+#include <vector>
+
 
 
 
@@ -40,12 +42,8 @@ protected:
 
 
 
-	GameEngineRenderer* First_StaminaRenderer= nullptr;
-	GameEngineRenderer* Second_StaminaRenderer= nullptr;
-	GameEngineRenderer* Third_StaminaRenderer= nullptr;
-	GameEngineRenderer* Fourth_StaminaRenderer= nullptr;
-	GameEngineRenderer* Fifth_StaminaRenderer= nullptr;
-	GameEngineRenderer* Sixth_StaminaRenderer= nullptr;
+	std::vector<GameEngineRenderer*> StaminaRenderer_vec;
+
 
 
 
@@ -59,12 +57,12 @@ protected:
 	const float StaminaFramesInter = 0.6f;
 
 
-
 	static int KirbyMode;
 	static int m_KirbySteminaCount;
 
 public:
 	static int m_LivesCount;
+	static bool give_Refill_KirbyHp;
 
 private:
 };

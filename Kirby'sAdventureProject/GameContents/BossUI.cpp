@@ -195,42 +195,42 @@ void BossUI::LivesNumberRendererSet()
 void BossUI::StaminaCountRendererSet()
 {
 	// UI StaminaAnimation
-	First_StaminaRenderer = CreateUIRenderer(RenderOrder::PlayUI);
+	GameEngineRenderer* First_StaminaRenderer = CreateUIRenderer(RenderOrder::PlayUI);
 	if (nullptr == First_StaminaRenderer)
 	{
 		MsgBoxAssert("렌더러가 Null 입니다..");
 		return;
 	}
 
-	Second_StaminaRenderer = CreateUIRenderer(RenderOrder::PlayUI);
+	GameEngineRenderer* Second_StaminaRenderer = CreateUIRenderer(RenderOrder::PlayUI);
 	if (nullptr == Second_StaminaRenderer)
 	{
 		MsgBoxAssert("렌더러가 Null 입니다..");
 		return;
 	}
 
-	Third_StaminaRenderer = CreateUIRenderer(RenderOrder::PlayUI);
+	GameEngineRenderer* Third_StaminaRenderer = CreateUIRenderer(RenderOrder::PlayUI);
 	if (nullptr == Third_StaminaRenderer)
 	{
 		MsgBoxAssert("렌더러가 Null 입니다..");
 		return;
 	}
 
-	Fourth_StaminaRenderer = CreateUIRenderer(RenderOrder::PlayUI);
+	GameEngineRenderer* Fourth_StaminaRenderer = CreateUIRenderer(RenderOrder::PlayUI);
 	if (nullptr == Fourth_StaminaRenderer)
 	{
 		MsgBoxAssert("렌더러가 Null 입니다..");
 		return;
 	}
 
-	Fifth_StaminaRenderer = CreateUIRenderer(RenderOrder::PlayUI);
+	GameEngineRenderer* Fifth_StaminaRenderer = CreateUIRenderer(RenderOrder::PlayUI);
 	if (nullptr == Fifth_StaminaRenderer)
 	{
 		MsgBoxAssert("렌더러가 Null 입니다..");
 		return;
 	}
 
-	Sixth_StaminaRenderer = CreateUIRenderer(RenderOrder::PlayUI);
+	GameEngineRenderer* Sixth_StaminaRenderer = CreateUIRenderer(RenderOrder::PlayUI);
 	if (nullptr == Sixth_StaminaRenderer)
 	{
 		MsgBoxAssert("렌더러가 Null 입니다..");
@@ -249,12 +249,15 @@ void BossUI::StaminaCountRendererSet()
 	float4 StaminaScale = Sprite->GetSprite(0).RenderScale;
 
 
+	StaminaRenderer_vec.reserve(6);
+
 
 	// Set Stamina Render
 	First_StaminaRenderer->CreateAnimation("StaminaRemain", "UI_LifeBar_3x1_24x42.bmp", 0, 1, 0.6f, true);
 	First_StaminaRenderer->CreateAnimation("StaminaNone", "UI_LifeBar_3x1_24x42.bmp", 2, 2, 0.6f, false);
 	First_StaminaRenderer->ChangeAnimation("StaminaRemain");
 	First_StaminaRenderer->SetRenderPos(BOSS_STAMINAFIRSTNUMBERLOCATION + StaminaScale.Half());
+	StaminaRenderer_vec.push_back(First_StaminaRenderer);
 
 
 
@@ -262,6 +265,7 @@ void BossUI::StaminaCountRendererSet()
 	Second_StaminaRenderer->CreateAnimation("StaminaNone", "UI_LifeBar_3x1_24x42.bmp", 2, 2, 0.6f, false);
 	Second_StaminaRenderer->ChangeAnimation("StaminaRemain");
 	Second_StaminaRenderer->SetRenderPos(BOSS_STAMINAFIRSTNUMBERLOCATION + float4{ StaminaScale.X * 1.0f , 0.0f } + StaminaScale.Half());
+	StaminaRenderer_vec.push_back(Second_StaminaRenderer);
 
 
 
@@ -269,6 +273,7 @@ void BossUI::StaminaCountRendererSet()
 	Third_StaminaRenderer->CreateAnimation("StaminaNone", "UI_LifeBar_3x1_24x42.bmp", 2, 2, 0.6f, false);
 	Third_StaminaRenderer->ChangeAnimation("StaminaRemain");
 	Third_StaminaRenderer->SetRenderPos(BOSS_STAMINAFIRSTNUMBERLOCATION + float4{ StaminaScale.X * 2.0f , 0.0f } + StaminaScale.Half());
+	StaminaRenderer_vec.push_back(Third_StaminaRenderer);
 
 
 
@@ -276,6 +281,7 @@ void BossUI::StaminaCountRendererSet()
 	Fourth_StaminaRenderer->CreateAnimation("StaminaNone", "UI_LifeBar_3x1_24x42.bmp", 2, 2, 0.6f, false);
 	Fourth_StaminaRenderer->ChangeAnimation("StaminaRemain");
 	Fourth_StaminaRenderer->SetRenderPos(BOSS_STAMINAFIRSTNUMBERLOCATION + float4{ StaminaScale.X * 3.0f , 0.0f } + StaminaScale.Half());
+	StaminaRenderer_vec.push_back(Fourth_StaminaRenderer);
 
 
 
@@ -283,6 +289,7 @@ void BossUI::StaminaCountRendererSet()
 	Fifth_StaminaRenderer->CreateAnimation("StaminaNone", "UI_LifeBar_3x1_24x42.bmp", 2, 2, 0.6f, false);
 	Fifth_StaminaRenderer->ChangeAnimation("StaminaRemain");
 	Fifth_StaminaRenderer->SetRenderPos(BOSS_STAMINAFIRSTNUMBERLOCATION + float4{ StaminaScale.X * 4.0f , 0.0f } + StaminaScale.Half());
+	StaminaRenderer_vec.push_back(Fifth_StaminaRenderer);
 
 
 
@@ -290,7 +297,7 @@ void BossUI::StaminaCountRendererSet()
 	Sixth_StaminaRenderer->CreateAnimation("StaminaNone", "UI_LifeBar_3x1_24x42.bmp", 2, 2, 0.6f, false);
 	Sixth_StaminaRenderer->ChangeAnimation("StaminaRemain");
 	Sixth_StaminaRenderer->SetRenderPos(BOSS_STAMINAFIRSTNUMBERLOCATION + float4{ StaminaScale.X * 5.0f , 0.0f } + StaminaScale.Half());
-
+	StaminaRenderer_vec.push_back(Sixth_StaminaRenderer);
 
 
 	// 사운드
@@ -447,50 +454,56 @@ void BossUI::OuchState(float _Delta)
 		// 커비의 체력이 감소하면
 		if (m_KirbySteminaCount > KirbyPtr->m_KirbyHp)
 		{
-			switch (m_KirbySteminaCount)
+			// 피가 0일때 모든 Hp Off
+			if (0 == KirbyPtr->m_KirbyHp)
 			{
-			case 1:
-				// 죽음
-				First_StaminaRenderer->Off();
-				break;
-			case 2:
-				Second_StaminaRenderer->Off();
-				First_StaminaRenderer->FindAnimation("StaminaRemain")->Inters = { 0.1f , 0.1f };
+				for (size_t i = 0; i < StaminaRenderer_vec.size(); i++)
+				{
+					GameEngineRenderer* StaminaRenderer = StaminaRenderer_vec[i];
+					if (nullptr == StaminaRenderer)
+					{
+						MsgBoxAssert("렌더러를 불러오지 못했습니다.");
+						return;
+					}
 
-				// 사운드 재생
-				GameEngineSound::SoundPlay("Kirby_LowerHP.wav");
-				break;
-			case 3:
-				Third_StaminaRenderer->Off();
-				Second_StaminaRenderer->FindAnimation("StaminaRemain")->Inters = { 0.2f , 0.2f };
-				First_StaminaRenderer->FindAnimation("StaminaRemain")->Inters = { 0.2f , 0.2f };
-				break;
-			case 4:
-				Fourth_StaminaRenderer->Off();
-				Third_StaminaRenderer->FindAnimation("StaminaRemain")->Inters = { 0.3f , 0.3f };
-				Second_StaminaRenderer->FindAnimation("StaminaRemain")->Inters = { 0.3f , 0.3f };
-				First_StaminaRenderer->FindAnimation("StaminaRemain")->Inters = { 0.3f , 0.3f };
-				break;
-			case 5:
-				Fifth_StaminaRenderer->Off();
-				Fourth_StaminaRenderer->FindAnimation("StaminaRemain")->Inters = { 0.4f , 0.4f };
-				Third_StaminaRenderer->FindAnimation("StaminaRemain")->Inters = { 0.4f , 0.4f };
-				Second_StaminaRenderer->FindAnimation("StaminaRemain")->Inters = { 0.4f , 0.4f };
-				First_StaminaRenderer->FindAnimation("StaminaRemain")->Inters = { 0.4f , 0.4f };
-				break;
-			case 6:
-				Sixth_StaminaRenderer->Off();
-				Fifth_StaminaRenderer->FindAnimation("StaminaRemain")->Inters = { 0.5f , 0.5f };
-				Fourth_StaminaRenderer->FindAnimation("StaminaRemain")->Inters = { 0.5f , 0.5f };
-				Third_StaminaRenderer->FindAnimation("StaminaRemain")->Inters = { 0.5f , 0.5f };
-				Second_StaminaRenderer->FindAnimation("StaminaRemain")->Inters = { 0.5f , 0.5f };
-				First_StaminaRenderer->FindAnimation("StaminaRemain")->Inters = { 0.5f , 0.5f };
-				break;
-			default:
-				break;
+					StaminaRenderer->Off();
+				}
+			}
+			// 피가 0보다 클 때
+			else if (KirbyPtr->m_KirbyHp > 0)
+			{
+				GameEngineRenderer* StaminaRenderer_Off = StaminaRenderer_vec[KirbyPtr->m_KirbyHp];
+				if (nullptr == StaminaRenderer_Off)
+				{
+					MsgBoxAssert("렌더러를 불러오지 못했습니다.");
+					return;
+				}
+
+				StaminaRenderer_Off->Off();
+
+
+				for (size_t i = 0; i < KirbyPtr->m_KirbyHp; i++)
+				{
+					GameEngineRenderer* StaminaRenderer = StaminaRenderer_vec[i];
+					if (nullptr == StaminaRenderer)
+					{
+						MsgBoxAssert("렌더러를 불러오지 못했습니다.");
+						return;
+					}
+
+					float Stamina_Inter = 0.1f * static_cast<float>(KirbyPtr->m_KirbyHp);
+
+					StaminaRenderer->FindAnimation("StaminaRemain")->Inters = { Stamina_Inter , Stamina_Inter };
+				}
+
+				if (1 == KirbyPtr->m_KirbyHp)
+				{
+					GameEngineSound::SoundPlay("Kirby_LowerHP.wav");
+				}
+
+				PortraitRenderer->ChangeAnimation("Portrait_OUCH");
 			}
 
-			PortraitRenderer->ChangeAnimation("Portrait_OUCH");
 		}
 
 		m_KirbySteminaCount = KirbyPtr->m_KirbyHp;
@@ -593,37 +606,16 @@ void BossUI::LevelStart()
 
 
 	// 커비 체력
-	switch (KirbyPtr->m_KirbyHp)
+	for (size_t i = KirbyPtr->m_KirbyHp; i < StaminaRenderer_vec.size(); i++)
 	{
-	case 1:
-		Second_StaminaRenderer->Off();
-		Third_StaminaRenderer->Off();
-		Fourth_StaminaRenderer->Off();
-		Fifth_StaminaRenderer->Off();
-		Sixth_StaminaRenderer->Off();
-		break;
-	case 2:
-		Third_StaminaRenderer->Off();
-		Fourth_StaminaRenderer->Off();
-		Fifth_StaminaRenderer->Off();
-		Sixth_StaminaRenderer->Off();
-		break;
-	case 3:
-		Fourth_StaminaRenderer->Off();
-		Fifth_StaminaRenderer->Off();
-		Sixth_StaminaRenderer->Off();
-		break;
-	case 4:
-		Fifth_StaminaRenderer->Off();
-		Sixth_StaminaRenderer->Off();
-		break;
-	case 5:
-		Sixth_StaminaRenderer->Off();
-		break;
-	case 6:
-		break;
-	default:
-		break; 
+		GameEngineRenderer* StaminaRenderer = StaminaRenderer_vec[i];
+		if (nullptr == StaminaRenderer)
+		{
+			MsgBoxAssert("렌더러를 불러오지 못했습니다.");
+			return;
+		}
+
+		StaminaRenderer->Off();
 	}
 
 

@@ -9,6 +9,7 @@ UIManager* UIManager::UI = nullptr;
 int UIManager::m_LivesCount = 4;
 int UIManager::m_KirbySteminaCount = 6;
 int UIManager::KirbyMode = -1;
+bool UIManager::give_Refill_KirbyHp = false;
 
 
 
@@ -34,35 +35,20 @@ void UIManager::StaminaState()
 		m_KirbySteminaCount = 6;
 
 
-		First_StaminaRenderer->On();
-		Second_StaminaRenderer->On();
-		Third_StaminaRenderer->On();
-		Fourth_StaminaRenderer->On();
-		Fifth_StaminaRenderer->On();
-		Sixth_StaminaRenderer->On();
+		for (size_t i = 0; i < StaminaRenderer_vec.size(); i++)
+		{
+			GameEngineRenderer* StaminaRenderer = StaminaRenderer_vec[i];
+			if (nullptr == StaminaRenderer)
+			{
+				MsgBoxAssert("렌더러를 불러오지 못했습니다.");
+				return;
+			}
 
-
-		// 프레임간격 재설정
-		Fifth_StaminaRenderer->FindAnimation("StaminaRemain")->Inters = { 0.6f , 0.6f };
-		Fourth_StaminaRenderer->FindAnimation("StaminaRemain")->Inters = { 0.6f , 0.6f };
-		Third_StaminaRenderer->FindAnimation("StaminaRemain")->Inters = { 0.6f , 0.6f };
-		Second_StaminaRenderer->FindAnimation("StaminaRemain")->Inters = { 0.6f , 0.6f };
-		First_StaminaRenderer->FindAnimation("StaminaRemain")->Inters = { 0.6f , 0.6f };
-		Sixth_StaminaRenderer->FindAnimation("StaminaRemain")->Inters = { 0.6f , 0.6f };
-
-		First_StaminaRenderer->FindAnimation("StaminaRemain")->CurInter = 0.0f;
-		Second_StaminaRenderer->FindAnimation("StaminaRemain")->CurInter = 0.0f;
-		Third_StaminaRenderer->FindAnimation("StaminaRemain")->CurInter = 0.0f;
-		Fourth_StaminaRenderer->FindAnimation("StaminaRemain")->CurInter = 0.0f;
-		Fifth_StaminaRenderer->FindAnimation("StaminaRemain")->CurInter = 0.0f;
-		Sixth_StaminaRenderer->FindAnimation("StaminaRemain")->CurInter = 0.0f;
-
-		First_StaminaRenderer->FindAnimation("StaminaRemain")->CurFrame = 0;
-		Second_StaminaRenderer->FindAnimation("StaminaRemain")->CurFrame = 0;
-		Third_StaminaRenderer->FindAnimation("StaminaRemain")->CurFrame = 0;
-		Fourth_StaminaRenderer->FindAnimation("StaminaRemain")->CurFrame = 0;
-		Fifth_StaminaRenderer->FindAnimation("StaminaRemain")->CurFrame = 0;
-		Sixth_StaminaRenderer->FindAnimation("StaminaRemain")->CurFrame = 0;
+			StaminaRenderer->On();
+			StaminaRenderer->FindAnimation("StaminaRemain")->Inters = { 0.6f , 0.6f };
+			StaminaRenderer->FindAnimation("StaminaRemain")->CurInter = 0.0f;
+			StaminaRenderer->FindAnimation("StaminaRemain")->CurFrame = 0;
+		}
 
 		PortraitRenderer->ChangeAnimation("Portrait_Normal");
 

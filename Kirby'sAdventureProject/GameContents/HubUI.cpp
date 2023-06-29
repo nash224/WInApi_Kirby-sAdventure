@@ -8,6 +8,8 @@
 #include "GlobalContents.h"
 #include "Kirby.h"
 
+#include <vector>
+
 
 
 HubUI::HubUI()
@@ -163,42 +165,42 @@ void HubUI::LivesNumberRendererSet()
 void HubUI::StaminaCountRendererSet()
 {
 	// UI StaminaAnimation
-	First_StaminaRenderer = CreateUIRenderer(RenderOrder::PlayUI);
+	GameEngineRenderer* First_StaminaRenderer = CreateUIRenderer(RenderOrder::PlayUI);
 	if (nullptr == First_StaminaRenderer)
 	{
 		MsgBoxAssert("렌더러가 Null 입니다..");
 		return;
 	}
 
-	Second_StaminaRenderer = CreateUIRenderer(RenderOrder::PlayUI);
+	GameEngineRenderer* Second_StaminaRenderer = CreateUIRenderer(RenderOrder::PlayUI);
 	if (nullptr == Second_StaminaRenderer)
 	{
 		MsgBoxAssert("렌더러가 Null 입니다..");
 		return;
 	}
 
-	Third_StaminaRenderer = CreateUIRenderer(RenderOrder::PlayUI);
+	GameEngineRenderer* Third_StaminaRenderer = CreateUIRenderer(RenderOrder::PlayUI);
 	if (nullptr == Third_StaminaRenderer)
 	{
 		MsgBoxAssert("렌더러가 Null 입니다..");
 		return;
 	}
 
-	Fourth_StaminaRenderer = CreateUIRenderer(RenderOrder::PlayUI);
+	GameEngineRenderer* Fourth_StaminaRenderer = CreateUIRenderer(RenderOrder::PlayUI);
 	if (nullptr == Fourth_StaminaRenderer)
 	{
 		MsgBoxAssert("렌더러가 Null 입니다..");
 		return;
 	}
 
-	Fifth_StaminaRenderer = CreateUIRenderer(RenderOrder::PlayUI);
+	GameEngineRenderer* Fifth_StaminaRenderer = CreateUIRenderer(RenderOrder::PlayUI);
 	if (nullptr == Fifth_StaminaRenderer)
 	{
 		MsgBoxAssert("렌더러가 Null 입니다..");
 		return;
 	}
 
-	Sixth_StaminaRenderer = CreateUIRenderer(RenderOrder::PlayUI);
+	GameEngineRenderer* Sixth_StaminaRenderer = CreateUIRenderer(RenderOrder::PlayUI);
 	if (nullptr == Sixth_StaminaRenderer)
 	{
 		MsgBoxAssert("렌더러가 Null 입니다..");
@@ -223,6 +225,7 @@ void HubUI::StaminaCountRendererSet()
 	First_StaminaRenderer->SetCopyScale(HUB_StaminaScale);
 	First_StaminaRenderer->SetRenderPos(HUB_STAMINAFIRSTNUMBERLOCATION + HUB_StaminaScale.Half());
 	First_StaminaRenderer->SetRenderScale(HUB_StaminaScale);
+	StaminaRenderer_vec.push_back(First_StaminaRenderer);
 
 
 	Second_StaminaRenderer->SetTexture("HUB_UI_LifeBar_2x1_24x24.bmp");
@@ -230,6 +233,7 @@ void HubUI::StaminaCountRendererSet()
 	Second_StaminaRenderer->SetCopyScale(HUB_StaminaScale);
 	Second_StaminaRenderer->SetRenderPos(HUB_STAMINAFIRSTNUMBERLOCATION + float4{ HUB_StaminaScale.X , 0.0f } + HUB_StaminaScale.Half());
 	Second_StaminaRenderer->SetRenderScale(HUB_StaminaScale);
+	StaminaRenderer_vec.push_back(Second_StaminaRenderer);
 
 
 
@@ -238,6 +242,7 @@ void HubUI::StaminaCountRendererSet()
 	Third_StaminaRenderer->SetCopyScale(HUB_StaminaScale);
 	Third_StaminaRenderer->SetRenderPos(HUB_STAMINAFIRSTNUMBERLOCATION + float4{ HUB_StaminaScale.X * 2.0f, 0.0f } + HUB_StaminaScale.Half());
 	Third_StaminaRenderer->SetRenderScale(HUB_StaminaScale);
+	StaminaRenderer_vec.push_back(Third_StaminaRenderer);
 
 
 
@@ -246,6 +251,7 @@ void HubUI::StaminaCountRendererSet()
 	Fourth_StaminaRenderer->SetCopyScale(HUB_StaminaScale);
 	Fourth_StaminaRenderer->SetRenderPos(HUB_STAMINAFIRSTNUMBERLOCATION + float4{ HUB_StaminaScale.X * 3.0f, 0.0f } + HUB_StaminaScale.Half());
 	Fourth_StaminaRenderer->SetRenderScale(HUB_StaminaScale);
+	StaminaRenderer_vec.push_back(Fourth_StaminaRenderer);
 
 
 
@@ -254,6 +260,7 @@ void HubUI::StaminaCountRendererSet()
 	Fifth_StaminaRenderer->SetCopyScale(HUB_StaminaScale);
 	Fifth_StaminaRenderer->SetRenderPos(HUB_STAMINAFIRSTNUMBERLOCATION + float4{ HUB_StaminaScale.X * 4.0f, 0.0f } + HUB_StaminaScale.Half());
 	Fifth_StaminaRenderer->SetRenderScale(HUB_StaminaScale);
+	StaminaRenderer_vec.push_back(Fifth_StaminaRenderer);
 
 
 
@@ -262,6 +269,7 @@ void HubUI::StaminaCountRendererSet()
 	Sixth_StaminaRenderer->SetCopyScale(HUB_StaminaScale);
 	Sixth_StaminaRenderer->SetRenderPos(HUB_STAMINAFIRSTNUMBERLOCATION + float4{ HUB_StaminaScale.X * 5.0f, 0.0f } + HUB_StaminaScale.Half());
 	Sixth_StaminaRenderer->SetRenderScale(HUB_StaminaScale);
+	StaminaRenderer_vec.push_back(Sixth_StaminaRenderer);
 
 
 }
@@ -294,39 +302,18 @@ void HubUI::LevelStart()
 	}
 
 
-	// 커비 체력
-	switch (KirbyPtr->m_KirbyHp)
+	for (size_t i = KirbyPtr->m_KirbyHp; i < StaminaRenderer_vec.size(); i++)
 	{
-	case 1:
-		Second_StaminaRenderer->SetCopyPos(float4{ HUB_StaminaScale.X , 0.0f });
-		Third_StaminaRenderer->SetCopyPos(float4{ HUB_StaminaScale.X , 0.0f });
-		Fourth_StaminaRenderer->SetCopyPos(float4{ HUB_StaminaScale.X , 0.0f });
-		Fifth_StaminaRenderer->SetCopyPos(float4{ HUB_StaminaScale.X , 0.0f });
-		Sixth_StaminaRenderer->SetCopyPos(float4{ HUB_StaminaScale.X , 0.0f });
-		break;
-	case 2:
-		Third_StaminaRenderer->SetCopyPos(float4{ HUB_StaminaScale.X , 0.0f });
-		Fourth_StaminaRenderer->SetCopyPos(float4{ HUB_StaminaScale.X , 0.0f });
-		Fifth_StaminaRenderer->SetCopyPos(float4{ HUB_StaminaScale.X , 0.0f });
-		Sixth_StaminaRenderer->SetCopyPos(float4{ HUB_StaminaScale.X , 0.0f });
-		break;
-	case 3:
-		Fourth_StaminaRenderer->SetCopyPos(float4{ HUB_StaminaScale.X , 0.0f });
-		Fifth_StaminaRenderer->SetCopyPos(float4{ HUB_StaminaScale.X , 0.0f });
-		Sixth_StaminaRenderer->SetCopyPos(float4{ HUB_StaminaScale.X , 0.0f });
-		break;
-	case 4:
-		Fifth_StaminaRenderer->SetCopyPos(float4{ HUB_StaminaScale.X , 0.0f });
-		Sixth_StaminaRenderer->SetCopyPos(float4{ HUB_StaminaScale.X , 0.0f });
-		break;
-	case 5:
-		Sixth_StaminaRenderer->SetCopyPos(float4{ HUB_StaminaScale.X , 0.0f });
-		break;
-	case 6:
-		break;
-	default:
-		break;
+		GameEngineRenderer* StaminaRenderer = StaminaRenderer_vec[i];
+		if (nullptr == StaminaRenderer)
+		{
+			MsgBoxAssert("렌더러를 불러오지 못했습니다.");
+			return;
+		}
+
+		StaminaRenderer->SetCopyPos(float4{ HUB_StaminaScale.X , 0.0f });
 	}
+
 
 
 	// 커비 모드

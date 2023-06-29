@@ -2070,6 +2070,13 @@ void Kirby::MissRaiseUpUpdate(float _Delta)
 			return;
 		}
 
+		VegetableValleyPlayLevel* CurrentLevelPtr = dynamic_cast<VegetableValleyPlayLevel*>(CurLevelPtr);
+		if (nullptr == CurrentLevelPtr)
+		{
+			MsgBoxAssert("다운 캐스팅을 하지 못했습니다.");
+			return;
+		}
+
 		GameEngineCamera* MainCameraPtr = CurLevelPtr->GetMainCamera();
 		if (nullptr == MainCameraPtr)
 		{
@@ -2094,6 +2101,7 @@ void Kirby::MissRaiseUpUpdate(float _Delta)
 		
 		// 피 설정
 		m_KirbyHp = 6;
+
 
 		// 페이드 아웃 풀림
 		IsFadeOut = false;
