@@ -9,7 +9,6 @@ UIManager* UIManager::UI = nullptr;
 int UIManager::m_LivesCount = 4;
 int UIManager::m_KirbySteminaCount = 6;
 int UIManager::KirbyMode = -1;
-bool UIManager::give_Refill_KirbyHp = false;
 
 
 

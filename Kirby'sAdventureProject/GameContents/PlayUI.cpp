@@ -13,6 +13,9 @@
 
 
 
+int PlayUI::PlayUI_ScoreNumber = 0;
+
+
 PlayUI::PlayUI()
 {
 	UI = this;
@@ -314,7 +317,7 @@ void PlayUI::StaminaCountRendererSet()
 void PlayUI::ScoreRendererSet()
 {
 	// 점수 1번째 자리
-	First_ScoreRenderer = CreateUIRenderer(RenderOrder::PlayUI);
+	GameEngineRenderer* First_ScoreRenderer = CreateUIRenderer(RenderOrder::PlayUI);
 	if (nullptr == First_ScoreRenderer)
 	{
 		MsgBoxAssert("렌더러가 Null 입니다..");
@@ -322,7 +325,7 @@ void PlayUI::ScoreRendererSet()
 	}
 
 	// 점수 2번째 자리
-	Second_ScoreRenderer = CreateUIRenderer(RenderOrder::PlayUI);
+	GameEngineRenderer* Second_ScoreRenderer = CreateUIRenderer(RenderOrder::PlayUI);
 	if (nullptr == Second_ScoreRenderer)
 	{
 		MsgBoxAssert("렌더러가 Null 입니다..");
@@ -330,7 +333,7 @@ void PlayUI::ScoreRendererSet()
 	}
 
 	// 점수 3번째 자리
-	Third_ScoreRenderer = CreateUIRenderer(RenderOrder::PlayUI);
+	GameEngineRenderer* Third_ScoreRenderer = CreateUIRenderer(RenderOrder::PlayUI);
 	if (nullptr == Third_ScoreRenderer)
 	{
 		MsgBoxAssert("렌더러가 Null 입니다..");
@@ -338,7 +341,7 @@ void PlayUI::ScoreRendererSet()
 	}
 
 	// 점수 4번째 자리
-	Fourth_ScoreRenderer = CreateUIRenderer(RenderOrder::PlayUI);
+	GameEngineRenderer* Fourth_ScoreRenderer = CreateUIRenderer(RenderOrder::PlayUI);
 	if (nullptr == Fourth_ScoreRenderer)
 	{
 		MsgBoxAssert("렌더러가 Null 입니다..");
@@ -346,7 +349,7 @@ void PlayUI::ScoreRendererSet()
 	}
 
 	// 점수 5번째 자리
-	Fifth_ScoreRenderer = CreateUIRenderer(RenderOrder::PlayUI);
+	GameEngineRenderer* Fifth_ScoreRenderer = CreateUIRenderer(RenderOrder::PlayUI);
 	if (nullptr == Fifth_ScoreRenderer)
 	{
 		MsgBoxAssert("렌더러가 Null 입니다..");
@@ -354,7 +357,7 @@ void PlayUI::ScoreRendererSet()
 	}
 
 	// 점수 6번째 자리
-	Sixth_ScoreRenderer = CreateUIRenderer(RenderOrder::PlayUI);
+	GameEngineRenderer* Sixth_ScoreRenderer = CreateUIRenderer(RenderOrder::PlayUI);
 	if (nullptr == Sixth_ScoreRenderer)
 	{
 		MsgBoxAssert("렌더러가 Null 입니다..");
@@ -362,7 +365,7 @@ void PlayUI::ScoreRendererSet()
 	}
 
 	// 점수 7번째 자리
-	Seventh_ScoreRenderer = CreateUIRenderer(RenderOrder::PlayUI);
+	GameEngineRenderer* Seventh_ScoreRenderer = CreateUIRenderer(RenderOrder::PlayUI);
 	if (nullptr == Seventh_ScoreRenderer)
 	{
 		MsgBoxAssert("렌더러가 Null 입니다..");
@@ -378,6 +381,7 @@ void PlayUI::ScoreRendererSet()
 	}
 
 
+	ScoreRenderer_vec.reserve(7);
 
 	// Set Score Position and Render
 	First_ScoreRenderer->SetTexture("UI_Number_10x1_24x24.bmp");
@@ -385,6 +389,7 @@ void PlayUI::ScoreRendererSet()
 	First_ScoreRenderer->SetCopyScale(NumberScale);
 	First_ScoreRenderer->SetRenderPos(PLAY_SCOREFIRSTNUMBERLOCATION + NumberScale.Half());
 	First_ScoreRenderer->SetRenderScale(NumberScale);
+	ScoreRenderer_vec.push_back(First_ScoreRenderer);
 
 
 
@@ -393,6 +398,7 @@ void PlayUI::ScoreRendererSet()
 	Second_ScoreRenderer->SetCopyScale(NumberScale);
 	Second_ScoreRenderer->SetRenderPos(PLAY_SCOREFIRSTNUMBERLOCATION + float4{ NumberScale.X , 0.0f } + NumberScale.Half());
 	Second_ScoreRenderer->SetRenderScale(NumberScale);
+	ScoreRenderer_vec.push_back(Second_ScoreRenderer);
 
 
 
@@ -401,6 +407,7 @@ void PlayUI::ScoreRendererSet()
 	Third_ScoreRenderer->SetCopyScale(NumberScale);
 	Third_ScoreRenderer->SetRenderPos(PLAY_SCOREFIRSTNUMBERLOCATION + float4{ NumberScale.X * 2.0f , 0.0f } + NumberScale.Half());
 	Third_ScoreRenderer->SetRenderScale(NumberScale);
+	ScoreRenderer_vec.push_back(Third_ScoreRenderer);
 
 
 
@@ -409,6 +416,7 @@ void PlayUI::ScoreRendererSet()
 	Fourth_ScoreRenderer->SetCopyScale(NumberScale);
 	Fourth_ScoreRenderer->SetRenderPos(PLAY_SCOREFIRSTNUMBERLOCATION + float4{ NumberScale.X * 3.0f , 0.0f } + NumberScale.Half());
 	Fourth_ScoreRenderer->SetRenderScale(NumberScale);
+	ScoreRenderer_vec.push_back(Fourth_ScoreRenderer);
 
 
 
@@ -417,6 +425,7 @@ void PlayUI::ScoreRendererSet()
 	Fifth_ScoreRenderer->SetCopyScale(NumberScale);
 	Fifth_ScoreRenderer->SetRenderPos(PLAY_SCOREFIRSTNUMBERLOCATION + float4{ NumberScale.X * 4.0f, 0.0f } + NumberScale.Half());
 	Fifth_ScoreRenderer->SetRenderScale(NumberScale);
+	ScoreRenderer_vec.push_back(Fifth_ScoreRenderer);
 
 
 
@@ -425,6 +434,7 @@ void PlayUI::ScoreRendererSet()
 	Sixth_ScoreRenderer->SetCopyScale(NumberScale);
 	Sixth_ScoreRenderer->SetRenderPos(PLAY_SCOREFIRSTNUMBERLOCATION + float4{ NumberScale.X * 5.0f , 0.0f } + NumberScale.Half());
 	Sixth_ScoreRenderer->SetRenderScale(NumberScale);
+	ScoreRenderer_vec.push_back(Sixth_ScoreRenderer);
 
 
 
@@ -433,6 +443,7 @@ void PlayUI::ScoreRendererSet()
 	Seventh_ScoreRenderer->SetCopyScale(NumberScale);
 	Seventh_ScoreRenderer->SetRenderPos(PLAY_SCOREFIRSTNUMBERLOCATION + float4{ NumberScale.X * 6.0f , 0.0f } + NumberScale.Half());
 	Seventh_ScoreRenderer->SetRenderScale(NumberScale);
+	ScoreRenderer_vec.push_back(Seventh_ScoreRenderer);
 
 }
 

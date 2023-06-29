@@ -25,6 +25,8 @@
 class PlayUI : public UIManager
 {
 public:
+	// Á¡¼ö
+	static int PlayUI_ScoreNumber;
 
 public:
 	// constrcuter destructer
@@ -41,13 +43,17 @@ public:
 protected:
 	GameEngineRenderer* LivesAniRenderer = nullptr;
 
-	GameEngineRenderer* First_ScoreRenderer = nullptr;
-	GameEngineRenderer* Second_ScoreRenderer = nullptr;
-	GameEngineRenderer* Third_ScoreRenderer = nullptr;
-	GameEngineRenderer* Fourth_ScoreRenderer = nullptr;
-	GameEngineRenderer* Fifth_ScoreRenderer = nullptr;
-	GameEngineRenderer* Sixth_ScoreRenderer = nullptr;
-	GameEngineRenderer* Seventh_ScoreRenderer = nullptr;
+
+	std::vector<GameEngineRenderer*> ScoreRenderer_vec;
+
+
+	//GameEngineRenderer* First_ScoreRenderer = nullptr;
+	//GameEngineRenderer* Second_ScoreRenderer = nullptr;
+	//GameEngineRenderer* Third_ScoreRenderer = nullptr;
+	//GameEngineRenderer* Fourth_ScoreRenderer = nullptr;
+	//GameEngineRenderer* Fifth_ScoreRenderer = nullptr;
+	//GameEngineRenderer* Sixth_ScoreRenderer = nullptr;
+	//GameEngineRenderer* Seventh_ScoreRenderer = nullptr;
 
 
 	void HubRendererSet();
@@ -78,5 +84,7 @@ private:
 	float Increase_Hp_Time = 0.0f;
 	const float Increase_Hp_Cycle = 0.12f;
 	bool IsIncresing_Hp = false;
+
+
 };
 

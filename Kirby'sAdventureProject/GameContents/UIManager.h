@@ -62,7 +62,6 @@ protected:
 
 public:
 	static int m_LivesCount;
-	static bool give_Refill_KirbyHp;
 
 private:
 };
