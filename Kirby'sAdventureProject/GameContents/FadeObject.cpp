@@ -11,6 +11,7 @@
 #include "Kirby.h"
 
 
+bool FadeObject::IsFadeOutScreenRelease = false;
 bool FadeObject::IsFadeScreenRelease = false; 
 bool FadeObject::IsFadeDone = false;
 
@@ -62,7 +63,7 @@ void FadeObject::Update(float _Delta)
 		return;
 	}
 
-	// FadeOut을 요청받았을 때
+	// Fade 를 요청받았을 때
 	if (true == IsChangeFade)
 	{
 		if (true == IsFadeOut)
@@ -82,10 +83,6 @@ void FadeObject::Update(float _Delta)
 		if (true == IsFadeOut)
 		{
 			White_FadeOut(_Delta);
-		}
-		else if (false == IsFadeOut)
-		{
-			White_FadeIn(_Delta);
 		}
 	}
 
@@ -139,7 +136,7 @@ void FadeObject::FadeOut(float _Delta)
 
 
 
-	if (FadeNumber >= 2 && false == KirbyPtr->IsFadeOut)
+	if (FadeNumber >= 2 && true == IsFadeOutScreenRelease)
 	{
 		Death();
 		if (nullptr != MainRenderer)
@@ -236,51 +233,6 @@ void FadeObject::White_FadeOut(float _Delta)
 }
 
 
-void FadeObject::White_FadeIn(float _Delta)
-{
-	// 0.04f초 마다
-	if (ChangeFadeAlphaTime > ChangeFadeAlphaDuration)
-	{
-		ChangeFadeAlphaTime = 0.0f;
-
-		++FadeNumber;
-
-
-
-		switch (FadeNumber)
-		{
-		case 0:
-			AlphaCount = 128;
-			break;
-		case 1:
-			AlphaCount = 55;
-			break;
-		case 2:
-			AlphaCount = 0;
-			break;
-		default:
-			break;
-		}
-
-
-		// 설정
-		MainRenderer->SetAlpha(static_cast<unsigned char>(AlphaCount));
-	}
-
-
-	if (FadeNumber >= 2)
-	{
-		Death();
-		if (nullptr != MainRenderer)
-		{
-			MainRenderer = nullptr;
-		}
-	}
-
-}
-
-
-
 
 
 void FadeObject::FadeScreen(float _Delta)
@@ -314,6 +266,7 @@ void FadeObject::RequestFadeOut()
 {
 	IsChangeFade = true;
 	IsFadeOut = true;
+	IsFadeOutScreenRelease = false;
 
 	AlphaCount = 0;
 }
@@ -330,19 +283,11 @@ void FadeObject::RequestFadeIn()
 
 void FadeObject::Request_WhiteFadeIn()
 {
-	IsChangeWhiteFade = true;
-	IsFadeOut = false;
-
-	AlphaCount = 0;
-
-	if (nullptr == MainRenderer)
-	{
-		MsgBoxAssert("렌더러를 불러오지 못했습니다.");
-		return;
-	}
+	RequestFadeIn();
 
 	MainRenderer->SetTexture("WhiteFade.bmp");
 }
+
 
 void FadeObject::Request_WhiteFadeOut()
 {

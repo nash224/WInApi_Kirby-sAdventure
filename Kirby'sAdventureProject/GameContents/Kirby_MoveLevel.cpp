@@ -13,6 +13,7 @@
 
 
 #include "GlobalContents.h"
+#include "FadeObject.h"
 #include "VegetableValleyPlayLevel.h"
 #include "VegetableValleyHub.h"
 #include "Boss.h"
@@ -128,7 +129,6 @@ void Kirby::EnterUpdate(float _Delta)
 		IsFadeOut = true;
 	}
 
-
 	if (true == IsFadeOut)
 	{
 		FadeOutTime += _Delta;
@@ -144,7 +144,7 @@ void Kirby::EnterUpdate(float _Delta)
 	if (true == IsChangeState)
 	{
 		GameEngineTime::MainTimer.SetAllTimeScale(1.0f);
-		IsFadeOut = false;
+		FadeObject::IsFadeOutScreenRelease = true;
 		VegetableValleyPlayLevel::NextLevelTriggerOn = true;
 
 
@@ -636,7 +636,7 @@ void Kirby::PerformanceUpdate(float _Delta)
 
 	if (true == IsChangeState)
 	{
-		IsFadeOut = false;
+		FadeObject::IsFadeOutScreenRelease = true;
 		VegetableValleyPlayLevel::NextLevelTriggerOn = true;
 		ChangeState(KirbyState::Idle);
 		return;

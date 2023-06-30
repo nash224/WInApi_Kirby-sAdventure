@@ -5,6 +5,7 @@
 class FadeObject : public GameEngineActor
 {
 public:
+	static bool IsFadeOutScreenRelease;
 	static bool IsFadeScreenRelease;
 	static bool IsFadeDone;
 

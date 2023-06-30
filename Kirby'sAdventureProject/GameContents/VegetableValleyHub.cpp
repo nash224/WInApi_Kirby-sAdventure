@@ -480,6 +480,7 @@ void VegetableValleyHub::LevelStart(GameEngineLevel* _PrevLevel)
 	}
 
 
+	// Kirby Set Bitmap Resource
 	LevelPlayer->SetGroundTexture(BitMapFileName);
 
 
@@ -567,8 +568,18 @@ void VegetableValleyHub::LevelStart(GameEngineLevel* _PrevLevel)
 	// 레벨 이동관련
 	IsStageEnd = false;
 
-	GlobalContents::FadeIn(this);
+
+	if (-1 == VegetableValleyEntertheDoorNumber)
+	{
+		GlobalContents::WhiteFadeIn(this);
+	}
+	else if (-1 != VegetableValleyEntertheDoorNumber)
+	{
+		GlobalContents::FadeIn(this);
+	}
 }
+
+
 
 void VegetableValleyHub::LevelEnd(GameEngineLevel* _NextLevel) 
 {

@@ -17,6 +17,7 @@
 #include "VegetableValleyPlayLevel.h"
 #include "DustEffect.h"
 #include "HitObjectEffect.h"
+#include "FadeObject.h"
 #include "ExhaleEffect.h"
 #include "KirbyDeathEffect.h"
 #include "Boss.h"
@@ -2057,7 +2058,6 @@ void Kirby::MissRaiseUpUpdate(float _Delta)
 		{
 			GlobalContents::FadeOut(CurLevelPtr);
 			IsKirby_FadeRequest = true;
-			IsFadeOut = true;
 		}
 	}
 
@@ -2104,7 +2104,7 @@ void Kirby::MissRaiseUpUpdate(float _Delta)
 
 
 		// 페이드 아웃 풀림
-		IsFadeOut = false;
+		FadeObject::IsFadeOutScreenRelease = true;
 
 		// 커비 바디 충돌체 ON
 		KirbyBodyCollisonOn();

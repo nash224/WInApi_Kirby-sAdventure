@@ -32,6 +32,7 @@ public:
 	GameEngineRenderer& operator=(GameEngineRenderer&& _Other) noexcept = delete;
 
 
+
 	float4 GetRenderPos() const
 	{
 		return RenderPos;
@@ -83,6 +84,8 @@ public:
 	void SetAlpha(unsigned char _Alpha);
 
 	void SetAngle(float _Angle);
+
+	void AddAngle(const float _Value);
 
 	void SetSprite(const std::string& _Name, size_t _Index = 0);
 
