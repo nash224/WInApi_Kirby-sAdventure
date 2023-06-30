@@ -10,12 +10,13 @@
 
 #include "Kirby.h"
 #include "GlobalContents.h"
+#include "FadeObject.h"
 #include "BossUI.h"
 #include "WhispyWood.h"
 #include "BackGround.h"
 
 
-
+bool VegetableValley13::IsEndingCreditOn = false;
 VegetableValley13::VegetableValley13()
 {
 }
@@ -75,15 +76,20 @@ void VegetableValley13::Start()
 	Kirby_RespawnPos = float4{ 370.0f, 200.0f };
 }
 
+
+
 void VegetableValley13::Update(float _Delta)
 {
-	float4 CameraHalfSize = GameEngineWindow::MainWindow.GetScale().Half();
+	if (true == IsEndingCreditOn)
+	{
+		EndingCredit();
+	}
+
 
 	if (true == GameEngineInput::IsDown('P'))
 	{
 		GameEngineCore::ChangeLevel("PauseLevel");
 	}
-
 
 
 	if (true == GameEngineInput::IsDown('N'))
@@ -133,6 +139,19 @@ void VegetableValley13::Update(float _Delta)
 	}
 
 }
+
+
+void VegetableValley13::EndingCredit()
+{
+	GlobalContents::WhiteFadeOut(this);
+	FadeObject::SetTimeRaito(2.0f);
+
+	if (true)
+	{
+
+	}
+}
+
 
 
 

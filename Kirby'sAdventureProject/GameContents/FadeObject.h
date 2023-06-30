@@ -9,6 +9,15 @@ public:
 	static bool IsFadeScreenRelease;
 	static bool IsFadeDone;
 
+private:
+	static float TimeRaito;
+
+public:
+	static void SetTimeRaito(float _Ratio)
+	{
+		TimeRaito = _Ratio;
+	}
+
 
 public:
 	// constrcuter destructer
@@ -41,6 +50,10 @@ public:
 
 	void RequestFadeScreen(int _AlphaCount = 0);
 
+	void SetAlphaCount(int _Alpha)
+	{
+		AlphaCount = _Alpha;
+	}
 
 	bool IsFadeEnd()
 	{
@@ -62,15 +75,14 @@ private:
 	bool IsChangeWhiteFade = false;
 	int FadeNumber = -1;
 	float ChangeFadeAlphaTime = 0.0f;
-	const float ChangeFadeAlphaDuration = 0.12f;
+	const float ChangeFadeOutAlphaDuration = 0.12f;
+	const float ChangeFadeInAlphaDuration = 0.2f;
 	int AlphaCount = 0;
 
 
 	void FadeOut(float _Delta);
 	void FadeIn(float _Delta);
 
-	void White_FadeOut(float _Delta);
-	void White_FadeIn(float _Delta);
 
 
 	// FadeScreen

@@ -35,7 +35,7 @@ private:
 
 
 	bool IsRequestDoorOpen = false;
-	bool AreYouJustInterSeen = true;
+	bool AreYouJustEnterScene = true;
 	int VegetableValleyEntertheDoorNumber = -1;
 
 

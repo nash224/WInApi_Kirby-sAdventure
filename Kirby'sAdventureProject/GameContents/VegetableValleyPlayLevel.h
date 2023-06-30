@@ -21,15 +21,16 @@ public:
 	static bool PrevLevelTriggerOn;
 	static bool NextLevelTriggerOn;
 	static bool IsStageEnd;
-
 	static bool IsPlayerEnter;
-	static float FadeTime;
-	static float KirbyStateTime;
+
+
 	static bool ChangeClearDoor;
 
+	
+
+
+	// 디버그
 	static bool Level_DebugRenderIsOn;
-
-
 
 	// 사운드
 	static GameEngineSoundPlayer BGM_Player;

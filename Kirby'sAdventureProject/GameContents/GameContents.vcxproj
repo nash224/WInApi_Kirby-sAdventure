@@ -279,14 +279,6 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="EndingLevel.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
-    <ClInclude Include="GameOverLevel.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
     <ClInclude Include="ContentsActor.h">
       <SubType>
       </SubType>
@@ -599,14 +591,6 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="CraneFever.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
-    <ClCompile Include="EndingLevel.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
-    <ClCompile Include="GameOverLevel.cpp">
       <SubType>
       </SubType>
     </ClCompile>

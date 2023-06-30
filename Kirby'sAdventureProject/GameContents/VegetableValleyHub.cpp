@@ -488,11 +488,11 @@ void VegetableValleyHub::LevelStart(GameEngineLevel* _PrevLevel)
 	switch (VegetableValleyEntertheDoorNumber)
 	{
 	case -1:
-		AreYouJustInterSeen = true;
+		AreYouJustEnterScene = true;
 		LevelPlayer->SetPos(Stage1.StageLocation);
 		break;
 	case 1:
-		AreYouJustInterSeen = false;
+		AreYouJustEnterScene = false;
 		LevelPlayer->SetPos(Stage1.StageLocation);
 		BGM_Player = GameEngineSound::SoundPlay("05_LEVEL1.mp3", 255);
 		IsBGM_On = true;
@@ -583,7 +583,7 @@ void VegetableValleyHub::LevelStart(GameEngineLevel* _PrevLevel)
 
 void VegetableValleyHub::LevelEnd(GameEngineLevel* _NextLevel) 
 {
-	if (true == IsBGM_On && false == AreYouJustInterSeen)
+	if (true == IsBGM_On && false == AreYouJustEnterScene)
 	{
 		BGM_Player.Stop();
 		IsBGM_On = false;

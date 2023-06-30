@@ -92,7 +92,7 @@ private:
 	int Kirby_FrontNumber = 0;
 	int Knight_FrontNumber = 0;
 	const float OneStepDecelerationSpeed = 27.0f;
-	const float TwoStepDecelerationSpeed = 33.0f;
+	const float TwoStepDecelerationSpeed = 36.0f;
 	const float Press_StateDuration = 0.2f;
 
 	// ShedSword 상태 관련

@@ -15,6 +15,8 @@ bool FadeObject::IsFadeOutScreenRelease = false;
 bool FadeObject::IsFadeScreenRelease = false; 
 bool FadeObject::IsFadeDone = false;
 
+float FadeObject::TimeRaito = 1.0f;
+
 
 FadeObject::FadeObject()
 {
@@ -49,6 +51,7 @@ void FadeObject::Start()
 	MainRenderer->SetRenderPos(FadeScale.Half());
 
 	MainRenderer->SetAlpha(static_cast<unsigned char>(AlphaCount));
+	MainRenderer->On();
 
 }
 
@@ -77,15 +80,6 @@ void FadeObject::Update(float _Delta)
 	}
 
 
-	// WhiteFadeOut을 요청받았을 때
-	if (true == IsChangeWhiteFade)
-	{
-		if (true == IsFadeOut)
-		{
-			White_FadeOut(_Delta);
-		}
-	}
-
 	if (true == IsFadeScreen)
 	{
 		FadeScreen(_Delta);
@@ -99,7 +93,7 @@ void FadeObject::Update(float _Delta)
 void FadeObject::FadeOut(float _Delta)
 {
 	// 간격마다
-	if (ChangeFadeAlphaTime > ChangeFadeAlphaDuration)
+	if (ChangeFadeAlphaTime > ChangeFadeOutAlphaDuration * TimeRaito && FadeNumber <=1 )
 	{
 		ChangeFadeAlphaTime = 0.0f;
 		++FadeNumber;
@@ -120,20 +114,17 @@ void FadeObject::FadeOut(float _Delta)
 		}
 
 
+
+		if (nullptr == MainRenderer)
+		{
+			MsgBoxAssert("렌더러가 Null 입니다.");
+			return;
+		}
+
 		// 알파값 설정
 		MainRenderer->SetAlpha(static_cast<unsigned char>(AlphaCount));
 
 	}
-
-
-	Kirby* KirbyPtr = Kirby::GetMainKirby();
-	if (nullptr == KirbyPtr)
-	{
-		MsgBoxAssert("커비를 불러오지 못했습니다.");
-		return;
-	}
-
-
 
 
 	if (FadeNumber >= 2 && true == IsFadeOutScreenRelease)
@@ -150,7 +141,7 @@ void FadeObject::FadeOut(float _Delta)
 void FadeObject::FadeIn(float _Delta)
 {
 	// 0.04f초 마다
-	if (ChangeFadeAlphaTime > ChangeFadeAlphaDuration)
+	if (ChangeFadeAlphaTime > ChangeFadeInAlphaDuration * TimeRaito && FadeNumber <= 2)
 	{
 		ChangeFadeAlphaTime = 0.0f;
 
@@ -161,12 +152,15 @@ void FadeObject::FadeIn(float _Delta)
 		switch (FadeNumber)
 		{
 		case 0:
-			AlphaCount = 128;
+			AlphaCount = 255;
 			break;
 		case 1:
-			AlphaCount = 55;
+			AlphaCount = 128;
 			break;
 		case 2:
+			AlphaCount = 55;
+			break;
+		case 3:
 			AlphaCount = 0;
 			break;
 		default:
@@ -174,12 +168,19 @@ void FadeObject::FadeIn(float _Delta)
 		}
 
 
+
+		if (nullptr == MainRenderer)
+		{
+			MsgBoxAssert("렌더러가 Null 입니다.");
+			return;
+		}
+
 		// 설정
 		MainRenderer->SetAlpha(static_cast<unsigned char>(AlphaCount));
 	}
 
 
-	if (FadeNumber >= 2)
+	if (FadeNumber >= 3)
 	{
 		Death();
 		if (nullptr != MainRenderer)
@@ -188,48 +189,6 @@ void FadeObject::FadeIn(float _Delta)
 		}
 	}
 
-}
-
-
-
-
-void FadeObject::White_FadeOut(float _Delta)
-{
-	// 간격마다
-	if (ChangeFadeAlphaTime > ChangeFadeAlphaDuration)
-	{
-		ChangeFadeAlphaTime = 0.0f;
-		++FadeNumber;
-
-		switch (FadeNumber)
-		{
-		case 0:
-			AlphaCount = 128;
-			break;
-		case 1:
-			AlphaCount = 200;
-			break;
-		case 2:
-			AlphaCount = 255;
-			break;
-		default:
-			break;
-		}
-
-
-		// 알파값 설정
-		MainRenderer->SetAlpha(static_cast<unsigned char>(AlphaCount));
-	}
-
-
-	if (FadeNumber >= 2 && true == IsFadeDone)
-	{
-		Death();
-		if (nullptr != MainRenderer)
-		{
-			MainRenderer = nullptr;
-		}
-	}
 }
 
 
@@ -262,14 +221,6 @@ void FadeObject::FadeScreen(float _Delta)
 
 
 
-void FadeObject::RequestFadeOut()
-{
-	IsChangeFade = true;
-	IsFadeOut = true;
-	IsFadeOutScreenRelease = false;
-
-	AlphaCount = 0;
-}
 
 void FadeObject::RequestFadeIn()
 {
@@ -277,6 +228,17 @@ void FadeObject::RequestFadeIn()
 	IsFadeOut = false;
 
 	AlphaCount = 255;
+	MainRenderer->SetAlpha(static_cast<unsigned char>(AlphaCount));
+}
+
+void FadeObject::RequestFadeOut()
+{
+	IsChangeFade = true;
+	IsFadeOut = true;
+	IsFadeOutScreenRelease = false;
+
+	AlphaCount = 0;
+	MainRenderer->SetAlpha(static_cast<unsigned char>(AlphaCount));
 }
 
 
@@ -285,20 +247,25 @@ void FadeObject::Request_WhiteFadeIn()
 {
 	RequestFadeIn();
 
+
+	if (nullptr == MainRenderer)
+	{
+		MsgBoxAssert("렌더러가 Null 입니다.");
+		return;
+	}
+
 	MainRenderer->SetTexture("WhiteFade.bmp");
 }
 
 
 void FadeObject::Request_WhiteFadeOut()
 {
-	IsChangeWhiteFade = true;
-	IsFadeOut = true;
+	RequestFadeOut();
 
-	AlphaCount = 255;
 
 	if (nullptr == MainRenderer)
 	{
-		MsgBoxAssert("렌더러를 불러오지 못했습니다.");
+		MsgBoxAssert("렌더러가 Null 입니다.");
 		return;
 	}
 
@@ -312,6 +279,14 @@ void FadeObject::RequestFadeScreen(int _AlphaCount /*= 0*/)
 	IsFadeScreenRelease = false;
 
 	AlphaCount = _AlphaCount;
+
+
+	if (nullptr == MainRenderer)
+	{
+		MsgBoxAssert("렌더러가 Null 입니다.");
+		return;
+	}
+
 	MainRenderer->SetAlpha(static_cast<unsigned char>(AlphaCount));
 }
 

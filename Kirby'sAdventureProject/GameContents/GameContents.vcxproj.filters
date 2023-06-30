@@ -216,12 +216,6 @@
     <ClInclude Include="TitleLevel.h">
       <Filter>Level</Filter>
     </ClInclude>
-    <ClInclude Include="EndingLevel.h">
-      <Filter>Level</Filter>
-    </ClInclude>
-    <ClInclude Include="GameOverLevel.h">
-      <Filter>Level</Filter>
-    </ClInclude>
     <ClInclude Include="PauseLevel.h">
       <Filter>Level</Filter>
     </ClInclude>
@@ -488,12 +482,6 @@
     </ClCompile>
     <ClCompile Include="Kirby_MoveLevel.cpp">
       <Filter>Global\Object\Kirby</Filter>
-    </ClCompile>
-    <ClCompile Include="EndingLevel.cpp">
-      <Filter>Level</Filter>
-    </ClCompile>
-    <ClCompile Include="GameOverLevel.cpp">
-      <Filter>Level</Filter>
     </ClCompile>
     <ClCompile Include="PauseLevel.cpp">
       <Filter>Level</Filter>

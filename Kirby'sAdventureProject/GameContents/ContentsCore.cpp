@@ -6,7 +6,6 @@
 #include "VegetableValley11.h"
 #include "VegetableValley12.h"
 #include "VegetableValley13.h"
-#include "EndingLevel.h"
 #include "PauseLevel.h"
 
 #include <GameEnginePlatform/GameEngineWindow.h>
@@ -33,7 +32,6 @@ void ContentsCore::Start()
 	GameEngineCore::CreateLevel<VegetableValley12>("VegetableValley12");
 	GameEngineCore::CreateLevel<VegetableValley13>("VegetableValley13");
 	GameEngineCore::CreateLevel<PauseLevel>("PauseLevel");
-	GameEngineCore::CreateLevel<EndingLevel>("EndingLevel");
 
 	GameEngineCore::ChangeLevel("VegetableValleyIntro");
 }

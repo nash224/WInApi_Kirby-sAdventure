@@ -374,9 +374,9 @@ void VegetableValleyCutScene::ShedSwordUpdate(float _Delta)
 
 			KirbyActor.ActorRenderer->ChangeAnimation("ShedSword");
 			SwordActor.ActorRenderer->On();
-			SwordActor.ActorRenderer->SetRenderPos(KirbyActor.ActorRenderer->GetRenderPos());
+			SwordActor.ActorRenderer->SetRenderPos(KirbyActor.ActorRenderer->GetRenderPos() + float4::LEFT * 48.0f);
 			SwordActor.Scene_YSpeed = -600.0f;
-			SwordActor.Scene_XSpeed = 140.0f;
+			SwordActor.Scene_XSpeed = 160.0f;
 
 			IsKirbysSword_FlyAway = true;
 		}

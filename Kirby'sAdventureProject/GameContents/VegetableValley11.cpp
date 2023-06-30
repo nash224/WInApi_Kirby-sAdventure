@@ -11,6 +11,7 @@
 
 // contents
 #include "BackGround.h"
+#include "FadeObject.h"
 #include "Kirby.h"
 #include "GameEffect.h"
 #include "EnergeDrink.h"
