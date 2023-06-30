@@ -198,9 +198,6 @@
     <ClInclude Include="BillboardsObject.h">
       <Filter>Global\Object\Objects</Filter>
     </ClInclude>
-    <ClInclude Include="FadeObject.h">
-      <Filter>Global</Filter>
-    </ClInclude>
     <ClInclude Include="Apple.h">
       <Filter>Global\Object\Enemy\NomalEnemy</Filter>
     </ClInclude>
@@ -235,6 +232,12 @@
       <Filter>Level\03.Scene</Filter>
     </ClInclude>
     <ClInclude Include="ContentsObject.h">
+      <Filter>Global\Object\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="KirbyBanner.h">
+      <Filter>Global\Object\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="FadeObject.h">
       <Filter>Global\Object\Objects</Filter>
     </ClInclude>
   </ItemGroup>
@@ -468,9 +471,6 @@
     <ClCompile Include="BillboardsObject.cpp">
       <Filter>Global\Object\Objects</Filter>
     </ClCompile>
-    <ClCompile Include="FadeObject.cpp">
-      <Filter>Global</Filter>
-    </ClCompile>
     <ClCompile Include="Apple.cpp">
       <Filter>Global\Object\Enemy\NomalEnemy</Filter>
     </ClCompile>
@@ -508,6 +508,12 @@
       <Filter>Level\03.Scene</Filter>
     </ClCompile>
     <ClCompile Include="ContentsObject.cpp">
+      <Filter>Global\Object\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="KirbyBanner.cpp">
+      <Filter>Global\Object\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="FadeObject.cpp">
       <Filter>Global\Object\Objects</Filter>
     </ClCompile>
   </ItemGroup>

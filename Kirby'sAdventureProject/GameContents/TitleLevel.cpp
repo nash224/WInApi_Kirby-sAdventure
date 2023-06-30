@@ -8,6 +8,8 @@
 
 #include "GlobalContents.h"
 #include "BackGround.h"
+#include "FadeObject.h"
+#include "KirbyBanner.h"
 
 
 
@@ -33,6 +35,20 @@ void TitleLevel::Start()
 
 	LevelBackGround->init("KirbyTitle.bmp", "Resources\\Map");
 
+	float4 BackGroundScale = LevelBackGround->GetBackGroundScale();
+
+
+	KirbyBanner* BannerPtr = GameEngineLevel::CreateActor<KirbyBanner>(UpdateOrder::BackGroundEffect);
+	if (nullptr == BannerPtr)
+	{
+		MsgBoxAssert("액터를 생성하지 못했습니다.");
+		return;
+	}
+
+	BannerPtr->init(BackGroundScale.Half());
+
+
+
 	// 사운드 로드
 	GlobalContents::SoundFileLoad("02_Title_Screen.mp3", "Resources\\SoundResources\\SoundTrack");
 }
@@ -43,6 +59,12 @@ void TitleLevel::Update(float _DeltaTime)
 		GameEngineInput::IsDown('S') || 
 		GameEngineInput::IsDown('A') || 
 		GameEngineInput::IsDown('D'))
+	{
+		GlobalContents::WhiteFadeOut(this);
+	}
+	
+	
+	if (true == FadeObject::IsFadeDone)
 	{
 		GameEngineCore::ChangeLevel("VegetableValleyIntro");
 	}

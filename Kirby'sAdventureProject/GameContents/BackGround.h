@@ -29,6 +29,11 @@ public:
 	void ExtraMapSet(const std::string& _FileName, const std::string& _Path);
 
 
+	float4 GetBackGroundScale() const
+	{
+		return BackGroundScale;
+	}
+
 	void SwitchRender();
 
 protected:

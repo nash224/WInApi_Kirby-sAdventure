@@ -128,12 +128,7 @@ void Kirby::EnterUpdate(float _Delta)
 		IsFadeOut = true;
 	}
 
-	if (true == IsFadeOut)
-	{
-		FadeOutTime += _Delta;
-	}
-
-	if (FadeOutTime > FadeOutDuration)
+	if (true == FadeObject::IsFadeDone)
 	{
 		IsChangeState = true;
 	}
@@ -143,9 +138,7 @@ void Kirby::EnterUpdate(float _Delta)
 	if (true == IsChangeState)
 	{
 		GameEngineTime::MainTimer.SetAllTimeScale(1.0f);
-		FadeObject::IsFadeOutScreenRelease = true;
 		VegetableValleyPlayLevel::NextLevelTriggerOn = true;
-
 
 		if (true == VegetableValleyPlayLevel::IsStageEnd)
 		{
