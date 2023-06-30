@@ -23,9 +23,9 @@ public:
 	static bool IsStageEnd;
 	static bool IsPlayerEnter;
 
-
 	static bool ChangeClearDoor;
 
+	static float BGMSoundVolume;
 	
 
 

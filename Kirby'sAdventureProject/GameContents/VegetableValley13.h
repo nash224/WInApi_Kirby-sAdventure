@@ -21,7 +21,12 @@ public:
 protected:
 
 private:
-	void EndingCredit();
+	// EndingCredit ฐüทร
+	bool Ending_IsFadeOut = false;
+
+	void EndingCredit(float _Delta);
+
+	const float4 PlankPos = float4{ 600.0f , 621.0f };
 
 
 	void Start() override;

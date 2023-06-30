@@ -13,6 +13,7 @@
 #include "FadeObject.h"
 #include "BossUI.h"
 #include "WhispyWood.h"
+#include "ContentsObject.h"
 #include "BackGround.h"
 
 
@@ -69,7 +70,7 @@ void VegetableValley13::Start()
 
 	GlobalContents::SoundFileLoad("07_Boss.mp3", "Resources\\SoundResources\\SoundTrack");
 	GlobalContents::SoundFileLoad("30_Level_Clear.mp3", "Resources\\SoundResources\\SoundTrack");
-	LevelBgmFileName = "07_Boss.mp3";
+	GlobalContents::SoundFileLoad("32_Crane_Fever_(faster).mp3", "Resources\\SoundResources\\SoundTrack");
 
 
 	// 리스폰 세팅
@@ -82,7 +83,7 @@ void VegetableValley13::Update(float _Delta)
 {
 	if (true == IsEndingCreditOn)
 	{
-		EndingCredit();
+		EndingCredit(_Delta);
 	}
 
 
@@ -141,14 +142,56 @@ void VegetableValley13::Update(float _Delta)
 }
 
 
-void VegetableValley13::EndingCredit()
+void VegetableValley13::EndingCredit(float _Delta)
 {
-	GlobalContents::WhiteFadeOut(this);
-	FadeObject::SetTimeRaito(2.0f);
-
-	if (true)
+	if (false == Ending_IsFadeOut)
 	{
+		GlobalContents::WhiteFadeOut(this);
+		FadeObject::SetTimeRaito(2.0f);
 
+		Ending_IsFadeOut = true;
+	}
+
+
+	if (true == FadeObject::IsFadeDone)
+	{
+		FadeObject::IsFadeOutScreenRelease = true;
+		GlobalContents::WhiteFadeIn(this);
+
+		if (nullptr == LevelPlayer)
+		{
+			MsgBoxAssert("플레이어를 불러오지 못했습니다.");
+			return;
+		}
+
+		LevelPlayer->Off();
+		LevelBoss->Off();
+
+
+		// 판자 생성
+		ContentsObject* PlankPtr = CreateActor<ContentsObject>(UpdateOrder::UI);
+		if (nullptr == PlankPtr)
+		{
+			MsgBoxAssert("액터를 생성하지 못했습니다.");
+			return;
+		}
+
+		PlankPtr->init(PlankPos);
+
+
+		if (true == IsBGM_On)
+		{
+			BGM_Player.Stop();
+			IsBGM_On = false;
+		}
+
+		BGM_Player = GameEngineSound::SoundPlay("32_Crane_Fever_(faster).mp3");
+	}
+
+	if (true == IsBGM_On && BGMSoundVolume < 1.0f)
+	{
+		BGMSoundVolume += _Delta;
+		BGM_Player.SetVolume(BGMSoundVolume);
 	}
 }
 

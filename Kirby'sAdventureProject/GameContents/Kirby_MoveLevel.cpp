@@ -14,8 +14,7 @@
 
 #include "GlobalContents.h"
 #include "FadeObject.h"
-#include "VegetableValleyPlayLevel.h"
-#include "VegetableValleyHub.h"
+#include "VegetableValley13.h"
 #include "Boss.h"
 
 
@@ -622,6 +621,13 @@ void Kirby::PerformanceUpdate(float _Delta)
 
 	if (true == MainRenderer->IsAnimationEnd())
 	{
+		//IsChangeState = true;
+		VegetableValley13::IsEndingCreditOn = true;
+	}
+
+
+	if (true == IsChangeState)
+	{
 		GameEngineLevel* CurLevelPtr = GetLevel();
 		if (nullptr == CurLevelPtr)
 		{
@@ -630,12 +636,7 @@ void Kirby::PerformanceUpdate(float _Delta)
 		}
 
 		GlobalContents::FadeOut(CurLevelPtr);
-		IsChangeState = true;
-	}
 
-
-	if (true == IsChangeState)
-	{
 		FadeObject::IsFadeOutScreenRelease = true;
 		VegetableValleyPlayLevel::NextLevelTriggerOn = true;
 		ChangeState(KirbyState::Idle);

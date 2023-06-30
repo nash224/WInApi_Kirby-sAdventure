@@ -234,6 +234,9 @@
     <ClInclude Include="VegetableValleyCutScene.h">
       <Filter>Level\03.Scene</Filter>
     </ClInclude>
+    <ClInclude Include="ContentsObject.h">
+      <Filter>Global\Object\Objects</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CraneFever.cpp">
@@ -503,6 +506,9 @@
     </ClCompile>
     <ClCompile Include="VegetableValleyCutScene.cpp">
       <Filter>Level\03.Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="ContentsObject.cpp">
+      <Filter>Global\Object\Objects</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

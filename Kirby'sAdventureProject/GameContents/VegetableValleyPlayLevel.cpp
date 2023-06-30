@@ -20,6 +20,8 @@ bool VegetableValleyPlayLevel::IsBGM_On = false;
 bool VegetableValleyPlayLevel::ChangeClearDoor = false;
 bool VegetableValleyPlayLevel::Level_DebugRenderIsOn = false;
 
+float VegetableValleyPlayLevel::BGMSoundVolume = 0.0f;
+
 
 VegetableValleyPlayLevel::VegetableValleyPlayLevel() 
 {
@@ -54,8 +56,8 @@ void VegetableValleyPlayLevel::SetPlayerPosAndCameraPos(const float4& _PlayerPos
 		return;
 	}
 
-
 	LevelPlayer->SetGroundTexture(BitMapFileName);
+
 
 	LevelPlayer->SetPos(_PlayerPos);
 	MainCameraPtr->SetPos(_CameraPos);

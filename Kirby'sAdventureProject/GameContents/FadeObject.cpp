@@ -24,6 +24,8 @@ FadeObject::FadeObject()
 
 FadeObject::~FadeObject()
 {
+	IsFadeDone = false;
+	IsFadeScreenRelease = false;
 }
 
 
@@ -54,6 +56,82 @@ void FadeObject::Start()
 	MainRenderer->On();
 
 }
+
+
+
+void FadeObject::RequestFadeIn()
+{
+	IsChangeFade = true;
+	IsFadeOut = false;
+
+	AlphaCount = 255;
+	MainRenderer->SetAlpha(static_cast<unsigned char>(AlphaCount));
+}
+
+void FadeObject::RequestFadeOut()
+{
+	IsChangeFade = true;
+	IsFadeOut = true;
+	IsFadeOutScreenRelease = false;
+
+	AlphaCount = 0;
+	MainRenderer->SetAlpha(static_cast<unsigned char>(AlphaCount));
+}
+
+
+
+void FadeObject::Request_WhiteFadeIn()
+{
+	RequestFadeIn();
+
+
+	if (nullptr == MainRenderer)
+	{
+		MsgBoxAssert("렌더러가 Null 입니다.");
+		return;
+	}
+
+	MainRenderer->SetTexture("WhiteFade.bmp");
+}
+
+
+void FadeObject::Request_WhiteFadeOut()
+{
+	RequestFadeOut();
+
+
+	if (nullptr == MainRenderer)
+	{
+		MsgBoxAssert("렌더러가 Null 입니다.");
+		return;
+	}
+
+	MainRenderer->SetTexture("WhiteFade.bmp");
+}
+
+
+
+void FadeObject::RequestFadeScreen(int _AlphaCount /*= 0*/)
+{
+	IsFadeScreen = true;
+	IsFadeScreenRelease = false;
+
+	AlphaCount = _AlphaCount;
+
+
+	if (nullptr == MainRenderer)
+	{
+		MsgBoxAssert("렌더러가 Null 입니다.");
+		return;
+	}
+
+	MainRenderer->SetAlpha(static_cast<unsigned char>(AlphaCount));
+}
+
+
+
+
+
 
 
 void FadeObject::Update(float _Delta)
@@ -93,7 +171,7 @@ void FadeObject::Update(float _Delta)
 void FadeObject::FadeOut(float _Delta)
 {
 	// 간격마다
-	if (ChangeFadeAlphaTime > ChangeFadeOutAlphaDuration * TimeRaito && FadeNumber <=1 )
+	if (ChangeFadeAlphaTime > ChangeFadeOutAlphaDuration * TimeRaito && FadeNumber <= 2)
 	{
 		ChangeFadeAlphaTime = 0.0f;
 		++FadeNumber;
@@ -108,6 +186,9 @@ void FadeObject::FadeOut(float _Delta)
 			break;
 		case 2:
 			AlphaCount = 255;
+			break;
+		case 3:
+			IsFadeDone = true;
 			break;
 		default:
 			break;
@@ -219,76 +300,6 @@ void FadeObject::FadeScreen(float _Delta)
 }
 
 
-
-
-
-void FadeObject::RequestFadeIn()
-{
-	IsChangeFade = true;
-	IsFadeOut = false;
-
-	AlphaCount = 255;
-	MainRenderer->SetAlpha(static_cast<unsigned char>(AlphaCount));
-}
-
-void FadeObject::RequestFadeOut()
-{
-	IsChangeFade = true;
-	IsFadeOut = true;
-	IsFadeOutScreenRelease = false;
-
-	AlphaCount = 0;
-	MainRenderer->SetAlpha(static_cast<unsigned char>(AlphaCount));
-}
-
-
-
-void FadeObject::Request_WhiteFadeIn()
-{
-	RequestFadeIn();
-
-
-	if (nullptr == MainRenderer)
-	{
-		MsgBoxAssert("렌더러가 Null 입니다.");
-		return;
-	}
-
-	MainRenderer->SetTexture("WhiteFade.bmp");
-}
-
-
-void FadeObject::Request_WhiteFadeOut()
-{
-	RequestFadeOut();
-
-
-	if (nullptr == MainRenderer)
-	{
-		MsgBoxAssert("렌더러가 Null 입니다.");
-		return;
-	}
-
-	MainRenderer->SetTexture("WhiteFade.bmp");
-}
-
-
-void FadeObject::RequestFadeScreen(int _AlphaCount /*= 0*/)
-{
-	IsFadeScreen = true;
-	IsFadeScreenRelease = false;
-
-	AlphaCount = _AlphaCount;
-
-
-	if (nullptr == MainRenderer)
-	{
-		MsgBoxAssert("렌더러가 Null 입니다.");
-		return;
-	}
-
-	MainRenderer->SetAlpha(static_cast<unsigned char>(AlphaCount));
-}
 
 
 

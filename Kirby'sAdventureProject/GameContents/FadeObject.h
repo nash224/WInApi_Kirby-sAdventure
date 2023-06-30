@@ -50,22 +50,6 @@ public:
 
 	void RequestFadeScreen(int _AlphaCount = 0);
 
-	void SetAlphaCount(int _Alpha)
-	{
-		AlphaCount = _Alpha;
-	}
-
-	bool IsFadeEnd()
-	{
-		if (false == IsChangeFade)
-		{
-			return true;
-		}
-		
-		return false;
-	}
-
-
 
 
 private:
