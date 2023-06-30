@@ -1804,7 +1804,7 @@ void Kirby::DamagedStart()
 	IsChangeState = false;
 	
 	// 지진요청
-	++Camera_ShakeCount;
+	++VegetableValleyPlayLevel::Camera_ShakeCount;
 	
 	// 맞으면 체력감소
 	if (m_KirbyHp > 0)
@@ -1931,7 +1931,7 @@ void Kirby::MissStart()
 	// 지진요청
 	for (size_t i = 0; i < 2; i++)
 	{
-		++Camera_ShakeCount;
+		++VegetableValleyPlayLevel::Camera_ShakeCount;
 	}
 
 

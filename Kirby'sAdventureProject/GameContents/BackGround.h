@@ -7,6 +7,7 @@
 // Ό³Έν :
 class BackGround : public GameEngineActor
 {
+	friend class VegetableValleyPlayLevel;
 public:
 	static int BossStage;
 
@@ -33,6 +34,7 @@ public:
 protected:
 
 private:
+	float4 BackGroundScale = float4::ZERO;
 	bool SwitchRenderValue = true;
 	std::string FileName = "";
 

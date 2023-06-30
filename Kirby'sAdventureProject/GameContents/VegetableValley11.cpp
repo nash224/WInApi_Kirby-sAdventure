@@ -166,6 +166,9 @@ void VegetableValley11::Update(float _Delta)
 	}
 
 	CheckRespawnEnemy();
+
+
+	CameraFocus(_Delta);
 }
 
 

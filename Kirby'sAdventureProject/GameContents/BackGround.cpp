@@ -38,13 +38,13 @@ void BackGround::init(const std::string& _FileName, const std::string& _Path)
 {
 	GameEngineWindowTexture* Texture = GlobalContents::TextureFileLoad(_FileName, _Path);
 
-	float4 Scale = Texture->GetScale();
+	BackGroundScale = Texture->GetScale();
 
 	Renderer->SetTexture(_FileName);
-	Renderer->SetCopyScale(Scale);
+	Renderer->SetCopyScale(BackGroundScale);
 	
-	SetPos(Scale.Half());
-	Renderer->SetRenderScale(Scale);
+	SetPos(BackGroundScale.Half());
+	Renderer->SetRenderScale(BackGroundScale);
 }
 
 

@@ -140,8 +140,6 @@ private:
 	float4 CurrentBackGroundScale = float4::ZERO;
 	std::string CurrentLevelBitMapFileName = "";
 	float4 CurrentUIScale = float4::ZERO;
-	float4 CameraFrontCheckPos = float4::ZERO;
-	float4 CameraBackCheckPos = float4::ZERO;
 	float4 PrevKirbyMovePos = float4::ZERO;
 	float4 KirbyMovePos = float4::ZERO;
 
@@ -354,32 +352,7 @@ private:
 	void LevelEnd() override;
 
 
-	// 카메라
-	static float Camera_ShakeMagnitude;
-	static int Camera_ShakeCount;
-	int Camera_ShakeNumber = 0;
-
-	const float Camera_ShakeCycle = 0.04f;
-	float Camera_ShakeTime = 0.0f;
-
-public:
-	static void RequestShakeCountToKirby(size_t _Value = 1)
-	{
-		for (size_t i = 0; i < _Value; i++)
-		{
-			++Camera_ShakeCount;
-		}
-	}
-
-	static void RequestShakeMagnitudeToKirby(float _Value = 3.0f)
-	{
-		Camera_ShakeMagnitude = _Value;
-	}
-
 private:
-	void CameraFocus(float _Delta);
-
-
 
 	// 리소스 로드
 	void Contain_StateResourceLoad();

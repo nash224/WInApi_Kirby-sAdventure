@@ -417,7 +417,7 @@ void WhispyWood::FrownStart()
 	IsImmune = true;
 
 
-	Kirby::RequestShakeCountToKirby(2);
+	VegetableValleyPlayLevel::RequestShakeCountToLevel(2);
 
 
 	// 사운드
@@ -467,8 +467,8 @@ void WhispyWood::KaonashiStart()
 	GameEngineTime::MainTimer.SetTimeScale(UpdateOrder::Ability, 0.0f);
 
 
-	Kirby::RequestShakeCountToKirby(4);
-	Kirby::RequestShakeMagnitudeToKirby(6.0f);
+	VegetableValleyPlayLevel::RequestShakeCountToLevel(4);
+	VegetableValleyPlayLevel::RequestShakeMagnitudeToLevel(6.0f);
 
 
 	// 사운드

@@ -1006,8 +1006,8 @@ void Kirby::Contain_DamagedStart()
 
 
 	// 지진요청
-	++Camera_ShakeCount;
-
+	++VegetableValleyPlayLevel::Camera_ShakeCount;
+	
 
 	// 맞으면 체력감소
 	if (m_KirbyHp > 0)

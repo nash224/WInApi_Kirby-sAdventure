@@ -22,9 +22,6 @@ public:
 protected:
 
 private:
-	class Kirby* LevelPlayer = nullptr;
-	class BackGround* LevelBackGround = nullptr;
-
 	class BillboardsObject* VegetableValley_Billboard = nullptr;
 
 

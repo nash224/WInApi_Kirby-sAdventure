@@ -1,11 +1,14 @@
 #include "VegetableValleyPlayLevel.h"
 #include "ContentsEnum.h"
 
+#include <GameEnginePlatform/GameEngineWindow.h>
 #include <GameEnginePlatform/GameEngineSound.h>
 #include <GameEngineCore/GameEngineRenderer.h>
 #include <GameEngineCore/GameEngineCamera.h>
 
 #include "GameEffect.h"
+#include "UIManager.h"
+#include "BackGround.h"
 #include "Kirby.h"
 #include <vector>
 
@@ -19,6 +22,11 @@ GameEngineSoundPlayer VegetableValleyPlayLevel::BGM_Player;
 bool VegetableValleyPlayLevel::IsBGM_On = false;
 bool VegetableValleyPlayLevel::ChangeClearDoor = false;
 bool VegetableValleyPlayLevel::Level_DebugRenderIsOn = false;
+
+
+int VegetableValleyPlayLevel::Camera_ShakeCount = 0;
+float VegetableValleyPlayLevel::Camera_ShakeMagnitude = 3.0f;
+
 
 float VegetableValleyPlayLevel::BGMSoundVolume = 0.0f;
 
@@ -89,4 +97,149 @@ void VegetableValleyPlayLevel::CreateAndSetupBackgroundEffectRenderer(
 	Render->SetRenderPos(_Pos);
 	Render->SetScaleRatio(_Ratio);
 	Render->ChangeAnimation(_AnimationName);
+}
+
+
+
+void VegetableValleyPlayLevel::CameraFocus(float _Delta)
+{
+	float4 WinScale = GameEngineWindow::MainWindow.GetScale();
+
+	GameEngineCamera* CameraPtr = GetMainCamera();
+	if (nullptr == CameraPtr)
+	{
+		MsgBoxAssert("카메라를 불러오지 못했습니다.");
+		return;
+	}
+
+	float4 CameraPos = CameraPtr->GetPos();
+
+	if (nullptr == LevelUIManager)
+	{
+		MsgBoxAssert("UI를 불러오지 못했습니다.");
+		return;
+	}
+
+	float4 CurrentUIScale = LevelUIManager->UIScale;
+
+
+
+	if (nullptr == LevelBackGround)
+	{
+		MsgBoxAssert("배경화면을 불러오지 못했습니다.");
+		return;
+	}
+
+	LevelBackGround->BackGroundScale;
+
+
+
+	if (nullptr == LevelPlayer)
+	{
+		MsgBoxAssert("플레이어를 불러오지 못했습니다.");
+		return;
+	}
+
+	float4 PlayerMovePos = LevelPlayer->KirbyMovePos;
+	float4 PlayerPos = LevelPlayer->GetPos();
+
+
+
+	CameraFrontCheckPos = CameraPos;
+	CameraBackCheckPos = float4{ CameraPos.X + WinScale.X , CameraPos.Y + WinScale.Y - CurrentUIScale.Y };
+
+	float4 CameraMovePos = PlayerMovePos;
+
+	// 커비가 오른쪽 방향일 때, 화면의 중앙을 넘어가면 움직임
+	if (PlayerPos.X < CameraFrontCheckPos.X + WinScale.Half().X && PlayerMovePos.X > 0.0f)
+	{
+		CameraMovePos.X = 0.0f;
+	}
+
+	// 커비가 왼쪽 방향일 때, 화면의 1/4 지점을 넘어가면 움직임
+	if (PlayerPos.X > CameraFrontCheckPos.X + WinScale.Half().Half().X && PlayerMovePos.X < 0.0f)
+	{
+		CameraMovePos.X = 0.0f;
+	}
+
+	// 커비가 윗쪽 방향일 때, 화면의 1/4 지점을 넘어가면 움직임
+	if (PlayerPos.Y > CameraFrontCheckPos.Y + (WinScale - CurrentUIScale).Half().Half().Y && PlayerMovePos.Y < 0.0f)
+	{
+		CameraMovePos.Y = 0.0f;
+	}
+
+	// 커비가 아랫쪽 방향일 때, UI화면을 뺀 윈도우화면의 3/4 지점을 넘어가면 움직임
+	if (PlayerPos.Y < CameraBackCheckPos.Y - (WinScale - CurrentUIScale).Half().Half().Y && PlayerMovePos.Y > 0.0f)
+	{
+		CameraMovePos.Y = 0.0f;
+	}
+
+
+
+	// 왼쪽 위로 나가지 못하게 막음
+	if (CameraPos.X + PlayerMovePos.X < 0.0f || CameraBackCheckPos.X + PlayerMovePos.X > BackGroundScale.X)
+	{
+		CameraMovePos.X = 0.0f;
+	}
+
+	// 오른쪽 아래로 나가지 못하게 막음
+	if (CameraPos.Y + PlayerMovePos.Y < 0.0f || CameraBackCheckPos.Y + PlayerMovePos.Y > BackGroundScale.Y)
+	{
+		CameraMovePos.Y = 0.0f;
+	}
+
+
+	// 지진로직
+	if (Camera_ShakeCount >= 1)
+	{
+		Camera_ShakeTime += _Delta;
+
+		if (Camera_ShakeTime > Camera_ShakeCycle)
+		{
+			Camera_ShakeTime = 0.0f;
+
+
+			++Camera_ShakeNumber;
+
+			float4 ShakeAddPos = float4::ZERO;
+
+			switch (Camera_ShakeNumber)
+			{
+			case 1:
+				ShakeAddPos = float4{ -Camera_ShakeMagnitude , -Camera_ShakeMagnitude };
+				break;
+			case 2:
+				ShakeAddPos = float4{ Camera_ShakeMagnitude * 2.0f , Camera_ShakeMagnitude * 2.0f };
+				break;
+			case 3:
+				ShakeAddPos = float4{ -Camera_ShakeMagnitude * 2.0f , 0.0f };
+				break;
+			case 4:
+				ShakeAddPos = float4{ Camera_ShakeMagnitude * 2.0f , -Camera_ShakeMagnitude * 2.0f };
+				break;
+			case 5:
+				ShakeAddPos = float4{ -Camera_ShakeMagnitude , Camera_ShakeMagnitude };
+				break;
+			default:
+				break;
+			}
+
+			if (5 == Camera_ShakeNumber)
+			{
+				Camera_ShakeNumber = 0;
+				--Camera_ShakeCount;
+			}
+
+			if (0 == Camera_ShakeCount)
+			{
+				Camera_ShakeMagnitude = 3.0f;
+			}
+
+			CameraMovePos += ShakeAddPos;
+		}
+	}
+
+
+
+	CameraPtr->AddPos(CameraMovePos);
 }

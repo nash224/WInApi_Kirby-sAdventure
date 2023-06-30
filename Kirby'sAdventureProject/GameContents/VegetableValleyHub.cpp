@@ -161,12 +161,17 @@ void VegetableValleyHub::Start()
 
 void VegetableValleyHub::Update(float _Delta)
 {
-
 	if (true == GameEngineInput::IsDown('P'))
 	{
 		GameEngineCore::ChangeLevel("PauseLevel");
 		return;
 	}
+
+	if (true == GameEngineInput::IsDown('2'))
+	{
+		++Camera_ShakeCount;
+	}
+
 
 	if (true == GameEngineInput::IsDown('N'))
 	{
@@ -194,6 +199,8 @@ void VegetableValleyHub::Update(float _Delta)
 	{
 		LevelBackGround->SwitchRender();
 	}
+
+	CameraFocus(_Delta);
 }
 
 

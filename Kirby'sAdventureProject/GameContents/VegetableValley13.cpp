@@ -139,6 +139,8 @@ void VegetableValley13::Update(float _Delta)
 		LevelBackGround->SwitchRender();
 	}
 
+
+	CameraFocus(_Delta);
 }
 
 
@@ -190,7 +192,7 @@ void VegetableValley13::EndingCredit(float _Delta)
 
 	if (true == IsBGM_On && BGMSoundVolume < 1.0f)
 	{
-		BGMSoundVolume += _Delta;
+		BGMSoundVolume += _Delta * 0.5f;
 		BGM_Player.SetVolume(BGMSoundVolume);
 	}
 }

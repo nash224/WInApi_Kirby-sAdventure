@@ -16,7 +16,6 @@
 // 설명 :
 class VegetableValleyPlayLevel : public GameEngineLevel
 {
-
 public:
 	static bool PrevLevelTriggerOn;
 	static bool NextLevelTriggerOn;
@@ -123,6 +122,40 @@ protected:
 		int _StartFrame, int _EndFrame,
 		float4 _Pos, float _Ratio,
 		float _Inter = 0.1f, bool _Loop = true);
+
+
+	// 카메라
+	float4 CameraFrontCheckPos = float4::ZERO;
+	float4 CameraBackCheckPos = float4::ZERO;
+
+
+
+	void CameraFocus(float _Delta);
+
+
+	// 카메라 지진
+public:
+	static int Camera_ShakeCount;
+
+	static void RequestShakeCountToLevel(size_t _Value = 1)
+	{
+		for (size_t i = 0; i < _Value; i++)
+		{
+			++Camera_ShakeCount;
+		}
+	}
+
+	static void RequestShakeMagnitudeToLevel(float _Value = 3.0f)
+	{
+		Camera_ShakeMagnitude = _Value;
+	}
+
+private:
+	static float Camera_ShakeMagnitude;
+	int Camera_ShakeNumber = 0;
+
+	const float Camera_ShakeCycle = 0.04f;
+	float Camera_ShakeTime = 0.0f;
 
 
 public:
