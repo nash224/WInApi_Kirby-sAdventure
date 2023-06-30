@@ -155,7 +155,7 @@ void VegetableValley13::EndingCredit(float _Delta)
 	}
 
 
-	if (true == FadeObject::IsFadeDone)
+	if (true == FadeObject::IsFadeDone && false == FadeObject::IsFadeOutScreenRelease)
 	{
 		FadeObject::IsFadeOutScreenRelease = true;
 		GlobalContents::WhiteFadeIn(this);

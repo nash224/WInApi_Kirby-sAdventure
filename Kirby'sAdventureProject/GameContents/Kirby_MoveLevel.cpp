@@ -67,20 +67,48 @@ void Kirby::MoveLevel_StateResourceLoad()
 	MainRenderer->CreateAnimation("Normal_Left_StageClearWalk", "Normal_Left_Kirby.bmp", 2, 5, 0.2f, true);
 	MainRenderer->CreateAnimation("Normal_Right_StageClearWalk", "Normal_Right_Kirby.bmp", 2, 5, 0.2f, true);
 
+
 	MainRenderer->CreateAnimation("Normal_Right_StageClear", "1Normal_KirbyOpenTheDoor.bmp", 9, 15, 0.1f, false);
 	MainRenderer->FindAnimation("Normal_Right_StageClear")->Inters = { 0.1f , 0.1f , 0.1f , 0.1f , 0.1f , 0.1f , 1.0f };
 
+	Left_KirbyRenderer->CreateAnimation("Ready", "Summon_KirbyEgo.bmp", 0, 0, 0.075f, false);
+	Right_KirbyRenderer->CreateAnimation("Ready", "Summon_KirbyEgo.bmp", 0, 0, 0.075f, false);
 	Left_KirbyRenderer->CreateAnimation("StarSpin", "Summon_KirbyEgo.bmp", 0, 8, 0.075f, false);
 	Right_KirbyRenderer->CreateAnimation("StarSpin", "Summon_KirbyEgo.bmp", 0, 8, 0.075f, false);
 
+
 	MainRenderer->CreateAnimation("Normal_Right_Performance", "Kirby_Performance.bmp", 0, 29, 5.0f, false);
-	Left_KirbyRenderer->CreateAnimation("Normal_Right_Performance", "Kirby_Performance.bmp", 0, 29, 5.0f, false);
-	Right_KirbyRenderer->CreateAnimation("Normal_Right_Performance", "Kirby_Performance.bmp", 0, 29, 5.0f, false);
+	Left_KirbyRenderer->CreateAnimation("Performance", "Kirby_Performance.bmp", 0, 29, 5.0f, false);
+	Right_KirbyRenderer->CreateAnimation("Performance", "Kirby_Performance.bmp", 0, 29, 5.0f, false);
+
 
 	MainRenderer->FindAnimation("Normal_Right_Performance")->Inters
-		= { 0.2f , 0.2f , 0.2f , 0.2f , 0.2f , 0.2f , 0.2f , 0.2f , 5.0f , 0.05f , 0.05f , 0.05f , 0.05f , 5.0f
-		, 0.2f , 0.3f , 0.2f , 5.0f , 0.1f , 0.15f , 0.1f , 0.15f , 0.1f , 0.1f , 0.1f , 0.1f , 0.1f , 0.1f , 0.3f , 1.0f };
+		= { Performance_0_7_Duration , Performance_0_7_Duration , Performance_0_7_Duration , Performance_0_7_Duration 
+		, Performance_0_7_Duration , Performance_0_7_Duration , Performance_0_7_Duration , Performance_0_7_Duration 
+		, 5.0f , 0.05f , 0.05f , 0.05f , 0.05f , 5.0f
+		, 0.2f , 0.3f , 0.2f , 5.0f , 0.1f , 0.2f , 0.1f , 0.2f , 0.1f , 0.1f , 0.1f , 0.1f , 0.1f , 0.1f , 0.3f , 1.0f };
 
+
+	Left_KirbyRenderer->FindAnimation("Performance")->Inters
+		= { Performance_0_7_Duration , Performance_0_7_Duration , Performance_0_7_Duration , Performance_0_7_Duration
+		, Performance_0_7_Duration , Performance_0_7_Duration , Performance_0_7_Duration , Performance_0_7_Duration
+		, 5.0f , 0.05f , 0.05f , 0.05f , 0.05f , 5.0f
+		, 0.2f , 0.3f , 0.2f , 5.0f , 0.1f , 0.2f , 0.1f , 0.2f , 0.1f , 0.1f , 0.1f , 0.1f , 0.1f , 0.1f , 0.3f , 1.0f };
+
+
+	Right_KirbyRenderer->FindAnimation("Performance")->Inters
+		= { Performance_0_7_Duration , Performance_0_7_Duration , Performance_0_7_Duration , Performance_0_7_Duration
+		, Performance_0_7_Duration , Performance_0_7_Duration , Performance_0_7_Duration , Performance_0_7_Duration
+		, 5.0f , 0.05f , 0.05f , 0.05f , 0.05f , 5.0f
+		, 0.2f , 0.3f , 0.2f , 5.0f , 0.1f , 0.2f , 0.1f , 0.2f , 0.1f , 0.1f , 0.1f , 0.1f , 0.1f , 0.1f , 0.3f , 1.0f };
+
+
+	Left_KirbyRenderer->ChangeAnimation("Ready");
+	Right_KirbyRenderer->ChangeAnimation("Ready");
+	Left_KirbyRenderer->Off();
+	Right_KirbyRenderer->Off();
+	Left_KirbyRenderer->SetRenderPos(float4{ -StageClear_KirbyBackUpDancer_RenderInter , 0.0f });
+	Right_KirbyRenderer->SetRenderPos(float4{ StageClear_KirbyBackUpDancer_RenderInter , 0.0f });
 
 
 	// 사운드
@@ -150,7 +178,6 @@ void Kirby::EnterUpdate(float _Delta)
 		return;
 	}
 
-
 }
 
 
@@ -219,12 +246,6 @@ void Kirby::OpenDoorAndRaiseFlagUpdate(float _Delta)
 
 		Gravity(_Delta);
 		VerticalUpdate(_Delta);
-
-		if (GetGravityVector().Y > 0.0f)
-		{
-			//MainRenderer->FindAnimation("Normal_Right_OpenDoorAndRaiseFlag")->CurFrame = 5;
-			//MainRenderer->FindAnimation("Normal_Right_OpenDoorAndRaiseFlag")->CurInter = 0.0f;
-		}
 	}
 
 
@@ -307,8 +328,6 @@ void Kirby::OpenDoorAndRaiseFlagAfterUpdate(float _Delta)
 
 	HorizontalUpdate(_Delta);
 }
-
-
 
 
 
@@ -413,6 +432,21 @@ void Kirby::StageClearStart()
 	}
 	
 
+	if (nullptr == Left_KirbyRenderer)
+	{
+		MsgBoxAssert("렌더러를 불러오지 못했습니다.")
+	}
+
+	if (nullptr == Right_KirbyRenderer)
+	{
+		MsgBoxAssert("렌더러를 불러오지 못했습니다.")
+	}
+
+
+	Left_KirbyRenderer->On();
+	Right_KirbyRenderer->On();
+	Left_KirbyRenderer->ChangeAnimation("StarSpin");
+	Right_KirbyRenderer->ChangeAnimation("StarSpin");
 	ChangeAnimationState("StageClear");
 }
 
@@ -455,6 +489,9 @@ void Kirby::PerformanceStart()
 
 
 	GravityReset();
+
+	Left_KirbyRenderer->ChangeAnimation("Performance");
+	Right_KirbyRenderer->ChangeAnimation("Performance");
 	ChangeAnimationState("Performance");
 }
 
@@ -466,6 +503,7 @@ void Kirby::PerformanceUpdate(float _Delta)
 		MsgBoxAssert("랜더러가 Null 입니다.");
 		return;
 	}
+
 
 
 	if (MainRenderer->GetCurFrame() >= 0 && MainRenderer->GetCurFrame() <= 6)
@@ -485,15 +523,34 @@ void Kirby::PerformanceUpdate(float _Delta)
 		Gravity(_Delta);
 		VerticalUpdate(_Delta);
 
-		CurrentSpeed += 300.0f * _Delta;
-		HorizontalSpeedLimit(300.0f);
+		CurrentSpeed += 200.0f * _Delta;
+		HorizontalSpeedLimit(200.0f);
 		HorizontalUpdate(_Delta);
 
 
 		if (GetGravityVector().Y > 0.0f)
 		{
+			if (nullptr == Left_KirbyRenderer)
+			{
+				MsgBoxAssert("랜더러가 Null 입니다.");
+				return;
+			}
+
+			if (nullptr == Right_KirbyRenderer)
+			{
+				MsgBoxAssert("랜더러가 Null 입니다.");
+				return;
+			}
+
+
 			MainRenderer->FindAnimation("Normal_Right_Performance")->CurFrame = 9;
 			MainRenderer->FindAnimation("Normal_Right_Performance")->CurInter = 0.0f;
+
+			Left_KirbyRenderer->FindAnimation("Performance")->CurFrame = 9;
+			Left_KirbyRenderer->FindAnimation("Performance")->CurInter = 0.0f;
+
+			Right_KirbyRenderer->FindAnimation("Performance")->CurFrame = 9;
+			Right_KirbyRenderer->FindAnimation("Performance")->CurInter = 0.0f;
 		}
 	}
 
@@ -527,8 +584,28 @@ void Kirby::PerformanceUpdate(float _Delta)
 
 			if (0.0f == CurrentSpeed)
 			{
+				if (nullptr == Left_KirbyRenderer)
+				{
+					MsgBoxAssert("랜더러가 Null 입니다.");
+					return;
+				}
+
+				if (nullptr == Right_KirbyRenderer)
+				{
+					MsgBoxAssert("랜더러가 Null 입니다.");
+					return;
+				}
+
+
 				MainRenderer->FindAnimation("Normal_Right_Performance")->CurFrame = 14;
 				MainRenderer->FindAnimation("Normal_Right_Performance")->CurInter = 0.0f;
+
+
+				Left_KirbyRenderer->FindAnimation("Performance")->CurFrame = 14;
+				Left_KirbyRenderer->FindAnimation("Performance")->CurInter = 0.0f;
+
+				Right_KirbyRenderer->FindAnimation("Performance")->CurFrame = 14;
+				Right_KirbyRenderer->FindAnimation("Performance")->CurInter = 0.0f;
 			}
 
 		}
@@ -537,7 +614,7 @@ void Kirby::PerformanceUpdate(float _Delta)
 	if (14 == MainRenderer->GetCurFrame())
 	{
 		CurentVerticalSpeed = -60.0f;
-		CurrentSpeed = 400.0f;
+		CurrentSpeed = Performance_15_17_MovePos;
 	}
 
 	if (15 == MainRenderer->GetCurFrame())
@@ -545,14 +622,14 @@ void Kirby::PerformanceUpdate(float _Delta)
 		VerticalDecelerationUpdate(60.0f / 0.3f, _Delta);
 		VerticalUpdateBasedlevitation(_Delta);
 
-		ActorUtils::DecelerationUpdate(_Delta, 400.0f / 0.3f);
-		HorizontalUpdate(_Delta);
+		ActorUtils::DecelerationUpdate(_Delta, Performance_15_17_MovePos / 0.3f);
+		ActorUtils::HorizontalUpdate(_Delta);
 	}
 
 	if (16 == MainRenderer->GetCurFrame())
 	{
 		CurentVerticalSpeed = -60.0f;
-		CurrentSpeed = -400.0f;
+		CurrentSpeed = -Performance_15_17_MovePos;
 	}
 
 
@@ -563,8 +640,8 @@ void Kirby::PerformanceUpdate(float _Delta)
 			VerticalDecelerationUpdate(60.0f / 0.3f, _Delta);
 			VerticalUpdateBasedlevitation(_Delta);
 
-			ActorUtils::DecelerationUpdate(_Delta, 400.0f / 0.3f);
-			HorizontalUpdate(_Delta);
+			ActorUtils::DecelerationUpdate(_Delta, Performance_15_17_MovePos / 0.3f);
+			ActorUtils::HorizontalUpdate(_Delta);
 		}
 		else if (true == IsPerformance_17Frames_FallStartTime)
 		{
@@ -573,8 +650,29 @@ void Kirby::PerformanceUpdate(float _Delta)
 
 			if (true == GetGroundState())
 			{
+				if (nullptr == Left_KirbyRenderer)
+				{
+					MsgBoxAssert("랜더러가 Null 입니다.");
+					return;
+				}
+
+				if (nullptr == Right_KirbyRenderer)
+				{
+					MsgBoxAssert("랜더러가 Null 입니다.");
+					return;
+				}
+
+
 				MainRenderer->FindAnimation("Normal_Right_Performance")->CurFrame = 18;
 				MainRenderer->FindAnimation("Normal_Right_Performance")->CurInter = 0.0f;
+
+
+				Left_KirbyRenderer->FindAnimation("Performance")->CurFrame = 18;
+				Left_KirbyRenderer->FindAnimation("Performance")->CurInter = 0.0f;
+
+
+				Right_KirbyRenderer->FindAnimation("Performance")->CurFrame = 18;
+				Right_KirbyRenderer->FindAnimation("Performance")->CurInter = 0.0f;
 			}
 		}
 
@@ -588,13 +686,13 @@ void Kirby::PerformanceUpdate(float _Delta)
 
 	if (18 == MainRenderer->GetCurFrame() || 20 == MainRenderer->GetCurFrame())
 	{
-		CurrentSpeed = 200.0f;
+		CurrentSpeed = 300.0f;
 	}
 
 	if (19 == MainRenderer->GetCurFrame() || 21 == MainRenderer->GetCurFrame())
 	{
-		ActorUtils::DecelerationUpdate(_Delta, 200.0f / 0.24f);
-		HorizontalUpdate(_Delta);
+		ActorUtils::DecelerationUpdate(_Delta, 300.0f / 0.2f);
+		ActorUtils::HorizontalUpdate(_Delta);
 	}
 
 

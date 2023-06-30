@@ -494,6 +494,7 @@ private:
 	// StageClear 상태 관련
 	const float StageClear_WalkingScalar = 100.0f;
 	float StageClear_X_CenterPos = 0.0f;
+	const float StageClear_KirbyBackUpDancer_RenderInter = 120.0f;
 
 
 
@@ -506,6 +507,9 @@ private:
 	bool IsPerformance_17Frames_FallStartTime = false;
 	float Kirby_Performance_StartXPos = 0.0f;
 	bool IsKirby_FinishPosCheck = false;
+	const float Performance_0_7_Duration = 0.15f;
+	const float Performance_15_17_MovePos = 200.0f;
+
 	float Kirby_SetFinishPos = 0.0f;
 
 
