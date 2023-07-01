@@ -72,7 +72,9 @@ void FadeObject::RequestFadeOut()
 {
 	IsChangeFade = true;
 	IsFadeOut = true;
+	IsFadeDone = false;
 	IsFadeOutScreenRelease = false;
+
 
 	AlphaCount = 0;
 	MainRenderer->SetAlpha(static_cast<unsigned char>(AlphaCount));
