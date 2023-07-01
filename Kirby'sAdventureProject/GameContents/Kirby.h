@@ -174,6 +174,8 @@ public:
 protected:
 	static Kirby* MainKirby;
 
+	class UIManager* UIManagerPtr = nullptr;
+
 
 	// Ä¿ºñ ¼ôÄÆ
 	static float SoundVol;

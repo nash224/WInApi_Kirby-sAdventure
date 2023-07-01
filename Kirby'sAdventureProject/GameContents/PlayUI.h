@@ -26,7 +26,7 @@ class PlayUI : public UIManager
 {
 public:
 	// 점수
-	static int PlayUI_ScoreNumber;
+	static int PlayUI_Score;
 
 public:
 	// constrcuter destructer
@@ -41,13 +41,18 @@ public:
 
 
 protected:
+
+private:
+	void Start() override;
+	void Update(float _Delta) override;
+
+	void LevelStart() override;
+
+
 	GameEngineRenderer* LivesAniRenderer = nullptr;
 
 
-	std::vector<GameEngineRenderer*> ScoreRenderer_vec;
-
-
-
+	// Init 
 	void HubRendererSet();
 	void LivesAniRendererSet();
 	void PortraitRendererSet();
@@ -57,11 +62,6 @@ protected:
 		
 
 
-
-	void Start() override;
-	void Update(float _Delta) override;
-
-	void LevelStart() override;
 
 private:
 	// Hp 감소 패턴
@@ -77,6 +77,21 @@ private:
 	const float Increase_Hp_Cycle = 0.12f;
 	bool IsIncresing_Hp = false;
 
+
+
+	// 점수 패턴
+	std::vector<GameEngineRenderer*> ScoreRenderer_vec;
+	int RenderScore = 0;
+
+
+	void ScoreState();
+
+
+	// LevelStart
+	void LevelStartStamina();
+	void LevelStartPortrait();
+	void LevelStartLivesCount();
+	void LevelStartScore();
 
 };
 

@@ -13,7 +13,7 @@
 
 
 #include "GlobalContents.h"
-#include "UIManager.h"
+#include "PlayUI.h"
 #include "VegetableValleyPlayLevel.h"
 #include "DustEffect.h"
 #include "HitObjectEffect.h"
@@ -1263,6 +1263,18 @@ void Kirby::LowerAttackUpdate(float _Delta)
 
 			// 몬스터 상태 변경 트리거 On
 			Monster->IsHitted = true;
+
+
+			if (nullptr == UIManagerPtr)
+			{
+				MsgBoxAssert("UI를 불러오지 못했습니다.");
+				return;
+			}
+
+			if ("PlayUI" == UIManagerPtr->GetName())
+			{
+				PlayUI::PlayUI_Score += 200;
+			}
 		}
 		
 	}
@@ -1802,7 +1814,7 @@ void Kirby::DamagedStart()
 {
 	StateTime = 0.0f;
 	IsChangeState = false;
-	
+
 	// 지진요청
 	++VegetableValleyPlayLevel::Camera_ShakeCount;
 	
@@ -1848,6 +1860,18 @@ void Kirby::DamagedStart()
 	// 사운드 재생
 	GameEngineSound::SoundPlay("Kirby_Hitted.wav");
 
+
+	
+	if (nullptr == UIManagerPtr)
+	{
+		MsgBoxAssert("UI를 불러오지 못했습니다.");
+		return;
+	}
+
+	if ("PlayUI" == UIManagerPtr->GetName())
+	{
+		PlayUI::PlayUI_Score += 50;
+	}
 
 
 	ChangeAnimationState("Damaged");

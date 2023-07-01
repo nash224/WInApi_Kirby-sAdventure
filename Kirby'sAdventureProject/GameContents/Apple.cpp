@@ -388,10 +388,10 @@ void Apple::BeInhaledStart()
 {
 	StateTime = 0.0f;
 	IsChangeState = false;
+	CurrentSpeed = 0.0f;
 	IsInhaledStateOn = false;
 	BodyCollision->Off();
 	ActorDirUnitVector = GetKirbyOpponentDistance();
-	CurrentSpeed = 0.0f;
 }
 
 void Apple::BeInhaledUpdate(float _Delta)

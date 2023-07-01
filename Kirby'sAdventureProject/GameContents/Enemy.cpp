@@ -9,6 +9,7 @@
 #include <GameEngineCore/GameEngineCollision.h>
 
 #include "Kirby.h"
+#include "PlayUI.h"
 #include "CrossDeathEffect.h"
 
 Enemy::Enemy() 
@@ -246,10 +247,16 @@ void Enemy::BeInhaledStart()
 {
 	StateTime = 0.0f;
 	IsChangeState = false;
+	CurrentSpeed = 0.0f;
+
+
+
 	IsInhaledStateOn = false;
 	BodyCollision->Off();
 	ActorDirUnitVector = GetKirbyOpponentDistance();
-	CurrentSpeed = 0.0f;
+
+
+	PlayUI::PlayUI_Score += 300;
 }
 
 void Enemy::BeInhaledUpdate(float _Delta)
@@ -301,7 +308,10 @@ void Enemy::HittedStart()
 {
 	StateTime = 0.0f;
 	IsChangeState = false;
+	CurrentSpeed = 0.0f;
 	IsHitted = true;
+
+
 
 
 	CrossDeathEffect* CrossDeathEffectPtr = GetLevel()->CreateActor<CrossDeathEffect>(UpdateOrder::Ability);
@@ -315,9 +325,11 @@ void Enemy::HittedStart()
 
 
 
+
+	PlayUI::PlayUI_Score += 200;
+
 	GameEngineSound::SoundPlay("Enemy_DeathSound.wav");
 
-	CurrentSpeed = 0.0f;
 }
 
 void Enemy::HittedUpdate(float _Delta)

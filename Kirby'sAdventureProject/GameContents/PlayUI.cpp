@@ -13,7 +13,7 @@
 
 
 
-int PlayUI::PlayUI_ScoreNumber = 0;
+int PlayUI::PlayUI_Score = 0;
 
 
 PlayUI::PlayUI()
@@ -71,7 +71,8 @@ void PlayUI::HubRendererSet()
 	MainUIRenderer->SetRenderScale(UIScale);
 
 
-	// 지정위치에 배치
+
+	SetName("PlayUI");
 }
 
 
@@ -459,6 +460,8 @@ void PlayUI::Update(float _Delta)
 	OuchState(_Delta);
 
 	StaminaState();
+
+	ScoreState();
 }
 
 
@@ -478,7 +481,7 @@ void PlayUI::OuchState(float _Delta)
 		PortraitRenderer->ChangeAnimation("Portrait_Normal");
 	}
 	
-	// 커비의 체력과 UI의 체력이 다르면+
+	// 커비의 체력과 UI의 체력이 다르면
 	if (m_KirbySteminaCount != KirbyPtr->m_KirbyHp && -1 != KirbyPtr->m_KirbyHp)
 	{
 		// 커비의 체력이 감소하면
@@ -576,6 +579,7 @@ void PlayUI::OuchState(float _Delta)
 
 				++m_KirbySteminaCount;
 
+				PlayUI_Score += 1000;
 				GameEngineSound::SoundPlay("Boss_StaminaFullSound.wav");
 
 
@@ -590,6 +594,44 @@ void PlayUI::OuchState(float _Delta)
 }
 
 
+// 0 번째 요소 : 1의 자리수 = Score % 10 또는 Score / 1 % 10
+// 1 번째 요소 : 10의 자리수 = Score % 100 / 10 또는 Score / 10 % 10
+// 2 번째 요소 : 100의 자리수 = Score % 1000 / 100 또는 Score / 100 % 10
+
+void PlayUI::ScoreState()
+{
+	if (PlayUI_Score == RenderScore)
+	{
+		return;
+	}
+
+	for (size_t i = 0; i < ScoreRenderer_vec.size(); i++)
+	{
+		GameEngineRenderer* ScoreRendererPtr = ScoreRenderer_vec[i];
+		if (nullptr == ScoreRendererPtr)
+		{
+			MsgBoxAssert("벡터 참조 영역을 벗어났습니다.");
+			return;
+		}
+
+		size_t Digit = ScoreRenderer_vec.size() - i;
+
+		size_t Pow = 1;
+
+		for (size_t j = 1; j < Digit; j++)
+		{
+			Pow *= 10;
+		}
+
+
+		int DigitNumber = static_cast<int>(PlayUI_Score / Pow % 10);
+
+		ScoreRendererPtr->SetCopyPos(float4{ NumberScale.X * DigitNumber , 0.0f });
+	}
+
+	RenderScore = PlayUI_Score;
+}
+
 
 
 
@@ -598,6 +640,15 @@ void PlayUI::LevelStart()
 {
 	UI = this;
 
+	LevelStartPortrait();
+	LevelStartStamina();
+	LevelStartLivesCount();
+}
+
+
+
+void PlayUI::LevelStartStamina()
+{
 	KirbyPtr = Kirby::GetMainKirby();
 	if (nullptr == KirbyPtr)
 	{
@@ -618,6 +669,16 @@ void PlayUI::LevelStart()
 
 		StaminaRenderer->Off();
 	}
+}
+
+
+void PlayUI::LevelStartPortrait()
+{
+	if (nullptr == PortraitRenderer)
+	{
+		MsgBoxAssert("렌더러를 불러오지 못했습니다.");
+		return;
+	}
 
 
 	// 커비 모드
@@ -632,7 +693,7 @@ void PlayUI::LevelStart()
 	case 2:
 		PortraitRenderer->ChangeAnimation("Portrait_Laser");
 		break;
-	case 3: 
+	case 3:
 		PortraitRenderer->ChangeAnimation("Portrait_Beam");
 		break;
 	case 4:
@@ -644,9 +705,25 @@ void PlayUI::LevelStart()
 	default:
 		break;
 	}
+}
 
+
+void PlayUI::LevelStartLivesCount()
+{
+	if (nullptr == First_LivesRenderer)
+	{
+		MsgBoxAssert("렌더러를 불러오지 못했습니다.");
+		return;
+	}
+
+	if (nullptr == Second_LivesRenderer)
+	{
+		MsgBoxAssert("렌더러를 불러오지 못했습니다.");
+		return;
+	}
 
 	// 커비 목숨
 	First_LivesRenderer->SetCopyPos(float4{ NumberScale.X * static_cast<float>(m_LivesCount / 10), 0.0f });
 	Second_LivesRenderer->SetCopyPos(float4{ NumberScale.X * static_cast<float>(m_LivesCount % 10), 0.0f });
 }
+

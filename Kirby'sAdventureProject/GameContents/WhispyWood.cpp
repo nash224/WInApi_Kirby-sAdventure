@@ -416,7 +416,6 @@ void WhispyWood::FrownStart()
 {
 	IsImmune = true;
 
-
 	VegetableValleyPlayLevel::RequestShakeCountToLevel(2);
 
 

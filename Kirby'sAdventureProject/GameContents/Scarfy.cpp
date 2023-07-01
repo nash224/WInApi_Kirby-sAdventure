@@ -8,6 +8,7 @@
 
 
 #include "GlobalContents.h"
+#include "PlayUI.h"
 #include "Kirby.h"
 #include "AirExplosionEffect.h"
 #include <vector>
@@ -452,6 +453,8 @@ void Scarfy::HittedStart()
 	AirExplosionEffectPtr->init(GetPos(), Scale);
 	AirExplosionEffectPtr->SetActorCollision(CollisionOrder::MonsterAbility, CollisionType::Rect);
 
+
+	PlayUI::PlayUI_Score += 500;
 }
 
 

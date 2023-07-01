@@ -10,14 +10,15 @@
 #include <GameEngineCore/ResourcesManager.h>
 
 
-#include "GlobalContents.h"
 #include "VegetableValleyPlayLevel.h"
+#include "GlobalContents.h"
+#include "PlayUI.h"
+#include "FadeObject.h"
 #include "DustEffect.h"
 #include "HitObjectEffect.h"
 #include "SmallStarFireEffect.h"
 #include "LargeStarFireEffect.h"
 #include "GetAbilityEffect.h"
-#include "FadeObject.h"
 
 
 
@@ -1044,6 +1045,19 @@ void Kirby::Contain_DamagedStart()
 	}
 
 	SetGravityVector(float4{ 0.0f , BOUNCINGOFF_YPOWER });
+
+
+
+	if (nullptr == UIManagerPtr)
+	{
+		MsgBoxAssert("UI를 불러오지 못했습니다.");
+		return;
+	}
+
+	if ("PlayUI" == UIManagerPtr->GetName())
+	{
+		PlayUI::PlayUI_Score += 50;
+	}
 
 
 	ChangeAnimationState("Contain_Damaged");

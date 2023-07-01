@@ -738,7 +738,7 @@ void Kirby::LevelStart()
 	CurrentBackGroundScale = CurrentLevelPtr->GetLevelBackgroundScale();
 	CurrentLevelBitMapFileName = CurrentLevelPtr->GetLevelBitMapFileName();
 
-	UIManager* UIManagerPtr = CurrentLevelPtr->GetUIManager();
+	UIManagerPtr = CurrentLevelPtr->GetUIManager();
 	if (nullptr == UIManagerPtr)
 	{
 		MsgBoxAssert("레벨 UI 를 불러오지 못했습니다.");
