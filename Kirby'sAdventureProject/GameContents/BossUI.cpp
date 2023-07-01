@@ -45,7 +45,6 @@ void BossUI::HubRendererSet()
 		return;
 	}
 
-
 	GameEngineWindowTexture* Texture = GlobalContents::TextureFileLoad("BossUI.bmp", "Resources\\UI");
 	if (nullptr == Texture)
 	{
@@ -65,6 +64,27 @@ void BossUI::HubRendererSet()
 	MainUIRenderer->SetRenderScale(UIScale);
 
 
+
+	// 엔딩 패널 렌더러
+	EndingPanelRenderer = CreateUIRenderer(RenderOrder::PlayUI);
+	if (nullptr == EndingPanelRenderer)
+	{
+		MsgBoxAssert("렌더러가 Null 입니다..");
+		return;
+	}
+
+	GameEngineWindowTexture* EndingPanel_Texture = GlobalContents::TextureFileLoad("ThanksForWatching.bmp", "Resources\\UI");
+	if (nullptr == EndingPanel_Texture)
+	{
+		MsgBoxAssert("UI 텍스처가 널일리가 없어");
+		return;
+	}
+
+	float4 EndingPanelScale = EndingPanel_Texture->GetScale();
+
+	EndingPanelRenderer->SetTexture("ThanksForWatching.bmp");
+	EndingPanelRenderer->SetRenderPos(BOSS_ENDINGPANEL_LOCATION + EndingPanelScale.Half());
+	EndingPanelRenderer->Off();
 }
 
 
@@ -360,6 +380,8 @@ void BossUI::Update(float _Delta)
 
 
 	PortraitState(_Delta);
+	ChangePortrait_StarStick();
+	ChangePortrait_ByeBye();
 
 	OuchState(_Delta);
 
@@ -371,7 +393,6 @@ void BossUI::Update(float _Delta)
 	}
 
 
-	ChangePortrait_StarStick();
 
 }
 
@@ -581,6 +602,43 @@ void BossUI::ChangePortrait_StarStick()
 	}
 }
 
+
+void BossUI::ChangePortrait_ByeBye()
+{
+	if (true == IsCall_ByeByePortrait)
+	{
+		if (nullptr == PortraitRenderer)
+		{
+			MsgBoxAssert("렌더러를 불러오지 못했습니다.");
+				return;
+		}
+
+		if (nullptr == EndingPanelRenderer)
+		{
+			MsgBoxAssert("렌더러를 불러오지 못했습니다.");
+			return;
+		}
+
+		for (size_t i = 0; i < StaminaRenderer_vec.size(); i++)
+		{
+			GameEngineRenderer* StaminaRenderer = StaminaRenderer_vec[i];
+			if (nullptr == StaminaRenderer)
+			{
+				MsgBoxAssert("렌더러를 불러오지 못했습니다.");
+				return;
+			}
+
+			StaminaRenderer->Off();
+		}
+
+
+
+		PortraitRenderer->ChangeAnimation("Portrait_ByeBye");
+		EndingPanelRenderer->On();
+
+		IsCall_ByeByePortrait = false;
+	}
+}
 
 
 

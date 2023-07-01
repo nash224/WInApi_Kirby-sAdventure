@@ -157,6 +157,23 @@ void VegetableValley13::EndingCredit(float _Delta)
 
 	if (true == FadeObject::IsFadeDone && false == FadeObject::IsFadeOutScreenRelease)
 	{
+		// UI에 ByeBye 초상화 호출
+		if (nullptr == LevelUIManager)
+		{
+			MsgBoxAssert("UI 를 불러오지 못했습니다.");
+			return;
+		}
+
+		BossUI* BossUIPtr = dynamic_cast<BossUI*>(LevelUIManager);
+		if (nullptr == BossUIPtr)
+		{
+			MsgBoxAssert("다운 캐스팅을 실패했습니다.");
+			return;
+		}
+
+		BossUIPtr->IsCall_ByeByePortrait = true;
+
+
 		FadeObject::IsFadeOutScreenRelease = true;
 		GlobalContents::WhiteFadeIn(this);
 

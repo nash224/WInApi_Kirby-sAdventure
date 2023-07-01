@@ -21,12 +21,21 @@
 #define BOSS_STAMINA_FIRSTNUMBERLOCATION float4{ 225.0f , 102.0f}
 
 
+// 엔딩 패널 위치
+#define BOSS_ENDINGPANEL_LOCATION float4{ 48.0f , 21.0f}
+
+
+// 엔딩 패널 위치
+#define BOSS_ENDINGPANEL_LOCATION float4{ 48.0f , 21.0f}
+
+
 
 
 
 // 설명 :
 class BossUI : public UIManager
 {
+	friend class VegetableValley13;
 	friend class WhispyWood;
 
 public:
@@ -103,9 +112,17 @@ private:
 	void BossStaminaState(float _Delta);
 
 
+
 	// StarStick 관련
 	bool IsChangeStarStick = false;
 
 	void ChangePortrait_StarStick();
+
+	// Ending 관련
+	GameEngineRenderer* EndingPanelRenderer = nullptr;
+
+	bool IsCall_ByeByePortrait = false;
+
+	void ChangePortrait_ByeBye();
 };
 
