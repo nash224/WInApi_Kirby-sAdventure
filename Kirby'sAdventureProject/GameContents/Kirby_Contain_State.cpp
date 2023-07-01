@@ -920,6 +920,17 @@ void Kirby::GetAbilityStart()
 	Star.SwallowedPowerEnemyNumber = 0;
 
 
+	if (nullptr == MainRenderer)
+	{
+		MsgBoxAssert("렌더러를 불러오지 못했습니다.");
+		return;
+	}
+
+	if (AbilityStar::Sword == Mode)
+	{
+		MainRenderer->SetRenderScaleToTexture();
+	}
+
 
 	ChangeAnimationState("GetAbility"); 
 }

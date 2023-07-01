@@ -17,6 +17,25 @@
 
 
 
+
+void Kirby::UseSpecialAbilityShorCut()
+{
+	if (true == GameEngineInput::IsDown('Z'))
+	{
+		//if (AbilityStar::Sword == Mode && false == GetGroundState())
+		//{
+		//	ChangeState(KirbyState::AerialUseSpecialAbility);
+		//	return;
+		//}
+		//else
+		{
+			ChangeState(KirbyState::UseSpecialAbility);
+			return;
+		}
+	}
+}
+
+
 void Kirby::UseSpecialAbilityStart()
 {
 	StateTime = 0.0f;
@@ -537,6 +556,18 @@ void Kirby::DropAbility()
 	WanderingStarPtr->init(GetPos(), GetKirbyScale(), Mode);
 	WanderingStarPtr->SetGroundTexture(CurrentLevelBitMapFileName);
 
+
+
+	if (nullptr == MainRenderer)
+	{
+		MsgBoxAssert("렌더러를 불러오지 못했습니다.");
+		return;
+	}
+
+	if (AbilityStar::Sword == Mode)
+	{
+		MainRenderer->SetRenderScaleToTexture();
+	}
 
 
 	Mode = AbilityStar::Normal;

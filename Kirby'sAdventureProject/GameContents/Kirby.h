@@ -17,6 +17,7 @@
 #define LOWERATTACKCOLLISIONSCALE float4 { 30.0f , 18.0f }
 #define INHALEEFFECTCOLLISIONSCALE float4 { 132.0f , 66.0f }
 #define SPARKEFFECTCOLLISIONSCALE float4 { 112.0f , 112.0f }
+#define SWORDEFFECTCOLLISIONSCALE float4 { 192.0f , 108.0f }
 
 // 커비 이동 상수
 #define WALKSPEED 500.0f
@@ -102,6 +103,7 @@ enum class KirbyState
 	Fly,
 	ExhaleAttack,
 	UseSpecialAbility,
+	AerialUseSpecialAbility,
 	ReleaseSpecialAbility,
 	Enter,
 	OpenDoorAndRaiseFlag,
@@ -223,8 +225,9 @@ protected:
 	void TakeOffStart();
 	void FlyStart();
 	void ExhaleAttackStart();
-	void UseSpecialAbilityStart();
+	void UseSpecialAbilityStart(); 
 	void ReleaseSpecialAbilityStart();
+	void AerialUseSpecialAbilityStart();
 	void GetAbilityStart();
 	void DamagedStart();
 	void EnterStart();
@@ -264,8 +267,9 @@ protected:
 	void HittheCeilingUpdate(float _Delta);
 	void TakeOffUpdate(float _Delta);
 	void FlyUpdate(float _Delta);
-	void ExhaleAttackUpdate(float _Delta);
+	void ExhaleAttackUpdate(float _Delta); 
 	void UseSpecialAbilityUpdate(float _Delta);
+	void AerialUseSpecialAbilityUpdate(float _Delta);
 	void ReleaseSpecialAbilityUpdate(float _Delta);
 	void GetAbilityUpdate(float _Delta);
 	void DamagedUpdate(float _Delta);
@@ -312,6 +316,8 @@ private:
 
 	GameEngineCollision* SparkEffectCollision = nullptr;
 	GameEngineCollision* ThornEffectCollision = nullptr;
+	GameEngineCollision* SwordEffectCollision = nullptr;
+	
 
 
 	GameEngineCollision* GetKirbyCollison();
@@ -364,10 +370,12 @@ private:
 	void Beam_StateResourceLoad();
 	void Fire_StateResourceLoad();
 	void Thorn_StateResourceLoad();
-	//void Sword_StateResourceLoad();
+	void Sword_StateResourceLoad();
 	void MoveLevel_StateResourceLoad();
 
 	// 모드별 공격 함수
+	void UseSpecialAbilityShorCut();
+
 	void UseAbilityStart();
 	void UseAbilityUpdate(float _Delta);
 
@@ -380,7 +388,7 @@ private:
 	void BeamAbilityStart();
 	void FireAbilityStart();
 	void ThornAbilityStart();
-	void SwordAbilityStart() {}
+	void SwordAbilityStart();
 
 	void InhaleAbilityUpdate(float _Delta);
 	void SparkAbilityUpdate(float _Delta);
@@ -388,7 +396,7 @@ private:
 	void BeamAbilityUpdate(float _Delta);
 	void FireAbilityUpdate(float _Delta);
 	void ThornAbilityUpdate(float _Delta);
-	void SwordAbilityUpdate(float _Delta) {}
+	void SwordAbilityUpdate(float _Delta);
 
 
 	// GetAbility 함수 관련
@@ -454,9 +462,6 @@ public:
 
 
 private:
-	// Death 상태 관련
-
-
 	// 부활
 	bool IsKirbyRevive = false;
 

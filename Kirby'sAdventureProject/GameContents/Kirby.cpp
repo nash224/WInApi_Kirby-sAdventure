@@ -55,6 +55,7 @@ void Kirby::Start()
 	Beam_StateResourceLoad();
 	Fire_StateResourceLoad();
 	Thorn_StateResourceLoad();
+	Sword_StateResourceLoad();
 	Contain_StateResourceLoad();
 	MoveLevel_StateResourceLoad();
 
@@ -191,6 +192,21 @@ void Kirby::Start()
 
 
 
+	SwordEffectCollision = CreateCollision(CollisionOrder::KirbyInhaleAbility);
+	if (nullptr == SwordEffectCollision)
+	{
+		MsgBoxAssert("액터가 NULL 입니다.");
+		return;
+	}
+
+
+	SwordEffectCollision->SetCollisionPos(float4{ 0.0f , -SmallTypeScale.Half().Y });
+	SwordEffectCollision->SetCollisionScale(SWORDEFFECTCOLLISIONSCALE);
+	SwordEffectCollision->SetCollisionType(CollisionType::Rect);
+	SwordEffectCollision->Off();
+
+
+
 	// 사운드
 	SoundVol = GameEngineSound::GetGlobalVolume();
 }
@@ -322,6 +338,7 @@ void Kirby::StateUpdate(float _Delta)
 	case KirbyState::Fly:							return FlyUpdate(_Delta);
 	case KirbyState::ExhaleAttack:					return ExhaleAttackUpdate(_Delta);
 	case KirbyState::UseSpecialAbility:				return UseSpecialAbilityUpdate(_Delta);
+	case KirbyState::AerialUseSpecialAbility:		return AerialUseSpecialAbilityUpdate(_Delta);
 	case KirbyState::ReleaseSpecialAbility:			return ReleaseSpecialAbilityUpdate(_Delta);
 	case KirbyState::GetAbility:					return GetAbilityUpdate(_Delta);
 	case KirbyState::Damaged:						return DamagedUpdate(_Delta);
@@ -373,6 +390,7 @@ void Kirby::ChangeState(KirbyState _State)
 		case KirbyState::Fly:						FlyStart();							break;
 		case KirbyState::ExhaleAttack:				ExhaleAttackStart();				break;
 		case KirbyState::UseSpecialAbility:			UseSpecialAbilityStart();			break;
+		case KirbyState::AerialUseSpecialAbility:	AerialUseSpecialAbilityStart();		break;
 		case KirbyState::ReleaseSpecialAbility:		ReleaseSpecialAbilityStart();		break;
 		case KirbyState::GetAbility:				GetAbilityStart();					break;
 		case KirbyState::Damaged:					DamagedStart();						break;
@@ -452,6 +470,12 @@ void Kirby::ChangeAnimationState(const std::string& _StateName, int _StartFrame/
 	ModeName += AnimationName;
 
 	CurState = _StateName;
+
+	if (nullptr == MainRenderer)
+	{
+		MsgBoxAssert("렌더러를 불러오지 못했습니다.");
+		return;
+	}
 
 	MainRenderer->ChangeAnimation(ModeName, _StartFrame);
 }

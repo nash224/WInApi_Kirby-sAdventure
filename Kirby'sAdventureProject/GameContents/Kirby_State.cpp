@@ -1966,6 +1966,19 @@ void Kirby::MissStart()
 	KeepDamagedState = KirbyState::Idle;
 	Dir = ActorDir::Right;
 
+
+	if (nullptr == MainRenderer)
+	{
+		MsgBoxAssert("렌더러를 불러오지 못했습니다.");
+		return;
+	}
+
+	if (AbilityStar::Sword == Mode)
+	{
+		MainRenderer->SetRenderScaleToTexture();
+	}
+
+
 	// 피해를 입으면 기본 상태로
 	if (AbilityStar::Normal != Mode)
 	{
