@@ -38,6 +38,7 @@ private:
 
 	void VegetableValleyStage_1_Func();
 	void VegetableValleyStage_2_Func();
+	void VegetableValleyMuseum_Func();
 
 	void Kirby_StageClear();
 
@@ -55,6 +56,7 @@ private:
 
 	StageElemnet Stage1;
 	StageElemnet Stage2;
+	StageElemnet Museum;
 
 
 
@@ -67,6 +69,7 @@ private:
 	void LevelStart(GameEngineLevel* _PrevLevel) override;
 	void LevelEnd(GameEngineLevel* _NextLevel) override;
 
-
+	// ¿ÜºÎ
+private:
 };
 

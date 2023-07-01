@@ -102,29 +102,19 @@ void VegetableValley12::Update(float _Delta)
 		MainCameraPtr->SetPos(float4{ BackGroundScale.X - WinScale.X , 0.0f });
 	}
 
-	
-	if (true == PrevLevelTriggerOn)
+
+	if (true == IsPlayerMiss)
 	{
-		PrevLevelTriggerOn = false;
-		GameEngineCore::ChangeLevel("VegetableValleyHub");
-		return;
+		GlobalContents::FadeOut(this);
+
+		IsPlayerMiss = false;
 	}
-	
 
 
-	if (true == IsPlayerEnter)
-	{
-		IsStageEnd = true;
 
-		if (true == NextLevelTriggerOn)
-		{
-			NextLevelTriggerOn = false;
-			IsPlayerEnter = false;
-			GameEngineCore::ChangeLevel("VegetableValleyHub");
 
-			return;
-		}
-	}
+	//PlayerMissPrevLevel();
+	PlayerEnterNextLevel();
 
 
 	if (true == PrevLevelTriggerOn)
@@ -150,6 +140,67 @@ void VegetableValley12::Update(float _Delta)
 
 	CameraFocus(_Delta);
 }
+
+
+
+
+
+void VegetableValley12::PlayerMissPrevLevel()
+{
+	if (true == IsPlayerMiss)
+	{
+		IsPlayerMiss = false;
+		IsPrevLeveling = true;
+
+		GlobalContents::FadeOut(this);
+	}
+
+	if (true == IsFadeDone && true == IsPrevLeveling)
+	{
+		IsFadeDone = false;
+		PrevLevelTriggerOn = true;
+	}
+
+
+	if (true == PrevLevelTriggerOn)
+	{
+		PrevLevelTriggerOn = false;
+		IsPrevLeveling = false;
+		IsChangeLevel = true;
+		GameEngineCore::ChangeLevel("VegetableValleyHub");
+		return;
+	}
+}
+
+
+void VegetableValley12::PlayerEnterNextLevel()
+{
+	if (true == IsPlayerEnter)
+	{
+		IsPlayerEnter = false;
+		IsNextLeveling = true;
+		IsStageEnd = true;
+
+		GlobalContents::FadeOut(this);
+	}
+
+	if (true == IsFadeDone && true == IsNextLeveling)
+	{
+		IsFadeDone = false;
+		NextLevelTriggerOn = true;
+	}
+
+	if (true == NextLevelTriggerOn)
+	{
+		NextLevelTriggerOn = false;
+		IsNextLeveling = false;
+		IsChangeLevel = true;
+
+		GameEngineCore::ChangeLevel("VegetableValleyHub");
+		return;
+	}
+}
+
 
 
 void VegetableValley12::Render(float _Delta)
@@ -219,6 +270,9 @@ void VegetableValley12::LevelStart(GameEngineLevel* _PrevLevel)
 
 void VegetableValley12::LevelEnd(GameEngineLevel* _NextLevel) 
 {
+	NextLevelTriggerOn = false;
+	IsPlayerEnter = false;
+
 	if (true == IsBGM_On)
 	{
 		BGM_Player.Stop();

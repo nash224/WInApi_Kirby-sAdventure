@@ -53,6 +53,10 @@ void TitleLevel::Start()
 	GlobalContents::SoundFileLoad("02_Title_Screen.mp3", "Resources\\SoundResources\\SoundTrack");
 }
 
+
+
+
+
 void TitleLevel::Update(float _DeltaTime)
 {
 	if (true == GameEngineInput::IsDown('W') ||
@@ -64,28 +68,34 @@ void TitleLevel::Update(float _DeltaTime)
 	}
 	
 	
-	if (true == FadeObject::IsFadeDone)
+	if (true == IsFadeDone)
 	{
+		IsFadeDone = false;
 		GameEngineCore::ChangeLevel("VegetableValleyIntro");
 	}
 }
 
+
+
+
+
 void TitleLevel::LevelStart(GameEngineLevel* _PrevLevel)
 {
-	if (false == IsBGMOn)
+	if (false == IsBGM_On)
 	{
-		BGMPlayer = GameEngineSound::SoundPlay("02_Title_Screen.mp3");
-		IsBGMOn = true;
+		BGM_Player = GameEngineSound::SoundPlay("02_Title_Screen.mp3");
+		IsBGM_On = true;
 	}
 
 }
 
 
+
 void TitleLevel::LevelEnd(GameEngineLevel* _NextLevel)
 {
-	if (true == IsBGMOn)
+	if (true == IsBGM_On)
 	{
-		BGMPlayer.Stop();
-		IsBGMOn = false;
+		BGM_Player.Stop();
+		IsBGM_On = false;
 	}
 }

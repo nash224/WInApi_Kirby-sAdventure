@@ -83,6 +83,8 @@ void Kirby::Spark_StateResourceLoad()
 	MainRenderer->CreateAnimationToFrame("Spark_Left_GetAbility", "Ability_Left_Use.bmp", { 0 ,1 , 2 , 1 , 2 , 1 , 2 , 1 , 2 , 0 }, 0.1f, false);
 	MainRenderer->CreateAnimationToFrame("Spark_Right_GetAbility", "Ability_Right_Use.bmp", { 0 ,1 , 2 , 1 , 2 , 1 , 2 , 1 , 2 ,0 }, 0.1f, false);
 
+
+
 }
 
 

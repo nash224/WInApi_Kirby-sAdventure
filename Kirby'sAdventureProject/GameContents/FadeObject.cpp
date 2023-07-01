@@ -13,7 +13,7 @@
 
 bool FadeObject::IsFadeOutScreenRelease = false;
 bool FadeObject::IsFadeScreenRelease = false; 
-bool FadeObject::IsFadeDone = false;
+bool FadeObject::IsFadeInDone = false;
 
 float FadeObject::TimeRaito = 1.0f;
 
@@ -24,7 +24,6 @@ FadeObject::FadeObject()
 
 FadeObject::~FadeObject()
 {
-	IsFadeDone = false;
 	IsFadeScreenRelease = false;
 }
 
@@ -63,6 +62,7 @@ void FadeObject::RequestFadeIn()
 {
 	IsChangeFade = true;
 	IsFadeOut = false;
+	IsFadeInDone = false;
 
 	AlphaCount = 255;
 	MainRenderer->SetAlpha(static_cast<unsigned char>(AlphaCount));
@@ -72,7 +72,6 @@ void FadeObject::RequestFadeOut()
 {
 	IsChangeFade = true;
 	IsFadeOut = true;
-	IsFadeDone = false;
 	IsFadeOutScreenRelease = false;
 
 
@@ -190,7 +189,7 @@ void FadeObject::FadeOut(float _Delta)
 			AlphaCount = 255;
 			break;
 		case 3:
-			IsFadeDone = true;
+			VegetableValleyPlayLevel::IsFadeDone = true;
 			break;
 		default:
 			break;
@@ -245,6 +244,7 @@ void FadeObject::FadeIn(float _Delta)
 			break;
 		case 3:
 			AlphaCount = 0;
+			IsFadeInDone = true;
 			break;
 		default:
 			break;
@@ -279,7 +279,6 @@ void FadeObject::FadeIn(float _Delta)
 
 void FadeObject::FadeScreen(float _Delta)
 {
-
 	Kirby* KirbyPtr = Kirby::GetMainKirby();
 	if (nullptr == KirbyPtr)
 	{

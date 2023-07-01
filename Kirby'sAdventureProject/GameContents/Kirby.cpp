@@ -751,6 +751,12 @@ void Kirby::LevelStart()
 		return;
 	}
 
+	if ("BonusGame" == CurLevel->GetName())
+	{
+		return;
+	}
+
+
 	VegetableValleyPlayLevel* CurrentLevelPtr = dynamic_cast<VegetableValleyPlayLevel*>(CurLevel);
 	if (nullptr == CurrentLevelPtr)
 	{
@@ -770,8 +776,6 @@ void Kirby::LevelStart()
 	}
 
 	CurrentUIScale = UIManagerPtr->UIScale;
-
-	
 }
 
 

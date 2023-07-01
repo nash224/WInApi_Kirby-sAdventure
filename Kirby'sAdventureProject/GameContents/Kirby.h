@@ -137,7 +137,6 @@ class Kirby : public ActorUtils
 
 private:
 	// 레벨관련
-	bool IsLevelChange = true;
 	size_t CurrentLevelEnemiesCount = 0;
 	float4 CurrentBackGroundScale = float4::ZERO;
 	std::string CurrentLevelBitMapFileName = "";
@@ -452,7 +451,8 @@ private:
 
 	// 레벨 이동 변수
 	bool IsNextLevelTriggerOn = false;
-
+	bool IsEnterCheck = false;
+	bool IsMissCheck = false;
 
 public:
 	int m_KirbyHp = 0;
@@ -467,17 +467,8 @@ private:
 
 
 
-	// Fade
-	const float FadeOutDuration = 0.6f;
-	float FadeOutTime = 0.0f;
-
-
-
 public:
 	// Fade Out & In, FadeScreen 관련
-	bool IsFadeOut = false;
-	bool IsKirby_FadeRequest = false;
-
 	int FadeAlphaValue = 70;
 
 

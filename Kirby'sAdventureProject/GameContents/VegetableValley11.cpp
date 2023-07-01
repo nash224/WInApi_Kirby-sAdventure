@@ -126,22 +126,25 @@ void VegetableValley11::Update(float _Delta)
 
 
 
-	if (true == PrevLevelTriggerOn)
+	if (true == GameEngineInput::IsDown('6'))
 	{
-		PrevLevelTriggerOn = false;
-		GameEngineCore::ChangeLevel("VegetableValleyHub");
-		return;
+		GameEngineCamera* MainCameraPtr = GetMainCamera();
+		if (nullptr == MainCameraPtr)
+		{
+			MsgBoxAssert("카메라가 NUll 입니다.");
+			return;
+		}
+
+		float4 WinScale = GameEngineWindow::MainWindow.GetScale();
+
+		LevelPlayer->SetPos(float4{ 2880.0f , 336.0f });
+		MainCameraPtr->SetPos(float4{ BackGroundScale.X - WinScale.X , 0.0f });
 	}
 
 
-	if (true == NextLevelTriggerOn)
-	{
-		NextLevelTriggerOn = false;
-		GameEngineCore::ChangeLevel("VegetableValley12");
+	PlayerMissPrevLevel();
 
-		return;
-	}
-
+	PlayerEnterNextLevel();
 
 
 	if (true == PrevLevelTriggerOn)
@@ -170,6 +173,65 @@ void VegetableValley11::Update(float _Delta)
 
 	CameraFocus(_Delta);
 }
+
+
+
+void VegetableValley11::PlayerMissPrevLevel()
+{
+	if (true == IsPlayerMiss)
+	{
+		IsPlayerMiss = false;
+
+		IsPrevLeveling = true;
+		GlobalContents::FadeOut(this);
+	}
+
+	if (true == IsFadeDone && true == IsPrevLeveling)
+	{
+		IsFadeDone = false;
+		PrevLevelTriggerOn = true;
+	}
+
+
+	if (true == PrevLevelTriggerOn)
+	{
+		PrevLevelTriggerOn = false;
+		IsPrevLeveling = false;
+		IsChangeLevel = true;
+		GameEngineCore::ChangeLevel("VegetableValleyHub");
+		return;
+	}
+}
+
+void VegetableValley11::PlayerEnterNextLevel()
+{
+	if (true == IsPlayerEnter)
+	{
+		IsPlayerEnter = false;
+		IsNextLeveling = true;
+
+		GlobalContents::FadeOut(this);
+	}
+
+	if (true == IsFadeDone && true == IsNextLeveling)
+	{
+		IsFadeDone = false;
+		NextLevelTriggerOn = true;
+	}
+
+	if (true == NextLevelTriggerOn)
+	{
+		NextLevelTriggerOn = false;
+		IsNextLeveling = false;
+		IsChangeLevel = true;
+
+		GameEngineCore::ChangeLevel("VegetableValley12");
+		return;
+	}
+}
+
+
+
 
 
 
@@ -246,9 +308,9 @@ void VegetableValley11::LevelStart(GameEngineLevel* _PrevLevel)
 
 	if (false == IsBGM_On)
 	{
-		IsBGM_On = true;
-
 		BGM_Player = GameEngineSound::SoundPlay("03_Plains_Level.mp3");
+
+		IsBGM_On = true;
 	}
 
 
@@ -258,6 +320,10 @@ void VegetableValley11::LevelStart(GameEngineLevel* _PrevLevel)
 
 void VegetableValley11::LevelEnd(GameEngineLevel* _NextLevel)
 {
+	IsPlayerEnter = false;
+	NextLevelTriggerOn = false;
+	IsFadeDone = false;
+
 	if (true == IsBGM_On)
 	{
 		BGM_Player.Stop();

@@ -4,12 +4,6 @@
     <ClInclude Include="CraneFever.h">
       <Filter>Level\00.BonusGame</Filter>
     </ClInclude>
-    <ClInclude Include="Museums.h">
-      <Filter>Level\00.BonusGame</Filter>
-    </ClInclude>
-    <ClInclude Include="BonusGameSubScreens.h">
-      <Filter>Level\00.BonusGame</Filter>
-    </ClInclude>
     <ClInclude Include="Boss.h">
       <Filter>Global\Object\Enemy\Boss</Filter>
     </ClInclude>
@@ -210,12 +204,6 @@
     <ClInclude Include="StarStick.h">
       <Filter>Global\Object\Item</Filter>
     </ClInclude>
-    <ClInclude Include="TitleLevel.h">
-      <Filter>Level</Filter>
-    </ClInclude>
-    <ClInclude Include="PauseLevel.h">
-      <Filter>Level</Filter>
-    </ClInclude>
     <ClInclude Include="WanderingStar.h">
       <Filter>Global\Object\Item</Filter>
     </ClInclude>
@@ -240,15 +228,21 @@
     <ClInclude Include="FadeObject.h">
       <Filter>Global\Object\Objects</Filter>
     </ClInclude>
+    <ClInclude Include="VegetableValleyMuseum.h">
+      <Filter>Level\02.Map\VegetableValley</Filter>
+    </ClInclude>
+    <ClInclude Include="TitleLevel.h">
+      <Filter>Level\02.Map</Filter>
+    </ClInclude>
+    <ClInclude Include="PauseLevel.h">
+      <Filter>Level\02.Map</Filter>
+    </ClInclude>
+    <ClInclude Include="SubScreens.h">
+      <Filter>Level\00.BonusGame</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CraneFever.cpp">
-      <Filter>Level\00.BonusGame</Filter>
-    </ClCompile>
-    <ClCompile Include="Museums.cpp">
-      <Filter>Level\00.BonusGame</Filter>
-    </ClCompile>
-    <ClCompile Include="BonusGameSubScreens.cpp">
       <Filter>Level\00.BonusGame</Filter>
     </ClCompile>
     <ClCompile Include="Boss.cpp">
@@ -486,12 +480,6 @@
     <ClCompile Include="Kirby_MoveLevel.cpp">
       <Filter>Global\Object\Kirby</Filter>
     </ClCompile>
-    <ClCompile Include="PauseLevel.cpp">
-      <Filter>Level</Filter>
-    </ClCompile>
-    <ClCompile Include="TitleLevel.cpp">
-      <Filter>Level</Filter>
-    </ClCompile>
     <ClCompile Include="WanderingStar.cpp">
       <Filter>Global\Object\Item</Filter>
     </ClCompile>
@@ -515,6 +503,18 @@
     </ClCompile>
     <ClCompile Include="FadeObject.cpp">
       <Filter>Global\Object\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="VegetableValleyMuseum.cpp">
+      <Filter>Level\02.Map\VegetableValley</Filter>
+    </ClCompile>
+    <ClCompile Include="PauseLevel.cpp">
+      <Filter>Level\02.Map</Filter>
+    </ClCompile>
+    <ClCompile Include="TitleLevel.cpp">
+      <Filter>Level\02.Map</Filter>
+    </ClCompile>
+    <ClCompile Include="SubScreens.cpp">
+      <Filter>Level\00.BonusGame</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

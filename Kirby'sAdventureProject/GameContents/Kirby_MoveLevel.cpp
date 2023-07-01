@@ -129,11 +129,12 @@ void Kirby::EnterStart()
 {
 	StateTime = 0.0f;
 	IsChangeState = false;
+	IsEnterCheck = false;
 
-	VegetableValleyPlayLevel::IsPlayerEnter = true;
+	IsNextLevelTriggerOn = false;
 
-	IsFadeOut = false;
-	FadeOutTime = 0.0f;
+	KeepDamagedState = KirbyState::Idle;
+	ChangeKirbyBodyState(KirbyBodyState::Little);
 
 	GameEngineTime::MainTimer.SetAllTimeScale(0.0f);
 	GameEngineTime::MainTimer.SetTimeScale(UpdateOrder::Player, 1.0f);
@@ -149,27 +150,27 @@ void Kirby::EnterStart()
 void Kirby::EnterUpdate(float _Delta)
 {
 	// 한 동작이 끝나면 
-	if (true == MainRenderer->IsAnimationEnd() && false == IsFadeOut)
+	if (true == MainRenderer->IsAnimationEnd())
 	{
-		// FadeOut
-		GlobalContents::FadeOut(GetLevel());
-		IsFadeOut = true;
-	}
-
-	if (true == FadeObject::IsFadeDone)
-	{
-		IsChangeState = true;
+		if (false == IsEnterCheck)
+		{
+			IsEnterCheck = true;
+			VegetableValleyPlayLevel::IsPlayerEnter = true;
+		}
 	}
 
 
 	// 레벨 이동 트리거
-	if (true == IsChangeState)
+	if (true == VegetableValleyPlayLevel::IsChangeLevel)
 	{
 		GameEngineTime::MainTimer.SetAllTimeScale(1.0f);
-		VegetableValleyPlayLevel::NextLevelTriggerOn = true;
+		VegetableValleyPlayLevel::IsChangeLevel = false;
+
 
 		if (true == VegetableValleyPlayLevel::IsStageEnd)
 		{
+			VegetableValleyPlayLevel::IsStageEnd = false;
+
 			ChangeState(KirbyState::OpenDoorAndRaiseFlag);
 			return;
 		}
@@ -194,12 +195,16 @@ void Kirby::OpenDoorAndRaiseFlagStart()
 
 	Dir = ActorDir::Right;
 
+
+	
+
 	if (nullptr == MainRenderer)
 	{
 		MsgBoxAssert("렌더러를 불러오는데 실패했습니다.");
 		return;
 	}
 
+	MainRenderer->SetRenderScaleToTexture();
 	MainRenderer->ChangeAnimation("Normal_Right_OpenDoorAndRaiseFlag");
 }
 
@@ -297,6 +302,8 @@ void Kirby::OpenDoorAndRaiseFlagAfterStart()
 		return;
 	}
 
+
+	MainRenderer->SetRenderScaleToTexture();
 	MainRenderer->ChangeAnimation("Normal_Right_OpenDoorAndRaiseFlagAfter");
 }
 

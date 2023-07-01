@@ -23,7 +23,15 @@ private:
 	void EnemySummon() override;
 
 	void Start() override;
+
+
+
 	void Update(float _Delta) override;
+
+	void PlayerMissPrevLevel();
+	void PlayerEnterNextLevel();
+
+
 	void Render(float _Delta) override;
 
 	void LevelStart(GameEngineLevel* _PrevLevel) override;

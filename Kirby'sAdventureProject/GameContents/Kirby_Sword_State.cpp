@@ -81,6 +81,10 @@ void Kirby::Sword_StateResourceLoad()
 	MainRenderer->CreateAnimation("Sword_Left_GetAbility", "Sword_Left_Kirby.bmp", 0, 7, 0.04f, false);
 	MainRenderer->CreateAnimation("Sword_Right_GetAbility", "Sword_Right_Kirby.bmp", 0, 7, 0.04f, false);
 
+
+
+	GlobalContents::SoundFileLoad("SwordKnight_AttackSound.wav", "Resources\\SoundResources\\EffectVoice");
+	GlobalContents::SoundFileLoad("SwordAieralAttack.wav", "Resources\\SoundResources\\EffectVoice");
 }
 
 
@@ -91,6 +95,8 @@ void Kirby::SwordAbilityStart()
 		MsgBoxAssert("번개모드 콜리전이 Null입니다.");
 		return;
 	}
+
+	GameEngineSound::SoundPlay("SwordKnight_AttackSound.wav");
 
 	SwordEffectCollision->On();
 }
@@ -172,6 +178,10 @@ void Kirby::AerialUseSpecialAbilityStart()
 	}
 
 	SwordEffectCollision->On();
+
+
+
+	GameEngineSound::SoundPlay("SwordAieralAttack.wav");
 
 	ChangeAnimationState("AerialUseSpecialAbility");
 }

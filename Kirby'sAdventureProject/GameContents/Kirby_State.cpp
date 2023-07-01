@@ -2051,9 +2051,8 @@ void Kirby::MissUpdate(float _Delta)
 void Kirby::MissRaiseUpStart()
 {
 	StateTime = 0.0f;
-	IsChangeState = false;
 	IsKirbyRevive = false;
-	IsKirby_FadeRequest = false;
+	IsMissCheck = false;
 
 	// 중력 초기값
 	SetGravityVector(float4::UP * 600.0f);
@@ -2102,9 +2101,6 @@ void Kirby::MissRaiseUpStart()
 
 void Kirby::MissRaiseUpUpdate(float _Delta)
 {
-	StateTime += _Delta;
-
-
 
 	if (GetPos().Y < CurrentBackGroundScale.Y + 96.0f)
 	{
@@ -2113,33 +2109,29 @@ void Kirby::MissRaiseUpUpdate(float _Delta)
 	}
 	else if (GetPos().Y > CurrentBackGroundScale.Y + 96.0f)
 	{
-		GameEngineLevel* CurLevelPtr = GetLevel();
-		if (nullptr == CurLevelPtr)
-		{
-			MsgBoxAssert("레벨을 불러오지 못했습니다..");
-			return;
-		}
+		StateTime += _Delta;
 
-		if (false == IsKirby_FadeRequest)
+		if (false == IsMissCheck)
 		{
-			GlobalContents::FadeOut(CurLevelPtr);
-			IsKirby_FadeRequest = true;
+			IsMissCheck = true;
+
+			VegetableValleyPlayLevel::IsPlayerMiss = true;
 		}
 	}
 
-	if (StateTime > 4.0f)
+	
+	if (true == VegetableValleyPlayLevel::IsFadeDone)
 	{
+		VegetableValleyPlayLevel::IsFadeDone = false;
+		FadeObject::IsFadeOutScreenRelease = true;
+
+		//VegetableValleyPlayLevel::IsChangeLevel = false;
+
+
 		GameEngineLevel* CurLevelPtr = GetLevel();
 		if (nullptr == CurLevelPtr)
 		{
 			MsgBoxAssert("레벨을 불러오지 못했습니다..");
-			return;
-		}
-
-		VegetableValleyPlayLevel* CurrentLevelPtr = dynamic_cast<VegetableValleyPlayLevel*>(CurLevelPtr);
-		if (nullptr == CurrentLevelPtr)
-		{
-			MsgBoxAssert("다운 캐스팅을 하지 못했습니다.");
 			return;
 		}
 
@@ -2162,21 +2154,20 @@ void Kirby::MissRaiseUpUpdate(float _Delta)
 		float4 KirbyRespawnPos = PlayLevelPtr->Kirby_RespawnPos;
 		MainCameraPtr->SetPos(float4::ZERO);
 
-		// 리스폰 지역 세팅
 		SetPos(KirbyRespawnPos);
-		
+
+
 		// 피 설정
 		m_KirbyHp = 6;
 
-
-		// 페이드 아웃 풀림
-		FadeObject::IsFadeOutScreenRelease = true;
-
-		// 커비 바디 충돌체 ON
-		KirbyBodyCollisonOn();
-
 		// UI에게 피채워달라고 요청
 		IsKirbyRevive = true;
+
+		// TimeSet
+		GameEngineTime::MainTimer.SetAllTimeScale(1.0f);
+		
+		// 커비 바디 충돌체 ON
+		KirbyBodyCollisonOn();
 
 		// 공기저항 초기화
 		SetAirResistance(1.0f);
@@ -2184,14 +2175,6 @@ void Kirby::MissRaiseUpUpdate(float _Delta)
 		// BGM_Off
 		VegetableValleyPlayLevel::IsBGM_On = false;
 
-		// TimeSet
-		GameEngineTime::MainTimer.SetAllTimeScale(1.0f);
-
-
-		// LevelDown
-		VegetableValleyPlayLevel::PrevLevelTriggerOn = true;
-
-		
 
 		ChangeState(KirbyState::Idle);
 		return;

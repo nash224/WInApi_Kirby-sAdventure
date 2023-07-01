@@ -6,6 +6,8 @@
 #include "VegetableValley11.h"
 #include "VegetableValley12.h"
 #include "VegetableValley13.h"
+#include "VegetableValleyMuseum.h"
+#include "SubScreens.h"
 #include "PauseLevel.h"
 
 #include <GameEnginePlatform/GameEngineWindow.h>
@@ -31,6 +33,8 @@ void ContentsCore::Start()
 	GameEngineCore::CreateLevel<VegetableValley11>("VegetableValley11");
 	GameEngineCore::CreateLevel<VegetableValley12>("VegetableValley12");
 	GameEngineCore::CreateLevel<VegetableValley13>("VegetableValley13");
+	GameEngineCore::CreateLevel<VegetableValleyMuseum>("VegetableValleyMuseum");
+	GameEngineCore::CreateLevel<SubScreens>("SubScreens");
 	GameEngineCore::CreateLevel<PauseLevel>("PauseLevel");
 
 	GameEngineCore::ChangeLevel("VegetableValleyHub");

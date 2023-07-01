@@ -262,10 +262,6 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="BonusGameSubScreens.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
     <ClInclude Include="Boss.h">
       <SubType>
       </SubType>
@@ -351,10 +347,6 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="Museums.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
     <ClInclude Include="AirExplosionBEffect.h">
       <SubType>
       </SubType>
@@ -404,6 +396,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="StarStick.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="SubScreens.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -464,6 +460,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="VegetableValleyIntro.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="VegetableValleyMuseum.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -586,10 +586,6 @@
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="BonusGameSubScreens.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
     <ClCompile Include="Boss.cpp">
       <SubType>
       </SubType>
@@ -696,10 +692,6 @@
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="Museums.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
     <ClCompile Include="AirExplosionBEffect.cpp">
       <SubType>
       </SubType>
@@ -752,6 +744,10 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="SubScreens.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="SwordKnight.cpp">
       <SubType>
       </SubType>
@@ -793,6 +789,10 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="VegetableValleyCutScene.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="VegetableValleyMuseum.cpp">
       <SubType>
       </SubType>
     </ClCompile>

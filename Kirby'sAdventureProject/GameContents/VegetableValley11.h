@@ -16,17 +16,28 @@ public:
 	VegetableValley11& operator=(VegetableValley11&& _Other) noexcept = delete;
 
 protected:
+
+private:
+	void Start() override;
+
+	void EnemySummon() override;
+	void VegetableValley11BackGroundEffect(float _Ratio, float _Inter, bool _Loop);
+
+
+
+	void Update(float _Delta) override;
+
+	void PlayerEnterNextLevel();
+	void PlayerMissPrevLevel();
+
+
+	void Render(float _Delta) override;
+
 	void LevelStart(GameEngineLevel* _PrevLevel) override;
 	void LevelEnd(GameEngineLevel* _NextLevel) override;
 
 private:
 
-	void Start() override;
-	void Update(float _Delta) override;
-	void Render(float _Delta) override;
 
-	void EnemySummon() override;
-
-	void VegetableValley11BackGroundEffect(float _Ratio, float _Inter, bool _Loop);
 };
 

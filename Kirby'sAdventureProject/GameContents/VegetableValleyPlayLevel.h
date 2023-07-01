@@ -21,25 +21,34 @@ public:
 	static bool NextLevelTriggerOn;
 	static bool IsStageEnd;
 	static bool IsPlayerEnter;
+	static bool IsPlayerMiss;
+	static bool IsChangeLevel;
+	static bool IsFadeDone;
 
 	static bool ChangeClearDoor;
 
-	static float BGMSoundVolume;
 	
 
 
-	// 디버그
-	static bool Level_DebugRenderIsOn;
 
 	// 사운드
 	static GameEngineSoundPlayer BGM_Player;
+	static float BGMSoundVolume;
 	static bool IsBGM_On;
 
 
-protected:
 
+
+	// 디버그
+public:
+	static bool Level_DebugRenderIsOn;
+
+protected:
 	static float UpdateTime;
 	float FPSText = 0.0f;
+
+
+
 
 public:
 	// constrcuter destructer
@@ -93,17 +102,9 @@ protected:
 
 
 
-	
-
-	std::vector<Enemy*> LevelEnemy;
-
-
-
 	std::string BitMapFileName = "";
 
 	float4 BackGroundScale = float4::ZERO;
-
-
 
 	void SetLevelBackgroundScale(const float4& _Scale)
 	{
@@ -111,6 +112,9 @@ protected:
 	}
 
 
+
+
+	std::vector<Enemy*> LevelEnemy;
 
 	virtual void EnemySummon() {}
 	void SetPlayerPosAndCameraPos(const float4& _PlayerPos, const float4& _CameraPos);
@@ -122,6 +126,10 @@ protected:
 		int _StartFrame, int _EndFrame,
 		float4 _Pos, float _Ratio,
 		float _Inter = 0.1f, bool _Loop = true);
+
+
+
+
 
 
 	// 카메라
@@ -164,7 +172,17 @@ public:
 
 	std::string LevelBgmFileName = "";
 
+
+	
+
+
+	// BGM
 	void RePlayBGM();
 
+
+protected:
+	// Level 이동
+	bool IsPrevLeveling = false;
+	bool IsNextLeveling = false;
 };
 

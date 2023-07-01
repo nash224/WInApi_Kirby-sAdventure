@@ -17,18 +17,23 @@ bool VegetableValleyPlayLevel::PrevLevelTriggerOn = false;
 bool VegetableValleyPlayLevel::NextLevelTriggerOn = false;
 bool VegetableValleyPlayLevel::IsStageEnd = false;
 bool VegetableValleyPlayLevel::IsPlayerEnter = false;
-float VegetableValleyPlayLevel::UpdateTime = 0.0f;
+bool VegetableValleyPlayLevel::IsPlayerMiss = false;
+bool VegetableValleyPlayLevel::IsFadeDone = false;
+bool VegetableValleyPlayLevel::IsChangeLevel = false;;
+bool VegetableValleyPlayLevel::ChangeClearDoor = false;
+
 GameEngineSoundPlayer VegetableValleyPlayLevel::BGM_Player;
 bool VegetableValleyPlayLevel::IsBGM_On = false;
-bool VegetableValleyPlayLevel::ChangeClearDoor = false;
-bool VegetableValleyPlayLevel::Level_DebugRenderIsOn = false;
-
+float VegetableValleyPlayLevel::BGMSoundVolume = 0.0f;
 
 int VegetableValleyPlayLevel::Camera_ShakeCount = 0;
 float VegetableValleyPlayLevel::Camera_ShakeMagnitude = 3.0f;
 
 
-float VegetableValleyPlayLevel::BGMSoundVolume = 0.0f;
+float VegetableValleyPlayLevel::UpdateTime = 0.0f;
+bool VegetableValleyPlayLevel::Level_DebugRenderIsOn = false;
+
+
 
 
 VegetableValleyPlayLevel::VegetableValleyPlayLevel() 

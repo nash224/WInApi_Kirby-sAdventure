@@ -101,35 +101,14 @@ void VegetableValley13::Update(float _Delta)
 
 
 
+	PlayerMissPrevLevel();
 
-	if (true == PrevLevelTriggerOn)
-	{
-		PrevLevelTriggerOn = false;
-		GameEngineCore::ChangeLevel("VegetableValleyHub");
-		return;
-	}
-
-
-
-
-	if (true == NextLevelTriggerOn)
-	{
-		NextLevelTriggerOn = false;
-		GameEngineCore::ChangeLevel("VegetableValleyHub");
-		return;
-	}
 
 
 
 	if (true == PrevLevelTriggerOn)
 	{
 		PrevLevelTriggerOn = false;
-	}
-
-
-	if (true == NextLevelTriggerOn)
-	{
-		NextLevelTriggerOn = false;
 	}
 
 
@@ -155,8 +134,10 @@ void VegetableValley13::EndingCredit(float _Delta)
 	}
 
 
-	if (true == FadeObject::IsFadeDone && false == FadeObject::IsFadeOutScreenRelease)
+	if (true == IsFadeDone && false == FadeObject::IsFadeOutScreenRelease)
 	{
+		IsFadeDone = false;
+
 		// UI에 ByeBye 초상화 호출
 		if (nullptr == LevelUIManager)
 		{
@@ -214,6 +195,34 @@ void VegetableValley13::EndingCredit(float _Delta)
 	}
 }
 
+void VegetableValley13::PlayerMissPrevLevel()
+{
+	if (true == IsPlayerMiss)
+	{
+		IsPlayerMiss = false;
+
+		GlobalContents::FadeOut(this);
+	}
+
+	if (true == IsFadeDone)
+	{
+		IsFadeDone = false;
+		PrevLevelTriggerOn = true;
+	}
+
+
+	if (true == PrevLevelTriggerOn)
+	{
+		PrevLevelTriggerOn = false;
+		IsChangeLevel = true;
+		GameEngineCore::ChangeLevel("VegetableValleyHub");
+		return;
+	}
+}
+
+
+
+
 
 
 
@@ -266,6 +275,8 @@ void VegetableValley13::LevelStart(GameEngineLevel* _PrevLevel)
 	LevelPlayer->SetPos(Kirby_RespawnPos);
 
 
+	GlobalContents::FadeIn(this);
+
 
 	// 보스생성
 	LevelBoss = GameEngineLevel::CreateActor<WhispyWood>(UpdateOrder::Monster);
@@ -280,6 +291,8 @@ void VegetableValley13::LevelStart(GameEngineLevel* _PrevLevel)
 
 void VegetableValley13::LevelEnd(GameEngineLevel* _NextLevel)
 {
+	IsFadeDone = false; 
+
 	if (true == IsBGM_On)
 	{
 		BGM_Player.Stop();

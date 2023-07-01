@@ -7,7 +7,7 @@ class FadeObject : public GameEngineActor
 public:
 	static bool IsFadeOutScreenRelease;
 	static bool IsFadeScreenRelease;
-	static bool IsFadeDone;
+	static bool IsFadeInDone;
 
 private:
 	static float TimeRaito;
