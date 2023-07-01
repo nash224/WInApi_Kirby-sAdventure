@@ -69,8 +69,8 @@ void Kirby::Sword_StateResourceLoad()
 	MainRenderer->CreateAnimation("Sword_Left_UseSpecialAbility", "Sword_Left_Kirby.bmp", 29, 38, 0.03f, false);
 	MainRenderer->CreateAnimation("Sword_Right_UseSpecialAbility", "Sword_Right_Kirby.bmp", 29, 38, 0.03f, false);
 
-	MainRenderer->CreateAnimation("Sword_Left_AerialUseSpecialAbility", "Sword_Left_Kirby.bmp", 48, 53, 0.03f, false);
-	MainRenderer->CreateAnimation("Sword_Right_AerialUseSpecialAbility", "Sword_Right_Kirby.bmp", 48, 53, 0.03f, false);
+	MainRenderer->CreateAnimation("Sword_Left_AerialUseSpecialAbility", "Sword_Left_Kirby.bmp", 40, 47, 0.03f, false);
+	MainRenderer->CreateAnimation("Sword_Right_AerialUseSpecialAbility", "Sword_Right_Kirby.bmp", 40, 47, 0.03f, false);
 
 	MainRenderer->CreateAnimation("Sword_Left_ReleaseSpecialAbility", "Sword_Left_Kirby.bmp", 39, 39, 0.03f, false);
 	MainRenderer->CreateAnimation("Sword_Right_ReleaseSpecialAbility", "Sword_Right_Kirby.bmp", 39, 39, 0.03f, false);
@@ -163,6 +163,8 @@ void Kirby::SwordAbilityUpdate(float _Delta)
 
 void Kirby::AerialUseSpecialAbilityStart()
 {
+	IsChangeState = false;
+
 	if (nullptr == SwordEffectCollision)
 	{
 		MsgBoxAssert("번개모드 콜리전이 Null입니다.");
@@ -182,7 +184,7 @@ void Kirby::AerialUseSpecialAbilityUpdate(float _Delta)
 		return;
 	}
 
-	if (true == MainRenderer->IsAnimationEnd())
+	if (true == MainRenderer->IsAnimationEnd() || true == GetGroundState())
 	{
 		IsChangeState = true;
 	}
@@ -190,7 +192,7 @@ void Kirby::AerialUseSpecialAbilityUpdate(float _Delta)
 
 
 
-	if (true == IsChangeState || true == GetGroundState())
+	if (true == IsChangeState)
 	{
 		if (nullptr == SwordEffectCollision)
 		{

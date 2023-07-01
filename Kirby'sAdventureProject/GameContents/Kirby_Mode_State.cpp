@@ -22,16 +22,14 @@ void Kirby::UseSpecialAbilityShorCut()
 {
 	if (true == GameEngineInput::IsDown('Z'))
 	{
-		//if (AbilityStar::Sword == Mode && false == GetGroundState())
-		//{
-		//	ChangeState(KirbyState::AerialUseSpecialAbility);
-		//	return;
-		//}
-		//else
+		if (AbilityStar::Sword == Mode)
 		{
-			ChangeState(KirbyState::UseSpecialAbility);
+			ChangeState(KirbyState::AerialUseSpecialAbility);
 			return;
 		}
+		
+		ChangeState(KirbyState::UseSpecialAbility);
+		return;
 	}
 }
 

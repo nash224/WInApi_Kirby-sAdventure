@@ -271,7 +271,7 @@ void Kirby::WalkUpdate(float _Delta)
 	{
 		ChangeState(KirbyState::TakeOff);
 		return;
-	}
+	} 
 
 	if (CurrentSpeed < WALKMAXSPEED * 0.2f * _Delta && true == GameEngineInput::IsDown('A') && false == (GameEngineInput::IsPress('A') && GameEngineInput::IsPress('D')))
 	{
@@ -589,6 +589,12 @@ void Kirby::JumpUpdate(float _Delta)
 		return;
 	}
 
+	if (true == GameEngineInput::IsDown('Z') && AbilityStar::Sword == Mode)
+	{
+		ChangeState(KirbyState::AerialUseSpecialAbility);
+		return;
+	}
+
 	if (true == GameEngineInput::IsDown('Z'))
 	{
 		ChangeState(KirbyState::UseSpecialAbility);
@@ -689,11 +695,18 @@ void Kirby::AerialMotionUpdate(float _Delta)
 
 
 
+	if (true == GameEngineInput::IsDown('Z') && AbilityStar::Sword == Mode)
+	{
+		ChangeState(KirbyState::AerialUseSpecialAbility);
+		return;
+	}
+
 	if (true == GameEngineInput::IsDown('Z'))
 	{
 		ChangeState(KirbyState::UseSpecialAbility);
 		return;
 	}
+
 
 	if (IsChangeState == true)
 	{
@@ -779,6 +792,12 @@ void Kirby::FallUpdate(float _Delta)
 	if (FallDistance > FALLDISTANCE)
 	{
 		ChangeState(KirbyState::AccelerateDown);
+		return;
+	}
+
+	if (true == GameEngineInput::IsDown('Z') && AbilityStar::Sword == Mode)
+	{
+		ChangeState(KirbyState::AerialUseSpecialAbility);
 		return;
 	}
 
@@ -879,11 +898,21 @@ void Kirby::AccelerateDownUpdate(float _Delta)
 		return;
 	}
 
+
+
+	if (true == GameEngineInput::IsDown('Z') && AbilityStar::Sword == Mode)
+	{
+		ChangeState(KirbyState::AerialUseSpecialAbility);
+		return;
+	}
+
 	if (true == GameEngineInput::IsDown('Z'))
 	{
 		ChangeState(KirbyState::UseSpecialAbility);
 		return;
 	}
+
+
 
 	if (true == (GameEngineInput::IsDown('W')))
 	{
