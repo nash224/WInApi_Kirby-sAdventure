@@ -4,6 +4,8 @@
 #include <vector>
 
 
+// 초상화 위치
+#define PORTRAITLOCATION float4{ 444.0f , 30.0f}
 
 
 
@@ -46,7 +48,9 @@ protected:
 
 
 
+	void PortraitRendererSet(const float4& _RenderPos);
 
+	void LevelStartPortrait();
 
 
 	void PortraitState(float _Delta);

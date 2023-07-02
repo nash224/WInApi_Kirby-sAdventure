@@ -24,7 +24,7 @@ HubUI::~HubUI()
 void HubUI::Start()
 {
 	HubRendererSet();
-	PortraitRendererSet();
+	PortraitRendererSet(HUB_PORTRAITLOCATION);
 	LivesNumberRendererSet();
 	StaminaCountRendererSet();
 
@@ -71,47 +71,6 @@ void HubUI::HubRendererSet()
 
 
 
-
-void HubUI::PortraitRendererSet()
-{
-	// UI 패널
-	PortraitRenderer = CreateUIRenderer(RenderOrder::PlayUI);
-	if (nullptr == PortraitRenderer)
-	{
-		MsgBoxAssert("렌더러가 Null 입니다..");
-		return;
-	}
-
-
-	GameEngineSprite* Sprite = GlobalContents::SpriteFileLoad("UI_Portrait_7x2_96x120.bmp", "Resources\\UI", 7, 2);
-	if (nullptr == Sprite)
-	{
-		MsgBoxAssert("UI 텍스처가 널일리가 없어");
-		return;
-	}
-
-	float4 PortraitScale = Sprite->GetSprite(0).RenderScale;
-
-	PortraitRenderer->CreateAnimation("Portrait_Normal", "UI_Portrait_7x2_96x120.bmp", 0, 0, 0.1f, false);
-	PortraitRenderer->CreateAnimation("Portrait_Beam", "UI_Portrait_7x2_96x120.bmp", 1, 1, 0.1f, false);
-	PortraitRenderer->CreateAnimation("Portrait_Laser", "UI_Portrait_7x2_96x120.bmp", 2, 2, 0.1f, false);
-	PortraitRenderer->CreateAnimation("Portrait_Fire", "UI_Portrait_7x2_96x120.bmp", 3, 3, 0.1f, false);
-	PortraitRenderer->CreateAnimation("Portrait_Needle", "UI_Portrait_7x2_96x120.bmp", 4, 4, 0.1f, false);
-	PortraitRenderer->CreateAnimation("Portrait_Sword", "UI_Portrait_7x2_96x120.bmp", 5, 5, 0.1f, false);
-	PortraitRenderer->CreateAnimation("Portrait_Spark", "UI_Portrait_7x2_96x120.bmp", 6, 6, 0.1f, false);
-	PortraitRenderer->CreateAnimation("Portrait_Nothing", "UI_Portrait_7x2_96x120.bmp", 7, 7, 0.1f, false);
-	PortraitRenderer->CreateAnimation("Portrait_OUCH", "UI_Portrait_7x2_96x120.bmp", 8, 8, 0.1f, false);
-	PortraitRenderer->CreateAnimation("Portrait_MISS", "UI_Portrait_7x2_96x120.bmp", 9, 9, 0.1f, false);
-	PortraitRenderer->CreateAnimation("Portrait_Goal", "UI_Portrait_7x2_96x120.bmp", 10, 10, 0.1f, false);
-	PortraitRenderer->CreateAnimation("Portrait_Clear", "UI_Portrait_7x2_96x120.bmp", 11, 11, 0.1f, false);
-	PortraitRenderer->CreateAnimation("Portrait_ByeBye", "UI_Portrait_7x2_96x120.bmp", 12, 12, 0.1f, false);
-	PortraitRenderer->CreateAnimation("Portrait_WarpStar", "UI_Portrait_7x2_96x120.bmp", 13, 13, 0.1f, false);
-
-	PortraitRenderer->ChangeAnimation("Portrait_Normal");
-
-	PortraitRenderer->SetRenderPos(HUB_PORTRAITLOCATION + PortraitScale.Half());
-
-}
 
 
 
@@ -294,6 +253,8 @@ void HubUI::LevelStart()
 {
 	UI = this;
 
+
+
 	KirbyPtr = Kirby::GetMainKirby();
 	if (nullptr == KirbyPtr)
 	{
@@ -315,31 +276,7 @@ void HubUI::LevelStart()
 	}
 
 
-
-	// 커비 모드
-	switch (KirbyMode)
-	{
-	case 0:
-		PortraitRenderer->ChangeAnimation("Portrait_Normal");
-		break;
-	case 1:
-		PortraitRenderer->ChangeAnimation("Portrait_Spark");
-		break;
-	case 2:
-		PortraitRenderer->ChangeAnimation("Portrait_Laser");
-		break;
-	case 3:
-		PortraitRenderer->ChangeAnimation("Portrait_Beam");
-		break;
-	case 4:
-		PortraitRenderer->ChangeAnimation("Portrait_Fire");
-		break;
-	case 6:
-		PortraitRenderer->ChangeAnimation("Portrait_Needle");
-		break;
-	default:
-		break;
-	}
+	LevelStartPortrait();
 
 
 	// 커비 목숨

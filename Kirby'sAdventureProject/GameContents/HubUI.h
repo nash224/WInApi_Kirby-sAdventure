@@ -6,7 +6,7 @@
 #define LIVESANILOCATION float4{ 573.0f , 66.0f}
 
 // 초상화 위치
-#define PORTRAITLOCATION float4{ 444.0f , 30.0f}
+#define HUB_PORTRAITLOCATION float4{ 63.0f , 42.0f }
 
 // 목숨 숫자 위치
 #define HUB_LIVESFIRSTNUMBERLOCATION float4{ 615.0f , 138.0f}
@@ -15,7 +15,6 @@
 #define HUB_STAMINAFIRSTNUMBERLOCATION float4{ 375.0f , 138.0f}
 
 
-#define HUB_PORTRAITLOCATION float4{ 63.0f , 42.0f }
 
 
 
@@ -38,10 +37,7 @@ public:
 
 
 protected:
-
-
 	void HubRendererSet();
-	void PortraitRendererSet();
 	void LivesNumberRendererSet();
 	void StaminaCountRendererSet();
 

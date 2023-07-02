@@ -240,6 +240,9 @@
     <ClInclude Include="SubScreens.h">
       <Filter>Level\00.BonusGame</Filter>
     </ClInclude>
+    <ClInclude Include="Pengi.h">
+      <Filter>Global\Object\Enemy\PowerEnemy</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CraneFever.cpp">
@@ -515,6 +518,9 @@
     </ClCompile>
     <ClCompile Include="SubScreens.cpp">
       <Filter>Level\00.BonusGame</Filter>
+    </ClCompile>
+    <ClCompile Include="Pengi.cpp">
+      <Filter>Global\Object\Enemy\PowerEnemy</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

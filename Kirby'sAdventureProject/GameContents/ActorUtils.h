@@ -24,6 +24,7 @@ enum class AbilityStar
 	Freeze,
 	Thorn,
 	Sword,
+	Ice,
 	UFO,
 	Max,
 };

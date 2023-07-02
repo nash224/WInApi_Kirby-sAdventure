@@ -251,12 +251,16 @@ void Enemy::BeInhaledStart()
 
 
 
+
 	IsInhaledStateOn = false;
 	BodyCollision->Off();
 	ActorDirUnitVector = GetKirbyOpponentDistance();
 
 
-	PlayUI::PlayUI_Score += 300;
+	if ("Pengi" != GetName())
+	{
+		PlayUI::PlayUI_Score += 300;
+	}
 }
 
 void Enemy::BeInhaledUpdate(float _Delta)

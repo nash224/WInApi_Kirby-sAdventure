@@ -8,8 +8,6 @@
 // 목숨 애니메이션 위치
 #define LIVESANILOCATION float4{ 573.0f , 66.0f}
 
-// 초상화 위치
-#define PORTRAITLOCATION float4{ 444.0f , 30.0f}
 
 // 목숨 숫자 위치
 #define BOSS_LIVESFIRSTNUMBERLOCATION float4{ 636.0f , 78.0f}
@@ -61,7 +59,6 @@ protected:
 
 	void HubRendererSet();
 	void LivesAniRendererSet();
-	void PortraitRendererSet();
 	void LivesNumberRendererSet();
 	void StaminaCountRendererSet();
 	void BossStaminaRendererSet();

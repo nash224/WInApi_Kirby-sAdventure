@@ -12,6 +12,7 @@
 #include "BackGround.h"
 #include "PlayUI.h"
 #include "Kirby.h"
+#include "Pengi.h"
 #include "FadeObject.h"
 
 
@@ -45,6 +46,22 @@ void VegetableValleyMuseum::Start()
 	BackGroundScale = Texture->GetScale();
 
 	BitMapFileName = "VegetableValleyMuseum_Pixel.bmp";
+
+
+
+
+	// 공중몹 1-2
+	Pengi* PengiPtr = GameEngineLevel::CreateActor<Pengi>(UpdateOrder::Monster);
+	if (nullptr == PengiPtr)
+	{
+		MsgBoxAssert("생성한 액터가 Null입니다.");
+		return;
+	}
+
+	PengiPtr->init(BitMapFileName, PengiState::Idle, float4{ 192.0f, 312.0f });
+
+
+
 
 
 
