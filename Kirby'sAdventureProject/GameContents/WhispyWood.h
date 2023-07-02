@@ -25,10 +25,32 @@ class Boss_WhispyEffect;
 class WhispyWood : public Boss
 {
 	friend class BossUI;
+	friend class Apple;
+	friend class Boss_WhispyEffect;
+
+private:
+	static WhispyWood* WhispyWoodPtr;
+
+public:
+	static WhispyWood* GetWhispyWoodPtr()
+	{
+		return WhispyWoodPtr;
+	}
 
 private:
 	std::list<Apple*> WhispyApple_list;
 	std::list<Boss_WhispyEffect*> WhispyEffect_list;
+
+
+	std::list<Apple*>& GetAppleList()
+	{
+		return WhispyApple_list;
+	}
+
+	std::list<Boss_WhispyEffect*>& GetWhispyList()
+	{
+		return WhispyEffect_list;
+	}
 
 public:
 	// constrcuter destructer

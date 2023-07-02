@@ -2,8 +2,9 @@
 #include "ContentsEnum.h"
 
 #include <GameEngineBase/GameEngineTime.h>
-#include <GameEnginePlatform/GameEngineInput.h>
 #include <GameEngineBase/GameEngineRandom.h>
+#include <GameEnginePlatform/GameEngineInput.h>
+#include <GameEnginePlatform/GameEngineWindow.h>
 #include <GameEngineCore/GameEngineLevel.h>
 #include <GameEngineCore/GameEngineRenderer.h>
 #include <GameEngineCore/GameEngineCollision.h>
@@ -20,9 +21,10 @@
 
 
 
-
+WhispyWood* WhispyWood::WhispyWoodPtr = nullptr;
 WhispyWood::WhispyWood()
 {
+	WhispyWoodPtr = this;
 }
 
 WhispyWood::~WhispyWood()
@@ -505,7 +507,7 @@ void WhispyWood::CryingFaceStart()
 	std::list<Apple*>::iterator StarIter = WhispyApple_list.begin();
 	std::list<Apple*>::iterator EndIter = WhispyApple_list.end();
 
-	for (; StarIter != EndIter; ++StarIter)
+	for (; StarIter != EndIter;)
 	{
 		Apple* ApplePtr = *StarIter;
 
@@ -517,6 +519,7 @@ void WhispyWood::CryingFaceStart()
 
 		ApplePtr->Death();
 		ApplePtr->EnemyPointerRelease();
+		StarIter = WhispyApple_list.erase(StarIter);
 	}
 
 
@@ -524,7 +527,7 @@ void WhispyWood::CryingFaceStart()
 	std::list<Boss_WhispyEffect*>::iterator WhispyStarIter = WhispyEffect_list.begin();
 	std::list<Boss_WhispyEffect*>::iterator WhispyEndIter = WhispyEffect_list.end();
 
-	for (; WhispyStarIter != WhispyEndIter; ++WhispyStarIter)
+	for (; WhispyStarIter != WhispyEndIter;)
 	{
 		Boss_WhispyEffect* WhispyEffectPtr = *WhispyStarIter;
 
@@ -536,6 +539,7 @@ void WhispyWood::CryingFaceStart()
 
 		WhispyEffectPtr->Death();
 		WhispyEffectPtr->EffectPointerRelease();
+		WhispyStarIter = WhispyEffect_list.erase(WhispyStarIter);
 	}
 
 
@@ -665,6 +669,48 @@ void WhispyWood::LevelStart()
 
 }
 
+
+
+
+
+void WhispyWood::Render(float _Delta)
+{
+
+	GameEngineWindowTexture* BackBufferPtr = GameEngineWindow::MainWindow.GetBackBuffer();
+	if (nullptr == BackBufferPtr)
+	{
+		MsgBoxAssert("백버퍼를 불러오지 못했습니다.");
+		return;
+	}
+
+	HDC dc = BackBufferPtr->GetImageDC();
+	float4 WinScale = GameEngineWindow::MainWindow.GetScale();
+
+	
+
+	{
+		std::string Text = "";
+
+		Text += "Apple Size : ";
+
+		Text += std::to_string(WhispyApple_list.size());
+		TextOutA(dc, WinScale.iX() - 200, 2, Text.c_str(), static_cast<int>(Text.size()));
+	}
+
+	{
+		std::string Text = "";
+		
+		Text += "Whispy Size : ";
+
+		Text += std::to_string(WhispyEffect_list.size());
+		TextOutA(dc, WinScale.iX() - 200, 20, Text.c_str(), static_cast<int>(Text.size()));
+	}
+}
+
+
+
+
+
 void WhispyWood::LevelEnd()
 {
 	Death();
@@ -678,11 +724,6 @@ void WhispyWood::LevelEnd()
 	{
 		BodyCollision = nullptr;
 	}
-}
-
-
-void WhispyWood::Render(float _Delta)
-{
 }
 
 

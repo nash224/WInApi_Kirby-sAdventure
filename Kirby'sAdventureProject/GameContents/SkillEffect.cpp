@@ -65,6 +65,7 @@ void SkillEffect::AbilityToActorCollisionCheck(CollisionOrder _ActorBodyCol, boo
 				IsAbilityCollisionCheck = true;
 
 				SkillDeathEffect();
+				DataStructRelease();
 				Death();
 				EffectPointerRelease();
 				return;
@@ -229,7 +230,7 @@ int SkillEffect::GetGroundColor(unsigned int _DefaultColor, float4 _Pos/* = floa
 bool SkillEffect::CheckFrontPoint()
 {
 	unsigned int FrontColor = GetGroundColor(RGB(255, 255, 255), FrontCheckPoint);
-	if ((RGB(0, 255, 255) == FrontColor))
+	if ((RGB(0, 255, 255) == FrontColor) || (RGB(255, 255, 0) == FrontColor))
 	{
 		return true;
 	}
@@ -241,7 +242,7 @@ bool SkillEffect::CheckFrontPoint()
 bool SkillEffect::CheckCenterPoint()
 {
 	unsigned int CenterColor = GetGroundColor(RGB(255, 255, 255), CenterCheckPoint);
-	if ((RGB(0, 255, 255) == CenterColor))
+	if ((RGB(0, 255, 255) == CenterColor) || (RGB(255, 255, 0) == CenterColor))
 	{
 		return true;
 	}

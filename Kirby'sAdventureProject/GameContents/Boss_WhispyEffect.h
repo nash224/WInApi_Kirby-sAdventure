@@ -22,6 +22,18 @@ public:
 protected:
 
 private:
+	// Level
+	void Start() override;
+	void Update(float _Delta) override;
+	void LevelEnd() override;
+
+
+	// SkillEffect
+	void DataStructRelease() override;
+
+
+
+	// this
 	const float WhispySpeed = 500.f;
 	const float WhispyYSpeedRatio = 0.2f;
 	float XSpeed = 0.0f;
@@ -37,9 +49,7 @@ private:
 	bool IsSecondinflectionPoint = false;
 
 
-
-	void Start() override;
-	void Update(float _Delta) override;
-	void LevelEnd() override;
+	// √ ±‚»≠
+	void ReleaseThisList();
 };
 

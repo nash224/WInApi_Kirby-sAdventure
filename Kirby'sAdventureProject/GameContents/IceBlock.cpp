@@ -10,12 +10,23 @@
 
 
 #include "ActorUtils.h"
+#include "Kirby.h"
 #include "ObejctDisapearingEffect.h"
+#include "CrossDeathEffect.h"
 
 
 
 IceBlock::IceBlock()
 {
+	Kirby* KirbyPtr = Kirby::GetMainKirby();
+	if (nullptr == KirbyPtr)
+	{
+		MsgBoxAssert("커비가 존재하지 않습니다.");
+		return;
+	}
+
+	std::list<IceBlock*>& IceList = KirbyPtr->GetIceList();
+	IceList.push_back(this);
 }
 
 IceBlock::~IceBlock()
@@ -32,7 +43,7 @@ void IceBlock::Start()
 		return;
 	}
 
-	GameEngineWindowTexture* Texture = GlobalContents::TextureFileLoad("IceBlock.bmp", "Resources\\Effect\\KirbyBaseEffect");
+	GameEngineWindowTexture* Texture = GlobalContents::TextureFileLoad("IceBlock.bmp", "Resources\\Effect\\SkillEffect");
 	if (nullptr == Texture)
 	{
 		MsgBoxAssert("텍스처를 불러오지 못했습니다.");
@@ -47,7 +58,7 @@ void IceBlock::Start()
 	SetCheckPoint(Scale);
 
 
-
+	ChangeState(IceBlockState::Idle);
 
 
 
@@ -124,6 +135,35 @@ void IceBlock::IdleStart()
 
 void IceBlock::IdleUpdate(float _Delta)
 {
+
+	// 시간지나면 녹음
+	if (GetLiveTime() > LiveTime)
+	{
+		GameEngineLevel* CurLevelPtr = GetLevel();
+		if (nullptr == CurLevelPtr)
+		{
+			MsgBoxAssert("레벨을 불러오지 못했습니다.");
+			return;
+		}
+
+
+		CrossDeathEffect* CrossDeathEffectPtr = CurLevelPtr->CreateActor<CrossDeathEffect>(UpdateOrder::Ability);
+		if (nullptr == CrossDeathEffectPtr)
+		{
+			MsgBoxAssert("액터를 생성하지 못했습니다.");
+			return;
+		}
+
+		CrossDeathEffectPtr->init(GetPos(), Scale);
+
+		Death();
+		ReleaseThisList();
+		EffectPointerRelease();
+		return;
+	}
+
+
+
 	BlockToPlayerCollisionCheck();
 }
 
@@ -136,18 +176,9 @@ void IceBlock::WingStart()
 
 void IceBlock::WingUpdate(float _Delta)
 {
-	// 충돌 체크
-	AbilityToActorCollisionCheck(CollisionOrder::MonsterBody, true);
-
-	if (false == IsAbilityCollisionCheck)
-	{
-		int Damage = GameEngineRandom::MainRandom.RandomInt(3, 5);
-		AbilityToBossCollisionCheck(CollisionOrder::BossBody, Damage, true);
-	}
-
-
 	// 위치 동기화
 	AddPos(EffectDir * SMALLSTARFIREEFFECTSPEED * _Delta);
+
 
 
 	// 중앙에 비트맵이 닿았는 지 검사
@@ -156,6 +187,7 @@ void IceBlock::WingUpdate(float _Delta)
 		Call_DisapearEffect(false);
 
 		Death();
+		ReleaseThisList();
 		EffectPointerRelease();
 
 		return;
@@ -168,10 +200,25 @@ void IceBlock::WingUpdate(float _Delta)
 	{
 		// 죽고 정리
 		Death();
+		ReleaseThisList();
 		EffectPointerRelease();
 
 		return;
 	}
+
+
+
+
+
+	// 충돌 체크
+	AbilityToActorCollisionCheck(CollisionOrder::MonsterBody, true);
+
+	if (false == IsAbilityCollisionCheck)
+	{
+		int Damage = GameEngineRandom::MainRandom.RandomInt(3, 5);
+		AbilityToBossCollisionCheck(CollisionOrder::BossBody, Damage, true);
+	}
+
 }
 
 
@@ -233,11 +280,32 @@ void IceBlock::SkillDeathEffect()
 	Call_DisapearEffect();
 }
 
+void IceBlock::DataStructRelease()
+{
+	ReleaseThisList();
+}
+
+
+void IceBlock::ReleaseThisList()
+{
+	Kirby* KirbyPtr = Kirby::GetMainKirby();
+	if (nullptr == KirbyPtr)
+	{
+		MsgBoxAssert("커비가 존재하지 않습니다.");
+		return;
+	}
+
+	std::list<IceBlock*>& IceList = KirbyPtr->GetIceList();
+	IceList.remove(this);
+	std::list<IceBlock*>& ResultIceList = KirbyPtr->GetIceList();
+}
+
 
 
 
 void IceBlock::LevelEnd()
 {
 	Death();
+	ReleaseThisList();
 	EffectPointerRelease();
 }

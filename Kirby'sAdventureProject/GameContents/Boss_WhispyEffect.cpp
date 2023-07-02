@@ -7,6 +7,7 @@
 #include <GameEngineCore/ResourcesManager.h>
 
 #include "GlobalContents.h"
+#include "WhispyWood.h"
 
 
 Boss_WhispyEffect::Boss_WhispyEffect()
@@ -103,8 +104,9 @@ void Boss_WhispyEffect::Update(float _Delta)
 
 
 	float4 WinScale = GameEngineWindow::MainWindow.GetScale();
-	if (GetCameraPos().X > GetPos().X && GetPos().X > GetCameraPos().X + WinScale.X)
+	if (GetCameraPos().X > GetPos().X || GetPos().X > GetCameraPos().X + WinScale.X)
 	{
+		ReleaseThisList();
 		Death();
 		EffectPointerRelease();
 		return;
@@ -120,10 +122,34 @@ void Boss_WhispyEffect::Update(float _Delta)
 
 
 
+void Boss_WhispyEffect::DataStructRelease()
+{
+	ReleaseThisList();
+}
+
+
+
+void Boss_WhispyEffect::ReleaseThisList()
+{
+	WhispyWood* WhispyWoodPtr = WhispyWood::GetWhispyWoodPtr();
+	if (nullptr == WhispyWoodPtr)
+	{
+		MsgBoxAssert("커비가 존재하지 않습니다.");
+		return;
+	}
+
+	std::list<Boss_WhispyEffect*>& WhispyList = WhispyWoodPtr->GetWhispyList();
+	WhispyList.remove(this);
+}
+
+
+
+
 
 
 void Boss_WhispyEffect::LevelEnd()
 {
+	ReleaseThisList();
 	Death();
 	EffectPointerRelease();
 }

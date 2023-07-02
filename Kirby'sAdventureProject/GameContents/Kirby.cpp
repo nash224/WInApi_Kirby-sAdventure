@@ -270,6 +270,15 @@ void Kirby::KirbysDebugShortcut(float _Delta)
 		return;
 	}
 
+	if (true == GameEngineInput::IsDown('I'))
+	{
+		Star.SwallowedEnemyNumber = 1;
+		Star.SwallowedPowerEnemyNumber = 1;
+		CurrentAbilityStar = AbilityStar::Ice;
+		ChangeState(KirbyState::Contain_Idle);
+		return;
+	}
+
 
 
 	SoundVolPressKeyTime += _Delta;
@@ -792,6 +801,26 @@ void Kirby::Render(float _Detla)
 	}
 
 	ActorCollisionDetectionPointRender();
+
+
+	GameEngineWindowTexture* BackBufferPtr = GameEngineWindow::MainWindow.GetBackBuffer();
+	if (nullptr == BackBufferPtr)
+	{
+		MsgBoxAssert("백버퍼를 불러오지 못했습니다.");
+		return;
+	}
+
+	HDC dc = BackBufferPtr->GetImageDC();
+
+
+	{
+		std::string Text = "";
+
+		Text += "IceBlock Size : ";
+
+		Text += std::to_string(IceBlockPtr_list.size());
+		TextOutA(dc, 2, 50, Text.c_str(), static_cast<int>(Text.size()));
+	}
 }
 
 

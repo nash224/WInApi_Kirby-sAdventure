@@ -267,12 +267,20 @@ void Enemy::BeInhaledUpdate(float _Delta)
 {
 	StateTime += _Delta;
 
+	Kirby* KirbyPtr = Kirby::GetMainKirby();
+	if (nullptr == KirbyPtr)
+	{
+		MsgBoxAssert("플레이어를 불러오지 못했습니다.");
+		return;
+	}
+
+
 	InhaleTargetPos = GetKirbyOpponentDistance();
 	InhaleTargetPosYDistance = InhaleTargetPos.Y - KIRBYCENTERYPOINT;
 	InhaleTargetPosXDistance = InhaleTargetPos.X;
 	CurentVerticalSpeed += InhaleTargetPosYDistance / INHALETIME * _Delta;
 
-	float4 KirbyPos = Kirby::GetMainKirby()->GetPos();
+	float4 KirbyPos = KirbyPtr->GetPos();
 
 
 	if (ActorDirUnitVector.X < 0.0f)

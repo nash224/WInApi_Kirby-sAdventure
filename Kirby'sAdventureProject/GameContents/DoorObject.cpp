@@ -38,6 +38,7 @@ void DoorObject::Start()
 	MainRenderer->CreateAnimation("PlayDoor_Open", "StageDoorAndFlag.bmp", 0, 3, 0.04f, false);
 	MainRenderer->CreateAnimation("PlayDoor_Close", "StageDoorAndFlag.bmp", 3, 0, 0.04f, false);
 	MainRenderer->CreateAnimation("PlayDoor_Clear", "StageDoorAndFlag.bmp", 4, 4, 0.04f, false);
+	MainRenderer->CreateAnimation("PlayDoor_Blocked", "StageDoorAndFlag.bmp", 8, 8, 0.04f, false);
 
 	MainRenderer->ChangeAnimation("PlayDoor_Idle");
 
@@ -96,5 +97,12 @@ void DoorObject::Update(float _Delta)
 		MainRenderer->ChangeAnimation("PlayDoor_StarDoor");
 
 		IsDoorStar = false;
+	}
+
+	if (true == IsDoorBlocked)
+	{
+		MainRenderer->ChangeAnimation("PlayDoor_Blocked");
+
+		IsDoorBlocked = false;
 	}
 }

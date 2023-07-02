@@ -35,6 +35,7 @@ private:
 	bool IsDoorClose = false;
 	bool IsDoorClear = false;
 	bool IsDoorStar = false;
+	bool IsDoorBlocked = false;
 
 };
 

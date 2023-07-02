@@ -35,11 +35,12 @@ void IceBreathEffect::Start()
 		return;
 	}
 
-	GlobalContents::SpriteFileLoad("Left_Ice_Breath.bmp", "Resources\\Effect\\SkillEffect", 5, 1);
-	GameEngineSprite* Sprite = GlobalContents::SpriteFileLoad("Right_Ice_Breath.bmp", "Resources\\Effect\\SkillEffect", 5, 1);
 
-	MainRenderer->CreateAnimation("Left_IceBreathEffect", "Left_Ice_Breath.bmp", 0, 4, 0.1f, true);
-	MainRenderer->CreateAnimation("Right_IceBreathEffect", "Right_Ice_Breath.bmp", 0, 4, 0.1f, true);
+	GlobalContents::SpriteFileLoad("Left_Ice_Breath.bmp", "Resources\\Effect\\SkillEffect", 6, 1);
+	GameEngineSprite* Sprite = GlobalContents::SpriteFileLoad("Right_Ice_Breath.bmp", "Resources\\Effect\\SkillEffect", 6, 1);
+
+	MainRenderer->CreateAnimation("Left_IceBreathEffect", "Left_Ice_Breath.bmp", 0, 4, 0.08f, false);
+	MainRenderer->CreateAnimation("Right_IceBreathEffect", "Right_Ice_Breath.bmp", 0, 4, 0.08f, false);
 
 
 	if (nullptr == Sprite)

@@ -37,8 +37,8 @@ private:
 
 	// this
 private:
-	float Total_Effect_FrameTime = 0.5f;
-	const float Effect_FrameDistance = 200.f;
+	float Total_Effect_FrameTime = 0.4f;
+	const float Effect_FrameDistance = 150.f;
 
 
 };

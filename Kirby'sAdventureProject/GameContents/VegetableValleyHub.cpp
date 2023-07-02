@@ -73,7 +73,7 @@ void VegetableValleyHub::Start()
 
 
 
-	// Stage Position Relation float4{ 288.0f , 865.0f };
+	// Stage Position Relation 
 	Stage1.StageLocation = float4{ 288.0f , 865.0f };
 	Stage2.StageLocation = float4{ 720.0f , 961.0f };
 	Museum.StageLocation = float4{ 720.0f , 528.0f };
@@ -280,8 +280,6 @@ void VegetableValleyHub::VegetableValleyStage_1_Func()
 		return;
 	}
 
-
-
 }
 
 
@@ -327,6 +325,7 @@ void VegetableValleyHub::VegetableValleyStage_2_Func()
 		if (true == NextLevelTriggerOn)
 		{
 			VegetableValleyEntertheDoorNumber = 2;
+			AreYouJustEnterScene = false;
 			IsRequestDoorOpen = false;
 			NextLevelTriggerOn = false;
 			IsPlayerEnter = false;
@@ -695,11 +694,11 @@ void VegetableValleyHub::LevelEnd(GameEngineLevel* _NextLevel)
 	NextLevelTriggerOn = false;
 	IsFadeDone = false;
 
-	if (true == IsBGM_On && false == AreYouJustEnterScene  && 30 != VegetableValleyEntertheDoorNumber)
+
+	if (true == IsBGM_On && false == AreYouJustEnterScene && 30 != VegetableValleyEntertheDoorNumber)
 	{
 		BGM_Player.Stop();
 		IsBGM_On = false;
-
 	}
 
 	if (true == AreYouJustEnterScene)

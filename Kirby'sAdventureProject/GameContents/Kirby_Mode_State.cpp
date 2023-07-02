@@ -10,6 +10,7 @@
 #include "BeamEffect.h"
 #include "LaserEffect.h"
 #include "Boss.h"
+#include "IceBlock.h"
 #include "KirbySparkEffect.h"
 #include "WanderingStar.h"
 #include "FrameBreathEffect.h"
@@ -627,6 +628,28 @@ void Kirby::DropAbility()
 	if (AbilityStar::Sword == Mode)
 	{
 		MainRenderer->SetRenderScaleToTexture();
+	}
+
+	if (AbilityStar::Ice == Mode)
+	{
+		std::list<IceBlock*>::iterator StartIter = IceBlockPtr_list.begin();
+		std::list<IceBlock*>::iterator EndIter = IceBlockPtr_list.end();
+
+		for (;StartIter != EndIter;)
+		{
+			IceBlock* IceblockPtr = *StartIter;
+			if (nullptr == IceblockPtr)
+			{
+				MsgBoxAssert("리스트 참조에 실패했습니다.");
+				return;
+			}
+
+			IceblockPtr->Death();
+			IceblockPtr->EffectPointerRelease();
+
+			StartIter = IceBlockPtr_list.erase(StartIter);
+		}
+
 	}
 
 

@@ -11,6 +11,7 @@
 
 
 #include "GlobalContents.h"
+#include "WhispyWood.h"
 #include "Kirby.h"
 #include "CrossDeathEffect.h"
 
@@ -279,6 +280,7 @@ void Apple::RollUpdate(float _Delta)
 
 	if (ApplePos.X < CameraPos.X - OVERSCREEN_ADDITIONDISTANCE || ApplePos.X > CameraPos.X + WinScale.X + OVERSCREEN_ADDITIONDISTANCE)
 	{
+		ReleaseThisList();
 		Death();
 		EnemyPointerRelease();
 		return;
@@ -356,6 +358,7 @@ void Apple::BounceMoveUpdate(float _Delta)
 
 	if (ApplePos.X < CameraPos.X - OVERSCREEN_ADDITIONDISTANCE || ApplePos.X > CameraPos.X + WinScale.X + OVERSCREEN_ADDITIONDISTANCE)
 	{
+		ReleaseThisList();
 		Death();
 		EnemyPointerRelease();
 		return;
@@ -413,6 +416,7 @@ void Apple::BeInhaledUpdate(float _Delta)
 
 		if (GetPos().X < KirbyPos.X)
 		{
+			ReleaseThisList();
 			Death();
 			EnemyPointerRelease();
 			return;
@@ -425,6 +429,7 @@ void Apple::BeInhaledUpdate(float _Delta)
 
 		if (GetPos().X > KirbyPos.X)
 		{
+			ReleaseThisList();
 			Death();
 			EnemyPointerRelease();
 			return;
@@ -436,8 +441,6 @@ void Apple::BeInhaledUpdate(float _Delta)
 
 	HorizontalUpdate(_Delta);
 }
-
-
 
 
 // 피해를 입은 상태패턴
@@ -460,6 +463,24 @@ void Apple::HittedStart()
 
 void Apple::HittedUpdate(float _Delta)
 {
+	ReleaseThisList();
 	Death();
 	EnemyPointerRelease();
 }
+
+
+
+void Apple::ReleaseThisList()
+{
+	WhispyWood* WhispyWoodPtr = WhispyWood::GetWhispyWoodPtr();
+	if (nullptr == WhispyWoodPtr)
+	{
+		MsgBoxAssert("커비가 존재하지 않습니다.");
+		return;
+	}
+
+	std::list<Apple*>& AppleList = WhispyWoodPtr->GetAppleList();
+	AppleList.remove(this);
+}
+
+

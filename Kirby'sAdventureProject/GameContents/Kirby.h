@@ -4,7 +4,7 @@
 #include <GameEnginePlatform/GameEngineSound.h>
 
 #include <map>
-#include <vector>
+#include <list>
 #include <string>
 
 
@@ -129,6 +129,7 @@ enum class KirbyState
 
 
 
+class IceBlock;
 class Kirby : public ActorUtils
 {
 	friend class UIManager;
@@ -414,6 +415,16 @@ private:
 	void TriggerFireAbilityAfterProcess(float _Delta);
 	void TriggerSparkAbilityAfterProcess(float _Delta);
 	void TriggerIceAbilityAfterProcess(float _Delta);
+
+
+public:
+	std::list<IceBlock*>& GetIceList()
+	{
+		return IceBlockPtr_list;
+	}
+
+private:
+	std::list<IceBlock*> IceBlockPtr_list;
 
 private:
 	// ´É·ÂÈ¹µæ º¯¼ö

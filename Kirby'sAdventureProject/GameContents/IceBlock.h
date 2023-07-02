@@ -40,11 +40,12 @@ private:
 
 	// skillEffect override
 	void SkillDeathEffect() override;
+	void DataStructRelease() override;
+
 
 
 	// this
 	// 상태 패턴
-	
 	IceBlockState State = IceBlockState::Max;
 	void StateUpdate(float _Delta);
 	void ChangeState(IceBlockState _State);
@@ -58,9 +59,20 @@ private:
 
 
 
+	// Wing 패턴
+	const float LiveTime = 3.0f;
+
+
+
+
+
 	// Collision
 	GameEngineCollision* BlockBodyCollision = nullptr;
 
 	void BlockToPlayerCollisionCheck();
+
+
+	// 상태 최적화 
+	void ReleaseThisList();
 };
 

@@ -60,7 +60,7 @@ private:
 
 
 
-
+	void ReleaseThisList();
 
 	void Start() override;
 	void Update(float _Delta) override;

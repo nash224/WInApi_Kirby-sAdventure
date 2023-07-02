@@ -186,6 +186,11 @@ void KirbyBanner::BlinkEyesUpdate(float _Delta)
 void KirbyBanner::Render(float _Delta)
 {
 	GameEngineWindowTexture* BackBufferPtr = GameEngineWindow::MainWindow.GetBackBuffer();
+	if (nullptr == BackBufferPtr)
+	{
+		MsgBoxAssert("백버퍼를 불러오지 못했습니다.");
+		return;
+	}
 
 	HDC dc = BackBufferPtr->GetImageDC();
 
