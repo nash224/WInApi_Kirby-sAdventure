@@ -9,6 +9,7 @@
 
 #include "GlobalContents.h"
 #include "ActorUtils.h"
+#include "ObejctDisapearingEffect.h"
 #include "Boss.h"
 
 
@@ -125,6 +126,31 @@ void SkillEffect::AbilityToBossCollisionCheck(CollisionOrder _ActorBodyCol, int 
 
 
 
+void SkillEffect::Call_DisapearEffect(bool _Sound /*= true*/)
+{
+	GameEngineLevel* CurLevelPtr = GetLevel();
+	if (nullptr == CurLevelPtr)
+	{
+		MsgBoxAssert("레벨을 불러오지 못했습니다.");
+		return;
+	}
+
+
+	ObejctDisapearingEffect* ObejctDisapearingEffectPtr = CurLevelPtr->CreateActor<ObejctDisapearingEffect>(UpdateOrder::Ability);
+	if (nullptr == ObejctDisapearingEffectPtr)
+	{
+		MsgBoxAssert("액터를 생성하지 못했습니다.");
+		return;
+	}
+
+	ObejctDisapearingEffectPtr->init(GetPos(), false);
+
+}
+
+
+
+
+
 float4 SkillEffect::GetCameraPos()
 {
 	float4 CameraPos = GetLevel()->GetMainCamera()->GetPos();
@@ -210,6 +236,7 @@ bool SkillEffect::CheckFrontPoint()
 
 	return false;
 }
+
 
 bool SkillEffect::CheckCenterPoint()
 {

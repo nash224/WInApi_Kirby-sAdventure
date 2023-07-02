@@ -36,6 +36,7 @@ enum class CollisionOrder
 	MonsterAbility,
 	ForDisplay,
 	WanderingStarBody,
+	IceBlockMoveBody,
 	Item,
 	Object,
 	Max,

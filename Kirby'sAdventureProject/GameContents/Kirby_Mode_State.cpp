@@ -111,6 +111,9 @@ void Kirby::UseAbilityStart()
 	case AbilityStar::Sword:
 		SwordAbilityStart();
 		break;
+	case AbilityStar::Ice:
+		IceAbilityStart();
+		break;
 	case AbilityStar::Max:
 		break;
 	default:
@@ -143,6 +146,9 @@ void Kirby::UseAbilityUpdate(float _Delta)
 	case AbilityStar::Sword:
 		SwordAbilityUpdate(_Delta);
 		break;
+	case AbilityStar::Ice:
+		IceAbilityUpdate(_Delta);
+		break;
 	case AbilityStar::Max:
 		break;
 	default:
@@ -171,6 +177,8 @@ void Kirby::TriggerOneTimeAbility()
 		break;
 	case AbilityStar::Sword:
 		break;
+	case AbilityStar::Ice:
+		break;
 	default:
 		break;
 	}
@@ -182,7 +190,6 @@ void Kirby::OneTimeLaser()
 {
 	// 레이저 소환
 	LaserEffect* LaserEffectPtr = GetLevel()->CreateActor<LaserEffect>(UpdateOrder::UI);
-
 	if (nullptr == LaserEffectPtr)
 	{
 		MsgBoxAssert("Null인 액터에 참조하려고 했습니다.");
@@ -252,10 +259,15 @@ void Kirby::TriggerMultiTimeAbility(float _Delta)
 		break;
 	case AbilityStar::Sword:
 		break;
+	case AbilityStar::Ice:
+		TriggerIceAbilityAfterProcess(_Delta);
+		break;
 	default:
 		break;
 	}
 }
+
+
 
 
 void Kirby::TriggerFireAbilityAfterProcess(float _Delta)
@@ -350,12 +362,12 @@ void Kirby::InhaleAbilityUpdate(float _Delta)
 
 
 	// 기본커비 특수 스킬 충돌검사
-	std::vector<GameEngineCollision*> InhaleCol;
-	if (true == InhaleEffectCollision->Collision(CollisionOrder::MonsterBody, InhaleCol, CollisionType::Rect, CollisionType::Rect))
+	std::vector<GameEngineCollision*> InhaleColToEnemy;
+	if (true == InhaleEffectCollision->Collision(CollisionOrder::MonsterBody, InhaleColToEnemy, CollisionType::Rect, CollisionType::Rect))
 	{
-		for (size_t i = 0; i < InhaleCol.size(); i++)
+		for (size_t i = 0; i < InhaleColToEnemy.size(); i++)
 		{
-			GameEngineCollision* Collision = InhaleCol[i];
+			GameEngineCollision* Collision = InhaleColToEnemy[i];
 			if (nullptr == Collision)
 			{
 				MsgBoxAssert("충돌한 객체가 Null 입니다.");
@@ -382,16 +394,16 @@ void Kirby::InhaleAbilityUpdate(float _Delta)
 			AbilityStar EnemyAbility = EnemyPtr->Ability;
 
 
-			if (true == KirbySwalling)
-			{
+			//if (true == KirbySwalling)
+			//{
 
-				GameEngineCollision* KirbyBodyCollision = GetKirbyCollison();
-				if (nullptr == KirbyBodyCollision)
-				{
-					MsgBoxAssert("커비의 충돌체를 가져오는데 실패했습니다.");
-					return;
-				}
-			}
+			//	GameEngineCollision* KirbyBodyCollision = GetKirbyCollison();
+			//	if (nullptr == KirbyBodyCollision)
+			//	{
+			//		MsgBoxAssert("커비의 충돌체를 가져오는데 실패했습니다.");
+			//		return;
+			//	}
+			//}
 
 
 			// 빨아들인 몬스터 수에 따라 별의 크기가 결정됨
@@ -465,6 +477,56 @@ void Kirby::InhaleAbilityUpdate(float _Delta)
 
 
 
+	// 기본커비 특수 스킬 충돌검사
+	std::vector<GameEngineCollision*> InhaleToForDisplay;
+	if (true == InhaleEffectCollision->Collision(CollisionOrder::ForDisplay, InhaleToForDisplay, CollisionType::Rect, CollisionType::Rect))
+	{
+		for (size_t i = 0; i < InhaleToForDisplay.size(); i++)
+		{
+			GameEngineCollision* Collision = InhaleToForDisplay[i];
+			if (nullptr == Collision)
+			{
+				MsgBoxAssert("충돌한 객체가 Null 입니다.");
+				return;
+			}
+
+			ActorUtils* ForDisaplayPtr = dynamic_cast<ActorUtils*>(Collision->GetActor());
+			if (nullptr == ForDisaplayPtr)
+			{
+				MsgBoxAssert("다운 캐스팅이 잘못되었습니다.");
+				return;
+			}
+
+
+			// 이미 충돌한 객체는 다시 못들어옴
+			if (true == ForDisaplayPtr->IsInhaledStateOn)
+			{
+				continue;
+			}
+
+
+			// 충돌되면 충돌했다는 변수를 변경하고, 몬스터의 능력 정보를 가져옴
+			ForDisaplayPtr->IsInhaledStateOn = true;
+			AbilityStar DisPlayAbility = ForDisaplayPtr->Ability;
+
+
+			// 빨아들인 몬스터 수에 따라 별의 크기가 결정됨
+			if (AbilityStar::Max != DisPlayAbility)
+			{
+				++Star.SwallowedEnemyNumber;
+				SwallingEnemy = ForDisaplayPtr;
+			}
+
+			// 특수 몹을 2명 이상 먹었으면 랜덤 능력
+			if (AbilityStar::Normal != DisPlayAbility && AbilityStar::Max != DisPlayAbility)
+			{
+				CurrentAbilityStar = DisPlayAbility;
+				++Star.SwallowedPowerEnemyNumber;
+			}
+		}
+	}
+
+
 
 
 	// 먹으면
@@ -485,7 +547,7 @@ void Kirby::InhaleAbilityUpdate(float _Delta)
 			}
 
 			KirbyBodyCollision->On();
-			KirbySwalling = false;
+			//KirbySwalling = false;
 
 			InhaleSound.Stop();
 			ChangeState(KirbyState::Contain_Idle);

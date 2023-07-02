@@ -1005,7 +1005,6 @@ void Kirby::GetAbilityUpdate(float _Delta)
 	// ¸Ê ºí¶ô
 	BlockedByGround();
 	BlockedByWall();
-
 }
 
 

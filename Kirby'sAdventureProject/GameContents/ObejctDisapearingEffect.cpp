@@ -38,12 +38,15 @@ void ObejctDisapearingEffect::Start()
 	GlobalContents::SoundFileLoad("Effect_DisapearSound.wav", "Resources\\SoundResources\\EffectVoice");
 }
 
-void ObejctDisapearingEffect::init(const float4& _Pos)
+void ObejctDisapearingEffect::init(const float4& _Pos, bool _Sound /*= true*/)
 {
 	SetPos(_Pos);
 
-	// 사운드 재생
-	GameEngineSound::SoundPlay("Effect_DisapearSound.wav");
+	if (true == _Sound)
+	{
+		// 사운드 재생
+		GameEngineSound::SoundPlay("Effect_DisapearSound.wav");
+	}
 }
 
 void ObejctDisapearingEffect::Update(float _Delta)

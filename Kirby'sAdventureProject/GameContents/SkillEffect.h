@@ -52,9 +52,10 @@ protected:
 	// 충돌 함수
 	GameEngineCollision* EffectCollision = nullptr;
 
-	void AbilityToActorCollisionCheck(CollisionOrder _ActorBodyCol, bool _IsDeath = false);
+	virtual void AbilityToActorCollisionCheck(CollisionOrder _ActorBodyCol, bool _IsDeath = false);
 	void AbilityToBossCollisionCheck(CollisionOrder _ActorBodyCol, int _Damage = 1, bool _IsDeath = false);
 	virtual void SkillDeathEffect() {}
+	void Call_DisapearEffect(bool _Sound = true);
 
 
 

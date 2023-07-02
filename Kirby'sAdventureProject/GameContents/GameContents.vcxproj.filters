@@ -243,6 +243,12 @@
     <ClInclude Include="Pengi.h">
       <Filter>Global\Object\Enemy\PowerEnemy</Filter>
     </ClInclude>
+    <ClInclude Include="IceBreathEffect.h">
+      <Filter>Global\Effect\SkillAbilityEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="IceBlock.h">
+      <Filter>Global\Effect\SkillAbilityEffect</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CraneFever.cpp">
@@ -521,6 +527,15 @@
     </ClCompile>
     <ClCompile Include="Pengi.cpp">
       <Filter>Global\Object\Enemy\PowerEnemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Kirby_Ice_State.cpp">
+      <Filter>Global\Object\Kirby</Filter>
+    </ClCompile>
+    <ClCompile Include="IceBreathEffect.cpp">
+      <Filter>Global\Effect\SkillAbilityEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="IceBlock.cpp">
+      <Filter>Global\Effect\SkillAbilityEffect</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

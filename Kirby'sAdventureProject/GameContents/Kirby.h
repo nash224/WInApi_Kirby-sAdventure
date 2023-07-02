@@ -346,7 +346,7 @@ private:
 
 	float FrameTime = 0.0f;
 	float SparkTime = 0.0f;
-
+	float IceTime = 0.0f;
 
 
 
@@ -370,6 +370,7 @@ private:
 	void Fire_StateResourceLoad();
 	void Thorn_StateResourceLoad();
 	void Sword_StateResourceLoad();
+	void Ice_StateResourceLoad();
 	void MoveLevel_StateResourceLoad();
 
 	// 모드별 공격 함수
@@ -388,6 +389,7 @@ private:
 	void FireAbilityStart();
 	void ThornAbilityStart();
 	void SwordAbilityStart();
+	void IceAbilityStart();
 
 	void InhaleAbilityUpdate(float _Delta);
 	void SparkAbilityUpdate(float _Delta);
@@ -396,6 +398,7 @@ private:
 	void FireAbilityUpdate(float _Delta);
 	void ThornAbilityUpdate(float _Delta);
 	void SwordAbilityUpdate(float _Delta);
+	void IceAbilityUpdate(float _Delta);
 
 
 	// GetAbility 함수 관련
@@ -410,6 +413,7 @@ private:
 
 	void TriggerFireAbilityAfterProcess(float _Delta);
 	void TriggerSparkAbilityAfterProcess(float _Delta);
+	void TriggerIceAbilityAfterProcess(float _Delta);
 
 private:
 	// 능력획득 변수

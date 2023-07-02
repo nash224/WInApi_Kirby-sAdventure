@@ -17,7 +17,7 @@ public:
 	ObejctDisapearingEffect& operator=(const ObejctDisapearingEffect& _Other) = delete;
 	ObejctDisapearingEffect& operator=(ObejctDisapearingEffect&& _Other) noexcept = delete;
 
-	void init(const float4& _Pos);
+	void init(const float4& _Pos, bool _Sound = true);
 
 
 protected:

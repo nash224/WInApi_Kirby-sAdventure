@@ -56,8 +56,10 @@ void Kirby::Start()
 	Fire_StateResourceLoad();
 	Thorn_StateResourceLoad();
 	Sword_StateResourceLoad();
+	Ice_StateResourceLoad();
 	Contain_StateResourceLoad();
 	MoveLevel_StateResourceLoad();
+
 
 	MainRenderer->SetRenderScaleToTexture();
 	MainRenderer->SetScaleRatio(3.0f);
@@ -462,6 +464,9 @@ void Kirby::ChangeAnimationState(const std::string& _StateName, int _StartFrame/
 		break;
 	case AbilityStar::Sword:
 		ModeName = "Sword_";
+		break;
+	case AbilityStar::Ice:
+		ModeName = "Ice_";
 		break;
 	default:
 		break;
