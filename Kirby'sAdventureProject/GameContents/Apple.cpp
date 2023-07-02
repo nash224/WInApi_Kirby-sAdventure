@@ -74,6 +74,8 @@ void Apple::Start()
 	Ability = AbilityStar::Normal;
 
 
+	SetName("WhispyApple");
+
 
 	// 面倒眉 积己 棺 利侩
 	BodyCollision = CreateCollision(CollisionOrder::MonsterBody);

@@ -47,8 +47,16 @@ protected:
 	void HittedUpdate(float _Delta) override;
 
 
-
+	
 private:
+	// 레벨 상속
+	void Start() override;
+	void Update(float _Delta) override;
+
+
+
+
+	// this
 	int TwinkilingCount = 0;
 	const float BouncePower = 300.0f;
 	const float FirstBouncePower = 400.0f;
@@ -60,9 +68,9 @@ private:
 
 
 
+public:
+	// 초기화
 	void ReleaseThisList();
 
-	void Start() override;
-	void Update(float _Delta) override;
 };
 

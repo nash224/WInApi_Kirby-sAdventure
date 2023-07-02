@@ -10,6 +10,7 @@
 #include "GlobalContents.h"
 #include "VegetableValleyPlayLevel.h"
 #include "Enemy.h"
+#include "Apple.h"
 #include "ActorUtils.h"
 #include "ObejctDisapearingEffect.h"
 #include "IceBlock.h"
@@ -137,7 +138,25 @@ void IceBreathEffect::AbilityToActorCollisionCheck(CollisionOrder _ActorBodyCol,
 				return;
 			}
 
-			ActorPtr->Off();
+
+			if ("WhispyApple" == ActorPtr->GetName())
+			{
+				Apple* ApplePtr = dynamic_cast<Apple*>(ActorPtr);
+				if (nullptr == ApplePtr)
+				{
+					MsgBoxAssert("다운캐스팅에 실패했습니다.");
+					return;
+				}
+
+				ApplePtr->ReleaseThisList();
+				ApplePtr->EnemyPointerRelease();
+				ApplePtr->Death();
+			}
+			else
+			{
+				ActorPtr->Off();
+			}
+
 			float4 EnemyPos = ActorPtr->GetPos();
 
 			Enemy* EnemyPtr = dynamic_cast<Enemy*>(ActorPtr);
