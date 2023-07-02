@@ -543,7 +543,7 @@ void PlayUI::OuchState(float _Delta)
 		}
 
 		// 커비의 체력이 증가하면
-		if (m_KirbySteminaCount < KirbyPtr->m_KirbyHp && m_KirbySteminaCount < 6)
+		if (m_KirbySteminaCount < KirbyPtr->m_KirbyHp && m_KirbySteminaCount < 6 && 6 != (KirbyPtr->m_KirbyHp - m_KirbySteminaCount))
 		{
 			Increase_Hp_Time += _Delta;
 

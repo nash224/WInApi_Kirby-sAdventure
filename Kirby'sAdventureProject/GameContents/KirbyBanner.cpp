@@ -207,13 +207,48 @@ void KirbyBanner::Render(float _Delta)
 		TextOutA(dc, 2, 18, Text.c_str(), static_cast<int>(Text.size()));
 	}
 
+
+	{
+		std::string Text = "";
+
+		Text += "메세지 큐 : ";
+
+
+
+
+
+		for (int Number : StateData)
+		{
+			std::string StateName = "";
+
+			switch (Number)
+			{
+			case 0:
+				StateName = "WaveHand ";
+				break;
+			case 1:
+				StateName = "BlinkEyes ";
+				break;
+			default:
+				break;
+			}
+
+			Text += StateName;
+
+			
+		}
+
+		TextOutA(dc, 2, 34, Text.c_str(), static_cast<int>(Text.size()));
+	}
+
+
 	{
 		std::string Text = "";
 
 		Text += "현재 상태 : ";
 
 		Text += CurName;
-		TextOutA(dc, 2, 34, Text.c_str(), static_cast<int>(Text.size()));
+		TextOutA(dc, 2, 50, Text.c_str(), static_cast<int>(Text.size()));
 	}
 
 }

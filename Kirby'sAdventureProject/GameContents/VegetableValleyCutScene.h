@@ -29,6 +29,9 @@ public:
 class VegetableValleyCutScene : public ActorUtils
 {
 public:
+	bool SceneEnd = false;
+
+public:
 	// constrcuter destructer
 	VegetableValleyCutScene();
 	~VegetableValleyCutScene();

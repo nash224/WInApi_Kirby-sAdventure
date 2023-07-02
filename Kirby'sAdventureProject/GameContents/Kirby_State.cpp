@@ -324,9 +324,9 @@ void Kirby::WalkUpdate(float _Delta)
 
 
 
+	MoveHorizontal(WALKSPEED, _Delta);
 	
 	BlockedByGround();
-	MoveHorizontal(WALKSPEED, _Delta);
 	BlockedByWall();
 	BlockedByAll();
 

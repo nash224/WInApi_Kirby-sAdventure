@@ -14,6 +14,7 @@
 
 
 // Ό³Έν :
+class BackGround;
 class VegetableValleyPlayLevel : public GameEngineLevel
 {
 public:
@@ -81,7 +82,7 @@ public:
 		return LevelUIManager;
 	}
 
-	class BackGround* GetLevelBackGroundPtr()
+	BackGround* GetLevelBackGroundPtr()
 	{
 		return LevelBackGround;
 	}
@@ -94,9 +95,9 @@ public:
 
 
 protected:
-	class UIManager* LevelUIManager = nullptr;
-	class BackGround* LevelBackGround = nullptr;
+	BackGround* LevelBackGround = nullptr;
 	class GameEffect* LevelEffect = nullptr;
+	class UIManager* LevelUIManager = nullptr;
 	class Kirby* LevelPlayer = nullptr;
 	class Boss* LevelBoss = nullptr;
 

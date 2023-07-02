@@ -24,7 +24,6 @@ FadeObject::FadeObject()
 
 FadeObject::~FadeObject()
 {
-	IsFadeScreenRelease = false;
 }
 
 
@@ -307,6 +306,8 @@ void FadeObject::FadeScreen(float _Delta)
 void FadeObject::LevelEnd()
 {
 	Death();
+	IsFadeInDone = false;
+	IsFadeScreenRelease = false;
 	if (nullptr != MainRenderer)
 	{
 		MainRenderer = nullptr;

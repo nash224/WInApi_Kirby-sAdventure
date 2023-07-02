@@ -6,6 +6,7 @@
 
 
 #include "GlobalContents.h"
+#include "VegetableValleyPlayLevel.h"
 #include "FadeObject.h"
 
 
@@ -568,6 +569,8 @@ void VegetableValleyCutScene::GetAbilityStart()
 	ChangeAnimationState("GetAbility");
 }
 
+
+
 void VegetableValleyCutScene::GetAbilityUpdate(float _Delta)
 {
 	if (nullptr == KirbyActor.ActorRenderer)
@@ -593,24 +596,14 @@ void VegetableValleyCutScene::GetAbilityUpdate(float _Delta)
 	{
 		StateTime += _Delta;
 
-		if (StateTime > 0.6f && false == IsFadeOutStart)
+		if (StateTime > 0.6f)
 		{
-			GameEngineLevel* CurLevelPtr = GetLevel();
-			if (nullptr == CurLevelPtr)
+			if (false == IsFadeOutStart)
 			{
-				MsgBoxAssert("레벨을 불러오지 못했습니다.");
-				return;
+				IsFadeOutStart = true;
+
+				SceneEnd = true;
 			}
-
-			GlobalContents::WhiteFadeOut(CurLevelPtr);
-
-			IsFadeOutStart = true;
-		}
-
-		if (StateTime > 1.5f)
-		{
-			GameEngineCore::ChangeLevel("VegetableValleyHub");
-			return;
 		}
 	}
 }

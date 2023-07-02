@@ -37,7 +37,7 @@ void ContentsCore::Start()
 	GameEngineCore::CreateLevel<SubScreens>("SubScreens");
 	GameEngineCore::CreateLevel<PauseLevel>("PauseLevel");
 
-	GameEngineCore::ChangeLevel("VegetableValleyHub");
+	GameEngineCore::ChangeLevel("TitleLevel");
 }
 
 void ContentsCore::Update(float _Delta)

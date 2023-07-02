@@ -228,6 +228,10 @@ void Kirby::AerialUseSpecialAbilityUpdate(float _Delta)
 
 
 
+
+	MoveHorizontal(WALKSPEED, _Delta);
+
+
 	// ÁöÇü¶ô
 	BlockedByGround();
 	BlockedByCeiling();

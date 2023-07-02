@@ -9,6 +9,7 @@
 
 #include "GlobalContents.h"
 #include "VegetableValleyCutScene.h"
+#include "FadeObject.h"
 #include "BackGround.h"
 
 
@@ -50,14 +51,44 @@ void VegetableValleyIntro::Start()
 
 void VegetableValleyIntro::Update(float _Delta)
 {
+	if (false == FadeObject::IsFadeInDone)
+	{
+		return;
+	}
+
+
 
 	if (true == GameEngineInput::IsDown('A') ||
 		true == GameEngineInput::IsDown('D') || 
 		true == GameEngineInput::IsDown('S') || 
 		true == GameEngineInput::IsDown('W'))
 	{
+		GlobalContents::WhiteFadeOut(this);
+	}
+
+
+	if (nullptr == LevelScene)
+	{
+		MsgBoxAssert("씬이 존재하지 않습니다.");
+		return;
+	}
+
+	
+
+	if (true == LevelScene->SceneEnd)
+	{
+		LevelScene->SceneEnd = false;
+
+		GlobalContents::WhiteFadeOut(this); 
+	}
+
+	if (true == IsFadeDone)
+	{
+		IsFadeDone = false;
+
 		GameEngineCore::ChangeLevel("VegetableValleyHub");
 	}
+
 }
 
 void VegetableValleyIntro::LevelStart(GameEngineLevel* _PrevLevel)

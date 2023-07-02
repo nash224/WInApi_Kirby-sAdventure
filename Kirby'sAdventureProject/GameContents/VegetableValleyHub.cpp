@@ -174,6 +174,13 @@ void VegetableValleyHub::Start()
 
 void VegetableValleyHub::Update(float _Delta)
 {
+	if (false == FadeObject::IsFadeInDone)
+	{
+		return;
+	}
+
+
+
 	if (true == GameEngineInput::IsDown('P'))
 	{
 		GameEngineCore::ChangeLevel("PauseLevel");
@@ -562,15 +569,6 @@ void VegetableValleyHub::LevelStart(GameEngineLevel* _PrevLevel)
 	// Kirby Set Bitmap Resource
 	LevelPlayer->SetGroundTexture(BitMapFileName);
 
-	GameEngineCamera* CameraPtr = GetMainCamera();
-	if (nullptr == CameraPtr)
-	{
-		MsgBoxAssert("카메라를 불러오지 못했습니다.");
-		return;
-	}
-
-	float4 WinDowScale = GameEngineWindow::MainWindow.GetScale();
-
 
 
 	// Kirby come out last Stage
@@ -590,7 +588,6 @@ void VegetableValleyHub::LevelStart(GameEngineLevel* _PrevLevel)
 		break;
 	case 30:
 		LevelPlayer->SetPos(Museum.StageLocation);
-		CameraPtr->SetPos(Museum.StageLocation );
 
 		if (false == IsBGM_On)
 		{

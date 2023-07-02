@@ -72,6 +72,10 @@ void VegetableValleyMuseum::Start()
 
 void VegetableValleyMuseum::Update(float _Delta)
 {
+	if (false == FadeObject::IsFadeInDone)
+	{
+		return;
+	}
 
 
 
