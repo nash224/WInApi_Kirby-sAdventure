@@ -87,7 +87,11 @@ protected:
 
 	const float SemicircleAngle = 180.0f;
 	const float FireBall_HighAngle = 18.0f;
-	float DegToKirby = 0.0f;
+
+
+
+	void ThisDebugRender(HDC _dc, int& _RenderNumber, const int _TextXPos, const int _TextYPos);
+	void ThisDebugTriggerRender(HDC _dc);
 
 
 

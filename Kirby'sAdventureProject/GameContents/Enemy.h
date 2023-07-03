@@ -70,6 +70,7 @@ protected:
 	float4 GetKirbyOpponentDistance();
 	float4 GetKirbyUnitVector();
 	void GetKirbyDirection();
+	float4 KirbyActorCameraPos();
 
 	bool LeftGroundIsCliff();
 	bool RightGroundIsCliff();

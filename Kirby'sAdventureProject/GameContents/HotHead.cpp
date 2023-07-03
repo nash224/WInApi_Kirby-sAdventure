@@ -4,6 +4,7 @@
 
 #include <GameEnginePlatform/GameEngineWindow.h>
 #include <GameEngineCore/GameEngineLevel.h>
+#include <GameEngineCore/GameEngineCamera.h>
 #include <GameEngineCore/GameEngineRenderer.h>
 #include <GameEngineCore/GameEngineCollision.h>
 
@@ -255,15 +256,18 @@ void HotHead::FireBallStart()
 	}
 	else if (DistanceToKriby.X >= 0.0f)
 	{
-		if (EffectDeg > FireBall_HighAngle)
-		{
-			EffectDeg = -FireBall_HighAngle;
-		}
-		else if (EffectDeg <= -FireBall_HighAngle)
+		if (EffectDeg > FireBall_HighAngle && EffectDeg < 90.0f)
 		{
 			EffectDeg = FireBall_HighAngle;
 		}
+		else if (EffectDeg > 270.0f && EffectDeg <= 360.0f - FireBall_HighAngle)
+		{
+			EffectDeg = 360.0f - FireBall_HighAngle;
+		}
 	}
+
+
+
 
 	FireBallEffect* FireBallEffectPtr = GetLevel()->CreateActor<FireBallEffect>(UpdateOrder::Ability);
 	if (nullptr == FireBallEffectPtr)
@@ -381,6 +385,12 @@ void HotHead::FlameBreathUpdate(float _Delta)
 		++WobbleCount;
 
 		FrameBreathEffect* FrameBreathEffectPtr = GetLevel()->CreateActor<FrameBreathEffect>(UpdateOrder::Ability);
+		if (nullptr == FrameBreathEffectPtr)
+		{
+			MsgBoxAssert("액터를 생성하지 못했습니다.");
+			return;
+		}
+
 		FrameBreathEffectPtr->init(GetPos(), Scale, ActorDirUnitVector);
 		FrameBreathEffectPtr->SetActorCollision(CollisionOrder::MonsterAbility, CollisionType::Rect);
 
@@ -469,28 +479,140 @@ void HotHead::Render(float _Delta)
 
 
 	EnemyDebugRender(dc, TextRenderNum, TextXPos, TextYPos);
+	ThisDebugRender(dc, TextRenderNum, TextXPos, TextYPos);
 
+	ThisDebugTriggerRender(dc);
+
+
+}
+
+
+
+void HotHead::ThisDebugRender(HDC _dc, int& _RenderNumber, const int _TextXPos, const int _TextYPos)
+{
 
 	float4 DistanceToKriby = GetKirbyOpponentDistance();
 	float EffectDeg = DistanceToKriby.AngleDeg();
+
+
+
+	if (DistanceToKriby.X < 0.0f)
+	{
+		if (EffectDeg < SemicircleAngle - FireBall_HighAngle)
+		{
+			EffectDeg = SemicircleAngle - FireBall_HighAngle;
+		}
+		else if (EffectDeg >= SemicircleAngle + FireBall_HighAngle)
+		{
+			EffectDeg = SemicircleAngle + FireBall_HighAngle;
+		}
+	}
+	else if (DistanceToKriby.X >= 0.0f)
+	{
+		if (EffectDeg > FireBall_HighAngle && EffectDeg < 90.0f)
+		{
+			EffectDeg = FireBall_HighAngle;
+		}
+		else if (EffectDeg > 270.0f && EffectDeg <= 360.0f - FireBall_HighAngle)
+		{
+			EffectDeg = 360.0f - FireBall_HighAngle;
+		}
+	}
+
 
 	{
 		std::string Text = "";
 		Text += "FireBall 각도";
 		Text += std::to_string(static_cast<int>(EffectDeg));
-		TextOutA(dc, TextXPos, 2 + TextYPos - TextRenderNum * DebugRenderText_YInter, Text.c_str(), static_cast<int>(Text.size()));
+		TextOutA(_dc, _TextXPos, 2 + _TextYPos - _RenderNumber * DebugRenderText_YInter, Text.c_str(), static_cast<int>(Text.size()));
 
-		++TextRenderNum;
+		++_RenderNumber;
 	}
+}
 
+
+void HotHead::ThisDebugTriggerRender(HDC _dc)
+{
+	float4 WinScale = GameEngineWindow::MainWindow.GetScale();
+
+	float4 KirbyCameraPos = KirbyActorCameraPos();
+	float4 ActorScenePos = ActorCameraPos();
+	float4 DistanceToKriby = GetKirbyOpponentDistance();
+
+	Kirby* KirbyPtr = Kirby::GetMainKirby();
+	if (nullptr == KirbyPtr)
 	{
-		std::string Text = "";
-		Text += "클리어";
-		TextOutA(dc, TextXPos, 2 + TextYPos - TextRenderNum * DebugRenderText_YInter, Text.c_str(), static_cast<int>(Text.size()));
-
-		++TextRenderNum;
+		MsgBoxAssert("커비를 불러오지 못했습니다.");
+		return;
 	}
 
-	
+
+	float4 KirbyPos = KirbyPtr->GetPos();
+
+	if (HOTHEADFIREBALLRANGEDETECTION < abs(KirbyPos.X - GetPos().X) && HOTHEADRANGEDETECTION > abs(KirbyPos.X - GetPos().X))
+	{
+		float4 FireBallAngle = float4::GetUnitVectorFromDeg(FireBall_HighAngle);
+		FireBallAngle *= WinScale.Half().X;
+
+		float EffectDeg = DistanceToKriby.AngleDeg();
+
+		if (DistanceToKriby.X < 0.0f)
+		{
+			if (EffectDeg < SemicircleAngle - FireBall_HighAngle)
+			{
+				MoveToEx(_dc, ActorScenePos.iX(), ActorScenePos.iY() - Scale.Half().iY(), NULL);
+				LineTo(_dc, ActorScenePos.iX() - WinScale.Half().iX(), ActorScenePos.iY() + FireBallAngle.iY() - Scale.Half().iY());
+			}
+			else if (EffectDeg >= SemicircleAngle + FireBall_HighAngle)
+			{
+				MoveToEx(_dc, ActorScenePos.iX(), ActorScenePos.iY() - Scale.Half().iY(), NULL);
+				LineTo(_dc, ActorScenePos.iX() - WinScale.Half().iX(), ActorScenePos.iY() - FireBallAngle.iY() - Scale.Half().iY());
+			}
+			else
+			{
+				MoveToEx(_dc, ActorScenePos.iX(), ActorScenePos.iY() - Scale.Half().iY(), NULL);
+				LineTo(_dc, KirbyCameraPos.iX(), KirbyCameraPos.iY() - Scale.Half().iY());
+			}
+		}
+		else if (DistanceToKriby.X >= 0.0f)
+		{
+			if (EffectDeg > FireBall_HighAngle && EffectDeg < 90.0f)
+			{
+				MoveToEx(_dc, ActorScenePos.iX(), ActorScenePos.iY() - Scale.Half().iY(), NULL);
+				LineTo(_dc, ActorScenePos.iX() + WinScale.Half().iX(), ActorScenePos.iY() + FireBallAngle.iY() - Scale.Half().iY());
+			}
+			else if (EffectDeg > 270.0f && EffectDeg <= 360.0f - FireBall_HighAngle)
+			{
+				MoveToEx(_dc, ActorScenePos.iX(), ActorScenePos.iY() - Scale.Half().iY(), NULL);
+				LineTo(_dc, ActorScenePos.iX() + WinScale.Half().iX(), ActorScenePos.iY() - FireBallAngle.iY() - Scale.Half().iY());
+			}
+			else
+			{
+				MoveToEx(_dc, ActorScenePos.iX(), ActorScenePos.iY() - Scale.Half().iY(), NULL);
+				LineTo(_dc, KirbyCameraPos.iX(), KirbyCameraPos.iY() - Scale.Half().iY());
+			}
+		}
+
+	}
+
+
+	if (DistanceToKriby.X < 0.0f)
+	{
+		MoveToEx(_dc, ActorScenePos.iX() - static_cast<int>(HOTHEADFIREBALLRANGEDETECTION), 0, NULL);
+		LineTo(_dc, ActorScenePos.iX() - static_cast<int>(HOTHEADFIREBALLRANGEDETECTION), WinScale.iY());
+
+		MoveToEx(_dc, ActorScenePos.iX() - static_cast<int>(HOTHEADRANGEDETECTION), 0, NULL);
+		LineTo(_dc, ActorScenePos.iX() - static_cast<int>(HOTHEADRANGEDETECTION), WinScale.iY());
+	}
+
+	if (DistanceToKriby.X >= 0.0f)
+	{
+		MoveToEx(_dc, ActorScenePos.iX() + static_cast<int>(HOTHEADFIREBALLRANGEDETECTION), 0, NULL);
+		LineTo(_dc, ActorScenePos.iX() + static_cast<int>(HOTHEADFIREBALLRANGEDETECTION), WinScale.iY());
+
+		MoveToEx(_dc, ActorScenePos.iX() + static_cast<int>(HOTHEADRANGEDETECTION), 0, NULL);
+		LineTo(_dc, ActorScenePos.iX() + static_cast<int>(HOTHEADRANGEDETECTION), WinScale.iY());
+	}
+
 
 }

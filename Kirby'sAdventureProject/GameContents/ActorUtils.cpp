@@ -6,6 +6,8 @@
 #include <GameEngineCore/ResourcesManager.h>
 #include <GameEngineCore/GameEngineCollision.h>
 
+
+
 ActorUtils::ActorUtils() 
 {
 }
@@ -54,6 +56,9 @@ float4 ActorUtils::ActorCameraPos()
 	return GetPos() - MainCameraPtr->GetPos();
 }
 
+
+
+
 void ActorUtils::Gravity(float _Delta)
 {
 	// 중력 보간법
@@ -68,12 +73,6 @@ void ActorUtils::ReverseGravity(float _Delta)
 
 void ActorUtils::GravityLimit(float _Delta)
 {
-	// 최대 점프 제한
-	//if (GravityVector.Y <= -GravityMaxVector)
-	//{
-	//	GravityVector = float4::UP * GravityMaxVector;
-	//}
-
 	// 최대 중력 제한
 	if (GravityVector.Y >= GravityMaxVector * AirResistance)
 	{

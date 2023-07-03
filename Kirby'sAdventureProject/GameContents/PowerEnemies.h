@@ -24,6 +24,7 @@ protected:
 	float4 GetAbilityDir();
 
 
+	void PowerEnemyDebugRender(HDC _dc, int& _RenderNumber, const int _TextXPos, const int _TextYPos);
 
 private:
 

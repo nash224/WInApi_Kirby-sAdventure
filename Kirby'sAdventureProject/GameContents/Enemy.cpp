@@ -74,6 +74,43 @@ float4 Enemy::GetKirbyOpponentDistance()
 }
 
 
+
+float4 Enemy::KirbyActorCameraPos()
+{
+	static float4 ReturnValue;
+
+	Kirby* KirbyPtr = Kirby::GetMainKirby();
+	if (nullptr == KirbyPtr)
+	{
+		MsgBoxAssert("커비를 불러오지 못했습니다.");
+		return ReturnValue;
+	}
+
+	float4 KirbyPos = KirbyPtr->GetPos();
+
+	GameEngineLevel* CurLevelPtr = GetLevel();
+	if (nullptr == CurLevelPtr)
+	{
+		MsgBoxAssert("레벨을 불러오지 못했습니다.");
+		return ReturnValue;
+	}
+
+	GameEngineCamera* MainCameraPtr = CurLevelPtr->GetMainCamera();
+	if (nullptr == MainCameraPtr)
+	{
+		MsgBoxAssert("카메라를 불러오지 못했습니다.");
+		return ReturnValue;
+	}
+
+	float4 CameraPos = MainCameraPtr->GetPos();
+
+	float4 KirbyActorCameraPos = KirbyPos - CameraPos;
+
+	return KirbyActorCameraPos;
+}
+
+
+
 // 왼쪽 절벽을 확인함
 bool Enemy::LeftGroundIsCliff()
 {
@@ -407,6 +444,66 @@ void Enemy::EnemyDebugRender(HDC _dc, int& _RenderNumber, const int _TextXPos, c
 		{
 			Text += "Right";
 		}
+		TextOutA(_dc, _TextXPos, 2 + _TextYPos - _RenderNumber * DebugRenderText_YInter, Text.c_str(), static_cast<int>(Text.size()));
+
+		++_RenderNumber;
+	}
+
+	{
+		std::string Text = "";
+		Text += "Ability : ";
+		switch (Ability)
+		{
+		case AbilityStar::Normal:
+			Text += "Normal";
+			break;
+		case AbilityStar::Spark:
+			Text += "Spark";
+			break;
+		case AbilityStar::Laser:
+			Text += "Laser";
+			break;
+		case AbilityStar::Beam:
+			Text += "Beam";
+			break;
+		case AbilityStar::Fire:
+			Text += "Fire";
+			break;
+		case AbilityStar::Thorn:
+			Text += "Thorn";
+			break;
+		case AbilityStar::Sword:
+			Text += "Sword";
+			break;
+		case AbilityStar::Ice:
+			Text += "Ice";
+			break;
+		case AbilityStar::UFO:
+			break;
+		case AbilityStar::Max:
+			break;
+		default:
+			break;
+		}
+		TextOutA(_dc, _TextXPos, 2 + _TextYPos - _RenderNumber * DebugRenderText_YInter, Text.c_str(), static_cast<int>(Text.size()));
+
+		++_RenderNumber;
+	}
+
+
+	{
+		std::string Text = "";
+		Text += "GravityVector : ";
+		Text += std::to_string(GetGravityVector().Y);
+		TextOutA(_dc, _TextXPos, 2 + _TextYPos - _RenderNumber * DebugRenderText_YInter, Text.c_str(), static_cast<int>(Text.size()));
+
+		++_RenderNumber;
+	}
+
+	{
+		std::string Text = "";
+		Text += "X Speed : ";
+		Text += std::to_string(CurrentSpeed);
 		TextOutA(_dc, _TextXPos, 2 + _TextYPos - _RenderNumber * DebugRenderText_YInter, Text.c_str(), static_cast<int>(Text.size()));
 
 		++_RenderNumber;

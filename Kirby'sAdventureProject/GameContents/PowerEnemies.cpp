@@ -58,3 +58,29 @@ void PowerEnemies::EnemyAbilityAttack()
 		KirbyPtr->IsHitted = true;
 	}
 }
+
+
+void PowerEnemies::PowerEnemyDebugRender(HDC _dc, int& _RenderNumber, const int _TextXPos, const int _TextYPos)
+{
+	{
+		std::string Text = "";
+		Text += "Ability Collision : ";
+		if (nullptr == AbilityCollision)
+		{
+			MsgBoxAssert("충돌체를 불러오지 못했습니다.");
+			return;
+		}
+
+		if (true == AbilityCollision->IsUpdate())
+		{
+			Text += "On";
+		}
+		else if (false == AbilityCollision->IsUpdate())
+		{
+			Text += "Off";
+		}
+		TextOutA(_dc, _TextXPos, 2 + _TextYPos - _RenderNumber * DebugRenderText_YInter, Text.c_str(), static_cast<int>(Text.size()));
+
+		++_RenderNumber;
+	}
+}

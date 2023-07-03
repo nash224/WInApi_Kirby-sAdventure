@@ -55,6 +55,7 @@ public:
 
 
 	float4 ActorCameraPos();
+	
 
 
 	void GravityOn()
