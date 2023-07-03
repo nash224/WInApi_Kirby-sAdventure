@@ -78,8 +78,8 @@ void Kirby::Ice_StateResourceLoad()
 	MainRenderer->CreateAnimation("Ice_Left_ReleaseSpecialAbility", "Ice_Left_Kirby.bmp", 16, 16, 0.1f, false);
 	MainRenderer->CreateAnimation("Ice_Right_ReleaseSpecialAbility", "Ice_Right_Kirby.bmp", 16, 16, 0.1f, false);
 
-	MainRenderer->CreateAnimation("Ice_Left_GetAbility", "Ice_Left_Kirby.bmp", 16, 16, 0.1f, false);
-	MainRenderer->CreateAnimation("Ice_Right_GetAbility", "Ice_Right_Kirby.bmp", 16, 16, 0.1f, false);
+	MainRenderer->CreateAnimation("Ice_Left_GetAbility", "Ice_Left_Kirby.bmp", 16, 16, 0.5f, false);
+	MainRenderer->CreateAnimation("Ice_Right_GetAbility", "Ice_Right_Kirby.bmp", 16, 16, 0.5f, false);
 
 
 
@@ -115,12 +115,11 @@ void Kirby::IceAbilityUpdate(float _Delta)
 	}
 
 	// 쿨이 돌아오면 아이스 브레스 하나 소환
-	if (StateTime > KIRBYFRAMEEFFECTCREATECYCLE)
+	if (StateTime > KIRBYICEBREATH_EFFECTCREATECYCLE)
 	{
 		StateTime = 0.0f;
 
 		IceBreathEffect* IceBreathEffectPtr = GetLevel()->CreateActor<IceBreathEffect>(UpdateOrder::Ability);
-
 		if (nullptr == IceBreathEffectPtr)
 		{
 			MsgBoxAssert("액터가 Null입니다.");
@@ -180,7 +179,7 @@ void Kirby::TriggerIceAbilityAfterProcess(float _Delta)
 		GameEngineSound::SoundPlay("Kirby_IceAttack.wav");
 	}
 
-	if (IceTime > KIRBYFRAMEEFFECTCREATECYCLE)
+	if (IceTime > KIRBYICEBREATH_EFFECTCREATECYCLE)
 	{
 		IceTime = 0.0f;
 

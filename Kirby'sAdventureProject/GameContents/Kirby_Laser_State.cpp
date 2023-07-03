@@ -77,8 +77,8 @@ void Kirby::Laser_StateResourceLoad()
 	MainRenderer->CreateAnimation("Laser_Left_Enter", "Ability_Left_Kirby.bmp", 93, 94, 0.1f, false);
 	MainRenderer->CreateAnimation("Laser_Right_Enter", "Ability_Right_Kirby.bmp", 93, 94, 0.1f, false);
 
-	MainRenderer->CreateAnimation("Laser_Left_GetAbility", "Ability_Left_Use.bmp", 7, 8, 0.04f, false);
-	MainRenderer->CreateAnimation("Laser_Right_GetAbility", "Ability_Right_Use.bmp", 7, 8, 0.04f, false);
+	MainRenderer->CreateAnimation("Laser_Left_GetAbility", "Ability_Left_Use.bmp", 7, 8, 0.04f, true);
+	MainRenderer->CreateAnimation("Laser_Right_GetAbility", "Ability_Right_Use.bmp", 7, 8, 0.04f, true);
 }
 
 
@@ -86,7 +86,6 @@ void Kirby::LaserAbilityStart()
 {
 	// 레이저 소환
 	LaserEffect* LaserEffectPtr = GetLevel()->CreateActor<LaserEffect>();
-
 	if (nullptr == LaserEffectPtr)
 	{
 		MsgBoxAssert("Null인 액터에 참조하려고 했습니다.");

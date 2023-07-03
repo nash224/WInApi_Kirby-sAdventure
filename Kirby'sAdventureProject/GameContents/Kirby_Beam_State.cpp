@@ -98,7 +98,7 @@ void Kirby::BeamAbilityStart()
 void Kirby::BeamAbilityUpdate(float _Delta)
 {
 	// Beam 모션이 끝나면 능력 해제
-	if (true == MainRenderer->IsAnimationEnd())
+	if (true == BeamEffect::BeamEndValue)
 	{
 		ChangeState(KirbyState::ReleaseSpecialAbility);
 		return;

@@ -2,7 +2,7 @@
 #include "SkillEffect.h"
 
 #define BEAMEFFECTTIME 0.15f
-#define BEAMEFFECTFRAMECHANGETIME 0.04f
+#define BEAMEFFECTFRAMECHANGETIME 0.03f
 
 #define BEAMEFFECTSHORTDISTANCE 48.0f
 #define BEAMEFFECTMIDDLEDISTANCE 96.0f
@@ -29,20 +29,31 @@ public:
 
 protected:
 
+	// Level
 private:
-	CollisionType BeamType = CollisionType::Max;
-	CollisionOrder BeamOrder = CollisionOrder::Max;
+	void Start() override;
+	void Update(float _Delta) override;
+	void LevelEnd() override;
 
-	class Kirby* EffectMaster = nullptr;
-	
+
+	// this
+	// Effect Logic
+	float4 MasterScale = float4::ZERO;
 	int BeamChangePosCount = 0;
 	int EffectPosNumber = 7;
 	float EffectFrameChangeTime = 0.0f;
 
+public:
+	static bool BeamEndValue;
 
-	void Start() override;
-	void Update(float _Delta) override;
-	void LevelEnd() override;
+private:
+
+
+	// Collision
+	CollisionType BeamType = CollisionType::Max;
+	CollisionOrder BeamOrder = CollisionOrder::Max;
+
+
 
 
 };

@@ -56,6 +56,7 @@
 // 커비 능력별 쿨타임
 #define KIRBYSPARKEFFECTCREATECYCLE 0.1f
 #define KIRBYFRAMEEFFECTCREATECYCLE 0.1f
+#define KIRBYICEBREATH_EFFECTCREATECYCLE 0.15f
 
 // 커비 데미지 상태 지속시간
 #define KirbyDamagedDuration 0.2f

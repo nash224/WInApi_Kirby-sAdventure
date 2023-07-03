@@ -14,6 +14,9 @@
 #include "CommonSkillEffect.h"
 #include "Kirby.h"
 
+
+
+bool BeamEffect::BeamEndValue = false;
 BeamEffect::BeamEffect()
 {
 }
@@ -31,9 +34,11 @@ void BeamEffect::Start()
 	GlobalContents::SoundFileLoad("BeamExtraSound.wav", "Resources\\SoundResources\\EffectVoice");
 }
 
-void BeamEffect::init(const float4& _Pos, const float4& _MaterScale, const float4& _EffectDir)
+void BeamEffect::init(const float4& _Pos, const float4& _MasterScale, const float4& _EffectDir)
 {
-	SetPos(_Pos + float4{ 0.0f , -_MaterScale.Half().Y });
+	SetPos(_Pos + float4{ 0.0f , -_MasterScale.Half().Y });
+
+	MasterScale = _MasterScale;
 
 	EffectDir = _EffectDir;
 }
@@ -44,6 +49,11 @@ void BeamEffect::SetActorCollision(CollisionOrder _Order, CollisionType _Type, c
 {
 	BeamOrder = _Order;
 	BeamType = _Type;
+
+	if (CollisionOrder::PlayerAbility == _Order)
+	{
+		BeamEndValue = false;
+	}
 }
 
 
@@ -53,15 +63,29 @@ void BeamEffect::Update(float _Delta)
 {
 	EffectFrameChangeTime += _Delta;
 
-
 	float4 BeamDir = float4::ZERO;
 	float4 EffectPos = float4::ZERO;
 
 
-	// 순서대로 출력함에도 for문으로 안한 이유 : 이땐 깨닫지 못했습니다.. 
+	// 빔 각도 설정
 	if (EffectFrameChangeTime > BEAMEFFECTFRAMECHANGETIME)
 	{
 		EffectFrameChangeTime = 0.0f;
+
+
+		if (CollisionOrder::PlayerAbility == BeamOrder)
+		{
+			Kirby* KirbyPtr = Kirby::GetMainKirby();
+			if (nullptr == KirbyPtr)
+			{
+				MsgBoxAssert("커비를 불러오지 못했습니다.");
+				return;
+			}
+
+			SetPos(KirbyPtr->GetPos() + float4{ 0.0f , -MasterScale.Half().Y });
+		}
+
+
 
 		switch (EffectPosNumber)
 		{
@@ -168,7 +192,13 @@ void BeamEffect::Update(float _Delta)
 
 	if (0 == EffectPosNumber)
 	{
+		if (CollisionOrder::PlayerAbility == BeamOrder)
+		{
+			BeamEndValue = true;
+		}
+
 		Death();
+		EffectPointerRelease();
 		return;
 	}
 }

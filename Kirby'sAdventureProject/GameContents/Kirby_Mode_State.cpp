@@ -395,18 +395,6 @@ void Kirby::InhaleAbilityUpdate(float _Delta)
 			AbilityStar EnemyAbility = EnemyPtr->Ability;
 
 
-			//if (true == KirbySwalling)
-			//{
-
-			//	GameEngineCollision* KirbyBodyCollision = GetKirbyCollison();
-			//	if (nullptr == KirbyBodyCollision)
-			//	{
-			//		MsgBoxAssert("커비의 충돌체를 가져오는데 실패했습니다.");
-			//		return;
-			//	}
-			//}
-
-
 			// 빨아들인 몬스터 수에 따라 별의 크기가 결정됨
 			if (AbilityStar::Max != EnemyAbility)
 			{
