@@ -1,6 +1,8 @@
 #include "HotHead.h"
 #include "ContentsEnum.h"
 
+
+#include <GameEnginePlatform/GameEngineWindow.h>
 #include <GameEngineCore/GameEngineLevel.h>
 #include <GameEngineCore/GameEngineRenderer.h>
 #include <GameEngineCore/GameEngineCollision.h>
@@ -8,9 +10,9 @@
 
 #include "GlobalContents.h"
 #include "Kirby.h"
+#include "VegetableValleyPlayLevel.h"
 #include "FrameBreathEffect.h"
 #include "FireBallEffect.h"
-#include <vector>
 
 
 HotHead::HotHead()
@@ -237,6 +239,32 @@ void HotHead::FireBallStart()
 
 	ActorDirUnitVector = GetDirUnitVector();
 
+	float4 DistanceToKriby = GetKirbyOpponentDistance();
+	float EffectDeg = DistanceToKriby.AngleDeg();
+
+	if (DistanceToKriby.X < 0.0f)
+	{
+		if (EffectDeg < SemicircleAngle - FireBall_HighAngle)
+		{
+			EffectDeg = SemicircleAngle - FireBall_HighAngle;
+		}
+		else if (EffectDeg >= SemicircleAngle + FireBall_HighAngle)
+		{
+			EffectDeg = SemicircleAngle + FireBall_HighAngle;
+		}
+	}
+	else if (DistanceToKriby.X >= 0.0f)
+	{
+		if (EffectDeg > FireBall_HighAngle)
+		{
+			EffectDeg = -FireBall_HighAngle;
+		}
+		else if (EffectDeg <= -FireBall_HighAngle)
+		{
+			EffectDeg = FireBall_HighAngle;
+		}
+	}
+
 	FireBallEffect* FireBallEffectPtr = GetLevel()->CreateActor<FireBallEffect>(UpdateOrder::Ability);
 	if (nullptr == FireBallEffectPtr)
 	{
@@ -245,7 +273,7 @@ void HotHead::FireBallStart()
 	}
 
 
-	FireBallEffectPtr->init(GetPos(), Scale, ActorDirUnitVector);
+	FireBallEffectPtr->init(GetPos(), Scale, float4::GetUnitVectorFromDeg(EffectDeg));
 	FireBallEffectPtr->SetActorCollision(CollisionOrder::MonsterAbility, CollisionType::Rect);
 
 	ChangeAnimationState("FireBall");
@@ -418,4 +446,51 @@ void HotHead::EnemyCollisionCheck()
 		ChangeState(HotHeadState::Hitted);
 		return;
 	}
+}
+
+
+void HotHead::Render(float _Delta)
+{
+	if (false == VegetableValleyPlayLevel::Level_DebugRenderValue)
+	{
+		return;
+	}
+
+
+	HDC dc = GameEngineWindow::MainWindow.GetBackBuffer()->GetImageDC();
+
+	int TextRenderNum = 0;
+
+
+	float4 ActorScenePos = ActorCameraPos();
+
+	int TextXPos = ActorScenePos.iX() - Scale.Half().iX();
+	int TextYPos = ActorScenePos.iY() - (Scale * 2.0f).iY();
+
+
+	EnemyDebugRender(dc, TextRenderNum, TextXPos, TextYPos);
+
+
+	float4 DistanceToKriby = GetKirbyOpponentDistance();
+	float EffectDeg = DistanceToKriby.AngleDeg();
+
+	{
+		std::string Text = "";
+		Text += "FireBall 각도";
+		Text += std::to_string(static_cast<int>(EffectDeg));
+		TextOutA(dc, TextXPos, 2 + TextYPos - TextRenderNum * DebugRenderText_YInter, Text.c_str(), static_cast<int>(Text.size()));
+
+		++TextRenderNum;
+	}
+
+	{
+		std::string Text = "";
+		Text += "클리어";
+		TextOutA(dc, TextXPos, 2 + TextYPos - TextRenderNum * DebugRenderText_YInter, Text.c_str(), static_cast<int>(Text.size()));
+
+		++TextRenderNum;
+	}
+
+	
+
 }

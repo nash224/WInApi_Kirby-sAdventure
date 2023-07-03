@@ -46,6 +46,10 @@ protected:
 	virtual void HorizontalSpeedLimit(float _Speed);
 	virtual void HorizontalUpdate(float _Delta);
 
+
+	// µð¹ö±×
+	const int DebugRenderText_YInter = 18;
+
 private:
 
 };

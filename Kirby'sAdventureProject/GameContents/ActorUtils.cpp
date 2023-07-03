@@ -34,7 +34,24 @@ float4 ActorUtils::GetDirUnitVector() const
 
 float4 ActorUtils::ActorCameraPos()
 {
-	return GetPos() - GetLevel()->GetMainCamera()->GetPos();
+	static float4 ReturnValue;
+
+	GameEngineLevel* CurLevelPtr = GetLevel();
+	if (nullptr == CurLevelPtr)
+	{
+		MsgBoxAssert("카메라를 불러오지 못했습니다.");
+		return ReturnValue;
+	}
+
+	GameEngineCamera* MainCameraPtr = CurLevelPtr->GetMainCamera();
+	if (nullptr == MainCameraPtr)
+	{
+		MsgBoxAssert("카메라를 불러오지 못했습니다.");
+		return ReturnValue;
+	}
+
+
+	return GetPos() - MainCameraPtr->GetPos();
 }
 
 void ActorUtils::Gravity(float _Delta)

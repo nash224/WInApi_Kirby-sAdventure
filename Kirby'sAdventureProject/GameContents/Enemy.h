@@ -88,5 +88,9 @@ protected:
 public:
 	// 최적화 
 	void EnemyPointerRelease();
+
+protected:
+	// 디버그
+	void EnemyDebugRender(HDC _dc, int& _RenderNumber, const int _TextXPos, const int _TextYPos);
 };
 

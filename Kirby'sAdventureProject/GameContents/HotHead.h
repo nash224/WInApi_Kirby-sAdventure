@@ -49,6 +49,15 @@ public:
 
 	void init(const std::string& _FileName, HotHeadState _State, const float4& _Pos);
 
+
+
+	// Level 상속
+private:
+	void Start() override;
+	void Update(float _Delta) override;
+	void Render(float _Delta) override;
+
+
 protected:
 	// 상태패턴 함수
 	HotHeadState State = HotHeadState::Max;
@@ -76,9 +85,13 @@ protected:
 
 	void EnemyCollisionCheck();
 
-private:
-	void Start() override;
-	void Update(float _Delta) override;
+	const float SemicircleAngle = 180.0f;
+	const float FireBall_HighAngle = 18.0f;
+	float DegToKirby = 0.0f;
+
+
+
+
 
 };
 

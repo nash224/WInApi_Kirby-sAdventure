@@ -383,3 +383,32 @@ void Enemy::EnemyPointerRelease()
 		GroundTexture = nullptr;
 	}
 }
+
+
+void Enemy::EnemyDebugRender(HDC _dc, int& _RenderNumber, const int _TextXPos, const int _TextYPos)
+{
+	{
+		std::string Text = "";
+		Text += "현재 상태 : ";
+		Text += CurState;
+		TextOutA(_dc, _TextXPos, 2 + _TextYPos - _RenderNumber * DebugRenderText_YInter, Text.c_str(), static_cast<int>(Text.size()));
+
+		++_RenderNumber;
+	}
+
+	{
+		std::string Text = "";
+		Text += "Dir : ";
+		if (ActorDir::Left == Dir)
+		{
+			Text += "Left";
+		}
+		else if (ActorDir::Right == Dir)
+		{
+			Text += "Right";
+		}
+		TextOutA(_dc, _TextXPos, 2 + _TextYPos - _RenderNumber * DebugRenderText_YInter, Text.c_str(), static_cast<int>(Text.size()));
+
+		++_RenderNumber;
+	}
+}
