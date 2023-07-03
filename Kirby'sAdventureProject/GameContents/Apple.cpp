@@ -387,61 +387,11 @@ void Apple::BounceMoveUpdate(float _Delta)
 
 
 
-
-// 커비에게 빨려가는 상태패턴
-void Apple::BeInhaledStart()
+void Apple::BeInhaledRelease()
 {
-	StateTime = 0.0f;
-	IsChangeState = false;
-	CurrentSpeed = 0.0f;
-	IsInhaledStateOn = false;
-	BodyCollision->Off();
-	ActorDirUnitVector = GetKirbyOpponentDistance();
-}
-
-void Apple::BeInhaledUpdate(float _Delta)
-{
-	StateTime += _Delta;
-
-	InhaleTargetPos = GetKirbyOpponentDistance();
-	InhaleTargetPosYDistance = InhaleTargetPos.Y - KIRBYCENTERYPOINT;
-	InhaleTargetPosXDistance = InhaleTargetPos.X;
-	CurentVerticalSpeed += InhaleTargetPosYDistance / INHALETIME * _Delta;
-
-	float4 KirbyPos = Kirby::GetMainKirby()->GetPos();
-
-
-	if (ActorDirUnitVector.X < 0.0f)
-	{
-		float InhaleXSpeed = InhaleTargetPosXDistance / INHALETIME * _Delta;
-		CurrentSpeed += InhaleXSpeed;
-
-		if (GetPos().X < KirbyPos.X)
-		{
-			ReleaseThisList();
-			Death();
-			EnemyPointerRelease();
-			return;
-		}
-	}
-	else if (ActorDirUnitVector.X > 0.0f)
-	{
-		float InhaleXSpeed = InhaleTargetPosXDistance / INHALETIME * _Delta;
-		CurrentSpeed += InhaleXSpeed;
-
-		if (GetPos().X > KirbyPos.X)
-		{
-			ReleaseThisList();
-			Death();
-			EnemyPointerRelease();
-			return;
-		}
-	}
-
-
-	VerticalUpdateBasedlevitation(_Delta);
-
-	HorizontalUpdate(_Delta);
+	ReleaseThisList();
+	Death();
+	EnemyPointerRelease();
 }
 
 

@@ -21,9 +21,11 @@ KirbyInhaleEffect::~KirbyInhaleEffect()
 }
 
 
+
 void KirbyInhaleEffect::Start()
 {
 }
+
 
 void KirbyInhaleEffect::init(const float4& _Pos, const float4& _MaterScale, const float4& _EffectDir)
 {
@@ -33,11 +35,14 @@ void KirbyInhaleEffect::init(const float4& _Pos, const float4& _MaterScale, cons
 }
 
 
+
+
 void KirbyInhaleEffect::Update(float _Delta)
 {
 	if (GetLiveTime() > 10.0f)
 	{
 		Death();
+		EffectPointerRelease();
 	}
 }
 

@@ -21,6 +21,13 @@ public:
 	void init(const float4& _SummonPos);
 
 
+private:
+	// 레벨 상속
+	void Start() override;
+	void Update(float _Delta) override;
+
+
+	// NormalEnemies 상속
 protected:
 
 	void IdleStart() override;
@@ -40,20 +47,15 @@ protected:
 
 
 
-	void BeInhaledStart() override;
 	void HittedStart() override;
-
-	void BeInhaledUpdate(float _Delta) override;
 	void HittedUpdate(float _Delta) override;
+
+	void BeInhaledRelease() override;
 
 
 	
+
 private:
-	// 레벨 상속
-	void Start() override;
-	void Update(float _Delta) override;
-
-
 
 
 	// this

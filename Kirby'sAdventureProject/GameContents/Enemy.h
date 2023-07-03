@@ -7,7 +7,7 @@
 
 
 // 커비 입 높이
-#define KIRBYCENTERYPOINT 15.0f
+#define Enemy_KIRBYCENTERYPOINT 19.0f
 
 
 #define CHECKOVERSCREENGAP 120.0f
@@ -45,16 +45,24 @@ protected:
 
 
 
+	const float InhaledTime = 0.3f;
+	float4 MyInhaledStartPos = float4::ZERO;
 	float4 InhaleTargetPos = float4::ZERO;
 	float InhaleTargetPosYDistance = 0.0f;
 	float InhaleTargetPosXDistance = 0.0f;
 
+	float Inhaled_Initial_YDistance = 0.0f;
+	float YDecelationSpeed = 0.0f;
+	float InhaleXSpeed = 0.0f;
+
+
+
+	virtual void HittedStart();
+	virtual void HittedUpdate(float _Delta);
 
 	virtual void BeInhaledStart();
-	virtual void HittedStart();
-
 	virtual void BeInhaledUpdate(float _Delta);
-	virtual void HittedUpdate(float _Delta);
+	virtual void BeInhaledRelease();
 
 
 

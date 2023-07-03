@@ -249,12 +249,11 @@ void Enemy::BeInhaledStart()
 	IsChangeState = false;
 	CurrentSpeed = 0.0f;
 
-
-
-
 	IsInhaledStateOn = false;
 	BodyCollision->Off();
 	ActorDirUnitVector = GetKirbyOpponentDistance();
+
+	MyInhaledStartPos = GetPos();
 
 
 	if ("Pengi" != GetName())
@@ -274,45 +273,60 @@ void Enemy::BeInhaledUpdate(float _Delta)
 		return;
 	}
 
-
-	InhaleTargetPos = GetKirbyOpponentDistance();
-	InhaleTargetPosYDistance = InhaleTargetPos.Y - KIRBYCENTERYPOINT;
-	InhaleTargetPosXDistance = InhaleTargetPos.X;
-	CurentVerticalSpeed += InhaleTargetPosYDistance / INHALETIME * _Delta;
-
 	float4 KirbyPos = KirbyPtr->GetPos();
+
+	InhaleTargetPos = KirbyPos - MyInhaledStartPos;
+	InhaleTargetPosXDistance = InhaleTargetPos.X;
+	InhaleTargetPosYDistance = InhaleTargetPos.Y;
+	Inhaled_Initial_YDistance = GetKirbyOpponentDistance().Y - Enemy_KIRBYCENTERYPOINT;
+
+
+	// Y Speed Measurement
+	{
+		YDecelationSpeed += InhaleTargetPosYDistance / InhaledTime * _Delta;
+		CurentVerticalSpeed = Inhaled_Initial_YDistance + YDecelationSpeed;
+
+		VerticalUpdateBasedlevitation(_Delta);
+	}
 
 
 	if (ActorDirUnitVector.X < 0.0f)
 	{
-		float InhaleXSpeed = InhaleTargetPosXDistance / INHALETIME * _Delta;
+		InhaleXSpeed = InhaleTargetPosXDistance / InhaledTime * _Delta;
 		CurrentSpeed += InhaleXSpeed;
+
+		HorizontalUpdate(_Delta);
 
 		if (GetPos().X < KirbyPos.X)
 		{
-			BodyCollision->On();
-			Off();
+			BeInhaledRelease();
 			return;
 		}
 	}
 	else if (ActorDirUnitVector.X > 0.0f)
 	{
-		float InhaleXSpeed = InhaleTargetPosXDistance / INHALETIME * _Delta;
+		InhaleXSpeed = InhaleTargetPosXDistance / InhaledTime * _Delta;
 		CurrentSpeed += InhaleXSpeed;
+		
+		HorizontalUpdate(_Delta);
 
 		if (GetPos().X > KirbyPos.X)
 		{
-			BodyCollision->On();
-			Off();
+			BeInhaledRelease();
 			return;
 		}
 	}
 
-
-	VerticalUpdateBasedlevitation(_Delta);
-
-	HorizontalUpdate(_Delta);
 }
+
+
+void Enemy::BeInhaledRelease()
+{
+	BodyCollision->On();
+	Off();
+}
+
+
 
 
 // 피해를 입은 상태패턴
