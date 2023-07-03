@@ -174,6 +174,31 @@ void VegetableValley11::Update(float _Delta)
 
 
 
+
+void VegetableValley11::SwitchRenders()
+{
+	if (nullptr == LevelEffect)
+	{
+		MsgBoxAssert("이펙트를 불러오지 못했습니다.");
+		return;
+	}
+
+	LevelEffect->SwitchEffect();
+
+
+	if (nullptr == LevelBackGround)
+	{
+		MsgBoxAssert("액터를 불러오지 못했습니다.");
+		return;
+	}
+
+	LevelBackGround->SwitchRender();
+}
+
+
+
+
+
 void VegetableValley11::PlayerMissPrevLevel()
 {
 	if (true == IsPlayerMiss)

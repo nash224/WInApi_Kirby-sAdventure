@@ -69,10 +69,15 @@ private:
 
 	void Start() override;
 	void Update(float _Delta) override;
+	void Render(float _Delta) override;
 
 
 	// 충돌 관련
 	void ItemReachedState() override;
 
+
+
+	// 디버깅
+	void ThisDebugRender(HDC _dc, int& _RenderNumber, const int _TextXPos, const int _TextYPos);
 };
 

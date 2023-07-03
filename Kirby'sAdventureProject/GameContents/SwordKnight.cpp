@@ -572,7 +572,7 @@ void SwordKnight::ThisDebugTriggerRender(HDC _dc)
 	}
 	else if (OpponentDistance.X >= 0.0f)
 	{
-		MoveToEx(_dc, ActorScenePos.iX() - static_cast<int>(SWORDKNIGHTRANGEDETECTION), 0, NULL);
-		LineTo(_dc, ActorScenePos.iX() - static_cast<int>(SWORDKNIGHTRANGEDETECTION), WinScale.iY());
+		MoveToEx(_dc, ActorScenePos.iX() + static_cast<int>(SWORDKNIGHTRANGEDETECTION), 0, NULL);
+		LineTo(_dc, ActorScenePos.iX() + static_cast<int>(SWORDKNIGHTRANGEDETECTION), WinScale.iY());
 	}
 }

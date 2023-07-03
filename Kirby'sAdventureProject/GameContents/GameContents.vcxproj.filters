@@ -1,9 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClInclude Include="CraneFever.h">
-      <Filter>Level\00.BonusGame</Filter>
-    </ClInclude>
     <ClInclude Include="Boss.h">
       <Filter>Global\Object\Enemy\Boss</Filter>
     </ClInclude>
@@ -35,9 +32,6 @@
       <Filter>Global\Object\Enemy\PowerEnemy</Filter>
     </ClInclude>
     <ClInclude Include="LaserBall.h">
-      <Filter>Global\Object\Enemy\PowerEnemy</Filter>
-    </ClInclude>
-    <ClInclude Include="UFO.h">
       <Filter>Global\Object\Enemy\PowerEnemy</Filter>
     </ClInclude>
     <ClInclude Include="WaddleDoo.h">
@@ -251,9 +245,6 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="CraneFever.cpp">
-      <Filter>Level\00.BonusGame</Filter>
-    </ClCompile>
     <ClCompile Include="Boss.cpp">
       <Filter>Global\Object\Enemy\Boss</Filter>
     </ClCompile>
@@ -285,9 +276,6 @@
       <Filter>Global\Object\Enemy\PowerEnemy</Filter>
     </ClCompile>
     <ClCompile Include="LaserBall.cpp">
-      <Filter>Global\Object\Enemy\PowerEnemy</Filter>
-    </ClCompile>
-    <ClCompile Include="UFO.cpp">
       <Filter>Global\Object\Enemy\PowerEnemy</Filter>
     </ClCompile>
     <ClCompile Include="WaddleDoo.cpp">

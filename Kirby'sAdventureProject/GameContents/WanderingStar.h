@@ -44,7 +44,6 @@ protected:
 private:
 	// 상태관련 변수
 	const float m_XSpeed = 160.0f;
-	int AbilityOrder = -1;
 
 	float StarLive_Time = 0.0f;
 	const float StarLive_InitialTime = 7.0f;
@@ -60,6 +59,12 @@ private:
 
 	void Start() override;
 	void Update(float _Delta) override;
+	void Render(float _Delta) override;
 	void LevelEnd() override;
+
+
+
+	// 디버깅
+	void ThisDebugRender(HDC _dc, int& _RenderNumber, const int _TextXPos, const int _TextYPos);
 };
 

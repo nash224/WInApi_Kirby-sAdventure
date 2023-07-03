@@ -1,17 +1,20 @@
 #include "WaddleDoo.h"
 #include "ContentsEnum.h"
+#include "GlobalContents.h"
 
 
 #include <GameEngineBase/GameEngineRandom.h>
+#include <GameEnginePlatform/GameEngineWindow.h>
 #include <GameEngineCore/GameEngineLevel.h>
 #include <GameEngineCore/GameEngineRenderer.h>
 #include <GameEngineCore/GameEngineCollision.h>
 
 
-#include "GlobalContents.h"
-#include "Kirby.h"
+#include "VegetableValleyPlayLevel.h"
 #include "BeamEffect.h"
-#include <vector>
+#include "Kirby.h"
+
+
 
 WaddleDoo::WaddleDoo()
 {
@@ -388,3 +391,26 @@ void WaddleDoo::EnemyCollisionCheck()
 }
 
 
+
+
+void WaddleDoo::Render(float _Delta)
+{
+	if (false == VegetableValleyPlayLevel::Level_DebugRenderValue)
+	{
+		return;
+	}
+
+
+	HDC dc = GameEngineWindow::MainWindow.GetBackBuffer()->GetImageDC();
+
+	int TextRenderNum = 0;
+
+
+	float4 ActorScenePos = ActorCameraPos();
+
+	int TextXPos = ActorScenePos.iX() - Scale.Half().iX();
+	int TextYPos = ActorScenePos.iY() - (Scale * 2.0f).iY();
+
+
+	EnemyDebugRender(dc, TextRenderNum, TextXPos, TextYPos);
+}

@@ -1,16 +1,15 @@
 #include "EnergeDrink.h"
 #include "ContentsEnum.h"
+#include "GlobalContents.h"
 
 
-#include <GameEngineBase/GameEngineRandom.h>
-#include <GameEnginePlatform/GameEngineSound.h>
+#include <GameEnginePlatform/GameEngineWindow.h>
 #include <GameEnginePlatform/GameEngineWindowTexture.h>
-#include <GameEngineCore/GameEngineLevel.h>
 #include <GameEngineCore/GameEngineRenderer.h>
 #include <GameEngineCore/GameEngineCollision.h>
 
 
-#include "GlobalContents.h"
+#include "VegetableValleyPlayLevel.h"
 #include "CrossDeathEffect.h"
 #include "Kirby.h"
 #include <vector>
@@ -159,6 +158,44 @@ void EnergeDrink::IdleUpdate(float _Delta)
 		}
 	}
 }
+
+
+
+
+void EnergeDrink::Render(float _Delta)
+{
+	if (false == VegetableValleyPlayLevel::Level_DebugRenderValue)
+	{
+		return;
+	}
+
+
+	HDC dc = GameEngineWindow::MainWindow.GetBackBuffer()->GetImageDC();
+
+	int TextRenderNum = 0;
+
+
+	float4 ActorScenePos = ActorCameraPos();
+
+	int TextXPos = ActorScenePos.iX() - Scale.Half().iX();
+	int TextYPos = ActorScenePos.iY() - (Scale * 2.0f).iY();
+
+
+	ThisDebugRender(dc, TextRenderNum, TextXPos, TextYPos);
+}
+
+
+void EnergeDrink::ThisDebugRender(HDC _dc, int& _RenderNumber, const int _TextXPos, const int _TextYPos)
+{
+	{
+		std::string Text = "";
+		Text += "Hp 2++";
+		TextOutA(_dc, _TextXPos, 2 + _TextYPos - _RenderNumber * DebugRenderText_YInter, Text.c_str(), static_cast<int>(Text.size()));
+
+		++_RenderNumber;
+	}
+}
+
 
 
 

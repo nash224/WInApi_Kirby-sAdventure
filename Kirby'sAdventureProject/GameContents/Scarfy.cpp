@@ -1,17 +1,18 @@
 #include "Scarfy.h"
 #include "ContentsEnum.h"
+#include "GlobalContents.h"
 
 
+#include <GameEnginePlatform/GameEngineWindow.h>
 #include <GameEngineCore/GameEngineLevel.h>
 #include <GameEngineCore/GameEngineRenderer.h>
 #include <GameEngineCore/GameEngineCollision.h>
 
 
-#include "GlobalContents.h"
+#include "VegetableValleyPlayLevel.h"
 #include "PlayUI.h"
-#include "Kirby.h"
 #include "AirExplosionEffect.h"
-#include <vector>
+#include "Kirby.h"
 
 
 
@@ -463,3 +464,28 @@ void Scarfy::HittedUpdate(float _Delta)
 	IsHitted = false;
 	Off();
 }
+
+
+
+void Scarfy::Render(float _Delta)
+{
+	if (false == VegetableValleyPlayLevel::Level_DebugRenderValue)
+	{
+		return;
+	}
+
+
+	HDC dc = GameEngineWindow::MainWindow.GetBackBuffer()->GetImageDC();
+
+	int TextRenderNum = 0;
+
+
+	float4 ActorScenePos = ActorCameraPos();
+
+	int TextXPos = ActorScenePos.iX() - Scale.Half().iX();
+	int TextYPos = ActorScenePos.iY() - (Scale * 2.0f).iY();
+
+
+	EnemyDebugRender(dc, TextRenderNum, TextXPos, TextYPos);
+}
+

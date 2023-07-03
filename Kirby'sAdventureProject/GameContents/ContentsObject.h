@@ -27,5 +27,8 @@ private:
 
 	GameEngineRenderer* MainRenderer = nullptr;
 
+
+public:
+
 };
 

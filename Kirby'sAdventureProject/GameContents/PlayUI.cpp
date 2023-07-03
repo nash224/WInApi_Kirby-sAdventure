@@ -33,7 +33,6 @@ void PlayUI::Start()
 	LivesNumberRendererSet();
 	StaminaCountRendererSet();
 	ScoreRendererSet();
-
 }
 
 

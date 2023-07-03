@@ -6,6 +6,9 @@
 #include <GameEngineCore/GameEngineRenderer.h>
 
 
+#include "VegetableValleyPlayLevel.h"
+
+
 
 
 
@@ -49,3 +52,5 @@ void ContentsObject::Update(float _Delta)
 {
 
 }
+
+

@@ -70,6 +70,7 @@ protected:
 
 
 private:
+	bool IsFlyVertically = false;
 	bool IsGoForward = false;
 	bool StopRise = false;
 	bool IsChangeGravityReverse = false;
@@ -80,6 +81,15 @@ private:
 
 	void Start() override;
 	void Update(float _Delta) override;
+	void Render(float _Delta) override;
+
+
+
+
+
+	// µð¹ö±ë
+	void ThisDebugRender(HDC _dc, int& _RenderNumber, const int _TextXPos, const int _TextYPos);
+	void ThisDebugTriggerRender(HDC _dc);
 
 };
 

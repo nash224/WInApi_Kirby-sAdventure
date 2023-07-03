@@ -1,16 +1,17 @@
 #include "PoppyBrosJr.h"
 #include "ContentsEnum.h"
+#include "GlobalContents.h"
 
 
 #include <GameEnginePlatform/GameEngineSound.h>
+#include <GameEnginePlatform/GameEngineWindow.h>
 #include <GameEngineCore/GameEngineLevel.h>
 #include <GameEngineCore/GameEngineRenderer.h>
 #include <GameEngineCore/GameEngineCollision.h>
 
 
-#include "GlobalContents.h"
+#include "VegetableValleyPlayLevel.h"
 #include "Kirby.h"
-#include <vector>
 
 
 
@@ -362,3 +363,43 @@ void PoppyBrosJr::FallUpdate(float _Delta)
 	GravityLimit(_Delta);
 	VerticalUpdate(_Delta);
 }
+
+
+
+
+void PoppyBrosJr::Render(float _Delta)
+{
+	if (false == VegetableValleyPlayLevel::Level_DebugRenderValue)
+	{
+		return;
+	}
+
+
+	HDC dc = GameEngineWindow::MainWindow.GetBackBuffer()->GetImageDC();
+
+	int TextRenderNum = 0;
+
+
+	float4 ActorScenePos = ActorCameraPos();
+
+	int TextXPos = ActorScenePos.iX() - Scale.Half().iX();
+	int TextYPos = ActorScenePos.iY() - (Scale * 2.0f).iY();
+
+
+	EnemyDebugRender(dc, TextRenderNum, TextXPos, TextYPos);
+	ThisDebugRender(dc, TextRenderNum, TextXPos, TextYPos);
+
+}
+
+
+void PoppyBrosJr::ThisDebugRender(HDC _dc, int& _RenderNumber, const int _TextXPos, const int _TextYPos)
+{
+	{
+		std::string Text = "";
+		Text += "»ç°ú ¾ø¾û";
+		TextOutA(_dc, _TextXPos, 2 + _TextYPos - _RenderNumber * DebugRenderText_YInter, Text.c_str(), static_cast<int>(Text.size()));
+
+		++_RenderNumber;
+	}
+}
+

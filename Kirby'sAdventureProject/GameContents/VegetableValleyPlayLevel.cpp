@@ -298,21 +298,7 @@ void VegetableValleyPlayLevel::LevelDebugShortcut(float _Delta)
 		}
 
 
-		if (true == ItUseDebugBitMap)
-		{
-			if (nullptr == LevelBackGround)
-			{
-				MsgBoxAssert("액터를 불러오지 못했습니다.");
-				return;
-			}
-
-			LevelBackGround->SwitchRender();
-		}
-
-		if (nullptr != LevelEffect)
-		{
-			LevelEffect->SwitchEffect();
-		}
+		SwitchRenders();
 	}
 
 	// 카메라 Shake
@@ -406,6 +392,14 @@ void VegetableValleyPlayLevel::OpenMenuRender(HDC _HDC, int& _RenderNumber)
 
 	{
 		std::string Text = "";
+		Text += "F1 : 뒤로가기";
+		TextOutA(_HDC, Level_DebugRenderXPos, 2 + _RenderNumber * DebugRenderText_YInter, Text.c_str(), static_cast<int>(Text.size()));
+
+		++_RenderNumber;
+	}
+
+	{
+		std::string Text = "";
 		Text += "F2 : 개발자 모드";
 		TextOutA(_HDC, Level_DebugRenderXPos, 2 + _RenderNumber * DebugRenderText_YInter, Text.c_str(), static_cast<int>(Text.size()));
 
@@ -439,6 +433,21 @@ void VegetableValleyPlayLevel::DevModeRender(HDC _HDC, int& _RenderNumber, float
 		++_RenderNumber;
 	}
 
+	{
+		std::string Text = " F3 : 비트맵 전환";
+		TextOutA(_HDC, Level_DebugRenderXPos, 2 + _RenderNumber * DebugRenderText_YInter, Text.c_str(), static_cast<int>(Text.size()));
+
+		++_RenderNumber;
+	}
+
+
+	{
+		std::string Text = "";
+		Text += "F4 : 충돌 렌더 전환";
+		TextOutA(_HDC, Level_DebugRenderXPos, 2 + _RenderNumber * DebugRenderText_YInter, Text.c_str(), static_cast<int>(Text.size()));
+
+		++_RenderNumber;
+	}
 
 
 	{
@@ -509,6 +518,14 @@ void VegetableValleyPlayLevel::DevModeRender(HDC _HDC, int& _RenderNumber, float
 
 void VegetableValleyPlayLevel::ColAndBitMapRender(HDC _HDC, int& _RenderNumber)
 {
+	{
+		std::string Text = " F2 : 개발자 모드";
+		TextOutA(_HDC, Level_DebugRenderXPos, 2 + _RenderNumber * DebugRenderText_YInter, Text.c_str(), static_cast<int>(Text.size()));
+
+		++_RenderNumber;
+	}
+
+
 	{
 		std::string Text = "F3 : 뒤로가기";
 		TextOutA(_HDC, Level_DebugRenderXPos, 2 + _RenderNumber * DebugRenderText_YInter, Text.c_str(), static_cast<int>(Text.size()));

@@ -30,7 +30,9 @@ private:
 	void Update(float _Delta) override;
 
 
-private:
+
+public:
+	void SwitchEffect();
 
 };
 

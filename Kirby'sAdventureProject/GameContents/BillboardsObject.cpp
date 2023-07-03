@@ -7,7 +7,7 @@
 #include <GameEngineCore/ResourcesManager.h>
 
 
-
+#include "VegetableValleyPlayLevel.h"
 
 
 BillboardsObject::BillboardsObject()
@@ -99,4 +99,18 @@ void BillboardsObject::Update(float _Delta)
 		return;
 	}
 
+}
+
+
+
+void BillboardsObject::SwitchEffect()
+{
+	if (true == VegetableValleyPlayLevel::Level_SwitchBitMapRenderValue)
+	{
+		Off();
+	}
+	else
+	{
+		On();
+	}
 }

@@ -1,14 +1,16 @@
 #include "Kabu.h"
 #include "ContentsEnum.h"
+#include "GlobalContents.h"
 
 
 #include <GameEngineBase/GameEngineRandom.h>
+#include <GameEnginePlatform/GameEngineWindow.h>
 #include <GameEngineCore/GameEngineLevel.h>
 #include <GameEngineCore/GameEngineRenderer.h>
 #include <GameEngineCore/GameEngineCollision.h>
 
 
-#include "GlobalContents.h"
+#include "VegetableValleyPlayLevel.h"
 #include "Kirby.h"
 
 
@@ -252,4 +254,43 @@ void Kabu::JumpUpdate(float _Delta)
 	}
 	HorizontalSpeedLimit(KABUMAXSPEED);
 	HorizontalUpdate(_Delta);
+}
+
+
+
+void Kabu::Render(float _Delta)
+{
+	if (false == VegetableValleyPlayLevel::Level_DebugRenderValue)
+	{
+		return;
+	}
+
+
+	HDC dc = GameEngineWindow::MainWindow.GetBackBuffer()->GetImageDC();
+
+	int TextRenderNum = 0;
+
+
+	float4 ActorScenePos = ActorCameraPos();
+
+	int TextXPos = ActorScenePos.iX() - Scale.Half().iX();
+	int TextYPos = ActorScenePos.iY() - (Scale * 2.0f).iY();
+
+
+	EnemyDebugRender(dc, TextRenderNum, TextXPos, TextYPos);
+	ThisDebugRender(dc, TextRenderNum, TextXPos, TextYPos);
+
+}
+
+
+void Kabu::ThisDebugRender(HDC _dc, int& _RenderNumber, const int _TextXPos, const int _TextYPos)
+{
+	{
+		std::string Text = "";
+		Text += "점프 비율 : ";
+		Text += std::to_string(JumpRatio);
+		TextOutA(_dc, _TextXPos, 2 + _TextYPos - _RenderNumber * DebugRenderText_YInter, Text.c_str(), static_cast<int>(Text.size()));
+
+		++_RenderNumber;
+	}
 }

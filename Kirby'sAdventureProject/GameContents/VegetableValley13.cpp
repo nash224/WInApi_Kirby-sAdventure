@@ -120,6 +120,21 @@ void VegetableValley13::Update(float _Delta)
 }
 
 
+void VegetableValley13::SwitchRenders()
+{
+	if (nullptr == LevelBackGround)
+	{
+		MsgBoxAssert("액터를 불러오지 못했습니다.");
+		return;
+	}
+
+	LevelBackGround->SwitchRender();
+}
+
+
+
+
+
 void VegetableValley13::EndingCredit(float _Delta)
 {
 	if (false == Ending_IsFadeOut)

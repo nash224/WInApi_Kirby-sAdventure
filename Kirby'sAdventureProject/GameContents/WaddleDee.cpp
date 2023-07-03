@@ -1,14 +1,17 @@
 #include "WaddleDee.h"
 #include "ContentsEnum.h"
+#include "GlobalContents.h"
 
 
+#include <GameEnginePlatform/GameEngineWindow.h>
 #include <GameEngineCore/GameEngineLevel.h>
 #include <GameEngineCore/GameEngineRenderer.h>
 #include <GameEngineCore/GameEngineCollision.h>
 
 
-#include "GlobalContents.h"
+#include "VegetableValleyPlayLevel.h"
 #include "Kirby.h"
+
 
 
 
@@ -96,3 +99,27 @@ void WaddleDee::WalkUpdate(float _Delta)
 	EnemyCollisionCheck();
 }
 
+
+
+
+void WaddleDee::Render(float _Delta)
+{
+	if (false == VegetableValleyPlayLevel::Level_DebugRenderValue)
+	{
+		return;
+	}
+
+
+	HDC dc = GameEngineWindow::MainWindow.GetBackBuffer()->GetImageDC();
+
+	int TextRenderNum = 0;
+
+
+	float4 ActorScenePos = ActorCameraPos();
+
+	int TextXPos = ActorScenePos.iX() - Scale.Half().iX();
+	int TextYPos = ActorScenePos.iY() - (Scale * 2.0f).iY();
+
+
+	EnemyDebugRender(dc, TextRenderNum, TextXPos, TextYPos);
+}

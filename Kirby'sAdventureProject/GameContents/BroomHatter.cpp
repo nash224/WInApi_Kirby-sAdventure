@@ -1,16 +1,19 @@
 #include "BroomHatter.h"
 #include "ContentsEnum.h"
+#include "GlobalContents.h"
 
 
 #include <GameEnginePlatform/GameEngineSound.h>
+#include <GameEnginePlatform/GameEngineWindow.h>
 #include <GameEngineCore/GameEngineLevel.h>
 #include <GameEngineCore/GameEngineRenderer.h>
 #include <GameEngineCore/GameEngineCollision.h>
 
 
-#include "GlobalContents.h"
-#include "Kirby.h"
+#include "VegetableValleyPlayLevel.h"
 #include "DustEffect.h"
+#include "Kirby.h"
+
 
 
 BroomHatter::BroomHatter() 
@@ -210,4 +213,30 @@ void BroomHatter::SweepUpdate(float _Delta)
 	DecelerationUpdate(BROOMHATTERDECELERATIONSPEED, _Delta);
 	HorizontalSpeedLimit(BROOMHATTERMAXSPEED);
 	HorizontalUpdate(_Delta);
+}
+
+
+
+
+void BroomHatter::Render(float _Delta)
+{
+	if (false == VegetableValleyPlayLevel::Level_DebugRenderValue)
+	{
+		return;
+	}
+
+
+	HDC dc = GameEngineWindow::MainWindow.GetBackBuffer()->GetImageDC();
+
+	int TextRenderNum = 0;
+
+
+	float4 ActorScenePos = ActorCameraPos();
+
+	int TextXPos = ActorScenePos.iX() - Scale.Half().iX();
+	int TextYPos = ActorScenePos.iY() - (Scale * 2.0f).iY();
+
+
+	EnemyDebugRender(dc, TextRenderNum, TextXPos, TextYPos);
+
 }

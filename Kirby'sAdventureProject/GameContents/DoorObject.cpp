@@ -7,6 +7,7 @@
 #include <GameEngineCore/ResourcesManager.h>
 
 
+#include "VegetableValleyPlayLevel.h"
 
 
 
@@ -104,5 +105,19 @@ void DoorObject::Update(float _Delta)
 		MainRenderer->ChangeAnimation("PlayDoor_Blocked");
 
 		IsDoorBlocked = false;
+	}
+}
+
+
+
+void DoorObject::SwitchEffect()
+{
+	if (true == VegetableValleyPlayLevel::Level_SwitchBitMapRenderValue)
+	{
+		Off();
+	}
+	else
+	{
+		On();
 	}
 }

@@ -17,24 +17,28 @@ public:
 
 protected:
 
+	// Level »ó¼Ó
 private:
 	void Start() override;
-
-
-
 	void Update(float _Delta) override;
-
-	void PlayerEnterNextLevel();
-
-
-
 	void Render(float _Delta) override;
 
 	void LevelStart(GameEngineLevel* _PrevLevel) override;
 	void LevelEnd(GameEngineLevel* _NextLevel) override;
 
+
+
+
+	void PlayerEnterNextLevel();
+
+
+
+
+
 private:
 	const float4 KirbyRespawnLocation = float4{ 648.0f , 456.0f };
+
+	void SwitchRenders() override;
 
 };
 

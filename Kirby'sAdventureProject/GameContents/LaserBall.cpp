@@ -397,7 +397,7 @@ void LaserBall::ThisDebugRender(HDC _dc, int& _RenderNumber, const int _TextXPos
 	{
 		std::string Text = "";
 		Text += "Laser ÅºÈ¯ ¼ö : ";
-		Text += std::to_string(ChargingCount);
+		Text += std::to_string(ShootCount);
 		TextOutA(_dc, _TextXPos, 2 + _TextYPos - _RenderNumber * DebugRenderText_YInter, Text.c_str(), static_cast<int>(Text.size()));
 
 		++_RenderNumber;

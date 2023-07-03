@@ -1,15 +1,16 @@
 #include "BrontoBurt.h"
 #include "ContentsEnum.h"
+#include "GlobalContents.h"
 
 
+#include <GameEnginePlatform/GameEngineWindow.h>
 #include <GameEngineCore/GameEngineLevel.h>
 #include <GameEngineCore/GameEngineRenderer.h>
 #include <GameEngineCore/GameEngineCollision.h>
 
 
-#include "GlobalContents.h"
+#include "VegetableValleyPlayLevel.h"
 #include "Kirby.h"
-#include <vector>
 
 
 
@@ -147,6 +148,7 @@ void BrontoBurt::IdleStart()
 {
 	StateTime = 0.0f;
 	IsChangeState = false;
+	IsFlyVertically = true;
 	ChangeAnimationState("Idle");
 }
 
@@ -387,4 +389,80 @@ void BrontoBurt::EnemyCollisionCheck()
 		ChangeState(BrontoState::Hitted);
 		return;
 	}
+}
+
+
+
+void BrontoBurt::Render(float _Delta)
+{
+	if (false == VegetableValleyPlayLevel::Level_DebugRenderValue)
+	{
+		return;
+	}
+
+
+	HDC dc = GameEngineWindow::MainWindow.GetBackBuffer()->GetImageDC();
+
+	int TextRenderNum = 0;
+
+
+	float4 ActorScenePos = ActorCameraPos();
+
+	int TextXPos = ActorScenePos.iX() - Scale.Half().iX();
+	int TextYPos = ActorScenePos.iY() - (Scale * 2.0f).iY();
+
+
+	EnemyDebugRender(dc, TextRenderNum, TextXPos, TextYPos);
+	ThisDebugRender(dc, TextRenderNum, TextXPos, TextYPos);
+
+	ThisDebugTriggerRender(dc);
+}
+
+
+void BrontoBurt::ThisDebugRender(HDC _dc, int& _RenderNumber, const int _TextXPos, const int _TextYPos)
+{
+	{
+		std::string Text = "";
+		Text += "비행모드 : ";
+		if (true == IsFlyVertically)
+		{
+			Text += "수직";
+		}
+		else if (false == IsFlyVertically)
+		{
+			Text += "커브";
+		}
+		TextOutA(_dc, _TextXPos, 2 + _TextYPos - _RenderNumber * DebugRenderText_YInter, Text.c_str(), static_cast<int>(Text.size()));
+
+		++_RenderNumber;
+	}
+}
+
+
+void BrontoBurt::ThisDebugTriggerRender(HDC _dc)
+{
+	float4 WinScale = GameEngineWindow::MainWindow.GetScale();
+
+	float4 ActorScenePos = ActorCameraPos();
+	float4 DistanceToKriby = GetKirbyOpponentDistance();
+
+
+	float4 LaserBallPos = GetPos();
+	float4 KirbyPos = Kirby::GetMainKirby()->GetPos();
+	float4 OpponentDistance = KirbyPos - LaserBallPos;
+
+	if (BrontoState::Idle == State)
+	{
+		if (OpponentDistance.X < 0.0f)
+		{
+			MoveToEx(_dc, ActorScenePos.iX() - static_cast<int>(BRONTORECOGNITIONRANGE), 0, NULL);
+			LineTo(_dc, ActorScenePos.iX() - static_cast<int>(BRONTORECOGNITIONRANGE), WinScale.iY());
+		}
+		else if (OpponentDistance.X >= 0.0f)
+		{
+			MoveToEx(_dc, ActorScenePos.iX() - static_cast<int>(BRONTORECOGNITIONRANGE), 0, NULL);
+			LineTo(_dc, ActorScenePos.iX() - static_cast<int>(BRONTORECOGNITIONRANGE), WinScale.iY());
+		}
+	}
+
 }

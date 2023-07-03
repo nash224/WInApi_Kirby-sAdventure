@@ -1,8 +1,10 @@
 #include "WanderingStar.h"
 #include "ContentsEnum.h"
+#include "GlobalContents.h"
 
 
 #include <GameEngineBase/GameEngineRandom.h>
+#include <GameEnginePlatform/GameEngineWindow.h>
 #include <GameEnginePlatform/GameEngineSound.h>
 #include <GameEngineCore/GameEngineLevel.h>
 #include <GameEngineCore/GameEngineRenderer.h>
@@ -10,7 +12,7 @@
 #include <GameEngineCore/GameEngineCollision.h>
 
 
-#include "GlobalContents.h"
+#include "VegetableValleyPlayLevel.h"
 #include "CrossDeathEffect.h"
 #include "Kirby.h"
 
@@ -101,8 +103,7 @@ void WanderingStar::IdleStart()
 {
 	IsChangeState = false;
 
-	// 초기 시간 설정
-	StarLive_Time = StarLive_InitialTime;
+	StarLive_Time = 6.0f;
 	
 	// 랜덤으로 방향 설정
 	int SetDir = GameEngineRandom::MainRandom.RandomInt(0, 1);
@@ -299,8 +300,6 @@ void WanderingStar::BeInhaledUpdate(float _Delta)
 }
 
 
-
-
 void WanderingStar::CheckStarCollision()
 {
 	if (true == IsInhaledStateOn)
@@ -310,6 +309,84 @@ void WanderingStar::CheckStarCollision()
 	}
 }
 
+
+
+
+void WanderingStar::Render(float _Delta)
+{
+	if (false == VegetableValleyPlayLevel::Level_DebugRenderValue)
+	{
+		return;
+	}
+
+
+	HDC dc = GameEngineWindow::MainWindow.GetBackBuffer()->GetImageDC();
+
+	int TextRenderNum = 0;
+
+	float4 ActorScenePos = ActorCameraPos();
+
+	int TextXPos = ActorScenePos.iX() - Scale.Half().iX();
+	int TextYPos = ActorScenePos.iY() - (Scale * 2.0f).iY();
+
+
+	ThisDebugRender(dc, TextRenderNum, TextXPos, TextYPos);
+
+}
+
+
+void WanderingStar::ThisDebugRender(HDC _dc, int& _RenderNumber, const int _TextXPos, const int _TextYPos)
+{
+	{
+		std::string Text = "";
+		Text += "능력 : ";
+
+		switch (Ability)
+		{
+		case AbilityStar::Normal:
+			Text += "Normal";
+			break;
+		case AbilityStar::Spark:
+			Text += "Spark";
+			break;
+		case AbilityStar::Laser:
+			Text += "Laser";
+			break;
+		case AbilityStar::Beam:
+			Text += "Beam";
+			break;
+		case AbilityStar::Fire:
+			Text += "Fire";
+			break;
+		case AbilityStar::Thorn:
+			Text += "Thorn";
+			break;
+		case AbilityStar::Sword:
+			Text += "Sword";
+			break;
+		case AbilityStar::Ice:
+			Text += "Ice";
+			break;
+		default:
+			break;
+		}
+
+
+		TextOutA(_dc, _TextXPos, 2 + _TextYPos - _RenderNumber * DebugRenderText_YInter, Text.c_str(), static_cast<int>(Text.size()));
+
+		++_RenderNumber;
+	}
+
+
+	{
+		std::string Text = "";
+		Text += "LiveTime : ";
+		Text += std::to_string(StarLive_Time - GetLiveTime());
+		TextOutA(_dc, _TextXPos, 2 + _TextYPos - _RenderNumber * DebugRenderText_YInter, Text.c_str(), static_cast<int>(Text.size()));
+
+		++_RenderNumber;
+	}
+}
 
 
 

@@ -118,6 +118,18 @@ void VegetableValleyMuseum::Update(float _Delta)
 }
 
 
+void VegetableValleyMuseum::SwitchRenders()
+{
+	if (nullptr == LevelBackGround)
+	{
+		MsgBoxAssert("액터를 불러오지 못했습니다.");
+		return;
+	}
+
+	LevelBackGround->SwitchRender();
+}
+
+
 void VegetableValleyMuseum::PlayerEnterNextLevel()
 {
 	if (true == IsPlayerEnter)

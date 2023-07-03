@@ -275,10 +275,6 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="ContentsEnum.h" />
-    <ClInclude Include="CraneFever.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
     <ClInclude Include="ContentsActor.h">
       <SubType>
       </SubType>
@@ -451,10 +447,6 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="UFO.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
     <ClInclude Include="VegetableValley12.h">
       <SubType>
       </SubType>
@@ -607,10 +599,6 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="ContentsCore.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
-    <ClCompile Include="CraneFever.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -806,10 +794,6 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="TitleLevel.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
-    <ClCompile Include="UFO.cpp">
       <SubType>
       </SubType>
     </ClCompile>

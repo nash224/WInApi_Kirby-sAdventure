@@ -67,7 +67,7 @@ void LaserEffect::Soundinit()
 	{
 		GameEngineSound::SoundPlay("Kirby_Laser.wav");
 	}
-	else if (true == IsPlayerCollision)
+	else if (false == IsPlayerCollision)
 	{
 		GameEngineSound::SoundPlay("Enemy_Laser.wav");
 	}

@@ -32,6 +32,11 @@ private:
 
 
 
+	// Vegetable Play
+private:
+	void SwitchRenders() override;
+
+
 	// this
 private:
 	// Stage ฐüทร

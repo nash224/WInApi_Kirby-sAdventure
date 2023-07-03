@@ -48,7 +48,7 @@ private:
 	float NextStateStart = 0.0f;
 
 	const float StateStart_MinTime = 0.0f;
-	const float StateStart_MaxTime = 2.0f;
+	const float StateStart_MaxTime = 1.0f;
 
 
 

@@ -214,6 +214,53 @@ void VegetableValleyHub::Update(float _Delta)
 
 
 
+void VegetableValleyHub::SwitchRenders()
+{
+	if (nullptr == VegetableValley_Billboard)
+	{
+		MsgBoxAssert("빌보드를 불러오지 못했습니다.");
+		return;
+	}
+
+	VegetableValley_Billboard->SwitchEffect();
+
+	if (nullptr == Stage1.DoorPtr)
+	{
+		MsgBoxAssert("문 오브젝트를 불러오지 못했습니다.");
+		return;
+	}
+
+	Stage1.DoorPtr->SwitchEffect();
+
+	if (nullptr == Stage2.DoorPtr)
+	{
+		MsgBoxAssert("문 오브젝트를 불러오지 못했습니다.");
+		return;
+	}
+
+	Stage2.DoorPtr->SwitchEffect();
+
+	if (nullptr == Museum.DoorPtr)
+	{
+		MsgBoxAssert("문 오브젝트를 불러오지 못했습니다.");
+		return;
+	}
+
+	Museum.DoorPtr->SwitchEffect();
+
+
+	if (nullptr == LevelBackGround)
+	{
+		MsgBoxAssert("액터를 불러오지 못했습니다.");
+		return;
+	}
+
+	LevelBackGround->SwitchRender();
+}
+
+
+
+
 void VegetableValleyHub::Kirby_StageClear()
 {
 	if (nullptr == Stage1.DoorPtr)
@@ -504,6 +551,9 @@ void VegetableValleyHub::Render(float _Delta)
 {
 	DebugRender(_Delta);
 }
+
+
+
 
 
 

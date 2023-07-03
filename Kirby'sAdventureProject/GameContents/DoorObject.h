@@ -37,5 +37,9 @@ private:
 	bool IsDoorStar = false;
 	bool IsDoorBlocked = false;
 
+
+public:
+	void SwitchEffect();
+
 };
 

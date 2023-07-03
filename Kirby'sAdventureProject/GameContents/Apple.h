@@ -25,6 +25,7 @@ private:
 	// 레벨 상속
 	void Start() override;
 	void Update(float _Delta) override;
+	void Render(float _Delta) override;
 
 
 	// NormalEnemies 상속
@@ -73,6 +74,11 @@ private:
 public:
 	// 초기화
 	void ReleaseThisList();
+
+
+
+private:
+
 
 };
 

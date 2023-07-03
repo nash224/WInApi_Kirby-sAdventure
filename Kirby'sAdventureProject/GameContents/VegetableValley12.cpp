@@ -141,6 +141,21 @@ void VegetableValley12::Update(float _Delta)
 
 
 
+void VegetableValley12::SwitchRenders()
+{
+	if (nullptr == LevelBackGround)
+	{
+		MsgBoxAssert("액터를 불러오지 못했습니다.");
+		return;
+	}
+
+	LevelBackGround->SwitchRender();
+}
+
+
+
+
+
 
 
 void VegetableValley12::PlayerMissPrevLevel()
