@@ -4,10 +4,6 @@
 #include <GameEngineCore/GameEngineCollision.h>
 
 
-#include <vector>
-
-
-
 PowerEnemies::PowerEnemies() 
 {
 }

@@ -2,14 +2,15 @@
 #include "ContentsEnum.h"
 
 
+#include <GameEnginePlatform/GameEngineWindow.h>
 #include <GameEngineCore/GameEngineLevel.h>
 #include <GameEngineCore/GameEngineRenderer.h>
 #include <GameEngineCore/GameEngineCollision.h>
 
 
 #include "GlobalContents.h"
+#include "VegetableValleyPlayLevel.h"
 #include "Kirby.h"
-#include <vector>
 
 
 Pengi::Pengi()
@@ -43,6 +44,7 @@ void Pengi::Start()
 
 	SetName("Pengi");
 
+	CurState = "Idle";
 
 	BodyCollision = CreateCollision(CollisionOrder::ForDisplay);
 	if (nullptr == BodyCollision)
@@ -62,10 +64,8 @@ void Pengi::init(const std::string& _FileName, PengiState _State, const float4& 
 	Ability = AbilityStar::Ice;
 
 	SetGroundTexture(_FileName);
-	RespawnLocation = _Pos;
-	SetPos(RespawnLocation);
+	SetPos(_Pos);
 	ChangeState(_State);
-	StringRespawnState = CurState;
 }
 
 
@@ -77,8 +77,6 @@ void Pengi::Update(float _Delta)
 	GroundCheck();
 
 	StateUpdate(_Delta);
-
-	//CheckOverScreen();
 }
 
 void Pengi::StateUpdate(float _Delta)
@@ -113,11 +111,7 @@ void Pengi::ChangeState(PengiState _State)
 
 void Pengi::IdleStart()
 {
-	StateTime = 0.0f;
-	IsChangeState = false;
 	GravityReset();
-	GetKirbyDirection();
-	ChangeAnimationState("Walk");
 }
 
 void Pengi::IdleUpdate(float _Delta)
@@ -144,4 +138,27 @@ void Pengi::EnemyCollisionCheck()
 		ChangeState(PengiState::BeInhaled);
 		return;
 	}
+}
+
+
+void Pengi::Render(float _Delta)
+{
+	if (false == VegetableValleyPlayLevel::Level_DebugRenderValue)
+	{
+		return;
+	}
+
+
+	HDC dc = GameEngineWindow::MainWindow.GetBackBuffer()->GetImageDC();
+
+	int TextRenderNum = 0;
+
+
+	float4 ActorScenePos = ActorCameraPos();
+
+	int TextXPos = ActorScenePos.iX() - Scale.Half().iX();
+	int TextYPos = ActorScenePos.iY() - (Scale * 2.0f).iY();
+
+
+	EnemyDebugRender(dc, TextRenderNum, TextXPos, TextYPos);
 }

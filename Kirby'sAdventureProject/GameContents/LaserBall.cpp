@@ -3,6 +3,7 @@
 
 
 #include <GameEngineBase/GameEngineRandom.h>
+#include <GameEnginePlatform/GameEngineWindow.h>
 #include <GameEngineCore/GameEngineLevel.h>
 #include <GameEngineCore/GameEngineRenderer.h>
 #include <GameEngineCore/GameEngineCollision.h>
@@ -10,8 +11,8 @@
 
 #include "GlobalContents.h"
 #include "Kirby.h"
+#include "VegetableValleyPlayLevel.h"
 #include "LaserEffect.h"
-#include <vector>
 
 
 LaserBall::LaserBall()
@@ -25,7 +26,13 @@ LaserBall::~LaserBall()
 
 void LaserBall::Start()
 {
+	// 렌더러
 	MainRenderer = CreateRenderer(RenderOrder::Play);
+	if (nullptr == MainRenderer)
+	{
+		MsgBoxAssert("렌더러를 생성하지 못했습니다.");
+		return;
+	}
 
 	GlobalContents::SpriteFileLoad("Left_PowerEnemy.bmp", "Resources\\Unit\\Grunt", 6, 5);
 	GlobalContents::SpriteFileLoad("Right_PowerEnemy.bmp", "Resources\\Unit\\Grunt", 6, 5);
@@ -45,12 +52,15 @@ void LaserBall::Start()
 	MainRenderer->SetRenderScaleToTexture();
 	MainRenderer->SetScaleRatio(3.0f);
 
+
+	// 세팅
 	Scale = float4{ 24.0f, 39.0f };
 	SetCheckPoint(Scale);
 
 	Dir = ActorDir::Left;
 
 
+	// 충돌
 	BodyCollision = CreateCollision(CollisionOrder::MonsterBody);
 	if (nullptr == BodyCollision)
 	{
@@ -60,7 +70,12 @@ void LaserBall::Start()
 	BodyCollision->SetCollisionPos(float4{ 0.0f , -SMALLTYPECOLLISIONSCALE.hY() });
 	BodyCollision->SetCollisionScale(SMALLTYPECOLLISIONSCALE);
 	BodyCollision->SetCollisionType(CollisionType::Rect);
+
+
+	// 디버그용 변수
+	Gravitational_Influence = false;
 }
+
 
 void LaserBall::init(const std::string& _FileName, LaserBallState _State, const float4& _Pos)
 {
@@ -81,10 +96,7 @@ void LaserBall::init(const std::string& _FileName, LaserBallState _State, const 
 
 void LaserBall::Update(float _Delta)
 {
-
 	StateUpdate(_Delta);
-
-	//CheckOverScreen();
 }
 
 void LaserBall::StateUpdate(float _Delta)
@@ -164,9 +176,11 @@ void LaserBall::FlyUpdate(float _Delta)
 
 	EnemyCollisionCheck();
 
+	// 플레이어가 나와의 거리가 300.0f 보다 작으면
 	if (LASERBALLRUNAWAYDETECTRANGE > abs(OpponentDistance.X))
 	{
-		if (LaserBallPos.Y < KirbyPos.Y)
+		// 커비가 아래에 있다면
+		if (LaserBallPos.Y < KirbyPos.Y) 
 		{
 			if (OpponentDistance.Y < LASERBALLVERTICALDETECTRANGE)
 			{
@@ -354,5 +368,90 @@ void LaserBall::EnemyCollisionCheck()
 
 void LaserBall::Render(float _Delta)
 {
+	if (false == VegetableValleyPlayLevel::Level_DebugRenderValue)
+	{
+		return;
+	}
+
+
+	HDC dc = GameEngineWindow::MainWindow.GetBackBuffer()->GetImageDC();
+
+	int TextRenderNum = 0;
+
+
+	float4 ActorScenePos = ActorCameraPos();
+
+	int TextXPos = ActorScenePos.iX() - Scale.Half().iX();
+	int TextYPos = ActorScenePos.iY() - (Scale * 2.0f).iY();
+
+
+	EnemyDebugRender(dc, TextRenderNum, TextXPos, TextYPos);
+	ThisDebugRender(dc, TextRenderNum, TextXPos, TextYPos);
+
+	ThisDebugTriggerRender(dc);
+}
+
+
+void LaserBall::ThisDebugRender(HDC _dc, int& _RenderNumber, const int _TextXPos, const int _TextYPos)
+{
+	{
+		std::string Text = "";
+		Text += "Laser 탄환 수 : ";
+		Text += std::to_string(ChargingCount);
+		TextOutA(_dc, _TextXPos, 2 + _TextYPos - _RenderNumber * DebugRenderText_YInter, Text.c_str(), static_cast<int>(Text.size()));
+
+		++_RenderNumber;
+	}
+}
+
+
+void LaserBall::ThisDebugTriggerRender(HDC _dc)
+{
+	float4 WinScale = GameEngineWindow::MainWindow.GetScale();
+
+	float4 ActorScenePos = ActorCameraPos();
+	float4 DistanceToKriby = GetKirbyOpponentDistance();
+
+
+	float4 LaserBallPos = GetPos();
+	float4 KirbyPos = Kirby::GetMainKirby()->GetPos();
+	float4 OpponentDistance = KirbyPos - LaserBallPos;
+
+
+	if (OpponentDistance.X < 0.0f)
+	{
+		MoveToEx(_dc, ActorScenePos.iX() - static_cast<int>(LASERBALLRUNAWAYDETECTRANGE), 0, NULL);
+		LineTo(_dc, ActorScenePos.iX() - static_cast<int>(LASERBALLRUNAWAYDETECTRANGE), WinScale.iY());
+
+		MoveToEx(_dc, ActorScenePos.iX() - static_cast<int>(LASERBALLSHOOTDETECTMINRANGE), 0, NULL);
+		LineTo(_dc, ActorScenePos.iX() - static_cast<int>(LASERBALLSHOOTDETECTMINRANGE), WinScale.iY());
+
+		MoveToEx(_dc, ActorScenePos.iX() - static_cast<int>(LASERBALLSHOOTDETECTMAXRANGE), 0, NULL);
+		LineTo(_dc, ActorScenePos.iX() - static_cast<int>(LASERBALLSHOOTDETECTMAXRANGE), WinScale.iY());
+	}
+	else if (OpponentDistance.X >= 0.0f)
+	{
+		MoveToEx(_dc, ActorScenePos.iX() - static_cast<int>(LASERBALLRUNAWAYDETECTRANGE), 0, NULL);
+		LineTo(_dc, ActorScenePos.iX() - static_cast<int>(LASERBALLRUNAWAYDETECTRANGE), WinScale.iY());
+
+		MoveToEx(_dc, ActorScenePos.iX() - static_cast<int>(LASERBALLSHOOTDETECTMINRANGE), 0, NULL);
+		LineTo(_dc, ActorScenePos.iX() - static_cast<int>(LASERBALLSHOOTDETECTMINRANGE), WinScale.iY());
+
+		MoveToEx(_dc, ActorScenePos.iX() - static_cast<int>(LASERBALLSHOOTDETECTMAXRANGE), 0, NULL);
+		LineTo(_dc, ActorScenePos.iX() - static_cast<int>(LASERBALLSHOOTDETECTMAXRANGE), WinScale.iY());
+	}
+
+
+	MoveToEx(_dc, 0, ActorScenePos.iY() - static_cast<int>(LASERBALLVERTICALDETECTRANGE), NULL);
+	LineTo(_dc, WinScale.iX(), ActorScenePos.iY() - static_cast<int>(LASERBALLVERTICALDETECTRANGE));
+
+	MoveToEx(_dc, 0, ActorScenePos.iY() - static_cast<int>(LASERBALLSHOOTVERTICALDETECTRANGE), NULL);
+	LineTo(_dc, WinScale.iX(), ActorScenePos.iY() - static_cast<int>(LASERBALLSHOOTVERTICALDETECTRANGE));
+
+	MoveToEx(_dc, 0, ActorScenePos.iY() + static_cast<int>(LASERBALLVERTICALDETECTRANGE), NULL);
+	LineTo(_dc, WinScale.iX(), ActorScenePos.iY() + static_cast<int>(LASERBALLVERTICALDETECTRANGE));
+
+	MoveToEx(_dc, 0, ActorScenePos.iY() + static_cast<int>(LASERBALLSHOOTVERTICALDETECTRANGE), NULL);
+	LineTo(_dc, WinScale.iX(), ActorScenePos.iY() + static_cast<int>(LASERBALLSHOOTVERTICALDETECTRANGE));
 
 }

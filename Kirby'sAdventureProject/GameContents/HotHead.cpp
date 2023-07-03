@@ -482,8 +482,6 @@ void HotHead::Render(float _Delta)
 	ThisDebugRender(dc, TextRenderNum, TextXPos, TextYPos);
 
 	ThisDebugTriggerRender(dc);
-
-
 }
 
 

@@ -46,19 +46,29 @@ public:
 
 	void init(const std::string& _FileName, LaserBallState _State, const float4& _Pos);
 
-protected:
-	// 상태패턴 함수
+
+	// 레벨 상속
+private:
+	void Start() override;
+	void Update(float _Delta) override;
+	void Render(float _Delta) override;
+
+
+
+	// Enemy 상속
+private:
+	void StateUpdate(float _Delta) override;
+	void ChangeRespawnState() override;
+
+
+
+	// this
+private:
+	// 상태패턴
 	LaserBallState State = LaserBallState::Max;
 	LaserBallState RespawnState = LaserBallState::Max;
 
-	int ChargingCount = -1;
-	int ShootCount = 0;
-
-
-	void StateUpdate(float _Delta) override;
 	void ChangeState(LaserBallState _State);
-	void ChangeRespawnState() override;
-
 
 
 	void FlyStart();
@@ -73,13 +83,21 @@ protected:
 
 
 
+	// Shoot 패턴
+	int ChargingCount = -1;
+	int ShootCount = 0;
+
+
+	// 충돌
 	void EnemyCollisionCheck();
 
 
-private:
-	void Start() override;
-	void Update(float _Delta) override;
-	void Render(float _Delta) override;
+
+
+	// 디버깅
+	void ThisDebugRender(HDC _dc, int& _RenderNumber, const int _TextXPos, const int _TextYPos);
+	void ThisDebugTriggerRender(HDC _dc);
 
 };
+
 

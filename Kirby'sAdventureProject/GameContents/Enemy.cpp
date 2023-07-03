@@ -490,7 +490,7 @@ void Enemy::EnemyDebugRender(HDC _dc, int& _RenderNumber, const int _TextXPos, c
 		++_RenderNumber;
 	}
 
-
+	if (true == Gravitational_Influence)
 	{
 		std::string Text = "";
 		Text += "GravityVector : ";
@@ -499,6 +499,16 @@ void Enemy::EnemyDebugRender(HDC _dc, int& _RenderNumber, const int _TextXPos, c
 
 		++_RenderNumber;
 	}
+	else if (false == Gravitational_Influence)
+	{
+		std::string Text = "";
+		Text += "CurentVerticalSpeed : ";
+		Text += std::to_string(CurentVerticalSpeed);
+		TextOutA(_dc, _TextXPos, 2 + _TextYPos - _RenderNumber * DebugRenderText_YInter, Text.c_str(), static_cast<int>(Text.size()));
+
+		++_RenderNumber;
+	}
+
 
 	{
 		std::string Text = "";

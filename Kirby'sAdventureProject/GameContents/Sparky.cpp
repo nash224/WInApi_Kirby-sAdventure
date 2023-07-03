@@ -1,18 +1,19 @@
 #include "Sparky.h"
 #include "ContentsEnum.h"
+#include "GlobalContents.h"
 
 
 #include <GameEngineBase/GameEngineRandom.h>
 #include <GameEnginePlatform/GameEngineSound.h>
+#include <GameEnginePlatform/GameEngineWindow.h>
 #include <GameEngineCore/GameEngineLevel.h>
 #include <GameEngineCore/GameEngineRenderer.h>
 #include <GameEngineCore/GameEngineCollision.h>
 
 
-#include "GlobalContents.h"
+#include "VegetableValleyPlayLevel.h"
 #include "Kirby.h"
 #include "SparkEffect.h"
-#include <vector>
 
 
 Sparky::Sparky()
@@ -26,7 +27,13 @@ Sparky::~Sparky()
 
 void Sparky::Start()
 {
+	// 렌더러
 	MainRenderer = CreateRenderer(RenderOrder::Play);
+	if (nullptr == MainRenderer)
+	{
+		MsgBoxAssert("렌더러를 생성하지 못했습니다.");
+		return;
+	}
 
 	GlobalContents::SpriteFileLoad("Left_PowerEnemy.bmp", "Resources\\Unit\\Grunt", 6, 5);
 	GlobalContents::SpriteFileLoad("Right_PowerEnemy.bmp", "Resources\\Unit\\Grunt", 6, 5);
@@ -49,16 +56,19 @@ void Sparky::Start()
 	MainRenderer->CreateAnimation("Left_Spark", "Left_PowerEnemy.bmp", 27, 28, SPARKYSPARKCHANGEFRAMETIME, true);
 	MainRenderer->CreateAnimation("Right_Spark", "Right_PowerEnemy.bmp", 27, 28, SPARKYSPARKCHANGEFRAMETIME, true);
 
-
 	MainRenderer->SetRenderScaleToTexture();
 	MainRenderer->SetScaleRatio(3.0f);
 
+
+
+	// 세팅
 	Scale = float4{ 24.0f, 39.0f };
 	SetCheckPoint(Scale);
 
 	Dir = ActorDir::Left;
 
 
+	// 충돌
 	BodyCollision = CreateCollision(CollisionOrder::MonsterBody);
 	if (nullptr == BodyCollision)
 	{
@@ -86,6 +96,27 @@ void Sparky::Start()
 	GlobalContents::SoundFileLoad("SparkyMove_Sound.wav", "Resources\\SoundResources\\EffectVoice");
 }
 
+
+void Sparky::SetCheckPoint(const float4& _ScaleSize)
+{
+	GroundLeftCheckPoint = { -_ScaleSize.X + CHECKGROUNDGAP , 0.0f };
+	GroundRightCheckPoint = { _ScaleSize.X + -CHECKGROUNDGAP , 0.0f };
+	WallBotLeftCheckPoint = { -_ScaleSize.X + CHECKWALLWIDTHHGAP , -CHECKWALLHEIGHTHGAP };
+	WallTopLeftCheckPoint = { -_ScaleSize.X + CHECKWALLWIDTHHGAP , -_ScaleSize.Y + CHECKWALLHEIGHTHGAP };
+	WallBotRightCheckPoint = { _ScaleSize.X + -CHECKWALLWIDTHHGAP , -CHECKWALLHEIGHTHGAP };
+	WallTopRightCheckPoint = { _ScaleSize.X + -CHECKWALLWIDTHHGAP , -_ScaleSize.Y + CHECKWALLHEIGHTHGAP };
+	CeilLeftCheckPoint = { -_ScaleSize.X + CHECKGROUNDGAP , -_ScaleSize.Y };
+	CeilRightCheckPoint = { _ScaleSize.X + -CHECKGROUNDGAP , -_ScaleSize.Y };
+
+	StairLeftBottomCheckPoint = { -_ScaleSize.X + -SPARKYLONGJUMPSTAIRCOGNIZANCE , -CHECKGAP };
+	StairLeftTopCheckPoint = { -_ScaleSize.X + -SPARKYLONGJUMPSTAIRCOGNIZANCE , -CHECKSTAIRHEIGHT + -CHECKGAP };
+	StairRightBottomCheckPoint = { _ScaleSize.X + SPARKYLONGJUMPSTAIRCOGNIZANCE , -CHECKGAP };
+	StairRightTopCheckPoint = { _ScaleSize.X + SPARKYLONGJUMPSTAIRCOGNIZANCE , -CHECKSTAIRHEIGHT + -CHECKGAP };
+}
+
+
+
+
 void Sparky::init(const std::string& _FileName, SparkyState _State, const float4& _Pos)
 {
 	Attribute = AttributeType::Electricity;
@@ -100,7 +131,6 @@ void Sparky::init(const std::string& _FileName, SparkyState _State, const float4
 }
 
 
-
 /* ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ */
 
 void Sparky::Update(float _Delta)
@@ -108,8 +138,6 @@ void Sparky::Update(float _Delta)
 	GroundCheck();
 
 	StateUpdate(_Delta);
-
-	//CheckOverScreen();
 }
 
 void Sparky::StateUpdate(float _Delta)
@@ -158,24 +186,6 @@ void Sparky::ChangeRespawnState()
 
 
 /* ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ */
-
-
-void Sparky::SetCheckPoint(const float4& _ScaleSize)
-{
-	GroundLeftCheckPoint = { -_ScaleSize.X + CHECKGROUNDGAP , 0.0f };
-	GroundRightCheckPoint = { _ScaleSize.X + -CHECKGROUNDGAP , 0.0f };
-	WallBotLeftCheckPoint = { -_ScaleSize.X + CHECKWALLWIDTHHGAP , -CHECKWALLHEIGHTHGAP };
-	WallTopLeftCheckPoint = { -_ScaleSize.X + CHECKWALLWIDTHHGAP , -_ScaleSize.Y + CHECKWALLHEIGHTHGAP };
-	WallBotRightCheckPoint = { _ScaleSize.X + -CHECKWALLWIDTHHGAP , -CHECKWALLHEIGHTHGAP };
-	WallTopRightCheckPoint = { _ScaleSize.X + -CHECKWALLWIDTHHGAP , -_ScaleSize.Y + CHECKWALLHEIGHTHGAP };
-	CeilLeftCheckPoint = { -_ScaleSize.X + CHECKGROUNDGAP , -_ScaleSize.Y };
-	CeilRightCheckPoint = { _ScaleSize.X + -CHECKGROUNDGAP , -_ScaleSize.Y };
-
-	StairLeftBottomCheckPoint = { -_ScaleSize.X + -SPARKYLONGJUMPSTAIRCOGNIZANCE , -CHECKGAP };
-	StairLeftTopCheckPoint = { -_ScaleSize.X + -SPARKYLONGJUMPSTAIRCOGNIZANCE , -CHECKSTAIRHEIGHT + -CHECKGAP };
-	StairRightBottomCheckPoint = { _ScaleSize.X + SPARKYLONGJUMPSTAIRCOGNIZANCE , -CHECKGAP };
-	StairRightTopCheckPoint = { _ScaleSize.X + SPARKYLONGJUMPSTAIRCOGNIZANCE , -CHECKSTAIRHEIGHT + -CHECKGAP };
-}
 
 
 bool Sparky::IsLeftStair()
@@ -605,12 +615,77 @@ void Sparky::EnemyCollisionCheck()
 }
 
 
+
 void Sparky::Render(float _Detla)
 {
+	if (false == VegetableValleyPlayLevel::Level_DebugRenderValue)
+	{
+		return;
+	}
+
+
+	HDC dc = GameEngineWindow::MainWindow.GetBackBuffer()->GetImageDC();
+
+	int TextRenderNum = 0;
+
+
+	float4 ActorScenePos = ActorCameraPos();
+
+	int TextXPos = ActorScenePos.iX() - Scale.Half().iX();
+	int TextYPos = ActorScenePos.iY() - (Scale * 2.0f).iY();
+
+
+	EnemyDebugRender(dc, TextRenderNum, TextXPos, TextYPos);
+	ThisDebugRender(dc, TextRenderNum, TextXPos, TextYPos);
+
 	ActorCollisionDetectionPointRender();
 }
 
 
+void Sparky::ThisDebugRender(HDC _dc, int& _RenderNumber, const int _TextXPos, const int _TextYPos)
+{
+	{
+		std::string Text = "";
+		Text += "바닥 상태 : ";
+
+		if (true == IsLeftStair() || true == IsRightStair())
+		{
+			Text += "계단";
+		}
+		if (true == GetGroundState())
+		{
+			Text += "땅";
+		}
+		else if (false == GetGroundState())
+		{
+			Text += "점프";
+		}
+		TextOutA(_dc, _TextXPos, 2 + _TextYPos - _RenderNumber * DebugRenderText_YInter, Text.c_str(), static_cast<int>(Text.size()));
+
+		++_RenderNumber;
+	}
+}
+
 void Sparky::ActorCollisionDetectionPointRender()
-{\
+{
+	HDC BackDC = GameEngineWindow::MainWindow.GetBackBuffer()->GetImageDC();
+
+	CollisionData Data;
+
+	// 계단 왼쪽하단
+	Data.Pos = ActorCameraPos() + StairLeftBottomCheckPoint;
+	Data.Scale = { 5 , 5 };
+	Rectangle(BackDC, Data.iLeft(), Data.iTop(), Data.iRight(), Data.iBot());
+	// 계단 왼쪽상단
+	Data.Pos = ActorCameraPos() + StairLeftTopCheckPoint;
+	Data.Scale = { 5 , 5 };
+	Rectangle(BackDC, Data.iLeft(), Data.iTop(), Data.iRight(), Data.iBot());
+	// 계단 오른쪽하단
+	Data.Pos = ActorCameraPos() + StairRightBottomCheckPoint;
+	Data.Scale = { 5 , 5 };
+	Rectangle(BackDC, Data.iLeft(), Data.iTop(), Data.iRight(), Data.iBot());
+	// 계단 오른쪽상단
+	Data.Pos = ActorCameraPos() + StairRightTopCheckPoint;
+	Data.Scale = { 5 , 5 };
+	Rectangle(BackDC, Data.iLeft(), Data.iTop(), Data.iRight(), Data.iBot());
 }

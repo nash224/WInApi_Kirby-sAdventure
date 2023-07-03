@@ -9,7 +9,7 @@ enum class PengiState
 	Max,
 };
 
-// 설명 : 공벌레처럼 굴러다니는 파워몹 고슴도치입니다.
+// 설명 : 전시용 펭귄입니다.
 class Pengi : public PowerEnemies
 {
 public:
@@ -26,28 +26,29 @@ public:
 	void init(const std::string& _FileName, PengiState _State, const float4& _Pos);
 
 
-protected:
-	// 상태패턴 함수
-	PengiState State = PengiState::Max;
-	PengiState RespawnState = PengiState::Max;
-
-
-	void StateUpdate(float _Delta) override;
-	void ChangeState(PengiState _State);
-
-
-
-	void IdleStart();
-
-	void IdleUpdate(float _Delta);
-
-
-
-	void EnemyCollisionCheck();
-
+	// 레벨 상속
 private:
 	void Start() override;
 	void Update(float _Delta) override;
+	void Render(float _Delta) override;
+
+	
+
+	// this
+private:
+	// 상태패턴 함수
+	PengiState State = PengiState::Max;
+
+	void ChangeState(PengiState _State);
+	void StateUpdate(float _Delta);
+
+	void IdleStart();
+	void IdleUpdate(float _Delta);
+
+
+	// 충돌
+	void EnemyCollisionCheck();
+
 
 };
 

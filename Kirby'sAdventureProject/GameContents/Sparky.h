@@ -64,18 +64,35 @@ public:
 
 	void init(const std::string& _FileName, SparkyState _State, const float4& _Pos);
 
+
+	// 레벨
+private:
+	void Start() override;
+	void Update(float _Delta) override;
+	void Render(float _Detla) override;
+
+
+
+	// Enemy
 protected:
-	// 상태패턴 함수
+	void ChangeRespawnState() override;
+
+
+	// this
+protected:
+
+	// 상태패턴
 	SparkyState State = SparkyState::Max;
 	SparkyState RespawnState = SparkyState::Max;
+
+	void StateUpdate(float _Delta);
+	void ChangeState(SparkyState _State);
+
 
 	int RemainStanceJumpCount = 0;
 	float CurrentJumpDistance = 0.0f;
 	float SparkCoolDown = 0.0f;
 
-	void StateUpdate(float _Delta) override;
-	void ChangeState(SparkyState _State);
-	void ChangeRespawnState() override;
 
 
 	// 감지 함수 
@@ -102,11 +119,8 @@ protected:
 	void EnemyCollisionCheck();
 
 
-private:
-	void Start() override;
-	void Update(float _Delta) override;
-	void Render(float _Detla) override;
 
+private:
 
 	// 계단을 점프해서 오르기 위한 추가 로직
 	float4 StairLeftBottomCheckPoint = float4::ZERO;
@@ -116,8 +130,12 @@ private:
 	float4 StairRightTopCheckPoint = float4::ZERO;
 
 	void SetCheckPoint(const float4& _ScaleSize) override;
-	void ActorCollisionDetectionPointRender() override;
 
+
+
+	// 디버깅
+	void ThisDebugRender(HDC _dc, int& _RenderNumber, const int _TextXPos, const int _TextYPos);
+	void ActorCollisionDetectionPointRender() override;
 
 };
 

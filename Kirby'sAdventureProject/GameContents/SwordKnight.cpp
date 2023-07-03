@@ -1,17 +1,20 @@
 #include "SwordKnight.h"
 #include "ContentsEnum.h"
+#include "GlobalContents.h"
 
 
 #include <GameEngineBase/GameEngineRandom.h>
 #include <GameEnginePlatform/GameEngineSound.h>
+#include <GameEnginePlatform/GameEngineWindow.h>
 #include <GameEngineCore/GameEngineLevel.h>
 #include <GameEngineCore/GameEngineRenderer.h>
 #include <GameEngineCore/GameEngineCollision.h>
 
 
-#include "GlobalContents.h"
 #include "Kirby.h"
-#include <vector>
+#include "VegetableValleyPlayLevel.h"
+
+
 
 SwordKnight::SwordKnight()
 {
@@ -157,7 +160,7 @@ void SwordKnight::ChangeRespawnState()
 
 void SwordKnight::PendulumStrideStart()
 {
-	StateTime = 0.0f;
+	AbilityCoolDown = 0.0f;
 	IsChangeState = false;
 	GravityReset();
 	GetKirbyDirection();
@@ -174,12 +177,13 @@ void SwordKnight::PendulumStrideStart()
 
 void SwordKnight::PendulumStrideUpdate(float _Delta)
 {
-	StateTime += _Delta;
+	AbilityCoolDown += _Delta;
 
 
-	if (StateTime > SWORDKNIGHTSLASHCOOLDOWN && 
+	if (AbilityCoolDown > SWORDKNIGHTSLASHCOOLDOWN &&
 		SWORDKNIGHTRANGEDETECTION > abs(Kirby::GetMainKirby()->GetPos().X - GetPos().X))
 	{
+		AbilityCoolDown = 0.0f;
 		IsChangeState = true;
 	}
 
@@ -510,12 +514,65 @@ void SwordKnight::EnemyCollisionCheck()
 
 void SwordKnight::Render(float _Delta)
 {
-	//float4 WinScale = GameEngineWindow::MainWindow.GetScale();
-	//int CameraPos = GetLevel()->GetMainCamera()->GetPos().iX();
+	if (false == VegetableValleyPlayLevel::Level_DebugRenderValue)
+	{
+		return;
+	}
 
-	//GameEngineWindowTexture* Backbuffer = GameEngineWindow::MainWindow.GetBackBuffer();
-	//HDC LineDC = Backbuffer->GetImageDC();
 
-	//MoveToEx(LineDC, GetPos().iX() - CameraPos, 0, NULL);
-	//LineTo(LineDC, GetPos().iX() - CameraPos, WinScale.iY());
+	HDC dc = GameEngineWindow::MainWindow.GetBackBuffer()->GetImageDC();
+
+	int TextRenderNum = 0;
+
+
+	float4 ActorScenePos = ActorCameraPos();
+
+	int TextXPos = ActorScenePos.iX() - Scale.Half().iX();
+	int TextYPos = ActorScenePos.iY() - (Scale * 2.0f).iY();
+
+
+	EnemyDebugRender(dc, TextRenderNum, TextXPos, TextYPos);
+
+	ThisDebugTriggerRender(dc);
+}
+
+
+
+void SwordKnight::ThisDebugRender(HDC _dc, int& _RenderNumber, const int _TextXPos, const int _TextYPos)
+{
+	if (0.0f != AbilityCoolDown)
+	{
+		std::string Text = "";
+		Text += "½ºÅ³ ÄðÅ¸ÀÓ : ";
+		Text += std::to_string(SWORDKNIGHTSLASHCOOLDOWN - AbilityCoolDown);
+		TextOutA(_dc, _TextXPos, 2 + _TextYPos - _RenderNumber * DebugRenderText_YInter, Text.c_str(), static_cast<int>(Text.size()));
+
+		++_RenderNumber;
+	}
+}
+
+
+void SwordKnight::ThisDebugTriggerRender(HDC _dc)
+{
+	float4 WinScale = GameEngineWindow::MainWindow.GetScale();
+
+	float4 ActorScenePos = ActorCameraPos();
+	float4 DistanceToKriby = GetKirbyOpponentDistance();
+
+
+	float4 LaserBallPos = GetPos();
+	float4 KirbyPos = Kirby::GetMainKirby()->GetPos();
+	float4 OpponentDistance = KirbyPos - LaserBallPos;
+
+
+	if (OpponentDistance.X < 0.0f)
+	{
+		MoveToEx(_dc, ActorScenePos.iX() - static_cast<int>(SWORDKNIGHTRANGEDETECTION), 0, NULL);
+		LineTo(_dc, ActorScenePos.iX() - static_cast<int>(SWORDKNIGHTRANGEDETECTION), WinScale.iY());
+	}
+	else if (OpponentDistance.X >= 0.0f)
+	{
+		MoveToEx(_dc, ActorScenePos.iX() - static_cast<int>(SWORDKNIGHTRANGEDETECTION), 0, NULL);
+		LineTo(_dc, ActorScenePos.iX() - static_cast<int>(SWORDKNIGHTRANGEDETECTION), WinScale.iY());
+	}
 }

@@ -93,5 +93,6 @@ public:
 protected:
 	// µð¹ö±×
 	void EnemyDebugRender(HDC _dc, int& _RenderNumber, const int _TextXPos, const int _TextYPos);
+	bool Gravitational_Influence = true;
 };
 

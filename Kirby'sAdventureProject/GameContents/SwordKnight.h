@@ -53,6 +53,8 @@ protected:
 	SwordKnightState State = SwordKnightState::Max;
 	SwordKnightState RespawnState = SwordKnightState::Max;
 
+	float AbilityCoolDown = 0.0f;
+
 
 	void StateUpdate(float _Delta) override;
 	void ChangeState(SwordKnightState _State);
@@ -81,5 +83,10 @@ private:
 	void Update(float _Delta) override;
 	void Render(float _Delta) override;
 
+
+
+	// µð¹ö±ë
+	void ThisDebugTriggerRender(HDC _dc);
+	void ThisDebugRender(HDC _dc, int& _RenderNumber, const int _TextXPos, const int _TextYPos);
 };
 
