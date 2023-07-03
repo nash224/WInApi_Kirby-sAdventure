@@ -343,6 +343,8 @@ private:
 	float FrameTime = 0.0f;
 	float SparkTime = 0.0f;
 	float IceTime = 0.0f;
+	float IceSoundTime = 0.0f;
+	const float IceSoundCycle = 0.6f;
 
 
 

@@ -80,18 +80,33 @@ void Kirby::Ice_StateResourceLoad()
 
 	MainRenderer->CreateAnimation("Ice_Left_GetAbility", "Ice_Left_Kirby.bmp", 16, 16, 0.1f, false);
 	MainRenderer->CreateAnimation("Ice_Right_GetAbility", "Ice_Right_Kirby.bmp", 16, 16, 0.1f, false);
+
+
+
+	GlobalContents::SoundFileLoad("Kirby_IceAttack.wav", "Resources\\SoundResources\\EffectVoice");
+	
 }
 
 
 void Kirby::IceAbilityStart()
 {
 	Duration = 0.0f;
+	IceSoundTime = 1.0f;
 }
 
 void Kirby::IceAbilityUpdate(float _Delta)
 {
 	StateTime += _Delta;
 	Duration += _Delta;
+	IceSoundTime += _Delta;
+
+	if (IceSoundTime > IceSoundCycle)
+	{
+		IceSoundTime = 0.0f;
+
+		GameEngineSound::SoundPlay("Kirby_IceAttack.wav");
+	}
+
 
 	// 능력 최소 지속시간
 	if (Duration > AbilityMinDuration && false == IsChangeState)
@@ -156,7 +171,14 @@ void Kirby::IceAbilityUpdate(float _Delta)
 void Kirby::TriggerIceAbilityAfterProcess(float _Delta)
 {
 	IceTime += _Delta;
+	IceSoundTime += _Delta;
 
+	if (IceSoundTime > IceSoundCycle)
+	{
+		IceSoundTime = 0.0f;
+
+		GameEngineSound::SoundPlay("Kirby_IceAttack.wav");
+	}
 
 	if (IceTime > KIRBYFRAMEEFFECTCREATECYCLE)
 	{
