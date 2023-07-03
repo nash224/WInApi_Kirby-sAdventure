@@ -86,11 +86,8 @@ void VegetableValley13::Update(float _Delta)
 		EndingCredit(_Delta);
 	}
 
+	LevelDebugShortcut(_Delta);
 
-	if (true == GameEngineInput::IsDown('P'))
-	{
-		GameEngineCore::ChangeLevel("PauseLevel");
-	}
 
 
 	if (true == GameEngineInput::IsDown('N'))
@@ -187,12 +184,6 @@ void VegetableValley13::EndingCredit(float _Delta)
 
 		BGM_Player = GameEngineSound::SoundPlay("32_Crane_Fever_(faster).mp3");
 	}
-
-	if (true == IsBGM_On && BGMSoundVolume < 1.0f)
-	{
-		BGMSoundVolume += _Delta * 0.5f;
-		BGM_Player.SetVolume(BGMSoundVolume);
-	}
 }
 
 void VegetableValley13::PlayerMissPrevLevel()
@@ -228,37 +219,7 @@ void VegetableValley13::PlayerMissPrevLevel()
 
 void VegetableValley13::Render(float _Delta)
 {
-	if (false == Level_DebugRenderIsOn)
-	{
-		return;
-	}
-
-
-	HDC dc = GameEngineWindow::MainWindow.GetBackBuffer()->GetImageDC();
-
-	GameEngineCamera* MainCameraPtr = GetMainCamera();
-	if (nullptr == MainCameraPtr)
-	{
-		MsgBoxAssert("카메라를 불러오지 못했습니다.");
-		return;
-	}
-
-
-	{
-		UpdateTime += _Delta;
-
-
-		std::string Text = "";
-		Text += "프레임 : ";
-		if (UpdateTime >= 1.0f)
-		{
-			UpdateTime = 0.0f;
-
-			FPSText = 1.0f / _Delta;
-		}
-		Text += std::to_string(FPSText);
-		TextOutA(dc, 2, 3, Text.c_str(), static_cast<int>(Text.size()));
-	}
+	DebugRender(_Delta);
 }
 
 

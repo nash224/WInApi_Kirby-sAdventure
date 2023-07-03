@@ -18,7 +18,6 @@
 
 
 Kirby* Kirby::MainKirby = nullptr;
-float Kirby::SoundVol = 0.0f;
 bool Kirby::IsKirbyOpenDoorToLevel = false;
 bool Kirby::IsKirbyCloseDoorToLevel = false;
 
@@ -206,11 +205,6 @@ void Kirby::Start()
 	SwordEffectCollision->SetCollisionScale(SWORDEFFECTCOLLISIONSCALE);
 	SwordEffectCollision->SetCollisionType(CollisionType::Rect);
 	SwordEffectCollision->Off();
-
-
-
-	// »ç¿îµå
-	SoundVol = GameEngineSound::GetGlobalVolume();
 }
 
 
@@ -281,44 +275,6 @@ void Kirby::KirbysDebugShortcut(float _Delta)
 
 
 
-	SoundVolPressKeyTime += _Delta;
-
-	if (SoundVolPressKeyTime > SoundVol_KeyDownCycle)
-	{
-		if (true == GameEngineInput::IsPress(VK_OEM_6))
-		{
-			float SoundVolumeReturnValue = GameEngineSound::GetGlobalVolume();
-
-			if (SoundVolumeReturnValue < MAX_VOLUME_AMOUNT)
-			{
-				SoundVol = SoundVolumeReturnValue + SoundVol_OneTime_AmountOfChange;
-			}
-
-			GameEngineSound::SetGlobalVolume(SoundVol);
-			VegetableValleyPlayLevel::BGM_Player.SetVolume(SoundVol);
-
-			SoundVolPressKeyTime = 0.0f;
-		}
-		else if (true == GameEngineInput::IsPress(VK_OEM_4))
-		{
-			float SoundVolumeReturnValue = GameEngineSound::GetGlobalVolume();
-
-			if (SoundVolumeReturnValue > 0.0f)
-			{
-				SoundVol = SoundVolumeReturnValue - SoundVol_OneTime_AmountOfChange;
-
-				if (SoundVol < 0.0f)
-				{
-					SoundVol = 0.0f;
-				}
-			}
-
-			GameEngineSound::SetGlobalVolume(SoundVol);
-			VegetableValleyPlayLevel::BGM_Player.SetVolume(SoundVol);
-
-			SoundVolPressKeyTime = 0.0f;
-		}
-	}
 
 
 }
@@ -795,7 +751,7 @@ void Kirby::LevelStart()
 
 void Kirby::Render(float _Detla)
 {
-	if (false == VegetableValleyPlayLevel::Level_DebugRenderIsOn)
+	if (false == VegetableValleyPlayLevel::Level_DebugRenderValue)
 	{
 		return;
 	}

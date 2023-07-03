@@ -8,7 +8,6 @@
 #include <string>
 
 
-#define MAX_VOLUME_AMOUNT 1.0f
 
 
 // 커비 몸통 및 스킬 충돌체 크기
@@ -180,10 +179,6 @@ protected:
 
 
 	// 커비 숏컷
-	static float SoundVol;
-	float SoundVolPressKeyTime = 0.0f;
-	const float SoundVol_OneTime_AmountOfChange = 0.05f;
-	const float SoundVol_KeyDownCycle = 0.2f;
 	
 
 	void KirbysDebugShortcut(float _Delta);

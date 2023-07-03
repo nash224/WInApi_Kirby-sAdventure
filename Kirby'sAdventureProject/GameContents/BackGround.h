@@ -22,11 +22,12 @@ public:
 	BackGround& operator=(const BackGround& _Other) = delete;
 	BackGround& operator=(BackGround&& _Other) noexcept = delete;
 
+
+	// 외부
 	void init(const std::string& _FileName, const std::string& _Path);
 	GameEngineWindowTexture* init(const std::string& _FileName, const std::string& _DebugFileName, const std::string& _Path);
 	class GameEngineRenderer* SpriteInit(const std::string& _FileName, const std::string& _DebugFileName, const std::string& _Path, int _XCount, int _YCount);
 
-	void ExtraMapSet(const std::string& _FileName, const std::string& _Path);
 
 
 	float4 GetBackGroundScale() const
@@ -39,18 +40,28 @@ public:
 protected:
 
 private:
+	// Level override
+	void Start() override;
+	void Update(float _Delta) override;
+
+
+
+	// this
 	float4 BackGroundScale = float4::ZERO;
-	bool SwitchRenderValue = true;
 	std::string FileName = "";
 
+
+	// 디버그 렌더
+	bool SwitchRenderValue = true;
 	class GameEngineRenderer* Renderer = nullptr;
 	class GameEngineRenderer* DebugRenderer = nullptr;
 
 
 
-public:
 	// 보스 관련
+public:
 	bool IsBossChangeMap = false;
+	void ExtraMapSet(const std::string& _FileName, const std::string& _Path);
 
 
 private:
@@ -62,9 +73,5 @@ private:
 
 	void WhispyChangeMap(float _Delta);
 
-
-private:
-	void Start() override;
-	void Update(float _Delta) override;
 };
 

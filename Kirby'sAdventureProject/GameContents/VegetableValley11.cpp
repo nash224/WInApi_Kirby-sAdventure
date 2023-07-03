@@ -113,10 +113,8 @@ void VegetableValley11::Start()
 
 void VegetableValley11::Update(float _Delta)
 {
-	if (true == GameEngineInput::IsDown('P'))
-	{
-		GameEngineCore::ChangeLevel("PauseLevel");
-	}
+	LevelDebugShortcut(_Delta);
+
 
 	if (true == GameEngineInput::IsDown('N'))
 	{
@@ -165,7 +163,7 @@ void VegetableValley11::Update(float _Delta)
 
 	if (true == GameEngineInput::IsDown('Y'))
 	{
-		Level_DebugRenderIsOn = !Level_DebugRenderIsOn;
+		Level_DebugRenderValue = !Level_DebugRenderValue;
 	}
 
 	CheckRespawnEnemy();
@@ -238,56 +236,7 @@ void VegetableValley11::PlayerEnterNextLevel()
 
 void VegetableValley11::Render(float _Delta)
 {
-	if (false == Level_DebugRenderIsOn)
-	{
-		return;
-	}
-
-
-	HDC dc = GameEngineWindow::MainWindow.GetBackBuffer()->GetImageDC();
-
-	GameEngineCamera* MainCameraPtr = GetMainCamera();
-	if (nullptr == MainCameraPtr)
-	{
-		MsgBoxAssert("카메라를 불러오지 못했습니다.");
-		return;
-	}
-
-
-	{
-		UpdateTime += _Delta;
-
-
-		std::string Text = "";
-		Text += "프레임 : ";
-		if (UpdateTime >= 1.0f)
-		{
-			UpdateTime = 0.0f;
-
-			FPSText = 1.0f / _Delta;
-		}
-		Text += std::to_string(FPSText);
-		TextOutA(dc, 2, 3, Text.c_str(), static_cast<int>(Text.size()));
-	}
-
-
-	float4 MousePos = GameEngineWindow::MainWindow.GetMousePos();
-	float4 CameraPos = MainCameraPtr->GetPos();
-
-	{
-		std::string Text = "";
-		Text += "마우스 X좌표 : ";
-		Text += std::to_string(MousePos.iX() + CameraPos.iX());
-		TextOutA(dc, 2, 20, Text.c_str(), static_cast<int>(Text.size()));
-	}
-
-
-	{
-		std::string Text = "";
-		Text += "마우스 Y좌표 : ";
-		Text += std::to_string(MousePos.iY() + CameraPos.iY());
-		TextOutA(dc, 2, 37, Text.c_str(), static_cast<int>(Text.size()));
-	}
+	DebugRender(_Delta);
 }
 
 

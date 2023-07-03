@@ -11,6 +11,7 @@
 #pragma comment(lib, "msimg32.lib")
 
 #include "GlobalContents.h"
+#include "VegetableValleyPlayLevel.h"
 #include "Boss.h"
 
 
@@ -116,14 +117,24 @@ void BackGround::Update(float _Delta)
 
 void BackGround::SwitchRender()
 {
-	SwitchRenderValue = !SwitchRenderValue;
+	if (nullptr == Renderer)
+	{
+		MsgBoxAssert("배경 렌더러를 불러오지 못했습니다.");
+		return;
+	}
 
-	if (SwitchRenderValue)
+	if (nullptr == DebugRenderer)
+	{
+		return;
+	}
+
+	if (false == VegetableValleyPlayLevel::Level_SwitchBitMapRenderValue)
 	{
 		Renderer->On();
 		DebugRenderer->Off();
 	}
-	else {
+	else 
+	{
 		Renderer->Off();
 		DebugRenderer->On();
 	}

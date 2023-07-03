@@ -76,8 +76,8 @@ void Sparky::Start()
 		MsgBoxAssert("능력 콜리전이 Null일리가 없어..");
 		return;
 	}
-	AbilityCollision->SetCollisionPos(float4{ 0.0f , -SMALLTYPECOLLISIONSCALE.hY() });
-	AbilityCollision->SetCollisionScale(SMALLTYPECOLLISIONSCALE);
+	AbilityCollision->SetCollisionPos(float4{ 0.0f , -SPARKY_ABILITYCOLLISIONSCALE.hY() });
+	AbilityCollision->SetCollisionScale(SPARKY_ABILITYCOLLISIONSCALE);
 	AbilityCollision->SetCollisionType(CollisionType::Rect);
 	AbilityCollision->Off();
 

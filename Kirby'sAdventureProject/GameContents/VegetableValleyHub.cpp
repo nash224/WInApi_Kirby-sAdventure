@@ -34,6 +34,9 @@ VegetableValleyHub::~VegetableValleyHub()
 
 void VegetableValleyHub::Start()
 {
+	SetName("VegetableValleyHub");
+
+
 	LevelBackGround = GameEngineLevel::CreateActor<BackGround>(UpdateOrder::BackGround);
 	if (nullptr == LevelBackGround)
 	{
@@ -179,18 +182,7 @@ void VegetableValleyHub::Update(float _Delta)
 		return;
 	}
 
-
-
-	if (true == GameEngineInput::IsDown('P'))
-	{
-		GameEngineCore::ChangeLevel("PauseLevel");
-		return;
-	}
-
-	if (true == GameEngineInput::IsDown('2'))
-	{
-		++Camera_ShakeCount;
-	}
+	LevelDebugShortcut(_Delta);
 
 
 	if (true == GameEngineInput::IsDown('N'))
@@ -216,15 +208,128 @@ void VegetableValleyHub::Update(float _Delta)
 	}
 
 
-	if (true == GameEngineInput::IsDown('M'))
-	{
-		LevelBackGround->SwitchRender();
-	}
 
 	CameraFocus(_Delta);
 }
 
 
+
+void VegetableValleyHub::Kirby_StageClear()
+{
+	if (nullptr == Stage1.DoorPtr)
+	{
+		MsgBoxAssert("액터를 불러오지 못했습니다.");
+		return;
+	}
+
+	if (nullptr == Stage2.DoorPtr)
+	{
+		MsgBoxAssert("액터를 불러오지 못했습니다.");
+		return;
+	}
+
+
+
+	// When Kirby Enter StageDoor, Kirby Open the Door
+	if (true == Kirby::IsKirbyOpenDoorToLevel)
+	{
+		Kirby::IsKirbyOpenDoorToLevel = false;
+
+		switch (VegetableValleyEntertheDoorNumber)
+		{
+		case 1:
+			Stage1.DoorPtr->IsDoorOpen = true;
+			break;
+		case 2:
+			Stage2.DoorPtr->IsDoorOpen = true;
+			break;
+		case 3:
+			break;
+		case 30:
+			break;
+		default:
+			break;
+		}
+	}
+
+
+	// When Kirby comes out StageDoor and Stage finished, Kirby close the Door
+	if (true == Kirby::IsKirbyCloseDoorToLevel)
+	{
+		Kirby::IsKirbyCloseDoorToLevel = false;
+
+		switch (VegetableValleyEntertheDoorNumber)
+		{
+		case 1:
+			Stage1.DoorPtr->IsDoorClose = true;
+			break;
+		case 2:
+			Stage2.DoorPtr->IsDoorClose = true;
+			break;
+		case 3:
+			break;
+		case 30:
+			break;
+		default:
+			break;
+		}
+	}
+
+
+	// If Kirby finished, Stage's Door Change ClearDoor
+	if (true == ChangeClearDoor)
+	{
+		ChangeClearDoor = false;
+
+		switch (VegetableValleyEntertheDoorNumber)
+		{
+		case 1:
+			if (nullptr == Stage1.DoorPtr)
+			{
+				MsgBoxAssert("액터를 불러오지 못했습니다.");
+				return;
+			}
+			if (nullptr == Stage1.FlagPtr)
+			{
+				MsgBoxAssert("액터를 불러오지 못했습니다.");
+				return;
+			}
+
+			Stage1.DoorPtr->IsDoorClear = true;
+			Stage1.IsStageClear = true;
+			Stage1.FlagPtr->On();
+			break;
+		case 2:
+			if (nullptr == Stage2.DoorPtr)
+			{
+				MsgBoxAssert("액터를 불러오지 못했습니다.");
+				return;
+			}
+			if (nullptr == Stage2.FlagPtr)
+			{
+				MsgBoxAssert("액터를 불러오지 못했습니다.");
+				return;
+			}
+
+			Stage2.DoorPtr->IsDoorClear = true;
+			Stage2.IsStageClear = true;
+			Stage2.FlagPtr->On();
+			break;
+		default:
+			break;
+		}
+
+		ObejctDisapearingEffect* ObejctDisapearingEffectPtr = CreateActor<ObejctDisapearingEffect>(UpdateOrder::UI);
+		if (nullptr == ObejctDisapearingEffectPtr)
+		{
+			MsgBoxAssert("액터를 생성하지 못했습니다.");
+			return;
+		}
+
+		ObejctDisapearingEffectPtr->init(Stage1.StageLocation + float4{ 0.0f, -StageDoorSize.Half().Y });
+	}
+
+}
 
 
 void VegetableValleyHub::VegetableValleyStage_1_Func()
@@ -395,160 +500,12 @@ void VegetableValleyHub::VegetableValleyMuseum_Func()
 
 
 
-void VegetableValleyHub::Kirby_StageClear()
-{
-	if (nullptr == Stage1.DoorPtr)
-	{
-		MsgBoxAssert("액터를 불러오지 못했습니다.");
-		return;
-	}
-
-	if (nullptr == Stage2.DoorPtr)
-	{
-		MsgBoxAssert("액터를 불러오지 못했습니다.");
-		return;
-	}
-
-
-
-	// When Kirby Enter StageDoor, Kirby Open the Door
-	if (true == Kirby::IsKirbyOpenDoorToLevel)
-	{
-		Kirby::IsKirbyOpenDoorToLevel = false;
-
-		switch (VegetableValleyEntertheDoorNumber)
-		{
-		case 1:
-			Stage1.DoorPtr->IsDoorOpen = true;
-			break;
-		case 2:
-			Stage2.DoorPtr->IsDoorOpen = true;
-			break;
-		case 3:
-			break;
-		case 30:
-			break;
-		default:
-			break;
-		}
-	}
-
-
-	// When Kirby comes out StageDoor and Stage finished, Kirby close the Door
-	if (true == Kirby::IsKirbyCloseDoorToLevel)
-	{
-		Kirby::IsKirbyCloseDoorToLevel = false;
-
-		switch (VegetableValleyEntertheDoorNumber)
-		{
-		case 1:
-			Stage1.DoorPtr->IsDoorClose = true;
-			break;
-		case 2:
-			Stage2.DoorPtr->IsDoorClose = true;
-			break;
-		case 3:
-			break;
-		case 30:
-			break;
-		default:
-			break;
-		}
-	}
-
-
-	// If Kirby finished, Stage's Door Change ClearDoor
-	if (true == ChangeClearDoor)
-	{
-		ChangeClearDoor = false;
-
-		switch (VegetableValleyEntertheDoorNumber)
-		{
-		case 1:
-			if (nullptr == Stage1.DoorPtr)
-			{
-				MsgBoxAssert("액터를 불러오지 못했습니다.");
-				return;
-			}
-			if (nullptr == Stage1.FlagPtr)
-			{
-				MsgBoxAssert("액터를 불러오지 못했습니다.");
-				return;
-			}
-
-			Stage1.DoorPtr->IsDoorClear = true;
-			Stage1.IsStageClear = true;
-			Stage1.FlagPtr->On();
-			break;
-		case 2:
-			if (nullptr == Stage2.DoorPtr)
-			{
-				MsgBoxAssert("액터를 불러오지 못했습니다.");
-				return;
-			}
-			if (nullptr == Stage2.FlagPtr)
-			{
-				MsgBoxAssert("액터를 불러오지 못했습니다.");
-				return;
-			}
-
-			Stage2.DoorPtr->IsDoorClear = true;
-			Stage2.IsStageClear = true;
-			Stage2.FlagPtr->On();
-			break;
-		default:
-			break;
-		}
-
-		ObejctDisapearingEffect* ObejctDisapearingEffectPtr = CreateActor<ObejctDisapearingEffect>(UpdateOrder::UI);
-		if (nullptr == ObejctDisapearingEffectPtr)
-		{
-			MsgBoxAssert("액터를 생성하지 못했습니다.");
-			return;
-		}
-
-		ObejctDisapearingEffectPtr->init(Stage1.StageLocation + float4{ 0.0f, -StageDoorSize.Half().Y});
-	}
-
-}
-
-
-
-
 void VegetableValleyHub::Render(float _Delta)
 {
-	if (false == Level_DebugRenderIsOn)
-	{
-		return;
-	}
-
-
-	HDC dc = GameEngineWindow::MainWindow.GetBackBuffer()->GetImageDC();
-
-	GameEngineCamera* MainCameraPtr = GetMainCamera();
-	if (nullptr == MainCameraPtr)
-	{
-		MsgBoxAssert("카메라를 불러오지 못했습니다.");
-		return;
-	}
-
-
-	{
-		UpdateTime += _Delta;
-
-
-		std::string Text = "";
-		Text += "프레임 : ";
-		if (UpdateTime >= 1.0f)
-		{
-			UpdateTime = 0.0f;
-
-			FPSText = 1.0f / _Delta;
-		}
-		Text += std::to_string(FPSText);
-		TextOutA(dc, 2, 3, Text.c_str(), static_cast<int>(Text.size()));
-	}
+	DebugRender(_Delta);
 }
+
+
 
 
 void VegetableValleyHub::LevelStart(GameEngineLevel* _PrevLevel)
@@ -568,6 +525,25 @@ void VegetableValleyHub::LevelStart(GameEngineLevel* _PrevLevel)
 	// Kirby Set Bitmap Resource
 	LevelPlayer->SetGroundTexture(BitMapFileName);
 
+
+	// 초기 카메라 위치 지정
+	if (-1 == VegetableValleyEntertheDoorNumber)
+	{
+		GameEngineCamera * MainCameraPtr = GetMainCamera();
+		if (nullptr == MainCameraPtr)
+		{
+			MsgBoxAssert("카메라를 불러오지 못했습니다.");
+			return;
+		}
+
+		float4 WinScale = GameEngineWindow::MainWindow.GetScale();
+		float4 KirbyPos = Stage1.StageLocation;
+		float4 HUB_UIScale = LevelUIManager->UIScale;
+
+		float4 CameraPos = float4{ KirbyPos.X - WinScale.Half().Half().X , KirbyPos.Y - (WinScale - HUB_UIScale).Y * 0.8f };
+
+		MainCameraPtr->SetPos(CameraPos);
+	}
 
 
 	// Kirby come out last Stage
@@ -651,27 +627,6 @@ void VegetableValleyHub::LevelStart(GameEngineLevel* _PrevLevel)
 	default:
 		break;
 	}
-
-
-
-
-	// 카메라 위치 지정
-	GameEngineCamera* MainCameraPtr = GetMainCamera();
-	if (nullptr == MainCameraPtr)
-	{
-		MsgBoxAssert("카메라를 불러오지 못했습니다.");
-		return;
-	}
-
-
-	float4 WinScale = GameEngineWindow::MainWindow.GetScale();
-	float4 KirbyPos = LevelPlayer->GetPos();
-	float4 HUB_UIScale = LevelUIManager->UIScale;
-
-	float4 CameraPos = float4{ KirbyPos.X - WinScale.Half().Half().X , KirbyPos.Y - (WinScale - HUB_UIScale).Y * 0.8f};
-	MainCameraPtr->SetPos(CameraPos);
-
-
 
 
 

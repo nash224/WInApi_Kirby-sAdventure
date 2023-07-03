@@ -1,10 +1,11 @@
 #include "GameEffect.h"
 #include "ContentsEnum.h"
 
-#include <GameEngineCore/ResourcesManager.h>
+#include <GameEngineCore/GameEngineRenderer.h>
 #include <GameEngineCore/GameEngineSprite.h>
 
 #include "GlobalContents.h"
+#include "VegetableValleyPlayLevel.h"
 
 
 GameEffect::GameEffect()
@@ -24,4 +25,17 @@ void GameEffect::LoadBackGroundEffect(const std::string& _FileName, const std::s
 void GameEffect::Update(float _Delta)
 {
 
+}
+
+
+void GameEffect::SwitchEffect()
+{
+	if (true == VegetableValleyPlayLevel::Level_SwitchBitMapRenderValue)
+	{
+		Off();
+	}
+	else
+	{
+		On();
+	}
 }

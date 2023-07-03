@@ -73,6 +73,7 @@ void EnergeDrink::Start()
 		return;
 	}
 
+	BodyCollision->SetCollisionPos(float4{ 0.0f , -Scale.Half().Y });
 	BodyCollision->SetCollisionScale(float4{ 24.0f , 48.0f });
 	BodyCollision->SetCollisionType(CollisionType::Rect);
 }

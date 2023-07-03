@@ -20,11 +20,13 @@ public:
 
 protected:
 
+	// Level
 private:
-	GameEngineRenderer* EffectRenderer = nullptr;
-	std::string FileName = "";
-
 	void Update(float _Delta) override;
 
+
+	// this
+public:
+	void SwitchEffect();
 };
 

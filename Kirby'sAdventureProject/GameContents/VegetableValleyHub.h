@@ -21,16 +21,20 @@ public:
 
 protected:
 
+	// Level override
 private:
-	class BillboardsObject* VegetableValley_Billboard = nullptr;
+	void Start() override;
+	void Update(float _Delta) override;
+	void Render(float _Delta) override;
+
+	void LevelStart(GameEngineLevel* _PrevLevel) override;
+	void LevelEnd(GameEngineLevel* _NextLevel) override;
 
 
 
-
+	// this
+private:
 	// Stage 관련
-	const float4 StageDoorSize = float4{ 48.0f , 48.0f };
-
-
 	bool IsRequestDoorOpen = false;
 	bool AreYouJustEnterScene = true;
 	int VegetableValleyEntertheDoorNumber = -1;
@@ -43,6 +47,7 @@ private:
 	void Kirby_StageClear();
 
 
+private:
 	class StageElemnet
 	{
 	public:
@@ -58,18 +63,11 @@ private:
 	StageElemnet Stage2;
 	StageElemnet Museum;
 
+	class BillboardsObject* VegetableValley_Billboard = nullptr;
+	const float4 StageDoorSize = float4{ 48.0f , 48.0f };
 
 
 
-private:
-	void Start() override;
-	void Update(float _Delta) override;
-	void Render(float _Delta) override;
 
-	void LevelStart(GameEngineLevel* _PrevLevel) override;
-	void LevelEnd(GameEngineLevel* _NextLevel) override;
-
-	// 외부
-private:
 };
 

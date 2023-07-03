@@ -44,7 +44,6 @@ void BeamEffect::SetActorCollision(CollisionOrder _Order, CollisionType _Type, c
 {
 	BeamOrder = _Order;
 	BeamType = _Type;
-
 }
 
 
@@ -114,7 +113,7 @@ void BeamEffect::Update(float _Delta)
 
 				BeamUnitEffectPtr->init("Resources\\Effect\\SkillEffect", "BeamEffect_1x1_8x8.bmp", EffectPos);
 				BeamUnitEffectPtr->SetExpressionTime(BEAMEFFECTTIME);
-				BeamUnitEffectPtr->SetActorCollision(BeamOrder, BeamType);
+				BeamUnitEffectPtr->SetActorCollision(BeamOrder, BeamType, float4{ 16.0f , 16.0f });
 
 
 				// 사운드 재생
@@ -134,7 +133,7 @@ void BeamEffect::Update(float _Delta)
 
 				BeamUnitEffectPtr->init("Resources\\Effect\\SkillEffect", "BeamEffect_1x1_8x8.bmp", EffectPos);
 				BeamUnitEffectPtr->SetExpressionTime(BEAMEFFECTTIME);
-				BeamUnitEffectPtr->SetActorCollision(BeamOrder, BeamType);
+				BeamUnitEffectPtr->SetActorCollision(BeamOrder, BeamType, float4{ 16.0f , 16.0f });
 			}
 		}
 
@@ -149,7 +148,7 @@ void BeamEffect::Update(float _Delta)
 			}
 			BeamUnitEffectPtr->init("Resources\\Effect\\SkillEffect", "BeamEffect_1x1_8x8.bmp", EffectPos);
 			BeamUnitEffectPtr->SetExpressionTime(BEAMEFFECTTIME);
-			BeamUnitEffectPtr->SetActorCollision(BeamOrder, BeamType);
+			BeamUnitEffectPtr->SetActorCollision(BeamOrder, BeamType, float4{ 16.0f , 16.0f });
 
 
 			// 사운드 재생

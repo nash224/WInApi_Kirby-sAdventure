@@ -47,7 +47,14 @@ void VegetableValleyIntro::Start()
 
 	// 사운드 로드
 	GlobalContents::SoundFileLoad("03_Plains_Level.mp3", "Resources\\SoundResources\\SoundTrack");
+
+
+	// 디버그
+	ItUseDebugBitMap = false;
 }
+
+
+
 
 void VegetableValleyIntro::Update(float _Delta)
 {
@@ -55,6 +62,8 @@ void VegetableValleyIntro::Update(float _Delta)
 	{
 		return;
 	}
+
+	LevelDebugShortcut(_Delta);
 
 
 

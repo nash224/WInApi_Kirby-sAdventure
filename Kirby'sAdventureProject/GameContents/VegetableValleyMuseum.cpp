@@ -94,6 +94,7 @@ void VegetableValleyMuseum::Update(float _Delta)
 		return;
 	}
 
+	LevelDebugShortcut(_Delta);
 
 
 	PlayerEnterNextLevel();
@@ -112,7 +113,7 @@ void VegetableValleyMuseum::Update(float _Delta)
 
 	if (true == GameEngineInput::IsDown('Y'))
 	{
-		Level_DebugRenderIsOn = !Level_DebugRenderIsOn;
+		Level_DebugRenderValue = !Level_DebugRenderValue;
 	}
 }
 
@@ -149,30 +150,7 @@ void VegetableValleyMuseum::PlayerEnterNextLevel()
 
 void VegetableValleyMuseum::Render(float _Delta)
 {
-	if (false == Level_DebugRenderIsOn)
-	{
-		return;
-	}
-
-
-	HDC dc = GameEngineWindow::MainWindow.GetBackBuffer()->GetImageDC();
-
-
-	{
-		UpdateTime += _Delta;
-
-
-		std::string Text = "";
-		Text += "ÇÁ·¹ÀÓ : ";
-		if (UpdateTime >= 1.0f)
-		{
-			UpdateTime = 0.0f;
-
-			FPSText = 1.0f / _Delta;
-		}
-		Text += std::to_string(FPSText);
-		TextOutA(dc, 2, 3, Text.c_str(), static_cast<int>(Text.size()));
-	}
+	DebugRender(_Delta);
 }
 
 

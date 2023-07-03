@@ -1,6 +1,8 @@
 #include "VegetableValleyPlayLevel.h"
 #include "ContentsEnum.h"
 
+
+#include <GameEnginePlatform/GameEngineInput.h>
 #include <GameEnginePlatform/GameEngineWindow.h>
 #include <GameEnginePlatform/GameEngineSound.h>
 #include <GameEngineCore/GameEngineRenderer.h>
@@ -22,18 +24,21 @@ bool VegetableValleyPlayLevel::IsFadeDone = false;
 bool VegetableValleyPlayLevel::IsChangeLevel = false;;
 bool VegetableValleyPlayLevel::ChangeClearDoor = false;
 
+
+float VegetableValleyPlayLevel::SoundVol = 0.0f;
 GameEngineSoundPlayer VegetableValleyPlayLevel::BGM_Player;
 bool VegetableValleyPlayLevel::IsBGM_On = false;
-float VegetableValleyPlayLevel::BGMSoundVolume = 0.0f;
+
 
 int VegetableValleyPlayLevel::Camera_ShakeCount = 0;
 float VegetableValleyPlayLevel::Camera_ShakeMagnitude = 3.0f;
 
 
+bool VegetableValleyPlayLevel::Level_MenuOpenValue = false;
+bool VegetableValleyPlayLevel::Level_SwitchBitMapRenderValue = false;
+bool VegetableValleyPlayLevel::Level_DebugRenderValue = false;
+int VegetableValleyPlayLevel::Level_DebugRenderXPos = 0;
 float VegetableValleyPlayLevel::UpdateTime = 0.0f;
-bool VegetableValleyPlayLevel::Level_DebugRenderIsOn = false;
-
-
 
 
 VegetableValleyPlayLevel::VegetableValleyPlayLevel() 
@@ -248,3 +253,277 @@ void VegetableValleyPlayLevel::CameraFocus(float _Delta)
 
 	CameraPtr->AddPos(CameraMovePos);
 }
+
+
+
+
+void VegetableValleyPlayLevel::LevelDebugShortcut(float _Delta)
+{
+	// 디버그 렌더링 전환키
+	if (true == GameEngineInput::IsDown(VK_F1))
+	{
+		if (false == Level_DebugRenderValue && false == Level_SwitchBitMapRenderValue)
+		{
+			Level_MenuOpenValue = !Level_MenuOpenValue;
+		}
+
+		if (false == Level_MenuOpenValue)
+		{
+			Level_DebugRenderValue = false;
+			Level_SwitchBitMapRenderValue = false;
+		}
+	}
+
+	if (true == Level_MenuOpenValue)
+	{
+		// 디버그 렌더링 전환키
+		if (true == GameEngineInput::IsDown(VK_F2))
+		{
+			Level_DebugRenderValue = !Level_DebugRenderValue;
+			Level_SwitchBitMapRenderValue = false;
+		}
+
+
+		// 비트맵
+		if (true == GameEngineInput::IsDown(VK_F3))
+		{
+			Level_SwitchBitMapRenderValue = !Level_SwitchBitMapRenderValue;
+			Level_DebugRenderValue = false;
+		}
+
+		// 충돌
+		if (true == GameEngineInput::IsDown(VK_F4))
+		{
+			CollisionDebugRenderSwitch();
+		}
+
+
+		if (true == ItUseDebugBitMap)
+		{
+			if (nullptr == LevelBackGround)
+			{
+				MsgBoxAssert("액터를 불러오지 못했습니다.");
+				return;
+			}
+
+			LevelBackGround->SwitchRender();
+		}
+
+		if (nullptr != LevelEffect)
+		{
+			LevelEffect->SwitchEffect();
+		}
+	}
+
+	// 카메라 Shake
+	if (true == GameEngineInput::IsDown('2'))
+	{
+		++Camera_ShakeCount;
+	}
+
+
+	// Volume 조절
+	SoundVolPressKeyTime += _Delta;
+
+	if (SoundVolPressKeyTime > SoundVol_KeyDownCycle)
+	{
+		if (true == GameEngineInput::IsPress(VK_OEM_6))
+		{
+			if (SoundVol < MAX_VOLUME_AMOUNT)
+			{
+				SoundVol += SoundVol_OneTime_AmountOfChange;
+
+				if (SoundVol > 1.0f)
+				{
+					SoundVol = 1.0f;
+				}
+			}
+
+			BGM_Player.SetVolume(SoundVol);
+
+			SoundVolPressKeyTime = 0.0f;
+		}
+		else if (true == GameEngineInput::IsPress(VK_OEM_4))
+		{
+			if (SoundVol > 0.0f)
+			{
+				SoundVol -= SoundVol_OneTime_AmountOfChange;
+
+				if (SoundVol < 0.0f)
+				{
+					SoundVol = 0.0f;
+				}
+			}
+
+			BGM_Player.SetVolume(SoundVol);
+
+			SoundVolPressKeyTime = 0.0f;
+		}
+	}
+
+
+}
+
+
+
+void VegetableValleyPlayLevel::DebugRender(float _Delta)
+{
+	if (false == Level_MenuOpenValue)
+	{
+		return;
+	}
+
+	HDC dc = GameEngineWindow::MainWindow.GetBackBuffer()->GetImageDC();
+	int TextRenderNum = 0;
+
+	if (false == Level_DebugRenderValue && false == Level_SwitchBitMapRenderValue)
+	{
+		OpenMenuRender(dc, TextRenderNum);
+		return;
+	}
+	else if (true == Level_DebugRenderValue)
+	{
+		DevModeRender(dc, TextRenderNum, _Delta);
+		return;
+	}
+	else if (true == Level_SwitchBitMapRenderValue)
+	{
+		ColAndBitMapRender(dc, TextRenderNum);
+		return;
+	}
+}
+
+
+
+void VegetableValleyPlayLevel::OpenMenuRender(HDC _HDC, int& _RenderNumber)
+{
+	if (nullptr == _HDC)
+	{
+		MsgBoxAssert("핸들을 불러오지 못했습니다.");
+		return;
+	}
+
+
+	{
+		std::string Text = "";
+		Text += "F2 : 개발자 모드";
+		TextOutA(_HDC, Level_DebugRenderXPos, 2 + _RenderNumber * DebugRenderText_YInter, Text.c_str(), static_cast<int>(Text.size()));
+
+		++_RenderNumber;
+	}
+
+	{
+		std::string Text = "";
+		Text += "F3 : 비트맵 전환";
+		TextOutA(_HDC, Level_DebugRenderXPos, 2 + _RenderNumber * DebugRenderText_YInter, Text.c_str(), static_cast<int>(Text.size()));
+
+		++_RenderNumber;
+	}
+
+	{
+		std::string Text = "";
+		Text += "F4 : 충돌 렌더 전환";
+		TextOutA(_HDC, Level_DebugRenderXPos, 2 + _RenderNumber * DebugRenderText_YInter, Text.c_str(), static_cast<int>(Text.size()));
+
+		++_RenderNumber;
+	}
+}
+
+
+void VegetableValleyPlayLevel::DevModeRender(HDC _HDC, int& _RenderNumber, float _Delta)
+{
+	{
+		std::string Text = " F2 : 뒤로 가기";
+		TextOutA(_HDC, Level_DebugRenderXPos, 2 + _RenderNumber * DebugRenderText_YInter, Text.c_str(), static_cast<int>(Text.size()));
+
+		++_RenderNumber;
+	}
+
+
+
+	{
+		std::string Text = "";
+		Text += "프레임 : ";
+
+		UpdateTime += _Delta;
+		if (UpdateTime >= 1.0f)
+		{
+			UpdateTime = 0.0f;
+
+			FPSText = 1.0f / _Delta;
+		}
+		Text += std::to_string(static_cast<int>(FPSText));
+		TextOutA(_HDC, Level_DebugRenderXPos, 2 + _RenderNumber * DebugRenderText_YInter, Text.c_str(), static_cast<int>(Text.size()));
+
+		++_RenderNumber;
+	}
+
+
+
+	GameEngineCamera* MainCameraPtr = GetMainCamera();
+	if (nullptr == MainCameraPtr)
+	{
+		MsgBoxAssert("카메라를 불러오지 못했습니다.");
+		return;
+	}
+
+	float4 CameraPos = MainCameraPtr->GetPos();
+
+
+
+	{
+		std::string Text = "";
+		Text += "카메라 X Pos : ";
+
+		Text += std::to_string(CameraPos.iX());
+		TextOutA(_HDC, Level_DebugRenderXPos, 2 + _RenderNumber * DebugRenderText_YInter, Text.c_str(), static_cast<int>(Text.size()));
+
+		++_RenderNumber;
+	}
+
+
+	{
+		std::string Text = "";
+		Text += "카메라 Y Pos : ";
+
+		Text += std::to_string(CameraPos.iY());
+		TextOutA(_HDC, Level_DebugRenderXPos, 2 + _RenderNumber * DebugRenderText_YInter, Text.c_str(), static_cast<int>(Text.size()));
+
+		++_RenderNumber;
+	}
+
+
+	{
+		std::string Text = "";
+		Text += "사운드 볼륨 : ";
+
+		Text += std::to_string(SoundVol);
+		TextOutA(_HDC, Level_DebugRenderXPos, 2 + _RenderNumber * DebugRenderText_YInter, Text.c_str(), static_cast<int>(Text.size()));
+
+		++_RenderNumber;
+	}
+
+
+}
+
+
+void VegetableValleyPlayLevel::ColAndBitMapRender(HDC _HDC, int& _RenderNumber)
+{
+	{
+		std::string Text = "F3 : 뒤로가기";
+		TextOutA(_HDC, Level_DebugRenderXPos, 2 + _RenderNumber * DebugRenderText_YInter, Text.c_str(), static_cast<int>(Text.size()));
+
+		++_RenderNumber;
+	}
+
+
+	{
+		std::string Text = "";
+		Text += "F4 : 충돌 렌더 전환";
+		TextOutA(_HDC, Level_DebugRenderXPos, 2 + _RenderNumber * DebugRenderText_YInter, Text.c_str(), static_cast<int>(Text.size()));
+
+		++_RenderNumber;
+	}
+}
+
+

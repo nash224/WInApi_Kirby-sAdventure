@@ -7,6 +7,10 @@
 #include "Enemy.h"
 #include <vector>
 
+
+// 사운드 볼륨 최대
+#define MAX_VOLUME_AMOUNT 1.0f
+
 // 페이드 아웃 지속시간
 #define FADEOUT_ENDTIME 0.2f
 // 커비 Enter 시간
@@ -32,21 +36,11 @@ public:
 
 
 
-	// 사운드
-	static GameEngineSoundPlayer BGM_Player;
-	static float BGMSoundVolume;
-	static bool IsBGM_On;
-
-
-
-
-	// 디버그
-public:
-	static bool Level_DebugRenderIsOn;
-
 protected:
-	static float UpdateTime;
-	float FPSText = 0.0f;
+	// Level 이동
+	bool IsPrevLeveling = false;
+	bool IsNextLeveling = false;
+
 
 
 
@@ -94,17 +88,12 @@ public:
 
 
 
+
+	// this
 protected:
+	// BackGround
 	BackGround* LevelBackGround = nullptr;
-	class GameEffect* LevelEffect = nullptr;
-	class UIManager* LevelUIManager = nullptr;
-	class Kirby* LevelPlayer = nullptr;
-	class Boss* LevelBoss = nullptr;
-
-
-
 	std::string BitMapFileName = "";
-
 	float4 BackGroundScale = float4::ZERO;
 
 	void SetLevelBackgroundScale(const float4& _Scale)
@@ -114,12 +103,8 @@ protected:
 
 
 
-
-	std::vector<Enemy*> LevelEnemy;
-
-	virtual void EnemySummon() {}
-	void SetPlayerPosAndCameraPos(const float4& _PlayerPos, const float4& _CameraPos);
-	void CheckRespawnEnemy();
+	// Map Effect
+	class GameEffect* LevelEffect = nullptr;
 
 	void CreateAndSetupBackgroundEffectRenderer(
 		const std::string& _AnimationName,
@@ -130,19 +115,53 @@ protected:
 
 
 
+	// UI
+	class UIManager* LevelUIManager = nullptr;
 
 
 
-	// 카메라
-	float4 CameraFrontCheckPos = float4::ZERO;
-	float4 CameraBackCheckPos = float4::ZERO;
+	// Unit
+public:
+	// Player
+	float4 Kirby_RespawnPos = float4::ZERO;
+
+protected:
+	class Kirby* LevelPlayer = nullptr;
 
 
 
-	void CameraFocus(float _Delta);
+	// Enemy
+	std::vector<Enemy*> LevelEnemy;
+	class Boss* LevelBoss = nullptr;
+
+	virtual void EnemySummon() {}
 
 
-	// 카메라 지진
+
+	// Enemy::Respawn
+	void SetPlayerPosAndCameraPos(const float4& _PlayerPos, const float4& _CameraPos);
+	void CheckRespawnEnemy();
+
+
+
+	// BGM
+public:
+	static GameEngineSoundPlayer BGM_Player;
+	static float SoundVol;
+	static bool IsBGM_On;
+	std::string LevelBgmFileName = "";
+
+private:
+	float SoundVolPressKeyTime = 0.0f;
+	const float SoundVol_OneTime_AmountOfChange = 0.05f;
+	const float SoundVol_KeyDownCycle = 0.2f;
+
+	void RePlayBGM();
+
+
+
+
+	// Camera
 public:
 	static int Camera_ShakeCount;
 
@@ -159,6 +178,14 @@ public:
 		Camera_ShakeMagnitude = _Value;
 	}
 
+protected:
+	float4 CameraFrontCheckPos = float4::ZERO;
+	float4 CameraBackCheckPos = float4::ZERO;
+
+
+	void CameraFocus(float _Delta);
+
+
 private:
 	static float Camera_ShakeMagnitude;
 	int Camera_ShakeNumber = 0;
@@ -167,23 +194,29 @@ private:
 	float Camera_ShakeTime = 0.0f;
 
 
+
+	// 디버그
 public:
-	// Kirby Repsawn
-	float4 Kirby_RespawnPos = float4::ZERO;
+	static bool Level_MenuOpenValue;
+	static bool Level_SwitchBitMapRenderValue;
+	static bool Level_DebugRenderValue;
+	bool ItUseDebugBitMap = true;
 
-	std::string LevelBgmFileName = "";
-
-
-	
-
-
-	// BGM
-	void RePlayBGM();
+	void DebugRender(float _Delta);
+	void OpenMenuRender(HDC _HDC, int& _RenderNumber);
+	void DevModeRender(HDC _HDC, int& _RenderNumber, float _Delta);
+	void ColAndBitMapRender(HDC _HDC, int& _RenderNumber);
 
 
 protected:
-	// Level 이동
-	bool IsPrevLeveling = false;
-	bool IsNextLeveling = false;
+	static int Level_DebugRenderXPos;
+	int DebugRenderText_YInter = 18;
+	float FPSText = 0.0f;
+	static float UpdateTime;
+
+	void LevelDebugShortcut(float _Delta);
+
+
+
 };
 

@@ -40,6 +40,9 @@ void SubScreens::Start()
 
 	// Player가 LevelStart 할 때 터짐을 방지
 	SetName("BonusGame");
+
+
+	ItUseDebugBitMap = false;
 }
 
 
@@ -86,7 +89,7 @@ void SubScreens::Update(float _Delta)
 
 void SubScreens::Render(float _Delta)
 {
-	if (false == Level_DebugRenderIsOn)
+	if (false == Level_DebugRenderValue)
 	{
 		return;
 	}
