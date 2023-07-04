@@ -445,7 +445,7 @@ void WhispyWood::FrownUpdate(float _Delta)
 		IsImmune = false;
 		BodyCollision->On();
 
-		if (WhispyWoodState::Whispy == PrevState)
+		if (WhispyWoodState::Whispy == PrevState && 0 != Whispy_RemainCount)
 		{
 			ChangeState(WhispyWoodState::Whispy);
 		}
@@ -468,7 +468,7 @@ void WhispyWood::KaonashiStart()
 	GameEngineTime::MainTimer.SetTimeScale(UpdateOrder::Ability, 0.0f);
 
 
-	VegetableValleyPlayLevel::RequestShakeCountToLevel(4);
+	VegetableValleyPlayLevel::RequestShakeCountToLevel(6);
 	VegetableValleyPlayLevel::RequestShakeMagnitudeToLevel(6.0f);
 
 

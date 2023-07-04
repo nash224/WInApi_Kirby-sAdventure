@@ -133,17 +133,6 @@ void VegetableValleyPlayLevel::CameraFocus(float _Delta)
 	float4 CurrentUIScale = LevelUIManager->UIScale;
 
 
-
-	if (nullptr == LevelBackGround)
-	{
-		MsgBoxAssert("배경화면을 불러오지 못했습니다.");
-		return;
-	}
-
-	LevelBackGround->BackGroundScale;
-
-
-
 	if (nullptr == LevelPlayer)
 	{
 		MsgBoxAssert("플레이어를 불러오지 못했습니다.");
@@ -199,6 +188,10 @@ void VegetableValleyPlayLevel::CameraFocus(float _Delta)
 	}
 
 
+
+
+
+
 	// 지진로직
 	if (Camera_ShakeCount >= 1)
 	{
@@ -252,6 +245,32 @@ void VegetableValleyPlayLevel::CameraFocus(float _Delta)
 
 
 	CameraPtr->AddPos(CameraMovePos);
+
+
+
+	// 카메라가 맵 밖으로 절때 못나가게 함
+	if (0 == Camera_ShakeCount)
+	{
+		float4 BoundaryCameraPos = float4::ZERO;
+
+		if (CameraFrontCheckPos.X < 0.0f)
+		{
+			CameraPtr->SetPos(float4{ 0.0f , CameraPos.Y });
+		}
+		if (CameraFrontCheckPos.Y < 0.0f)
+		{
+			CameraPtr->SetPos(float4{ CameraPos.X , 0.0f });
+		}
+
+		if (CameraBackCheckPos.X > BackGroundScale.X)
+		{
+			CameraPtr->SetPos(float4{ BackGroundScale.X - WinScale.X , CameraPos.Y });
+		}
+		if (CameraPos.Y + WinScale.Y > BackGroundScale.Y + CurrentUIScale.Y)
+		{
+			CameraPtr->SetPos(float4{ CameraPos.X  , BackGroundScale.Y - WinScale.Y + CurrentUIScale.Y });
+		}
+	}
 }
 
 

@@ -26,7 +26,7 @@ void TitleLevel::Start()
 {
 	// 사운드 초기 설정
 	GameEngineSound::SetGlobalVolume(0.5f);
-	SoundVol = 1.0f;
+	SoundVol = GameEngineSound::GetGlobalVolume();
 
 
 	// 배경
