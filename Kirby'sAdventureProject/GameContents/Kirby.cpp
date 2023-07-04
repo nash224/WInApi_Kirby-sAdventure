@@ -228,6 +228,9 @@ void Kirby::Start()
 // 레벨에서 ActorUpdate()->Update
 void Kirby::Update(float _Delta)
 {
+	KirbysDebugShortcut(_Delta);
+
+
 	// 면역 함수
 	ImmuneFunc(_Delta);
 
@@ -249,7 +252,6 @@ void Kirby::Update(float _Delta)
 	// 이동한 거리
 	KirbyMovePos = GetPos() - PrevKirbyMovePos;
 
-	KirbysDebugShortcut(_Delta);
 }
 
 

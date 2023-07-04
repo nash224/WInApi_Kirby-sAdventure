@@ -185,21 +185,11 @@ void VegetableValleyHub::Update(float _Delta)
 	LevelDebugShortcut(_Delta);
 
 
-	if (true == GameEngineInput::IsDown('N'))
-	{
-		VegetableValleyEntertheDoorNumber = 1;
-		GameEngineCore::ChangeLevel("VegetableValley11");
-		return;
-	}
-
-
 	Kirby_StageClear();
 
 	VegetableValleyStage_1_Func();
 	VegetableValleyStage_2_Func();
 	VegetableValleyMuseum_Func();
-
-
 
 
 	if (true == NextLevelTriggerOn)

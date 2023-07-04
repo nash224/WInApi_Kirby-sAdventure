@@ -75,7 +75,11 @@ void VegetableValley13::Start()
 
 	// 리스폰 세팅
 	Kirby_RespawnPos = float4{ 370.0f, 200.0f };
+
+	// 디버깅 
+	NextLevelName = "VegetableValleyHub";
 }
+
 
 
 
@@ -88,31 +92,12 @@ void VegetableValley13::Update(float _Delta)
 
 	LevelDebugShortcut(_Delta);
 
-
-
-	if (true == GameEngineInput::IsDown('N'))
-	{
-		GameEngineCore::ChangeLevel("VegetableValleyHub");
-		return;
-	}
-
-
-
 	PlayerMissPrevLevel();
-
-
 
 
 	if (true == PrevLevelTriggerOn)
 	{
 		PrevLevelTriggerOn = false;
-	}
-
-
-
-	if (true == GameEngineInput::IsDown('M'))
-	{
-		LevelBackGround->SwitchRender();
 	}
 
 
@@ -201,6 +186,10 @@ void VegetableValley13::EndingCredit(float _Delta)
 		BGMFileName = "32_Crane_Fever_.mp3";
 	}
 }
+
+
+
+
 
 void VegetableValley13::PlayerMissPrevLevel()
 {

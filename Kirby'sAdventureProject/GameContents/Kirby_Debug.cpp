@@ -3,11 +3,19 @@
 
 #include <GameEnginePlatform/GameEngineInput.h>
 
+#include "VegetableValleyPlayLevel.h"
+
 
 
 
 void Kirby::KirbysDebugShortcut(float _Delta)
 {
+	if (false == VegetableValleyPlayLevel::Level_DebugRenderValue)
+	{
+		return;
+	}
+
+
 	// 치트 무적키
 	if (true == GameEngineInput::IsDown('1'))
 	{

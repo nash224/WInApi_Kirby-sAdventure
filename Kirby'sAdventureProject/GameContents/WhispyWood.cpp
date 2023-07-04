@@ -808,6 +808,13 @@ void WhispyWood::LevelEnd()
 
 void WhispyWood::DebugShortcut()
 {
+	if (false == VegetableValleyPlayLevel::Level_DebugRenderValue)
+	{
+		return;
+	}
+
+
+
 	if (true == GameEngineInput::IsDown('B'))
 	{
 		m_BossHp = 1;

@@ -213,11 +213,18 @@ protected:
 
 
 	static int Level_DebugRenderXPos;
-	int DebugRenderText_YInter = 18;
+	const int DebugRenderText_YInter = 18;
+
 	float FPSText = 0.0f;
 	static float UpdateTime;
 
+
+
+	std::string NextLevelName = "";
+	float4 KirbyShortCutPos = float4::ZERO;
+
 	void LevelDebugShortcut(float _Delta);
+
 
 
 

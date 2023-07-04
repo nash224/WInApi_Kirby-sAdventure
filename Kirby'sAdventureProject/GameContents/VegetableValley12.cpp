@@ -63,6 +63,12 @@ void VegetableValley12::Start()
 
 	// 리스폰 세팅
 	Kirby_RespawnPos = float4{ 83.0f, 384.0f };
+
+
+
+	// 디버그 세팅
+	NextLevelName = "VegetableValleyHub";
+	KirbyShortCutPos = float4{ 3457.0f , 383.0f };
 }
 
 
@@ -70,48 +76,9 @@ void VegetableValley12::Start()
 
 void VegetableValley12::Update(float _Delta)
 {
-	if (nullptr == LevelPlayer)
-	{
-		MsgBoxAssert("플레이어를 불러오지 못했습니다.");
-		return;
-	}
-
 	LevelDebugShortcut(_Delta);
 
 
-
-	if (true == GameEngineInput::IsDown('N'))
-	{
-		GameEngineCore::ChangeLevel("VegetableValleyHub");
-	}
-
-	if (true == GameEngineInput::IsDown('6'))
-	{
-		GameEngineCamera* MainCameraPtr = GetMainCamera();
-		if (nullptr == MainCameraPtr)
-		{
-			MsgBoxAssert("카메라가 NUll 입니다.");
-			return;
-		}
-
-		float4 WinScale = GameEngineWindow::MainWindow.GetScale();
-
-		LevelPlayer->SetPos(float4{ 3457.0f , 383.0f });
-		MainCameraPtr->SetPos(float4{ BackGroundScale.X - WinScale.X , 0.0f });
-	}
-
-
-	if (true == IsPlayerMiss)
-	{
-		GlobalContents::FadeOut(this);
-
-		IsPlayerMiss = false;
-	}
-
-
-
-
-	//PlayerMissPrevLevel();
 	PlayerEnterNextLevel();
 
 
@@ -123,13 +90,6 @@ void VegetableValley12::Update(float _Delta)
 	if (true == NextLevelTriggerOn)
 	{
 		NextLevelTriggerOn = false;
-	}
-
-
-
-	if (true == GameEngineInput::IsDown('M'))
-	{
-		LevelBackGround->SwitchRender();
 	}
 
 

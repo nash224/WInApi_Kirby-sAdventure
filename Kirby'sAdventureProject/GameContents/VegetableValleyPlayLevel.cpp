@@ -4,6 +4,7 @@
 
 #include <GameEnginePlatform/GameEngineInput.h>
 #include <GameEnginePlatform/GameEngineWindow.h>
+#include <GameEngineCore/GameEngineCore.h>
 #include <GameEnginePlatform/GameEngineSound.h>
 #include <GameEngineCore/GameEngineRenderer.h>
 #include <GameEngineCore/GameEngineCamera.h>
@@ -273,6 +274,14 @@ void VegetableValleyPlayLevel::CameraFocus(float _Delta)
 			CameraPtr->SetPos(float4{ CameraPos.X  , BackGroundScale.Y - WinScale.Y + CurrentUIScale.Y });
 		}
 	}
+
+
+
+	if (true == GameEngineInput::IsDown('N'))
+	{
+		NextLevelTriggerOn = false;
+		GameEngineCore::ChangeLevel("VegetableValley12");
+	}
 }
 
 
@@ -322,8 +331,49 @@ void VegetableValleyPlayLevel::LevelDebugShortcut(float _Delta)
 		SwitchRenders();
 	}
 
+
+
+	if (false == Level_DebugRenderValue)
+	{
+		return;
+	}
+
+
+
+	// 숏컷
+	if ("" != NextLevelName)
+	{
+		if (true == GameEngineInput::IsDown(VK_F6))
+		{
+			NextLevelTriggerOn = false;
+			GameEngineCore::ChangeLevel(NextLevelName);
+		}
+	}
+
+
+	if (float4::ZERO != KirbyShortCutPos)
+	{
+		if (true == GameEngineInput::IsDown(VK_F7))
+		{
+			GameEngineCamera* MainCameraPtr = GetMainCamera();
+			if (nullptr == MainCameraPtr)
+			{
+				MsgBoxAssert("카메라가 NUll 입니다.");
+				return;
+			}
+
+			float4 WinScale = GameEngineWindow::MainWindow.GetScale();
+
+			LevelPlayer->SetPos(KirbyShortCutPos);
+			MainCameraPtr->SetPos(float4{ BackGroundScale.X - WinScale.X , 0.0f });
+		}
+	}
+
+
+
+
 	// 카메라 Shake
-	if (true == GameEngineInput::IsDown(VK_F12))
+	if (true == GameEngineInput::IsDown(VK_F8))
 	{
 		++Camera_ShakeCount;
 	}
@@ -369,7 +419,6 @@ void VegetableValleyPlayLevel::LevelDebugShortcut(float _Delta)
 			SoundVolPressKeyTime = 0.0f;
 		}
 	}
-
 
 }
 
@@ -449,6 +498,7 @@ void VegetableValleyPlayLevel::OpenMenuRender(HDC _HDC, int& _RenderNumber)
 
 void VegetableValleyPlayLevel::DevModeRender(HDC _HDC, int& _RenderNumber, float _Delta)
 {
+
 	{
 		std::string Text = " F2 : 뒤로 가기";
 		TextOutA(_HDC, Level_DebugRenderXPos, 2 + _RenderNumber * DebugRenderText_YInter, Text.c_str(), static_cast<int>(Text.size()));
@@ -471,6 +521,41 @@ void VegetableValleyPlayLevel::DevModeRender(HDC _HDC, int& _RenderNumber, float
 
 		++_RenderNumber;
 	}
+
+
+
+	if ("" != NextLevelName)
+	{
+		std::string Text = "";
+		Text += "F6 : 다음 레벨로 이동";
+		TextOutA(_HDC, Level_DebugRenderXPos, 2 + _RenderNumber * DebugRenderText_YInter, Text.c_str(), static_cast<int>(Text.size()));
+
+		++_RenderNumber;
+	}
+
+
+
+	if (float4::ZERO != KirbyShortCutPos)
+	{
+		std::string Text = "";
+		Text += "F7 : 숏컷";
+		TextOutA(_HDC, Level_DebugRenderXPos, 2 + _RenderNumber * DebugRenderText_YInter, Text.c_str(), static_cast<int>(Text.size()));
+
+		++_RenderNumber;
+	}
+
+
+
+	{
+		std::string Text = "";
+		Text += "F8 : 지진 요청";
+		TextOutA(_HDC, Level_DebugRenderXPos, 2 + _RenderNumber * DebugRenderText_YInter, Text.c_str(), static_cast<int>(Text.size()));
+
+		++_RenderNumber;
+	}
+
+
+	++_RenderNumber;
 
 
 	{
