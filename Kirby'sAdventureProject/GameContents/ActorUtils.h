@@ -43,6 +43,7 @@ public:
 	ActorUtils& operator=(const ActorUtils& _Other) = delete;
 	ActorUtils& operator=(ActorUtils&& _Other) noexcept = delete;
 
+
 	// 커비 세계관 능력
 	AbilityStar Ability = AbilityStar::Max;
 
@@ -52,10 +53,6 @@ public:
 	bool IsInhaledStateOn = false;
 	bool IsHitted = false;
 
-
-
-	
-	
 
 
 	void GravityOn()
@@ -73,29 +70,30 @@ public:
 		Dir = _Dir;
 	}
 
-
-
 	void SetGroundTexture(const std::string& _GroundTextureName);
 
+
+
 protected:
+	bool IsChangeState = false;
+	float StateTime = 0.0f;
+
+
 	GameEngineCollision* BodyCollision = nullptr;
 	GameEngineRenderer* MainRenderer = nullptr;
 	class GameEngineWindowTexture* GroundTexture = nullptr;
 
 
-	bool IsChangeState = false;
-	float StateTime = 0.0f;
 
 
 
 	// 좌우 방향 값 반환 함수
-	float4 ActorDirUnitVector = float4::ZERO;
 	float4 GetDirUnitVector() const;
 
 
 
 
-	// 충돌 감지
+	// 비트맵 감지
 	float4 GroundLeftCheckPoint = float4::ZERO;
 	float4 GroundRightCheckPoint = float4::ZERO;
 	float4 WallBotLeftCheckPoint = float4::ZERO;
@@ -107,6 +105,8 @@ protected:
 
 	virtual void SetCheckPoint(const float4& _ScaleSize);
 
+
+	int GetGroundColor(unsigned int _DefaultColor = RGB(255, 255, 255), float4 _Pos = float4::ZERO);
 
 	void GroundCheck();
 	bool CeilingCheck();
@@ -125,21 +125,26 @@ protected:
 	bool IsSolidGround();
 	bool IsPassableGround();
 
-	int GetGroundColor(unsigned int _DefaultColor = RGB(255, 255, 255), float4 _Pos = float4::ZERO);
+	virtual void ActorCollisionDetectionPointRender();
+
 	bool GetGroundState() const
 	{
 		return isGround;
 	}
 
-	virtual void ActorCollisionDetectionPointRender();
+
+private:
+	bool isGround = false;
 
 
-	// 중력 함수
-	bool AbleJump = true;
-	float CurentVerticalSpeed = 0.0f;
-	float CurrentJumpDistance = 0.0f;
+	// 중력
+	bool IsGravity = true;
+	const float GravityPower = 800.0f;
+	const float GravityMaxVector = 450.0f;
+	float AirResistance = 1.0f;
+	float4 GravityVector = float4::ZERO;
 
-
+protected:
 	void Gravity(float _Delta);
 	void ReverseGravity(float _Delta);
 	void GravityLimit(float _Delta);
@@ -175,22 +180,21 @@ protected:
 	}
 
 
-	// X축 이동 함수
+	// 점프 
+	bool AbleJump = true;
+	float CurrentJumpDistance = 0.0f;
+
+
+	// Y축 이동 함수
+	float CurentVerticalSpeed = 0.0f;
+
 	void VerticalDecelerationUpdate(float _Speed, float _Delta);
 	void VerticalSpeedLimitBasedlevitation(float _Speed);
 	void VerticalUpdateBasedlevitation(float _Delta);
 
 
 
-private:
 
-	// 중력에 관한 함수
-	bool isGround = false;
-	bool IsGravity = true;
-	float GravityPower = 800.0f;
-	float4 GravityVector = float4::ZERO;
-	const float GravityMaxVector = 450.0f;
-	float AirResistance = 1.0f;
 
 };
 

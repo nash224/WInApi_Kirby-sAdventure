@@ -67,7 +67,6 @@ public:
 
 
 
-	// this
 protected:
 	// BackGround
 	BackGround* LevelBackGround = nullptr;

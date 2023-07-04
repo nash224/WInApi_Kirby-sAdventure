@@ -35,11 +35,25 @@ void BackGround::Start()
 	DebugRenderer->Off();
 }
 
+
+
 void BackGround::init(const std::string& _FileName, const std::string& _Path)
 {
 	GameEngineWindowTexture* Texture = GlobalContents::TextureFileLoad(_FileName, _Path);
+	if (nullptr == Texture)
+	{
+		MsgBoxAssert("텍스처를 불러오지 못했습니다.");
+		return;
+	}
 
 	BackGroundScale = Texture->GetScale();
+
+	if (nullptr == Renderer)
+	{
+		MsgBoxAssert("렌더러를 불러오지 못했습니다.");
+		return;
+	}
+
 
 	Renderer->SetTexture(_FileName);
 	Renderer->SetCopyScale(BackGroundScale);
@@ -51,11 +65,32 @@ void BackGround::init(const std::string& _FileName, const std::string& _Path)
 
 GameEngineWindowTexture* BackGround::init(const std::string& _FileName, const std::string& _DebugFileName, const std::string& _Path)
 {
-	GlobalContents::TextureFileLoad(_FileName, _Path);
-	GlobalContents::TextureFileLoad(_DebugFileName, _Path);
+	static GameEngineWindowTexture* ReturnValue;
 
-	GameEngineWindowTexture* Texture = ResourcesManager::GetInst().FindTexture(_FileName);
+	GameEngineWindowTexture* Texture = GlobalContents::TextureFileLoad(_FileName, _Path);
+	GlobalContents::TextureFileLoad(_DebugFileName, _Path);
+	if (nullptr == Texture)
+	{
+		MsgBoxAssert("텍스처를 불러오지 못했습니다.");
+		return ReturnValue;
+	}
+
 	float4 Scale = Texture->GetScale();
+
+
+
+	if (nullptr == Renderer)
+	{
+		MsgBoxAssert("렌더러를 불러오지 못했습니다.");
+		return ReturnValue;
+	}
+
+	if (nullptr == DebugRenderer)
+	{
+		MsgBoxAssert("디버그 렌더러를 불러오지 못했습니다.");
+		return ReturnValue;
+	}
+
 
 	Renderer->SetTexture(_FileName);
 	Renderer->SetRenderScale(Scale);
@@ -69,12 +104,31 @@ GameEngineWindowTexture* BackGround::init(const std::string& _FileName, const st
 
 GameEngineRenderer* BackGround::SpriteInit(const std::string& _FileName, const std::string& _DebugFileName, const std::string& _Path, int _XCount, int _YCount)
 {
+	static GameEngineRenderer* ReturnValue;
+
 	GlobalContents::SpriteFileLoad(_FileName, _Path, _XCount, _YCount);
-	GlobalContents::TextureFileLoad(_DebugFileName, _Path);
-
-
-	GameEngineWindowTexture* Texture = ResourcesManager::GetInst().FindTexture(_DebugFileName);
+	GameEngineWindowTexture* Texture = GlobalContents::TextureFileLoad(_DebugFileName, _Path);
+	if (nullptr == Texture)
+	{
+		MsgBoxAssert("텍스처를 불러오지 못했습니다.");
+		return ReturnValue;
+	}
+	
 	float4 Scale = Texture->GetScale();
+
+
+	if (nullptr == Renderer)
+	{
+		MsgBoxAssert("렌더러를 불러오지 못했습니다.");
+		return ReturnValue;
+	}
+
+	if (nullptr == DebugRenderer)
+	{
+		MsgBoxAssert("디버그 렌더러를 불러오지 못했습니다.");
+		return ReturnValue;
+	}
+
 
 	Renderer->SetSprite(_FileName);
 	Renderer->SetRenderScale(Scale);
@@ -94,6 +148,9 @@ void BackGround::ExtraMapSet(const std::string& _FileName, const std::string& _P
 }
 
 
+
+
+/* ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ */
 
 
 void BackGround::Update(float _Delta)

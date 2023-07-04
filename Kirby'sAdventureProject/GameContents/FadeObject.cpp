@@ -131,7 +131,7 @@ void FadeObject::RequestFadeScreen(int _AlphaCount /*= 0*/)
 
 
 
-
+/* �ѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤ� */
 
 
 void FadeObject::Update(float _Delta)
@@ -301,6 +301,8 @@ void FadeObject::FadeScreen(float _Delta)
 
 
 
+
+/* �ѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤ� */
 
 
 void FadeObject::LevelEnd()

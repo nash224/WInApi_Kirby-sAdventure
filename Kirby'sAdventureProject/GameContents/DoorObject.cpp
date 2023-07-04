@@ -55,18 +55,19 @@ void DoorObject::init(const float4& _DoorPos)
 
 
 
+/* ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ */
+
 
 void DoorObject::Update(float _Delta)
 {
-	if (nullptr == MainRenderer)
-	{
-		MsgBoxAssert("렌더러가 Null 입니다.");
-		return;
-	}
-
-
 	if (true == IsDoorOpen)
 	{
+		if (nullptr == MainRenderer)
+		{
+			MsgBoxAssert("렌더러가 Null 입니다.");
+			return;
+		}
+
 		MainRenderer->ChangeAnimation("PlayDoor_Open");
 
 		IsDoorOpen = false;
@@ -74,6 +75,12 @@ void DoorObject::Update(float _Delta)
 
 	if (true == IsDoorIdle)
 	{
+		if (nullptr == MainRenderer)
+		{
+			MsgBoxAssert("렌더러가 Null 입니다.");
+			return;
+		}
+
 		MainRenderer->ChangeAnimation("PlayDoor_Idle");
 
 		IsDoorIdle = false;
@@ -81,6 +88,12 @@ void DoorObject::Update(float _Delta)
 
 	if (true == IsDoorClose)
 	{
+		if (nullptr == MainRenderer)
+		{
+			MsgBoxAssert("렌더러가 Null 입니다.");
+			return;
+		}
+
 		MainRenderer->ChangeAnimation("PlayDoor_Close");
 
 		IsDoorClose = false;
@@ -88,6 +101,12 @@ void DoorObject::Update(float _Delta)
 
 	if (true == IsDoorClear)
 	{
+		if (nullptr == MainRenderer)
+		{
+			MsgBoxAssert("렌더러가 Null 입니다.");
+			return;
+		}
+
 		MainRenderer->ChangeAnimation("PlayDoor_Clear");
 
 		IsDoorClear = false;
@@ -95,6 +114,12 @@ void DoorObject::Update(float _Delta)
 
 	if (true == IsDoorStar)
 	{
+		if (nullptr == MainRenderer)
+		{
+			MsgBoxAssert("렌더러가 Null 입니다.");
+			return;
+		}
+
 		MainRenderer->ChangeAnimation("PlayDoor_StarDoor");
 
 		IsDoorStar = false;
@@ -102,6 +127,12 @@ void DoorObject::Update(float _Delta)
 
 	if (true == IsDoorBlocked)
 	{
+		if (nullptr == MainRenderer)
+		{
+			MsgBoxAssert("렌더러가 Null 입니다.");
+			return;
+		}
+
 		MainRenderer->ChangeAnimation("PlayDoor_Blocked");
 
 		IsDoorBlocked = false;

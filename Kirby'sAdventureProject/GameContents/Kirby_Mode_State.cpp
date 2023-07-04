@@ -535,8 +535,10 @@ void Kirby::InhaleAbilityUpdate(float _Delta)
 				return;
 			}
 
-			KirbyBodyCollision->On();
-			//KirbySwalling = false;
+			if (false == Cheat_NoneBodyCollision)
+			{
+				KirbyBodyCollision->On();
+			}
 
 			InhaleSound.Stop();
 			ChangeState(KirbyState::Contain_Idle);
@@ -654,7 +656,11 @@ void Kirby::DropAbility()
 // 몸통 충돌검사 또는 외부에서 맞았을 경우 Damaged 상태
 void Kirby::CheckKirbyCollision()
 {
-	
+	if (true == Cheat_NoneBodyCollision)
+	{
+		return;
+	}
+
 	GameEngineCollision* KirbyBodyCollision = GetKirbyCollison();
 	if (nullptr == KirbyBodyCollision)
 	{
@@ -758,7 +764,7 @@ void Kirby::CheckKirbyCollision()
 	// 커비가 맞았을때 데미지 상태
 	if (true == IsHitted && false == ImmuneState)
 	{
-		if (true == Cheat_Invincibility)
+		if (true == Cheat_Invincibility || true == Cheat_NoneBodyCollision)
 		{
 			IsHitted = false;
 			return;

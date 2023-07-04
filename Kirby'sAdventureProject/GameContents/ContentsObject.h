@@ -1,7 +1,9 @@
 #pragma once
 #include <GameEngineCore/GameEngineActor.h>
 
-// 설명 : Stage 클리어한 증표입니다. 커비의 프라이드가 높아집니다.
+
+// 설명 : 클리어 판자를 띄우기 위한 클래스입니다. 
+// 원래는 단순히 텍스처를 띄울려고 했으나 사용되지 않아서 판자만 사용하고 있습니다.
 class ContentsObject : public GameEngineActor
 {
 	friend class VegetableValleyHub;
@@ -22,9 +24,11 @@ public:
 protected:
 
 private:
+	// GameEngineObject 상속
 	void Start() override;
-	void Update(float _Delta) override;
 
+
+	// 렌더
 	GameEngineRenderer* MainRenderer = nullptr;
 
 

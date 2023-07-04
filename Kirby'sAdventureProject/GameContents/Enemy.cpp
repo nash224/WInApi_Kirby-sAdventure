@@ -288,8 +288,6 @@ void Enemy::BeInhaledStart()
 
 	IsInhaledStateOn = false;
 	BodyCollision->Off();
-	ActorDirUnitVector = GetKirbyOpponentDistance();
-
 	MyInhaledStartPos = GetPos();
 
 
@@ -327,7 +325,7 @@ void Enemy::BeInhaledUpdate(float _Delta)
 	}
 
 
-	if (ActorDirUnitVector.X < 0.0f)
+	if (GetKirbyOpponentDistance().X < 0.0f)
 	{
 		InhaleXSpeed = InhaleTargetPosXDistance / InhaledTime * _Delta;
 		CurrentSpeed += InhaleXSpeed;
@@ -340,7 +338,7 @@ void Enemy::BeInhaledUpdate(float _Delta)
 			return;
 		}
 	}
-	else if (ActorDirUnitVector.X > 0.0f)
+	else if (GetKirbyOpponentDistance().X > 0.0f)
 	{
 		InhaleXSpeed = InhaleTargetPosXDistance / InhaledTime * _Delta;
 		CurrentSpeed += InhaleXSpeed;

@@ -15,15 +15,21 @@ public:
 	VegetableValleyIntro& operator=(const VegetableValleyIntro& _Other) = delete;
 	VegetableValleyIntro& operator=(VegetableValleyIntro&& _Other) noexcept = delete;
 
+
 protected:
-	void LevelStart(GameEngineLevel* _PrevLevel) override;
-	void LevelEnd(GameEngineLevel* _NextLevel) override;
 
 private:
-	class BackGround* LevelBackGround = nullptr;
-	class VegetableValleyCutScene* LevelScene = nullptr;
-
+	// GameEngineObject 상속
 	void Start() override;
 	void Update(float _Delta) override;
+
+
+	// GameEngineLevel 상속
+	void LevelStart(GameEngineLevel* _PrevLevel) override;
+
+
+	// this
+	class VegetableValleyCutScene* LevelScene = nullptr;
+
 };
 

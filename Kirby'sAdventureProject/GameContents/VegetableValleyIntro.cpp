@@ -1,5 +1,6 @@
 #include "VegetableValleyIntro.h"
 #include "ContentsEnum.h"
+#include "GlobalContents.h"
 
 
 #include <GameEnginePlatform/GameEngineInput.h>
@@ -7,10 +8,10 @@
 #include <GameEngineCore/GameEngineCore.h>
 
 
-#include "GlobalContents.h"
-#include "VegetableValleyCutScene.h"
-#include "FadeObject.h"
 #include "BackGround.h"
+#include "FadeObject.h"
+#include "VegetableValleyCutScene.h"
+
 
 
 VegetableValleyIntro::VegetableValleyIntro()
@@ -42,16 +43,14 @@ void VegetableValleyIntro::Start()
 		return;
 	}
 
-	
-
 
 	// ���� �ε�
 	GlobalContents::SoundFileLoad("03_Plains_Level.mp3", "Resources\\SoundResources\\SoundTrack");
-
-
 }
 
 
+
+/* �ѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤ� */
 
 
 void VegetableValleyIntro::Update(float _Delta)
@@ -98,6 +97,10 @@ void VegetableValleyIntro::Update(float _Delta)
 
 }
 
+
+/* �ѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤ� */
+
+
 void VegetableValleyIntro::LevelStart(GameEngineLevel* _PrevLevel)
 {
 	if (false == IsBGM_On)
@@ -111,5 +114,3 @@ void VegetableValleyIntro::LevelStart(GameEngineLevel* _PrevLevel)
 
 	GlobalContents::WhiteFadeIn(this);
 }
-
-void VegetableValleyIntro::LevelEnd(GameEngineLevel* _NextLevel) { }

@@ -4,10 +4,10 @@
 
 
 #include <GameEngineCore/GameEngineRenderer.h>
-#include <GameEngineCore/ResourcesManager.h>
 
 
 #include "VegetableValleyPlayLevel.h"
+
 
 
 BillboardsObject::BillboardsObject()
@@ -53,9 +53,8 @@ void BillboardsObject::Start()
 	StageBoss_BillBoard->FindAnimation("StageBoss_UnClear_Billboard")->Inters = { 3.0f , 0.09f, 0.08f, 0.07f };
 
 	StageBoss_BillBoard->ChangeAnimation("StageBoss_UnClear_Billboard");
-
-
 }
+
 
 
 void BillboardsObject::StageOneBillBoardinit(const float4& _StageOneBillBoardPos)
@@ -83,6 +82,8 @@ void BillboardsObject::StageBossBillBoardinit(const float4& _StageBossBillBoardP
 }
 
 
+
+/* �ѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤ� */
 
 
 void BillboardsObject::Update(float _Delta)

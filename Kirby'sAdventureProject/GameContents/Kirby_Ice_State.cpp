@@ -160,6 +160,10 @@ void Kirby::IceAbilityUpdate(float _Delta)
 	// X축 속도 업데이트
 	ContentsActor::DecelerationUpdate(_Delta, DECELERATIONSPEED);
 	HorizontalUpdate(_Delta);
+
+
+	// 데미지 상태 패턴
+	CheckKirbyCollision();
 }
 
 

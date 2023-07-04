@@ -9,9 +9,6 @@
 #include "VegetableValleyPlayLevel.h"
 
 
-
-
-
 ContentsObject::ContentsObject()
 {
 }
@@ -45,12 +42,3 @@ void ContentsObject::init(const float4& _PlankPos)
 {
 	SetPos(_PlankPos);
 }
-
-
-
-void ContentsObject::Update(float _Delta)
-{
-
-}
-
-

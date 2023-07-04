@@ -109,7 +109,7 @@ void Kirby::SwordAbilityStart()
 		SwordCollisionAdjustment = 40.0f;
 	}
 
-	SwordEffectCollision->SetCollisionPos(float4{ SwordCollisionAdjustment  ,  -SmallTypeScale.Half().Y});
+	SwordEffectCollision->SetCollisionPos(float4{ SwordCollisionAdjustment , -SmallTypeScale.Half().Y});
 	SwordEffectCollision->On();
 }
 
@@ -153,6 +153,11 @@ void Kirby::SwordAbilityUpdate(float _Delta)
 	int DamageValue = GameEngineRandom::MainRandom.RandomInt(2, 4);
 	CheckKirbyAbilityCollision(SwordEffectCollision, DamageValue);
 
+
+
+
+
+	MoveHorizontal(WALKSPEED, _Delta);
 
 
 	// ÁöÇü¶ô

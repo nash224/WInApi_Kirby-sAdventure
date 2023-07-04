@@ -16,6 +16,7 @@ ContentsActor::~ContentsActor()
 
 
 
+// 카메라 기준의 액터 위치
 float4 ContentsActor::ActorCameraPos()
 {
 	static float4 ReturnValue;
@@ -42,7 +43,7 @@ float4 ContentsActor::ActorCameraPos()
 
 
 
-
+// X축 감속
 void ContentsActor::DecelerationUpdate(float _Delta, float _Speed)
 {
 	if (CurrentSpeed < 0.0f)
@@ -65,6 +66,7 @@ void ContentsActor::DecelerationUpdate(float _Delta, float _Speed)
 	}
 }
 
+// X축 속도 제한
 void ContentsActor::HorizontalSpeedLimit(float _Speed)
 {
 	if ((CurrentSpeed > _Speed || CurrentSpeed < -_Speed))
@@ -81,6 +83,7 @@ void ContentsActor::HorizontalSpeedLimit(float _Speed)
 	}
 }
 
+// X축 속도 업데이트
 void ContentsActor::HorizontalUpdate(float _Delta)
 {
 	AddPos(float4{ CurrentSpeed * _Delta , 0.0f });

@@ -21,15 +21,19 @@ public:
 
 
 protected:
-	GameEngineRenderer* MainRenderer = nullptr;
 
 private:
-
+	// GameEngineObject »ó¼Ó
 	void Start() override;
 	void Update(float _Delta) override;
 
 
 private:
+	// ·»´õ
+	GameEngineRenderer* MainRenderer = nullptr;
+
+
+	// ¿äÃ»
 	bool IsDoorIdle = false;
 	bool IsDoorOpen = false;
 	bool IsDoorClose = false;
@@ -39,6 +43,7 @@ private:
 
 
 public:
+	// µð¹ö±ë ·»´õ ½ºÀ§Ä¡
 	void SwitchEffect();
 
 };

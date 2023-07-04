@@ -132,7 +132,6 @@ void Kirby::Normal_StateResourceLoad()
 	GlobalContents::SoundFileLoad("Miss.wav", "Resources\\SoundResources\\EffectVoice");
 
 	GlobalContents::SoundFileLoad("38_Miss.mp3", "Resources\\SoundResources\\SoundTrack");
-
 }
 
 // =============================================//
@@ -1508,7 +1507,6 @@ void Kirby::TakeOffStart()
 	KeepDamagedState = KirbyState::Fly;
 	ChangeKirbyBodyState(KirbyBodyState::Fat);
 	SetAirResistance(0.4f);
-
 
 
 	// 사운드 재생

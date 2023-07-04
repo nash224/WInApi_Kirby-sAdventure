@@ -238,8 +238,6 @@ void HotHead::FireBallStart()
 	IsChangeState = false;
 	WobbleCount = 0;
 
-	ActorDirUnitVector = GetDirUnitVector();
-
 	float4 DistanceToKriby = GetKirbyOpponentDistance();
 	float EffectDeg = DistanceToKriby.AngleDeg();
 
@@ -330,7 +328,6 @@ void HotHead::FireBallUpdate(float _Delta)
 
 	if (true == IsChangeState)
 	{
-		ActorDirUnitVector = float4::ZERO;
 		ChangeState(HotHeadState::Walk);
 		return;
 	}
@@ -371,7 +368,6 @@ void HotHead::FlameBreathStart()
 	StateTime = 0.0f;
 	IsChangeState = false;
 	WobbleCount = 0;
-	ActorDirUnitVector = GetDirUnitVector();
 	ChangeAnimationState("FlameBreath");
 }
 
@@ -391,7 +387,7 @@ void HotHead::FlameBreathUpdate(float _Delta)
 			return;
 		}
 
-		FrameBreathEffectPtr->init(GetPos(), Scale, ActorDirUnitVector);
+		FrameBreathEffectPtr->init(GetPos(), Scale, GetDirUnitVector());
 		FrameBreathEffectPtr->SetActorCollision(CollisionOrder::MonsterAbility, CollisionType::Rect);
 
 
@@ -434,7 +430,6 @@ void HotHead::FlameBreathUpdate(float _Delta)
 
 	if (true == IsChangeState)
 	{
-		ActorDirUnitVector = float4::ZERO;
 		ChangeState(HotHeadState::Walk);
 		return;
 	}

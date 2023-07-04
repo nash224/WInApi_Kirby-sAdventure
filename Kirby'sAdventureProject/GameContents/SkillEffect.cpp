@@ -118,6 +118,7 @@ void SkillEffect::AbilityToBossCollisionCheck(CollisionOrder _ActorBodyCol, int 
 			{
 				SkillDeathEffect();
 				Death();
+				DataStructRelease();
 				EffectPointerRelease();
 				return;
 			}

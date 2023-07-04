@@ -4,10 +4,6 @@
 
 
 #include <GameEngineCore/GameEngineRenderer.h>
-#include <GameEngineCore/ResourcesManager.h>
-
-
-
 
 
 Flag::Flag()
@@ -52,11 +48,4 @@ void Flag::init(const float4& _StageOneDoorPos)
 	}
 
 	FlagRenderer->SetRenderPos(_StageOneDoorPos);
-}
-
-
-
-void Flag::Update(float _Delta)
-{
-
 }

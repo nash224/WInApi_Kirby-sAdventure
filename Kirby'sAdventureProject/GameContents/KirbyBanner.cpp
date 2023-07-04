@@ -9,12 +9,6 @@
 #include <GameEngineCore/GameEngineRenderer.h>
 
 
-#include "GlobalContents.h"
-
-
-
-
-
 
 KirbyBanner::KirbyBanner()
 {
@@ -52,12 +46,17 @@ void KirbyBanner::Start()
 	IsStateDone = true;
 }
 
+
+// 외부) 초기 설정
 void KirbyBanner::init(const float4& _Pos)
 {
 	SetPos(_Pos);
 }
 
 
+
+
+/* ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ */
 
 
 void KirbyBanner::Update(float _Delta)
@@ -67,7 +66,7 @@ void KirbyBanner::Update(float _Delta)
 }
 
 
-
+// 메세지 큐
 void KirbyBanner::State_Queue(float _Delta)
 {
 	StateTime += _Delta;
@@ -108,7 +107,7 @@ void KirbyBanner::State_Queue(float _Delta)
 }
 
 
-
+// 행동 업데이트
 void KirbyBanner::StateUpdate(float _Delta)
 {
 	switch (CurState)
@@ -125,6 +124,7 @@ void KirbyBanner::StateUpdate(float _Delta)
 }
 
 
+// 행동 변환
 void KirbyBanner::ChangeStateAndAnimation(const std::string& _StateName)
 {
 	if (nullptr == KirbyRenderer)
@@ -138,12 +138,13 @@ void KirbyBanner::ChangeStateAndAnimation(const std::string& _StateName)
 }
 
 
-
+// 손인사 패턴
 void KirbyBanner::WaveHandStart()
 {
 	ChangeStateAndAnimation("WaveHand");
 }
 
+// 손인사 업데이트
 void KirbyBanner::WaveHandUpdate(float _Delta)
 {
 	if (nullptr == KirbyRenderer)
@@ -160,12 +161,13 @@ void KirbyBanner::WaveHandUpdate(float _Delta)
 }
 
 
-
+// 눈 깜빡 패턴
 void KirbyBanner::BlinkEyesStart()
 {
 	ChangeStateAndAnimation("BlinkEyes");
 }
 
+// 눈 깜빡 업데이트
 void KirbyBanner::BlinkEyesUpdate(float _Delta)
 {
 	if (nullptr == KirbyRenderer)
@@ -181,6 +183,10 @@ void KirbyBanner::BlinkEyesUpdate(float _Delta)
 	}
 }
 
+
+
+
+/* ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ */
 
 
 void KirbyBanner::Render(float _Delta)
@@ -217,10 +223,6 @@ void KirbyBanner::Render(float _Delta)
 		std::string Text = "";
 
 		Text += "메세지 큐 : ";
-
-
-
-
 
 		for (int Number : StateData)
 		{

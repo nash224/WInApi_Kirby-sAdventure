@@ -459,13 +459,17 @@ void Kirby::KirbyDirCheck()
 // 커비 충돌 크기 및 상태 변경
 void Kirby::ChangeKirbyBodyState(KirbyBodyState _BodyState)
 {
-
 	if (BodyState == _BodyState)
 	{
 		return;
 	}
 
 	BodyState = _BodyState;
+
+	if (true == Cheat_NoneBodyCollision)
+	{
+		return;
+	}
 
 	if (KirbyBodyState::Little == _BodyState)
 	{
@@ -529,6 +533,7 @@ GameEngineCollision* Kirby::GetKirbyCollison()
 
 	MsgBoxAssert("커비 충돌체 리턴에 실패했습니다.");
 	return BodyCollision;
+
 }
 
 

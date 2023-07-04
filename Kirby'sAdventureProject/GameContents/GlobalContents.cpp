@@ -16,6 +16,7 @@ GlobalContents::~GlobalContents()
 }
 
 
+// 텍스쳐 로드
 GameEngineWindowTexture* GlobalContents::TextureFileLoad(const std::string& _FileName, const std::string& _Path)
 {
 	static GameEngineWindowTexture* ReturnValue;
@@ -51,6 +52,8 @@ GameEngineWindowTexture* GlobalContents::TextureFileLoad(const std::string& _Fil
 	return Texture;
 }
 
+
+// 스프라이드 프로시져
 GameEngineSprite* GlobalContents::SpriteFileLoad(const std::string& _FileName, const std::string& _Path, int _XCount, int _YCount)
 {
 	static GameEngineSprite* ReturnValue;
@@ -86,8 +89,7 @@ GameEngineSprite* GlobalContents::SpriteFileLoad(const std::string& _FileName, c
 }
 
 
-//GlobalContents::SoundFileLoad("Kirby_LowerHP.wav", "Resources\\SoundResources\\EffectVoice");
-
+// 사운드 로드 프로시저
 void GlobalContents::SoundFileLoad(const std::string& _FileName, const std::string& _Path)
 {
 	if (nullptr != GameEngineSound::FindSound(_FileName))
@@ -107,6 +109,7 @@ void GlobalContents::SoundFileLoad(const std::string& _FileName, const std::stri
 
 
 
+// FadeOut 프로시저
 void GlobalContents::FadeOut(GameEngineLevel* _Level)
 {
 	if (nullptr == _Level)
@@ -126,6 +129,7 @@ void GlobalContents::FadeOut(GameEngineLevel* _Level)
 }
 
 
+// FadeIn 프로시저
 void GlobalContents::FadeIn(GameEngineLevel* _Level)
 {
 	if (nullptr == _Level)
@@ -146,6 +150,7 @@ void GlobalContents::FadeIn(GameEngineLevel* _Level)
 
 
 
+// WhiteFadeOut 프로시저
 void GlobalContents::WhiteFadeOut(GameEngineLevel* _Level)
 {
 	if (nullptr == _Level)
@@ -165,6 +170,7 @@ void GlobalContents::WhiteFadeOut(GameEngineLevel* _Level)
 }
 
 
+// WhiteFadeIn 프로시저
 void GlobalContents::WhiteFadeIn(GameEngineLevel* _Level)
 {
 	if (nullptr == _Level)

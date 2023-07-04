@@ -1,7 +1,7 @@
 #pragma once
 #include <GameEngineCore/GameEngineActor.h>
 
-// 설명 :
+// 설명 : 전역 레벨에서 사용하는 Fade Object 입니다.
 class FadeObject : public GameEngineActor
 {
 public:
@@ -33,9 +33,9 @@ public:
 
 
 protected:
-	GameEngineRenderer* MainRenderer = nullptr;
 
 private:
+	// GameEngineObject 상속
 	void Start() override;
 	void Update(float _Delta) override;
 	void LevelEnd() override;
@@ -43,6 +43,7 @@ private:
 
 
 public:
+	// 요청
 	void RequestFadeOut();
 	void RequestFadeIn();
 	void Request_WhiteFadeIn();
@@ -53,6 +54,9 @@ public:
 
 
 private:
+	// 렌더
+	GameEngineRenderer* MainRenderer = nullptr;
+
 	// Fade In & Out 
 	bool IsFadeOut = false;
 	bool IsChangeFade = false;

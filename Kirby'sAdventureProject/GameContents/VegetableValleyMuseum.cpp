@@ -27,7 +27,22 @@ VegetableValleyMuseum::~VegetableValleyMuseum()
 }
 
 
+
+
 void VegetableValleyMuseum::Start()
+{
+	Kirby_RespawnPos = KirbyRespawnLocation;
+
+	BitMapFileName = "VegetableValleyMuseum_Pixel.bmp";
+
+	LevelBgmFileName = "11_Museum.mp3";
+
+	ResourcesLoad();
+}
+
+
+// 리소스 로드
+void VegetableValleyMuseum::ResourcesLoad()
 {
 	LevelBackGround = GameEngineLevel::CreateActor<BackGround>(UpdateOrder::BackGround);
 	if (nullptr == LevelBackGround)
@@ -45,12 +60,7 @@ void VegetableValleyMuseum::Start()
 
 	BackGroundScale = Texture->GetScale();
 
-	BitMapFileName = "VegetableValleyMuseum_Pixel.bmp";
 
-
-
-
-	// 공중몹 1-2
 	Pengi* PengiPtr = GameEngineLevel::CreateActor<Pengi>(UpdateOrder::Monster);
 	if (nullptr == PengiPtr)
 	{
@@ -61,12 +71,6 @@ void VegetableValleyMuseum::Start()
 	PengiPtr->init(BitMapFileName, PengiState::Idle, float4{ 192.0f, 312.0f });
 
 
-
-
-
-
-
-
 	LevelUIManager = GameEngineLevel::CreateActor<PlayUI>(UpdateOrder::UI);
 	if (nullptr == LevelUIManager)
 	{
@@ -75,15 +79,14 @@ void VegetableValleyMuseum::Start()
 	}
 
 
-	Kirby_RespawnPos = KirbyRespawnLocation;
-
-
 
 	// 사운드 로드
 	GlobalContents::SoundFileLoad("11_Museum.mp3", "Resources\\SoundResources\\SoundTrack");
-	LevelBgmFileName = "11_Museum.mp3";
 }
 
+
+
+/* ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ */
 
 
 
@@ -104,20 +107,10 @@ void VegetableValleyMuseum::Update(float _Delta)
 	{
 		NextLevelTriggerOn = false;
 	}
-
-
-	if (true == GameEngineInput::IsDown('M'))
-	{
-		LevelBackGround->SwitchRender();
-	}
-
-	if (true == GameEngineInput::IsDown('Y'))
-	{
-		Level_DebugRenderValue = !Level_DebugRenderValue;
-	}
 }
 
 
+// 비트맵 전환 스위칭
 void VegetableValleyMuseum::SwitchRenders()
 {
 	if (nullptr == LevelBackGround)
@@ -130,6 +123,7 @@ void VegetableValleyMuseum::SwitchRenders()
 }
 
 
+// 다음 레벨 체인지
 void VegetableValleyMuseum::PlayerEnterNextLevel()
 {
 	if (true == IsPlayerEnter)
@@ -159,11 +153,18 @@ void VegetableValleyMuseum::PlayerEnterNextLevel()
 
 
 
+/* ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ */
+
 
 void VegetableValleyMuseum::Render(float _Delta)
 {
 	DebugRender(_Delta);
 }
+
+
+
+
+/* ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ */
 
 
 void VegetableValleyMuseum::LevelStart(GameEngineLevel* _PrevLevel)
@@ -189,6 +190,10 @@ void VegetableValleyMuseum::LevelStart(GameEngineLevel* _PrevLevel)
 
 	GlobalContents::FadeIn(this);
 }
+
+
+
+/* ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ */
 
 
 void VegetableValleyMuseum::LevelEnd(GameEngineLevel* _NextLevel)

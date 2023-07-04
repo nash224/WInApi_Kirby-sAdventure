@@ -20,6 +20,10 @@ void Kirby::KirbysDebugShortcut(float _Delta)
 	if (true == GameEngineInput::IsDown('1'))
 	{
 		Cheat_Invincibility = !Cheat_Invincibility;
+		if (true == Cheat_Invincibility)
+		{
+			Cheat_NoneBodyCollision = false;
+		}
 	}
 
 	if (true == GameEngineInput::IsDown('2'))
@@ -29,7 +33,7 @@ void Kirby::KirbysDebugShortcut(float _Delta)
 
 	if (true == GameEngineInput::IsDown('4'))
 	{
-		if (6 == m_KirbyHp)
+		if (6 != m_KirbyHp)
 		{
 			++m_KirbyHp;
 		}
@@ -93,16 +97,10 @@ void Kirby::KirbysDebugShortcut(float _Delta)
 void Kirby::SwitchNoneBodyCollision()
 {
 	Cheat_NoneBodyCollision = !Cheat_NoneBodyCollision;
-
 	if (true == Cheat_NoneBodyCollision)
 	{
-		KirbyBodyCollisonOff();
+		Cheat_Invincibility = false;
 	}
-	else if (false == Cheat_NoneBodyCollision)
-	{
-		KirbyBodyCollisonOn();
-	}
-
 }
 
 
@@ -123,7 +121,7 @@ void Kirby::KirbyDebugRender(HDC _dc)
 		{
 			Text += "On";
 		}
-		else if (true == Cheat_Invincibility)
+		else if (false == Cheat_Invincibility)
 		{
 			Text += "Off";
 		}
@@ -137,7 +135,7 @@ void Kirby::KirbyDebugRender(HDC _dc)
 	{
 		std::string Text = "";
 
-		Text += "Char Key 2 : 妮府傈 : ";
+		Text += "Char Key 2 : 面倒贸府 : ";
 		if (true == Cheat_NoneBodyCollision)
 		{
 			Text += "Off";

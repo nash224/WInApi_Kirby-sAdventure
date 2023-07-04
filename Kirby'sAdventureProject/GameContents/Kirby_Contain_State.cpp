@@ -697,6 +697,7 @@ void Kirby::Contain_GulpUpdate(float _Delta)
 	if (true == MainRenderer->IsAnimationEnd() && StateTime > ContainGulpChangeStateTime)
 	{
 		IsChangeState = true;
+		Star.SwallowedEnemyNumber = 0;
 	}
 
 	if (true == IsChangeState && AbilityStar::Max == CurrentAbilityStar && true == GameEngineInput::IsPress('S'))

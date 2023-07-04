@@ -18,6 +18,19 @@ ActorUtils::~ActorUtils()
 
 
 
+// 픽셀맵 세팅
+void ActorUtils::SetGroundTexture(const std::string& _GroundTextureName)
+{
+	GroundTexture = ResourcesManager::GetInst().FindTexture(_GroundTextureName);
+
+	if (nullptr == GroundTexture)
+	{
+		MsgBoxAssert(" 픽셀충돌 맵을 찾을 수 없습니다. " + _GroundTextureName);
+		return;
+	}
+}
+
+// 좌, 우 단위 벡터 반환
 float4 ActorUtils::GetDirUnitVector() const
 {
 	float4 ActorDirUnitVector = float4::ZERO;
@@ -34,97 +47,20 @@ float4 ActorUtils::GetDirUnitVector() const
 }
 
 
-
-
-
-void ActorUtils::Gravity(float _Delta)
+// 체크 포인트 세팅
+void ActorUtils::SetCheckPoint(const float4& _ScaleSize)
 {
-	// 중력 보간법
-	GravityVector += float4::DOWN * GravityPower * _Delta;
-}
-
-void ActorUtils::ReverseGravity(float _Delta)
-{
-	// 중력 보간법
-	GravityVector += float4::UP * GravityPower * _Delta;
-}
-
-void ActorUtils::GravityLimit(float _Delta)
-{
-	// 최대 중력 제한
-	if (GravityVector.Y >= GravityMaxVector * AirResistance)
-	{
-		GravityVector = float4::DOWN * GravityMaxVector * AirResistance;
-	}
-}
-
-void ActorUtils::VerticalUpdate(float _Delta)
-{
-	if (false == IsGravity)
-	{
-		return;
-	}
-
-	AddPos(GravityVector * _Delta);
+	GroundLeftCheckPoint = { -_ScaleSize.X + CHECKGROUNDGAP , 0.0f };
+	GroundRightCheckPoint = { _ScaleSize.X + -CHECKGROUNDGAP , 0.0f };
+	WallBotLeftCheckPoint = { -_ScaleSize.X + CHECKWALLWIDTHHGAP , -CHECKWALLHEIGHTHGAP };
+	WallTopLeftCheckPoint = { -_ScaleSize.X + CHECKWALLWIDTHHGAP , -_ScaleSize.Y + CHECKWALLHEIGHTHGAP };
+	WallBotRightCheckPoint = { _ScaleSize.X + -CHECKWALLWIDTHHGAP , -CHECKWALLHEIGHTHGAP };
+	WallTopRightCheckPoint = { _ScaleSize.X + -CHECKWALLWIDTHHGAP , -_ScaleSize.Y + CHECKWALLHEIGHTHGAP };
+	CeilLeftCheckPoint = { -_ScaleSize.X + CHECKGROUNDGAP , -_ScaleSize.Y };
+	CeilRightCheckPoint = { _ScaleSize.X + -CHECKGROUNDGAP , -_ScaleSize.Y };
 }
 
 
-void ActorUtils::VerticalDecelerationUpdate(float _Speed, float _Delta)
-{
-	if (CurentVerticalSpeed < 0.0f)
-	{
-		CurentVerticalSpeed -= _Speed * _Delta;
-
-		if (CurentVerticalSpeed > 0.0f)
-		{
-			CurentVerticalSpeed = 0.0f;
-		}
-	}
-	else if (CurentVerticalSpeed > 0.0f)
-	{
-		CurentVerticalSpeed += _Speed * _Delta;
-
-		if (CurentVerticalSpeed < 0.0f)
-		{
-			CurentVerticalSpeed = 0.0f;
-		}
-	}
-}
-
-void ActorUtils::VerticalSpeedLimitBasedlevitation(float _Speed)
-{
-	if ((CurentVerticalSpeed > _Speed || CurentVerticalSpeed < -_Speed))
-	{
-		if (CurentVerticalSpeed <= -_Speed)
-		{
-			CurentVerticalSpeed = -_Speed;
-		}
-
-		if (CurentVerticalSpeed >= _Speed)
-		{
-			CurentVerticalSpeed = _Speed;
-		}
-	}
-}
-
-void ActorUtils::VerticalUpdateBasedlevitation(float _Delta)
-{
-	AddPos(float4{ 0.0f , CurentVerticalSpeed * _Delta });
-}
-
-
-
-// 픽셀맵 세팅
-void ActorUtils::SetGroundTexture(const std::string& _GroundTextureName)
-{
-	GroundTexture = ResourcesManager::GetInst().FindTexture(_GroundTextureName);
-
-	if (nullptr == GroundTexture)
-	{
-		MsgBoxAssert(" 픽셀충돌 맵을 찾을 수 없습니다. "+ _GroundTextureName);
-		return;
-	}
-}
 
 // 바닥 색을 불러옴
 int ActorUtils::GetGroundColor(unsigned int _DefaultColor /*= RGB(255, 255, 0)*/, float4 _Pos/* = float4::ZERO*/)
@@ -137,6 +73,8 @@ int ActorUtils::GetGroundColor(unsigned int _DefaultColor /*= RGB(255, 255, 0)*/
 
 	return GroundTexture->GetColor(_DefaultColor, GetPos() + _Pos);
 }
+
+
 
 // 특정 객체의 발끝에 바닥 여부
 void ActorUtils::GroundCheck()
@@ -153,6 +91,8 @@ void ActorUtils::GroundCheck()
 	isGround = false;
 }
 
+
+// 천장인가?
 bool ActorUtils::CeilingCheck()
 {
 	unsigned int LeftTopColor = GetGroundColor(RGB(255, 255, 255), CeilLeftCheckPoint);
@@ -166,6 +106,8 @@ bool ActorUtils::CeilingCheck()
 }
 
 
+
+// 왼쪽 벽인가?
 bool ActorUtils::CheckLeftWall()
 {
 	if (Dir == ActorDir::Left)
@@ -181,6 +123,8 @@ bool ActorUtils::CheckLeftWall()
 	return false;
 }
 
+
+// 오른쪽 벽인가
 bool ActorUtils::CheckRightWall()
 {
 	if (Dir == ActorDir::Right)
@@ -195,6 +139,8 @@ bool ActorUtils::CheckRightWall()
 	return false;
 }
 
+
+// 이동 중에 왼쪽 벽에 부딪혔는가?
 bool ActorUtils::CheckLeftWallBasedSpeed(unsigned int _DefaultColor)
 {
 	if (CurrentSpeed < 0.0f)
@@ -210,6 +156,7 @@ bool ActorUtils::CheckLeftWallBasedSpeed(unsigned int _DefaultColor)
 	return false;
 }
 
+// 이동 중에 오른쪽 벽에 부딪혔는가?
 bool ActorUtils::CheckRightWallBasedSpeed(unsigned int _DefaultColor)
 {
 	if (CurrentSpeed > 0.0f)
@@ -227,7 +174,7 @@ bool ActorUtils::CheckRightWallBasedSpeed(unsigned int _DefaultColor)
 
 
 
-
+// 왼쪽 벽 맵외를 벗어나려고 했는가?
 bool ActorUtils::CheckMapLeftWallBasedSpeed(unsigned int _DefaultColor)
 {
 	if (CurrentSpeed < 0.0f)
@@ -243,6 +190,8 @@ bool ActorUtils::CheckMapLeftWallBasedSpeed(unsigned int _DefaultColor)
 	return false;
 }
 
+
+// 오른쪽 벽 맵외를 벗어나려고 했는가?
 bool ActorUtils::CheckMapRightWallBasedSpeed(unsigned int _DefaultColor)
 {
 	if (CurrentSpeed > 0.0f)
@@ -259,10 +208,7 @@ bool ActorUtils::CheckMapRightWallBasedSpeed(unsigned int _DefaultColor)
 }
 
 
-
-
-
-
+// 점프 도중에 천장에 부딪혔는가?
 bool ActorUtils::CheckCeilingBasedSpeed(unsigned int _DefaultColor)
 {
 	if (GravityVector.Y < 0.0f)
@@ -280,6 +226,7 @@ bool ActorUtils::CheckCeilingBasedSpeed(unsigned int _DefaultColor)
 
 
 
+// 천장 맵외를 벗어나려고 했는가?
 bool ActorUtils::CheckMapCeilingBasedSpeed(unsigned int _DefaultColor)
 {
 	if (GravityVector.Y < 0.0f)
@@ -296,7 +243,7 @@ bool ActorUtils::CheckMapCeilingBasedSpeed(unsigned int _DefaultColor)
 }
 
 
-
+// 벽으로 들어가지 못하게 함
 void ActorUtils::BlockedByWall()
 {
 	if (true == CheckLeftWallBasedSpeed() && CurrentSpeed < 0.0f)
@@ -339,6 +286,8 @@ void ActorUtils::BlockedByWall()
 	}
 }
 
+
+// 바닥에 들어가지 못하게 함
 void ActorUtils::BlockedByGround()
 {
 	unsigned int LeftGroundCheckColor = GetGroundColor(RGB(255, 255, 255), GroundLeftCheckPoint + float4{ CHECKGAP , -CHECKGAP });
@@ -355,6 +304,7 @@ void ActorUtils::BlockedByGround()
 	}
 }
 
+// 천장에 들어가지 못하게 함
 void ActorUtils::BlockedByCeiling()
 {
 	unsigned int LeftCeilingCheckColor = GetGroundColor(RGB(255, 255, 255), CeilLeftCheckPoint + float4{ CHECKGAP , CHECKGAP });
@@ -371,7 +321,7 @@ void ActorUtils::BlockedByCeiling()
 	}
 }
 
-
+// 맵외를 벗어나지 못하게 함
 void ActorUtils::BlockedByAll()
 {
 	if (true == CheckMapLeftWallBasedSpeed(RGB(255, 255, 0)))
@@ -437,18 +387,7 @@ void ActorUtils::BlockedByAll()
 
 
 
-void ActorUtils::SetCheckPoint(const float4& _ScaleSize)
-{
-	GroundLeftCheckPoint =   { -_ScaleSize.X + CHECKGROUNDGAP , 0.0f };
-	GroundRightCheckPoint =  { _ScaleSize.X + -CHECKGROUNDGAP , 0.0f };
-	WallBotLeftCheckPoint =  { -_ScaleSize.X + CHECKWALLWIDTHHGAP , -CHECKWALLHEIGHTHGAP };
-	WallTopLeftCheckPoint =  { -_ScaleSize.X + CHECKWALLWIDTHHGAP , -_ScaleSize.Y + CHECKWALLHEIGHTHGAP };
-	WallBotRightCheckPoint = { _ScaleSize.X + -CHECKWALLWIDTHHGAP , -CHECKWALLHEIGHTHGAP };
-	WallTopRightCheckPoint = { _ScaleSize.X + -CHECKWALLWIDTHHGAP , -_ScaleSize.Y + CHECKWALLHEIGHTHGAP };
-	CeilLeftCheckPoint =     { -_ScaleSize.X + CHECKGROUNDGAP , -_ScaleSize.Y };
-	CeilRightCheckPoint =    { _ScaleSize.X + -CHECKGROUNDGAP , -_ScaleSize.Y };
-}
-
+// 딱딱한 벽인가?
 bool ActorUtils::IsSolidGround()
 {
 	unsigned int LeftBottomColor = GetGroundColor(RGB(255, 255, 255), GroundLeftCheckPoint);
@@ -461,6 +400,7 @@ bool ActorUtils::IsSolidGround()
 	return false;
 }
 
+// 통과 가능한 벽인가?
 bool ActorUtils::IsPassableGround()
 {
 	unsigned int LeftBottomColor = GetGroundColor(RGB(255, 255, 255), GroundLeftCheckPoint);
@@ -473,6 +413,8 @@ bool ActorUtils::IsPassableGround()
 	return false;
 }
 
+
+// 디버그용 체크 포인트 렌더
 void ActorUtils::ActorCollisionDetectionPointRender()
 {
 	HDC BackDC = GameEngineWindow::MainWindow.GetBackBuffer()->GetImageDC();
@@ -515,5 +457,90 @@ void ActorUtils::ActorCollisionDetectionPointRender()
 	Data.Pos = ActorCameraPos() + CeilRightCheckPoint;
 	Data.Scale = { 5 , 5 };
 	Rectangle(BackDC, Data.iLeft(), Data.iTop(), Data.iRight(), Data.iBot());
+}
+
+
+
+// 중력
+void ActorUtils::Gravity(float _Delta)
+{
+	// 중력 보간법
+	GravityVector += float4::DOWN * GravityPower * _Delta;
+}
+
+// 반전 중력
+void ActorUtils::ReverseGravity(float _Delta)
+{
+	// 중력 보간법
+	GravityVector += float4::UP * GravityPower * _Delta;
+}
+
+// 중력 제한
+void ActorUtils::GravityLimit(float _Delta)
+{
+	// 최대 중력 제한
+	if (GravityVector.Y >= GravityMaxVector * AirResistance)
+	{
+		GravityVector = float4::DOWN * GravityMaxVector * AirResistance;
+	}
+}
+
+// 중력 업데이트
+void ActorUtils::VerticalUpdate(float _Delta)
+{
+	if (false == IsGravity)
+	{
+		return;
+	}
+
+	AddPos(GravityVector * _Delta);
+}
+
+
+// Y축 감속
+void ActorUtils::VerticalDecelerationUpdate(float _Speed, float _Delta)
+{
+	if (CurentVerticalSpeed < 0.0f)
+	{
+		CurentVerticalSpeed -= _Speed * _Delta;
+
+		if (CurentVerticalSpeed > 0.0f)
+		{
+			CurentVerticalSpeed = 0.0f;
+		}
+	}
+	else if (CurentVerticalSpeed > 0.0f)
+	{
+		CurentVerticalSpeed += _Speed * _Delta;
+
+		if (CurentVerticalSpeed < 0.0f)
+		{
+			CurentVerticalSpeed = 0.0f;
+		}
+	}
+}
+
+// Y축 속도 제한
+void ActorUtils::VerticalSpeedLimitBasedlevitation(float _Speed)
+{
+	if ((CurentVerticalSpeed > _Speed || CurentVerticalSpeed < -_Speed))
+	{
+		if (CurentVerticalSpeed <= -_Speed)
+		{
+			CurentVerticalSpeed = -_Speed;
+		}
+
+		if (CurentVerticalSpeed >= _Speed)
+		{
+			CurentVerticalSpeed = _Speed;
+		}
+	}
+}
+
+
+// Y축 업데이트
+void ActorUtils::VerticalUpdateBasedlevitation(float _Delta)
+{
+	AddPos(float4{ 0.0f , CurentVerticalSpeed * _Delta });
 }
 

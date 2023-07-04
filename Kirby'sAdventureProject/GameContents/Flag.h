@@ -20,12 +20,13 @@ public:
 	void init(const float4& _StageOneDoorPos);
 
 protected:
-	GameEngineRenderer* FlagRenderer = nullptr;
 
 private:
+	// GameEngineObject »ó¼Ó
 	void Start() override;
-	void Update(float _Delta) override;
 
 
+	// ·»´õ
+	GameEngineRenderer* FlagRenderer = nullptr;
 };
 
