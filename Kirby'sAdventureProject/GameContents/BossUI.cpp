@@ -1,12 +1,14 @@
 #include "BossUI.h"
 #include "ContentsEnum.h"
+#include "GlobalContents.h"
+
 
 #include <GameEnginePlatform/GameEngineWindow.h>
 #include <GameEnginePlatform/GameEngineWindowTexture.h>
 #include <GameEnginePlatform/GameEngineSound.h>
 #include <GameEngineCore/GameEngineRenderer.h>
 
-#include "GlobalContents.h"
+
 #include "Kirby.h"
 #include "Boss.h"
 
@@ -21,6 +23,8 @@ BossUI::~BossUI()
 {
 }
 
+
+
 void BossUI::Start()
 {
 	HubRendererSet();
@@ -33,8 +37,7 @@ void BossUI::Start()
 
 
 
-
-
+// UI 이미지 세팅
 void BossUI::HubRendererSet()
 {
 	// UI 패널
@@ -91,6 +94,7 @@ void BossUI::HubRendererSet()
 
 
 
+// 목숨 캐릭터 세팅
 void BossUI::LivesAniRendererSet()
 {
 	// UI LivesAnimation
@@ -113,7 +117,7 @@ void BossUI::LivesAniRendererSet()
 
 	LivesAniRenderer->CreateAnimationToFrame("UI_LivesAnimation", "UI_LivesAni_3x1_39x36.bmp", { 0, 1, 2, 1 }, 0.5f, true);
 	LivesAniRenderer->ChangeAnimation("UI_LivesAnimation");
-	LivesAniRenderer->SetRenderPos(LIVESANILOCATION + LivesAniScale.Half());
+	LivesAniRenderer->SetRenderPos(BOSS_LIVESANILOCATION + LivesAniScale.Half());
 
 
 }
@@ -124,6 +128,7 @@ void BossUI::LivesAniRendererSet()
 
 
 
+// 목숨 숫자 세팅
 void BossUI::LivesNumberRendererSet()
 {
 	// 목숨 숫자 앞자리
@@ -169,6 +174,7 @@ void BossUI::LivesNumberRendererSet()
 
 
 
+// 스태미나 세팅
 void BossUI::StaminaCountRendererSet()
 {
 	// UI StaminaAnimation
@@ -282,6 +288,8 @@ void BossUI::StaminaCountRendererSet()
 }
 
 
+
+
 void BossUI::BossStaminaRendererSet()
 {
 	// 로드
@@ -325,6 +333,9 @@ void BossUI::BossStaminaRendererSet()
 }
 
 
+/* ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ */
+
+
 
 
 void BossUI::Update(float _Delta)
@@ -348,14 +359,13 @@ void BossUI::Update(float _Delta)
 	{
 		BossStaminaState(_Delta);
 	}
-
-
-
 }
 
 
 
 
+
+// 보스 출현 로직
 void BossUI::BossAppearance(float _Delta)
 {
 	if (nullptr == BossPtr)
@@ -411,6 +421,7 @@ void BossUI::BossAppearance(float _Delta)
 }
 
 
+// UI 데미지 업데이트
 void BossUI::OuchState(float _Delta)
 {
 	if (true == Ouch_State)
@@ -491,6 +502,7 @@ void BossUI::OuchState(float _Delta)
 
 
 
+// 보스 스태미나 업데이트
 void BossUI::BossStaminaState(float _Delta)
 {
 	if (nullptr == BossPtr)
@@ -523,17 +535,11 @@ void BossUI::BossStaminaState(float _Delta)
 
 		UI_BossStamina = Current_BossHp;
 	}
-
-
-
-	if (UI_BossStamina <= 0)
-	{
-		//
-	}
 }
 
 
 
+// 별 막대사탕 초상화
 void BossUI::ChangePortrait_StarStick()
 {
 	if (nullptr == KirbyPtr)
@@ -560,6 +566,8 @@ void BossUI::ChangePortrait_StarStick()
 }
 
 
+
+// 엔딩 초상화
 void BossUI::ChangePortrait_ByeBye()
 {
 	if (true == IsCall_ByeByePortrait)
@@ -599,10 +607,15 @@ void BossUI::ChangePortrait_ByeBye()
 
 
 
-// 다음 레벨로 넘어갈 때 유지
+
+/* ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ */
+
+
+
 void BossUI::LevelStart()
 {
 	UI = this;
+
 
 	KirbyPtr = Kirby::GetMainKirby();
 	if (nullptr == KirbyPtr)
@@ -611,11 +624,27 @@ void BossUI::LevelStart()
 		return;
 	}
 
-
 	BossPtr = Boss::GetMainBossPtr();
 	if (nullptr == BossPtr)
 	{
 		MsgBoxAssert("보스를 불러오지 못했습니다.");
+		return;
+	}
+
+
+
+	LevelStartStamina();
+	LevelStartPortrait();
+	LevelStartLivesCount();
+}
+
+
+// 스태미나 유지
+void BossUI::LevelStartStamina()
+{
+	if (nullptr == KirbyPtr)
+	{
+		MsgBoxAssert("Kirby가 Null 입니다.");
 		return;
 	}
 
@@ -632,20 +661,17 @@ void BossUI::LevelStart()
 
 		StaminaRenderer->Off();
 	}
-
-
-
-	LevelStartPortrait();
-
-
-	// 커비 목숨
-	First_LivesRenderer->SetCopyPos(float4{ NumberScale.X * static_cast<float>(m_LivesCount / 10), 0.0f });
-	Second_LivesRenderer->SetCopyPos(float4{ NumberScale.X * static_cast<float>(m_LivesCount % 10), 0.0f });
 }
+
+
+
+/* ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ */
+
+
 
 void BossUI::LevelEnd()
 {
-
+	// 보스 스태미나 설정 초기화
 	for (size_t i = 0; i < Boss_StaminaRenderer.size(); i++)
 	{
 		GameEngineRenderer* StaminaRenderer = Boss_StaminaRenderer[i];

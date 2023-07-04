@@ -27,13 +27,11 @@ void HubUI::Start()
 	PortraitRendererSet(HUB_PORTRAITLOCATION);
 	LivesNumberRendererSet();
 	StaminaCountRendererSet();
-
 }
 
 
 
-
-
+// UI 이미지 로드
 void HubUI::HubRendererSet()
 {
 	// UI 패널
@@ -62,20 +60,11 @@ void HubUI::HubRendererSet()
 	MainUIRenderer->SetTexture("HubUI.bmp");
 	MainUIRenderer->SetRenderPos(UIScale.Half());
 	MainUIRenderer->SetRenderScale(UIScale);
-
-
 }
 
 
 
-
-
-
-
-
-
-
-
+// 목숨 숫자 로드
 void HubUI::LivesNumberRendererSet()
 {
 	// 목숨 숫자 앞자리
@@ -119,8 +108,7 @@ void HubUI::LivesNumberRendererSet()
 
 
 
-
-
+// 스태미나 숫자 세팅
 void HubUI::StaminaCountRendererSet()
 {
 	// UI StaminaAnimation
@@ -236,6 +224,7 @@ void HubUI::StaminaCountRendererSet()
 
 
 
+/* ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ */
 
 
 
@@ -246,15 +235,22 @@ void HubUI::Update(float _Delta)
 }
 
 
+/* ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ */
 
 
-// 다음 레벨로 넘어갈 때 유지
 void HubUI::LevelStart()
 {
 	UI = this;
 
+	LevelStartStamina();
+	LevelStartPortrait();
+	LevelStartLivesCount();
+}
 
 
+// 스태미나 유지
+void HubUI::LevelStartStamina()
+{
 	KirbyPtr = Kirby::GetMainKirby();
 	if (nullptr == KirbyPtr)
 	{
@@ -274,12 +270,4 @@ void HubUI::LevelStart()
 
 		StaminaRenderer->SetCopyPos(float4{ HUB_StaminaScale.X , 0.0f });
 	}
-
-
-	LevelStartPortrait();
-
-
-	// 커비 목숨
-	First_LivesRenderer->SetCopyPos(float4{ NumberScale.X * static_cast<float>(m_LivesCount / 10), 0.0f });
-	Second_LivesRenderer->SetCopyPos(float4{ NumberScale.X * static_cast<float>(m_LivesCount % 10), 0.0f });
 }

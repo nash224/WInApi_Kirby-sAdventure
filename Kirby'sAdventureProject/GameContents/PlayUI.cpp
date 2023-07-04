@@ -1,11 +1,13 @@
 #include "PlayUI.h"
 #include "ContentsEnum.h"
 
+
 #include <GameEngineBase/GameEngineTime.h>
 #include <GameEnginePlatform/GameEngineWindow.h>
 #include <GameEnginePlatform/GameEngineWindowTexture.h>
 #include <GameEnginePlatform/GameEngineSound.h>
 #include <GameEngineCore/GameEngineRenderer.h>
+
 
 #include "GlobalContents.h"
 #include "Kirby.h"
@@ -15,7 +17,6 @@
 
 int PlayUI::PlayUI_Score = 0;
 
-
 PlayUI::PlayUI()
 {
 	UI = this;
@@ -24,6 +25,7 @@ PlayUI::PlayUI()
 PlayUI::~PlayUI()
 {
 }
+
 
 void PlayUI::Start()
 {
@@ -38,7 +40,7 @@ void PlayUI::Start()
 
 
 
-
+// UI창 로드
 void PlayUI::HubRendererSet()
 {
 	// UI 패널
@@ -61,7 +63,6 @@ void PlayUI::HubRendererSet()
 	float4 WinScale = GameEngineWindow::MainWindow.GetScale();
 
 
-	//SetPos(float4{ WinScale.Half().X , WinScale.Y - UIScale.Half().Y });
 	SetPos(float4{ 0.0f , WinScale.Y - UIScale.Y });
 
 
@@ -78,6 +79,7 @@ void PlayUI::HubRendererSet()
 
 
 
+// Lives 아이콘 로드
 void PlayUI::LivesAniRendererSet()
 {
 	// UI LivesAnimation
@@ -100,7 +102,7 @@ void PlayUI::LivesAniRendererSet()
 
 	LivesAniRenderer->CreateAnimationToFrame("UI_LivesAnimation", "UI_LivesAni_3x1_39x36.bmp", { 0, 1, 2, 1 }, 0.5f, true);
 	LivesAniRenderer->ChangeAnimation("UI_LivesAnimation");
-	LivesAniRenderer->SetRenderPos(LIVESANILOCATION + LivesAniScale.Half());
+	LivesAniRenderer->SetRenderPos(Play_LIVESANILOCATION + LivesAniScale.Half());
 
 
 }
@@ -109,7 +111,7 @@ void PlayUI::LivesAniRendererSet()
 
 
 
-
+// Lives 횟수 숫자 로드
 void PlayUI::LivesNumberRendererSet()
 {
 	// 목숨 숫자 앞자리
@@ -154,7 +156,7 @@ void PlayUI::LivesNumberRendererSet()
 
 
 
-
+// 스태미나 이미지 로드
 void PlayUI::StaminaCountRendererSet()
 {
 	// UI StaminaAnimation
@@ -270,6 +272,7 @@ void PlayUI::StaminaCountRendererSet()
 
 
 
+// 점수 이미지 로드
 void PlayUI::ScoreRendererSet()
 {
 	// 점수 1번째 자리
@@ -405,23 +408,22 @@ void PlayUI::ScoreRendererSet()
 
 
 
+/* ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ */
 
 
 
 void PlayUI::Update(float _Delta)
 {
 	PortraitState(_Delta);
-
 	OuchState(_Delta);
-
 	StaminaState();
-
 	ScoreState();
 }
 
 
 
 
+// Ouch 로직
 void PlayUI::OuchState(float _Delta)
 {
 	if (true == Ouch_State)
@@ -431,6 +433,13 @@ void PlayUI::OuchState(float _Delta)
 
 	if (Ouch_Time > Ouch_Duration)
 	{
+		if (nullptr == PortraitRenderer)
+		{
+			MsgBoxAssert("렌더러를 불러오지 못헀습니다.");
+			return;
+		}
+
+
 		Ouch_Time = 0.0f;
 		Ouch_State = false;
 		PortraitRenderer->ChangeAnimation("Portrait_Normal");
@@ -439,6 +448,13 @@ void PlayUI::OuchState(float _Delta)
 	// 커비의 체력과 UI의 체력이 다르면
 	if (m_KirbySteminaCount != KirbyPtr->m_KirbyHp && -1 != KirbyPtr->m_KirbyHp)
 	{
+		if (nullptr == PortraitRenderer)
+		{
+			MsgBoxAssert("렌더러를 불러오지 못헀습니다.");
+			return;
+		}
+
+
 		// 커비의 체력이 감소하면
 		if (m_KirbySteminaCount > KirbyPtr->m_KirbyHp)
 		{
@@ -508,6 +524,7 @@ void PlayUI::OuchState(float _Delta)
 
 				if (false == IsIncresing_Hp)
 				{
+					// 잠시 멈춤
 					GameEngineTime::MainTimer.SetTimeScale(UpdateOrder::Player, 0.0f);
 					GameEngineTime::MainTimer.SetTimeScale(UpdateOrder::Monster, 0.0f);
 					GameEngineTime::MainTimer.SetTimeScale(UpdateOrder::Ability, 0.0f);
@@ -526,6 +543,7 @@ void PlayUI::OuchState(float _Delta)
 
 					StaminaRenderer->On();
 
+					// 스태미나 렌더러 일부 변수 초기화
 					float Stamina_Inter = 0.1f * static_cast<float>(KirbyPtr->m_KirbyHp);
 					StaminaRenderer->FindAnimation("StaminaRemain")->Inters = { Stamina_Inter , Stamina_Inter };
 					StaminaRenderer->FindAnimation("StaminaRemain")->CurInter = 0.0f;
@@ -540,6 +558,7 @@ void PlayUI::OuchState(float _Delta)
 
 				if (m_KirbySteminaCount == KirbyPtr->m_KirbyHp)
 				{
+					// 시간 정지 해제
 					GameEngineTime::MainTimer.SetAllTimeScale(1.0f);
 					IsIncresing_Hp = false;
 				}
@@ -553,6 +572,7 @@ void PlayUI::OuchState(float _Delta)
 // 1 번째 요소 : 10의 자리수 = Score % 100 / 10 또는 Score / 10 % 10
 // 2 번째 요소 : 100의 자리수 = Score % 1000 / 100 또는 Score / 100 % 10
 
+// 점수 Update
 void PlayUI::ScoreState()
 {
 	if (PlayUI_Score == RenderScore)
@@ -560,6 +580,7 @@ void PlayUI::ScoreState()
 		return;
 	}
 
+	// 점수 렌더링
 	for (size_t i = 0; i < ScoreRenderer_vec.size(); i++)
 	{
 		GameEngineRenderer* ScoreRendererPtr = ScoreRenderer_vec[i];
@@ -587,6 +608,9 @@ void PlayUI::ScoreState()
 	RenderScore = PlayUI_Score;
 }
 
+
+
+/* ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ */
 
 
 
@@ -627,23 +651,4 @@ void PlayUI::LevelStartStamina()
 }
 
 
-
-void PlayUI::LevelStartLivesCount()
-{
-	if (nullptr == First_LivesRenderer)
-	{
-		MsgBoxAssert("렌더러를 불러오지 못했습니다.");
-		return;
-	}
-
-	if (nullptr == Second_LivesRenderer)
-	{
-		MsgBoxAssert("렌더러를 불러오지 못했습니다.");
-		return;
-	}
-
-	// 커비 목숨
-	First_LivesRenderer->SetCopyPos(float4{ NumberScale.X * static_cast<float>(m_LivesCount / 10), 0.0f });
-	Second_LivesRenderer->SetCopyPos(float4{ NumberScale.X * static_cast<float>(m_LivesCount % 10), 0.0f });
-}
 

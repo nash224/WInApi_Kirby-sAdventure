@@ -64,7 +64,6 @@ void TitleLevel::Start()
 	// µð¹ö±×
 	float4 WinScale = GameEngineWindow::MainWindow.GetScale();
 	Level_DebugRenderXPos = WinScale.iX() - 200;
-	ItUseDebugBitMap = false;
 }
 
 

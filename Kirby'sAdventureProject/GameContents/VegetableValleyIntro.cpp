@@ -49,8 +49,6 @@ void VegetableValleyIntro::Start()
 	GlobalContents::SoundFileLoad("03_Plains_Level.mp3", "Resources\\SoundResources\\SoundTrack");
 
 
-	// µð¹ö±×
-	ItUseDebugBitMap = false;
 }
 
 

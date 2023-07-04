@@ -36,24 +36,28 @@ public:
 	HubUI& operator=(HubUI&& _Other) noexcept = delete;
 
 
-protected:
+	// Level 상속
+private:
+	void Start() override;
+	void Update(float _Delta) override;
+	void LevelStart() override;
+
+
+
+	// Start
+	// 초기 세팅
+	const float4 HUB_StaminaScale = float4{ 24.0f, 24.0f };
+
+
 	void HubRendererSet();
+
 	void LivesNumberRendererSet();
+
 	void StaminaCountRendererSet();
 
 
 
-
-	void Start() override;
-	void Update(float _Delta) override;
-
-	void LevelStart() override;
-
-private:
-	const float4 HUB_StaminaScale = float4{ 24.0f, 24.0f };
-
-
-
-
+	// LevelStart
+	void LevelStartStamina();
 };
 

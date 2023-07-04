@@ -1,7 +1,7 @@
 #pragma once
 #include "VegetableValleyPlayLevel.h"
 
-// 설명 :
+// 설명 : 단순히 설명을 띄우는 Level입니다.
 class SubScreens : public VegetableValleyPlayLevel
 {
 public:
@@ -17,6 +17,7 @@ public:
 
 protected:
 
+	// Level 상속
 private:
 	void Start() override;
 	void Update(float _Delta) override;
@@ -24,9 +25,6 @@ private:
 
 	void LevelStart(GameEngineLevel* _PrevLevel) override;
 	void LevelEnd(GameEngineLevel* _NextLevel) override;
-
-private:
-	const float4 KirbyRespawnLocation = float4{ 648.0f , 456.0f };
 
 };
 

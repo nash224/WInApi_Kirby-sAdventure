@@ -26,7 +26,7 @@ UIManager::~UIManager()
 
 
 
-
+// 초상화 초기 세팅
 void UIManager::PortraitRendererSet(const float4& _RenderPos)
 {
 	// UI 패널
@@ -44,8 +44,6 @@ void UIManager::PortraitRendererSet(const float4& _RenderPos)
 		MsgBoxAssert("UI 텍스처가 널일리가 없어");
 		return;
 	}
-
-
 
 
 	PortraitRenderer->CreateAnimation("Portrait_Normal", "UI_Portrait_7x2_96x120.bmp", 0, 0, 0.1f, false);
@@ -75,52 +73,22 @@ void UIManager::PortraitRendererSet(const float4& _RenderPos)
 
 
 
+/* ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ */
 
 
 
 
-// 죽었을 때 스테미나 
-void UIManager::StaminaState()
-{
-	if (true == KirbyPtr->IsKirbyRevive)
-	{
-		// 라이프 1감소 
-		--m_LivesCount;
-
-		// Hp 초기화
-		m_KirbySteminaCount = 6;
-
-
-		for (size_t i = 0; i < StaminaRenderer_vec.size(); i++)
-		{
-			GameEngineRenderer* StaminaRenderer = StaminaRenderer_vec[i];
-			if (nullptr == StaminaRenderer)
-			{
-				MsgBoxAssert("렌더러를 불러오지 못했습니다.");
-				return;
-			}
-
-			StaminaRenderer->On();
-			StaminaRenderer->FindAnimation("StaminaRemain")->Inters = { 0.6f , 0.6f };
-			StaminaRenderer->FindAnimation("StaminaRemain")->CurInter = 0.0f;
-			StaminaRenderer->FindAnimation("StaminaRemain")->CurFrame = 0;
-		}
-
-		PortraitRenderer->ChangeAnimation("Portrait_Normal");
-
-		KirbyPtr->IsKirbyRevive = false;
-
-		Second_LivesRenderer->SetCopyPos(float4{ NumberScale.X * static_cast<float>(m_LivesCount), 0.0f });
-	}
-
-}
-
-
-
+// 초상화 업데이트
 void UIManager::PortraitState(float _Delta)
 {
 	if (0 == m_KirbySteminaCount)
 	{
+		if (nullptr == PortraitRenderer)
+		{
+			MsgBoxAssert("렌더러를 불러오지 못헀습니다.");
+			return;
+		}
+
 		PortraitRenderer->ChangeAnimation("Portrait_Miss");
 	}
 
@@ -129,19 +97,31 @@ void UIManager::PortraitState(float _Delta)
 	// 삼킴 초상화
 	if (true == KirbyPtr->IsGulpEnemy)
 	{
+		if (nullptr == PortraitRenderer)
+		{
+			MsgBoxAssert("렌더러를 불러오지 못헀습니다.");
+			return;
+		}
+
 		PortraitRenderer->ChangeAnimation("Portrait_Nothing");
 		IsGulpPortraitDone = false;
 	}
 
 	if (false == IsGulpPortraitDone)
 	{
-		IsGulpPortraitTime += _Delta;
+		GulpPortraitTime += _Delta;
 	}
 
-	if (IsGulpPortraitTime > IsGulpPortraitDuration)
+	if (GulpPortraitTime > GulpPortraitDuration)
 	{
+		if (nullptr == PortraitRenderer)
+		{
+			MsgBoxAssert("렌더러를 불러오지 못헀습니다.");
+			return;
+		}
+
 		IsGulpPortraitDone = true;
-		IsGulpPortraitTime = 0.0f;
+		GulpPortraitTime = 0.0f;
 
 		PortraitRenderer->ChangeAnimation("Portrait_Normal");
 	}
@@ -152,6 +132,12 @@ void UIManager::PortraitState(float _Delta)
 	int KirbyPtrMode = static_cast<int>(KirbyPtr->Mode);
 	if (KirbyMode != KirbyPtrMode && AbilityStar::Max != KirbyPtr->Mode)
 	{
+		if (nullptr == PortraitRenderer)
+		{
+			MsgBoxAssert("렌더러를 불러오지 못헀습니다.");
+			return;
+		}
+
 		switch (KirbyPtr->Mode)
 		{
 		case AbilityStar::Normal:
@@ -189,7 +175,66 @@ void UIManager::PortraitState(float _Delta)
 
 
 
+// 죽었을 때 스테미나 
+void UIManager::StaminaState()
+{
+	if (true == KirbyPtr->IsKirbyRevive)
+	{
+		// 라이프 1감소 
+		--m_LivesCount;
 
+		// Hp 초기화
+		m_KirbySteminaCount = 6;
+
+
+		for (size_t i = 0; i < StaminaRenderer_vec.size(); i++)
+		{
+			GameEngineRenderer* StaminaRenderer = StaminaRenderer_vec[i];
+			if (nullptr == StaminaRenderer)
+			{
+				MsgBoxAssert("렌더러를 불러오지 못했습니다.");
+				return;
+			}
+
+			StaminaRenderer->On();
+			StaminaRenderer->FindAnimation("StaminaRemain")->Inters = { 0.6f , 0.6f };
+			StaminaRenderer->FindAnimation("StaminaRemain")->CurInter = 0.0f;
+			StaminaRenderer->FindAnimation("StaminaRemain")->CurFrame = 0;
+		}
+
+
+		if (nullptr == PortraitRenderer)
+		{
+			MsgBoxAssert("렌더러를 불러오지 못헀습니다.");
+			return;
+		}
+
+		PortraitRenderer->ChangeAnimation("Portrait_Normal");
+
+		KirbyPtr->IsKirbyRevive = false;
+
+
+
+		if (nullptr == Second_LivesRenderer)
+		{
+			MsgBoxAssert("렌더러를 불러오지 못헀습니다.");
+			return;
+		}
+
+		Second_LivesRenderer->SetCopyPos(float4{ NumberScale.X * static_cast<float>(m_LivesCount), 0.0f });
+	}
+
+}
+
+
+
+
+/* ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ */
+
+
+
+
+// 초상화 유지
 void UIManager::LevelStartPortrait()
 {
 	if (nullptr == PortraitRenderer)
@@ -229,4 +274,26 @@ void UIManager::LevelStartPortrait()
 	default:
 		break;
 	}
+}
+
+
+
+// 목숨 유지
+void UIManager::LevelStartLivesCount()
+{
+	if (nullptr == First_LivesRenderer)
+	{
+		MsgBoxAssert("렌더러를 불러오지 못했습니다.");
+		return;
+	}
+
+	if (nullptr == Second_LivesRenderer)
+	{
+		MsgBoxAssert("렌더러를 불러오지 못했습니다.");
+		return;
+	}
+
+	// 커비 목숨
+	First_LivesRenderer->SetCopyPos(float4{ NumberScale.X * static_cast<float>(m_LivesCount / 10), 0.0f });
+	Second_LivesRenderer->SetCopyPos(float4{ NumberScale.X * static_cast<float>(m_LivesCount % 10), 0.0f });
 }

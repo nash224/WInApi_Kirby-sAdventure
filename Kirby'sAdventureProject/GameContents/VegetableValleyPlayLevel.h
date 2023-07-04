@@ -201,7 +201,6 @@ public:
 	static bool Level_MenuOpenValue;
 	static bool Level_SwitchBitMapRenderValue;
 	static bool Level_DebugRenderValue;
-	bool ItUseDebugBitMap = true;
 
 protected:
 	void DebugRender(float _Delta);

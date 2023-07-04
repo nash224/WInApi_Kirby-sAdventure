@@ -6,7 +6,7 @@
 
 // 이미지 좌상단 기준
 // 목숨 애니메이션 위치
-#define LIVESANILOCATION float4{ 573.0f , 66.0f}
+#define BOSS_LIVESANILOCATION float4{ 573.0f , 66.0f}
 
 
 // 목숨 숫자 위치
@@ -51,12 +51,24 @@ public:
 	BossUI& operator=(BossUI&& _Other) noexcept = delete;
 
 
-protected:
+
+	// 레벨 상속
+private:
+	void Start() override;
+	void Update(float _Delta) override;
+	void LevelStart() override;
+	void LevelEnd() override;
+
+
+
+
+	// this
+private:
+	// 렌더
 	GameEngineRenderer* LivesAniRenderer = nullptr;
 
 
-
-
+	// Start
 	void HubRendererSet();
 	void LivesAniRendererSet();
 	void LivesNumberRendererSet();
@@ -64,26 +76,18 @@ protected:
 	void BossStaminaRendererSet();
 
 
-
-
-	void Start() override;
-	void Update(float _Delta) override;
-
-	void LevelStart() override;
-	void LevelEnd() override;
-
-private:
-
 	const float4 NumberScale = float4{ 24.0f, 24.0f };
 
 
+
+	// Update
 	// Ouch 상태 관련
 	bool Ouch_State = false;
 	float Ouch_Time = 0.0f;
 	const float Ouch_Duration = 1.0f;
 
-
 	void OuchState(float _Delta);
+
 
 
 
@@ -96,13 +100,14 @@ private:
 
 	const float Boss_Stamina_Image_Inter = 6.0f;
 	bool IsBossStaminaFull = false;
+	bool Boss_Stamina_Full_Done = false;
 	const float Boss_Stamina_Full_Inter = 0.1f;
 	float Boss_Stamina_Full_Time = 0.0f;
 	
 
-	bool Boss_Stamina_Full_Done = false;
 
 	void BossAppearance(float _Delta);
+
 
 
 	// 보스 스태미나 관련
@@ -115,11 +120,17 @@ private:
 
 	void ChangePortrait_StarStick();
 
+
 	// Ending 관련
 	GameEngineRenderer* EndingPanelRenderer = nullptr;
 
 	bool IsCall_ByeByePortrait = false;
 
 	void ChangePortrait_ByeBye();
+
+
+
+	// LevelStart
+	void LevelStartStamina();
 };
 

@@ -3,7 +3,7 @@
 
 // 이미지 좌상단 기준
 // 목숨 애니메이션 위치
-#define LIVESANILOCATION float4{ 573.0f , 66.0f}
+#define Play_LIVESANILOCATION float4{ 573.0f , 66.0f}
 
 
 // 목숨 숫자 위치
@@ -40,6 +40,8 @@ public:
 
 protected:
 
+
+	// Level 상속
 private:
 	void Start() override;
 	void Update(float _Delta) override;
@@ -47,7 +49,11 @@ private:
 	void LevelStart() override;
 
 
+
+	// 렌더
 	GameEngineRenderer* LivesAniRenderer = nullptr;
+	std::vector<GameEngineRenderer*> ScoreRenderer_vec;
+
 
 
 	// Init 
@@ -59,8 +65,7 @@ private:
 		
 
 
-
-private:
+	// Update
 	// Hp 감소 패턴
 	bool Ouch_State = false;
 	float Ouch_Time = 0.0f;
@@ -68,6 +73,7 @@ private:
 
 
 	void OuchState(float _Delta);
+
 
 	// Hp 증가 패턴
 	float Increase_Hp_Time = 0.0f;
@@ -77,16 +83,15 @@ private:
 
 
 	// 점수 패턴
-	std::vector<GameEngineRenderer*> ScoreRenderer_vec;
 	int RenderScore = 0;
 
 
 	void ScoreState();
 
 
+
 	// LevelStart
 	void LevelStartStamina();
-	void LevelStartLivesCount();
 
 };
 

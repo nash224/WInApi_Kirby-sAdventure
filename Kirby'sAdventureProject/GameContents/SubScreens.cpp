@@ -28,6 +28,7 @@ SubScreens::~SubScreens()
 
 void SubScreens::Start()
 {
+	// 배경 생성
 	LevelBackGround = GameEngineLevel::CreateActor<BackGround>(UpdateOrder::BackGround);
 	if (nullptr == LevelBackGround)
 	{
@@ -40,9 +41,6 @@ void SubScreens::Start()
 
 	// Player가 LevelStart 할 때 터짐을 방지
 	SetName("BonusGame");
-
-
-	ItUseDebugBitMap = false;
 }
 
 
@@ -54,6 +52,7 @@ void SubScreens::Update(float _Delta)
 	}
 
 
+	// 레벨 이동
 	if (true == GameEngineInput::IsDown('W') ||
 		true == GameEngineInput::IsDown('A') ||
 		true == GameEngineInput::IsDown('S') ||
@@ -86,7 +85,7 @@ void SubScreens::Update(float _Delta)
 
 
 
-
+// 디버그 렌더
 void SubScreens::Render(float _Delta)
 {
 	if (false == Level_DebugRenderValue)
