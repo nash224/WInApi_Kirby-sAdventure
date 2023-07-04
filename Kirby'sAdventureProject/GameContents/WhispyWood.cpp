@@ -104,7 +104,6 @@ void WhispyWood::Update(float _Delta)
 {
 	DebugShortcut();
 
-
 	StateUpdate(_Delta);
 }
 
@@ -203,6 +202,7 @@ void WhispyWood::IdleUpdate(float _Delta)
 
 		// 사운드
 		VegetableValleyPlayLevel::BGM_Player = GameEngineSound::SoundPlay("07_Boss.mp3");
+		VegetableValleyPlayLevel::BGMFileName = "07_Boss.mp3";
 		VegetableValleyPlayLevel::IsBGM_On = true;
 	}
 }
@@ -231,7 +231,7 @@ void WhispyWood::SummonAppleUpdate(float _Delta)
 	if (true == MainRenderer->IsAnimationEnd())
 	{
 		// 랜덤 눈깜빡임
-		float NextCloseEyesTurn = GameEngineRandom::MainRandom.RandomFloat(0.0f, 3.0f) + 2.0f;
+		float NextCloseEyesTurn = GameEngineRandom::MainRandom.RandomFloat(0.0f, 2.0f) + 3.0f;
 		MainRenderer->FindAnimation("Left_SummonApple")->Inters = { 0.1f, 0.1f, 0.2f, 0.1f, NextCloseEyesTurn };
 
 		++TwinkleCount;
@@ -280,7 +280,6 @@ void WhispyWood::SummonAppleUpdate(float _Delta)
 
 
 			--SummonAppleCount;
-
 		}
 	}
 
@@ -580,6 +579,7 @@ void WhispyWood::CryingFaceUpdate(float _Delta)
 		IsBoss_StealtheStarStickDone = true;
 
 		VegetableValleyPlayLevel::BGM_Player = GameEngineSound::SoundPlay("30_Level_Clear.mp3");
+		VegetableValleyPlayLevel::BGMFileName = "30_Level_Clear.mp3";
 	}
 }
 
@@ -668,42 +668,124 @@ void WhispyWood::LevelStart()
 
 
 
-
-
 void WhispyWood::Render(float _Delta)
 {
-
-	GameEngineWindowTexture* BackBufferPtr = GameEngineWindow::MainWindow.GetBackBuffer();
-	if (nullptr == BackBufferPtr)
+	if (false == VegetableValleyPlayLevel::Level_DebugRenderValue)
 	{
-		MsgBoxAssert("백버퍼를 불러오지 못했습니다.");
 		return;
 	}
 
-	HDC dc = BackBufferPtr->GetImageDC();
-	float4 WinScale = GameEngineWindow::MainWindow.GetScale();
 
-	
+	HDC dc = GameEngineWindow::MainWindow.GetBackBuffer()->GetImageDC();
 
-	{
-		std::string Text = "";
+	int TextRenderNum = 0;
 
-		Text += "Apple Size : ";
 
-		Text += std::to_string(WhispyApple_list.size());
-		TextOutA(dc, WinScale.iX() - 200, 2, Text.c_str(), static_cast<int>(Text.size()));
-	}
+	float4 ActorScenePos = ActorCameraPos();
 
-	{
-		std::string Text = "";
-		
-		Text += "Whispy Size : ";
+	int TextXPos = ActorScenePos.iX() - Scale.Half().iX() + 6;
+	int TextYPos = ActorScenePos.iY() + Scale.Half().iY() - 6;
 
-		Text += std::to_string(WhispyEffect_list.size());
-		TextOutA(dc, WinScale.iX() - 200, 20, Text.c_str(), static_cast<int>(Text.size()));
-	}
+	ThisDebugRender(dc, TextRenderNum, TextXPos, TextYPos);
+
 }
 
+
+
+void WhispyWood::ThisDebugRender(HDC _dc, int& _RenderNumber, const int _TextXPos, const int _TextYPos)
+{
+	float4 WinScale = GameEngineWindow::MainWindow.GetScale();
+
+
+	{
+		std::string Text = "";
+		Text += "Char Key B : 보스 1Hp";
+		TextOutA(_dc, _TextXPos, _TextYPos - _RenderNumber * DebugRenderText_YInter, Text.c_str(), static_cast<int>(Text.size()));
+
+		++_RenderNumber;
+	}
+
+
+
+
+	++_RenderNumber;
+
+
+
+	{
+		std::string Text = "";
+		Text += CurState;
+		TextOutA(_dc, _TextXPos, _TextYPos - _RenderNumber * DebugRenderText_YInter, Text.c_str(), static_cast<int>(Text.size()));
+
+		++_RenderNumber;
+	}
+
+
+	{
+		std::string Text = "";
+		Text += "BossHp : ";
+		Text += std::to_string(m_BossHp);
+		TextOutA(_dc, _TextXPos, _TextYPos - _RenderNumber * DebugRenderText_YInter, Text.c_str(), static_cast<int>(Text.size()));
+
+		++_RenderNumber;
+	}
+
+
+	{
+		std::string Text = "";
+		Text += "TwinkleCount : ";
+
+		Text += std::to_string(TwinkleCount);
+		TextOutA(_dc, _TextXPos, _TextYPos - _RenderNumber * DebugRenderText_YInter, Text.c_str(), static_cast<int>(Text.size()));
+
+		++_RenderNumber;
+	}
+
+
+	{
+		std::string Text = "";
+		Text += "SummonAppleCount : ";
+
+		Text += std::to_string(SummonAppleCount);
+		TextOutA(_dc, _TextXPos, _TextYPos - _RenderNumber * DebugRenderText_YInter, Text.c_str(), static_cast<int>(Text.size()));
+
+		++_RenderNumber;
+	}
+
+
+	{
+		std::string Text = "";
+
+		Text += "Apple_list Size : ";
+
+		Text += std::to_string(WhispyApple_list.size());
+		TextOutA(_dc, _TextXPos, _TextYPos - _RenderNumber * DebugRenderText_YInter, Text.c_str(), static_cast<int>(Text.size()));
+
+		++_RenderNumber;
+	}
+
+	{
+		std::string Text = "";
+
+		Text += "Whispy_list Size : ";
+
+		Text += std::to_string(WhispyEffect_list.size());
+		TextOutA(_dc, _TextXPos, _TextYPos - _RenderNumber * DebugRenderText_YInter, Text.c_str(), static_cast<int>(Text.size()));
+
+		++_RenderNumber;
+	}
+
+
+	{
+		std::string Text = "";
+		Text += "Whispy_RemainCount : ";
+
+		Text += std::to_string(Whispy_RemainCount);
+		TextOutA(_dc, _TextXPos, _TextYPos - _RenderNumber * DebugRenderText_YInter, Text.c_str(), static_cast<int>(Text.size()));
+
+		++_RenderNumber;
+	}
+}
 
 
 

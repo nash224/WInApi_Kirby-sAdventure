@@ -136,5 +136,10 @@ private:
 	void LevelStart() override;
 	void LevelEnd() override;
 
+
+
+	void ThisDebugRender(HDC _dc, int& _RenderNumber, const int _TextXPos, const int _TextYPos);
+
+
 };
 

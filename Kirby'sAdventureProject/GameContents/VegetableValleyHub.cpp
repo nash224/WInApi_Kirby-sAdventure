@@ -606,6 +606,7 @@ void VegetableValleyHub::LevelStart(GameEngineLevel* _PrevLevel)
 		LevelPlayer->SetPos(Stage1.StageLocation);
 
 		BGM_Player = GameEngineSound::SoundPlay("05_LEVEL1.mp3", 255);
+		BGMFileName = "05_LEVEL1.mp3";
 		IsBGM_On = true;
 		break;
 	case 2:
@@ -617,6 +618,7 @@ void VegetableValleyHub::LevelStart(GameEngineLevel* _PrevLevel)
 		if (false == IsBGM_On)
 		{
 			BGM_Player = GameEngineSound::SoundPlay("05_LEVEL1.mp3", 255);
+			BGMFileName = "05_LEVEL1.mp3";
 			IsBGM_On = true;
 		}
 		break;

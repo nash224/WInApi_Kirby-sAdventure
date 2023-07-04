@@ -149,6 +149,7 @@ public:
 	static GameEngineSoundPlayer BGM_Player;
 	static float SoundVol;
 	static bool IsBGM_On;
+	static std::string BGMFileName;
 	std::string LevelBgmFileName = "";
 
 private:
@@ -211,7 +212,6 @@ protected:
 	virtual void SwitchRenders() {}
 
 
-protected:
 	static int Level_DebugRenderXPos;
 	int DebugRenderText_YInter = 18;
 	float FPSText = 0.0f;

@@ -106,6 +106,7 @@ void TitleLevel::LevelStart(GameEngineLevel* _PrevLevel)
 	if (false == IsBGM_On)
 	{
 		BGM_Player = GameEngineSound::SoundPlay("02_Title_Screen.mp3");
+		BGMFileName = "02_Title_Screen.mp3";
 		IsBGM_On = true;
 	}
 }

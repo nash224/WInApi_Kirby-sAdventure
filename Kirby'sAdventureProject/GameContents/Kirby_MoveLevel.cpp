@@ -493,6 +493,8 @@ void Kirby::PerformanceStart()
 	Kirby_Performance_StartXPos = GetPos().X;
 
 	VegetableValleyPlayLevel::BGM_Player = GameEngineSound::SoundPlay("08_Level_Cleared_Dance.mp3");
+	VegetableValleyPlayLevel::BGMFileName = "08_Level_Cleared_Dance.mp3";
+
 
 
 	GravityReset();

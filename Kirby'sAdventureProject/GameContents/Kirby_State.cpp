@@ -2093,6 +2093,7 @@ void Kirby::MissRaiseUpStart()
 	{
 		VegetableValleyPlayLevel::IsBGM_On = true;
 		VegetableValleyPlayLevel::BGM_Player = GameEngineSound::SoundPlay("38_Miss.mp3");
+		VegetableValleyPlayLevel::BGMFileName = "38_Miss.mp3";
 	}
 
 

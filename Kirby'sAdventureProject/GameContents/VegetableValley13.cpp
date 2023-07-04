@@ -198,6 +198,7 @@ void VegetableValley13::EndingCredit(float _Delta)
 		}
 
 		BGM_Player = GameEngineSound::SoundPlay("32_Crane_Fever_(faster).mp3");
+		BGMFileName = "32_Crane_Fever_.mp3";
 	}
 }
 

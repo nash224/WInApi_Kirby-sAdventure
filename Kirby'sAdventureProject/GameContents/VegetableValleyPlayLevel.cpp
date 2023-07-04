@@ -28,6 +28,7 @@ bool VegetableValleyPlayLevel::ChangeClearDoor = false;
 float VegetableValleyPlayLevel::SoundVol = 0.0f;
 GameEngineSoundPlayer VegetableValleyPlayLevel::BGM_Player;
 bool VegetableValleyPlayLevel::IsBGM_On = false;
+std::string VegetableValleyPlayLevel::BGMFileName = "";
 
 
 int VegetableValleyPlayLevel::Camera_ShakeCount = 0;
@@ -55,6 +56,7 @@ VegetableValleyPlayLevel::~VegetableValleyPlayLevel()
 void VegetableValleyPlayLevel::RePlayBGM()
 {
 	BGM_Player = GameEngineSound::SoundPlay(LevelBgmFileName);
+	BGMFileName = LevelBgmFileName;
 	IsBGM_On = true;
 }
 
@@ -532,7 +534,6 @@ void VegetableValleyPlayLevel::DevModeRender(HDC _HDC, int& _RenderNumber, float
 
 		++_RenderNumber;
 	}
-
 
 }
 

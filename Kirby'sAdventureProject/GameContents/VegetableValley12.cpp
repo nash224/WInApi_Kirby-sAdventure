@@ -242,6 +242,7 @@ void VegetableValley12::LevelStart(GameEngineLevel* _PrevLevel)
 	if (false == IsBGM_On)
 	{
 		BGM_Player = GameEngineSound::SoundPlay("06_Underground_Level.mp3");
+		BGMFileName = "06_Underground_Level.mp3";
 		IsBGM_On = true;
 	}
 

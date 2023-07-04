@@ -1098,10 +1098,6 @@ void Kirby::Contain_DamagedUpdate(float _Delta)
 			ChangeState(KirbyState::Contain_Fall);
 			return;
 		}
-		else
-		{
-			int a = 0;
-		}
 	}
 
 

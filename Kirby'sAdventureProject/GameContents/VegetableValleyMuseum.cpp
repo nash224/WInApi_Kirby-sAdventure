@@ -184,6 +184,7 @@ void VegetableValleyMuseum::LevelStart(GameEngineLevel* _PrevLevel)
 		IsBGM_On = true;
 
 		BGM_Player = GameEngineSound::SoundPlay("11_Museum.mp3");
+		BGMFileName = "11_Museum.mp3";
 	}
 
 	GlobalContents::FadeIn(this);

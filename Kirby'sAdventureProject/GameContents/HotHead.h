@@ -93,9 +93,5 @@ protected:
 	void ThisDebugRender(HDC _dc, int& _RenderNumber, const int _TextXPos, const int _TextYPos);
 	void ThisDebugTriggerRender(HDC _dc);
 
-
-
-
-
 };
 

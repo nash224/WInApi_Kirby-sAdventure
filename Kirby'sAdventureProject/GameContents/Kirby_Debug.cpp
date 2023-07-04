@@ -19,6 +19,27 @@ void Kirby::KirbysDebugShortcut(float _Delta)
 		SwitchNoneBodyCollision();
 	}
 
+	if (true == GameEngineInput::IsDown('4'))
+	{
+		if (6 == m_KirbyHp)
+		{
+			++m_KirbyHp;
+		}
+	}
+
+	if (true == GameEngineInput::IsDown('5'))
+	{
+		if (KirbyState::Fly != KeepDamagedState && KirbyState::Contain_Idle != KeepDamagedState)
+		{
+			ChangeState(KirbyState::Damaged);
+			return;
+		}
+		else if (KirbyState::Fly == KeepDamagedState || KirbyState::Contain_Idle == KeepDamagedState)
+		{
+			ChangeState(KirbyState::Contain_Damaged);
+			return;
+		}
+	}
 
 
 	// 지정 상태 확인키
@@ -123,6 +144,37 @@ void Kirby::KirbyDebugRender(HDC _dc)
 	}
 
 
+	{
+		std::string Text = "";
+
+		Text += "Char Key 4 : ++체력";
+		TextOutA(_dc, 2, 2 + TextRenderNum * DebugRenderText_YInter, Text.c_str(), static_cast<int>(Text.size()));
+
+		++TextRenderNum;
+	}
+
+
+	{
+		std::string Text = "";
+
+		Text += "Char Key 5 : --체력";
+		TextOutA(_dc, 2, 2 + TextRenderNum * DebugRenderText_YInter, Text.c_str(), static_cast<int>(Text.size()));
+
+		++TextRenderNum;
+	}
+
+	{
+		std::string Text = "";
+
+		Text += "Char Key 6 : 자폭";
+		TextOutA(_dc, 2, 2 + TextRenderNum * DebugRenderText_YInter, Text.c_str(), static_cast<int>(Text.size()));
+
+		++TextRenderNum;
+	}
+
+
+	++TextRenderNum;
+
 
 	{
 		std::string Text = "";
@@ -158,10 +210,19 @@ void Kirby::KirbyDebugRender(HDC _dc)
 	{
 		std::string Text = "";
 
-		Text += "X,Y 속도 : ";
-		Text += std::to_string(static_cast<int>(KirbyMovePos.X));
-		Text += " ,";
-		Text += std::to_string(static_cast<int>(KirbyMovePos.Y));
+		Text += "1프레임 X 속도 : ";
+		Text += std::to_string(KirbyMovePos.X);
+		TextOutA(_dc, 2, 2 + TextRenderNum * DebugRenderText_YInter, Text.c_str(), static_cast<int>(Text.size()));
+
+		++TextRenderNum;
+	}
+
+
+	{
+		std::string Text = "";
+
+		Text += "1프렘 Y 속도 : ";
+		Text += std::to_string(KirbyMovePos.Y);
 		TextOutA(_dc, 2, 2 + TextRenderNum * DebugRenderText_YInter, Text.c_str(), static_cast<int>(Text.size()));
 
 		++TextRenderNum;
@@ -246,13 +307,13 @@ void Kirby::KirbyDebugRender(HDC _dc)
 		switch (KeepDamagedState)
 		{
 		case KirbyState::Idle:
-			Text += CurState;
+			Text += "Idle";
 			break;
 		case KirbyState::Fly:
-			Text += CurState;
+			Text += "Fly";
 			break;
 		case KirbyState::Contain_Idle:
-			Text += CurState;
+			Text += "Contain_Idle";
 			break;
 		default:
 			break;
@@ -331,6 +392,9 @@ void Kirby::ThisDebugRender(HDC _dc)
 				break;
 			case AbilityStar::Ice:
 				Text += "Ice";
+				break;
+			case AbilityStar::Max:
+				Text += "Max";
 				break;
 			default:
 				break;

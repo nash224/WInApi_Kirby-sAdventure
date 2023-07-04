@@ -85,11 +85,13 @@ void WaddleDee::WalkUpdate(float _Delta)
 
 	if (ActorDir::Left == Dir)
 	{
+		CurrentSpeed = -WaddleSpeed;
 		AddPos(float4::LEFT * WaddleSpeed * _Delta);
 	}
 
 	if (ActorDir::Right == Dir)
 	{
+		CurrentSpeed = WaddleSpeed;
 		AddPos(float4::RIGHT * WaddleSpeed * _Delta);
 	}
 
