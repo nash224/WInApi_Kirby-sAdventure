@@ -321,7 +321,7 @@ void VegetableValleyPlayLevel::LevelDebugShortcut(float _Delta)
 	}
 
 	// Ä«¸Þ¶ó Shake
-	if (true == GameEngineInput::IsDown('2'))
+	if (true == GameEngineInput::IsDown(VK_F12))
 	{
 		++Camera_ShakeCount;
 	}

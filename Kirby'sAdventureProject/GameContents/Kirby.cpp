@@ -178,6 +178,35 @@ void Kirby::Start()
 
 
 
+
+	SwordEffectCollision = CreateCollision(CollisionOrder::KirbyInhaleAbility);
+	if (nullptr == SwordEffectCollision)
+	{
+		MsgBoxAssert("액터가 NULL 입니다.");
+		return;
+	}
+
+	SwordEffectCollision->SetCollisionScale(SWORDEFFECTCOLLISIONSCALE);
+	SwordEffectCollision->SetCollisionType(CollisionType::Rect);
+	SwordEffectCollision->Off();
+
+
+
+	AerialSwordEffectCollision = CreateCollision(CollisionOrder::KirbyInhaleAbility);
+	if (nullptr == AerialSwordEffectCollision)
+	{
+		MsgBoxAssert("액터가 NULL 입니다.");
+		return;
+	}
+
+	AerialSwordEffectCollision->SetCollisionPos(float4{ 0.0f , -SmallTypeScale.Half().Y });
+	AerialSwordEffectCollision->SetCollisionScale(AERIALSWORDEFFECTCOLLISIONSCALE);
+	AerialSwordEffectCollision->SetCollisionType(CollisionType::Rect);
+	AerialSwordEffectCollision->Off();
+
+	
+
+
 	ThornEffectCollision = CreateCollision(CollisionOrder::KirbyInhaleAbility);
 	if (nullptr == ThornEffectCollision)
 	{
@@ -190,21 +219,6 @@ void Kirby::Start()
 	ThornEffectCollision->SetCollisionScale(SPARKEFFECTCOLLISIONSCALE);
 	ThornEffectCollision->SetCollisionType(CollisionType::Rect);
 	ThornEffectCollision->Off();
-
-
-
-	SwordEffectCollision = CreateCollision(CollisionOrder::KirbyInhaleAbility);
-	if (nullptr == SwordEffectCollision)
-	{
-		MsgBoxAssert("액터가 NULL 입니다.");
-		return;
-	}
-
-
-	SwordEffectCollision->SetCollisionPos(float4{ 0.0f , -SmallTypeScale.Half().Y });
-	SwordEffectCollision->SetCollisionScale(SWORDEFFECTCOLLISIONSCALE);
-	SwordEffectCollision->SetCollisionType(CollisionType::Rect);
-	SwordEffectCollision->Off();
 }
 
 
@@ -543,7 +557,11 @@ void Kirby::KirbyBodyCollisonOff()
 	LittleCollision->Off();
 	FatCollision->Off();
 	LowerCollision->Off();
-	ImmuneCollision->On();
+
+	if (false == Cheat_NoneBodyCollision)
+	{
+		ImmuneCollision->On();
+	}
 }
 
 
@@ -728,6 +746,7 @@ void Kirby::Render(float _Detla)
 
 	KirbyDebugRender(dc);
 	ThisDebugRender(dc);
+	KeyDownRender(dc);
 
 	ActorCollisionDetectionPointRender();
 }

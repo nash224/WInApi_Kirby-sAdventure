@@ -343,14 +343,6 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="MrFrosty.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
-    <ClInclude Include="MrSunMrMoon.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
     <ClInclude Include="AirExplosionBEffect.h">
       <SubType>
       </SubType>
@@ -694,14 +686,6 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="MoveStarEffect.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
-    <ClCompile Include="MrFrosty.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
-    <ClCompile Include="MrSunMrMoon.cpp">
       <SubType>
       </SubType>
     </ClCompile>

@@ -98,6 +98,18 @@ void Kirby::SwordAbilityStart()
 
 	GameEngineSound::SoundPlay("SwordKnight_AttackSound.wav");
 
+
+	float SwordCollisionAdjustment = 0.0f;
+	if (ActorDir::Left == Dir)
+	{
+		SwordCollisionAdjustment = -40.0f;
+	}
+	else if (ActorDir::Right == Dir)
+	{
+		SwordCollisionAdjustment = 40.0f;
+	}
+
+	SwordEffectCollision->SetCollisionPos(float4{ SwordCollisionAdjustment  ,  -SmallTypeScale.Half().Y});
 	SwordEffectCollision->On();
 }
 
@@ -171,13 +183,13 @@ void Kirby::AerialUseSpecialAbilityStart()
 {
 	IsChangeState = false;
 
-	if (nullptr == SwordEffectCollision)
+	if (nullptr == AerialSwordEffectCollision)
 	{
 		MsgBoxAssert("번개모드 콜리전이 Null입니다.");
 		return;
 	}
 
-	SwordEffectCollision->On();
+	AerialSwordEffectCollision->On();
 
 
 
@@ -204,13 +216,13 @@ void Kirby::AerialUseSpecialAbilityUpdate(float _Delta)
 
 	if (true == IsChangeState)
 	{
-		if (nullptr == SwordEffectCollision)
+		if (nullptr == AerialSwordEffectCollision)
 		{
 			MsgBoxAssert("번개모드 콜리전이 Null입니다.");
 			return;
 		}
 
-		SwordEffectCollision->Off();
+		AerialSwordEffectCollision->Off();
 		ChangeState(KirbyState::ReleaseSpecialAbility);
 		return;
 	}
@@ -224,7 +236,7 @@ void Kirby::AerialUseSpecialAbilityUpdate(float _Delta)
 
 	// 능력 충돌 검사
 	int DamageValue = GameEngineRandom::MainRandom.RandomInt(2, 4);
-	CheckKirbyAbilityCollision(SwordEffectCollision, DamageValue);
+	CheckKirbyAbilityCollision(AerialSwordEffectCollision, DamageValue);
 
 
 

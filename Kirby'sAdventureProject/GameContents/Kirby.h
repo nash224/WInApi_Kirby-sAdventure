@@ -16,7 +16,8 @@
 #define LOWERATTACKCOLLISIONSCALE float4 { 30.0f , 18.0f }
 #define INHALEEFFECTCOLLISIONSCALE float4 { 132.0f , 66.0f }
 #define SPARKEFFECTCOLLISIONSCALE float4 { 112.0f , 112.0f }
-#define SWORDEFFECTCOLLISIONSCALE float4 { 192.0f , 108.0f }
+#define SWORDEFFECTCOLLISIONSCALE float4 { 182.0f , 100.0f }
+#define AERIALSWORDEFFECTCOLLISIONSCALE float4 { 96.0f , 96.0f }
 
 // 커비 이동 상수
 #define WALKSPEED 500.0f
@@ -313,6 +314,7 @@ private:
 	GameEngineCollision* SparkEffectCollision = nullptr;
 	GameEngineCollision* ThornEffectCollision = nullptr;
 	GameEngineCollision* SwordEffectCollision = nullptr;
+	GameEngineCollision* AerialSwordEffectCollision = nullptr;
 	
 
 
@@ -349,7 +351,7 @@ private:
 
 
 
-	// 상속
+	// Level 상속
 	void Start() override;
 	void Update(float _Delta) override;
 	void Render(float _Detla) override;
@@ -530,12 +532,20 @@ private:
 
 	// 치트
 	bool Cheat_Invincibility = false;
+	bool Cheat_NoneBodyCollision = false;
 
-
+	void SwitchNoneBodyCollision();
 
 
 	// 디버깅
+	float4 KeyDownPos = float4{ 360.0f , 470.0f };
+	
+
+
 	void KirbyDebugRender(HDC _dc);
 	void ThisDebugRender(HDC _dc);
+	void KeyDownRender(HDC _dc);
+
+	
 };
 

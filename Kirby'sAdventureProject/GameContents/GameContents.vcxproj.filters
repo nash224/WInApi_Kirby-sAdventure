@@ -4,9 +4,6 @@
     <ClInclude Include="Boss.h">
       <Filter>Global\Object\Enemy\Boss</Filter>
     </ClInclude>
-    <ClInclude Include="MrSunMrMoon.h">
-      <Filter>Global\Object\Enemy\Boss</Filter>
-    </ClInclude>
     <ClInclude Include="WhispyWood.h">
       <Filter>Global\Object\Enemy\Boss</Filter>
     </ClInclude>
@@ -71,9 +68,6 @@
     </ClInclude>
     <ClInclude Include="BrontoBurt.h">
       <Filter>Global\Object\Enemy\AerialEnemy</Filter>
-    </ClInclude>
-    <ClInclude Include="MrFrosty.h">
-      <Filter>Global\Object\Enemy\Boss</Filter>
     </ClInclude>
     <ClInclude Include="Item.h">
       <Filter>Global\Object\Item</Filter>
@@ -248,9 +242,6 @@
     <ClCompile Include="Boss.cpp">
       <Filter>Global\Object\Enemy\Boss</Filter>
     </ClCompile>
-    <ClCompile Include="MrSunMrMoon.cpp">
-      <Filter>Global\Object\Enemy\Boss</Filter>
-    </ClCompile>
     <ClCompile Include="WhispyWood.cpp">
       <Filter>Global\Object\Enemy\Boss</Filter>
     </ClCompile>
@@ -320,9 +311,6 @@
     </ClCompile>
     <ClCompile Include="BrontoBurt.cpp">
       <Filter>Global\Object\Enemy\AerialEnemy</Filter>
-    </ClCompile>
-    <ClCompile Include="MrFrosty.cpp">
-      <Filter>Global\Object\Enemy\Boss</Filter>
     </ClCompile>
     <ClCompile Include="Item.cpp">
       <Filter>Global\Object\Item</Filter>

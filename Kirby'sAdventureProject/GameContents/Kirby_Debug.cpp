@@ -14,6 +14,13 @@ void Kirby::KirbysDebugShortcut(float _Delta)
 		Cheat_Invincibility = !Cheat_Invincibility;
 	}
 
+	if (true == GameEngineInput::IsDown('2'))
+	{
+		SwitchNoneBodyCollision();
+	}
+
+
+
 	// 지정 상태 확인키
 	//if (true == GameEngineInput::IsDown('J'))
 	//{
@@ -29,7 +36,46 @@ void Kirby::KirbysDebugShortcut(float _Delta)
 		ChangeState(KirbyState::Contain_Idle);
 		return;
 	}
+
+
+	if (true == GameEngineInput::IsDown('O'))
+	{
+		Star.SwallowedEnemyNumber = 1;
+		Star.SwallowedPowerEnemyNumber = 1;
+		CurrentAbilityStar = AbilityStar::Sword;
+		ChangeState(KirbyState::Contain_Idle);
+		return;
+	}
+
+
+	if (true == GameEngineInput::IsDown('P'))
+	{
+		Star.SwallowedEnemyNumber = 1;
+		Star.SwallowedPowerEnemyNumber = 1;
+		CurrentAbilityStar = AbilityStar::Thorn;
+		ChangeState(KirbyState::Contain_Idle);
+		return;
+	}
+
 }
+
+
+
+void Kirby::SwitchNoneBodyCollision()
+{
+	Cheat_NoneBodyCollision = !Cheat_NoneBodyCollision;
+
+	if (true == Cheat_NoneBodyCollision)
+	{
+		KirbyBodyCollisonOff();
+	}
+	else if (false == Cheat_NoneBodyCollision)
+	{
+		KirbyBodyCollisonOn();
+	}
+
+}
+
 
 
 
@@ -51,6 +97,25 @@ void Kirby::KirbyDebugRender(HDC _dc)
 		else if (true == Cheat_Invincibility)
 		{
 			Text += "Off";
+		}
+		TextOutA(_dc, 2, 2 + TextRenderNum * DebugRenderText_YInter, Text.c_str(), static_cast<int>(Text.size()));
+
+		++TextRenderNum;
+	}
+	
+		
+
+	{
+		std::string Text = "";
+
+		Text += "Char Key 2 : 콜리전 : ";
+		if (true == Cheat_NoneBodyCollision)
+		{
+			Text += "Off";
+		}
+		else if (false == Cheat_NoneBodyCollision)
+		{
+			Text += "On";
 		}
 		TextOutA(_dc, 2, 2 + TextRenderNum * DebugRenderText_YInter, Text.c_str(), static_cast<int>(Text.size()));
 
@@ -94,9 +159,9 @@ void Kirby::KirbyDebugRender(HDC _dc)
 		std::string Text = "";
 
 		Text += "X,Y 속도 : ";
-		Text += std::to_string(static_cast<int>(CurrentSpeed));
+		Text += std::to_string(static_cast<int>(KirbyMovePos.X));
 		Text += " ,";
-		Text += std::to_string(static_cast<int>(GetGravityVector().Y));
+		Text += std::to_string(static_cast<int>(KirbyMovePos.Y));
 		TextOutA(_dc, 2, 2 + TextRenderNum * DebugRenderText_YInter, Text.c_str(), static_cast<int>(Text.size()));
 
 		++TextRenderNum;
@@ -166,14 +231,36 @@ void Kirby::KirbyDebugRender(HDC _dc)
 	{
 		std::string Text = "";
 
-		Text += "IceBlock Size : ";
-
-		Text += std::to_string(IceBlockPtr_list.size());
+		Text += "커비 Hp : ";
+		Text += std::to_string(m_KirbyHp);
 		TextOutA(_dc, 2, 2 + TextRenderNum * DebugRenderText_YInter, Text.c_str(), static_cast<int>(Text.size()));
 
 		++TextRenderNum;
 	}
+	
 
+
+	{
+		std::string Text = "";
+		Text += "커비 상태 보존: ";
+		switch (KeepDamagedState)
+		{
+		case KirbyState::Idle:
+			Text += CurState;
+			break;
+		case KirbyState::Fly:
+			Text += CurState;
+			break;
+		case KirbyState::Contain_Idle:
+			Text += CurState;
+			break;
+		default:
+			break;
+		}
+		TextOutA(_dc, 2, 2 + TextRenderNum * DebugRenderText_YInter, Text.c_str(), static_cast<int>(Text.size()));
+
+		++TextRenderNum;
+	}
 }
 
 
@@ -191,6 +278,28 @@ void Kirby::ThisDebugRender(HDC _dc)
 	int TextYPos = ActorScenePos.iY() - (Scale * 2.0f).iY();
 
 
+
+	if (true == IsEnterPixel())
+	{
+		std::string Text = "";
+		Text += "레벨 이동";
+		TextOutA(_dc, TextXPos, 2 + TextYPos - TextRenderNum * DebugRenderText_YInter, Text.c_str(), static_cast<int>(Text.size()));
+
+		++TextRenderNum;
+	}
+
+
+	if (true == Cheat_Invincibility || true == ImmuneState)
+	{
+		std::string Text = "";
+		Text += "무적";
+		TextOutA(_dc, TextXPos, 2 + TextYPos - TextRenderNum * DebugRenderText_YInter, Text.c_str(), static_cast<int>(Text.size()));
+
+		++TextRenderNum;
+	}
+
+
+	// 커비 입안에 능력이 있으면
 	if (KirbyState::UseSpecialAbility != State)
 	{
 		if (Star.SwallowedEnemyNumber >= 1)
@@ -254,6 +363,7 @@ void Kirby::ThisDebugRender(HDC _dc)
 
 
 
+	if (AbilityStar::Ice == Mode)
 	{
 		std::string Text = "";
 		Text += "IceBlock Size : ";
@@ -264,4 +374,62 @@ void Kirby::ThisDebugRender(HDC _dc)
 	}
 
 
+}
+
+
+
+void Kirby::KeyDownRender(HDC _dc)
+{
+
+	if (true == GameEngineInput::IsPress('W'))
+	{
+		std::string Text = "";
+		Text += "Up";
+		TextOutA(_dc, KeyDownPos.iX() - 2, KeyDownPos.iY() - 30, Text.c_str(), static_cast<int>(Text.size()));
+	}
+
+	if (true == GameEngineInput::IsPress('S'))
+	{
+		std::string Text = "";
+		Text += "Down";
+		TextOutA(_dc, KeyDownPos.iX() - 4, KeyDownPos.iY(), Text.c_str(), static_cast<int>(Text.size()));
+	}
+
+	if (true == GameEngineInput::IsPress('A'))
+	{
+		std::string Text = "";
+		Text += "Left";
+		TextOutA(_dc, KeyDownPos.iX() - 40, KeyDownPos.iY(), Text.c_str(), static_cast<int>(Text.size()));
+	}
+
+	if (true == GameEngineInput::IsPress('D'))
+	{
+		std::string Text = "";
+		Text += "Right";
+		TextOutA(_dc, KeyDownPos.iX() + 40, KeyDownPos.iY(), Text.c_str(), static_cast<int>(Text.size()));
+	}
+
+
+	if (true == GameEngineInput::IsPress('X'))
+	{
+		std::string Text = "";
+		Text += "Jump";
+		TextOutA(_dc, KeyDownPos.iX() - 90, KeyDownPos.iY(), Text.c_str(), static_cast<int>(Text.size()));
+	}
+
+
+	if (true == GameEngineInput::IsPress('Z'))
+	{
+		std::string Text = "";
+		Text += "Special Key";
+		TextOutA(_dc, KeyDownPos.iX() - 170, KeyDownPos.iY(), Text.c_str(), static_cast<int>(Text.size()));
+	}
+
+
+	if (true == GameEngineInput::IsPress(VK_SHIFT))
+	{
+		std::string Text = "";
+		Text += "LShift";
+		TextOutA(_dc, KeyDownPos.iX() - 220, KeyDownPos.iY(), Text.c_str(), static_cast<int>(Text.size()));
+	}
 }
