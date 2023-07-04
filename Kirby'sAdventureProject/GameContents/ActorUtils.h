@@ -54,7 +54,7 @@ public:
 
 
 
-	float4 ActorCameraPos();
+	
 	
 
 

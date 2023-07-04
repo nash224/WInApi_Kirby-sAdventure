@@ -9,6 +9,7 @@
 #include <GameEngineCore/GameEngineRenderer.h>
 
 
+#include "VegetableValleyPlayLevel.h"
 #include "ActorUtils.h"
 #include "Kirby.h"
 #include "ObejctDisapearingEffect.h"
@@ -196,7 +197,9 @@ void IceBlock::WingUpdate(float _Delta)
 
 	// 카메라 밖으로 넘어가면 
 	float4 WinScale = GameEngineWindow::MainWindow.GetScale();
-	if (GetCameraPos().X > GetPos().X && GetPos().X > GetCameraPos().X + WinScale.X)
+	float4 CameraPos = GetCameraPos();
+	float XPos = GetPos().X;
+	if (XPos < CameraPos.X || XPos > CameraPos.X + WinScale.X)
 	{
 		// 죽고 정리
 		Death();
@@ -299,6 +302,58 @@ void IceBlock::ReleaseThisList()
 	IceList.remove(this);
 	std::list<IceBlock*>& ResultIceList = KirbyPtr->GetIceList();
 }
+
+
+
+
+void IceBlock::Render(float _Delta)
+{
+	if (false == VegetableValleyPlayLevel::Level_DebugRenderValue)
+	{
+		return;
+	}
+
+
+	HDC dc = GameEngineWindow::MainWindow.GetBackBuffer()->GetImageDC();
+
+	int TextRenderNum = 0;
+
+
+	float4 ActorScenePos = ActorCameraPos();
+
+	int TextXPos = ActorScenePos.iX() - Scale.Half().iX();
+	int TextYPos = ActorScenePos.iY() - (Scale * 2.0f).iY();
+
+
+	ThisDebugRender(dc, TextRenderNum, TextXPos, TextYPos);
+
+}
+
+
+void IceBlock::ThisDebugRender(HDC _dc, int& _RenderNumber, const int _TextXPos, const int _TextYPos)
+{
+
+	float4 EffectPos = GetPos();
+	{
+		std::string Text = "";
+		Text += "X 좌표 : ";
+		Text += std::to_string(EffectPos.X);
+		TextOutA(_dc, _TextXPos, 2 + _TextYPos - _RenderNumber * DebugRenderText_YInter, Text.c_str(), static_cast<int>(Text.size()));
+
+		++_RenderNumber;
+	}
+
+
+	{
+		std::string Text = "";
+		Text += "Y 좌표 : ";
+		Text += std::to_string(EffectPos.Y);
+		TextOutA(_dc, _TextXPos, 2 + _TextYPos - _RenderNumber * DebugRenderText_YInter, Text.c_str(), static_cast<int>(Text.size()));
+
+		++_RenderNumber;
+	}
+}
+
 
 
 

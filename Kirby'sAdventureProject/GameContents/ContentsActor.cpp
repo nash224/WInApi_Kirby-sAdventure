@@ -1,5 +1,11 @@
 #include "ContentsActor.h"
 
+
+#include <GameEngineCore/GameEngineLevel.h>
+#include <GameEngineCore/GameEngineCamera.h>
+
+
+
 ContentsActor::ContentsActor() 
 {
 }
@@ -7,6 +13,34 @@ ContentsActor::ContentsActor()
 ContentsActor::~ContentsActor() 
 {
 }
+
+
+
+float4 ContentsActor::ActorCameraPos()
+{
+	static float4 ReturnValue;
+
+	GameEngineLevel* CurLevelPtr = GetLevel();
+	if (nullptr == CurLevelPtr)
+	{
+		MsgBoxAssert("카메라를 불러오지 못했습니다.");
+		return ReturnValue;
+	}
+
+	GameEngineCamera* MainCameraPtr = CurLevelPtr->GetMainCamera();
+	if (nullptr == MainCameraPtr)
+	{
+		MsgBoxAssert("카메라를 불러오지 못했습니다.");
+		return ReturnValue;
+	}
+
+
+	return GetPos() - MainCameraPtr->GetPos();
+}
+
+
+
+
 
 
 void ContentsActor::DecelerationUpdate(float _Delta, float _Speed)

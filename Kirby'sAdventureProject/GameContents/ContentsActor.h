@@ -41,6 +41,8 @@ protected:
 
 	float CurrentSpeed = 0.0f;
 
+	float4 ActorCameraPos();
+
 
 	virtual void DecelerationUpdate(float _Delta, float _Speed);
 	virtual void HorizontalSpeedLimit(float _Speed);

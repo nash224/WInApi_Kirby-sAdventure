@@ -34,6 +34,7 @@ protected:
 private:
 	void Start() override;
 	void Update(float _Delta) override;
+	void Render(float _Delta) override;
 	void LevelEnd() override;
 
 
@@ -74,5 +75,12 @@ private:
 
 	// 상태 최적화 
 	void ReleaseThisList();
+
+
+	// 디버깅
+	void ThisDebugRender(HDC _dc, int& _RenderNumber, const int _TextXPos, const int _TextYPos);
+
+
 };
+
 

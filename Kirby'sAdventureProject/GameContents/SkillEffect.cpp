@@ -154,7 +154,23 @@ void SkillEffect::Call_DisapearEffect(bool _Sound /*= true*/)
 
 float4 SkillEffect::GetCameraPos()
 {
-	float4 CameraPos = GetLevel()->GetMainCamera()->GetPos();
+	static float4 ReturnValue;
+
+	GameEngineLevel* CurLevelPtr = GetLevel();
+	if (nullptr == CurLevelPtr)
+	{
+		MsgBoxAssert("레벨을 불러오지 못했습니다.");
+		return ReturnValue;
+	}
+
+	GameEngineCamera* MainCameraPtr = CurLevelPtr->GetMainCamera();
+	if (nullptr == MainCameraPtr)
+	{
+		MsgBoxAssert("카메라를 불러오지 못했습니다.");
+		return ReturnValue;
+	}
+
+	float4 CameraPos = MainCameraPtr->GetPos();
 	return CameraPos;
 }
 
