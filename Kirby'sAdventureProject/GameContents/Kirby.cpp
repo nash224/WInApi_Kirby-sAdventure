@@ -239,48 +239,6 @@ void Kirby::Update(float _Delta)
 }
 
 
-
-
-
-void Kirby::KirbysDebugShortcut(float _Delta)
-{
-	// 디버그 렌더링 전환키
-	if (true == GameEngineInput::IsDown('L'))
-	{
-		GameEngineLevel::CollisionDebugRenderSwitch();
-	}
-
-
-	// 치트 무적키
-	if (true == GameEngineInput::IsDown('1'))
-	{
-		Cheat_Invincibility = !Cheat_Invincibility;
-	}
-
-	// 지정 상태 확인키
-	if (true == GameEngineInput::IsDown('J'))
-	{
-		ChangeState(KirbyState::StageClear);
-		return;
-	}
-
-	if (true == GameEngineInput::IsDown('I'))
-	{
-		Star.SwallowedEnemyNumber = 1;
-		Star.SwallowedPowerEnemyNumber = 1;
-		CurrentAbilityStar = AbilityStar::Ice;
-		ChangeState(KirbyState::Contain_Idle);
-		return;
-	}
-
-
-
-
-
-}
-
-
-
 void Kirby::StateUpdate(float _Delta)
 {
 	GroundCheck();
@@ -756,8 +714,6 @@ void Kirby::Render(float _Detla)
 		return;
 	}
 
-	ActorCollisionDetectionPointRender();
-
 
 	GameEngineWindowTexture* BackBufferPtr = GameEngineWindow::MainWindow.GetBackBuffer();
 	if (nullptr == BackBufferPtr)
@@ -769,16 +725,12 @@ void Kirby::Render(float _Detla)
 	HDC dc = BackBufferPtr->GetImageDC();
 
 
-	{
-		std::string Text = "";
 
-		Text += "IceBlock Size : ";
+	KirbyDebugRender(dc);
+	ThisDebugRender(dc);
 
-		Text += std::to_string(IceBlockPtr_list.size());
-		TextOutA(dc, 2, 50, Text.c_str(), static_cast<int>(Text.size()));
-	}
+	ActorCollisionDetectionPointRender();
 }
-
 
 
 // 면역 상태 함수

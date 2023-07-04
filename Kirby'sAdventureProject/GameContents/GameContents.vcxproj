@@ -659,6 +659,10 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="Kirby_Contain_State.cpp" />
+    <ClCompile Include="Kirby_Debug.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="Kirby_Fire_State.cpp">
       <SubType>
       </SubType>

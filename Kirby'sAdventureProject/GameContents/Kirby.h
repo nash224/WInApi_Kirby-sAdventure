@@ -530,5 +530,12 @@ private:
 
 	// Ä¡Æ®
 	bool Cheat_Invincibility = false;
+
+
+
+
+	// µð¹ö±ë
+	void KirbyDebugRender(HDC _dc);
+	void ThisDebugRender(HDC _dc);
 };
 

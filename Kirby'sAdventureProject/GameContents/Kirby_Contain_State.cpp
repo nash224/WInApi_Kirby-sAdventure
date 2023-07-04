@@ -65,6 +65,8 @@ void Kirby::Contain_IdleStart()
 	StateTime = 0.0f;
 	KeepDamagedState = KirbyState::Contain_Idle;
 	ChangeKirbyBodyState(KirbyBodyState::Fat);
+
+	GravityReset();
 	ChangeAnimationState("Contain_Idle");
 }
 

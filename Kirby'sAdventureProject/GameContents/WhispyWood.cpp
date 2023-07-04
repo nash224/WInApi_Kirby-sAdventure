@@ -437,9 +437,6 @@ void WhispyWood::FrownUpdate(float _Delta)
 
 
 	// 지진효과
-
-
-
 	if (true == MainRenderer->IsAnimationEnd())
 	{
 		IsImmune = false;

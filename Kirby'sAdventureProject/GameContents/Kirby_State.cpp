@@ -142,6 +142,7 @@ void Kirby::Normal_StateResourceLoad()
 void Kirby::IdleStart()
 {
 	StateTime = 0.0f;
+	GravityReset();
 	ChangeAnimationState("Idle");
 }
 

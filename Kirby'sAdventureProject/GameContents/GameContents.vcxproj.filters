@@ -525,6 +525,9 @@
     <ClCompile Include="IceBlock.cpp">
       <Filter>Global\Effect\SkillAbilityEffect</Filter>
     </ClCompile>
+    <ClCompile Include="Kirby_Debug.cpp">
+      <Filter>Global\Object\Kirby</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Global">

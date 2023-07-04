@@ -169,6 +169,11 @@ protected:
 		AirResistance = _AirResistance;
 	}
 
+	float GetAirResistance() const
+	{
+		return AirResistance;
+	}
+
 
 	// X축 이동 함수
 	void VerticalDecelerationUpdate(float _Speed, float _Delta);

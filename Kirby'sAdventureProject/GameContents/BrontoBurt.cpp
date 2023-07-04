@@ -447,9 +447,9 @@ void BrontoBurt::ThisDebugTriggerRender(HDC _dc)
 	float4 DistanceToKriby = GetKirbyOpponentDistance();
 
 
-	float4 LaserBallPos = GetPos();
+	float4 ActorPos = GetPos();
 	float4 KirbyPos = Kirby::GetMainKirby()->GetPos();
-	float4 OpponentDistance = KirbyPos - LaserBallPos;
+	float4 OpponentDistance = KirbyPos - ActorPos;
 
 	if (BrontoState::Idle == State)
 	{
