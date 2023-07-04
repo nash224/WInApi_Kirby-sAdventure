@@ -487,5 +487,66 @@ void Scarfy::Render(float _Delta)
 
 
 	EnemyDebugRender(dc, TextRenderNum, TextXPos, TextYPos);
+	ThisDebugRender(dc, TextRenderNum, TextXPos, TextYPos);
+	ThisDebugTriggerRender(dc);
 }
 
+
+
+
+void Scarfy::ThisDebugRender(HDC _dc, int& _RenderNumber, const int _TextXPos, const int _TextYPos)
+{
+	if (ScarfyState::Following == State)
+	{
+		std::string Text = "";
+		Text += "폭발 남은 시간 : ";
+		Text += std::to_string(SCARFYFOLLOWINGTIME - StateTime);
+		TextOutA(_dc, _TextXPos, 2 + _TextYPos - _RenderNumber * DebugRenderText_YInter, Text.c_str(), static_cast<int>(Text.size()));
+
+		++_RenderNumber;
+	}
+}
+
+
+void Scarfy::ThisDebugTriggerRender(HDC _dc)
+{
+	float4 WinScale = GameEngineWindow::MainWindow.GetScale();
+
+	float4 KirbyCameraPos = KirbyActorCameraPos();
+	float4 ActorScenePos = ActorCameraPos();
+	float4 DistanceToKriby = GetKirbyOpponentDistance();
+
+	Kirby* KirbyPtr = Kirby::GetMainKirby();
+	if (nullptr == KirbyPtr)
+	{
+		MsgBoxAssert("커비를 불러오지 못했습니다.");
+		return;
+	}
+
+
+	float4 KirbyPos = KirbyPtr->GetPos();
+
+
+	if (ScarfyState::Following == State)
+	{
+		MoveToEx(_dc, ActorScenePos.iX(), ActorScenePos.iY() - Scale.Half().iY(), NULL);
+		LineTo(_dc, KirbyCameraPos.iX(), KirbyCameraPos.iY() - Scale.Half().iY());
+
+
+		if (DistanceToKriby.X < 0.0f)
+		{
+			MoveToEx(_dc, ActorScenePos.iX() - static_cast<int>(SCARFYRECOGNITIONRANGE), 0, NULL);
+			LineTo(_dc, ActorScenePos.iX() - static_cast<int>(SCARFYRECOGNITIONRANGE), WinScale.iY());
+		}
+
+		if (DistanceToKriby.X >= 0.0f)
+		{
+			MoveToEx(_dc, ActorScenePos.iX() + static_cast<int>(SCARFYRECOGNITIONRANGE), 0, NULL);
+			LineTo(_dc, ActorScenePos.iX() + static_cast<int>(SCARFYRECOGNITIONRANGE), WinScale.iY());
+		}
+	}
+
+
+
+
+}

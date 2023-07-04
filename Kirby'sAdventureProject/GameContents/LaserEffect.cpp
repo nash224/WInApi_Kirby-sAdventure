@@ -100,8 +100,8 @@ void LaserEffect::GroundPassUpdate(float _Delta)
 	AddPos(EffectDir * LaserEffectSPEED * _Delta);
 
 	float4 WinScale = GameEngineWindow::MainWindow.GetScale();
-
-	if (GetCameraPos().X > GetPos().X && GetPos().X > GetCameraPos().X + WinScale.X)
+	float4 CameraPos = GetCameraPos();
+	if (CameraPos.X > GetPos().X && GetPos().X > CameraPos.X + WinScale.X)
 	{
 		Death();
 		EffectPointerRelease();

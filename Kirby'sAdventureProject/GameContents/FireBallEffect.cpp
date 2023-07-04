@@ -66,7 +66,10 @@ void FireBallEffect::init(const float4& _Pos, const float4& _MaterScale, const f
 void FireBallEffect::Update(float _Delta)
 {
 	float4 WinScale = GameEngineWindow::MainWindow.GetScale();
-	if (GetCameraPos().X > GetPos().X && GetPos().X > GetCameraPos().X + WinScale.X)
+
+
+	float4 CameraPos = GetCameraPos();
+	if (CameraPos.X > GetPos().X || GetPos().X > CameraPos.X + WinScale.X)
 	{
 		Death();
 		EffectPointerRelease();

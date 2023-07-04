@@ -75,7 +75,8 @@ void SmallStarFireEffect::Update(float _Delta)
 
 	// 카메라 밖으로 넘어가면 
 	float4 WinScale = GameEngineWindow::MainWindow.GetScale();
-	if (GetCameraPos().X > GetPos().X && GetPos().X > GetCameraPos().X + WinScale.X)
+	float4 CameraPos = GetCameraPos();
+	if (CameraPos.X > GetPos().X && GetPos().X > CameraPos.X + WinScale.X)
 	{
 		// 죽고 정리
 		Death();
