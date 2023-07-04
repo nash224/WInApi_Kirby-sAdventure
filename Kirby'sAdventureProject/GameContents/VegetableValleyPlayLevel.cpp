@@ -325,7 +325,8 @@ void VegetableValleyPlayLevel::LevelDebugShortcut(float _Delta)
 				}
 			}
 
-			BGM_Player.SetVolume(SoundVol);
+			GameEngineSound::SetGlobalVolume(SoundVol);
+			BGM_Player.SetVolume(1.0f);
 
 			SoundVolPressKeyTime = 0.0f;
 		}
@@ -341,7 +342,8 @@ void VegetableValleyPlayLevel::LevelDebugShortcut(float _Delta)
 				}
 			}
 
-			BGM_Player.SetVolume(SoundVol);
+			GameEngineSound::SetGlobalVolume(SoundVol);
+			BGM_Player.SetVolume(1.0f);
 
 			SoundVolPressKeyTime = 0.0f;
 		}
