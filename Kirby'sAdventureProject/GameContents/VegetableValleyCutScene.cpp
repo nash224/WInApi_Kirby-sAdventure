@@ -25,6 +25,18 @@ VegetableValleyCutScene::~VegetableValleyCutScene()
 
 void VegetableValleyCutScene::Start()
 {
+	ActorRenderSet();
+
+	// 초기 세팅
+	SetPos(float4::ZERO);
+
+	ChangeState(ValleyCutSceneState::StandBy);
+}
+
+
+
+void VegetableValleyCutScene::ActorRenderSet()
+{
 	KirbyActor.ActorRenderer = CreateRenderer(RenderOrder::Play);
 	if (nullptr == KirbyActor.ActorRenderer)
 	{
@@ -46,7 +58,7 @@ void VegetableValleyCutScene::Start()
 		return;
 	}
 
-	
+
 	// 파일로드
 	GlobalContents::SpriteFileLoad("Scene_Kirby_Actor.bmp", "Resources\\Scene", 12, 4);
 	GlobalContents::SpriteFileLoad("Scene_Knight_Actor.bmp", "Resources\\Scene", 4, 2);
@@ -73,25 +85,17 @@ void VegetableValleyCutScene::Start()
 	SwordActor.ActorRenderer->CreateAnimation("BounceOff", "Scene_Sword_Actor.bmp", 0, 3, 0.08f, true);
 	SwordActor.ActorRenderer->CreateAnimation("StuckBanner", "Scene_Sword_Actor.bmp", 4, 4, 0.1f, false);
 	SwordActor.ActorRenderer->ChangeAnimation("BounceOff");
-
-
-	SetPos(float4::ZERO);
-
-
-
-	// 초기 상태
-	ChangeState(ValleyCutSceneState::StandBy);
-
-
 }
 
+
+
+/* ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ */
 
 
 
 void VegetableValleyCutScene::Update(float _Delta)
 {
 	StateUpdate(_Delta);
-
 
 	if (true == IsKirbysSword_FlyAway && false == IsSwordStuckedPlank)
 	{
@@ -100,6 +104,7 @@ void VegetableValleyCutScene::Update(float _Delta)
 }
 
 
+// FSM 업데이트
 void VegetableValleyCutScene::StateUpdate(float _Delta)
 {
 	switch (State)
@@ -116,6 +121,8 @@ void VegetableValleyCutScene::StateUpdate(float _Delta)
 	}
 }
 
+
+// 상태 변경
 void VegetableValleyCutScene::ChangeState(ValleyCutSceneState _State)
 {
 	if (_State != State)
@@ -147,7 +154,7 @@ void VegetableValleyCutScene::ChangeAnimationState(const std::string& _StateName
 
 
 
-
+// StanBy 패턴
 void VegetableValleyCutScene::StandByStart()
 {
 	if (nullptr == KirbyActor.ActorRenderer)
@@ -176,6 +183,8 @@ void VegetableValleyCutScene::StandByStart()
 	Knight_FrontNumber = 0;
 }
 
+
+// StanBy 업데이트
 void VegetableValleyCutScene::StandByUpdate(float _Delta) 
 {
 	StateTime += _Delta;
@@ -207,7 +216,7 @@ void VegetableValleyCutScene::StandByUpdate(float _Delta)
 }
 
 
-
+// Confront 패턴
 void VegetableValleyCutScene::ConfrontStart()
 {
 	StateTime = 0.0f;
@@ -231,6 +240,8 @@ void VegetableValleyCutScene::ConfrontStart()
 	KnightActor.ActorRenderer->ChangeAnimation("Confront");
 }
 
+
+// Confront 업데이트
 void VegetableValleyCutScene::ConfrontUpdate(float _Delta)
 {
 	StateTime += _Delta;
@@ -256,6 +267,8 @@ void VegetableValleyCutScene::ConfrontUpdate(float _Delta)
 
 
 
+
+// Press 패턴
 void VegetableValleyCutScene::PressStart()
 {
 	StateTime = 0.0f;
@@ -267,6 +280,7 @@ void VegetableValleyCutScene::PressStart()
 		return;
 	}
 
+	// 밀당 로직
 	if (Kirby_FrontNumber <= 3)
 	{
 		++Kirby_FrontNumber;
@@ -306,6 +320,8 @@ void VegetableValleyCutScene::PressStart()
 	}
 }
 
+
+// Press 업데이트
 void VegetableValleyCutScene::PressUpdate(float _Delta)
 {
 	StateTime += _Delta;
@@ -329,6 +345,7 @@ void VegetableValleyCutScene::PressUpdate(float _Delta)
 
 
 
+// ShedSword 패턴
 void VegetableValleyCutScene::ShedSwordStart()
 {
 	StateTime = 0.0f;
@@ -345,6 +362,7 @@ void VegetableValleyCutScene::ShedSwordStart()
 }
 
 
+// ShedSword 업데이트
 void VegetableValleyCutScene::ShedSwordUpdate(float _Delta)
 {
 	if (nullptr == KirbyActor.ActorRenderer)
@@ -397,6 +415,7 @@ void VegetableValleyCutScene::ShedSwordUpdate(float _Delta)
 }
 
 
+// Sword 업데이트
 void VegetableValleyCutScene::SwordUpdate(float _Delta)
 {
 	if (nullptr == SwordActor.ActorRenderer)
@@ -426,6 +445,7 @@ void VegetableValleyCutScene::SwordUpdate(float _Delta)
 
 
 
+// KirbyInhale 패턴
 void VegetableValleyCutScene::KirbyInhaleStart()
 {
 	if (nullptr == KirbyActor.ActorRenderer)
@@ -446,10 +466,13 @@ void VegetableValleyCutScene::KirbyInhaleStart()
 	
 	Actor_MutualDistance = Kirby_X_RenderPos - Knight_X_RenderPos;
 
+
 	KnightActor.ActorRenderer->ChangeAnimation("BeInhaled");
 	ChangeAnimationState("KirbyInhale");
 }
 
+
+// Sword 업데이트
 void VegetableValleyCutScene::KirbyInhaleUpdate(float _Delta)
 {
 	if (nullptr == KirbyActor.ActorRenderer)
@@ -465,6 +488,7 @@ void VegetableValleyCutScene::KirbyInhaleUpdate(float _Delta)
 
 	WabbleTime += _Delta;
 
+	// 떨림 로직
 	if (WabbleCount != MaxWabbleCount && WabbleTime > WabbleCycle)
 	{
 		WabbleTime = 0.0f;
@@ -508,7 +532,7 @@ void VegetableValleyCutScene::KirbyInhaleUpdate(float _Delta)
 	}
 
 
-	
+	// 빨려들어감
 	KnightActor.Scene_XSpeed += Actor_MutualDistance / BeInhaledTime * _Delta;;
 
 	Renderer_HorizontalMoveUpdate(KnightActor, _Delta);
@@ -528,6 +552,7 @@ void VegetableValleyCutScene::KirbyInhaleUpdate(float _Delta)
 
 
 
+// EattedKnight 패턴
 void VegetableValleyCutScene::EattedKnightStart()
 {
 	StateTime = 0.0f;
@@ -535,6 +560,8 @@ void VegetableValleyCutScene::EattedKnightStart()
 	ChangeAnimationState("EattedKnight");
 }
 
+
+// EattedKnight 업데이트
 void VegetableValleyCutScene::EattedKnightUpdate(float _Delta)
 {
 	StateTime += _Delta;
@@ -549,6 +576,7 @@ void VegetableValleyCutScene::EattedKnightUpdate(float _Delta)
 
 
 
+// GetAbility 패턴
 void VegetableValleyCutScene::GetAbilityStart()
 {
 	StateTime = 0.0f;
@@ -570,7 +598,7 @@ void VegetableValleyCutScene::GetAbilityStart()
 }
 
 
-
+// GetAbility 업데이트
 void VegetableValleyCutScene::GetAbilityUpdate(float _Delta)
 {
 	if (nullptr == KirbyActor.ActorRenderer)
@@ -609,16 +637,9 @@ void VegetableValleyCutScene::GetAbilityUpdate(float _Delta)
 }
 
 
-void VegetableValleyCutScene::LevelEnd() 
-{
-
-}
 
 
-
-
-
-
+// 렌더러 X 스피드 감속 
 void VegetableValleyCutScene::Renderer_DecelerationUpdate(SceneData& _DataStruct, float _Delta, float _Speed)
 {
 	if (_DataStruct.Scene_XSpeed < 0.0f)
@@ -643,7 +664,7 @@ void VegetableValleyCutScene::Renderer_DecelerationUpdate(SceneData& _DataStruct
 
 
 
-
+// 렌더러 X 스피드 업데이트
 void VegetableValleyCutScene::Renderer_HorizontalMoveUpdate(SceneData& _DataStruct, float _Delta)
 {
 	if (nullptr == _DataStruct.ActorRenderer)
@@ -657,11 +678,13 @@ void VegetableValleyCutScene::Renderer_HorizontalMoveUpdate(SceneData& _DataStru
 
 
 
+// 렌더러 중력 
 void VegetableValleyCutScene::Renderer_Gravity(SceneData& _DataStruct, float _Delta , float _GravityPower)
 {
 	_DataStruct.Scene_YSpeed += _GravityPower * _Delta;
 }
 
+// 렌더러 Y 스피드 업데이트
 void VegetableValleyCutScene::Renderer_VerticalUpdate(SceneData& _DataStruct, float _Delta)
 {
 	if (nullptr == _DataStruct.ActorRenderer)

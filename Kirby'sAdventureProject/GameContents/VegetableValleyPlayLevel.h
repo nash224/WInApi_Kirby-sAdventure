@@ -1,50 +1,21 @@
 #pragma once
 #include <GameEngineCore/GameEngineLevel.h>
 
-
 #include <GameEnginePlatform/GameEngineSound.h>
 
-#include "Enemy.h"
+
 #include <vector>
 
 
 // 사운드 볼륨 최대
 #define MAX_VOLUME_AMOUNT 1.0f
 
-// 페이드 아웃 지속시간
-#define FADEOUT_ENDTIME 0.2f
-// 커비 Enter 시간
-#define KIRBY_ENTERSTATETIME 0.2f
 
-
-// 설명 :
+// 설명 : Contents Level 의 부모입니다. 자식 레벨에게 필요한 기능을 제공해줍니다.
 class BackGround;
+class Enemy;
 class VegetableValleyPlayLevel : public GameEngineLevel
 {
-public:
-	static bool PrevLevelTriggerOn;
-	static bool NextLevelTriggerOn;
-	static bool IsStageEnd;
-	static bool IsPlayerEnter;
-	static bool IsPlayerMiss;
-	static bool IsChangeLevel;
-	static bool IsFadeDone;
-
-	static bool ChangeClearDoor;
-
-	
-
-
-
-protected:
-	// Level 이동
-	bool IsPrevLeveling = false;
-	bool IsNextLeveling = false;
-
-
-
-
-
 public:
 	// constrcuter destructer
 	VegetableValleyPlayLevel();
@@ -56,9 +27,17 @@ public:
 	VegetableValleyPlayLevel& operator=(const VegetableValleyPlayLevel& _Other) = delete;
 	VegetableValleyPlayLevel& operator=(VegetableValleyPlayLevel&& _Other) noexcept = delete;
 
+
+
 	size_t GetLevelEnemyCount() const
 	{
 		return LevelEnemy.size();
+	}
+
+
+	void SetLevelBackgroundScale(const float4& _Scale)
+	{
+		BackGroundScale = _Scale;
 	}
 
 	float4 GetLevelBackgroundScale() const
@@ -66,25 +45,24 @@ public:
 		return BackGroundScale;
 	}
 
+
 	std::string GetLevelBitMapFileName() const
 	{
 		return BitMapFileName;
 	}
+
 
 	class UIManager* GetUIManager()
 	{
 		return LevelUIManager;
 	}
 
+
 	BackGround* GetLevelBackGroundPtr()
 	{
 		return LevelBackGround;
 	}
 
-	class Boss* GetLevelBossPtr()
-	{
-		return LevelBoss;
-	}
 
 
 
@@ -95,11 +73,6 @@ protected:
 	BackGround* LevelBackGround = nullptr;
 	std::string BitMapFileName = "";
 	float4 BackGroundScale = float4::ZERO;
-
-	void SetLevelBackgroundScale(const float4& _Scale)
-	{
-		BackGroundScale = _Scale;
-	}
 
 
 
@@ -114,14 +87,32 @@ protected:
 		float _Inter = 0.1f, bool _Loop = true);
 
 
-
 	// UI
 	class UIManager* LevelUIManager = nullptr;
 
 
-
-	// Unit
 public:
+	// Level Change
+	static bool PrevLevelTriggerOn;
+	static bool NextLevelTriggerOn;
+	static bool IsStageEnd;
+	static bool IsPlayerEnter;
+	static bool IsPlayerMiss;
+	static bool IsChangeLevel;
+	static bool IsFadeDone;
+
+	static bool ChangeClearDoor;
+
+protected:
+	bool IsPrevLeveling = false;
+	bool IsNextLeveling = false;
+
+
+
+
+
+public:
+	// Unit
 	// Player
 	float4 Kirby_RespawnPos = float4::ZERO;
 
@@ -132,10 +123,8 @@ protected:
 
 	// Enemy
 	std::vector<Enemy*> LevelEnemy;
-	class Boss* LevelBoss = nullptr;
 
 	virtual void EnemySummon() {}
-
 
 
 	// Enemy::Respawn
@@ -162,8 +151,18 @@ private:
 
 
 
+
+protected:
 	// Camera
+	float4 CameraFrontCheckPos = float4::ZERO;
+	float4 CameraBackCheckPos = float4::ZERO;
+
+
+	void CameraFocus(float _Delta);
+
+
 public:
+	// 카메라 지진
 	static int Camera_ShakeCount;
 
 	static void RequestShakeCountToLevel(size_t _Value = 1)
@@ -179,14 +178,6 @@ public:
 		Camera_ShakeMagnitude = _Value;
 	}
 
-protected:
-	float4 CameraFrontCheckPos = float4::ZERO;
-	float4 CameraBackCheckPos = float4::ZERO;
-
-
-	void CameraFocus(float _Delta);
-
-
 private:
 	static float Camera_ShakeMagnitude;
 	int Camera_ShakeNumber = 0;
@@ -196,8 +187,11 @@ private:
 
 
 
-	// 디버그
 public:
+	// 디버그
+	void LevelDebugShortcut(float _Delta);
+
+
 	static bool Level_MenuOpenValue;
 	static bool Level_SwitchBitMapRenderValue;
 	static bool Level_DebugRenderValue;
@@ -218,13 +212,8 @@ protected:
 	static float UpdateTime;
 
 
-
 	std::string NextLevelName = "";
 	float4 KirbyShortCutPos = float4::ZERO;
-
-	void LevelDebugShortcut(float _Delta);
-
-
 
 
 };

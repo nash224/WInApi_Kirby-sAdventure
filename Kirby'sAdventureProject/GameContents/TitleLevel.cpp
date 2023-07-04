@@ -29,6 +29,17 @@ void TitleLevel::Start()
 	SoundVol = GameEngineSound::GetGlobalVolume();
 
 
+	// 디버그 초기 설정
+	float4 WinScale = GameEngineWindow::MainWindow.GetScale();
+	Level_DebugRenderXPos = WinScale.iX() - 200;
+
+	ResourcesLoad();
+}
+
+
+// 리소스 로드
+void TitleLevel::ResourcesLoad()
+{
 	// 배경
 	LevelBackGround = GameEngineLevel::CreateActor<BackGround>(UpdateOrder::BackGround);
 	if (nullptr == LevelBackGround)
@@ -56,19 +67,11 @@ void TitleLevel::Start()
 
 	// 사운드 로드
 	GlobalContents::SoundFileLoad("02_Title_Screen.mp3", "Resources\\SoundResources\\SoundTrack");
-
-
-
-
-
-	// 디버그
-	float4 WinScale = GameEngineWindow::MainWindow.GetScale();
-	Level_DebugRenderXPos = WinScale.iX() - 200;
 }
 
 
 
-
+/* ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ */
 
 void TitleLevel::Update(float _DeltaTime)
 {
@@ -92,6 +95,7 @@ void TitleLevel::Update(float _DeltaTime)
 }
 
 
+/* ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ */
 
 void TitleLevel::Render(float _Delta)
 {
@@ -99,6 +103,7 @@ void TitleLevel::Render(float _Delta)
 }
 
 
+/* ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ */
 
 void TitleLevel::LevelStart(GameEngineLevel* _PrevLevel)
 {
@@ -111,6 +116,7 @@ void TitleLevel::LevelStart(GameEngineLevel* _PrevLevel)
 }
 
 
+/* ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ */
 
 void TitleLevel::LevelEnd(GameEngineLevel* _NextLevel)
 {

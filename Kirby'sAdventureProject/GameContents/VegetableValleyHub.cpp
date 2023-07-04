@@ -36,7 +36,19 @@ void VegetableValleyHub::Start()
 {
 	SetName("VegetableValleyHub");
 
+	BitMapFileName = "VegetableValleyPixel.bmp";
 
+	VegetableValleyEntertheDoorNumber = -1;
+
+
+	ResourecsLoad();
+}
+
+
+
+// 리소스 로드
+void VegetableValleyHub::ResourecsLoad()
+{
 	LevelBackGround = GameEngineLevel::CreateActor<BackGround>(UpdateOrder::BackGround);
 	if (nullptr == LevelBackGround)
 	{
@@ -46,7 +58,6 @@ void VegetableValleyHub::Start()
 
 	LevelBackGround->init("VegetableValley.bmp", "VegetableValleyPixel.bmp", "Resources\\Map");
 
-	BitMapFileName = "VegetableValleyPixel.bmp";
 
 
 	GameEngineWindowTexture* Texture = ResourcesManager::GetInst().FindTexture("VegetableValley.bmp");
@@ -56,9 +67,7 @@ void VegetableValleyHub::Start()
 		return;
 	}
 
-	float4 BackScale = Texture->GetScale();
-	SetLevelBackgroundScale(BackScale);;
-
+	BackGroundScale = Texture->GetScale();
 
 
 
@@ -160,11 +169,6 @@ void VegetableValleyHub::Start()
 
 
 
-	VegetableValleyEntertheDoorNumber = -1;
-
-
-
-
 	// Sound Load
 	GlobalContents::SoundFileLoad("05_LEVEL1.mp3", "Resources\\SoundResources\\SoundTrack");
 	GlobalContents::SoundFileLoad("Enemy_DeathSound.wav", "Resources\\SoundResources\\EffectVoice");
@@ -182,8 +186,6 @@ void VegetableValleyHub::Update(float _Delta)
 		return;
 	}
 
-	LevelDebugShortcut(_Delta);
-
 
 	Kirby_StageClear();
 
@@ -198,12 +200,13 @@ void VegetableValleyHub::Update(float _Delta)
 	}
 
 
+	LevelDebugShortcut(_Delta);
 
 	CameraFocus(_Delta);
 }
 
 
-
+// 비트맵 전환 스위치
 void VegetableValleyHub::SwitchRenders()
 {
 	if (nullptr == VegetableValley_Billboard)
@@ -250,7 +253,7 @@ void VegetableValleyHub::SwitchRenders()
 
 
 
-
+// 스테이지 클리어 로직
 void VegetableValleyHub::Kirby_StageClear()
 {
 	if (nullptr == Stage1.DoorPtr)
@@ -356,6 +359,7 @@ void VegetableValleyHub::Kirby_StageClear()
 			break;
 		}
 
+
 		ObejctDisapearingEffect* ObejctDisapearingEffectPtr = CreateActor<ObejctDisapearingEffect>(UpdateOrder::UI);
 		if (nullptr == ObejctDisapearingEffectPtr)
 		{
@@ -369,6 +373,7 @@ void VegetableValleyHub::Kirby_StageClear()
 }
 
 
+// 스테이지 1-1 레벨 Change
 void VegetableValleyHub::VegetableValleyStage_1_Func()
 {
 	if (nullptr == LevelPlayer)
@@ -425,6 +430,8 @@ void VegetableValleyHub::VegetableValleyStage_1_Func()
 }
 
 
+
+// 보스 스테이지 레벨 Change
 void VegetableValleyHub::VegetableValleyStage_2_Func()
 {
 	if (nullptr == LevelPlayer)
@@ -481,6 +488,7 @@ void VegetableValleyHub::VegetableValleyStage_2_Func()
 }
 
 
+// Museum Level Change
 void VegetableValleyHub::VegetableValleyMuseum_Func()
 {
 	if (nullptr == LevelPlayer)
@@ -555,21 +563,46 @@ void VegetableValleyHub::LevelStart(GameEngineLevel* _PrevLevel)
 		MsgBoxAssert("플레이어를 세팅해주지 않았습니다.");
 	}
 
-	if (nullptr == LevelUIManager)
-	{
-		MsgBoxAssert("UI를 불러오지 못했습니다.");
-		return;
-	}
-
-
 	// Kirby Set Bitmap Resource
 	LevelPlayer->SetGroundTexture(BitMapFileName);
 
 
+	LevelStartCameraPos();
+
+	LevelStartDoorLogic();
+
+
+	if (-1 == VegetableValleyEntertheDoorNumber)
+	{
+		GlobalContents::WhiteFadeIn(this);
+	}
+	else if (-1 != VegetableValleyEntertheDoorNumber)
+	{
+		GlobalContents::FadeIn(this);
+	}
+}
+
+
+
+// 처음 카메라 위치
+void VegetableValleyHub::LevelStartCameraPos()
+{
 	// 초기 카메라 위치 지정
 	if (-1 == VegetableValleyEntertheDoorNumber)
 	{
-		GameEngineCamera * MainCameraPtr = GetMainCamera();
+		if (nullptr == LevelPlayer)
+		{
+			MsgBoxAssert("플레이어를 세팅해주지 않았습니다.");
+		}
+
+		if (nullptr == LevelUIManager)
+		{
+			MsgBoxAssert("UI를 불러오지 못했습니다.");
+			return;
+		}
+
+
+		GameEngineCamera* MainCameraPtr = GetMainCamera();
 		if (nullptr == MainCameraPtr)
 		{
 			MsgBoxAssert("카메라를 불러오지 못했습니다.");
@@ -584,7 +617,17 @@ void VegetableValleyHub::LevelStart(GameEngineLevel* _PrevLevel)
 
 		MainCameraPtr->SetPos(CameraPos);
 	}
+}
 
+
+
+// 레벨 입장 시 문 상태 
+void VegetableValleyHub::LevelStartDoorLogic()
+{
+	if (nullptr == LevelPlayer)
+	{
+		MsgBoxAssert("플레이어를 세팅해주지 않았습니다.");
+	}
 
 	// Kirby come out last Stage
 	switch (VegetableValleyEntertheDoorNumber)
@@ -669,18 +712,10 @@ void VegetableValleyHub::LevelStart(GameEngineLevel* _PrevLevel)
 	default:
 		break;
 	}
-
-
-
-	if (-1 == VegetableValleyEntertheDoorNumber)
-	{
-		GlobalContents::WhiteFadeIn(this);
-	}
-	else if (-1 != VegetableValleyEntertheDoorNumber)
-	{
-		GlobalContents::FadeIn(this);
-	}
 }
+
+
+
 
 
 

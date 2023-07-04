@@ -4,14 +4,13 @@
 
 
 #include <GameEnginePlatform/GameEngineWindow.h>
-#include <GameEnginePlatform/GameEngineInput.h>
 #include <GameEngineCore/GameEngineCore.h>
-#include <GameEngineCore/GameEngineCamera.h>
 
 
 #include "Kirby.h"
 #include "PlayUI.h"
 #include "BackGround.h"
+
 
 
 VegetableValley12::VegetableValley12() 
@@ -23,6 +22,24 @@ VegetableValley12::~VegetableValley12()
 }
 
 void VegetableValley12::Start()
+{
+	BitMapFileName = "VegetableValley1_2Pixel.bmp";
+
+	// 리스폰 세팅
+	Kirby_RespawnPos = float4{ 83.0f, 384.0f };
+
+
+	// 디버그 세팅
+	NextLevelName = "VegetableValleyHub";
+	KirbyShortCutPos = float4{ 3457.0f , 383.0f };
+
+
+	ResourcesLoad();
+}
+
+
+// 리소스 로드
+void VegetableValley12::ResourcesLoad()
 {
 	// 배경 생성
 	LevelBackGround = GameEngineLevel::CreateActor<BackGround>();
@@ -41,11 +58,7 @@ void VegetableValley12::Start()
 
 	BackGroundScale = Texture->GetScale();
 
-	BitMapFileName = "VegetableValley1_2Pixel.bmp";
 
-
-
-	EnemySummon();
 
 	// UI생성
 	LevelUIManager = GameEngineLevel::CreateActor<PlayUI>(UpdateOrder::UI);
@@ -56,31 +69,25 @@ void VegetableValley12::Start()
 	}
 
 
-
 	// 사운드 로드
 	GlobalContents::SoundFileLoad("06_Underground_Level.mp3", "Resources\\SoundResources\\SoundTrack");
 	LevelBgmFileName = "06_Underground_Level.mp3";
 
-	// 리스폰 세팅
-	Kirby_RespawnPos = float4{ 83.0f, 384.0f };
 
 
+	EnemySummon();
 
-	// 디버그 세팅
-	NextLevelName = "VegetableValleyHub";
-	KirbyShortCutPos = float4{ 3457.0f , 383.0f };
 }
 
 
+/* ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ */
 
 
 void VegetableValley12::Update(float _Delta)
 {
 	LevelDebugShortcut(_Delta);
 
-
 	PlayerEnterNextLevel();
-
 
 	if (true == PrevLevelTriggerOn)
 	{
@@ -95,12 +102,12 @@ void VegetableValley12::Update(float _Delta)
 
 	CheckRespawnEnemy();
 
-
 	CameraFocus(_Delta);
 }
 
 
 
+// 비트맵 디버그 렌더 스위치
 void VegetableValley12::SwitchRenders()
 {
 	if (nullptr == LevelBackGround)
@@ -115,9 +122,7 @@ void VegetableValley12::SwitchRenders()
 
 
 
-
-
-
+// Miss 패턴
 void VegetableValley12::PlayerMissPrevLevel()
 {
 	if (true == IsPlayerMiss)
@@ -146,6 +151,7 @@ void VegetableValley12::PlayerMissPrevLevel()
 }
 
 
+// 다음 레벨 Change
 void VegetableValley12::PlayerEnterNextLevel()
 {
 	if (true == IsPlayerEnter)
@@ -176,12 +182,17 @@ void VegetableValley12::PlayerEnterNextLevel()
 
 
 
+/* ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ */
+
+
 void VegetableValley12::Render(float _Delta)
 {
 	DebugRender(_Delta);
 }
 
 
+
+/* ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ */
 
 
 void VegetableValley12::LevelStart(GameEngineLevel* _PrevLevel)
@@ -207,10 +218,13 @@ void VegetableValley12::LevelStart(GameEngineLevel* _PrevLevel)
 	}
 
 
-
-
 	GlobalContents::FadeIn(this);
 }
+
+
+
+/* ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ */
+
 
 void VegetableValley12::LevelEnd(GameEngineLevel* _NextLevel) 
 {

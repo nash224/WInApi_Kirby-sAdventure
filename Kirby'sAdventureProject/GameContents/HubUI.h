@@ -36,7 +36,7 @@ public:
 	HubUI& operator=(HubUI&& _Other) noexcept = delete;
 
 
-	// Level 상속
+	// GameEngineObject 상속
 private:
 	void Start() override;
 	void Update(float _Delta) override;

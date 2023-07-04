@@ -21,13 +21,20 @@ public:
 
 protected:
 
+	// GameEngineObject 상속
 private:
 	void Start() override;
 	void Update(float _DeltaTime) override;
 	void Render(float _Delta) override;
 
+	// GameEngineLevel 상속
 	void LevelStart(GameEngineLevel* _PrevLevel) override;
 	void LevelEnd(GameEngineLevel* _NextLevel) override;
+
+
+	//this
+private:
+	void ResourcesLoad();
 
 };
 

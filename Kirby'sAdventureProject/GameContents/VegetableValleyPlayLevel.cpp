@@ -2,18 +2,21 @@
 #include "ContentsEnum.h"
 
 
+
 #include <GameEnginePlatform/GameEngineInput.h>
 #include <GameEnginePlatform/GameEngineWindow.h>
-#include <GameEngineCore/GameEngineCore.h>
 #include <GameEnginePlatform/GameEngineSound.h>
-#include <GameEngineCore/GameEngineRenderer.h>
+#include <GameEngineCore/GameEngineCore.h>
 #include <GameEngineCore/GameEngineCamera.h>
+#include <GameEngineCore/GameEngineRenderer.h>
 
+
+#include "BackGround.h"
 #include "GameEffect.h"
 #include "UIManager.h"
-#include "BackGround.h"
 #include "Kirby.h"
-#include <vector>
+#include "Enemy.h"
+
 
 
 bool VegetableValleyPlayLevel::PrevLevelTriggerOn = false;
@@ -52,16 +55,36 @@ VegetableValleyPlayLevel::~VegetableValleyPlayLevel()
 }
 
 
-
-
-void VegetableValleyPlayLevel::RePlayBGM()
+// 배경 렌더러 양산 함수
+void VegetableValleyPlayLevel::CreateAndSetupBackgroundEffectRenderer(
+	const std::string& _AnimationName,
+	const std::string& _FileName,
+	int _StartFrame, int _EndFrame,
+	float4 _Pos, float _Ratio,
+	float _Inter/* = 0.1f*/, bool _Loop/* = true*/)
 {
-	BGM_Player = GameEngineSound::SoundPlay(LevelBgmFileName);
-	BGMFileName = LevelBgmFileName;
-	IsBGM_On = true;
+	if (nullptr == LevelEffect)
+	{
+		MsgBoxAssert("액터를 불러오지 못했습니다.");
+		return;
+	}
+
+	GameEngineRenderer* Render = LevelEffect->CreateRenderer(RenderOrder::BackGroundEffect);
+	if (nullptr == Render)
+	{
+		MsgBoxAssert("렌더러를 생성하지 못했습니다.");
+		return;
+	}
+
+	Render->CreateAnimation(_AnimationName, _FileName, _StartFrame, _EndFrame, _Inter, _Loop);
+	Render->SetRenderPos(_Pos);
+	Render->SetScaleRatio(_Ratio);
+	Render->ChangeAnimation(_AnimationName);
 }
 
 
+
+// 리스폰 초기 방향 및 카메라 위치
 void VegetableValleyPlayLevel::SetPlayerPosAndCameraPos(const float4& _PlayerPos, const float4& _CameraPos)
 {
 	LevelPlayer = Kirby::GetMainKirby();
@@ -86,7 +109,7 @@ void VegetableValleyPlayLevel::SetPlayerPosAndCameraPos(const float4& _PlayerPos
 
 
 
-
+// 몹 리스폰 함수
 void VegetableValleyPlayLevel::CheckRespawnEnemy()
 {
 	for (size_t i = 0; i < LevelEnemy.size(); i++)
@@ -97,23 +120,18 @@ void VegetableValleyPlayLevel::CheckRespawnEnemy()
 }
 
 
-
-void VegetableValleyPlayLevel::CreateAndSetupBackgroundEffectRenderer(
-	const std::string& _AnimationName,
-	const std::string& _FileName,
-	int _StartFrame, int _EndFrame,
-	float4 _Pos, float _Ratio,
-	float _Inter/* = 0.1f*/, bool _Loop/* = true*/)
+// 브금 재생
+void VegetableValleyPlayLevel::RePlayBGM()
 {
-	GameEngineRenderer* Render = LevelEffect->CreateRenderer(RenderOrder::BackGroundEffect);
-	Render->CreateAnimation(_AnimationName, _FileName, _StartFrame, _EndFrame, _Inter, _Loop);
-	Render->SetRenderPos(_Pos);
-	Render->SetScaleRatio(_Ratio);
-	Render->ChangeAnimation(_AnimationName);
+	BGM_Player = GameEngineSound::SoundPlay(LevelBgmFileName);
+	BGMFileName = LevelBgmFileName;
+	IsBGM_On = true;
 }
 
 
 
+
+// 카메라 제어
 void VegetableValleyPlayLevel::CameraFocus(float _Delta)
 {
 	float4 WinScale = GameEngineWindow::MainWindow.GetScale();
@@ -287,6 +305,11 @@ void VegetableValleyPlayLevel::CameraFocus(float _Delta)
 
 
 
+
+
+
+
+// 레벨 숏컷
 void VegetableValleyPlayLevel::LevelDebugShortcut(float _Delta)
 {
 	// 디버그 렌더링 전환키
@@ -423,7 +446,7 @@ void VegetableValleyPlayLevel::LevelDebugShortcut(float _Delta)
 }
 
 
-
+// 디버깅 렌더러
 void VegetableValleyPlayLevel::DebugRender(float _Delta)
 {
 	if (false == Level_MenuOpenValue)
@@ -453,6 +476,7 @@ void VegetableValleyPlayLevel::DebugRender(float _Delta)
 
 
 
+// 오픈 메뉴
 void VegetableValleyPlayLevel::OpenMenuRender(HDC _HDC, int& _RenderNumber)
 {
 	if (nullptr == _HDC)
@@ -496,6 +520,7 @@ void VegetableValleyPlayLevel::OpenMenuRender(HDC _HDC, int& _RenderNumber)
 }
 
 
+// 개발지 모드
 void VegetableValleyPlayLevel::DevModeRender(HDC _HDC, int& _RenderNumber, float _Delta)
 {
 
@@ -622,7 +647,7 @@ void VegetableValleyPlayLevel::DevModeRender(HDC _HDC, int& _RenderNumber, float
 
 }
 
-
+// 비트맵 디버깅 렌더러
 void VegetableValleyPlayLevel::ColAndBitMapRender(HDC _HDC, int& _RenderNumber)
 {
 	{

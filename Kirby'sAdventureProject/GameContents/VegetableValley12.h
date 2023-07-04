@@ -1,7 +1,7 @@
 #pragma once
 #include "VegetableValleyPlayLevel.h"
 
-// 설명 :
+// 설명 : 스테이지 1-2 레벨입니다.
 class VegetableValley12 : public VegetableValleyPlayLevel
 {
 public:
@@ -18,26 +18,29 @@ public:
 protected:
 
 private:
-
-
-	void EnemySummon() override;
-
+	// GameEngineObject 상속
 	void Start() override;
-
-
-
 	void Update(float _Delta) override;
-
-	void PlayerMissPrevLevel();
-	void PlayerEnterNextLevel();
-
-
 	void Render(float _Delta) override;
 
+
+	// GameEngineLevel 상속
 	void LevelStart(GameEngineLevel* _PrevLevel) override;
 	void LevelEnd(GameEngineLevel* _NextLevel) override;
 
 
+	// VegetableValleyPlayLevel 상속
+	void EnemySummon() override;
 	void SwitchRenders() override;
+
+
+
+
+	// this
+	void ResourcesLoad();
+
+	void PlayerMissPrevLevel();
+	void PlayerEnterNextLevel();
+
 };
 

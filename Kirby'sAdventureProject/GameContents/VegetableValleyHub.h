@@ -2,10 +2,7 @@
 #include "VegetableValleyPlayLevel.h"
 
 
-
-
-
-// 설명 :
+// 설명 : VegetableValley 버스형 스테이지 파이프입니다.
 class VegetableValleyHub : public VegetableValleyPlayLevel
 {
 public:
@@ -19,40 +16,31 @@ public:
 	VegetableValleyHub& operator=(const VegetableValleyHub& _Other) = delete;
 	VegetableValleyHub& operator=(VegetableValleyHub&& _Other) noexcept = delete;
 
+
+
 protected:
 
-	// Level override
 private:
+	// GameEngineObject override
 	void Start() override;
 	void Update(float _Delta) override;
 	void Render(float _Delta) override;
 
+
+	// GameEngineObject override
 	void LevelStart(GameEngineLevel* _PrevLevel) override;
 	void LevelEnd(GameEngineLevel* _NextLevel) override;
 
 
-
-	// Vegetable Play
-private:
+	// VegetableValleyPlayLevel override
 	void SwitchRenders() override;
 
 
+private:
 	// this
-private:
-	// Stage 관련
-	bool IsRequestDoorOpen = false;
-	bool AreYouJustEnterScene = true;
-	int VegetableValleyEntertheDoorNumber = -1;
+	void ResourecsLoad();
 
-
-	void VegetableValleyStage_1_Func();
-	void VegetableValleyStage_2_Func();
-	void VegetableValleyMuseum_Func();
-
-	void Kirby_StageClear();
-
-
-private:
+	// 사물
 	class StageElemnet
 	{
 	public:
@@ -73,6 +61,22 @@ private:
 
 
 
+	// Stage 패턴
+	bool IsRequestDoorOpen = false;
 
+
+	void Kirby_StageClear();
+
+	void VegetableValleyStage_1_Func();
+	void VegetableValleyStage_2_Func();
+	void VegetableValleyMuseum_Func();
+
+
+	// LevelStart
+	int VegetableValleyEntertheDoorNumber = -1;
+	bool AreYouJustEnterScene = true;
+
+	void LevelStartCameraPos();
+	void LevelStartDoorLogic();
 };
 

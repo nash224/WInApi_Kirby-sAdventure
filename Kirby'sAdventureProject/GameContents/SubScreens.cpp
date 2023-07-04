@@ -2,12 +2,11 @@
 #include "ContentsEnum.h"
 #include "GlobalContents.h"
 
+
 #include <GameEnginePlatform/GameEngineWindow.h>
 #include <GameEnginePlatform/GameEngineInput.h>
-#include <GameEnginePlatform/GameEngineSound.h>
-#include <GameEngineCore/GameEngineCamera.h>
 #include <GameEngineCore/GameEngineCore.h>
-#include <GameEngineCore/ResourcesManager.h>
+
 
 // contents
 #include "BackGround.h"
@@ -76,6 +75,8 @@ void SubScreens::Update(float _Delta)
 		GameEngineCore::ChangeLevel("VegetableValleyMuseum");
 		return;
 	}
+
+
 
 	if (true == NextLevelTriggerOn)
 	{

@@ -4,6 +4,7 @@
 #include <vector>
 
 
+
 // 이미지 좌상단 기준
 // 목숨 애니메이션 위치
 #define BOSS_LIVESANILOCATION float4{ 573.0f , 66.0f}
@@ -52,7 +53,7 @@ public:
 
 
 
-	// 레벨 상속
+	// GameEngineObject 상속
 private:
 	void Start() override;
 	void Update(float _Delta) override;

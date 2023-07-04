@@ -332,8 +332,21 @@ void IceBlock::Render(float _Delta)
 
 void IceBlock::ThisDebugRender(HDC _dc, int& _RenderNumber, const int _TextXPos, const int _TextYPos)
 {
+	if (IceBlockState::Idle == State)
+	{
+		{
+			std::string Text = "";
+			Text += "³ì´Â ½Ã°£ : ";
+			Text += std::to_string(LiveTime - GetLiveTime());
+			TextOutA(_dc, _TextXPos, 2 + _TextYPos - _RenderNumber * DebugRenderText_YInter, Text.c_str(), static_cast<int>(Text.size()));
+
+			++_RenderNumber;
+		}
+	}
+
 
 	float4 EffectPos = GetPos();
+
 	{
 		std::string Text = "";
 		Text += "X ÁÂÇ¥ : ";

@@ -41,7 +41,7 @@ public:
 protected:
 
 
-	// Level 상속
+	// GameEngineObject 상속
 private:
 	void Start() override;
 	void Update(float _Delta) override;

@@ -1,6 +1,7 @@
 #pragma once
 #include "VegetableValleyPlayLevel.h"
 
+
 // 설명 : 단순히 설명을 띄우는 Level입니다.
 class SubScreens : public VegetableValleyPlayLevel
 {
@@ -17,12 +18,13 @@ public:
 
 protected:
 
-	// Level 상속
+	// GameEngineObject 상속
 private:
 	void Start() override;
 	void Update(float _Delta) override;
 	void Render(float _Delta) override;
 
+	// GameEngineLevel 상속
 	void LevelStart(GameEngineLevel* _PrevLevel) override;
 	void LevelEnd(GameEngineLevel* _NextLevel) override;
 

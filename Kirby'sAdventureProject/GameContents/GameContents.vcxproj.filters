@@ -237,6 +237,9 @@
     <ClInclude Include="IceBlock.h">
       <Filter>Global\Effect\SkillAbilityEffect</Filter>
     </ClInclude>
+    <ClInclude Include="ContentsLevelBossStage.h">
+      <Filter>Level\02.Map\VegetableValley</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Boss.cpp">
@@ -515,6 +518,9 @@
     </ClCompile>
     <ClCompile Include="Kirby_Debug.cpp">
       <Filter>Global\Object\Kirby</Filter>
+    </ClCompile>
+    <ClCompile Include="ContentsLevelBossStage.cpp">
+      <Filter>Level\02.Map\VegetableValley</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

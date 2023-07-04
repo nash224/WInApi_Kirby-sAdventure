@@ -1,20 +1,19 @@
 #include "VegetableValley13.h"
 #include "ContentsEnum.h"
+#include "GlobalContents.h"
 
 
 #include <GameEnginePlatform/GameEngineWindow.h>
-#include <GameEnginePlatform/GameEngineInput.h>
 #include <GameEngineCore/GameEngineCore.h>
-#include <GameEngineCore/GameEngineCamera.h>
 
 
-#include "Kirby.h"
-#include "GlobalContents.h"
-#include "FadeObject.h"
+#include "BackGround.h"
 #include "BossUI.h"
+#include "FadeObject.h"
+#include "Kirby.h"
 #include "WhispyWood.h"
 #include "ContentsObject.h"
-#include "BackGround.h"
+
 
 
 bool VegetableValley13::IsEndingCreditOn = false;
@@ -26,7 +25,26 @@ VegetableValley13::~VegetableValley13()
 {
 }
 
+
+
+
 void VegetableValley13::Start()
+{
+	BitMapFileName = "VegetableValleyBossP.bmp";
+
+	// 리스폰 세팅
+	Kirby_RespawnPos = float4{ 370.0f, 200.0f };
+
+	// 디버깅 
+	NextLevelName = "VegetableValleyHub";
+
+
+	ResourcesLoad();
+}
+
+
+// 리소스 로드
+void VegetableValley13::ResourcesLoad()
 {
 	// 배경 생성
 	LevelBackGround = GameEngineLevel::CreateActor<BackGround>();
@@ -52,12 +70,6 @@ void VegetableValley13::Start()
 	// 설정
 	BackGroundScale = Texture->GetScale();
 
-	BitMapFileName = "VegetableValleyBossP.bmp";
-
-
-
-
-
 
 	// UI생성
 	LevelUIManager = GameEngineLevel::CreateActor<BossUI>(UpdateOrder::UI);
@@ -72,14 +84,11 @@ void VegetableValley13::Start()
 	GlobalContents::SoundFileLoad("30_Level_Clear.mp3", "Resources\\SoundResources\\SoundTrack");
 	GlobalContents::SoundFileLoad("32_Crane_Fever_(faster).mp3", "Resources\\SoundResources\\SoundTrack");
 
-
-	// 리스폰 세팅
-	Kirby_RespawnPos = float4{ 370.0f, 200.0f };
-
-	// 디버깅 
-	NextLevelName = "VegetableValleyHub";
 }
 
+
+
+/* ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ */
 
 
 
@@ -90,10 +99,8 @@ void VegetableValley13::Update(float _Delta)
 		EndingCredit(_Delta);
 	}
 
-	LevelDebugShortcut(_Delta);
 
 	PlayerMissPrevLevel();
-
 
 	if (true == PrevLevelTriggerOn)
 	{
@@ -101,10 +108,13 @@ void VegetableValley13::Update(float _Delta)
 	}
 
 
+	LevelDebugShortcut(_Delta);
+
 	CameraFocus(_Delta);
 }
 
 
+// 비트맵 디버깅 스위치
 void VegetableValley13::SwitchRenders()
 {
 	if (nullptr == LevelBackGround)
@@ -119,7 +129,7 @@ void VegetableValley13::SwitchRenders()
 
 
 
-
+// 엔딩 크래딧
 void VegetableValley13::EndingCredit(float _Delta)
 {
 	if (false == Ending_IsFadeOut)
@@ -190,7 +200,7 @@ void VegetableValley13::EndingCredit(float _Delta)
 
 
 
-
+// Miss 레벨 패턴
 void VegetableValley13::PlayerMissPrevLevel()
 {
 	if (true == IsPlayerMiss)
@@ -219,6 +229,7 @@ void VegetableValley13::PlayerMissPrevLevel()
 
 
 
+/* ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ */
 
 
 
@@ -227,6 +238,9 @@ void VegetableValley13::Render(float _Delta)
 	DebugRender(_Delta);
 }
 
+
+
+/* ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ */
 
 
 void VegetableValley13::LevelStart(GameEngineLevel* _PrevLevel)
@@ -253,6 +267,10 @@ void VegetableValley13::LevelStart(GameEngineLevel* _PrevLevel)
 	}
 
 }
+
+
+
+/* ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ */
 
 
 void VegetableValley13::LevelEnd(GameEngineLevel* _NextLevel)

@@ -1,5 +1,6 @@
 #include "Kirby.h"
 #include "ContentsEnum.h"
+#include "GlobalContents.h"
 
 
 #include <GameEngineBase/GameEngineTime.h>
@@ -12,9 +13,8 @@
 #include <GameEngineCore/ResourcesManager.h>
 
 
-#include "GlobalContents.h"
-#include "FadeObject.h"
 #include "VegetableValley13.h"
+#include "FadeObject.h"
 #include "Boss.h"
 
 
@@ -355,7 +355,7 @@ void Kirby::StageClearWalkStart()
 		return;
 	}
 
-	VegetableValleyPlayLevel* PlayLevelPtr = dynamic_cast<VegetableValleyPlayLevel*>(CurLevelPtr);
+	ContentsLevelBossStage* PlayLevelPtr = dynamic_cast<ContentsLevelBossStage*>(CurLevelPtr);
 	if (nullptr == PlayLevelPtr)
 	{
 		MsgBoxAssert("다운 캐스팅 변환에 실패했습니다.");

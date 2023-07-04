@@ -2,20 +2,20 @@
 #include "ContentsEnum.h"
 #include "GlobalContents.h"
 
+
 #include <GameEnginePlatform/GameEngineWindow.h>
-#include <GameEnginePlatform/GameEngineInput.h>
 #include <GameEnginePlatform/GameEngineSound.h>
-#include <GameEngineCore/GameEngineCamera.h>
 #include <GameEngineCore/GameEngineCore.h>
 #include <GameEngineCore/ResourcesManager.h>
 
+
 // contents
 #include "BackGround.h"
+#include "GameEffect.h"
+#include "PlayUI.h"
 #include "FadeObject.h"
 #include "Kirby.h"
-#include "GameEffect.h"
 #include "EnergeDrink.h"
-#include "PlayUI.h"
 
 
 
@@ -31,6 +31,28 @@ VegetableValley11::~VegetableValley11()
 
 void VegetableValley11::Start() 
 {
+	BitMapFileName = "VegetableValley1_1Pixel.bmp";
+
+
+	// 리스폰 세팅
+	Kirby_RespawnPos = float4{ 200.0f , 384.0f };
+
+
+	// 디버그 세팅
+	NextLevelName = "VegetableValley12";
+	KirbyShortCutPos = float4{ 2880.0f , 336.0f };
+
+
+
+	ResourcesLoad();
+
+	EnemySummon();
+}
+
+
+// 리소스 로드
+void VegetableValley11::ResourcesLoad()
+{
 	LevelBackGround = GameEngineLevel::CreateActor<BackGround>(UpdateOrder::BackGround);
 	if (nullptr == LevelBackGround)
 	{
@@ -38,11 +60,7 @@ void VegetableValley11::Start()
 		return;
 	}
 
-	LevelBackGround->init("VegetableValley1_1.bmp","VegetableValley1_1Pixel.bmp", "Resources\\Map");
-
-	BitMapFileName = "VegetableValley1_1Pixel.bmp";
-
-	GameEngineWindowTexture* Texture = ResourcesManager::GetInst().FindTexture("VegetableValley1_1.bmp");
+	GameEngineWindowTexture* Texture = LevelBackGround->init("VegetableValley1_1.bmp", "VegetableValley1_1Pixel.bmp", "Resources\\Map");
 	if (nullptr == Texture)
 	{
 		MsgBoxAssert("텍스처를 불러오지 못했습니다.");
@@ -50,6 +68,7 @@ void VegetableValley11::Start()
 	}
 
 	BackGroundScale = Texture->GetScale();
+	SetLevelBackgroundScale(BackGroundScale);
 
 
 
@@ -66,21 +85,6 @@ void VegetableValley11::Start()
 
 
 
-	GameEngineWindowTexture* MapTexture = ResourcesManager::GetInst().FindTexture("VegetableValley1_1.bmp");
-	if (nullptr == MapTexture)
-	{
-		MsgBoxAssert("비트맵 로드에 실패했습니다.");
-		return;
-	}
-
-	float4 BackScale = MapTexture->GetScale();
-	SetLevelBackgroundScale(BackScale);
-
-
-
-	EnemySummon();
-
-
 	EnergeDrink* EnergeDrinkPtr = GameEngineLevel::CreateActor<EnergeDrink>(UpdateOrder::Item);
 	if (nullptr == EnergeDrinkPtr)
 	{
@@ -90,7 +94,6 @@ void VegetableValley11::Start()
 
 	EnergeDrinkPtr->init(float4{ 2500.0f , 240.0f });
 	EnergeDrinkPtr->SetGroundTexture(BitMapFileName);
-
 
 
 
@@ -105,15 +108,12 @@ void VegetableValley11::Start()
 	// 사운드 로드
 	GlobalContents::SoundFileLoad("03_Plains_Level.mp3", "Resources\\SoundResources\\SoundTrack");
 	LevelBgmFileName = "03_Plains_Level.mp3";
-
-	// 리스폰 세팅
-	Kirby_RespawnPos = float4{ 200.0f , 384.0f };
-
-
-	// 디버그 세팅
-	NextLevelName = "VegetableValley12";
-	KirbyShortCutPos = float4{ 2880.0f , 336.0f };
 }
+
+
+/* ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ */
+
+
 
 
 void VegetableValley11::Update(float _Delta)
@@ -144,7 +144,7 @@ void VegetableValley11::Update(float _Delta)
 
 
 
-
+// 비트맵 전환 스위치
 void VegetableValley11::SwitchRenders()
 {
 	if (nullptr == LevelEffect)
@@ -168,7 +168,7 @@ void VegetableValley11::SwitchRenders()
 
 
 
-
+// Miss 로직
 void VegetableValley11::PlayerMissPrevLevel()
 {
 	if (true == IsPlayerMiss)
@@ -196,6 +196,8 @@ void VegetableValley11::PlayerMissPrevLevel()
 	}
 }
 
+
+// 다음 레벨 체인지
 void VegetableValley11::PlayerEnterNextLevel()
 {
 	if (true == IsPlayerEnter)
@@ -226,6 +228,7 @@ void VegetableValley11::PlayerEnterNextLevel()
 
 
 
+/* ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ */
 
 
 
@@ -233,6 +236,11 @@ void VegetableValley11::Render(float _Delta)
 {
 	DebugRender(_Delta);
 }
+
+
+
+/* ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ */
+
 
 
 void VegetableValley11::LevelStart(GameEngineLevel* _PrevLevel)
@@ -263,6 +271,10 @@ void VegetableValley11::LevelStart(GameEngineLevel* _PrevLevel)
 }
 
 
+
+/* ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ */
+
+
 void VegetableValley11::LevelEnd(GameEngineLevel* _NextLevel)
 {
 	IsPlayerEnter = false;
@@ -275,6 +287,5 @@ void VegetableValley11::LevelEnd(GameEngineLevel* _NextLevel)
 
 		IsBGM_On = false;
 	}
-
 }
 

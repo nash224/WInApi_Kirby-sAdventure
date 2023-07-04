@@ -361,7 +361,8 @@ void Kirby::ThisDebugRender(HDC _dc)
 	if (true == Cheat_Invincibility || true == ImmuneState)
 	{
 		std::string Text = "";
-		Text += "公利";
+		Text += "公利 矫埃 : ";
+		Text += std::to_string(KIRBYIMMUNEDURATION - ImmuneTime);
 		TextOutA(_dc, TextXPos, 2 + TextYPos - TextRenderNum * DebugRenderText_YInter, Text.c_str(), static_cast<int>(Text.size()));
 
 		++TextRenderNum;
