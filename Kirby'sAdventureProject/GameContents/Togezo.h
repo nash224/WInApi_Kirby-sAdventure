@@ -56,7 +56,7 @@ protected:
 	int BounceCount = 0;
 
 
-	void StateUpdate(float _Delta) override;
+	void StateUpdate(float _Delta);
 	void ChangeState(TogezoState _State);
 	void ChangeRespawnState() override;
 

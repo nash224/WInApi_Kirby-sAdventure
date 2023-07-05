@@ -48,7 +48,7 @@ protected:
 	BrontoState RespawnState = BrontoState::Max;
 
 	// 업데이트 및 리스폰
-	void StateUpdate(float _Delta) override;
+	void StateUpdate(float _Delta);
 	void ChangeState(BrontoState _State);
 	void ChangeRespawnState() override;
 

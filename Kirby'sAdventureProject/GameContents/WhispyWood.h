@@ -70,7 +70,7 @@ private:
 	WhispyWoodState PrevState = WhispyWoodState::Max;
 
 
-	void StateUpdate(float _Delta) override;
+	void StateUpdate(float _Delta);
 	void ChangeState(WhispyWoodState _State);
 
 

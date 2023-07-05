@@ -44,7 +44,7 @@ protected:
 	NormalState RespawnState = NormalState::Max;
 
 
-	void StateUpdate(float _Delta) override;
+	void StateUpdate(float _Delta);
 	void ChangeState(NormalState _State);
 	void ChangeRespawnState() override;
 

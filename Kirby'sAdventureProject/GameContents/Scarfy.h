@@ -56,7 +56,7 @@ protected:
 
 
 	// 상태패턴 함수
-	void StateUpdate(float _Delta) override;
+	void StateUpdate(float _Delta);
 	void ChangeState(ScarfyState _State);
 	void ChangeRespawnState() override;
 

@@ -266,7 +266,7 @@ void Kirby::KirbyDebugRender(HDC _dc)
 	{
 		std::string Text = "";
 
-		Text += "1프렘 Y 속도 : ";
+		Text += "1프레임 Y 속도 : ";
 		Text += std::to_string(KirbyMovePos.Y);
 		TextOutA(_dc, 2, 2 + TextRenderNum * DebugRenderText_YInter, Text.c_str(), static_cast<int>(Text.size()));
 

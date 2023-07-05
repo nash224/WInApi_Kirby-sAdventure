@@ -57,7 +57,7 @@ private:
 
 	// Enemy »ó¼Ó
 private:
-	void StateUpdate(float _Delta) override;
+	void StateUpdate(float _Delta);
 	void ChangeRespawnState() override;
 
 

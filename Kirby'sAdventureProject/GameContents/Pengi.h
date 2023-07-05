@@ -39,8 +39,8 @@ private:
 	// 상태패턴 함수
 	PengiState State = PengiState::Max;
 
-	void ChangeState(PengiState _State);
 	void StateUpdate(float _Delta);
+	void ChangeState(PengiState _State);
 
 	void IdleStart();
 	void IdleUpdate(float _Delta);

@@ -66,7 +66,7 @@ protected:
 	int WobbleCount = 0;
 
 
-	void StateUpdate(float _Delta) override;
+	void StateUpdate(float _Delta);
 	void ChangeState(HotHeadState _State);
 	void ChangeRespawnState() override;
 

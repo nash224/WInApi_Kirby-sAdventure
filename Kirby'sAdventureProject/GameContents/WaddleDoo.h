@@ -50,11 +50,27 @@ public:
 	void init(const std::string& _FileName, WaddleDooState _State, const float4& _Pos);
 
 protected:
-	// 상태패턴 함수
+
+private:
+	// GameEngineObject 상속
+	void Start() override;
+	void Update(float _Delta) override;
+	void Render(float _Delta) override;
+
+
+	// Enemy 상속
+	void ChangeRespawnState() override;
+
+
+	// FSM
 	WaddleDooState State = WaddleDooState::Max;
 	WaddleDooState RespawnState = WaddleDooState::Max;
 
+	void StateUpdate(float _Delta);
+	void ChangeState(WaddleDooState _State);
 
+
+	// 상태
 	int WobbleCount = 0;
 	size_t WobbleFrame = -1;
 	int BombCount = -1;
@@ -62,30 +78,21 @@ protected:
 	float CurrentJumpDistance = 0.0f;
 
 
-	void StateUpdate(float _Delta) override;
-	void ChangeState(WaddleDooState _State);
-	void ChangeRespawnState() override;
-
-
-
 	void WalkStart();
-	void JumpStart();
-	void WobbleStart();
-	void ActivateAbilityStart();
-
 	void WalkUpdate(float _Delta);
+	void JumpStart();
 	void JumpUpdate(float _Delta);
+
+	void WobbleStart();
 	void WobbleUpdate(float _Delta);
+
+	void ActivateAbilityStart();
 	void ActivateAbilityUpdate(float _Delta);
 
 
 
 	void EnemyCollisionCheck();
 
-private:
-	void Start() override;
-	void Update(float _Delta) override;
-	void Render(float _Delta) override;
 
 
 

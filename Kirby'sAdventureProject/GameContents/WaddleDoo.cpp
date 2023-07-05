@@ -350,9 +350,25 @@ void WaddleDoo::ActivateAbilityStart()
 {
 	StateTime = 0.0f;
 	IsChangeState = false;
-	BeamEffect* BeamEffectPtr = GetLevel()->CreateActor<BeamEffect>(UpdateOrder::Ability);
+
+	GameEngineLevel* CurLevePtr = GetLevel();
+	if (nullptr == CurLevePtr)
+	{
+		MsgBoxAssert("레벨을 불러오지 못했습니다.");
+		return;
+	}
+
+	BeamEffect* BeamEffectPtr = CurLevePtr->CreateActor<BeamEffect>(UpdateOrder::Ability);
+	if (nullptr == BeamEffectPtr)
+	{
+		MsgBoxAssert("액터를 생성하지 못했습니다.");
+		return;
+	}
+
 	BeamEffectPtr->init(GetPos(), Scale, GetDirUnitVector());
 	BeamEffectPtr->SetActorCollision(CollisionOrder::MonsterAbility, CollisionType::Rect);
+
+
 	ChangeAnimationState("ActivateAbility");
 }
 

@@ -23,6 +23,38 @@ Enemy::~Enemy()
 
 
 
+// 몬스터 방향을 기준으로 몬스터의 렌더러를 좌,우 애니메이션 변경 함수
+void Enemy::ChangeAnimationState(const std::string& _StateName)
+{
+
+	std::string AnimationName = "";
+
+	switch (Dir)
+	{
+	case ActorDir::Left:
+		AnimationName = "Left_";
+		break;
+	case ActorDir::Right:
+		AnimationName = "Right_";
+		break;
+	default:
+		break;
+	}
+
+	AnimationName += _StateName;
+
+	CurState = _StateName;
+
+	if (nullptr == MainRenderer)
+	{
+		MsgBoxAssert("렌더러를 불러오지 못했습니다.");
+		return;
+	}
+
+	MainRenderer->ChangeAnimation(AnimationName);
+}
+
+
 
 // 커비를 바라보는 함수
 void Enemy::GetKirbyDirection()
@@ -44,6 +76,7 @@ void Enemy::GetKirbyDirection()
 		Dir = ActorDir::Right;
 	}
 }
+
 
 // 커비 방향의 단위벡터를 반환
 float4 Enemy::GetKirbyUnitVector()
@@ -142,6 +175,128 @@ bool Enemy::RightGroundIsCliff()
 
 
 
+// 피해를 입은 상태패턴
+void Enemy::HittedStart()
+{
+	StateTime = 0.0f;
+	IsChangeState = false;
+	CurrentSpeed = 0.0f;
+	IsHitted = true;
+
+
+	// 별 이펙트 생성
+	CrossDeathEffect* CrossDeathEffectPtr = GetLevel()->CreateActor<CrossDeathEffect>(UpdateOrder::Ability);
+	if (nullptr == CrossDeathEffectPtr)
+	{
+		MsgBoxAssert("액터가 Null 일리가 없어..");
+		return;
+	}
+
+	CrossDeathEffectPtr->init(GetPos(), Scale);
+
+
+
+
+	PlayUI::PlayUI_Score += 200;
+
+	GameEngineSound::SoundPlay("Enemy_DeathSound.wav");
+}
+
+
+void Enemy::HittedUpdate(float _Delta)
+{
+	IsHitted = false;
+	Off();
+}
+
+
+
+
+
+// 커비에게 빨려가는 상태패턴
+void Enemy::BeInhaledStart()
+{
+	if (nullptr == BodyCollision)
+	{
+		MsgBoxAssert("충돌체를 불러오지 못했습니다.");
+		return;
+	}
+
+
+	StateTime = 0.0f;
+	IsChangeState = false;
+	CurrentSpeed = 0.0f;
+
+	IsInhaledStateOn = false;
+	BodyCollision->Off();
+	MyInhaledStartPos = GetPos();
+
+
+	// 전시관인 액터는 제외
+	if ("Pengi" != GetName())
+	{
+		PlayUI::PlayUI_Score += 300;
+	}
+}
+
+void Enemy::BeInhaledUpdate(float _Delta)
+{
+	StateTime += _Delta;
+
+	Kirby* KirbyPtr = Kirby::GetMainKirby();
+	if (nullptr == KirbyPtr)
+	{
+		MsgBoxAssert("플레이어를 불러오지 못했습니다.");
+		return;
+	}
+
+	float4 KirbyPos = KirbyPtr->GetPos();
+
+	InhaleTargetPos = KirbyPos - MyInhaledStartPos;
+	InhaleTargetPosXDistance = InhaleTargetPos.X;
+	InhaleTargetPosYDistance = InhaleTargetPos.Y;
+	Inhaled_Initial_YDistance = GetKirbyOpponentDistance().Y - Enemy_KIRBYCENTERYPOINT;
+
+
+	// Y Speed Measurement
+	{
+		YDecelationSpeed += InhaleTargetPosYDistance / InhaledTime * _Delta;
+		CurentVerticalSpeed = Inhaled_Initial_YDistance + YDecelationSpeed;
+
+		VerticalUpdateBasedlevitation(_Delta);
+	}
+
+
+	if (GetKirbyOpponentDistance().X < 0.0f)
+	{
+		InhaleXSpeed = InhaleTargetPosXDistance / InhaledTime * _Delta;
+		CurrentSpeed += InhaleXSpeed;
+
+		HorizontalUpdate(_Delta);
+
+		if (GetPos().X < KirbyPos.X)
+		{
+			BeInhaledRelease();
+			return;
+		}
+	}
+	else if (GetKirbyOpponentDistance().X > 0.0f)
+	{
+		InhaleXSpeed = InhaleTargetPosXDistance / InhaledTime * _Delta;
+		CurrentSpeed += InhaleXSpeed;
+
+		HorizontalUpdate(_Delta);
+
+		if (GetPos().X > KirbyPos.X)
+		{
+			BeInhaledRelease();
+			return;
+		}
+	}
+
+}
+
+
 
 // 몬스터가가 카메라 밖으로 나가면 Off
 void Enemy::CheckOverScreen()
@@ -224,6 +379,13 @@ void Enemy::RespawnTrigger()
 // 커비를 바라보는 좌우 방향과 렌더러를 변경하는 함수
 void Enemy::SetDirectionAndFirstAnimation(const std::string& _StateName)
 {
+	if (nullptr == MainRenderer)
+	{
+		MsgBoxAssert("렌더러를 불러오지 못했습니다.");
+		return;
+	}
+
+	// 초기 예외처리
 	if (nullptr == Kirby::GetMainKirby())
 	{
 		Dir = ActorDir::Left;
@@ -231,7 +393,7 @@ void Enemy::SetDirectionAndFirstAnimation(const std::string& _StateName)
 		return;
 	}
 
-	float4 StartDir = Kirby::GetMainKirby()->GetPos() - GetPos();
+	float4 StartDir = GetKirbyOpponentDistance();
 
 	if (StartDir.X < 0.0f)
 	{
@@ -251,156 +413,17 @@ void Enemy::SetDirectionAndFirstAnimation(const std::string& _StateName)
 }
 
 
-// 몬스터 방향을 기준으로 몬스터의 렌더러를 좌,우 애니메이션 변경 함수
-void Enemy::ChangeAnimationState(const std::string& _StateName)
+void Enemy::BeInhaledRelease()
 {
-
-	std::string AnimationName = "";
-
-	switch (Dir)
+	if (nullptr == BodyCollision)
 	{
-	case ActorDir::Left:
-		AnimationName = "Left_";
-		break;
-	case ActorDir::Right:
-		AnimationName = "Right_";
-		break;
-	default:
-		break;
-	}
-
-	AnimationName += _StateName;
-
-	CurState = _StateName;
-
-	MainRenderer->ChangeAnimation(AnimationName);
-}
-
-
-
-
-// 커비에게 빨려가는 상태패턴
-void Enemy::BeInhaledStart()
-{
-	StateTime = 0.0f;
-	IsChangeState = false;
-	CurrentSpeed = 0.0f;
-
-	IsInhaledStateOn = false;
-	BodyCollision->Off();
-	MyInhaledStartPos = GetPos();
-
-
-	if ("Pengi" != GetName())
-	{
-		PlayUI::PlayUI_Score += 300;
-	}
-}
-
-void Enemy::BeInhaledUpdate(float _Delta)
-{
-	StateTime += _Delta;
-
-	Kirby* KirbyPtr = Kirby::GetMainKirby();
-	if (nullptr == KirbyPtr)
-	{
-		MsgBoxAssert("플레이어를 불러오지 못했습니다.");
+		MsgBoxAssert("충돌체를 불러오지 못했습니다.");
 		return;
 	}
 
-	float4 KirbyPos = KirbyPtr->GetPos();
-
-	InhaleTargetPos = KirbyPos - MyInhaledStartPos;
-	InhaleTargetPosXDistance = InhaleTargetPos.X;
-	InhaleTargetPosYDistance = InhaleTargetPos.Y;
-	Inhaled_Initial_YDistance = GetKirbyOpponentDistance().Y - Enemy_KIRBYCENTERYPOINT;
-
-
-	// Y Speed Measurement
-	{
-		YDecelationSpeed += InhaleTargetPosYDistance / InhaledTime * _Delta;
-		CurentVerticalSpeed = Inhaled_Initial_YDistance + YDecelationSpeed;
-
-		VerticalUpdateBasedlevitation(_Delta);
-	}
-
-
-	if (GetKirbyOpponentDistance().X < 0.0f)
-	{
-		InhaleXSpeed = InhaleTargetPosXDistance / InhaledTime * _Delta;
-		CurrentSpeed += InhaleXSpeed;
-
-		HorizontalUpdate(_Delta);
-
-		if (GetPos().X < KirbyPos.X)
-		{
-			BeInhaledRelease();
-			return;
-		}
-	}
-	else if (GetKirbyOpponentDistance().X > 0.0f)
-	{
-		InhaleXSpeed = InhaleTargetPosXDistance / InhaledTime * _Delta;
-		CurrentSpeed += InhaleXSpeed;
-		
-		HorizontalUpdate(_Delta);
-
-		if (GetPos().X > KirbyPos.X)
-		{
-			BeInhaledRelease();
-			return;
-		}
-	}
-
-}
-
-
-void Enemy::BeInhaledRelease()
-{
 	BodyCollision->On();
 	Off();
 }
-
-
-
-
-// 피해를 입은 상태패턴
-void Enemy::HittedStart()
-{
-	StateTime = 0.0f;
-	IsChangeState = false;
-	CurrentSpeed = 0.0f;
-	IsHitted = true;
-
-
-
-
-	CrossDeathEffect* CrossDeathEffectPtr = GetLevel()->CreateActor<CrossDeathEffect>(UpdateOrder::Ability);
-	if (nullptr == CrossDeathEffectPtr)
-	{
-		MsgBoxAssert("액터가 Null 일리가 없어..");
-		return;
-	}
-
-	CrossDeathEffectPtr->init(GetPos(), Scale);
-
-
-
-
-	PlayUI::PlayUI_Score += 200;
-
-	GameEngineSound::SoundPlay("Enemy_DeathSound.wav");
-
-}
-
-void Enemy::HittedUpdate(float _Delta)
-{
-	IsHitted = false;
-	Off();
-}
-
-
-
 
 
 void Enemy::EnemyPointerRelease()
@@ -422,6 +445,16 @@ void Enemy::EnemyPointerRelease()
 
 void Enemy::EnemyDebugRender(HDC _dc, int& _RenderNumber, const int _TextXPos, const int _TextYPos)
 {
+	if ("" != GetName())
+	{
+		std::string Text = "";
+		Text += "이름 : ";
+		Text += GetName();
+		TextOutA(_dc, _TextXPos, 2 + _TextYPos - _RenderNumber * DebugRenderText_YInter, Text.c_str(), static_cast<int>(Text.size()));
+
+		++_RenderNumber;
+	}
+
 	{
 		std::string Text = "";
 		Text += "현재 상태 : ";

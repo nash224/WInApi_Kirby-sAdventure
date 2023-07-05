@@ -56,7 +56,7 @@ protected:
 	float AbilityCoolDown = 0.0f;
 
 
-	void StateUpdate(float _Delta) override;
+	void StateUpdate(float _Delta);
 	void ChangeState(SwordKnightState _State);
 	void ChangeRespawnState() override;
 
