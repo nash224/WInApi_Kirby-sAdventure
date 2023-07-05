@@ -1,16 +1,16 @@
 #include "Pengi.h"
 #include "ContentsEnum.h"
+#include "GlobalContents.h"
 
 
 #include <GameEnginePlatform/GameEngineWindow.h>
-#include <GameEngineCore/GameEngineLevel.h>
 #include <GameEngineCore/GameEngineRenderer.h>
 #include <GameEngineCore/GameEngineCollision.h>
 
 
-#include "GlobalContents.h"
 #include "VegetableValleyPlayLevel.h"
 #include "Kirby.h"
+
 
 
 Pengi::Pengi()

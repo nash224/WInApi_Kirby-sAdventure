@@ -1,19 +1,18 @@
 #include "HotHead.h"
 #include "ContentsEnum.h"
+#include "GlobalContents.h"
 
 
 #include <GameEnginePlatform/GameEngineWindow.h>
 #include <GameEngineCore/GameEngineLevel.h>
-#include <GameEngineCore/GameEngineCamera.h>
 #include <GameEngineCore/GameEngineRenderer.h>
 #include <GameEngineCore/GameEngineCollision.h>
 
 
-#include "GlobalContents.h"
-#include "Kirby.h"
 #include "VegetableValleyPlayLevel.h"
 #include "FrameBreathEffect.h"
 #include "FireBallEffect.h"
+#include "Kirby.h"
 
 
 HotHead::HotHead()

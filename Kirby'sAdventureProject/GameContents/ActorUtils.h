@@ -81,10 +81,6 @@ protected:
 
 	GameEngineCollision* BodyCollision = nullptr;
 	GameEngineRenderer* MainRenderer = nullptr;
-	class GameEngineWindowTexture* GroundTexture = nullptr;
-
-
-
 
 
 	// 좌우 방향 값 반환 함수
@@ -105,8 +101,6 @@ protected:
 
 	virtual void SetCheckPoint(const float4& _ScaleSize);
 
-
-	int GetGroundColor(unsigned int _DefaultColor = RGB(255, 255, 255), float4 _Pos = float4::ZERO);
 
 	void GroundCheck();
 	bool CeilingCheck();

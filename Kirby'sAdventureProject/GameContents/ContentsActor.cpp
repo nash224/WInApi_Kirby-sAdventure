@@ -1,6 +1,7 @@
 #include "ContentsActor.h"
 
 
+#include <GameEnginePlatform/GameEngineWindowTexture.h>
 #include <GameEngineCore/GameEngineLevel.h>
 #include <GameEngineCore/GameEngineCamera.h>
 
@@ -39,6 +40,20 @@ float4 ContentsActor::ActorCameraPos()
 	return GetPos() - MainCameraPtr->GetPos();
 }
 
+
+
+
+// 지정 위치에 비트맵 색 반환
+int ContentsActor::GetGroundColor(unsigned int _DefaultColor, float4 _Pos/* = float4::ZERO*/)
+{
+	if (nullptr == GroundTexture)
+	{
+		MsgBoxAssert("픽셀 충돌 텍스처가 존재하지 않습니다.");
+		return 0;
+	}
+
+	return GroundTexture->GetColor(_DefaultColor, GetPos() + _Pos);
+}
 
 
 

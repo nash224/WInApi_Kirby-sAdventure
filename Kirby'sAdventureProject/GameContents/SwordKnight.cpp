@@ -6,13 +6,12 @@
 #include <GameEngineBase/GameEngineRandom.h>
 #include <GameEnginePlatform/GameEngineSound.h>
 #include <GameEnginePlatform/GameEngineWindow.h>
-#include <GameEngineCore/GameEngineLevel.h>
 #include <GameEngineCore/GameEngineRenderer.h>
 #include <GameEngineCore/GameEngineCollision.h>
 
 
-#include "Kirby.h"
 #include "VegetableValleyPlayLevel.h"
+#include "Kirby.h"
 
 
 

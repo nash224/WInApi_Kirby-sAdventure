@@ -1,5 +1,6 @@
 #include "LaserBall.h"
 #include "ContentsEnum.h"
+#include "GlobalContents.h"
 
 
 #include <GameEngineBase/GameEngineRandom.h>
@@ -9,10 +10,10 @@
 #include <GameEngineCore/GameEngineCollision.h>
 
 
-#include "GlobalContents.h"
-#include "Kirby.h"
 #include "VegetableValleyPlayLevel.h"
 #include "LaserEffect.h"
+#include "Kirby.h"
+
 
 
 LaserBall::LaserBall()

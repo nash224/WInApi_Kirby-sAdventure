@@ -38,13 +38,19 @@ protected:
 	// 속성 추가할 예정이었으나 시간이 부족해서 사용하지 않음
 	AttributeType Attribute = AttributeType::Max;
 
-	// 
+	//
 	const float4 SmallTypeScale = float4{ 48.0f , 48.0f };
 	ActorDir Dir = ActorDir::Max;
 
 
 	// 카메라 기준의 액터 위치
 	float4 ActorCameraPos();
+
+
+	// 비트맵 감지
+	class GameEngineWindowTexture* GroundTexture = nullptr;
+
+	int GetGroundColor(unsigned int _DefaultColor = RGB(255, 255, 255), float4 _Pos = float4::ZERO);
 
 
 	// X축 이동로직

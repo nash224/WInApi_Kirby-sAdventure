@@ -12,8 +12,9 @@
 
 
 #include "VegetableValleyPlayLevel.h"
-#include "Kirby.h"
 #include "SparkEffect.h"
+#include "Kirby.h"
+
 
 
 Sparky::Sparky()

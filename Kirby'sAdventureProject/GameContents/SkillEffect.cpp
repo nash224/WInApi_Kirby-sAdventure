@@ -24,6 +24,83 @@ SkillEffect::~SkillEffect()
 
 
 
+// 카메라 위치 반환
+float4 SkillEffect::GetCameraPos()
+{
+	static float4 ReturnValue;
+
+	GameEngineLevel* CurLevelPtr = GetLevel();
+	if (nullptr == CurLevelPtr)
+	{
+		MsgBoxAssert("레벨을 불러오지 못했습니다.");
+		return ReturnValue;
+	}
+
+	GameEngineCamera* MainCameraPtr = CurLevelPtr->GetMainCamera();
+	if (nullptr == MainCameraPtr)
+	{
+		MsgBoxAssert("카메라를 불러오지 못했습니다.");
+		return ReturnValue;
+	}
+
+	float4 CameraPos = MainCameraPtr->GetPos();
+	return CameraPos;
+}
+
+
+
+// this->비트맵 지정
+void SkillEffect::SetGroundTexture(const std::string& _GroundTextureName)
+{
+	GroundTexture = ResourcesManager::GetInst().FindTexture(_GroundTextureName);
+	if (nullptr == GroundTexture)
+	{
+		MsgBoxAssert(" 픽셀충돌 맵을 찾을 수 없습니다. " + _GroundTextureName);
+		return;
+	}
+
+	IsPassGround = false;
+}
+
+
+// 체크포인트 세팅
+void SkillEffect::SetCheckPoint(const float4& _ScaleSize)
+{
+	CenterCheckPoint = { 0.0f , 0.0f };
+	FrontCheckPoint = { -_ScaleSize.Half().X, 0.0f };
+}
+
+
+bool SkillEffect::CheckFrontPoint()
+{
+	unsigned int FrontColor = GetGroundColor(RGB(255, 255, 255), FrontCheckPoint);
+	if ((RGB(0, 255, 255) == FrontColor) || (RGB(255, 255, 0) == FrontColor))
+	{
+		return true;
+	}
+
+	return false;
+}
+
+
+bool SkillEffect::CheckCenterPoint()
+{
+	unsigned int CenterColor = GetGroundColor(RGB(255, 255, 255), CenterCheckPoint);
+	if ((RGB(0, 255, 255) == CenterColor) || (RGB(255, 255, 0) == CenterColor))
+	{
+		return true;
+	}
+
+	return false;
+}
+
+
+
+
+
+
+
+
 void SkillEffect::AbilityToActorCollisionCheck(CollisionOrder _ActorBodyCol, bool _IsDeath /*= false*/)
 {
 
@@ -151,29 +228,6 @@ void SkillEffect::Call_DisapearEffect(bool _Sound /*= true*/)
 
 
 
-
-float4 SkillEffect::GetCameraPos()
-{
-	static float4 ReturnValue;
-
-	GameEngineLevel* CurLevelPtr = GetLevel();
-	if (nullptr == CurLevelPtr)
-	{
-		MsgBoxAssert("레벨을 불러오지 못했습니다.");
-		return ReturnValue;
-	}
-
-	GameEngineCamera* MainCameraPtr = CurLevelPtr->GetMainCamera();
-	if (nullptr == MainCameraPtr)
-	{
-		MsgBoxAssert("카메라를 불러오지 못했습니다.");
-		return ReturnValue;
-	}
-
-	float4 CameraPos = MainCameraPtr->GetPos();
-	return CameraPos;
-}
-
 void SkillEffect::SetActorCollision(CollisionOrder _Order, CollisionType _Type, const float4& _CollisionScale)
 {
 	// Create Collision
@@ -210,59 +264,6 @@ void SkillEffect::SetActorCollision(CollisionOrder _Order, CollisionType _Type, 
 	default:
 		break;
 	}
-}
-
-
-void SkillEffect::SetCheckPoint(const float4& _ScaleSize)
-{
-	CenterCheckPoint = { 0.0f , 0.0f };
-	FrontCheckPoint = { -_ScaleSize.Half().X, 0.0f};
-}
-
-void SkillEffect::SetGroundTexture(const std::string& _GroundTextureName)
-{
-	GroundTexture = ResourcesManager::GetInst().FindTexture(_GroundTextureName);
-	if (nullptr == GroundTexture)
-	{
-		MsgBoxAssert(" 픽셀충돌 맵을 찾을 수 없습니다. " + _GroundTextureName);
-		return;
-	}
-
-	IsPassGround = false;
-}
-
-int SkillEffect::GetGroundColor(unsigned int _DefaultColor, float4 _Pos/* = float4::ZERO*/)
-{
-	if (nullptr == GroundTexture)
-	{
-		MsgBoxAssert("픽셀 충돌 텍스처가 존재하지 않습니다.");
-		return 0;
-	}
-
-	return GroundTexture->GetColor(_DefaultColor, GetPos() + _Pos);
-}
-
-bool SkillEffect::CheckFrontPoint()
-{
-	unsigned int FrontColor = GetGroundColor(RGB(255, 255, 255), FrontCheckPoint);
-	if ((RGB(0, 255, 255) == FrontColor) || (RGB(255, 255, 0) == FrontColor))
-	{
-		return true;
-	}
-
-	return false;
-}
-
-
-bool SkillEffect::CheckCenterPoint()
-{
-	unsigned int CenterColor = GetGroundColor(RGB(255, 255, 255), CenterCheckPoint);
-	if ((RGB(0, 255, 255) == CenterColor) || (RGB(255, 255, 0) == CenterColor))
-	{
-		return true;
-	}
-
-	return false;
 }
 
 

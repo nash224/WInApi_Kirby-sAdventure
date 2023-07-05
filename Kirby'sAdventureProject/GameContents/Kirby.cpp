@@ -786,6 +786,37 @@ void Kirby::KirbyBodyCollisonOff()
 }
 
 
+/* ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ */
+
+
+
+void Kirby::Render(float _Detla)
+{
+	if (false == VegetableValleyPlayLevel::Level_DebugRenderValue)
+	{
+		return;
+	}
+
+
+	GameEngineWindowTexture* BackBufferPtr = GameEngineWindow::MainWindow.GetBackBuffer();
+	if (nullptr == BackBufferPtr)
+	{
+		MsgBoxAssert("백버퍼를 불러오지 못했습니다.");
+		return;
+	}
+
+	HDC dc = BackBufferPtr->GetImageDC();
+
+
+
+	KirbyDebugRender(dc);
+	ThisDebugRender(dc);
+	KeyDownRender(dc);
+
+	ActorCollisionDetectionPointRender();
+}
+
+
 
 
 /* ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ */
@@ -818,6 +849,8 @@ void Kirby::LevelStart()
 	CurrentLevelEnemiesCount = CurrentLevelPtr->GetLevelEnemyCount();
 	CurrentBackGroundScale = CurrentLevelPtr->GetLevelBackgroundScale();
 	CurrentLevelBitMapFileName = CurrentLevelPtr->GetLevelBitMapFileName();
+	SetGroundTexture(CurrentLevelBitMapFileName);
+
 
 	UIManagerPtr = CurrentLevelPtr->GetUIManager();
 	if (nullptr == UIManagerPtr)
@@ -827,38 +860,6 @@ void Kirby::LevelStart()
 	}
 
 	CurrentUIScale = UIManagerPtr->UIScale;
-}
-
-
-
-/* ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ */
-
-
-
-void Kirby::Render(float _Detla)
-{
-	if (false == VegetableValleyPlayLevel::Level_DebugRenderValue)
-	{
-		return;
-	}
-
-
-	GameEngineWindowTexture* BackBufferPtr = GameEngineWindow::MainWindow.GetBackBuffer();
-	if (nullptr == BackBufferPtr)
-	{
-		MsgBoxAssert("백버퍼를 불러오지 못했습니다.");
-		return;
-	}
-
-	HDC dc = BackBufferPtr->GetImageDC();
-
-
-
-	KirbyDebugRender(dc);
-	ThisDebugRender(dc);
-	KeyDownRender(dc);
-
-	ActorCollisionDetectionPointRender();
 }
 
 

@@ -62,20 +62,6 @@ void ActorUtils::SetCheckPoint(const float4& _ScaleSize)
 
 
 
-// 바닥 색을 불러옴
-int ActorUtils::GetGroundColor(unsigned int _DefaultColor /*= RGB(255, 255, 0)*/, float4 _Pos/* = float4::ZERO*/)
-{
-	if (nullptr == GroundTexture)
-	{
-		MsgBoxAssert("픽셀 충돌 텍스처가 존재하지 않습니다.");
-		return 0;
-	}
-
-	return GroundTexture->GetColor(_DefaultColor, GetPos() + _Pos);
-}
-
-
-
 // 특정 객체의 발끝에 바닥 여부
 void ActorUtils::GroundCheck()
 {

@@ -1,5 +1,7 @@
 #include "WhispyWood.h"
 #include "ContentsEnum.h"
+#include "GlobalContents.h"
+
 
 #include <GameEngineBase/GameEngineTime.h>
 #include <GameEngineBase/GameEngineRandom.h>
@@ -10,14 +12,13 @@
 #include <GameEngineCore/GameEngineCollision.h>
 
 
-#include "GlobalContents.h"
 #include "VegetableValleyPlayLevel.h"
-#include "Kirby.h"
+#include "BackGround.h"
+#include "BossUI.h"
 #include "Apple.h"
 #include "StarStick.h"
 #include "Boss_WhispyEffect.h"
-#include "BossUI.h"
-#include "BackGround.h"
+#include "Kirby.h"
 
 
 

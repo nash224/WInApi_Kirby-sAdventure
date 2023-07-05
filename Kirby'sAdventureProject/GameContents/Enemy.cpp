@@ -1,16 +1,18 @@
 #include "Enemy.h"
 #include "ContentsEnum.h"
 
+
 #include <GameEnginePlatform/GameEngineWindow.h>
-#include <GameEnginePlatform/GameEngineWindowTexture.h>
 #include <GameEnginePlatform/GameEngineSound.h>
 #include <GameEngineCore/GameEngineLevel.h>
 #include <GameEngineCore/GameEngineCamera.h>
 #include <GameEngineCore/GameEngineCollision.h>
 
+
 #include "Kirby.h"
 #include "PlayUI.h"
 #include "CrossDeathEffect.h"
+
 
 Enemy::Enemy() 
 {
