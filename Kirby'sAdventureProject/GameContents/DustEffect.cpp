@@ -1,14 +1,11 @@
 #include "DustEffect.h"
 #include "ContentsEnum.h"
-
-#include <GameEnginePlatform/GameEngineWindow.h>
-#include <GameEnginePlatform/GameEngineWindowTexture.h>
-#include <GameEnginePlatform/GameEngineSound.h>
-#include <GameEngineCore/GameEngineRenderer.h>
-#include <GameEngineCore/ResourcesManager.h>
-#include <GameEngineCore/GameEngineSprite.h>
-
 #include "GlobalContents.h"
+
+
+#include <GameEngineCore/GameEngineRenderer.h>
+
+
 
 DustEffect::DustEffect()
 {
@@ -30,7 +27,7 @@ void DustEffect::Start()
 
 	GlobalContents::SpriteFileLoad("Smoke_1x2_8x10.bmp", "Resources\\Effect\\KirbyBaseEffect", 2, 1);
 
-	MainRenderer->CreateAnimation("DustEffectAnimation", "Smoke_1x2_8x10.bmp", 0, 1, DUSTEFFECTFRAMECHANGETIME, false);
+	MainRenderer->CreateAnimation("DustEffectAnimation", "Smoke_1x2_8x10.bmp", 0, 1, FrameChangeTime, false);
 	MainRenderer->ChangeAnimation("DustEffectAnimation");
 }
 
@@ -53,9 +50,13 @@ void DustEffect::init(const float4& _MasterPos, const float4& _MasterScale, cons
 }
 
 
+
+/* �ѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤ� */
+
+
 void DustEffect::Update(float _Delta)
 {
-	AddPos(EffectDir * DUSTEFFECTSPEED * _Delta);
+	AddPos(EffectDir * EffectSpeed * _Delta);
 
 	if (MainRenderer->IsAnimationEnd())
 	{
@@ -64,6 +65,10 @@ void DustEffect::Update(float _Delta)
 		return;
 	}
 }
+
+
+
+/* �ѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤ� */
 
 
 void DustEffect::LevelEnd()

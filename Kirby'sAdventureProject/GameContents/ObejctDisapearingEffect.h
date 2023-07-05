@@ -23,12 +23,18 @@ public:
 protected:
 
 private:
-	// 프레임 간격 시간
+	// GameEngineObject override
+	void Start() override;
+	void Update(float _Delta) override;
+
+
+	// GameEngineLevel override
+	void LevelEnd() override;
+
+
+	// this
 	const float ChangeEffectFramesInter = 0.1f;
 
 
-	void Start() override;
-	void Update(float _Delta) override;
-	void LevelEnd() override;
 };
 

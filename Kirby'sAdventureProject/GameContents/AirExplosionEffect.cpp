@@ -1,5 +1,7 @@
 #include "AirExplosionEffect.h"
 #include "ContentsEnum.h"
+#include "GlobalContents.h"
+
 
 #include <GameEngineBase/GameEngineRandom.h>
 #include <GameEnginePlatform/GameEngineSound.h>
@@ -7,9 +9,11 @@
 #include <GameEngineCore/GameEngineLevel.h>
 
 
-#include "GlobalContents.h"
 #include "AirExplosionAEffect.h"
 #include "AirExplosionBEffect.h"
+
+
+
 
 AirExplosionEffect::AirExplosionEffect()
 {
@@ -77,8 +81,15 @@ void AirExplosionEffect::Update(float _Delta)
 		}
 
 
+		GameEngineLevel* CurLevelPtr = GetLevel();
+		if (nullptr == CurLevelPtr)
+		{
+			MsgBoxAssert("레벨을 불러오지 못했습니다.");
+			return;
+		}
+
 		// A이펙트 생성
-		AirExplosionAEffect* AirExplosionAEffectPtr = GetLevel()->CreateActor<AirExplosionAEffect>(UpdateOrder::Ability);
+		AirExplosionAEffect* AirExplosionAEffectPtr = CurLevelPtr->CreateActor<AirExplosionAEffect>(UpdateOrder::Ability);
 		if (nullptr == AirExplosionAEffectPtr)
 		{
 			MsgBoxAssert("액터가 Null 입니다.");
@@ -128,7 +139,7 @@ void AirExplosionEffect::Update(float _Delta)
 
 
 		// 지정된 위치에 이펙트 생성
-		AirExplosionBEffect* AirExplosionB1EffectPtr = GetLevel()->CreateActor<AirExplosionBEffect>(UpdateOrder::Ability);
+		AirExplosionBEffect* AirExplosionB1EffectPtr = CurLevelPtr->CreateActor<AirExplosionBEffect>(UpdateOrder::Ability);
 		if (nullptr == AirExplosionB1EffectPtr)
 		{
 			MsgBoxAssert("액터가 Null 입니다.");

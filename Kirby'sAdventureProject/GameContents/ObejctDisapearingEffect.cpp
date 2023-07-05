@@ -1,14 +1,12 @@
 #include "ObejctDisapearingEffect.h"
 #include "ContentsEnum.h"
+#include "GlobalContents.h"
 
-#include <GameEnginePlatform/GameEngineWindow.h>
-#include <GameEnginePlatform/GameEngineWindowTexture.h>
+
 #include <GameEnginePlatform/GameEngineSound.h>
 #include <GameEngineCore/GameEngineRenderer.h>
-#include <GameEngineCore/ResourcesManager.h>
-#include <GameEngineCore/GameEngineSprite.h>
 
-#include "GlobalContents.h"
+
 
 ObejctDisapearingEffect::ObejctDisapearingEffect()
 {
@@ -49,6 +47,11 @@ void ObejctDisapearingEffect::init(const float4& _Pos, bool _Sound /*= true*/)
 	}
 }
 
+
+
+/* �ѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤ� */
+
+
 void ObejctDisapearingEffect::Update(float _Delta)
 {
 	if (true == MainRenderer->IsAnimationEnd())
@@ -58,6 +61,10 @@ void ObejctDisapearingEffect::Update(float _Delta)
 		return;
 	}
 }
+
+
+
+/* �ѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤ� */
 
 
 void ObejctDisapearingEffect::LevelEnd()

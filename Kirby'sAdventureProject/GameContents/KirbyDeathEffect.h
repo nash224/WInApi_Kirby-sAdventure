@@ -1,10 +1,6 @@
 #pragma once
 #include "SkillEffect.h"
 
-// 거리 및 시간
-#define STAREFFECTMOVETIME 0.16f
-#define STAREFFECTSPEED 400.0f
-
 
 
 // 설명 : 단순히 별을 움직이기 위한 효과입니다.
@@ -26,15 +22,20 @@ public:
 protected:
 
 private:
-	float StarEffectMoveDuration = 1.8f;
+	// GameEngineObject override
+	void Start() override;
+	void Update(float _Delta) override;
 
-	float MovePower = 0.0f;
+
+	// GameEngineLevel override
+	void LevelEnd() override;
+
+
+
+	// this
+	float StarEffectMoveDuration = 1.8f;
 	const float Target_Distance = 700.0f;
 	float4 Target_TotalDecelection_UnitVector = float4::ZERO;
 
 
-
-	void Start() override;
-	void Update(float _Delta) override;
-	void LevelEnd() override;
 };

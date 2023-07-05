@@ -120,9 +120,6 @@
     <ClInclude Include="KirbySparkEffect.h">
       <Filter>Global\Effect\SkillAbilityEffect</Filter>
     </ClInclude>
-    <ClInclude Include="RotaryDeathEffect.h">
-      <Filter>Global\Effect\DeathEffect</Filter>
-    </ClInclude>
     <ClInclude Include="CrossDeathEffect.h">
       <Filter>Global\Effect\DeathEffect</Filter>
     </ClInclude>
@@ -389,9 +386,6 @@
     </ClCompile>
     <ClCompile Include="KirbySparkEffect.cpp">
       <Filter>Global\Effect\SkillAbilityEffect</Filter>
-    </ClCompile>
-    <ClCompile Include="RotaryDeathEffect.cpp">
-      <Filter>Global\Effect\DeathEffect</Filter>
     </ClCompile>
     <ClCompile Include="CrossDeathEffect.cpp">
       <Filter>Global\Effect\DeathEffect</Filter>

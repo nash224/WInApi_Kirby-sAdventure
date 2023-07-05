@@ -52,6 +52,10 @@ void MoveStarEffect::SetSpeedAndDuration(float _Speed, float _Duration)
 }
 
 
+
+
+/* 天天天天天天天天天天天天天天天天天天天天天天天天天天天天天天天天天天天天天天天天天天天天天天天天天天天 */
+
 // 雖薑脹 寞щ渠煎 遺霜檜棻 疏颶
 void MoveStarEffect::Update(float _Delta)
 {
@@ -63,6 +67,10 @@ void MoveStarEffect::Update(float _Delta)
 		EffectPointerRelease();
 	}
 }
+
+
+/* 天天天天天天天天天天天天天天天天天天天天天天天天天天天天天天天天天天天天天天天天天天天天天天天天天天天 */
+
 
 
 void MoveStarEffect::LevelEnd()

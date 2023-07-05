@@ -1,13 +1,11 @@
 #include "AirExplosionAEffect.h"
 #include "ContentsEnum.h"
-
-#include <GameEnginePlatform/GameEngineWindow.h>
-#include <GameEnginePlatform/GameEngineWindowTexture.h>
-#include <GameEngineCore/GameEngineRenderer.h>
-#include <GameEngineCore/ResourcesManager.h>
-#include <GameEngineCore/GameEngineSprite.h>
-
 #include "GlobalContents.h"
+
+
+#include <GameEngineCore/GameEngineRenderer.h>
+
+
 
 AirExplosionAEffect::AirExplosionAEffect()
 {
@@ -44,7 +42,7 @@ void AirExplosionAEffect::init(const float4& _ExplosionPos)
 
 void AirExplosionAEffect::Update(float _Delta)
 {
-	if (GetLiveTime() > AIREXPLOSIONAEFFECTFRAMECHANGETIME)
+	if (GetLiveTime() > FrameChangeTime)
 	{
 		if (nullptr != MainRenderer)
 		{

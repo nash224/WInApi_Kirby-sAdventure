@@ -1,10 +1,10 @@
 #include "KirbyDeathEffect.h"
 #include "ContentsEnum.h"
+#include "GlobalContents.h"
+
 
 #include <GameEngineCore/GameEngineRenderer.h>
-#include <GameEngineCore/GameEngineSprite.h>
 
-#include "GlobalContents.h"
 
 
 KirbyDeathEffect::KirbyDeathEffect()
@@ -43,6 +43,11 @@ void KirbyDeathEffect::init(const float4& _Pos, const float4& _Dir)
 
 }
 
+
+/* 天天天天天天天天天天天天天天天天天天天天天天天天天天天天天天天天天天天天天天天天天天天天天天天天天天天 */
+
+
+
 // 雖薑脹 寞щ渠煎 遺霜檜棻 疏颶
 void KirbyDeathEffect::Update(float _Delta)
 {
@@ -57,6 +62,10 @@ void KirbyDeathEffect::Update(float _Delta)
 		EffectPointerRelease();
 	}
 }
+
+
+
+/* 天天天天天天天天天天天天天天天天天天天天天天天天天天天天天天天天天天天天天天天天天天天天天天天天天天天 */
 
 
 void KirbyDeathEffect::LevelEnd()

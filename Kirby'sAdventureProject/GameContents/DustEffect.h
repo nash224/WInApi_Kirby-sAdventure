@@ -1,10 +1,6 @@
 #pragma once
 #include "SkillEffect.h"
 
-// 먼지 프레임 간격 시간
-#define DUSTEFFECTFRAMECHANGETIME 0.05f
-// 먼지가 날아가는 속도
-#define DUSTEFFECTSPEED 400.0f
 
 
 // 설명 : 달릴때나 특정 기믹에서의 먼지 효과 입니다.
@@ -26,9 +22,17 @@ public:
 protected:
 
 private:
-
+	// GameEngineObject override
 	void Start() override;
 	void Update(float _Delta) override;
+
+
+	// GameEngineLevel override
 	void LevelEnd() override;
+
+
+	// this
+	const float FrameChangeTime = 0.05f;
+	const float EffectSpeed = 400.0f;
 };
 

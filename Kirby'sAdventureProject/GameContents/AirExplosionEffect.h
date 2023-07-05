@@ -9,7 +9,7 @@
 #define AIREXPLOSIONEFFECTDISTANCE AIREXPLOSIONEFFECTADISTANCE + 48.0f
 
 
-// 설명 :
+// 설명 : Scarfy가 달고 있는 Bomb 효과입니다.
 class AirExplosionEffect : public SkillEffect
 {
 public:
@@ -28,13 +28,21 @@ public:
 protected:
 
 private:
+	// GameEngineObject override
+	void Start() override;
+	void Update(float _Delta) override;
+
+
+	// GameEngineLevel override
+	void LevelEnd() override;
+
+
+
+	// this
 	int ImagePosNumber = 0;
 	int EndCycle = 0;
 	float ImageFrameChangeTime = 0.0f;
 
 
-	void Start() override;
-	void Update(float _Delta) override;
-	void LevelEnd() override;
 };
 

@@ -1,13 +1,12 @@
 #include "AirExplosionBEffect.h"
 #include "ContentsEnum.h"
-
-#include <GameEnginePlatform/GameEngineWindow.h>
-#include <GameEnginePlatform/GameEngineWindowTexture.h>
-#include <GameEngineCore/GameEngineRenderer.h>
-#include <GameEngineCore/ResourcesManager.h>
-#include <GameEngineCore/GameEngineSprite.h>
-
 #include "GlobalContents.h"
+
+
+#include <GameEngineCore/GameEngineRenderer.h>
+
+
+
 
 AirExplosionBEffect::AirExplosionBEffect()
 {
@@ -29,7 +28,7 @@ void AirExplosionBEffect::Start()
 
 	GlobalContents::SpriteFileLoad("BombEffectA_1x3_16x16.bmp", "Resources\\Effect\\SkillEffect", 3, 1);
 
-	MainRenderer->CreateAnimation("Afterimage2", "BombEffectA_1x3_16x16.bmp", 1, 2, AIREXPLOSIONBEFFECTFRAMECHANGETIME, false);
+	MainRenderer->CreateAnimation("Afterimage2", "BombEffectA_1x3_16x16.bmp", 1, 2, FrameChangeTime, false);
 	MainRenderer->ChangeAnimation("Afterimage2");
 
 }

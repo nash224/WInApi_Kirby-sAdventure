@@ -1,8 +1,6 @@
 #pragma once
 #include "SkillEffect.h"
 
-#define STAREFFECTENDTIME 0.3f
-#define STAREFFECTCREATECOUNT 4
 
 
 
@@ -25,12 +23,25 @@ public:
 protected:
 
 private:
-	bool IsFrist = true;
-	int CreateStarNumber = 0;
-	float StarEffectCreateAngle = 0.0f;
-
+	// GameEngineObject override
 	void Start() override;
 	void Update(float _Delta) override;
+
+
+	// GameEngineLevel override
 	void LevelEnd() override;
+
+
+
+	// this
+	bool IsFrist = true;
+
+	const int CreateCount = 4;
+	int CreateStarNumber = 0;
+
+	const float EndTime = 0.3f;
+
+	float StarEffectCreateAngle = 0.0f;
+
 };
 

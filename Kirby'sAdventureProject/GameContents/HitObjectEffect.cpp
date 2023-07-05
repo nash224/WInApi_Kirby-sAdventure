@@ -1,14 +1,12 @@
 #include "HitObjectEffect.h"
 #include "ContentsEnum.h"
+#include "GlobalContents.h"
+
 
 #include <GameEngineBase/GameEngineRandom.h>
-#include <GameEnginePlatform/GameEngineWindow.h>
-#include <GameEnginePlatform/GameEngineWindowTexture.h>
 #include <GameEngineCore/GameEngineRenderer.h>
-#include <GameEngineCore/ResourcesManager.h>
-#include <GameEngineCore/GameEngineSprite.h>
 
-#include "GlobalContents.h"
+
 
 
 HitObjectEffect::HitObjectEffect()
@@ -81,21 +79,28 @@ void HitObjectEffect::init(const float4& _MasterPos, const float4& _Pos)
 }
 
 
+
+/* �ѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤ� */
+
+
 void HitObjectEffect::Update(float _Delta)
 {
-	if (GetLiveTime() < HITOBJECTTIME)
+	if (GetLiveTime() < EffectTime)
 	{
-		AddPos(EffectDir * HITOBJECTSPEED * _Delta);
+		AddPos(EffectDir * EffectSpeed * _Delta);
 	}
 
 
-	if (GetLiveTime() > HITOJECTDEATHTIME)
+	if (GetLiveTime() > DeathTime)
 	{
 		Death();
 		EffectPointerRelease();
 		return;
 	}
 }
+
+
+/* �ѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤ� */
 
 
 void HitObjectEffect::LevelEnd()

@@ -1,15 +1,11 @@
 #include "CrossDeathEffect.h"
 #include "ContentsEnum.h"
-
-#include <GameEngineBase/GameEngineRandom.h>
-#include <GameEnginePlatform/GameEngineWindow.h>
-#include <GameEnginePlatform/GameEngineWindowTexture.h>
-#include <GameEngineCore/GameEngineRenderer.h>
-#include <GameEngineCore/GameEngineLevel.h>
-#include <GameEngineCore/ResourcesManager.h>
-#include <GameEngineCore/GameEngineSprite.h>
-
 #include "GlobalContents.h"
+
+
+#include <GameEngineCore/GameEngineRenderer.h>
+
+
 #include "MoveStarEffect.h"
 
 
@@ -34,17 +30,19 @@ void CrossDeathEffect::init(const float4& _Pos, const float4& _MasterScale)
 }
 
 
+/* ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ */
+
 void CrossDeathEffect::Update(float _Delta)
 {
 	EffectDuration += _Delta;
 
 	// 일정 시간이 되면 별 소환
-	if (EffectDuration > STAREFFECTENDTIME || true == IsFrist)
+	if (EffectDuration > EndTime || true == IsFrist)
 	{
 		EffectDuration = 0.0f;
 
 		// for문을 돌면서 별효과를 십자형으로 소환
-		for (size_t i = 0; i < STAREFFECTCREATECOUNT; i++)
+		for (size_t i = 0; i < CreateCount; i++)
 		{
 			StarEffectCreateAngle += 90.0f;
 
@@ -75,6 +73,8 @@ void CrossDeathEffect::Update(float _Delta)
 }
 
 
+
+/* ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ */
 
 void CrossDeathEffect::LevelEnd()
 {

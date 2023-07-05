@@ -1,10 +1,6 @@
 #pragma once
 #include "SkillEffect.h"
 
-#define HITOBJECTTIME 0.15f
-#define HITOJECTDEATHTIME 0.3f
-#define HITOBJECTSPEED 400.0f
-
 
 
 // 설명 : 맵에 닿았을 때 '꽁' 벽이 부딪히는 효과 입니다.
@@ -26,9 +22,19 @@ public:
 protected:
 
 private:
-
+	// GameEngineObject override
 	void Start() override;
 	void Update(float _Delta) override;
+
+
+	// GameEngineLevel override
 	void LevelEnd() override;
+
+
+	// this
+	const float EffectTime = 0.15f;
+	const float DeathTime = 0.3f;
+	const float EffectSpeed = 400.0f;
+
 };
 

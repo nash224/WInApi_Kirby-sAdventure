@@ -1,10 +1,8 @@
 #pragma once
 #include "SkillEffect.h"
 
-#define AIREXPLOSIONBEFFECTFRAMECHANGETIME 0.05f
 
-
-// 설명 :
+// 설명 : Bomb 효과 중 겉에 도는 이펙트입니다.
 class AirExplosionBEffect : public SkillEffect
 {
 public:
@@ -23,11 +21,19 @@ public:
 protected:
 
 private:
+	// GameEngineObject override
+	void Start() override;
+	void Update(float _Delta) override;
+
+
+	// GameEngineLevel override
+	void LevelEnd() override;
+
+
+	// this
+	const float FrameChangeTime = 0.05f;
 	float CurrentEffectDistance = 0.0f;
 
 
-	void Start() override;
-	void Update(float _Delta) override;
-	void LevelEnd() override;
 };
 

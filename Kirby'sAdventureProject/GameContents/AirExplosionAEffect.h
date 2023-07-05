@@ -1,7 +1,6 @@
 #pragma once
 #include "SkillEffect.h"
 
-#define AIREXPLOSIONAEFFECTFRAMECHANGETIME 0.1f
 
 // 설명 : 폭발 효과를 주는 녀석입니다. AirExplosionEffect 로 생성됩니다. 
 //		  그냥 제자리에 나타내기 위한 녀석으로 CommonEffect와 똑같은 행동을 합니다.
@@ -23,11 +22,18 @@ public:
 protected:
 
 private:
-	float CurrentEffectDistance = 0.0f;
-
-
+	// GameEngineObject override
 	void Start() override;
 	void Update(float _Delta) override;
+
+
+	// GameEngineLevel override
 	void LevelEnd() override;
+
+
+	// this
+	const float FrameChangeTime = 0.1f;
+	float CurrentEffectDistance = 0.0f;
+
 };
 
