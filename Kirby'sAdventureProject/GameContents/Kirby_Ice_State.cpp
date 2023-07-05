@@ -158,7 +158,7 @@ void Kirby::IceAbilityUpdate(float _Delta)
 
 
 	// X축 속도 업데이트
-	ContentsActor::DecelerationUpdate(_Delta, DECELERATIONSPEED);
+	ContentsActor::DecelerationUpdate(_Delta, DecelerationSpeed);
 	HorizontalUpdate(_Delta);
 
 

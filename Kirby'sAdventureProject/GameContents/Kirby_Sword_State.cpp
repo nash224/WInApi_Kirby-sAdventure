@@ -178,7 +178,7 @@ void Kirby::SwordAbilityUpdate(float _Delta)
 
 
 	// X축 속도 업데이트
-	ContentsActor::DecelerationUpdate(_Delta, DECELERATIONSPEED);
+	DecelerationUpdate(_Delta);
 	HorizontalUpdate(_Delta);
 }
 
@@ -244,8 +244,6 @@ void Kirby::AerialUseSpecialAbilityUpdate(float _Delta)
 	CheckKirbyAbilityCollision(AerialSwordEffectCollision, DamageValue);
 
 
-
-
 	MoveHorizontal(WALKSPEED, _Delta);
 
 
@@ -267,6 +265,6 @@ void Kirby::AerialUseSpecialAbilityUpdate(float _Delta)
 
 
 	// X축 속도 업데이트
-	ContentsActor::DecelerationUpdate(_Delta, DECELERATIONSPEED);
+	DecelerationUpdate(_Delta);
 	HorizontalUpdate(_Delta);
 }

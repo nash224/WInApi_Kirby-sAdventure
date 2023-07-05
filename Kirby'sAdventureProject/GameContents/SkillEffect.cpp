@@ -2,7 +2,6 @@
 #include "ContentsEnum.h"
 
 #include <GameEngineCore/ResourcesManager.h>
-#include <GameEnginePlatform/GameEngineWindowTexture.h>
 #include <GameEngineCore/GameEngineLevel.h>
 #include <GameEngineCore/GameEngineCamera.h>
 #include <GameEngineCore/GameEngineCollision.h>
@@ -223,7 +222,6 @@ void SkillEffect::SetCheckPoint(const float4& _ScaleSize)
 void SkillEffect::SetGroundTexture(const std::string& _GroundTextureName)
 {
 	GroundTexture = ResourcesManager::GetInst().FindTexture(_GroundTextureName);
-
 	if (nullptr == GroundTexture)
 	{
 		MsgBoxAssert(" 픽셀충돌 맵을 찾을 수 없습니다. " + _GroundTextureName);

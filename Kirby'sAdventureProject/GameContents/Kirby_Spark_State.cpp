@@ -174,6 +174,45 @@ void Kirby::SparkAbilityUpdate(float _Delta)
 
 
 	// X축 속도 업데이트
-	ContentsActor::DecelerationUpdate(_Delta, DECELERATIONSPEED);
+	ContentsActor::DecelerationUpdate(_Delta, DecelerationSpeed);
 	HorizontalUpdate(_Delta);
+}
+
+
+
+void Kirby::OneTimeSpark()
+{
+	if (nullptr == SparkEffectCollision)
+	{
+		MsgBoxAssert("전기 충돌체가 Null 입니다.");
+		return;
+	}
+
+	SparkEffectCollision->On();
+}
+
+
+
+
+void Kirby::TriggerSparkAbilityAfterProcess(float _Delta)
+{
+	SparkTime += _Delta;
+
+
+	// 스킬 쿨타임이 돌았으면 변개 효과
+	if (SparkTime > KIRBYSPARKEFFECTCREATECYCLE)
+	{
+		SparkTime = 0.0f;
+
+		KirbySparkEffect* KirbySparkEffectPtr = GetLevel()->CreateActor<KirbySparkEffect>(UpdateOrder::UI);
+		if (nullptr == KirbySparkEffectPtr)
+		{
+			MsgBoxAssert("액터가 Null일리가 없어..");
+			return;
+		}
+
+		KirbySparkEffectPtr->init(GetPos(), GetKirbyScale());
+	}
+
+
 }

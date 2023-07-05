@@ -1155,7 +1155,7 @@ void Kirby::LowerPostureUpdate(float _Delta)
 	BlockedByAll();
 
 
-	ActorUtils::DecelerationUpdate(_Delta, DECELERATIONSPEED);
+	ActorUtils::DecelerationUpdate(_Delta, DecelerationSpeed);
 	HorizontalUpdate(_Delta);
 
 
@@ -1337,7 +1337,7 @@ void Kirby::LowerAttackUpdate(float _Delta)
 	// X축 감속 및 업데이트 
 	if (StateTime > LOWERATTACKDECELECTIONSTARTTIME)
 	{
-		ActorUtils::DecelerationUpdate(_Delta, DECELERATIONSPEED);
+		ActorUtils::DecelerationUpdate(_Delta, DecelerationSpeed);
 	}
 
 	HorizontalUpdate(_Delta);
@@ -1860,11 +1860,6 @@ void Kirby::DamagedStart()
 	KirbyBodyCollisonOff();
 
 
-	// 능력 해제
-	if (Mode != AbilityStar::Normal && Mode != AbilityStar::Max)
-	{
-		DropAbility();
-	}
 
 
 
@@ -1902,7 +1897,29 @@ void Kirby::DamagedStart()
 	}
 
 
-	ChangeAnimationState("Damaged");
+
+
+
+	if (Mode != AbilityStar::Normal && Mode != AbilityStar::Max)
+	{
+		KeepMode = Mode;
+		Mode = AbilityStar::Normal;
+
+		ChangeAnimationState("Damaged");	
+
+		if (nullptr == MainRenderer)
+		{
+			MsgBoxAssert("렌더러를 불러오지 못했습니다.");
+			return;
+		}
+
+		MainRenderer->SetRenderScaleToTexture();
+		DropAbility();
+	}
+	else
+	{
+		ChangeAnimationState("Damaged");
+	}
 }
 
 

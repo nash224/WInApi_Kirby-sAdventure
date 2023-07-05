@@ -75,7 +75,7 @@ void Kirby::ReleaseSpecialAbilityUpdate(float _Delta)
 	BlockedByWall();
 	BlockedByGround();
 
-	ActorUtils::DecelerationUpdate(_Delta, DECELERATIONSPEED);
+	ActorUtils::DecelerationUpdate(_Delta, DecelerationSpeed);
 	HorizontalUpdate(_Delta);
 
 	if (false == GetGroundState())
@@ -187,60 +187,6 @@ void Kirby::TriggerOneTimeAbility()
 
 
 
-void Kirby::OneTimeLaser()
-{
-	// 레이저 소환
-	LaserEffect* LaserEffectPtr = GetLevel()->CreateActor<LaserEffect>(UpdateOrder::UI);
-	if (nullptr == LaserEffectPtr)
-	{
-		MsgBoxAssert("Null인 액터에 참조하려고 했습니다.");
-		return;
-	}
-
-	LaserEffectPtr->init(GetPos(), GetKirbyScale(), GetDirUnitVector());
-	LaserEffectPtr->SetActorCollision(CollisionOrder::PlayerAbility, CollisionType::Rect);
-}
-
-
-void Kirby::OneTimeBeam()
-{
-	// 빔 소환
-	BeamEffect* BeamEffectPtr = GetLevel()->CreateActor<BeamEffect>(UpdateOrder::UI);
-	if (nullptr == BeamEffectPtr)
-	{
-		MsgBoxAssert("액터가 Null일리가 없어...");
-		return;
-	}
-
-	BeamEffectPtr->init(GetPos(), GetKirbyScale(), GetDirUnitVector());
-	BeamEffectPtr->SetActorCollision(CollisionOrder::PlayerAbility, CollisionType::Rect);
-}
-
-
-void Kirby::OneTimeThorn()
-{
-	if (nullptr == ThornEffectCollision)
-	{
-		MsgBoxAssert("가시 충돌체가 Null 입니다.");
-		return;
-	}
-
-	ThornEffectCollision->On();
-}
-
-
-
-void Kirby::OneTimeSpark()
-{
-	if (nullptr == SparkEffectCollision)
-	{
-		MsgBoxAssert("전기 충돌체가 Null 입니다.");
-		return;
-	}
-
-	SparkEffectCollision->On();
-}
-
 
 void Kirby::TriggerMultiTimeAbility(float _Delta)
 {
@@ -271,62 +217,11 @@ void Kirby::TriggerMultiTimeAbility(float _Delta)
 
 
 
-void Kirby::TriggerFireAbilityAfterProcess(float _Delta)
-{
-	FrameTime += _Delta;
-
-
-	if (FrameTime > KIRBYFRAMEEFFECTCREATECYCLE)
-	{
-		FrameTime = 0.0f;
-
-		FrameBreathEffect* FrameBreathEffectPtr = GetLevel()->CreateActor<FrameBreathEffect>(UpdateOrder::UI);
-
-		if (nullptr == FrameBreathEffectPtr)
-		{
-			MsgBoxAssert("액터가 Null입니다.");
-			return;
-		}
-
-		FrameBreathEffectPtr->init(GetPos(), GetKirbyScale(), GetDirUnitVector());
-		FrameBreathEffectPtr->SetActorCollision(CollisionOrder::PlayerAbility, CollisionType::Rect);
-	}
-
-
-}
-
-
-void Kirby::TriggerSparkAbilityAfterProcess(float _Delta)
-{
-	SparkTime += _Delta;
-
-
-	// 스킬 쿨타임이 돌았으면 변개 효과
-	if (SparkTime > KIRBYSPARKEFFECTCREATECYCLE)
-	{
-		SparkTime = 0.0f;
-
-		KirbySparkEffect* KirbySparkEffectPtr = GetLevel()->CreateActor<KirbySparkEffect>(UpdateOrder::UI);
-		if (nullptr == KirbySparkEffectPtr)
-		{
-			MsgBoxAssert("액터가 Null일리가 없어..");
-			return;
-		}
-
-		KirbySparkEffectPtr->init(GetPos(), GetKirbyScale());
-	}
-
-
-}
-
-
 
 
 void Kirby::InhaleAbilityStart()
 {
 	Duration = 0.0f;
-	swallowedObject = false;
-	IsSwallowedtriggerOn = false;
 	Star.SwallowedEnemyNumber = 0;
 	Star.SwallowedPowerEnemyNumber = 0;
 
@@ -578,7 +473,7 @@ void Kirby::InhaleAbilityUpdate(float _Delta)
 		VerticalUpdate(_Delta);
 	}
 
-	ContentsActor::DecelerationUpdate(_Delta, DECELERATIONSPEED);
+	ContentsActor::DecelerationUpdate(_Delta, DecelerationSpeed);
 	HorizontalUpdate(_Delta);
 }
 
@@ -589,6 +484,13 @@ void Kirby::InhaleAbilityUpdate(float _Delta)
 
 void Kirby::DropAbility()
 {
+	// Damgaged와 연관되는 코드
+	if (AbilityStar::Max != KeepMode && AbilityStar::Normal != KeepMode)
+	{
+		Mode = KeepMode;
+	}
+
+
 	// 별생성
 	GameEngineLevel* CurLevelPtr = GetLevel();
 	if (nullptr == CurLevelPtr)
@@ -614,6 +516,7 @@ void Kirby::DropAbility()
 		MsgBoxAssert("렌더러를 불러오지 못했습니다.");
 		return;
 	}
+
 
 	if (AbilityStar::Sword == Mode)
 	{
@@ -644,6 +547,7 @@ void Kirby::DropAbility()
 
 
 	Mode = AbilityStar::Normal;
+	KeepMode = AbilityStar::Max;
 	ChangeAnimationState(CurState);
 
 	GameEngineSound::SoundPlay("Kirby_DropStar.wav");

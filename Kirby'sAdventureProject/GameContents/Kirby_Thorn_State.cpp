@@ -188,6 +188,18 @@ void Kirby::ThornAbilityUpdate(float _Delta)
 
 
 	// X축 속도 업데이트
-	ContentsActor::DecelerationUpdate(_Delta, DECELERATIONSPEED);
+	ContentsActor::DecelerationUpdate(_Delta, DecelerationSpeed);
 	HorizontalUpdate(_Delta);
+}
+
+
+void Kirby::OneTimeThorn()
+{
+	if (nullptr == ThornEffectCollision)
+	{
+		MsgBoxAssert("가시 충돌체가 Null 입니다.");
+		return;
+	}
+
+	ThornEffectCollision->On();
 }

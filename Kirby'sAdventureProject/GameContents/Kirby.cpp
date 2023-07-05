@@ -533,7 +533,6 @@ GameEngineCollision* Kirby::GetKirbyCollison()
 
 	MsgBoxAssert("커비 충돌체 리턴에 실패했습니다.");
 	return BodyCollision;
-
 }
 
 
@@ -599,7 +598,7 @@ void Kirby::DecelerationUpdate(float _Delta)
 	{
 		if (CurrentSpeed < 0.0f)
 		{
-			CurrentSpeed += DECELERATIONSPEED * _Delta;
+			CurrentSpeed += DecelerationSpeed * _Delta;
 
 			if (CurrentSpeed > 0.0f)
 			{
@@ -608,7 +607,7 @@ void Kirby::DecelerationUpdate(float _Delta)
 		}
 		else if (CurrentSpeed > 0.0f)
 		{
-			CurrentSpeed -= DECELERATIONSPEED * _Delta;
+			CurrentSpeed -= DecelerationSpeed * _Delta;
 
 			if (CurrentSpeed < 0.0f)
 			{

@@ -123,6 +123,23 @@ void Kirby::BeamAbilityUpdate(float _Delta)
 
 
 	// X축 속도 업데이트
-	ContentsActor::DecelerationUpdate(_Delta, DECELERATIONSPEED);
+	ContentsActor::DecelerationUpdate(_Delta, DecelerationSpeed);
 	HorizontalUpdate(_Delta);
 }
+
+
+
+void Kirby::OneTimeBeam()
+{
+	// 빔 소환
+	BeamEffect* BeamEffectPtr = GetLevel()->CreateActor<BeamEffect>(UpdateOrder::UI);
+	if (nullptr == BeamEffectPtr)
+	{
+		MsgBoxAssert("액터가 Null일리가 없어...");
+		return;
+	}
+
+	BeamEffectPtr->init(GetPos(), GetKirbyScale(), GetDirUnitVector());
+	BeamEffectPtr->SetActorCollision(CollisionOrder::PlayerAbility, CollisionType::Rect);
+}
+

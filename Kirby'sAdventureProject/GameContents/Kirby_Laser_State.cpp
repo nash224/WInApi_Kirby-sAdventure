@@ -125,6 +125,23 @@ void Kirby::LaserAbilityUpdate(float _Delta)
 
 
 	// X축 속도 업데이트
-	ContentsActor::DecelerationUpdate(_Delta, DECELERATIONSPEED);
+	ContentsActor::DecelerationUpdate(_Delta, DecelerationSpeed);
 	HorizontalUpdate(_Delta);
 }
+
+
+
+void Kirby::OneTimeLaser()
+{
+	// 레이저 소환
+	LaserEffect* LaserEffectPtr = GetLevel()->CreateActor<LaserEffect>(UpdateOrder::UI);
+	if (nullptr == LaserEffectPtr)
+	{
+		MsgBoxAssert("Null인 액터에 참조하려고 했습니다.");
+		return;
+	}
+
+	LaserEffectPtr->init(GetPos(), GetKirbyScale(), GetDirUnitVector());
+	LaserEffectPtr->SetActorCollision(CollisionOrder::PlayerAbility, CollisionType::Rect);
+}
+

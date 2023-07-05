@@ -694,7 +694,7 @@ void Kirby::Contain_GulpStart()
 void Kirby::Contain_GulpUpdate(float _Delta)
 {
 	StateTime += _Delta;
-	if (true == MainRenderer->IsAnimationEnd() && StateTime > ContainGulpChangeStateTime)
+	if (true == MainRenderer->IsAnimationEnd())
 	{
 		IsChangeState = true;
 		Star.SwallowedEnemyNumber = 0;
@@ -1037,12 +1037,6 @@ void Kirby::Contain_DamagedStart()
 
 
 
-	// 피해를 입으면 기본 상태로
-	if (AbilityStar::Normal != Mode)
-	{
-		Mode = AbilityStar::Normal;
-	}
-
 	// 중력 초기화
 	GravityReset();
 
@@ -1072,7 +1066,27 @@ void Kirby::Contain_DamagedStart()
 	}
 
 
-	ChangeAnimationState("Contain_Damaged");
+
+	if (Mode != AbilityStar::Normal && Mode != AbilityStar::Max)
+	{
+		KeepMode = Mode;
+		Mode = AbilityStar::Normal;
+
+		ChangeAnimationState("Contain_Damaged");
+
+		if (nullptr == MainRenderer)
+		{
+			MsgBoxAssert("렌더러를 불러오지 못했습니다.");
+			return;
+		}
+
+		MainRenderer->SetRenderScaleToTexture();
+		DropAbility();
+	}
+	else
+	{
+		ChangeAnimationState("Contain_Damaged");
+	}
 }
 
 

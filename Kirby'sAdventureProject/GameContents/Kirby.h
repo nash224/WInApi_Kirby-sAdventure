@@ -22,7 +22,6 @@
 // 커비 이동 상수
 #define WALKSPEED 500.0f
 #define WALKMAXSPEED 200.0f
-#define DECELERATIONSPEED  600.0f
 #define BRAKESPEED 1000.0f
 
 #define RUNSPEED 600.0f
@@ -137,12 +136,31 @@ class Kirby : public ActorUtils
 	friend class VegetableValleyPlayLevel;
 	friend class Item;
 
+public:
+	static Kirby* GetMainKirby()
+	{
+		return MainKirby;
+	}
+
+	float4 GetKirbyMovePos() const
+	{
+		return KirbyMovePos;
+	}
+
+
+	bool IsReachedStarStick = false;
+
+
 private:
+	static Kirby* MainKirby;
+
+
 	// 레벨관련
-	size_t CurrentLevelEnemiesCount = 0;
 	float4 CurrentBackGroundScale = float4::ZERO;
 	std::string CurrentLevelBitMapFileName = "";
 	float4 CurrentUIScale = float4::ZERO;
+	size_t CurrentLevelEnemiesCount = 0;
+
 	float4 PrevKirbyMovePos = float4::ZERO;
 	float4 KirbyMovePos = float4::ZERO;
 
@@ -158,209 +176,32 @@ public:
 	Kirby& operator=(Kirby&& _Other) noexcept = delete;
 
 
-	static Kirby* GetMainKirby()
-	{
-		return MainKirby;
-	}
-
-	float4 GetKirbyMovePos() const
-	{
-		return KirbyMovePos;
-	}
-
 	float4 GetKirbyScale();
-
 
 	AbilityStar Mode = AbilityStar::Max;
 
+	int m_KirbyHp = 0;
+
 
 protected:
-	static Kirby* MainKirby;
-
-	class UIManager* UIManagerPtr = nullptr;
-
-
-	// 커비 숏컷
-	
-
-	void KirbysDebugShortcut(float _Delta);
-
-
-
-	// 상태변경 함수
-	void StateUpdate(float _Delta);
-	void ChangeState(KirbyState _State);
-	void ChangeAnimationState(const std::string& _StateName, int _StartFrame = 0);
-
-	// 감지, 충돌 함수
-	void KirbyDirCheck();
-	void MoveHorizontal(float _Speed, float _Delta);
-	void DecelerationUpdate(float _Delta);
-	void HorizontalUpdate(float _Delta) override;
-	void VerticalUpdate(float _Delta) override;
-	void ChangeKirbyBodyState(KirbyBodyState _BodyState);
-
-	bool IsEnterPixel();
-
-
-
-	// 행동 시작전 함수
-	void IdleStart();
-	void WalkStart();
-	void RunStart();
-	void TurnStart();
-	void JumpStart();
-	void AerialMotionStart();
-	void FallStart();
-	void AccelerateDownStart();
-	void BounceStart();
-	void LandingStart();
-	void LowerPostureStart();
-	void LowerAttackStart();
-	void HittheWallStart();
-	void HittheCeilingStart();
-	void TakeOffStart();
-	void FlyStart();
-	void ExhaleAttackStart();
-	void UseSpecialAbilityStart(); 
-	void ReleaseSpecialAbilityStart();
-	void AerialUseSpecialAbilityStart();
-	void GetAbilityStart();
-	void DamagedStart();
-	void EnterStart();
-	void OpenDoorAndRaiseFlagStart();
-	void OpenDoorAndRaiseFlagAfterStart();
-	void StageClearWalkStart();
-	void StageClearStart();
-	void PerformanceStart();
-	void MissStart();
-	void MissRaiseUpStart();
-
-	void Contain_IdleStart();
-	void Contain_WalkStart();
-	void Contain_RunStart();
-	void Contain_TurnStart();
-	void Contain_JumpStart();
-	void Contain_FallStart();
-	void Contain_GulpStart();
-	void Contain_DisgorgeStart();
-	void Contain_DamagedStart();
-
-
-	// 행동 함수
-	void IdleUpdate(float _Delta);
-	void WalkUpdate(float _Delta);
-	void RunUpdate(float _Delta);
-	void TurnUpdate(float _Delta);
-	void JumpUpdate(float _Delta);
-	void AerialMotionUpdate(float _Delta);
-	void FallUpdate(float _Delta);
-	void AccelerateDownUpdate(float _Delta);
-	void BounceUpdate(float _Delta);
-	void LandingUpdate(float _Delta);
-	void LowerPostureUpdate(float _Delta);
-	void LowerAttackUpdate(float _Delta);
-	void HittheWallUpdate(float _Delta);
-	void HittheCeilingUpdate(float _Delta);
-	void TakeOffUpdate(float _Delta);
-	void FlyUpdate(float _Delta);
-	void ExhaleAttackUpdate(float _Delta); 
-	void UseSpecialAbilityUpdate(float _Delta);
-	void AerialUseSpecialAbilityUpdate(float _Delta);
-	void ReleaseSpecialAbilityUpdate(float _Delta);
-	void GetAbilityUpdate(float _Delta);
-	void DamagedUpdate(float _Delta);
-	void EnterUpdate(float _Delta);
-	void OpenDoorAndRaiseFlagUpdate(float _Delta);
-	void OpenDoorAndRaiseFlagAfterUpdate(float _Delta);
-	void StageClearWalkUpdate(float _Delta);
-	void StageClearUpdate(float _Delta);
-	void PerformanceUpdate(float _Delta);
-	void MissUpdate(float _Delta);
-	void MissRaiseUpUpdate(float _Delta);
-
-	void Contain_IdleUpdate(float _Delta);
-	void Contain_WalkUpdate(float _Delta);
-	void Contain_RunUpdate(float _Delta);
-	void Contain_TurnUpdate(float _Delta);
-	void Contain_JumpUpdate(float _Delta);
-	void Contain_FallUpdate(float _Delta);
-	void Contain_GulpUpdate(float _Delta);
-	void Contain_DisgorgeUpdate(float _Delta);
-	void Contain_DamagedUpdate(float _Delta);
-
-
-	void DropAbility();
-	void CheckKirbyCollision();
-	void CheckKirbyAbilityCollision(GameEngineCollision* _CheckCol, int _Damage = 1);
-	void CheckKirbyAbilityToBossCollision(GameEngineCollision* _CheckCol, int _Damage = 1);
 
 
 private:
-	const float GetABilityStateEndTime = 1.0f;
-
-
-private:
-
-	// 충돌체 관련
-	GameEngineCollision* LittleCollision = nullptr;
-	GameEngineCollision* LowerCollision = nullptr;
-	GameEngineCollision* FatCollision = nullptr;
-	GameEngineCollision* ImmuneCollision = nullptr;
-
-	GameEngineCollision* LowerAttackCollision = nullptr;
-	GameEngineCollision* InhaleEffectCollision = nullptr;
-
-	GameEngineCollision* SparkEffectCollision = nullptr;
-	GameEngineCollision* ThornEffectCollision = nullptr;
-	GameEngineCollision* SwordEffectCollision = nullptr;
-	GameEngineCollision* AerialSwordEffectCollision = nullptr;
-	
-
-
-	GameEngineCollision* GetKirbyCollison();
-	void KirbyBodyCollisonOn();
-	void KirbyBodyCollisonOff();
-
-
-
-
-	// 상태 함수
-	KirbyBodyState BodyState = KirbyBodyState::Max;	
-	AbilityStar CurrentAbilityStar = AbilityStar::Max;
-	KirbyState State = KirbyState::Max;
-	KirbyState KeepDamagedState = KirbyState::Max;
-	std::string CurState = "";
-	std::string CurMode = "";
-
-	// 바운스 상태 변수
-	bool IsBounce = false;
-
-
-	// 상태 변수
-	const float AbilityMinDuration = 1.0f;
-	float Duration = 0.0f;
-	float FallDistance = 0.0f; 
-	float DecelerationSpeed = 1.0f;
-
-	float FrameTime = 0.0f;
-	float SparkTime = 0.0f;
-	float IceTime = 0.0f;
-	float IceSoundTime = 0.0f;
-	const float IceSoundCycle = 0.6f;
-
-
-
-	// Level 상속
+	// GameEngineObject 상속
 	void Start() override;
 	void Update(float _Delta) override;
 	void Render(float _Detla) override;
 
+
+	// GameEngineLevel 상속
 	void LevelStart() override;
 	void LevelEnd() override;
 
 
 private:
+	class UIManager* UIManagerPtr = nullptr;
+
+
 
 	// 리소스 로드
 	void Contain_StateResourceLoad();
@@ -374,62 +215,172 @@ private:
 	void Ice_StateResourceLoad();
 	void MoveLevel_StateResourceLoad();
 
-	// 모드별 공격 함수
-	void UseSpecialAbilityShorCut();
-
-	void UseAbilityStart();
-	void UseAbilityUpdate(float _Delta);
 
 
-	void StarAttack();
 
-	void InhaleAbilityStart();
-	void SparkAbilityStart();
-	void LaserAbilityStart();
-	void BeamAbilityStart();
-	void FireAbilityStart();
-	void ThornAbilityStart();
-	void SwordAbilityStart();
-	void IceAbilityStart();
-
-	void InhaleAbilityUpdate(float _Delta);
-	void SparkAbilityUpdate(float _Delta);
-	void LaserAbilityUpdate(float _Delta);
-	void BeamAbilityUpdate(float _Delta);
-	void FireAbilityUpdate(float _Delta);
-	void ThornAbilityUpdate(float _Delta);
-	void SwordAbilityUpdate(float _Delta);
-	void IceAbilityUpdate(float _Delta);
+	// 감지, 비트맵
+	void KirbyDirCheck();
+	void MoveHorizontal(float _Speed, float _Delta);
+	void DecelerationUpdate(float _Delta);
+	void HorizontalUpdate(float _Delta) override;
+	void VerticalUpdate(float _Delta) override;
+	void ChangeKirbyBodyState(KirbyBodyState _BodyState);
+	bool IsEnterPixel();
 
 
-	// GetAbility 함수 관련
+
+
+	// FSM
+	void StateUpdate(float _Delta);
+	void ChangeState(KirbyState _State);
+	void ChangeAnimationState(const std::string& _StateName, int _StartFrame = 0);
+
+
+	KirbyState State = KirbyState::Max;
+	KirbyBodyState BodyState = KirbyBodyState::Max;
+	std::string CurState = "";
+	std::string CurMode = "";
+
+	const float DecelerationSpeed = 600.0f;
+	float Duration = 0.0f;
+
+
+
+	// Basic Pattern
+	void IdleStart();
+	void IdleUpdate(float _Delta);
+
+
+	void WalkStart();
+	void WalkUpdate(float _Delta);
+
+
+	void RunStart();
+	void RunUpdate(float _Delta);
+
+
+	void TurnStart();
+	void TurnUpdate(float _Delta);
+
+
+	void JumpStart();
+	void JumpUpdate(float _Delta);
+
+
+	void AerialMotionStart();
+	void AerialMotionUpdate(float _Delta);
+
+
+	void FallStart();
+	void FallUpdate(float _Delta);
+
+	float FallDistance = 0.0f;
+
+
+
+	void AccelerateDownStart();
+	void AccelerateDownUpdate(float _Delta);
+
+
+	void BounceStart();
+	void BounceUpdate(float _Delta);
+
+	bool IsBounce = false;
+
+
+
+	void LandingStart();
+	void LandingUpdate(float _Delta);
+
+	void LowerPostureStart();
+	void LowerPostureUpdate(float _Delta);
+
+	void LowerAttackStart();
+	void LowerAttackUpdate(float _Delta);
+
+	void HittheWallStart();
+	void HittheWallUpdate(float _Delta);
+
+	void HittheCeilingStart();
+	void HittheCeilingUpdate(float _Delta);
+
+	void TakeOffStart();
+	void TakeOffUpdate(float _Delta);
+
+	void FlyStart();
+	void FlyUpdate(float _Delta);
+
+	void ExhaleAttackStart();
+	void ExhaleAttackUpdate(float _Delta); 
+
+	void DamagedStart();
+	void DamagedUpdate(float _Delta);
+
+	AbilityStar KeepMode = AbilityStar::Max;
+	KirbyState KeepDamagedState = KirbyState::Max;
+
+	// Damaged Pattern :: Immune
+	bool ImmuneState = false;
+	float ImmuneTime = 0.0f;
+
+	void ImmuneFunc(float _Delta);
+
+
+
+	// GetAbility Pattern
+	void GetAbilityStart();
+	void GetAbilityUpdate(float _Delta);
+
+	const float GetABilityStateEndTime = 1.0f;
+	bool GettingAbility = false;
+	class GetAbilityEffect* GetAbilityEffectPtr = nullptr;
+
+	int FadeAlphaValue = 70;
+
+
 	void TriggerOneTimeAbility();
-	void TriggerMultiTimeAbility(float _Delta);
 
+
+	// GetAbility Pattern :: Mode
 	void OneTimeSpark();
 	void OneTimeLaser();
 	void OneTimeBeam();
 	void OneTimeThorn();
 
 
+
+	void TriggerMultiTimeAbility(float _Delta);
+
 	void TriggerFireAbilityAfterProcess(float _Delta);
 	void TriggerSparkAbilityAfterProcess(float _Delta);
 	void TriggerIceAbilityAfterProcess(float _Delta);
 
 
-public:
-	std::list<IceBlock*>& GetIceList()
-	{
-		return IceBlockPtr_list;
-	}
 
-private:
-	std::list<IceBlock*> IceBlockPtr_list;
 
-private:
-	// 능력획득 변수
-	class GetAbilityEffect* GetAbilityEffectPtr = nullptr;
-	const float ContainGulpChangeStateTime = 0.6f;
+	// Ability Pattern
+	void UseSpecialAbilityStart(); 
+	void UseSpecialAbilityUpdate(float _Delta);
+
+
+	void AerialUseSpecialAbilityStart();
+	void AerialUseSpecialAbilityUpdate(float _Delta);
+
+	void UseSpecialAbilityShorCut();
+
+
+	// Ability Pattern :: Attack
+	void UseAbilityStart();
+	void UseAbilityUpdate(float _Delta);
+
+	const float AbilityMinDuration = 1.0f;
+
+
+	void InhaleAbilityStart();
+	void InhaleAbilityUpdate(float _Delta);
+
+	GameEngineSoundPlayer InhaleSound;
+
 
 	// 커비의 별 변수 
 	class KirbyStar
@@ -441,111 +392,226 @@ private:
 
 	KirbyStar Star;
 
-
-	// 삼킴 상태
 	ActorUtils* SwallingEnemy = nullptr;
-	bool IsSwallowedtriggerOn = false;
-	bool swallowedObject = false;
-	bool KirbySwalling = false;
-
-	bool IsGulpEnemy = false;
 	const float Swallowed_Distance = 5.0f;
 
-	bool GettingAbility = false;
 
 
 
+	void SparkAbilityStart();
+	void SparkAbilityUpdate(float _Delta);
 
-	// 면역 변수
-	bool ImmuneState = false;
-	float ImmuneTime = 0.0f; 
-	
-	
-	void ImmuneFunc(float _Delta);
+	float SparkTime = 0.0f;
 
 
-	// 레벨 이동 변수
-	bool IsNextLevelTriggerOn = false;
+	void LaserAbilityStart();
+	void LaserAbilityUpdate(float _Delta);
+
+
+	void BeamAbilityStart();
+	void BeamAbilityUpdate(float _Delta);
+
+
+	void FireAbilityStart();
+	void FireAbilityUpdate(float _Delta);
+
+	float FrameTime = 0.0f;
+
+
+	void ThornAbilityStart();
+	void ThornAbilityUpdate(float _Delta);
+
+
+	void SwordAbilityStart();
+	void SwordAbilityUpdate(float _Delta);
+
+
+	void IceAbilityStart();
+	void IceAbilityUpdate(float _Delta);
+
+	float IceTime = 0.0f;
+	float IceSoundTime = 0.0f;
+	const float IceSoundCycle = 0.6f;
+
+	std::list<IceBlock*> IceBlockPtr_list;
+
+public:
+	std::list<IceBlock*>& GetIceList()
+	{
+		return IceBlockPtr_list;
+	}
+
+
+private:
+
+	void ReleaseSpecialAbilityStart();
+	void ReleaseSpecialAbilityUpdate(float _Delta);
+
+
+	void DropAbility();
+
+
+
+	// Enter And Event Pettern
+	void EnterStart();
+	void EnterUpdate(float _Delta);
+
 	bool IsEnterCheck = false;
-	bool IsMissCheck = false;
-
-public:
-	int m_KirbyHp = 0;
+	bool IsNextLevelTriggerOn = false;
 
 
+	void OpenDoorAndRaiseFlagStart();
+	void OpenDoorAndRaiseFlagUpdate(float _Delta);
 
-
-
-private:
-	// 부활
-	bool IsKirbyRevive = false;
-
-
-
-public:
-	// Fade Out & In, FadeScreen 관련
-	int FadeAlphaValue = 70;
-
-
-
-	// 아이템 관련
-	bool IsReachedStarStick = false;
-
-
-	// OpenDoorAndRaiseFlag 상태 관련
-public:
-	static bool IsKirbyOpenDoorToLevel;
-	static bool IsKirbyCloseDoorToLevel;
-
-private:
 	bool IsKirbyOpenedDoor = false;
 	bool IsKirbyClosedDoor = false;
 	bool IsCheckRaiseUpWithFlag = false;
 
+public:
+	// OpenDoorAndRaiseFlag 상태 관련
+	static bool IsKirbyOpenDoorToLevel;
+	static bool IsKirbyCloseDoorToLevel;
 
 
-	// StageClear 상태 관련
+private:
+	void OpenDoorAndRaiseFlagAfterStart();
+	void OpenDoorAndRaiseFlagAfterUpdate(float _Delta);
+
+
+	void StageClearWalkStart();
+	void StageClearWalkUpdate(float _Delta);
+
+
 	const float StageClear_WalkingScalar = 100.0f;
 	float StageClear_X_CenterPos = 0.0f;
+
+
+
+	void StageClearStart();
+	void StageClearUpdate(float _Delta);
+
+	GameEngineRenderer* Left_KirbyRenderer = nullptr;
+	GameEngineRenderer* Right_KirbyRenderer = nullptr;
+
 	const float StageClear_KirbyBackUpDancer_RenderInter = 120.0f;
 
 
 
-	// Performance 패턴 관련
-	GameEngineRenderer* Left_KirbyRenderer = nullptr;
-	GameEngineRenderer* Right_KirbyRenderer = nullptr;
+	void PerformanceStart();
+	void PerformanceUpdate(float _Delta);
 
-	const float KirbyAndEgo_Inter = 100.0f;
-
-	bool IsPerformance_17Frames_FallStartTime = false;
 	float Kirby_Performance_StartXPos = 0.0f;
-	bool IsKirby_FinishPosCheck = false;
+
 	const float Performance_0_7_Duration = 0.15f;
 	const float Performance_15_17_MovePos = 200.0f;
+	bool IsPerformance_17Frames_FallStartTime = false;
 
 	float Kirby_SetFinishPos = 0.0f;
+	bool IsKirby_FinishPosCheck = false;
 
 
 
-	// 사운드 관련
-	GameEngineSoundPlayer InhaleSound;
 
+	void MissStart();
+	void MissUpdate(float _Delta);
+
+	void MissRaiseUpStart();
+	void MissRaiseUpUpdate(float _Delta);
+
+	bool IsMissCheck = false;
+	bool IsKirbyRevive = false;
+
+
+
+
+	// Normal Contain Pattern
+	void Contain_IdleStart();
+	void Contain_IdleUpdate(float _Delta);
+
+
+	void Contain_WalkStart();
+	void Contain_WalkUpdate(float _Delta);
+
+
+	void Contain_RunStart();
+	void Contain_RunUpdate(float _Delta);
+
+
+	void Contain_TurnStart();
+	void Contain_TurnUpdate(float _Delta);
+
+
+	void Contain_JumpStart();
+	void Contain_JumpUpdate(float _Delta);
+
+
+	void Contain_FallStart();
+	void Contain_FallUpdate(float _Delta);
+
+
+	void Contain_GulpStart();
+	void Contain_GulpUpdate(float _Delta);
+
+	AbilityStar CurrentAbilityStar = AbilityStar::Max;
+
+	// Portrait Relation
+	bool IsGulpEnemy = false;
+
+
+	void Contain_DisgorgeStart();
+	void Contain_DisgorgeUpdate(float _Delta);
+
+	void StarAttack();
+
+
+	void Contain_DamagedStart();
+	void Contain_DamagedUpdate(float _Delta);
+
+
+
+
+private:
+	// 충돌
+	GameEngineCollision* LittleCollision = nullptr;
+	GameEngineCollision* LowerCollision = nullptr;
+	GameEngineCollision* FatCollision = nullptr;
+	GameEngineCollision* ImmuneCollision = nullptr;
+
+	GameEngineCollision* LowerAttackCollision = nullptr;
+	GameEngineCollision* InhaleEffectCollision = nullptr;
+
+	GameEngineCollision* SparkEffectCollision = nullptr;
+	GameEngineCollision* ThornEffectCollision = nullptr;
+	GameEngineCollision* SwordEffectCollision = nullptr;
+	GameEngineCollision* AerialSwordEffectCollision = nullptr;
+
+
+	GameEngineCollision* GetKirbyCollison();
+	void KirbyBodyCollisonOn();
+	void KirbyBodyCollisonOff();
+
+	void CheckKirbyCollision();
+	void CheckKirbyAbilityCollision(GameEngineCollision* _CheckCol, int _Damage = 1);
+	void CheckKirbyAbilityToBossCollision(GameEngineCollision* _CheckCol, int _Damage = 1);
+
+
+
+	// 커비 숏컷
+	void KirbysDebugShortcut(float _Delta);
+
+
+	// 디버깅
+	void KirbyDebugRender(HDC _dc);
+	void ThisDebugRender(HDC _dc);
+	void KeyDownRender(HDC _dc);
+
+	float4 KeyDownPos = float4{ 360.0f , 470.0f };
+	
 	// 치트
 	bool Cheat_Invincibility = false;
 	bool Cheat_NoneBodyCollision = false;
 
 	void SwitchNoneBodyCollision();
 
-
-	// 디버깅
-	float4 KeyDownPos = float4{ 360.0f , 470.0f };
-	
-
-
-	void KirbyDebugRender(HDC _dc);
-	void ThisDebugRender(HDC _dc);
-	void KeyDownRender(HDC _dc);
-
-	
 };
 

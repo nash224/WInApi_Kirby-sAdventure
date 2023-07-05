@@ -143,6 +143,32 @@ void Kirby::FireAbilityUpdate(float _Delta)
 
 
 	// X축 속도 업데이트
-	ContentsActor::DecelerationUpdate(_Delta, DECELERATIONSPEED);
+	ContentsActor::DecelerationUpdate(_Delta, DecelerationSpeed);
 	HorizontalUpdate(_Delta);
+}
+
+
+
+void Kirby::TriggerFireAbilityAfterProcess(float _Delta)
+{
+	FrameTime += _Delta;
+
+
+	if (FrameTime > KIRBYFRAMEEFFECTCREATECYCLE)
+	{
+		FrameTime = 0.0f;
+
+		FrameBreathEffect* FrameBreathEffectPtr = GetLevel()->CreateActor<FrameBreathEffect>(UpdateOrder::UI);
+
+		if (nullptr == FrameBreathEffectPtr)
+		{
+			MsgBoxAssert("액터가 Null입니다.");
+			return;
+		}
+
+		FrameBreathEffectPtr->init(GetPos(), GetKirbyScale(), GetDirUnitVector());
+		FrameBreathEffectPtr->SetActorCollision(CollisionOrder::PlayerAbility, CollisionType::Rect);
+	}
+
+
 }
