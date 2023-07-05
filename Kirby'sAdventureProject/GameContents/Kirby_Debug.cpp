@@ -7,7 +7,7 @@
 
 
 
-
+// 커비 디버그 숏컷
 void Kirby::KirbysDebugShortcut(float _Delta)
 {
 	if (false == VegetableValleyPlayLevel::Level_DebugRenderValue)
@@ -54,13 +54,14 @@ void Kirby::KirbysDebugShortcut(float _Delta)
 	}
 
 
-	// 지정 상태 확인키
+	// 지정 상태 확인키 (임시 활성화)
 	//if (true == GameEngineInput::IsDown('J'))
 	//{
 	//	ChangeState(KirbyState::StageClear);
 	//	return;
 	//}
 
+	// 얼음
 	if (true == GameEngineInput::IsDown('I'))
 	{
 		Star.SwallowedEnemyNumber = 1;
@@ -70,7 +71,7 @@ void Kirby::KirbysDebugShortcut(float _Delta)
 		return;
 	}
 
-
+	// 검
 	if (true == GameEngineInput::IsDown('O'))
 	{
 		Star.SwallowedEnemyNumber = 1;
@@ -80,7 +81,7 @@ void Kirby::KirbysDebugShortcut(float _Delta)
 		return;
 	}
 
-
+	// 가시
 	if (true == GameEngineInput::IsDown('P'))
 	{
 		Star.SwallowedEnemyNumber = 1;
@@ -90,10 +91,50 @@ void Kirby::KirbysDebugShortcut(float _Delta)
 		return;
 	}
 
+	// 빔
+	if (true == GameEngineInput::IsDown('U'))
+	{
+		Star.SwallowedEnemyNumber = 1;
+		Star.SwallowedPowerEnemyNumber = 1;
+		CurrentAbilityStar = AbilityStar::Beam;
+		ChangeState(KirbyState::Contain_Idle);
+		return;
+	}
+
+	// 화염
+	if (true == GameEngineInput::IsDown('Y'))
+	{
+		Star.SwallowedEnemyNumber = 1;
+		Star.SwallowedPowerEnemyNumber = 1;
+		CurrentAbilityStar = AbilityStar::Fire;
+		ChangeState(KirbyState::Contain_Idle);
+		return;
+	}
+
+	// 스파크
+	if (true == GameEngineInput::IsDown('K'))
+	{
+		Star.SwallowedEnemyNumber = 1;
+		Star.SwallowedPowerEnemyNumber = 1;
+		CurrentAbilityStar = AbilityStar::Spark;
+		ChangeState(KirbyState::Contain_Idle);
+		return;
+	}
+
+	// 레이저
+	if (true == GameEngineInput::IsDown('L'))
+	{
+		Star.SwallowedEnemyNumber = 1;
+		Star.SwallowedPowerEnemyNumber = 1;
+		CurrentAbilityStar = AbilityStar::Laser;
+		ChangeState(KirbyState::Contain_Idle);
+		return;
+	}
+
 }
 
 
-
+// 치트 콜리전 Off
 void Kirby::SwitchNoneBodyCollision()
 {
 	Cheat_NoneBodyCollision = !Cheat_NoneBodyCollision;
@@ -105,13 +146,11 @@ void Kirby::SwitchNoneBodyCollision()
 
 
 
-
-
+// 좌측 상단 커비용 디버깅 렌더
 void Kirby::KirbyDebugRender(HDC _dc)
 {
 	int TextRenderNum = 0;
 	
-
 
 	{
 		std::string Text = "";
@@ -331,7 +370,7 @@ void Kirby::KirbyDebugRender(HDC _dc)
 }
 
 
-
+// 커비 몸통 위 디버깅 렌더
 void Kirby::ThisDebugRender(HDC _dc)
 {
 	int TextRenderNum = 0;
@@ -448,7 +487,7 @@ void Kirby::ThisDebugRender(HDC _dc)
 }
 
 
-
+// 키 다운 디버깅 렌더
 void Kirby::KeyDownRender(HDC _dc)
 {
 

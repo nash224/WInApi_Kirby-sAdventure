@@ -1,13 +1,12 @@
 #include "Kirby.h"
+#include "GlobalContents.h"
+
 
 #include <GameEngineBase/GameEngineRandom.h>
 #include <GameEnginePlatform/GameEngineInput.h>
 #include <GameEngineCore/GameEngineRenderer.h>
-#include <GameEngineCore/GameEngineCamera.h>
-#include <GameEngineCore/GameEngineLevel.h>
-#include <GameEngineCore/ResourcesManager.h>
 
-#include "GlobalContents.h"
+
 #include "DustEffect.h"
 #include "HitObjectEffect.h"
 #include "ExhaleEffect.h"
@@ -20,6 +19,13 @@ void Kirby::Thorn_StateResourceLoad()
 
 	GlobalContents::SpriteFileLoad("Thorn_Left_Use.bmp", "Resources\\Unit\\Kirby", 4, 2);
 	GlobalContents::SpriteFileLoad("Thorn_Right_Use.bmp", "Resources\\Unit\\Kirby", 4, 2);
+
+
+	if (nullptr == MainRenderer)
+	{
+		MsgBoxAssert("렌더러를 불러오지 못했습니다.");
+		return;
+	}
 
 
 	MainRenderer->CreateAnimation("Thorn_Left_Idle", "Ability_Left_Kirby.bmp", 0, 1, 0.5f, true);
@@ -139,35 +145,6 @@ void Kirby::ThornAbilityUpdate(float _Delta)
 	int DamageValue = GameEngineRandom::MainRandom.RandomInt(2, 3);
 	CheckKirbyAbilityCollision(ThornEffectCollision, DamageValue);
 
-
-
-
-	// Spark 충돌 검사
-	std::vector<GameEngineCollision*> NeedleCol;
-	if (true == ThornEffectCollision->Collision(CollisionOrder::MonsterBody, NeedleCol, CollisionType::Rect, CollisionType::Rect))
-	{
-		// 벡터 순회
-		for (size_t i = 0; i < NeedleCol.size(); i++)
-		{
-			// 몬스터 콜리전 참조
-			GameEngineCollision* MonsterBodyPtr = NeedleCol[i];
-			if (nullptr == MonsterBodyPtr)
-			{
-				MsgBoxAssert("참조한 Monster 가 Null 입니다.");
-				return;
-			}
-
-			ActorUtils* Monster = dynamic_cast<ActorUtils*>(MonsterBodyPtr->GetActor());
-			if (nullptr == Monster)
-			{
-				MsgBoxAssert("다운 캐스팅 오류입니다.");
-				return;
-			}
-
-			// 몬스터 상태 변경 트리거 On
-			Monster->IsHitted = true;
-		}
-	}
 
 
 

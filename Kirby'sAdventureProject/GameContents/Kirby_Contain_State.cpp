@@ -1,17 +1,15 @@
 #include "Kirby.h"
+#include "GlobalContents.h"
 
 
 #include <GameEngineBase/GameEngineTime.h>
 #include <GameEnginePlatform/GameEngineInput.h>
 #include <GameEnginePlatform/GameEngineSound.h>
 #include <GameEngineCore/GameEngineRenderer.h>
-#include <GameEngineCore/GameEngineCamera.h>
 #include <GameEngineCore/GameEngineLevel.h>
-#include <GameEngineCore/ResourcesManager.h>
 
 
 #include "VegetableValleyPlayLevel.h"
-#include "GlobalContents.h"
 #include "PlayUI.h"
 #include "FadeObject.h"
 #include "DustEffect.h"
@@ -26,6 +24,12 @@ void Kirby::Contain_StateResourceLoad()
 {
 	GlobalContents::SpriteFileLoad("Contain_Left_Kirby.bmp", "Resources\\Unit\\Kirby", 10, 2);
 	GlobalContents::SpriteFileLoad("Contain_Right_Kirby.bmp", "Resources\\Unit\\Kirby", 10, 2);
+
+	if (nullptr == MainRenderer)
+	{
+		MsgBoxAssert("렌더러를 불러오지 못했습니다.");
+		return;
+	}
 
 	MainRenderer->CreateAnimation("Normal_Left_Contain_Idle", "Contain_Left_Kirby.bmp", 0, 0, 0.1f, false);
 	MainRenderer->CreateAnimation("Normal_Right_Contain_Idle", "Contain_Right_Kirby.bmp", 0, 0, 0.1f, false);
@@ -180,7 +184,7 @@ void Kirby::Contain_WalkUpdate(float _Delta)
 
 	if (CurrentSpeed == 0.0f &&
 		((GameEngineInput::IsPress('A') && GameEngineInput::IsPress('D')) ||
-			(GameEngineInput::IsFree('A') && GameEngineInput::IsFree('D'))))
+		(GameEngineInput::IsFree('A') && GameEngineInput::IsFree('D'))))
 	{
 		ChangeState(KirbyState::Contain_Idle);
 		return;
@@ -188,6 +192,7 @@ void Kirby::Contain_WalkUpdate(float _Delta)
 
 	if (true == CheckLeftWallBasedSpeed())
 	{
+		// 작은별 이펙트
 		HitObjectEffect* HitObjectEffectPtr = GetLevel()->CreateActor<HitObjectEffect>(UpdateOrder::Ability);
 		if (nullptr == HitObjectEffectPtr)
 		{
@@ -203,6 +208,7 @@ void Kirby::Contain_WalkUpdate(float _Delta)
 	}
 	if (true == CheckRightWallBasedSpeed())
 	{
+		// 작은별 이펙트
 		HitObjectEffect* HitObjectEffectPtr = GetLevel()->CreateActor<HitObjectEffect>(UpdateOrder::Ability);
 		if (nullptr == HitObjectEffectPtr)
 		{
@@ -244,6 +250,7 @@ void Kirby::Contain_RunStart()
 {
 	StateTime = 0.0f;
 
+	// 먼지 이펙트
 	DustEffect* DustEffectPtr = GetLevel()->CreateActor<DustEffect>(UpdateOrder::Ability);
 	if (nullptr == DustEffectPtr)
 	{
@@ -307,6 +314,7 @@ void Kirby::Contain_RunUpdate(float _Delta)
 
 	if (true == CheckLeftWallBasedSpeed())
 	{
+		// 작은별 이펙트
 		HitObjectEffect* HitObjectEffectPtr = GetLevel()->CreateActor<HitObjectEffect>(UpdateOrder::Ability);
 		if (nullptr == HitObjectEffectPtr)
 		{
@@ -323,6 +331,7 @@ void Kirby::Contain_RunUpdate(float _Delta)
 
 	if (true == CheckRightWallBasedSpeed())
 	{
+		// 작은별 이펙트
 		HitObjectEffect* HitObjectEffectPtr = GetLevel()->CreateActor<HitObjectEffect>(UpdateOrder::Ability);
 		if (nullptr == HitObjectEffectPtr)
 		{
@@ -340,9 +349,6 @@ void Kirby::Contain_RunUpdate(float _Delta)
 
 
 	MoveHorizontal(RUNSPEED, _Delta);
-
-
-
 
 
 
@@ -374,6 +380,7 @@ void Kirby::Contain_TurnStart()
 		Dir = ActorDir::Left;
 	}
 
+	// 먼지 이펙트
 	DustEffect* DustEffectPtr = GetLevel()->CreateActor<DustEffect>(UpdateOrder::Ability);
 	if (nullptr == DustEffectPtr)
 	{
@@ -420,8 +427,6 @@ void Kirby::Contain_TurnUpdate(float _Delta)
 		// 별 효과
 		CurrentSpeed = 0.0f;
 	}
-
-
 
 
 
@@ -482,10 +487,20 @@ void Kirby::Contain_JumpUpdate(float _Delta)
 
 	if (true == CeilingCheck())
 	{
-		// 별 효과
+		// 작은별 이펙트
+		HitObjectEffect* HitObjectEffectPtr = GetLevel()->CreateActor<HitObjectEffect>(UpdateOrder::Ability);
+		if (nullptr == HitObjectEffectPtr)
+		{
+			MsgBoxAssert("액터를 생성하지 못했습니다.");
+			return;
+		}
+
+		HitObjectEffectPtr->init(GetPos(), float4::ZERO);
+
 		GravityReset();
 	}
 
+	// 점프 가능 거리 로직
 	if (true == GameEngineInput::IsUp('X'))
 	{
 		AbleJump = false;
@@ -507,11 +522,6 @@ void Kirby::Contain_JumpUpdate(float _Delta)
 
 
 	MoveHorizontal(WALKSPEED, _Delta);
-
-
-
-
-
 
 
 
@@ -553,7 +563,7 @@ void Kirby::Contain_FallUpdate(float _Delta)
 
 	if (true == GetGroundState() && CurrentSpeed != 0.0f)
 	{
-
+		// 작은별 이펙트
 		HitObjectEffect* HitObjectEffectPtr = GetLevel()->CreateActor<HitObjectEffect>(UpdateOrder::Ability);
 		if (nullptr == HitObjectEffectPtr)
 		{
@@ -568,7 +578,7 @@ void Kirby::Contain_FallUpdate(float _Delta)
 
 	if (true == GetGroundState() && CurrentSpeed == 0.0f)
 	{
-
+		// 작은별 이펙트
 		HitObjectEffect* HitObjectEffectPtr = GetLevel()->CreateActor<HitObjectEffect>(UpdateOrder::Ability);
 		if (nullptr == HitObjectEffectPtr)
 		{
@@ -597,7 +607,6 @@ void Kirby::Contain_FallUpdate(float _Delta)
 
 
 	ChangeAnimationState("Contain_Fall");
-
 
 
 
@@ -644,6 +653,7 @@ void Kirby::Contain_GulpStart()
 	// 파워몹 하나라도 먹으면
 	if (Star.SwallowedPowerEnemyNumber > 0)
 	{
+		// 모드 변환 이펙트
 		GetAbilityEffectPtr = GetLevel()->CreateActor<GetAbilityEffect>(UpdateOrder::Other);
 		if (nullptr == GetAbilityEffectPtr)
 		{
@@ -659,6 +669,7 @@ void Kirby::Contain_GulpStart()
 
 
 		// Fade 설정
+		// Fade 해제해줄 때까지 On상태 => GetAbility 패턴에서 해제
 		GameEngineLevel* CurLevelPtr = GetLevel();
 		if (nullptr == CurLevelPtr)
 		{
@@ -731,6 +742,7 @@ void Kirby::Contain_GulpUpdate(float _Delta)
 
 	if (true == CheckLeftWallBasedSpeed())
 	{
+		// 작은 별 이펙트
 		HitObjectEffect* HitObjectEffectPtr = GetLevel()->CreateActor<HitObjectEffect>(UpdateOrder::Ability);
 		if (nullptr == HitObjectEffectPtr)
 		{
@@ -744,6 +756,7 @@ void Kirby::Contain_GulpUpdate(float _Delta)
 	}
 	if (true == CheckRightWallBasedSpeed())
 	{
+		// 작은 별 이펙트
 		HitObjectEffect* HitObjectEffectPtr = GetLevel()->CreateActor<HitObjectEffect>(UpdateOrder::Ability);
 		if (nullptr == HitObjectEffectPtr)
 		{
@@ -781,13 +794,14 @@ void Kirby::Contain_DisgorgeStart()
 	KeepDamagedState = KirbyState::Idle;
 	ChangeKirbyBodyState(KirbyBodyState::Little);
 
-
+	// 별 소환
 	StarAttack();
 
 
 	Star.SwallowedEnemyNumber = 0;
 	Star.SwallowedPowerEnemyNumber = 0;
 	CurrentAbilityStar = AbilityStar::Max;
+
 	ChangeAnimationState("Contain_Disgorge");
 }
 
@@ -809,7 +823,6 @@ void Kirby::Contain_DisgorgeUpdate(float _Delta)
 
 
 	MoveHorizontal(WALKSPEED, _Delta);
-
 
 
 
@@ -911,7 +924,7 @@ void Kirby::GetAbilityStart()
 		return;
 	}
 
-
+	// 한번만 쏘는 능력일 경우
 	TriggerOneTimeAbility();
 
 
@@ -928,6 +941,7 @@ void Kirby::GetAbilityStart()
 		return;
 	}
 
+	// Sword만 스프라이트 크기가 다름
 	if (AbilityStar::Sword == Mode)
 	{
 		MainRenderer->SetRenderScaleToTexture();
@@ -936,6 +950,36 @@ void Kirby::GetAbilityStart()
 
 	ChangeAnimationState("GetAbility"); 
 }
+
+
+void Kirby::TriggerOneTimeAbility()
+{
+	switch (Mode)
+	{
+	case AbilityStar::Spark:
+		OneTimeSpark();
+		break;
+	case AbilityStar::Laser:
+		OneTimeLaser();
+		break;
+	case AbilityStar::Beam:
+		OneTimeBeam();
+		break;
+	case AbilityStar::Fire:
+		break;
+	case AbilityStar::Thorn:
+		OneTimeThorn();
+		break;
+	case AbilityStar::Sword:
+		break;
+	case AbilityStar::Ice:
+		break;
+	default:
+		break;
+	}
+}
+
+
 
 void Kirby::GetAbilityUpdate(float _Delta)
 {
@@ -1011,16 +1055,59 @@ void Kirby::GetAbilityUpdate(float _Delta)
 
 
 
+void Kirby::TriggerMultiTimeAbility(float _Delta)
+{
+	switch (Mode)
+	{
+	case AbilityStar::Spark:
+		TriggerSparkAbilityAfterProcess(_Delta);
+		break;
+	case AbilityStar::Laser:
+		break;
+	case AbilityStar::Beam:
+		break;
+	case AbilityStar::Fire:
+		TriggerFireAbilityAfterProcess(_Delta);
+		break;
+	case AbilityStar::Thorn:
+		break;
+	case AbilityStar::Sword:
+		break;
+	case AbilityStar::Ice:
+		TriggerIceAbilityAfterProcess(_Delta);
+		break;
+	default:
+		break;
+	}
+}
+
+
+
+
+
 // 커비 입에 뭔가 있을때 데미지
 void Kirby::Contain_DamagedStart()
 {
 	StateTime = 0.0f;
 	IsChangeState = false;
 
-
+	// 레벨에 요청
 	// 지진요청
 	++VegetableValleyPlayLevel::Camera_ShakeCount;
 	
+
+	// UI에 요청
+	// 점수
+	if (nullptr == UIManagerPtr)
+	{
+		MsgBoxAssert("UI를 불러오지 못했습니다.");
+		return;
+	}
+
+	if ("PlayUI" == UIManagerPtr->GetName())
+	{
+		PlayUI::PlayUI_Score += 50;
+	}
 
 	// 맞으면 체력감소
 	if (m_KirbyHp > 0)
@@ -1052,18 +1139,6 @@ void Kirby::Contain_DamagedStart()
 
 	SetGravityVector(float4{ 0.0f , BOUNCINGOFF_YPOWER });
 
-
-
-	if (nullptr == UIManagerPtr)
-	{
-		MsgBoxAssert("UI를 불러오지 못했습니다.");
-		return;
-	}
-
-	if ("PlayUI" == UIManagerPtr->GetName())
-	{
-		PlayUI::PlayUI_Score += 50;
-	}
 
 
 

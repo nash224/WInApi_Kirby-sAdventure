@@ -1,12 +1,13 @@
 #include "Kirby.h"
+#include "GlobalContents.h"
+
+
 #include <GameEnginePlatform/GameEngineInput.h>
 #include <GameEngineCore/GameEngineRenderer.h>
-#include <GameEngineCore/GameEngineCamera.h>
-#include <GameEngineCore/GameEngineLevel.h>
-#include <GameEngineCore/ResourcesManager.h>
 
-#include "GlobalContents.h"
+
 #include "FrameBreathEffect.h"
+
 
 
 void Kirby::Fire_StateResourceLoad()
@@ -16,6 +17,13 @@ void Kirby::Fire_StateResourceLoad()
 
 	GlobalContents::SpriteFileLoad("Ability_Left_Use.bmp", "Resources\\Unit\\Kirby", 3, 3);
 	GlobalContents::SpriteFileLoad("Ability_Right_Use.bmp", "Resources\\Unit\\Kirby", 3, 3);
+
+
+	if (nullptr == MainRenderer)
+	{
+		MsgBoxAssert("렌더러를 불러오지 못했습니다.");
+		return;
+	}
 
 
 	MainRenderer->CreateAnimation("Fire_Left_Idle", "Ability_Left_Kirby.bmp", 0, 1, 0.5f, true);
@@ -148,18 +156,17 @@ void Kirby::FireAbilityUpdate(float _Delta)
 }
 
 
-
+// GetAbility 스킬 지속형 로직
 void Kirby::TriggerFireAbilityAfterProcess(float _Delta)
 {
 	FrameTime += _Delta;
 
-
+	// 지정시간마다 불소환
 	if (FrameTime > KIRBYFRAMEEFFECTCREATECYCLE)
 	{
 		FrameTime = 0.0f;
-
+		
 		FrameBreathEffect* FrameBreathEffectPtr = GetLevel()->CreateActor<FrameBreathEffect>(UpdateOrder::UI);
-
 		if (nullptr == FrameBreathEffectPtr)
 		{
 			MsgBoxAssert("액터가 Null입니다.");

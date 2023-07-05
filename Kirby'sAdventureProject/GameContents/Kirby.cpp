@@ -1,20 +1,19 @@
 #include "Kirby.h"
 #include "ContentsEnum.h"
 
+
 #include <GameEngineBase/GameEngineTime.h>
 #include <GameEnginePlatform/GameEngineWindow.h>
 #include <GameEnginePlatform/GameEngineInput.h>
 #include <GameEnginePlatform/GameEngineSound.h>
 #include <GameEngineCore/GameEngineLevel.h>
-#include <GameEngineCore/GameEngineCamera.h>
 #include <GameEngineCore/GameEngineRenderer.h>
 #include <GameEngineCore/GameEngineCollision.h>
-#include <GameEngineCore/ResourcesManager.h>
+
 
 #include "VegetableValleyPlayLevel.h"
 #include "PlayUI.h"
 
-#include <Windows.h>
 
 
 Kirby* Kirby::MainKirby = nullptr;
@@ -59,14 +58,9 @@ void Kirby::Start()
 	Contain_StateResourceLoad();
 	MoveLevel_StateResourceLoad();
 
-
 	MainRenderer->SetRenderScaleToTexture();
 	MainRenderer->SetScaleRatio(3.0f);
 
-	{// 커비등장위치 Level로 이동 예정
-		float4 WinScale = GameEngineWindow::MainWindow.GetScale();
-		SetPos(WinScale.Half());
-	}
 
 	Dir = ActorDir::Right;
 	BodyState = KirbyBodyState::Little;
@@ -77,10 +71,14 @@ void Kirby::Start()
 
 
 	ChangeState(KirbyState::Idle);
-	SetCheckPoint(GetKirbyScale());
+
+	Collision_Load();
+}
 
 
 
+void Kirby::Collision_Load()
+{
 	LittleCollision = CreateCollision(CollisionOrder::PlayerBody);
 	if (nullptr == LittleCollision)
 	{
@@ -162,7 +160,7 @@ void Kirby::Start()
 
 
 
-	
+
 	SparkEffectCollision = CreateCollision(CollisionOrder::KirbyInhaleAbility);
 	if (nullptr == SparkEffectCollision)
 	{
@@ -204,7 +202,7 @@ void Kirby::Start()
 	AerialSwordEffectCollision->SetCollisionType(CollisionType::Rect);
 	AerialSwordEffectCollision->Off();
 
-	
+
 
 
 	ThornEffectCollision = CreateCollision(CollisionOrder::KirbyInhaleAbility);
@@ -219,6 +217,7 @@ void Kirby::Start()
 	ThornEffectCollision->SetCollisionScale(SPARKEFFECTCOLLISIONSCALE);
 	ThornEffectCollision->SetCollisionType(CollisionType::Rect);
 	ThornEffectCollision->Off();
+
 }
 
 
@@ -255,6 +254,7 @@ void Kirby::Update(float _Delta)
 }
 
 
+// 상태 업데이트
 void Kirby::StateUpdate(float _Delta)
 {
 	GroundCheck();
@@ -305,6 +305,8 @@ void Kirby::StateUpdate(float _Delta)
 	}
 }
 
+
+// 상태 변환
 void Kirby::ChangeState(KirbyState _State)
 {
 	if (_State != State)
@@ -361,6 +363,7 @@ void Kirby::ChangeState(KirbyState _State)
 }
 
 
+// 애니메이션 변경 및 변수 동기화
 void Kirby::ChangeAnimationState(const std::string& _StateName, int _StartFrame/* = 0*/)
 {
 
@@ -425,8 +428,8 @@ void Kirby::ChangeAnimationState(const std::string& _StateName, int _StartFrame/
 }
 
 
-// 판정 함수
 /* ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ */
+// 비트맵
 
 // 커비 방향체크
 void Kirby::KirbyDirCheck()
@@ -456,40 +459,6 @@ void Kirby::KirbyDirCheck()
 	}
 }
 
-// 커비 충돌 크기 및 상태 변경
-void Kirby::ChangeKirbyBodyState(KirbyBodyState _BodyState)
-{
-	if (BodyState == _BodyState)
-	{
-		return;
-	}
-
-	BodyState = _BodyState;
-
-	if (true == Cheat_NoneBodyCollision)
-	{
-		return;
-	}
-
-	if (KirbyBodyState::Little == _BodyState)
-	{
-		LittleCollision->On();
-		LowerCollision->Off();
-		FatCollision->Off();
-	}
-	else if (KirbyBodyState::Lower == _BodyState)
-	{
-		LittleCollision->Off();
-		LowerCollision->On();
-		FatCollision->Off();
-	}
-	else if (KirbyBodyState::Fat == _BodyState)
-	{
-		LittleCollision->Off();
-		LowerCollision->Off();
-		FatCollision->On();
-	}
-}
 
 
 // 발끝 중앙 기준
@@ -514,66 +483,88 @@ float4 Kirby::GetKirbyScale()
 }
 
 
-GameEngineCollision* Kirby::GetKirbyCollison()
+// 커비 충돌 크기 및 상태 변경
+void Kirby::ChangeKirbyBodyState(KirbyBodyState _BodyState)
 {
-	if (BodyState == KirbyBodyState::Little)
+	if (BodyState == _BodyState)
 	{
-		return LittleCollision;
+		return;
 	}
 
-	if (BodyState == KirbyBodyState::Fat)
+	BodyState = _BodyState;
+
+	if (true == Cheat_NoneBodyCollision)
 	{
-		return FatCollision;
+		return;
 	}
 
-	if (BodyState == KirbyBodyState::Lower)
+	if (nullptr == LittleCollision)
 	{
-		return LowerCollision;
+		MsgBoxAssert("충돌체를 불러오지 못했습니다.");
+		return;
 	}
 
-	MsgBoxAssert("커비 충돌체 리턴에 실패했습니다.");
-	return BodyCollision;
-}
+	if (nullptr == LowerCollision)
+	{
+		MsgBoxAssert("충돌체를 불러오지 못했습니다.");
+		return;
+	}
+
+	if (nullptr == FatCollision)
+	{
+		MsgBoxAssert("충돌체를 불러오지 못했습니다.");
+		return;
+	}
 
 
-
-void Kirby::KirbyBodyCollisonOn()
-{
-	if (BodyState == KirbyBodyState::Little)
+	if (KirbyBodyState::Little == _BodyState)
 	{
 		LittleCollision->On();
+		LowerCollision->Off();
+		FatCollision->Off();
 	}
-
-	if (BodyState == KirbyBodyState::Fat)
+	else if (KirbyBodyState::Lower == _BodyState)
 	{
+		LittleCollision->Off();
+		LowerCollision->On();
+		FatCollision->Off();
+	}
+	else if (KirbyBodyState::Fat == _BodyState)
+	{
+		LittleCollision->Off();
+		LowerCollision->Off();
 		FatCollision->On();
 	}
-
-	if (BodyState == KirbyBodyState::Lower)
-	{
-		LowerCollision->On();
-	}
-
-	ImmuneCollision->Off();
 }
 
 
-void Kirby::KirbyBodyCollisonOff()
+// 문이 있는가?
+bool Kirby::IsEnterPixel()
 {
-	LittleCollision->Off();
-	FatCollision->Off();
-	LowerCollision->Off();
-
-	if (false == Cheat_NoneBodyCollision)
+	unsigned int CeilingLeftColor = GetGroundColor(RGB(255, 255, 255), CeilLeftCheckPoint);
+	unsigned int CeilingRightColor = GetGroundColor(RGB(255, 255, 255), CeilRightCheckPoint);
+	unsigned int GroundLeftColor = GetGroundColor(RGB(255, 255, 255), GroundLeftCheckPoint);
+	unsigned int GroundRightColor = GetGroundColor(RGB(255, 255, 255), GroundRightCheckPoint);
+	if (CeilingLeftColor == RGB(0, 255, 0) || CeilingRightColor == RGB(0, 255, 0) ||
+		GroundLeftColor == RGB(0, 255, 0) || GroundRightColor == RGB(0, 255, 0))
 	{
-		ImmuneCollision->On();
+		return true;
 	}
+
+	return false;
 }
 
 
 
-// 이동 함수
 /* ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ */
+// 이동 
+
+
+// ActorUtils override : 중력 동기화
+void Kirby::VerticalUpdate(float _Delta)
+{
+	AddPos(GetGravityVector() * _Delta);
+}
 
 
 // 커비 X축 이동 로직
@@ -591,7 +582,7 @@ void Kirby::MoveHorizontal(float _Speed, float _Delta)
 	}
 }
 
-// 커비 고유 감속도
+// ActorUtils override : 커비 고유 감속도
 void Kirby::DecelerationUpdate(float _Delta)
 {
 	if ((GameEngineInput::IsPress('A') && GameEngineInput::IsPress('D')) || (GameEngineInput::IsFree('A') && GameEngineInput::IsFree('D')))
@@ -658,40 +649,148 @@ void Kirby::HorizontalUpdate(float _Delta)
 		}
 	}
 
-	AddPos({ CurrentSpeed * _Delta, 0.0f});
+	AddPos({ CurrentSpeed * _Delta, 0.0f });
 }
 
 
-void Kirby::VerticalUpdate(float _Delta)
+
+/* ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ */
+// 충돌
+
+
+// 몸통 충돌체 Getter
+GameEngineCollision* Kirby::GetKirbyCollison()
 {
-	AddPos(GetGravityVector() * _Delta);
+	static GameEngineCollision* ReturnValue;
+
+	if (BodyState == KirbyBodyState::Little)
+	{
+		if (nullptr == LittleCollision)
+		{
+			MsgBoxAssert("충돌체를 불러오지 못했습니다.");
+			return ReturnValue;
+		}
+
+		return LittleCollision;
+	}
+
+	if (BodyState == KirbyBodyState::Fat)
+	{
+		if (nullptr == FatCollision)
+		{
+			MsgBoxAssert("충돌체를 불러오지 못했습니다.");
+			return ReturnValue;
+		}
+
+		return FatCollision;
+	}
+
+	if (BodyState == KirbyBodyState::Lower)
+	{
+		if (nullptr == LowerCollision)
+		{
+			MsgBoxAssert("충돌체를 불러오지 못했습니다.");
+			return ReturnValue;
+		}
+
+		return LowerCollision;
+	}
+
+	MsgBoxAssert("커비 충돌체 리턴에 실패했습니다.");
+	return BodyCollision;
 }
 
 
-// 레벨 함수
+
+// 몸통 충돌체 On
+void Kirby::KirbyBodyCollisonOn()
+{
+	if (BodyState == KirbyBodyState::Little)
+	{
+		if (nullptr == LittleCollision)
+		{
+			MsgBoxAssert("충돌체를 불러오지 못했습니다.");
+			return;
+		}
+
+		LittleCollision->On();
+	}
+
+	if (BodyState == KirbyBodyState::Fat)
+	{
+		if (nullptr == FatCollision)
+		{
+			MsgBoxAssert("충돌체를 불러오지 못했습니다.");
+			return;
+		}
+
+		FatCollision->On();
+	}
+
+	if (BodyState == KirbyBodyState::Lower)
+	{
+		if (nullptr == LowerCollision)
+		{
+			MsgBoxAssert("충돌체를 불러오지 못했습니다.");
+			return;
+		}
+
+		LowerCollision->On();
+	}
+
+	if (nullptr == ImmuneCollision)
+	{
+		MsgBoxAssert("충돌체를 불러오지 못했습니다");
+		return;
+	}
+
+	ImmuneCollision->Off();
+}
+
+
+// 몸통 충돌체 Off
+void Kirby::KirbyBodyCollisonOff()
+{
+	if (nullptr == LittleCollision)
+	{
+		MsgBoxAssert("충돌체를 불러오지 못했습니다");
+		return;
+	}
+
+	if (nullptr == FatCollision)
+	{
+		MsgBoxAssert("충돌체를 불러오지 못했습니다");
+		return;
+	}
+
+	if (nullptr == LowerCollision)
+	{
+		MsgBoxAssert("충돌체를 불러오지 못했습니다");
+		return;
+	}
+
+	LittleCollision->Off();
+	FatCollision->Off();
+	LowerCollision->Off();
+
+	if (false == Cheat_NoneBodyCollision)
+	{
+		if (nullptr == ImmuneCollision)
+		{
+			MsgBoxAssert("충돌체를 불러오지 못했습니다");
+			return;
+		}
+
+		ImmuneCollision->On();
+	}
+}
+
+
+
+
 /* ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ */
 
 
-
-
-bool Kirby::IsEnterPixel()
-{
-	unsigned int CeilingLeftColor = GetGroundColor(RGB(255, 255, 255), CeilLeftCheckPoint);
-	unsigned int CeilingRightColor = GetGroundColor(RGB(255, 255, 255), CeilRightCheckPoint);
-	unsigned int GroundLeftColor = GetGroundColor(RGB(255, 255, 255), GroundLeftCheckPoint);
-	unsigned int GroundRightColor = GetGroundColor(RGB(255, 255, 255), GroundRightCheckPoint);
-	if (CeilingLeftColor == RGB(0, 255, 0) || CeilingRightColor == RGB(0, 255, 0) ||
-		GroundLeftColor == RGB(0, 255, 0) || GroundRightColor == RGB(0, 255, 0))
-	{
-		return true;
-	}
-
-	return false;
-}
-
-
-
-// 몹의 패턴에서 쓰일 커비 객체
 void Kirby::LevelStart()
 {
 	MainKirby = this;
@@ -731,6 +830,11 @@ void Kirby::LevelStart()
 }
 
 
+
+/* ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ */
+
+
+
 void Kirby::Render(float _Detla)
 {
 	if (false == VegetableValleyPlayLevel::Level_DebugRenderValue)
@@ -758,7 +862,7 @@ void Kirby::Render(float _Detla)
 }
 
 
-// 면역 상태 함수
+// 면역 상태
 void Kirby::ImmuneFunc(float _Delta)
 {
 	if (true == ImmuneState)
@@ -776,6 +880,11 @@ void Kirby::ImmuneFunc(float _Delta)
 		KirbyBodyCollisonOn();
 	}
 }
+
+
+
+
+/* ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ */
 
 
 void Kirby::LevelEnd()

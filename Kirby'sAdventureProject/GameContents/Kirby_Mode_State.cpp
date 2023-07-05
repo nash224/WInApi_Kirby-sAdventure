@@ -7,18 +7,14 @@
 #include <GameEngineCore/GameEngineLevel.h>
 
 
-#include "BeamEffect.h"
-#include "LaserEffect.h"
 #include "Boss.h"
 #include "IceBlock.h"
-#include "KirbySparkEffect.h"
 #include "WanderingStar.h"
-#include "FrameBreathEffect.h"
 
 
 
 
-
+// 능력 분기점
 void Kirby::UseSpecialAbilityShorCut()
 {
 	if (true == GameEngineInput::IsDown('Z'))
@@ -41,49 +37,6 @@ void Kirby::UseSpecialAbilityStart()
 	IsChangeState = false;
 	UseAbilityStart();
 	ChangeAnimationState("UseSpecialAbility");
-}
-
-void Kirby::UseSpecialAbilityUpdate(float _Delta)
-{
-	UseAbilityUpdate(_Delta);
-}
-
-
-
-void Kirby::ReleaseSpecialAbilityStart()
-{
-	StateTime = 0.0f;
-	IsChangeState = false;
-	ChangeAnimationState("ReleaseSpecialAbility");
-}
-
-void Kirby::ReleaseSpecialAbilityUpdate(float _Delta)
-{
-	IsChangeState = MainRenderer->IsAnimationEnd();
-
-	if (true == IsChangeState && false == GetGroundState())
-	{
-		ChangeState(KirbyState::Fall);
-		return;
-	}
-	if (true == IsChangeState && true == GetGroundState())
-	{
-		ChangeState(KirbyState::Idle);
-		return;
-	}
-
-	BlockedByWall();
-	BlockedByGround();
-
-	ActorUtils::DecelerationUpdate(_Delta, DecelerationSpeed);
-	HorizontalUpdate(_Delta);
-
-	if (false == GetGroundState())
-	{
-		Gravity(_Delta);
-		GravityLimit(_Delta);
-		VerticalUpdate(_Delta);
-	}
 }
 
 
@@ -122,6 +75,13 @@ void Kirby::UseAbilityStart()
 	}
 }
 
+
+void Kirby::UseSpecialAbilityUpdate(float _Delta)
+{
+	UseAbilityUpdate(_Delta);
+}
+
+
 void Kirby::UseAbilityUpdate(float _Delta)
 {
 	switch (Mode)
@@ -158,65 +118,43 @@ void Kirby::UseAbilityUpdate(float _Delta)
 }
 
 
-void Kirby::TriggerOneTimeAbility()
+
+
+void Kirby::ReleaseSpecialAbilityStart()
 {
-	switch (Mode)
-	{
-	case AbilityStar::Spark:
-		OneTimeSpark();
-		break;
-	case AbilityStar::Laser:
-		OneTimeLaser();
-		break;
-	case AbilityStar::Beam:
-		OneTimeBeam();
-		break;
-	case AbilityStar::Fire:
-		break;
-	case AbilityStar::Thorn:
-		OneTimeThorn();
-		break;
-	case AbilityStar::Sword:
-		break;
-	case AbilityStar::Ice:
-		break;
-	default:
-		break;
-	}
+	StateTime = 0.0f;
+	IsChangeState = false;
+	ChangeAnimationState("ReleaseSpecialAbility");
 }
 
-
-
-
-void Kirby::TriggerMultiTimeAbility(float _Delta)
+void Kirby::ReleaseSpecialAbilityUpdate(float _Delta)
 {
-	switch (Mode)
+	IsChangeState = MainRenderer->IsAnimationEnd();
+
+	if (true == IsChangeState && false == GetGroundState())
 	{
-	case AbilityStar::Spark:
-		TriggerSparkAbilityAfterProcess(_Delta);
-		break;
-	case AbilityStar::Laser:
-		break;
-	case AbilityStar::Beam:
-		break;
-	case AbilityStar::Fire:
-		TriggerFireAbilityAfterProcess(_Delta);
-		break;
-	case AbilityStar::Thorn:
-		break;
-	case AbilityStar::Sword:
-		break;
-	case AbilityStar::Ice:
-		TriggerIceAbilityAfterProcess(_Delta);
-		break;
-	default:
-		break;
+		ChangeState(KirbyState::Fall);
+		return;
+	}
+	if (true == IsChangeState && true == GetGroundState())
+	{
+		ChangeState(KirbyState::Idle);
+		return;
+	}
+
+	BlockedByWall();
+	BlockedByGround();
+
+	ActorUtils::DecelerationUpdate(_Delta, DecelerationSpeed);
+	HorizontalUpdate(_Delta);
+
+	if (false == GetGroundState())
+	{
+		Gravity(_Delta);
+		GravityLimit(_Delta);
+		VerticalUpdate(_Delta);
 	}
 }
-
-
-
-
 
 
 void Kirby::InhaleAbilityStart()
@@ -480,8 +418,6 @@ void Kirby::InhaleAbilityUpdate(float _Delta)
 
 
 
-
-
 void Kirby::DropAbility()
 {
 	// Damgaged와 연관되는 코드
@@ -517,12 +453,13 @@ void Kirby::DropAbility()
 		return;
 	}
 
-
+	// 검 모드 렌더크기가 다른 모드와 다름
 	if (AbilityStar::Sword == Mode)
 	{
 		MainRenderer->SetRenderScaleToTexture();
 	}
 
+	// 얼음 블럭 List 삭제
 	if (AbilityStar::Ice == Mode)
 	{
 		std::list<IceBlock*>::iterator StartIter = IceBlockPtr_list.begin();
@@ -781,5 +718,4 @@ void Kirby::CheckKirbyAbilityToBossCollision(GameEngineCollision* _CheckCol, int
 			Actor->m_BossHp -= _Damage;
 		}
 	}
-
 }

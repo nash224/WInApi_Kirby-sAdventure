@@ -198,6 +198,10 @@ private:
 	void LevelEnd() override;
 
 
+	// ActorUilts 상속
+	void VerticalUpdate(float _Delta) override;
+	void HorizontalUpdate(float _Delta) override;
+
 private:
 	class UIManager* UIManagerPtr = nullptr;
 
@@ -214,19 +218,7 @@ private:
 	void Sword_StateResourceLoad();
 	void Ice_StateResourceLoad();
 	void MoveLevel_StateResourceLoad();
-
-
-
-
-	// 감지, 비트맵
-	void KirbyDirCheck();
-	void MoveHorizontal(float _Speed, float _Delta);
-	void DecelerationUpdate(float _Delta);
-	void HorizontalUpdate(float _Delta) override;
-	void VerticalUpdate(float _Delta) override;
-	void ChangeKirbyBodyState(KirbyBodyState _BodyState);
-	bool IsEnterPixel();
-
+	void Collision_Load();
 
 
 
@@ -567,6 +559,15 @@ private:
 	void Contain_DamagedStart();
 	void Contain_DamagedUpdate(float _Delta);
 
+
+
+	// 감지, 비트맵
+	void KirbyDirCheck();
+	void ChangeKirbyBodyState(KirbyBodyState _BodyState);
+	bool IsEnterPixel();
+
+	void MoveHorizontal(float _Speed, float _Delta);
+	void DecelerationUpdate(float _Delta);
 
 
 

@@ -4,13 +4,9 @@
 
 
 #include <GameEngineBase/GameEngineTime.h>
-#include <GameEngineBase/GameEngineRandom.h>
 #include <GameEnginePlatform/GameEngineInput.h>
 #include <GameEngineCore/GameEngineRenderer.h>
-#include <GameEngineCore/GameEngineCore.h>
-#include <GameEngineCore/GameEngineCamera.h>
 #include <GameEngineCore/GameEngineLevel.h>
-#include <GameEngineCore/ResourcesManager.h>
 
 
 #include "VegetableValley13.h"
@@ -22,8 +18,6 @@
 
 void Kirby::MoveLevel_StateResourceLoad()
 {
-
-
 	if (nullptr == MainRenderer)
 	{
 		MsgBoxAssert("렌더러를 불러오지 못했습니다.");
@@ -120,18 +114,18 @@ void Kirby::MoveLevel_StateResourceLoad()
 
 
 
-
-
-
-
 // 레벨 이동
 void Kirby::EnterStart()
 {
+	// 레벨에 요청 변수 초기화
+	IsNextLevelTriggerOn = false;
+
+
+	//
 	StateTime = 0.0f;
 	IsChangeState = false;
 	IsEnterCheck = false;
 
-	IsNextLevelTriggerOn = false;
 
 	KeepDamagedState = KirbyState::Idle;
 	ChangeKirbyBodyState(KirbyBodyState::Little);
@@ -155,6 +149,8 @@ void Kirby::EnterUpdate(float _Delta)
 		if (false == IsEnterCheck)
 		{
 			IsEnterCheck = true;
+
+			// 레벨에 알림
 			VegetableValleyPlayLevel::IsPlayerEnter = true;
 		}
 	}
@@ -164,6 +160,7 @@ void Kirby::EnterUpdate(float _Delta)
 	if (true == VegetableValleyPlayLevel::IsChangeLevel)
 	{
 		GameEngineTime::MainTimer.SetAllTimeScale(1.0f);
+
 		VegetableValleyPlayLevel::IsChangeLevel = false;
 
 
@@ -396,7 +393,6 @@ void Kirby::StageClearWalkStart()
 
 void Kirby::StageClearWalkUpdate(float _Delta)
 {
-
 	float4 KirbyPos = GetPos();
 
 	if (ActorDir::Left == Dir && KirbyPos.X < StageClear_X_CenterPos)
@@ -498,6 +494,17 @@ void Kirby::PerformanceStart()
 
 
 	GravityReset();
+
+
+	if (nullptr == Left_KirbyRenderer)
+	{
+		MsgBoxAssert("렌더러를 불러오지 못했습니다.")
+	}
+
+	if (nullptr == Right_KirbyRenderer)
+	{
+		MsgBoxAssert("렌더러를 불러오지 못했습니다.")
+	}
 
 	Left_KirbyRenderer->ChangeAnimation("Performance");
 	Right_KirbyRenderer->ChangeAnimation("Performance");
@@ -721,11 +728,12 @@ void Kirby::PerformanceUpdate(float _Delta)
 
 	if (true == MainRenderer->IsAnimationEnd())
 	{
-		//IsChangeState = true;
+		// 엔딩 크레딧이면
 		VegetableValley13::IsEndingCreditOn = true;
 	}
 
 
+	// 임시 비활성화
 	if (true == IsChangeState)
 	{
 		GameEngineLevel* CurLevelPtr = GetLevel();

@@ -1,4 +1,5 @@
 #include "Kirby.h"
+#include "GlobalContents.h"
 
 
 #include <GameEngineBase/GameEngineTime.h>
@@ -6,18 +7,15 @@
 #include <GameEnginePlatform/GameEngineInput.h>
 #include <GameEnginePlatform/GameEngineSound.h>
 #include <GameEngineCore/GameEngineRenderer.h>
-#include <GameEngineCore/GameEngineCore.h>
 #include <GameEngineCore/GameEngineCamera.h>
 #include <GameEngineCore/GameEngineLevel.h>
-#include <GameEngineCore/ResourcesManager.h>
 
 
-#include "GlobalContents.h"
-#include "PlayUI.h"
 #include "VegetableValleyPlayLevel.h"
+#include "PlayUI.h"
+#include "FadeObject.h"
 #include "DustEffect.h"
 #include "HitObjectEffect.h"
-#include "FadeObject.h"
 #include "ExhaleEffect.h"
 #include "KirbyDeathEffect.h"
 #include "Boss.h"
@@ -30,7 +28,6 @@ void Kirby::Normal_StateResourceLoad()
 		MsgBoxAssert("렌더러를 불러오지 못했습니다.");
 		return;
 	}
-
 
 
 	GlobalContents::SpriteFileLoad("Normal_Left_Kirby.bmp", "Resources\\Unit\\Kirby", 10, 10);

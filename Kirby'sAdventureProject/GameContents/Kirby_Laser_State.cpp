@@ -1,10 +1,11 @@
 #include "Kirby.h"
+#include "GlobalContents.h"
+
+
 #include <GameEnginePlatform/GameEngineInput.h>
 #include <GameEngineCore/GameEngineRenderer.h>
-#include <GameEngineCore/GameEngineLevel.h>
-#include <GameEngineCore/ResourcesManager.h>
 
-#include "GlobalContents.h"
+
 #include "LaserEffect.h"
 
 
@@ -15,6 +16,13 @@ void Kirby::Laser_StateResourceLoad()
 
 	GlobalContents::SpriteFileLoad("Ability_Left_Use.bmp", "Resources\\Unit\\Kirby", 3, 3);
 	GlobalContents::SpriteFileLoad("Ability_Right_Use.bmp", "Resources\\Unit\\Kirby", 3, 3);
+
+
+	if (nullptr == MainRenderer)
+	{
+		MsgBoxAssert("렌더러를 불러오지 못했습니다.");
+		return;
+	}
 
 
 	MainRenderer->CreateAnimation("Laser_Left_Idle", "Ability_Left_Kirby.bmp", 0, 1, 0.5f, true);
@@ -93,7 +101,6 @@ void Kirby::LaserAbilityStart()
 	}
 
 	LaserEffectPtr->init(GetPos(), GetKirbyScale(), GetDirUnitVector());
-
 	LaserEffectPtr->SetActorCollision(CollisionOrder::PlayerAbility, CollisionType::Rect);
 }
 
@@ -130,7 +137,7 @@ void Kirby::LaserAbilityUpdate(float _Delta)
 }
 
 
-
+// GetAbility 스킬 단발형 로직
 void Kirby::OneTimeLaser()
 {
 	// 레이저 소환

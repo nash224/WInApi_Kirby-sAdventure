@@ -1,12 +1,11 @@
 #include "Kirby.h"
 #include "ContentsEnum.h"
+#include "GlobalContents.h"
+
 
 #include <GameEngineBase/GameEngineRandom.h>
-#include <GameEnginePlatform/GameEngineInput.h>
 #include <GameEngineCore/GameEngineRenderer.h>
 #include <GameEngineCore/GameEngineCollision.h>
-
-#include "GlobalContents.h"
 
 
 
@@ -14,6 +13,13 @@ void Kirby::Sword_StateResourceLoad()
 {
 	GlobalContents::SpriteFileLoad("Sword_Left_Kirby.bmp", "Resources\\Unit\\Kirby", 8, 7);
 	GlobalContents::SpriteFileLoad("Sword_Right_Kirby.bmp", "Resources\\Unit\\Kirby", 8, 7);
+
+
+	if (nullptr == MainRenderer)
+	{
+		MsgBoxAssert("렌더러를 불러오지 못했습니다.");
+		return;
+	}
 
 	MainRenderer->CreateAnimation("Sword_Left_Idle", "Sword_Left_Kirby.bmp", 8, 8, 0.5f, true);
 	MainRenderer->CreateAnimation("Sword_Right_Idle", "Sword_Right_Kirby.bmp", 8, 8, 0.5f, true);
@@ -127,15 +133,16 @@ void Kirby::SwordAbilityUpdate(float _Delta)
 	}
 
 
+	if (nullptr == SwordEffectCollision)
+	{
+		MsgBoxAssert("번개모드 콜리전이 Null입니다.");
+		return;
+	}
+
 
 
 	if (true == IsChangeState)
 	{
-		if (nullptr == SwordEffectCollision)
-		{
-			MsgBoxAssert("번개모드 콜리전이 Null입니다.");
-			return;
-		}
 
 		SwordEffectCollision->Off();
 		ChangeState(KirbyState::ReleaseSpecialAbility);

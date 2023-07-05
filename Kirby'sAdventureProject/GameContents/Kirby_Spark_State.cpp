@@ -1,14 +1,14 @@
 #include "Kirby.h"
 #include "ContentsEnum.h"
+#include "GlobalContents.h"
+
 
 #include <GameEngineBase/GameEngineRandom.h>
 #include <GameEnginePlatform/GameEngineInput.h>
 #include <GameEngineCore/GameEngineRenderer.h>
-#include <GameEngineCore/GameEngineLevel.h>
-#include <GameEngineCore/ResourcesManager.h>
 #include <GameEngineCore/GameEngineCollision.h>
 
-#include "GlobalContents.h"
+
 #include "KirbySparkEffect.h"
 
 
@@ -19,6 +19,13 @@ void Kirby::Spark_StateResourceLoad()
 
 	GlobalContents::SpriteFileLoad("Ability_Left_Use.bmp", "Resources\\Unit\\Kirby", 3, 3);
 	GlobalContents::SpriteFileLoad("Ability_Right_Use.bmp", "Resources\\Unit\\Kirby", 3, 3);
+
+
+	if (nullptr == MainRenderer)
+	{
+		MsgBoxAssert("렌더러를 불러오지 못했습니다.");
+		return;
+	}
 
 	MainRenderer->CreateAnimation("Spark_Left_Idle", "Ability_Left_Kirby.bmp", 0, 1, 0.5f, true);
 	MainRenderer->CreateAnimation("Spark_Right_Idle", "Ability_Right_Kirby.bmp", 0, 1, 0.5f, true);

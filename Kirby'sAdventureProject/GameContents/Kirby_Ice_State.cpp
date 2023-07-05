@@ -1,10 +1,11 @@
 #include "Kirby.h"
+#include "GlobalContents.h"
+
+
 #include <GameEnginePlatform/GameEngineInput.h>
 #include <GameEngineCore/GameEngineRenderer.h>
 
 
-#include "GlobalContents.h"
-#include "FrameBreathEffect.h"
 #include "IceBreathEffect.h"
 
 
@@ -16,6 +17,13 @@ void Kirby::Ice_StateResourceLoad()
 
 	GlobalContents::SpriteFileLoad("Ability_Left_Use.bmp", "Resources\\Unit\\Kirby", 3, 3);
 	GlobalContents::SpriteFileLoad("Ability_Right_Use.bmp", "Resources\\Unit\\Kirby", 3, 3);
+
+
+	if (nullptr == MainRenderer)
+	{
+		MsgBoxAssert("렌더러를 불러오지 못했습니다.");
+		return;
+	}
 
 
 	MainRenderer->CreateAnimation("Ice_Left_Idle", "Ice_Left_Kirby.bmp", 0, 1, 0.5f, true);
@@ -84,7 +92,6 @@ void Kirby::Ice_StateResourceLoad()
 
 
 	GlobalContents::SoundFileLoad("Kirby_IceAttack.wav", "Resources\\SoundResources\\EffectVoice");
-	
 }
 
 
@@ -100,6 +107,7 @@ void Kirby::IceAbilityUpdate(float _Delta)
 	Duration += _Delta;
 	IceSoundTime += _Delta;
 
+	// 지정시간마다 소리
 	if (IceSoundTime > IceSoundCycle)
 	{
 		IceSoundTime = 0.0f;
@@ -170,7 +178,7 @@ void Kirby::IceAbilityUpdate(float _Delta)
 
 
 
-
+// GetAbility 스킬 지속형 로직
 void Kirby::TriggerIceAbilityAfterProcess(float _Delta)
 {
 	IceTime += _Delta;
@@ -183,6 +191,7 @@ void Kirby::TriggerIceAbilityAfterProcess(float _Delta)
 		GameEngineSound::SoundPlay("Kirby_IceAttack.wav");
 	}
 
+	// 지정시간마다 아이스 브레스
 	if (IceTime > KIRBYICEBREATH_EFFECTCREATECYCLE)
 	{
 		IceTime = 0.0f;
