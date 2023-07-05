@@ -2,12 +2,6 @@
 #include "ActorUtils.h"
 
 
-
-// 흡입 상태에 관한 상수
-#define INHALETIME 0.3f
-#define INHALEXPOWER 200.0f
-
-
 // 커비 입 높이
 #define KIRBYCENTERYPOINT 15.0f
 
@@ -22,7 +16,7 @@ enum class ItemState
 
 
 
-// 설명 :
+// 설명 : 아이템의 부모클래스로 하위 클래스에게 필요한 기능을 제공해줍니다.
 class Item : public ActorUtils
 {
 public:
@@ -75,7 +69,7 @@ protected:
 	virtual void BeInhaledStart() {}
 	virtual void BeInhaledUpdate(float _Delta) {}
 
-
+	const float InhaledTime = 0.3f;
 	float4 InhaleTargetPos = float4::ZERO;
 	float InhaleTargetPosYDistance = 0.0f;
 	float InhaleTargetPosXDistance = 0.0f;

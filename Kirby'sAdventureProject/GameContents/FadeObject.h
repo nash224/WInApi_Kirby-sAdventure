@@ -2,6 +2,7 @@
 #include <GameEngineCore/GameEngineActor.h>
 
 // 설명 : 전역 레벨에서 사용하는 Fade Object 입니다.
+// 레벨 이동할 때 점점 사라지는 효과를 내거나, 화면 명도를 조절할 수 있습니다.
 class FadeObject : public GameEngineActor
 {
 public:

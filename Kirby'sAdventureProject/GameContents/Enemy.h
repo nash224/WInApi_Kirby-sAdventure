@@ -9,7 +9,6 @@
 // 커비 입 높이
 #define Enemy_KIRBYCENTERYPOINT 19.0f
 
-
 #define CHECKOVERSCREENGAP 120.0f
 
 

@@ -76,8 +76,8 @@ void Kirby::Thorn_StateResourceLoad()
 	MainRenderer->CreateAnimation("Thorn_Left_Fly", "Ability_Left_Kirby.bmp", 19, 20, 0.2f, true);
 	MainRenderer->CreateAnimation("Thorn_Right_Fly", "Ability_Right_Kirby.bmp", 19, 20, 0.2f, true);
 
-	MainRenderer->CreateAnimation("Thorn_Left_ExhaleAttack", "Ability_Left_Kirby.bmp", 21, 24, EXHALEATTACKTIME, false);
-	MainRenderer->CreateAnimation("Thorn_Right_ExhaleAttack", "Ability_Right_Kirby.bmp", 21, 24, EXHALEATTACKTIME, false);
+	MainRenderer->CreateAnimation("Thorn_Left_ExhaleAttack", "Ability_Left_Kirby.bmp", 21, 24, 0.08f, false);
+	MainRenderer->CreateAnimation("Thorn_Right_ExhaleAttack", "Ability_Right_Kirby.bmp", 21, 24, 0.08f, false);
 
 	MainRenderer->CreateAnimation("Thorn_Left_UseSpecialAbility", "Thorn_Left_Use.bmp", 0, 5, 0.04f, false);
 	MainRenderer->CreateAnimation("Thorn_Right_UseSpecialAbility", "Thorn_Right_Use.bmp", 0, 5, 0.04f, false);

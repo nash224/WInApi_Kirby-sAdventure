@@ -147,13 +147,13 @@ void Kirby::Contain_WalkUpdate(float _Delta)
 		return;
 	}
 
-	if (CurrentSpeed < WALKMAXSPEED * 0.2f && true == GameEngineInput::IsDown('A') && false == (GameEngineInput::IsPress('A') && GameEngineInput::IsPress('D')))
+	if (CurrentSpeed < WalkMaxSpeed * 0.2f && true == GameEngineInput::IsDown('A') && false == (GameEngineInput::IsPress('A') && GameEngineInput::IsPress('D')))
 	{
 		ChangeState(KirbyState::Contain_Run);
 		return;
 	}
 
-	if (CurrentSpeed > WALKMAXSPEED * 0.2f && true == GameEngineInput::IsDown('D') && false == (GameEngineInput::IsPress('A') && GameEngineInput::IsPress('D')))
+	if (CurrentSpeed > WalkMaxSpeed * 0.2f && true == GameEngineInput::IsDown('D') && false == (GameEngineInput::IsPress('A') && GameEngineInput::IsPress('D')))
 	{
 		ChangeState(KirbyState::Contain_Run);
 		return;
@@ -225,7 +225,7 @@ void Kirby::Contain_WalkUpdate(float _Delta)
 
 
 
-	MoveHorizontal(WALKSPEED, _Delta);
+	MoveHorizontal(WalkSpeed, _Delta);
 
 	
 
@@ -348,7 +348,7 @@ void Kirby::Contain_RunUpdate(float _Delta)
 
 
 
-	MoveHorizontal(RUNSPEED, _Delta);
+	MoveHorizontal(RunSpeed, _Delta);
 
 
 
@@ -435,7 +435,7 @@ void Kirby::Contain_TurnUpdate(float _Delta)
 	BlockedByAll();
 
 
-	ActorUtils::DecelerationUpdate(_Delta, BRAKESPEED);
+	ActorUtils::DecelerationUpdate(_Delta, BreakSpeed);
 	HorizontalUpdate(_Delta);
 
 
@@ -506,22 +506,22 @@ void Kirby::Contain_JumpUpdate(float _Delta)
 		AbleJump = false;
 	}
 
-	float JumpPower = JUMPMAXDISTANCE / JUMPTIME;
+	float JumpPower = 100.0f / JumpTime;
 	CurrentJumpDistance += JumpPower * _Delta;
 
-	if (true == GameEngineInput::IsUp('X') || CurrentJumpDistance > JUMPMAXDISTANCE)
+	if (true == GameEngineInput::IsUp('X') || CurrentJumpDistance > 100.0f)
 	{
 		AbleJump = false;
 	}
 
-	if (true == GameEngineInput::IsPress('X') && CurrentJumpDistance < JUMPMAXDISTANCE && true == AbleJump)
+	if (true == GameEngineInput::IsPress('X') && CurrentJumpDistance < 100.0f && true == AbleJump)
 	{
 		SetGravityVector(float4::UP * JumpPower);
 	}
 
 
 
-	MoveHorizontal(WALKSPEED, _Delta);
+	MoveHorizontal(WalkSpeed, _Delta);
 
 
 
@@ -603,7 +603,7 @@ void Kirby::Contain_FallUpdate(float _Delta)
 	}
 
 
-	MoveHorizontal(WALKSPEED, _Delta);
+	MoveHorizontal(WalkSpeed, _Delta);
 
 
 	ChangeAnimationState("Contain_Fall");
@@ -822,7 +822,7 @@ void Kirby::Contain_DisgorgeUpdate(float _Delta)
 	}
 
 
-	MoveHorizontal(WALKSPEED, _Delta);
+	MoveHorizontal(WalkSpeed, _Delta);
 
 
 
@@ -1130,14 +1130,14 @@ void Kirby::Contain_DamagedStart()
 	// Æ¨°Ü³ª°¨
 	if (ActorDir::Left == Dir)
 	{
-		CurrentSpeed = BOUNCINGOFF_XPOWER;
+		CurrentSpeed = BouncingOff_XPower;
 	}
 	else if (ActorDir::Right == Dir)
 	{
-		CurrentSpeed = -BOUNCINGOFF_XPOWER;
+		CurrentSpeed = -BouncingOff_XPower;
 	}
 
-	SetGravityVector(float4{ 0.0f , BOUNCINGOFF_YPOWER });
+	SetGravityVector(float4{ 0.0f , BouncingOff_YPower });
 
 
 
@@ -1169,7 +1169,7 @@ void Kirby::Contain_DamagedUpdate(float _Delta)
 {
 	StateTime += _Delta;
 
-	if (StateTime > KIRBY_DAMAGED_STATETIME)
+	if (StateTime > Kirby_DamagedState_time)
 	{
 		IsChangeState = true;
 	}

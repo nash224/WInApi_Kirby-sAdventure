@@ -70,8 +70,8 @@ void Kirby::Beam_StateResourceLoad()
 	MainRenderer->CreateAnimation("Beam_Left_Fly", "Ability_Left_Kirby.bmp", 19, 20, 0.2f, true);
 	MainRenderer->CreateAnimation("Beam_Right_Fly", "Ability_Right_Kirby.bmp", 19, 20, 0.2f, true);
 
-	MainRenderer->CreateAnimation("Beam_Left_ExhaleAttack", "Ability_Left_Kirby.bmp", 21, 24, EXHALEATTACKTIME, false);
-	MainRenderer->CreateAnimation("Beam_Right_ExhaleAttack", "Ability_Right_Kirby.bmp", 21, 24, EXHALEATTACKTIME, false);
+	MainRenderer->CreateAnimation("Beam_Left_ExhaleAttack", "Ability_Left_Kirby.bmp", 21, 24, 0.08f, false);
+	MainRenderer->CreateAnimation("Beam_Right_ExhaleAttack", "Ability_Right_Kirby.bmp", 21, 24, 0.08f, false);
 
 	MainRenderer->CreateAnimation("Beam_Left_UseSpecialAbility", "Ability_Left_Use.bmp", 5, 6, 0.1f, true);
 	MainRenderer->CreateAnimation("Beam_Right_UseSpecialAbility", "Ability_Right_Use.bmp", 5, 6, 0.1f, true);

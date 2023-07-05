@@ -73,8 +73,8 @@ void Kirby::Laser_StateResourceLoad()
 	MainRenderer->CreateAnimation("Laser_Left_Fly", "Ability_Left_Kirby.bmp", 19, 20, 0.2f, true);
 	MainRenderer->CreateAnimation("Laser_Right_Fly", "Ability_Right_Kirby.bmp", 19, 20, 0.2f, true);
 
-	MainRenderer->CreateAnimation("Laser_Left_ExhaleAttack", "Ability_Left_Kirby.bmp", 21, 24, EXHALEATTACKTIME, false);
-	MainRenderer->CreateAnimation("Laser_Right_ExhaleAttack", "Ability_Right_Kirby.bmp", 21, 24, EXHALEATTACKTIME, false);
+	MainRenderer->CreateAnimation("Laser_Left_ExhaleAttack", "Ability_Left_Kirby.bmp", 21, 24, 0.08f, false);
+	MainRenderer->CreateAnimation("Laser_Right_ExhaleAttack", "Ability_Right_Kirby.bmp", 21, 24, 0.08f, false);
 
 	MainRenderer->CreateAnimation("Laser_Left_UseSpecialAbility", "Ability_Left_Use.bmp", 7, 7, 0.04f, false);
 	MainRenderer->CreateAnimation("Laser_Right_UseSpecialAbility", "Ability_Right_Use.bmp", 7, 7, 0.04f, false);

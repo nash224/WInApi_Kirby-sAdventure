@@ -265,14 +265,14 @@ void WanderingStar::BeInhaledUpdate(float _Delta)
 	InhaleTargetPos = GetKirbyOpponentDistance();
 	InhaleTargetPosYDistance = InhaleTargetPos.Y - KIRBYCENTERYPOINT;
 	InhaleTargetPosXDistance = InhaleTargetPos.X;
-	CurentVerticalSpeed += InhaleTargetPosYDistance / INHALETIME * _Delta;
+	CurentVerticalSpeed += InhaleTargetPosYDistance / InhaledTime * _Delta;
 
 	float4 KirbyPos = Kirby::GetMainKirby()->GetPos();
 
 
 	if (ActorDirUnitVector.X < 0.0f)
 	{
-		float InhaleXSpeed = InhaleTargetPosXDistance / INHALETIME * _Delta;
+		float InhaleXSpeed = InhaleTargetPosXDistance / InhaledTime * _Delta;
 		CurrentSpeed += InhaleXSpeed;
 
 		if (GetPos().X < KirbyPos.X)
@@ -284,7 +284,7 @@ void WanderingStar::BeInhaledUpdate(float _Delta)
 	}
 	else if (ActorDirUnitVector.X > 0.0f)
 	{
-		float InhaleXSpeed = InhaleTargetPosXDistance / INHALETIME * _Delta;
+		float InhaleXSpeed = InhaleTargetPosXDistance / InhaledTime * _Delta;
 		CurrentSpeed += InhaleXSpeed;
 
 		if (GetPos().X > KirbyPos.X)

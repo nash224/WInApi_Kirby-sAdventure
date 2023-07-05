@@ -74,8 +74,8 @@ void Kirby::Fire_StateResourceLoad()
 	MainRenderer->CreateAnimation("Fire_Left_Fly", "Ability_Left_Kirby.bmp", 19, 20, 0.2f, true);
 	MainRenderer->CreateAnimation("Fire_Right_Fly", "Ability_Right_Kirby.bmp", 19, 20, 0.2f, true);
 
-	MainRenderer->CreateAnimation("Fire_Left_ExhaleAttack", "Ability_Left_Kirby.bmp", 21, 24, EXHALEATTACKTIME, false);
-	MainRenderer->CreateAnimation("Fire_Right_ExhaleAttack", "Ability_Right_Kirby.bmp", 21, 24, EXHALEATTACKTIME, false);
+	MainRenderer->CreateAnimation("Fire_Left_ExhaleAttack", "Ability_Left_Kirby.bmp", 21, 24, 0.08f, false);
+	MainRenderer->CreateAnimation("Fire_Right_ExhaleAttack", "Ability_Right_Kirby.bmp", 21, 24, 0.08f, false);
 
 	MainRenderer->CreateAnimation("Fire_Left_UseSpecialAbility", "Ability_Left_Use.bmp", 3, 4, 0.1f, true);
 	MainRenderer->CreateAnimation("Fire_Right_UseSpecialAbility", "Ability_Right_Use.bmp", 3, 4, 0.1f, true);
@@ -108,7 +108,7 @@ void Kirby::FireAbilityUpdate(float _Delta)
 	}
 
 	// 쿨이 돌아오면 불덩이 하나 소환
-	if (StateTime > KIRBYFRAMEEFFECTCREATECYCLE)
+	if (StateTime > FrameEffectCreateCycle)
 	{
 		StateTime = 0.0f;
 
@@ -162,7 +162,7 @@ void Kirby::TriggerFireAbilityAfterProcess(float _Delta)
 	FrameTime += _Delta;
 
 	// 지정시간마다 불소환
-	if (FrameTime > KIRBYFRAMEEFFECTCREATECYCLE)
+	if (FrameTime > FrameEffectCreateCycle)
 	{
 		FrameTime = 0.0f;
 		

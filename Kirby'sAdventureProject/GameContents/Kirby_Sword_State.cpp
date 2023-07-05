@@ -69,8 +69,8 @@ void Kirby::Sword_StateResourceLoad()
 	MainRenderer->CreateAnimation("Sword_Left_Fly", "Sword_Left_Kirby.bmp", 23, 24, 0.2f, true);
 	MainRenderer->CreateAnimation("Sword_Right_Fly", "Sword_Right_Kirby.bmp", 23, 24, 0.2f, true);
 
-	MainRenderer->CreateAnimation("Sword_Left_ExhaleAttack", "Sword_Left_Kirby.bmp", 25, 28, EXHALEATTACKTIME, false);
-	MainRenderer->CreateAnimation("Sword_Right_ExhaleAttack", "Sword_Right_Kirby.bmp", 25, 28, EXHALEATTACKTIME, false);
+	MainRenderer->CreateAnimation("Sword_Left_ExhaleAttack", "Sword_Left_Kirby.bmp", 25, 28, 0.08f, false);
+	MainRenderer->CreateAnimation("Sword_Right_ExhaleAttack", "Sword_Right_Kirby.bmp", 25, 28, 0.08f, false);
 
 	MainRenderer->CreateAnimation("Sword_Left_UseSpecialAbility", "Sword_Left_Kirby.bmp", 29, 38, 0.03f, false);
 	MainRenderer->CreateAnimation("Sword_Right_UseSpecialAbility", "Sword_Right_Kirby.bmp", 29, 38, 0.03f, false);
@@ -164,7 +164,7 @@ void Kirby::SwordAbilityUpdate(float _Delta)
 
 
 
-	MoveHorizontal(WALKSPEED, _Delta);
+	MoveHorizontal(WalkSpeed, _Delta);
 
 
 	// 지형락
@@ -251,7 +251,7 @@ void Kirby::AerialUseSpecialAbilityUpdate(float _Delta)
 	CheckKirbyAbilityCollision(AerialSwordEffectCollision, DamageValue);
 
 
-	MoveHorizontal(WALKSPEED, _Delta);
+	MoveHorizontal(WalkSpeed, _Delta);
 
 
 	// 지형락

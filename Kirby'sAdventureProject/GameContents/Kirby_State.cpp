@@ -81,8 +81,8 @@ void Kirby::Normal_StateResourceLoad()
 	MainRenderer->CreateAnimation("Normal_Left_Fly", "Normal_Left_Kirby.bmp", 19, 20, 0.2f, true);
 	MainRenderer->CreateAnimation("Normal_Right_Fly", "Normal_RIght_Kirby.bmp", 19, 20, 0.2f, true);
 
-	MainRenderer->CreateAnimation("Normal_Left_ExhaleAttack", "Normal_Left_Kirby.bmp", 21, 24, EXHALEATTACKTIME, false);
-	MainRenderer->CreateAnimation("Normal_Right_ExhaleAttack", "Normal_RIght_Kirby.bmp", 21, 24, EXHALEATTACKTIME, false);
+	MainRenderer->CreateAnimation("Normal_Left_ExhaleAttack", "Normal_Left_Kirby.bmp", 21, 24, 0.08f, false);
+	MainRenderer->CreateAnimation("Normal_Right_ExhaleAttack", "Normal_RIght_Kirby.bmp", 21, 24, 0.08f, false);
 
 	MainRenderer->CreateAnimation("Normal_Left_UseSpecialAbility", "Normal_Left_Kirby.bmp", 24, 26, 0.1f, false);
 	MainRenderer->CreateAnimation("Normal_Right_UseSpecialAbility", "Normal_RIght_Kirby.bmp", 24, 26, 0.1f, false);
@@ -270,13 +270,13 @@ void Kirby::WalkUpdate(float _Delta)
 		return;
 	} 
 
-	if (CurrentSpeed < WALKMAXSPEED * 0.2f * _Delta && true == GameEngineInput::IsDown('A') && false == (GameEngineInput::IsPress('A') && GameEngineInput::IsPress('D')))
+	if (CurrentSpeed < WalkMaxSpeed * 0.2f * _Delta && true == GameEngineInput::IsDown('A') && false == (GameEngineInput::IsPress('A') && GameEngineInput::IsPress('D')))
 	{
 		ChangeState(KirbyState::Run);
 		return;
 	}
 
-	if (CurrentSpeed > WALKMAXSPEED * 0.2f * _Delta && true == GameEngineInput::IsDown('D') && false == (GameEngineInput::IsPress('A') && GameEngineInput::IsPress('D')))
+	if (CurrentSpeed > WalkMaxSpeed * 0.2f * _Delta && true == GameEngineInput::IsDown('D') && false == (GameEngineInput::IsPress('A') && GameEngineInput::IsPress('D')))
 	{
 		ChangeState(KirbyState::Run);
 		return;
@@ -321,7 +321,7 @@ void Kirby::WalkUpdate(float _Delta)
 
 
 
-	MoveHorizontal(WALKSPEED, _Delta);
+	MoveHorizontal(WalkSpeed, _Delta);
 	
 	BlockedByGround();
 	BlockedByWall();
@@ -439,7 +439,7 @@ void Kirby::RunUpdate(float _Delta)
 	BlockedByAll();
 
 
-	MoveHorizontal(RUNSPEED, _Delta);
+	MoveHorizontal(RunSpeed, _Delta);
 	DecelerationUpdate(_Delta);
 	HorizontalUpdate(_Delta);
 
@@ -526,7 +526,7 @@ void Kirby::TurnUpdate(float _Delta)
 	BlockedByWall();
 	BlockedByAll();
 
-	ActorUtils::DecelerationUpdate(_Delta, BRAKESPEED);
+	ActorUtils::DecelerationUpdate(_Delta, BreakSpeed);
 	HorizontalUpdate(_Delta);
 
 
@@ -612,26 +612,22 @@ void Kirby::JumpUpdate(float _Delta)
 
 
 
-
-
-
-
-	float JumpPower = JUMPMAXDISTANCE / JUMPTIME;
+	float JumpPower = 100.0f / JumpTime;
 	CurrentJumpDistance += JumpPower * _Delta;
 
-	if (true == GameEngineInput::IsUp('X') || CurrentJumpDistance > JUMPMAXDISTANCE || true == IsReachedStarStick)
+	if (true == GameEngineInput::IsUp('X') || CurrentJumpDistance > 100.0f || true == IsReachedStarStick)
 	{
 		AbleJump = false;
 	}
 
-	if (true == GameEngineInput::IsPress('X') && CurrentJumpDistance < JUMPMAXDISTANCE && true == AbleJump)
+	if (true == GameEngineInput::IsPress('X') && CurrentJumpDistance < 100.0f && true == AbleJump)
 	{
 		SetGravityVector(float4::UP * JumpPower);
 	}
 
 	if (false == IsReachedStarStick)
 	{
-		MoveHorizontal(WALKSPEED, _Delta);
+		MoveHorizontal(WalkSpeed, _Delta);
 	}
 
 	BlockedByCeiling();
@@ -732,7 +728,7 @@ void Kirby::AerialMotionUpdate(float _Delta)
 
 	if (false == IsReachedStarStick)
 	{
-		MoveHorizontal(WALKSPEED, _Delta);
+		MoveHorizontal(WalkSpeed, _Delta);
 	}
 
 
@@ -765,14 +761,14 @@ void Kirby::AerialMotionUpdate(float _Delta)
 void Kirby::FallStart()
 {
 	StateTime = 0.0f;
-	FallDistance = 0.0f;
+	CurFallDistance = 0.0f;
 	ChangeAnimationState("Fall");
 }
 
 void Kirby::FallUpdate(float _Delta)
 {
 	StateTime += _Delta;
-	FallDistance += GetGravityVector().Y * _Delta;
+	CurFallDistance += GetGravityVector().Y * _Delta;
 
 
 
@@ -786,7 +782,7 @@ void Kirby::FallUpdate(float _Delta)
 
 
 
-	if (FallDistance > FALLDISTANCE)
+	if (CurFallDistance > FallDistance)
 	{
 		ChangeState(KirbyState::AccelerateDown);
 		return;
@@ -830,7 +826,7 @@ void Kirby::FallUpdate(float _Delta)
 
 	if (false == IsReachedStarStick)
 	{
-		MoveHorizontal(WALKSPEED, _Delta);
+		MoveHorizontal(WalkSpeed, _Delta);
 	}
 
 	BlockedByGround();
@@ -890,7 +886,7 @@ void Kirby::AccelerateDownUpdate(float _Delta)
 
 	if (true == GetGroundState())
 	{
-		SetGravityVector(float4::UP * BOUNCEPOWER);
+		SetGravityVector(float4::UP * BouncePower);
 		ChangeState(KirbyState::Bounce);
 		return;
 	}
@@ -1048,7 +1044,7 @@ void Kirby::LandingUpdate(float _Delta)
 {
 	StateTime += _Delta;
 
-	if (StateTime >= HITTHEMAPTIME)
+	if (StateTime >= HitTheMapTime)
 	{
 		IsChangeState = true;
 	}
@@ -1182,12 +1178,12 @@ void Kirby::LowerAttackStart()
 	// 속도 지정
 	if (Dir == ActorDir::Left)
 	{
-		CurrentSpeed = -RUNMAXSPEED;
+		CurrentSpeed = -RunMaxSpeed;
 	}
 
 	if (Dir == ActorDir::Right)
 	{
-		CurrentSpeed = RUNMAXSPEED;
+		CurrentSpeed = RunMaxSpeed;
 	}
 
 
@@ -1309,7 +1305,7 @@ void Kirby::LowerAttackUpdate(float _Delta)
 
 
 	// 슬라이딩 모션에서 먼지 효과
-	if (Duration > LOWERATTACKDUSTOCCURRENCECYCLE)
+	if (Duration > DustOccurrenceCycle)
 	{
 		Duration = 0.0f;
 
@@ -1332,7 +1328,7 @@ void Kirby::LowerAttackUpdate(float _Delta)
 
 
 	// X축 감속 및 업데이트 
-	if (StateTime > LOWERATTACKDECELECTIONSTARTTIME)
+	if (StateTime > DecelectionStartTime)
 	{
 		ActorUtils::DecelerationUpdate(_Delta, DecelerationSpeed);
 	}
@@ -1381,7 +1377,7 @@ void Kirby::HittheWallUpdate(float _Delta)
 {
 	StateTime += _Delta;
 
-	if (StateTime > HITTHEMAPTIME)
+	if (StateTime > HitTheMapTime)
 	{
 		IsChangeState = true;
 	}
@@ -1450,7 +1446,7 @@ void Kirby::HittheCeilingUpdate(float _Delta)
 {
 	StateTime += _Delta;
 
-	if (HITTHEMAPTIME <= StateTime)
+	if (HitTheMapTime <= StateTime)
 	{
 		IsChangeState = true;
 	}
@@ -1534,7 +1530,7 @@ void Kirby::TakeOffUpdate(float _Delta)
 
 	if (true == GameEngineInput::IsPress('W'))
 	{
-		SetGravityVector(float4::UP * FLYPOWER);
+		SetGravityVector(float4::UP * FlyPower);
 	}
 
 
@@ -1548,7 +1544,7 @@ void Kirby::TakeOffUpdate(float _Delta)
 
 
 
-	MoveHorizontal(FLYSPEED, _Delta);
+	MoveHorizontal(FlySpeed, _Delta);
 
 
 	BlockedByGround();
@@ -1617,7 +1613,7 @@ void Kirby::FlyUpdate(float _Delta)
 	{
 		MainRenderer->FindAnimation("Normal_Left_Fly")->Inters = { 0.1f, 0.1f };
 		MainRenderer->FindAnimation("Normal_Right_Fly")->Inters = { 0.1f, 0.1f };
-		SetGravityVector(float4::UP * FLYPOWER);
+		SetGravityVector(float4::UP * FlyPower);
 	}
 
 
@@ -1648,7 +1644,7 @@ void Kirby::FlyUpdate(float _Delta)
 
 
 	// 좌우 이동
-	MoveHorizontal(FLYSPEED, _Delta);
+	MoveHorizontal(FlySpeed, _Delta);
 
 	// 맵 블락
 	BlockedByGround();
@@ -1783,7 +1779,7 @@ void Kirby::ExhaleAttackUpdate(float _Delta)
 
 
 	// 좌우 움직임
-	MoveHorizontal(FLYSPEED, _Delta);
+	MoveHorizontal(FlySpeed, _Delta);
 
 
 	// 맵 블락
@@ -1866,14 +1862,14 @@ void Kirby::DamagedStart()
 	// 튕겨나감
 	if (ActorDir::Left == Dir)
 	{
-		CurrentSpeed = BOUNCINGOFF_XPOWER;
+		CurrentSpeed = BouncingOff_XPower;
 	}
 	else if (ActorDir::Right == Dir)
 	{
-		CurrentSpeed = -BOUNCINGOFF_XPOWER;
+		CurrentSpeed = -BouncingOff_XPower;
 	}
 
-	SetGravityVector(float4{ 0.0f , BOUNCINGOFF_YPOWER });
+	SetGravityVector(float4{ 0.0f , BouncingOff_YPower });
 
 
 
@@ -2051,7 +2047,7 @@ void Kirby::MissUpdate(float _Delta)
 {
 	StateTime += _Delta;
 	
-	if (StateTime > KIRBY_MISS_STATETIME)
+	if (StateTime > Kirby_Miss_Statetime)
 	{
 		ChangeState(KirbyState::MissRaiseUp);
 		return;

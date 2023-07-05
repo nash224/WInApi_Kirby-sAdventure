@@ -1,7 +1,7 @@
 #pragma once
 #include <GameEngineCore/GameEngineActor.h>
 
-// 설명 :
+// 설명 : Hub 레벨에 존재하는 문 오브젝트입니다. 열고 닫거나 상태를 변경할 수 있습니다.
 class DoorObject : public GameEngineActor
 {
 	friend class VegetableValleyHub;

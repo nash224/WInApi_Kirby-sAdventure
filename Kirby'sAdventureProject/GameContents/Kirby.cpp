@@ -614,38 +614,38 @@ void Kirby::HorizontalUpdate(float _Delta)
 {
 	if (State == KirbyState::Fly || State == KirbyState::TakeOff || State == KirbyState::ExhaleAttack)
 	{
-		if (CurrentSpeed <= -FLYMAXSPEED)
+		if (CurrentSpeed <= -FlyMaxSpeed)
 		{
-			CurrentSpeed = -FLYMAXSPEED;
+			CurrentSpeed = -FlyMaxSpeed;
 		}
 
-		if (CurrentSpeed >= FLYMAXSPEED)
+		if (CurrentSpeed >= FlyMaxSpeed)
 		{
-			CurrentSpeed = FLYMAXSPEED;
+			CurrentSpeed = FlyMaxSpeed;
 		}
 	}
 	else if (State == KirbyState::Run || State == KirbyState::Contain_Run || State == KirbyState::LowerAttack)
 	{
-		if (CurrentSpeed <= -RUNMAXSPEED)
+		if (CurrentSpeed <= -RunMaxSpeed)
 		{
-			CurrentSpeed = -RUNMAXSPEED;
+			CurrentSpeed = -RunMaxSpeed;
 		}
 
-		if (CurrentSpeed >= RUNMAXSPEED)
+		if (CurrentSpeed >= RunMaxSpeed)
 		{
-			CurrentSpeed = RUNMAXSPEED;
+			CurrentSpeed = RunMaxSpeed;
 		}
 	}
-	else if ((CurrentSpeed > WALKMAXSPEED || CurrentSpeed < -WALKMAXSPEED))
+	else if ((CurrentSpeed > WalkMaxSpeed || CurrentSpeed < -WalkMaxSpeed))
 	{
-		if (CurrentSpeed <= -WALKMAXSPEED)
+		if (CurrentSpeed <= -WalkMaxSpeed)
 		{
-			CurrentSpeed = -WALKMAXSPEED;
+			CurrentSpeed = -WalkMaxSpeed;
 		}
 
-		if (CurrentSpeed >= WALKMAXSPEED)
+		if (CurrentSpeed >= WalkMaxSpeed)
 		{
-			CurrentSpeed = WALKMAXSPEED;
+			CurrentSpeed = WalkMaxSpeed;
 		}
 	}
 
@@ -871,7 +871,7 @@ void Kirby::ImmuneFunc(float _Delta)
 	}
 
 
-	if (ImmuneTime > KIRBYIMMUNEDURATION)
+	if (ImmuneTime > ImmuneDuration)
 	{
 		ImmuneTime = 0.0f;
 		ImmuneState = false;

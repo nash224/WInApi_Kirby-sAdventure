@@ -19,60 +19,8 @@
 #define SWORDEFFECTCOLLISIONSCALE float4 { 182.0f , 100.0f }
 #define AERIALSWORDEFFECTCOLLISIONSCALE float4 { 96.0f , 96.0f }
 
-// 커비 이동 상수
-#define WALKSPEED 500.0f
-#define WALKMAXSPEED 200.0f
-#define BRAKESPEED 1000.0f
-
-#define RUNSPEED 600.0f
-#define RUNMAXSPEED 350.0f
-
-// 커비 점프 상수
-#define JUMPTIME 0.3f
-#define JUMPMAXDISTANCE 100.0f
-
-#define FALLDISTANCE 170.0f
-
-#define BOUNCEPOWER 250.0f
 
 
-// 커비 Fly 상수
-#define TAKEOFFTIME 0.4f
-
-#define FLYPOWER 280.0f
-#define FLYSPEED 500.0f
-#define FLYMAXSPEED 200.0f
-
-#define EXHALEATTACKTIME 0.08f
-
-// 커비 벽에 부딪혔는 시간
-#define HITTHEMAPTIME 0.08f
-
-// 슬라이딩 먼지 생성 시간 간격
-#define LOWERATTACKDUSTOCCURRENCECYCLE 0.08f
-// 슬라이딩 감속 시작 시간
-#define LOWERATTACKDECELECTIONSTARTTIME 0.3f
-
-// 커비 능력별 쿨타임
-#define KIRBYSPARKEFFECTCREATECYCLE 0.1f
-#define KIRBYFRAMEEFFECTCREATECYCLE 0.1f
-#define KIRBYICEBREATH_EFFECTCREATECYCLE 0.15f
-
-// 커비 데미지 상태 지속시간
-#define KirbyDamagedDuration 0.2f
-
-// 커비 무적시간
-#define KIRBYIMMUNEDURATION 2.0f
-
-// 커비 튕겨나가는 거리
-#define BOUNCINGOFF_XPOWER 200.0f
-#define BOUNCINGOFF_YPOWER -200.0f
-
-// 커비 데미지 상태 시간
-#define KIRBY_DAMAGED_STATETIME 0.2f
-
-// 커비 Miss
-#define KIRBY_MISS_STATETIME 2.0f
 
 
 enum class KirbyBodyState
@@ -246,9 +194,16 @@ private:
 	void WalkStart();
 	void WalkUpdate(float _Delta);
 
+	const float WalkSpeed = 500.0f;
+	const float WalkMaxSpeed = 200.0f;
+	const float BreakSpeed = 1000.0f;
+
 
 	void RunStart();
 	void RunUpdate(float _Delta);
+
+	const float RunSpeed = 600.0f;
+	const float RunMaxSpeed = 350.0f;
 
 
 	void TurnStart();
@@ -258,6 +213,9 @@ private:
 	void JumpStart();
 	void JumpUpdate(float _Delta);
 
+	const float JumpTime = 0.3f;
+	const float JumpMaxDistance = 100.0f;
+
 
 	void AerialMotionStart();
 	void AerialMotionUpdate(float _Delta);
@@ -266,8 +224,8 @@ private:
 	void FallStart();
 	void FallUpdate(float _Delta);
 
-	float FallDistance = 0.0f;
-
+	float CurFallDistance = 0.0f;
+	const float FallDistance = 170.0f;
 
 
 	void AccelerateDownStart();
@@ -276,34 +234,56 @@ private:
 
 	void BounceStart();
 	void BounceUpdate(float _Delta);
-
+	
 	bool IsBounce = false;
+	const float BouncePower = 250.0f;
 
 
 
 	void LandingStart();
 	void LandingUpdate(float _Delta);
 
+
 	void LowerPostureStart();
 	void LowerPostureUpdate(float _Delta);
+
 
 	void LowerAttackStart();
 	void LowerAttackUpdate(float _Delta);
 
+	const float DustOccurrenceCycle = 0.08f;
+	const float DecelectionStartTime = 0.3f;
+	
+
+
+
 	void HittheWallStart();
 	void HittheWallUpdate(float _Delta);
+
+	const float HitTheMapTime = 0.08f;
+
 
 	void HittheCeilingStart();
 	void HittheCeilingUpdate(float _Delta);
 
+
 	void TakeOffStart();
 	void TakeOffUpdate(float _Delta);
+
+	const float TakeOffTime = 0.08f;
+
 
 	void FlyStart();
 	void FlyUpdate(float _Delta);
 
+	const float FlyPower = 280.0f;
+	const float FlySpeed = 500.0f;
+	const float FlyMaxSpeed = 200.0f;
+
+
 	void ExhaleAttackStart();
 	void ExhaleAttackUpdate(float _Delta); 
+
 
 	void DamagedStart();
 	void DamagedUpdate(float _Delta);
@@ -311,9 +291,16 @@ private:
 	AbilityStar KeepMode = AbilityStar::Max;
 	KirbyState KeepDamagedState = KirbyState::Max;
 
+	const float Kirby_DamagedState_time = 0.2f;
+
+	const float BouncingOff_XPower = 200.0f;
+	const float BouncingOff_YPower = -200.0f;
+
+
 	// Damaged Pattern :: Immune
 	bool ImmuneState = false;
 	float ImmuneTime = 0.0f;
+	const float ImmuneDuration = 2.0f;
 
 	void ImmuneFunc(float _Delta);
 
@@ -394,6 +381,7 @@ private:
 	void SparkAbilityUpdate(float _Delta);
 
 	float SparkTime = 0.0f;
+	const float SparkEffectCreateCycle = 0.1f;
 
 
 	void LaserAbilityStart();
@@ -407,6 +395,7 @@ private:
 	void FireAbilityStart();
 	void FireAbilityUpdate(float _Delta);
 
+	const float FrameEffectCreateCycle = 0.1f;
 	float FrameTime = 0.0f;
 
 
@@ -424,6 +413,7 @@ private:
 	float IceTime = 0.0f;
 	float IceSoundTime = 0.0f;
 	const float IceSoundCycle = 0.6f;
+	const float IceBreathEffectCreateCycle = 0.15f;
 
 	std::list<IceBlock*> IceBlockPtr_list;
 
@@ -511,6 +501,7 @@ private:
 	void MissRaiseUpUpdate(float _Delta);
 
 	bool IsMissCheck = false;
+	const float Kirby_Miss_Statetime = 2.0f;
 	bool IsKirbyRevive = false;
 
 

@@ -399,7 +399,7 @@ void Kirby::ThisDebugRender(HDC _dc)
 	{
 		std::string Text = "";
 		Text += "무적 시간 : ";
-		Text += std::to_string(KIRBYIMMUNEDURATION - ImmuneTime);
+		Text += std::to_string(ImmuneDuration - ImmuneTime);
 		TextOutA(_dc, TextXPos, 2 + TextYPos - TextRenderNum * DebugRenderText_YInter, Text.c_str(), static_cast<int>(Text.size()));
 
 		++TextRenderNum;

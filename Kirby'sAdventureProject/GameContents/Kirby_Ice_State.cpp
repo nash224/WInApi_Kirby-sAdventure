@@ -74,8 +74,8 @@ void Kirby::Ice_StateResourceLoad()
 	MainRenderer->CreateAnimation("Ice_Left_Fly", "Ice_Left_Kirby.bmp", 19, 20, 0.2f, true);
 	MainRenderer->CreateAnimation("Ice_Right_Fly", "Ice_Right_Kirby.bmp", 19, 20, 0.2f, true);
 
-	MainRenderer->CreateAnimation("Ice_Left_ExhaleAttack", "Ice_Left_Kirby.bmp", 21, 24, EXHALEATTACKTIME, false);
-	MainRenderer->CreateAnimation("Ice_Right_ExhaleAttack", "Ice_Right_Kirby.bmp", 21, 24, EXHALEATTACKTIME, false);
+	MainRenderer->CreateAnimation("Ice_Left_ExhaleAttack", "Ice_Left_Kirby.bmp", 21, 24, 0.08f, false);
+	MainRenderer->CreateAnimation("Ice_Right_ExhaleAttack", "Ice_Right_Kirby.bmp", 21, 24, 0.08f, false);
 
 	MainRenderer->CreateAnimation("Ice_Left_Enter", "Ice_Left_Kirby.bmp", 93, 94, 0.1f, false);
 	MainRenderer->CreateAnimation("Ice_Right_Enter", "Ice_Right_Kirby.bmp", 93, 94, 0.1f, false);
@@ -123,7 +123,7 @@ void Kirby::IceAbilityUpdate(float _Delta)
 	}
 
 	// 쿨이 돌아오면 아이스 브레스 하나 소환
-	if (StateTime > KIRBYICEBREATH_EFFECTCREATECYCLE)
+	if (StateTime > IceBreathEffectCreateCycle)
 	{
 		StateTime = 0.0f;
 
@@ -192,7 +192,7 @@ void Kirby::TriggerIceAbilityAfterProcess(float _Delta)
 	}
 
 	// 지정시간마다 아이스 브레스
-	if (IceTime > KIRBYICEBREATH_EFFECTCREATECYCLE)
+	if (IceTime > IceBreathEffectCreateCycle)
 	{
 		IceTime = 0.0f;
 

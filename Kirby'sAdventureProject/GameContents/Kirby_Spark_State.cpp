@@ -75,8 +75,8 @@ void Kirby::Spark_StateResourceLoad()
 	MainRenderer->CreateAnimation("Spark_Left_Fly", "Ability_Left_Kirby.bmp", 19, 20, 0.2f, true);
 	MainRenderer->CreateAnimation("Spark_Right_Fly", "Ability_Right_Kirby.bmp", 19, 20, 0.2f, true);
 
-	MainRenderer->CreateAnimation("Spark_Left_ExhaleAttack", "Ability_Left_Kirby.bmp", 21, 24, EXHALEATTACKTIME, false);
-	MainRenderer->CreateAnimation("Spark_Right_ExhaleAttack", "Ability_Right_Kirby.bmp", 21, 24, EXHALEATTACKTIME, false);
+	MainRenderer->CreateAnimation("Spark_Left_ExhaleAttack", "Ability_Left_Kirby.bmp", 21, 24, 0.08f, false);
+	MainRenderer->CreateAnimation("Spark_Right_ExhaleAttack", "Ability_Right_Kirby.bmp", 21, 24, 0.08f, false);
 
 	MainRenderer->CreateAnimation("Spark_Left_UseSpecialAbility", "Ability_Left_Use.bmp", 1, 2, 0.1f, true);
 	MainRenderer->CreateAnimation("Spark_Right_UseSpecialAbility", "Ability_Right_Use.bmp", 1, 2, 0.1f, true);
@@ -121,7 +121,7 @@ void Kirby::SparkAbilityUpdate(float _Delta)
 
 
 	// 스킬 쿨타임이 돌았으면 변개 효과
-	if (StateTime > KIRBYSPARKEFFECTCREATECYCLE)
+	if (StateTime > SparkEffectCreateCycle)
 	{
 		StateTime = 0.0f;
 
@@ -207,7 +207,7 @@ void Kirby::TriggerSparkAbilityAfterProcess(float _Delta)
 
 
 	// 스킬 쿨타임이 돌았으면 변개 효과
-	if (SparkTime > KIRBYSPARKEFFECTCREATECYCLE)
+	if (SparkTime > SparkEffectCreateCycle)
 	{
 		SparkTime = 0.0f;
 
