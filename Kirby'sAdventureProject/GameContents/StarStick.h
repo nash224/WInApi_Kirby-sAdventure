@@ -28,28 +28,33 @@ public:
 	void init(const float4& _StartPos, const float4& _TargetPos);
 
 protected:
+
+
+private:
+	// GameEngineObject 상속
+	void Start() override;
+	void Update(float _Delta) override;
+	void Render(float _Delta) override;
+
+
+
+	// this
 	GameEngineRenderer* HaloEffectRenderer = nullptr;
 
+
+	// FSM 
 	StarStickState State = StarStickState::Max;
 
-
-	// 업데이트 및 리스폰
 	void StateUpdate(float _Delta);
 	void ChangeState(StarStickState _State);
 
 
 	// 상태패턴
 	void BounceOffStart();
-	void FloatingStart();
-
-
 	void BounceOffUpdate(float _Delta);
-	void FloatingUpdate(float _Delta);
 
 
-private:
-
-	// BounceOff 관련
+	// BounceOff Pettern
 	float4 TargetPos = float4::ZERO;
 	float4 TargetMovePos = float4::ZERO;
 	float4 Target_UnitVector = float4::ZERO;
@@ -57,7 +62,10 @@ private:
 	float Target_Distance = 0.0f;
 
 
-	// Floating 관련
+	// Floating Pettern
+	void FloatingStart();
+	void FloatingUpdate(float _Delta);
+
 	bool IsChangeReverseDir = false;
 	float ChangePosTime = 0.0f;
 	float Center_Origin_YPos = 0.0f;
@@ -67,14 +75,8 @@ private:
 
 
 
-	void Start() override;
-	void Update(float _Delta) override;
-	void Render(float _Delta) override;
-
-
-	// 충돌 관련
+	// 충돌 
 	void ItemReachedState() override;
-
 
 
 	// 디버깅

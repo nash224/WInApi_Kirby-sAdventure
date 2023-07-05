@@ -77,6 +77,22 @@ void Item::ChangeAnimationState(const std::string& _StateName)
 
 
 
+// 아이템와 커비 사이의 거리를 반환
+float4 Item::GetKirbyOpponentDistance()
+{
+	Kirby* KirbyPtr = Kirby::GetMainKirby();
+	if (nullptr == KirbyPtr)
+	{
+		MsgBoxAssert("커비를 불러오지 못했습니다.");
+		return float4::ZERO;
+	}
+
+	float4 OpponentDistance = KirbyPtr->GetPos() - GetPos();
+	return OpponentDistance;
+}
+
+
+
 
 void Item::ItemCollisionCheck()
 {
@@ -127,24 +143,6 @@ void Item::ItemCollisionCheck()
 	}
 
 }
-
-
-
-
-// 아이템와 커비 사이의 거리를 반환
-float4 Item::GetKirbyOpponentDistance()
-{
-	Kirby* KirbyPtr = Kirby::GetMainKirby();
-	if (nullptr == KirbyPtr)
-	{
-		MsgBoxAssert("커비를 불러오지 못했습니다.");
-		return float4::ZERO;
-	}
-
-	float4 OpponentDistance = KirbyPtr->GetPos() - GetPos();
-	return OpponentDistance;
-}
-
 
 
 

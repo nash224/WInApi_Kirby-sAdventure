@@ -50,7 +50,7 @@ protected:
 
 
 
-	// 상태 함수
+	// FSM 패턴
 	std::string CurState = "";
 	ItemState State = ItemState::Max;
 
@@ -60,16 +60,15 @@ protected:
 
 
 
-	float4 ActorDirUnitVector = float4::ZERO;
 	float4 GetKirbyOpponentDistance();
-
+	float4 ActorDirUnitVector = float4::ZERO;
 
 
 
 	virtual void IdleStart() {}
-	virtual void BounceOffStart() {}
-
 	virtual void IdleUpdate(float _Delta) {}
+
+	virtual void BounceOffStart() {}
 	virtual void BounceOffUpdate(float _Delta) {}
 
 

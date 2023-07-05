@@ -85,6 +85,8 @@ void EnergeDrink::init(const float4& _Pos)
 
 
 
+/* �ѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤ� */
+
 
 void EnergeDrink::Update(float _Delta)
 {
@@ -161,6 +163,8 @@ void EnergeDrink::IdleUpdate(float _Delta)
 
 
 
+/* �ѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤ� */
+
 
 void EnergeDrink::Render(float _Delta)
 {
@@ -198,6 +202,7 @@ void EnergeDrink::ThisDebugRender(HDC _dc, int& _RenderNumber, const int _TextXP
 
 
 
+/* �ѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤ� */
 
 
 void EnergeDrink::LevelEnd()

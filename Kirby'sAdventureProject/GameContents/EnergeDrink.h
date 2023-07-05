@@ -2,7 +2,7 @@
 #include "Item.h"
 
 
-// 설명 :
+// 설명 : 커비가 즐겨마시는 고주스입니다. 체력 2칸을 채워줍니다.
 class EnergeDrink : public Item
 {
 public:
@@ -21,17 +21,20 @@ public:
 
 
 protected:
-	void IdleStart() override;
-	void IdleUpdate(float _Delta) override;
-
 
 private:
-
+	// GameEngineObject 상속
 	void Start() override;
 	void Update(float _Delta) override;
 	void Render(float _Delta) override;
+
+	// GameEngineLevel 상속
 	void LevelEnd() override;
 
+
+	// this
+	void IdleStart() override;
+	void IdleUpdate(float _Delta) override;
 
 
 	// 디버깅

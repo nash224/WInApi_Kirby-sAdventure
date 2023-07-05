@@ -46,7 +46,6 @@ void WanderingStar::Start()
 		return;
 	}
 
-
 	MainRenderer->CreateAnimation("WanderingStar_Idle", "SpitStar_1x4_16x16.bmp", 0, 3, 0.1f, true);
 
 
@@ -88,6 +87,8 @@ void WanderingStar::init(const float4& _MasterPos, const float4& _MasterScale, i
 }
 
 
+
+/* �ѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤ� */
 
 
 void WanderingStar::Update(float _Delta)
@@ -228,6 +229,7 @@ void WanderingStar::BounceOffUpdate(float _Delta)
 	HorizontalUpdate(_Delta);
 
 
+	// �浹 �˻�
 	CheckStarCollision();
 }
 
@@ -311,6 +313,8 @@ void WanderingStar::CheckStarCollision()
 
 
 
+/* �ѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤ� */
+
 
 void WanderingStar::Render(float _Delta)
 {
@@ -388,6 +392,9 @@ void WanderingStar::ThisDebugRender(HDC _dc, int& _RenderNumber, const int _Text
 	}
 }
 
+
+
+/* �ѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤ� */
 
 
 void WanderingStar::LevelEnd()
