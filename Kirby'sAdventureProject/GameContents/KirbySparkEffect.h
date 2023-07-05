@@ -2,11 +2,11 @@
 #include "SkillEffect.h"
 
 
-#define KIRBYSPARKCHANGEFRAMESTIME 0.05f
 #define KIRBYSPARKEFFECTSPEED 150.0f
 
 
-// 설명 :
+// 설명 : 커비의 Spark 능력입니다. 이제 커비도 전기에 면역입니다.
+// TMI) 능력이 있지만 Sparky에 닿으면 감전됩니다.
 class KirbySparkEffect : public SkillEffect
 {
 public:
@@ -25,13 +25,23 @@ public:
 protected:
 
 private:
+	// GameEngineObject override
+	void Start() override;
+	void Update(float _Delta) override;
+
+
+	// GameEngineLevel override
+	void LevelEnd() override;
+
+
+	// this
+	const float ChangeFrameInter = 0.05f;
+
 	int ImagePosNumber = 0;
 	float ImageFrameChangeTime = 0.0f;
 
 	const float StartDistance = 10.0f;
+	const float EffectSpeed = 150.0f;
 
-	void Start() override;
-	void Update(float _Delta) override;
-	void LevelEnd() override;
 };
 

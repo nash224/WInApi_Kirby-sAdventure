@@ -1,10 +1,8 @@
 #pragma once
 #include "SkillEffect.h"
 
-#define KirbyInhaleEffectTIME 0.15f
 
-
-// 설명 :
+// 설명 : 사용하지 않는 기능입니다.
 class KirbyInhaleEffect : public SkillEffect
 {
 public:
@@ -23,6 +21,7 @@ public:
 protected:
 
 private:
+	const float EffectDuration = 10.0f;
 
 	void Start() override;
 	void Update(float _Delta) override;

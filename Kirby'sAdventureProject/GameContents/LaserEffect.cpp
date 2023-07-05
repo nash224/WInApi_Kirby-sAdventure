@@ -1,5 +1,6 @@
 #include "LaserEffect.h"
 #include "ContentsEnum.h"
+#include "GlobalContents.h"
 
 
 #include <GameEngineBase/GameEngineRandom.h>
@@ -8,11 +9,11 @@
 #include <GameEnginePlatform/GameEngineSound.h>
 #include <GameEngineCore/GameEngineLevel.h>
 #include <GameEngineCore/GameEngineRenderer.h>
-#include <GameEngineCore/ResourcesManager.h>
 
-#include "GlobalContents.h"
+
 #include "ActorUtils.h"
 #include "DustEffect.h"
+
 
 
 LaserEffect::LaserEffect() 
@@ -74,6 +75,10 @@ void LaserEffect::Soundinit()
 }
 
 
+
+/* ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ */
+
+
 void LaserEffect::Update(float _Delta) 
 {
 	if (true == IsPassGround)
@@ -97,7 +102,7 @@ void LaserEffect::GroundPassUpdate(float _Delta)
 	}
 
 
-	AddPos(EffectDir * LaserEffectSPEED * _Delta);
+	AddPos(EffectDir * EffectSpeed * _Delta);
 
 	float4 WinScale = GameEngineWindow::MainWindow.GetScale();
 	float4 CameraPos = GetCameraPos();
@@ -135,8 +140,15 @@ void LaserEffect::GroundNotPassUpdate(float _Delta)
 
 void LaserEffect::SkillDeathEffect()
 {
-	// 별이 사라지는 모션
-	DustEffect* DustEffectPtr = GetLevel()->CreateActor<DustEffect>(UpdateOrder::Ability);
+	// 먼지 효과
+	GameEngineLevel* CurLevelPtr = GetLevel();
+	if (nullptr == CurLevelPtr)
+	{
+		MsgBoxAssert("레벨을 불러오지 못했습니다.");
+		return;
+	}
+
+	DustEffect* DustEffectPtr = CurLevelPtr->CreateActor<DustEffect>(UpdateOrder::Ability);
 	if (nullptr == DustEffectPtr)
 	{
 		MsgBoxAssert("액터가 Null 입니다.");
@@ -147,6 +159,9 @@ void LaserEffect::SkillDeathEffect()
 }
 
 
+
+
+/* ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ */
 
 void LaserEffect::LevelEnd()
 {

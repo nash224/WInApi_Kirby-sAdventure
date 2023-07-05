@@ -84,6 +84,9 @@ void IceBlock::init(const float4& _Pos, const float4& _MasterPos)
 
 
 
+/* �ѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤ� */
+
+
 
 void IceBlock::Update(float _Delta)
 {
@@ -178,7 +181,7 @@ void IceBlock::WingStart()
 void IceBlock::WingUpdate(float _Delta)
 {
 	// ��ġ ����ȭ
-	AddPos(EffectDir * SMALLSTARFIREEFFECTSPEED * _Delta);
+	AddPos(EffectDir * EffectSpeed * _Delta);
 
 
 
@@ -305,6 +308,8 @@ void IceBlock::ReleaseThisList()
 
 
 
+/* �ѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤ� */
+
 
 void IceBlock::Render(float _Delta)
 {
@@ -368,6 +373,8 @@ void IceBlock::ThisDebugRender(HDC _dc, int& _RenderNumber, const int _TextXPos,
 }
 
 
+
+/* �ѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤ� */
 
 
 

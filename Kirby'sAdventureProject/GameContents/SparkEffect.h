@@ -1,11 +1,8 @@
 #pragma once
 #include "SkillEffect.h"
 
-#define SPARKEFFECTDISTANCE 39.0f
-#define SPARKEFFECTTIME 0.15f
 
-
-// 설명 :
+// 설명 : Sparky의 전기입니다. 늘 짜릿합니다.
 class SparkEffect : public SkillEffect
 {
 public:
@@ -24,11 +21,17 @@ public:
 protected:
 
 private:
-	float CurrentEffectDistance = 0.0f;
-
-
+	// GameEngineObject override;
 	void Start() override;
 	void Update(float _Delta) override;
 	void LevelEnd() override;
+
+
+	// this
+	float CurrentEffectDistance = 0.0f;
+	const float EffectDistance = 39.0f;
+	const float EffectDurtion = 0.15f;
+
+
 };
 

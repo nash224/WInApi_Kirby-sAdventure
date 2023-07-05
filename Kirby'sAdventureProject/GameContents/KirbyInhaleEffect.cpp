@@ -39,7 +39,7 @@ void KirbyInhaleEffect::init(const float4& _Pos, const float4& _MaterScale, cons
 
 void KirbyInhaleEffect::Update(float _Delta)
 {
-	if (GetLiveTime() > 10.0f)
+	if (GetLiveTime() > EffectDuration)
 	{
 		Death();
 		EffectPointerRelease();

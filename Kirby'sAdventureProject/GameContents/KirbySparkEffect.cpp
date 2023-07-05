@@ -1,18 +1,13 @@
 #include "KirbySparkEffect.h"
 #include "ContentsEnum.h"
+#include "GlobalContents.h"
+
 
 #include <GameEngineBase/GameEngineRandom.h>
-#include <GameEnginePlatform/GameEngineWindow.h>
-#include <GameEnginePlatform/GameEngineWindowTexture.h>
 #include <GameEnginePlatform/GameEngineSound.h>
 #include <GameEngineCore/GameEngineRenderer.h>
-#include <GameEngineCore/ResourcesManager.h>
-#include <GameEngineCore/GameEngineSprite.h>
-#include <GameENgineCore/GameEngineLevel.h>
 
-#include "GlobalContents.h"
-#include "AirExplosionAEffect.h"
-#include "AirExplosionBEffect.h"
+
 
 KirbySparkEffect::KirbySparkEffect()
 {
@@ -34,7 +29,7 @@ void KirbySparkEffect::Start()
 
 	GlobalContents::SpriteFileLoad("KirbySparkEffect_1x3_144x48.bmp", "Resources\\Effect\\KirbyBaseEffect", 3, 1);
 
-	MainRenderer->CreateAnimation("KirbySparkEffect", "KirbySparkEffect_1x3_144x48.bmp", 0, 2, KIRBYSPARKCHANGEFRAMESTIME, false);
+	MainRenderer->CreateAnimation("KirbySparkEffect", "KirbySparkEffect_1x3_144x48.bmp", 0, 2, ChangeFrameInter, false);
 	MainRenderer->ChangeAnimation("KirbySparkEffect");
 
 
@@ -58,9 +53,12 @@ void KirbySparkEffect::init(const float4& _Pos, const float4& _MaterScale)
 }
 
 
+
+/* �ѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤ� */
+
 void KirbySparkEffect::Update(float _Delta)
 {
-	AddPos(EffectDir * KIRBYSPARKEFFECTSPEED * _Delta);
+	AddPos(EffectDir * EffectSpeed * _Delta);
 
 	if (true == MainRenderer->IsAnimationEnd())
 	{
@@ -70,6 +68,9 @@ void KirbySparkEffect::Update(float _Delta)
 	}
 }
 
+
+
+/* �ѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤ� */
 
 
 void KirbySparkEffect::LevelEnd()

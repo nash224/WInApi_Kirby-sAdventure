@@ -1,5 +1,6 @@
 #include "SparkEffect.h"
 #include "ContentsEnum.h"
+#include "GlobalContents.h"
 
 
 #include <GameEnginePlatform/GameEngineSound.h>
@@ -7,7 +8,6 @@
 #include <GameEngineCore/GameEngineRenderer.h>
 
 
-#include "GlobalContents.h"
 
 
 SparkEffect::SparkEffect()
@@ -30,6 +30,11 @@ void SparkEffect::Start()
 
 	GameEngineWindowTexture* Texture = 
 		GlobalContents::TextureFileLoad("SparkEffect_1x1_16x16.bmp", "Resources\\Effect\\SkillEffect");
+	if (nullptr == Texture)
+	{
+		MsgBoxAssert("텍스처를 불러오지 못했습니다.");
+		return;
+	}
 
 	MainRenderer->SetTexture("SparkEffect_1x1_16x16.bmp");
 
@@ -49,28 +54,29 @@ void SparkEffect::init(const float4& _Pos, const float4& _MaterScale, const floa
 }
 
 
+
+
+/* ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ */
+
 void SparkEffect::Update(float _Delta)
 {
-	float EffectSpeed = SPARKEFFECTDISTANCE / SPARKEFFECTTIME;
+	float EffectSpeed = EffectDistance / EffectDurtion;
 	CurrentEffectDistance += EffectSpeed * _Delta;
 
 	AddPos(EffectDir * EffectSpeed * _Delta);
 
 
-
 	// 일정 범위를 넘어가면 죽어야됨
-	if (CurrentEffectDistance > SPARKEFFECTDISTANCE)
+	if (CurrentEffectDistance > EffectDistance)
 	{
 		Death();
 		EffectPointerRelease();
 		return;
 	}
-
-
-
 }
 
 
+/* ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ */
 
 
 void SparkEffect::LevelEnd()

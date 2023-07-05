@@ -1,10 +1,8 @@
 #pragma once
 #include "SkillEffect.h"
 
-#define SMALLSTARFIREEFFECTSPEED 600.0f
 
-
-// 설명 :
+// 설명 : 커비가 입으로 벹은 유리 대포알입니다. 맞으면 생각보다 아픕니다.
 class SmallStarFireEffect : public SkillEffect
 {
 public:
@@ -23,14 +21,24 @@ public:
 protected:
 
 private:
-	const float FramesInter = 0.12f;
-
+	// GameEngineObject override;
 	void Start() override;
 	void Update(float _Delta) override;
+
+
+	// GameEngineLevel override;
 	void LevelEnd() override;
 
 
+	// SkillEffect override;
 	void SkillDeathEffect() override;
+
+
+
+	// this
+	const float FramesInter = 0.12f;
+	const float EffectSpeed = 600.0f;
+
 
 
 };

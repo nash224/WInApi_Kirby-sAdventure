@@ -71,6 +71,8 @@ void SkillEffect::SetCheckPoint(const float4& _ScaleSize)
 }
 
 
+
+// 앞쪽 비트맵 체크
 bool SkillEffect::CheckFrontPoint()
 {
 	unsigned int FrontColor = GetGroundColor(RGB(255, 255, 255), FrontCheckPoint);
@@ -82,7 +84,7 @@ bool SkillEffect::CheckFrontPoint()
 	return false;
 }
 
-
+// 중앙 비트맵 체크
 bool SkillEffect::CheckCenterPoint()
 {
 	unsigned int CenterColor = GetGroundColor(RGB(255, 255, 255), CenterCheckPoint);
@@ -97,10 +99,7 @@ bool SkillEffect::CheckCenterPoint()
 
 
 
-
-
-
-
+// 충돌 검사
 void SkillEffect::AbilityToActorCollisionCheck(CollisionOrder _ActorBodyCol, bool _IsDeath /*= false*/)
 {
 
@@ -151,7 +150,7 @@ void SkillEffect::AbilityToActorCollisionCheck(CollisionOrder _ActorBodyCol, boo
 }
 
 
-
+// 보스와 충돌 검사
 void SkillEffect::AbilityToBossCollisionCheck(CollisionOrder _ActorBodyCol, int _Damage/* = 1*/, bool _IsDeath /*= false*/)
 {
 	if (nullptr == EffectCollision)
@@ -204,6 +203,7 @@ void SkillEffect::AbilityToBossCollisionCheck(CollisionOrder _ActorBodyCol, int 
 
 
 
+// 사라지는 효과 호출
 void SkillEffect::Call_DisapearEffect(bool _Sound /*= true*/)
 {
 	GameEngineLevel* CurLevelPtr = GetLevel();
@@ -227,7 +227,7 @@ void SkillEffect::Call_DisapearEffect(bool _Sound /*= true*/)
 
 
 
-
+// 외부) 충돌 init
 void SkillEffect::SetActorCollision(CollisionOrder _Order, CollisionType _Type, const float4& _CollisionScale)
 {
 	// Create Collision
@@ -267,7 +267,7 @@ void SkillEffect::SetActorCollision(CollisionOrder _Order, CollisionType _Type, 
 }
 
 
-
+// 메모리 해제
 void SkillEffect::EffectPointerRelease()
 {
 	if (nullptr != MainRenderer)

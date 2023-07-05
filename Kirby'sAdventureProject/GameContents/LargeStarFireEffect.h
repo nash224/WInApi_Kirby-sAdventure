@@ -1,10 +1,9 @@
 #pragma once
 #include "SkillEffect.h"
 
-#define LARGESTARFIREEFFECTSPEED 600.0f
 
 
-// 설명 :
+// 설명 : 커비가 쏘는 대포알입니다. 아파보이죠? 실제로 아픕니다.
 class LargeStarFireEffect : public SkillEffect
 {
 public:
@@ -23,11 +22,18 @@ public:
 protected:
 
 private:
-	const float FramesInter = 0.12f;
-
+	// GameEngineObject override
 	void Start() override;
 	void Update(float _Delta) override;
+
+
+	// GameEngineLevel override
 	void LevelEnd() override;
+
+
+	// this
+	const float FramesInter = 0.12f;
+	const float EffectSpeed = 600.0f;
 };
 
 

@@ -1,14 +1,15 @@
 #include "SmallStarFireEffect.h"
 #include "ContentsEnum.h"
+#include "GlobalContents.h"
+
 
 #include <GameEngineBase/GameEngineRandom.h>
 #include <GameEnginePlatform/GameEngineWindow.h>
 #include <GameEngineCore/GameEngineSprite.h>
 #include <GameEngineCore/GameEngineCollision.h>
 #include <GameEngineCore/GameEngineRenderer.h>
-#include <GameEngineCore/ResourcesManager.h>
 
-#include "GlobalContents.h"
+
 #include "ActorUtils.h"
 #include "ObejctDisapearingEffect.h"
 #include "Boss.h"
@@ -33,12 +34,13 @@ void SmallStarFireEffect::Start()
 		return;
 	}
 
-	GlobalContents::SpriteFileLoad("SpitStar_1x4_16x16.bmp", "Resources\\Effect\\KirbyBaseEffect", 4, 1);
+	GameEngineSprite* Sprite = GlobalContents::SpriteFileLoad("SpitStar_1x4_16x16.bmp", "Resources\\Effect\\KirbyBaseEffect", 4, 1);
 
 	MainRenderer->CreateAnimation("SmallStarFire", "SpitStar_1x4_16x16.bmp", 0, 3, FramesInter);
 	MainRenderer->ChangeAnimation("SmallStarFire");
 
-	Scale = ResourcesManager::GetInst().FindSprite("SpitStar_1x4_16x16.bmp")->GetSprite(0).RenderScale;
+
+	Scale = Sprite->GetSprite(0).RenderScale;
 	SetCheckPoint(Scale);
 }
 
@@ -50,13 +52,24 @@ void SmallStarFireEffect::init(const std::string& _FileName, const float4& _Pos,
 }
 
 
+
+/* ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ */
+
+
 void SmallStarFireEffect::Update(float _Delta)
 {
 	// 앞쪽이 벽이면
 	if (true == CheckCenterPoint())
 	{
+		GameEngineLevel* CurLevelPtr = GetLevel();
+		if (nullptr == CurLevelPtr)
+		{
+			MsgBoxAssert("레벨을 불러오지 못했습니다.");
+			return;
+		}
+
 		// 별이 사라지는 모션
-		ObejctDisapearingEffect* ObejctDisapearing = GetLevel()->CreateActor<ObejctDisapearingEffect>(UpdateOrder::Ability);
+		ObejctDisapearingEffect* ObejctDisapearing = CurLevelPtr->CreateActor<ObejctDisapearingEffect>(UpdateOrder::Ability);
 		if (nullptr == ObejctDisapearing)
 		{
 			MsgBoxAssert("액터가 Null 입니다.");
@@ -95,7 +108,7 @@ void SmallStarFireEffect::Update(float _Delta)
 		AbilityToBossCollisionCheck(CollisionOrder::BossBody, Damage, true);
 	}
 
-	AddPos(EffectDir * SMALLSTARFIREEFFECTSPEED * _Delta);
+	AddPos(EffectDir * EffectSpeed * _Delta);
 }
 
 
@@ -103,7 +116,15 @@ void SmallStarFireEffect::Update(float _Delta)
 void SmallStarFireEffect::SkillDeathEffect()
 {
 	// 별이 사라지는 모션
-	ObejctDisapearingEffect* ObejctDisapearing = GetLevel()->CreateActor<ObejctDisapearingEffect>(UpdateOrder::Ability);
+	GameEngineLevel* CurLevelPtr = GetLevel();
+	if (nullptr == CurLevelPtr)
+	{
+		MsgBoxAssert("레벨을 불러오지 못했습니다.");
+		return;
+	}
+
+
+	ObejctDisapearingEffect* ObejctDisapearing = CurLevelPtr->CreateActor<ObejctDisapearingEffect>(UpdateOrder::Ability);
 	if (nullptr == ObejctDisapearing)
 	{
 		MsgBoxAssert("액터가 Null 입니다.");
@@ -115,6 +136,7 @@ void SmallStarFireEffect::SkillDeathEffect()
 }
 
 
+/* ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ */
 
 
 void SmallStarFireEffect::LevelEnd()

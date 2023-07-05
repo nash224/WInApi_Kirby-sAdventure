@@ -1,10 +1,9 @@
 #pragma once
 #include "SkillEffect.h"
 
-#define SPARKLEEFFECTFRAMECHANGETIME 0.02f
 
 
-// 설명 :
+// 설명 : GetAbility에 사용될 이펙트입니다.
 class SparkleEffect : public SkillEffect
 {
 public:
@@ -24,11 +23,13 @@ public:
 protected:
 
 private:
-	const float ChangeEffectFramesInter = 0.02f;
-
-
+	// GameEngineObject override;
 	void Start() override;
 	void Update(float _Delta) override;
 	void LevelEnd() override;
+
+
+	// this
+	const float ChangeEffectFramesInter = 0.02f;
 };
 

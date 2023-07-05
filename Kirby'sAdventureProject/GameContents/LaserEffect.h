@@ -1,10 +1,9 @@
 #pragma once
 #include "SkillEffect.h"
 
-#define LaserEffectSPEED 1200.0f
 
 
-// 설명 :
+// 설명 : 커비와 레이저 볼이 쏘는 빔입니다. 아마 제일 빠른 액터일겁니다.
 class LaserEffect : public SkillEffect
 {
 public:
@@ -22,18 +21,30 @@ public:
 	void Soundinit();
 
 protected:
-	// 사운드
-	bool IsSoundinit = false;
 
 private:
+	// GameEngineObject override
 	void Start() override;
 	void Update(float _Delta) override;
+
+
+	// GameEngineLevel override
 	void LevelEnd() override;
 
+
+	// SkillEffect override
 	void SkillDeathEffect() override;
 
 
+
+	// this
 	void GroundPassUpdate(float _Delta);
 	void GroundNotPassUpdate(float _Delta);
+
+
+	const float EffectSpeed = 1200.0f;
+
+	// 사운드
+	bool IsSoundinit = false;
 };
 

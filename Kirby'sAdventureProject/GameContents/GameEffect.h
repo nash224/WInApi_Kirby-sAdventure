@@ -16,17 +16,16 @@ public:
 	GameEffect& operator=(GameEffect&& _Other) noexcept = delete;
 
 
+	void SwitchEffect();
+
 	void LoadBackGroundEffect(const std::string& _FileName, const std::string& _Path, int _XCount, int _YCount);
 
 protected:
 
-	// Level
 private:
+	// GameEngineObject override;
 	void Update(float _Delta) override;
 
 
-	// this
-public:
-	void SwitchEffect();
 };
 

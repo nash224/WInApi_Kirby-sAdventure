@@ -1,15 +1,17 @@
 #include "LargeStarFireEffect.h"
 #include "ContentsEnum.h"
+#include "GlobalContents.h"
+
 
 #include <GameEngineBase/GameEngineRandom.h>
 #include <GameEnginePlatform/GameEngineWindow.h>
-#include <GameEngineCore/GameEngineLevel.h>
 #include <GameEngineCore/GameEngineCollision.h>
 #include <GameEngineCore/GameEngineRenderer.h>
-#include <GameEngineCore/ResourcesManager.h>
 
-#include "GlobalContents.h"
+
 #include "ObejctDisapearingEffect.h"
+
+
 
 LargeStarFireEffect::LargeStarFireEffect()
 {
@@ -29,14 +31,14 @@ void LargeStarFireEffect::Start()
 		return;
 	}
 
-	GlobalContents::SpriteFileLoad("AbillityStartEffect_1x8_32x31.bmp", "Resources\\Effect\\KirbyBaseEffect", 8, 1);
+	GameEngineSprite* Sprite = GlobalContents::SpriteFileLoad("AbillityStartEffect_1x8_32x31.bmp", "Resources\\Effect\\KirbyBaseEffect", 8, 1);
 
 	MainRenderer->CreateAnimation("LargeStarFire", "AbillityStartEffect_1x8_32x31.bmp", 0, 7, FramesInter);
 	MainRenderer->ChangeAnimation("LargeStarFire");
 
 	MainRenderer->SetRenderScaleToTexture();
 
-	Scale = ResourcesManager::GetInst().FindSprite("AbillityStartEffect_1x8_32x31.bmp")->GetSprite(0).RenderScale;
+	Scale = Sprite->GetSprite(0).RenderScale;
 }
 
 void LargeStarFireEffect::init(const float4& _Pos, const float4& _MaterScale, const float4& _Dir)
@@ -44,6 +46,10 @@ void LargeStarFireEffect::init(const float4& _Pos, const float4& _MaterScale, co
 	EffectDir = _Dir;
 	SetPos(_Pos + EffectDir * (_MaterScale.Half().X + Scale.Half().X) + float4{ 0.0f, -_MaterScale.Half().Y });
 }
+
+
+
+/* �ѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤ� */
 
 
 void LargeStarFireEffect::Update(float _Delta)
@@ -65,8 +71,12 @@ void LargeStarFireEffect::Update(float _Delta)
 
 
 
-	AddPos(EffectDir * LARGESTARFIREEFFECTSPEED * _Delta);
+	AddPos(EffectDir * EffectSpeed * _Delta);
 }
+
+
+/* �ѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤ� */
+
 
 
 void LargeStarFireEffect::LevelEnd()

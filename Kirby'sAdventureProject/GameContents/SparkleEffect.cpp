@@ -1,9 +1,11 @@
 #include "SparkleEffect.h"
 #include "ContentsEnum.h"
+#include "GlobalContents.h"
+
 
 #include <GameEngineCore/GameEngineRenderer.h>
 
-#include "GlobalContents.h"
+
 
 SparkleEffect::SparkleEffect()
 {
@@ -34,6 +36,11 @@ void SparkleEffect::init(const float4& _Pos)
 	SetPos(_Pos);
 }
 
+
+
+/* �ѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤ� */
+
+
 void SparkleEffect::Update(float _Delta)
 {
 	if (true == MainRenderer->IsAnimationEnd())
@@ -45,6 +52,8 @@ void SparkleEffect::Update(float _Delta)
 }
 
 
+
+/* �ѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤ� */
 
 
 void SparkleEffect::LevelEnd()

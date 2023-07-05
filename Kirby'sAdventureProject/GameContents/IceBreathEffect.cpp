@@ -1,19 +1,17 @@
 #include "IceBreathEffect.h"
 #include "ContentsEnum.h"
+#include "GlobalContents.h"
+
 
 #include <GameEngineBase/GameEngineRandom.h>
-#include <GameEnginePlatform/GameEngineWindow.h>
 #include <GameEngineCore/GameEngineRenderer.h>
 #include <GameEngineCore/GameEngineSprite.h>
 
 
-#include "GlobalContents.h"
 #include "VegetableValleyPlayLevel.h"
+#include "IceBlock.h"
 #include "Enemy.h"
 #include "Apple.h"
-#include "ActorUtils.h"
-#include "ObejctDisapearingEffect.h"
-#include "IceBlock.h"
 
 
 
@@ -62,6 +60,13 @@ void IceBreathEffect::init(const float4& _Pos, const float4& _MaterScale, const 
 	SetPos(_Pos + EffectDir * (_MaterScale.Half().X + Scale.Half().X) + float4{ 0.0f, -_MaterScale.Half().Y });
 
 
+
+	if (nullptr == MainRenderer)
+	{
+		MsgBoxAssert("랜더러가 널일 이유가 없어..");
+		return;
+	}
+
 	if (EffectDir.X < 0.0f)
 	{
 		MainRenderer->ChangeAnimation("Left_IceBreathEffect");
@@ -71,6 +76,11 @@ void IceBreathEffect::init(const float4& _Pos, const float4& _MaterScale, const 
 		MainRenderer->ChangeAnimation("Right_IceBreathEffect");
 	}
 }
+
+
+
+/* ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ */
+
 
 
 void IceBreathEffect::Update(float _Delta)
@@ -107,7 +117,7 @@ void IceBreathEffect::Update(float _Delta)
 
 
 
-
+// SkillEffect override 
 void IceBreathEffect::AbilityToActorCollisionCheck(CollisionOrder _ActorBodyCol, bool _IsDeath /*= false*/)
 {
 	if (nullptr == EffectCollision)
@@ -139,6 +149,7 @@ void IceBreathEffect::AbilityToActorCollisionCheck(CollisionOrder _ActorBodyCol,
 			}
 
 
+			// 액터 유형 분기
 			if ("WhispyApple" == ActorPtr->GetName())
 			{
 				Apple* ApplePtr = dynamic_cast<Apple*>(ActorPtr);
@@ -185,7 +196,7 @@ void IceBreathEffect::AbilityToActorCollisionCheck(CollisionOrder _ActorBodyCol,
 			}
 
 
-
+			// 얼음 덩어리 생성
 			IceBlock* IceBlockPtr = CurLevelPtr->CreateActor<IceBlock>(UpdateOrder::Ability);
 			if (nullptr == IceBlockPtr)
 			{
@@ -201,7 +212,7 @@ void IceBreathEffect::AbilityToActorCollisionCheck(CollisionOrder _ActorBodyCol,
 }
 
 
-
+/* ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ */
 
 
 

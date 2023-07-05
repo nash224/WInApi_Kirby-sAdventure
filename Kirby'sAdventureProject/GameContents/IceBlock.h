@@ -1,7 +1,6 @@
 #pragma once
 #include "SkillEffect.h"
 
-#define SMALLSTARFIREEFFECTSPEED 600.0f
 
 
 enum class IceBlockState 
@@ -12,7 +11,7 @@ enum class IceBlockState
 };
 
 
-// 설명 :
+// 설명 : 커비가 만들어낸 Ice 블럭입니다. 커비와 매우 밀접한 연관성이 있어 커비의 List로 관리합니다.
 class IceBlock : public SkillEffect
 {
 public:
@@ -30,11 +29,14 @@ public:
 
 protected:
 
-	// Level override
 private:
+	// GameEngineObject override
 	void Start() override;
 	void Update(float _Delta) override;
 	void Render(float _Delta) override;
+
+
+	// GameEngineLevel override
 	void LevelEnd() override;
 
 
@@ -46,22 +48,24 @@ private:
 
 
 	// this
-	// 상태 패턴
+	// FSM
 	IceBlockState State = IceBlockState::Max;
+
 	void StateUpdate(float _Delta);
 	void ChangeState(IceBlockState _State);
 
 
+	// 상태
 	void IdleStart();
-	void WingStart();
-
 	void IdleUpdate(float _Delta);
+
+	const float LiveTime = 3.0f;
+
+
+	void WingStart();
 	void WingUpdate(float _Delta);
 
-
-
-	// Wing 패턴
-	const float LiveTime = 3.0f;
+	const float EffectSpeed = 600.0f;
 
 
 
@@ -79,7 +83,6 @@ private:
 
 	// 디버깅
 	void ThisDebugRender(HDC _dc, int& _RenderNumber, const int _TextXPos, const int _TextYPos);
-
 
 };
 

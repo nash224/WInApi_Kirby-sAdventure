@@ -1,11 +1,13 @@
 #include "GameEffect.h"
 #include "ContentsEnum.h"
+#include "GlobalContents.h"
+
 
 #include <GameEngineCore/GameEngineRenderer.h>
-#include <GameEngineCore/GameEngineSprite.h>
 
-#include "GlobalContents.h"
+
 #include "VegetableValleyPlayLevel.h"
+
 
 
 GameEffect::GameEffect()
