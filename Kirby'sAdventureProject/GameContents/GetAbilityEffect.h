@@ -1,10 +1,9 @@
 #pragma once
 #include "SkillEffect.h"
 
-#define SPARKLEEFFECTCREATEMINDISTANCE 5.0f
-#define SPARKLEEFFECTCREATEMAXDISTANCE 50.0f
 
-// 설명 :
+
+// 설명 : GetAbility 함수입니다.
 class GetAbilityEffect : public SkillEffect
 {
 public:
@@ -23,14 +22,21 @@ public:
 protected:
 
 private:
+	// GameEngineObject override
+	void Start() override;
+	void Update(float _Delta) override;
+
+
+	// GameEngineLevel override
+	void LevelEnd() override;
+
+
+	int EffectCreateCount = 0;
 	float DurationTime = 0.0f;
 	const float EffectCreateTime = 0.06f;
 
-	int EffectCreateCount = 0;
+	const float CreateMinDistance = 5.0f;
+	const float CreateMaxDistance = 50.0f;
 
-
-	void Start() override;
-	void Update(float _Delta) override;
-	void LevelEnd() override;
 };
 

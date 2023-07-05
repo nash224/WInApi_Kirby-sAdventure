@@ -39,6 +39,10 @@ void AirExplosionEffect::init(const float4& _Pos, const float4& _MaterScale)
 }
 
 
+
+/* �ѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤ� */
+
+
 void AirExplosionEffect::Update(float _Delta)
 {
 	ImageFrameChangeTime += _Delta;
@@ -174,6 +178,9 @@ void AirExplosionEffect::Update(float _Delta)
 }
 
 
+
+
+/* �ѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤ� */
 
 
 void AirExplosionEffect::LevelEnd()

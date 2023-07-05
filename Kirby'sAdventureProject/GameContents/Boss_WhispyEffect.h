@@ -3,7 +3,8 @@
 
 
 
-// 설명 :
+// 설명 : WhispyWood가 한번씩 내뱉는 한숨입니다. 커비 한숨보다 빠르고 변화구가 있습니다.
+// 보스가 클리어될 때 임펙트가 모두 삭제되는 효과를 주기 위해서 List를 사용했으며 메모리 해제되는 동시에 List에서도 해제해줍니다.
 class Boss_WhispyEffect : public SkillEffect
 {
 public:
@@ -22,13 +23,16 @@ public:
 protected:
 
 private:
-	// Level
+	// GameEngineObject override
 	void Start() override;
 	void Update(float _Delta) override;
+
+
+	// GameEngineLevel override
 	void LevelEnd() override;
 
 
-	// SkillEffect
+	// SkillEffect override
 	void DataStructRelease() override;
 
 
@@ -47,6 +51,7 @@ private:
 	bool IsFirstinflectionPoint = false;
 
 	bool IsSecondinflectionPoint = false;
+
 
 
 	// 초기화

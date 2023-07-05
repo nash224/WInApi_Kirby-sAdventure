@@ -1,10 +1,8 @@
 #pragma once
 #include "SkillEffect.h"
 
-#define FIREBALLEFFECTSPEED 400.0f
 
-
-// 설명 :
+// 설명 : Hot Head 가 일정거리에서 커비를 요격합니다. 하지만 고도가 제한되어 있어 맞추기 힘들어 합니다.
 class FireBallEffect : public SkillEffect
 {
 public:
@@ -23,8 +21,16 @@ public:
 protected:
 
 private:
+	// GameEngineObject override
 	void Start() override;
 	void Update(float _Delta) override;
+
+
+	// GameEngineLevel override
 	void LevelEnd() override;
+
+
+	// this
+	const float EffectSpeed = 400.0f;
 };
 

@@ -39,6 +39,9 @@ void AirExplosionAEffect::init(const float4& _ExplosionPos)
 }
 
 
+
+/* �ѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤ� */
+
 void AirExplosionAEffect::Update(float _Delta)
 {
 	if (GetLiveTime() > AIREXPLOSIONAEFFECTFRAMECHANGETIME)
@@ -51,6 +54,9 @@ void AirExplosionAEffect::Update(float _Delta)
 	}
 }
 
+
+
+/* �ѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤ� */
 
 
 void AirExplosionAEffect::LevelEnd()

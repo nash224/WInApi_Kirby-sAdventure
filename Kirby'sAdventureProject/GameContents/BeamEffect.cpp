@@ -1,16 +1,13 @@
 #include "BeamEffect.h"
 #include "ContentsEnum.h"
+#include "GlobalContents.h"
 
-#include <GameEngineBase/GameEngineRandom.h>
-#include <GameEnginePlatform/GameEngineWindow.h>
-#include <GameEnginePlatform/GameEngineWindowTexture.h>
+
 #include <GameEnginePlatform/GameEngineSound.h>
 #include <GameEngineCore/GameEngineRenderer.h>
-#include <GameEngineCore/ResourcesManager.h>
-#include <GameEngineCore/GameEngineSprite.h>
 #include <GameENgineCore/GameEngineLevel.h>
 
-#include "GlobalContents.h"
+
 #include "CommonSkillEffect.h"
 #include "Kirby.h"
 
@@ -26,9 +23,9 @@ BeamEffect::~BeamEffect()
 }
 
 
+
 void BeamEffect::Start()
 {
-
 	// 사운드 로드
 	GlobalContents::SoundFileLoad("BeamSound.wav", "Resources\\SoundResources\\EffectVoice");
 	GlobalContents::SoundFileLoad("BeamExtraSound.wav", "Resources\\SoundResources\\EffectVoice");
@@ -58,6 +55,9 @@ void BeamEffect::SetActorCollision(CollisionOrder _Order, CollisionType _Type, c
 
 
 
+/* ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ */
+
+
 
 void BeamEffect::Update(float _Delta)
 {
@@ -68,7 +68,7 @@ void BeamEffect::Update(float _Delta)
 
 
 	// 빔 각도 설정
-	if (EffectFrameChangeTime > BEAMEFFECTFRAMECHANGETIME)
+	if (EffectFrameChangeTime > FrameChangeTime)
 	{
 		EffectFrameChangeTime = 0.0f;
 
@@ -122,13 +122,24 @@ void BeamEffect::Update(float _Delta)
 		}
 
 
+
+		GameEngineLevel* CurLeveLPtr = GetLevel();
+		if (nullptr == CurLeveLPtr)
+		{
+			MsgBoxAssert("레벨을 불러오지 못했습니다.");
+			return;
+		}
+
+
+
 		if (1 == BeamChangePosCount)
 		{
 			// 첫번째 빔
 			{
-				EffectPos = BeamDir * BEAMEFFECTSHORTDISTANCE + GetPos();
+				EffectPos = BeamDir * ShortDistance + GetPos();
 
-				CommonSkillEffect* BeamUnitEffectPtr = GetLevel()->CreateActor<CommonSkillEffect>(UpdateOrder::Ability);
+
+				CommonSkillEffect* BeamUnitEffectPtr = CurLeveLPtr->CreateActor<CommonSkillEffect>(UpdateOrder::Ability);
 				if (nullptr == BeamUnitEffectPtr)
 				{
 					MsgBoxAssert("생성한 Effect가 Null입니다.");
@@ -136,7 +147,7 @@ void BeamEffect::Update(float _Delta)
 				}
 
 				BeamUnitEffectPtr->init("Resources\\Effect\\SkillEffect", "BeamEffect_1x1_8x8.bmp", EffectPos);
-				BeamUnitEffectPtr->SetExpressionTime(BEAMEFFECTTIME);
+				BeamUnitEffectPtr->SetExpressionTime(EffectDuration);
 				BeamUnitEffectPtr->SetActorCollision(BeamOrder, BeamType, float4{ 16.0f , 16.0f });
 
 
@@ -146,9 +157,9 @@ void BeamEffect::Update(float _Delta)
 
 			// 두번째 빔
 			{
-				EffectPos = BeamDir * BEAMEFFECTMIDDLEDISTANCE + GetPos();
+				EffectPos = BeamDir * MiddleDistance + GetPos();
 
-				CommonSkillEffect* BeamUnitEffectPtr = GetLevel()->CreateActor<CommonSkillEffect>(UpdateOrder::Ability);
+				CommonSkillEffect* BeamUnitEffectPtr = CurLeveLPtr->CreateActor<CommonSkillEffect>(UpdateOrder::Ability);
 				if (nullptr == BeamUnitEffectPtr)
 				{
 					MsgBoxAssert("생성한 Effect가 Null입니다.");
@@ -156,22 +167,23 @@ void BeamEffect::Update(float _Delta)
 				}
 
 				BeamUnitEffectPtr->init("Resources\\Effect\\SkillEffect", "BeamEffect_1x1_8x8.bmp", EffectPos);
-				BeamUnitEffectPtr->SetExpressionTime(BEAMEFFECTTIME);
+				BeamUnitEffectPtr->SetExpressionTime(EffectDuration);
 				BeamUnitEffectPtr->SetActorCollision(BeamOrder, BeamType, float4{ 16.0f , 16.0f });
 			}
 		}
 
 		if (3 == BeamChangePosCount)
 		{
-			EffectPos = BeamDir * BEAMEFFECTLONGDISTANCE + GetPos();
-			CommonSkillEffect* BeamUnitEffectPtr = GetLevel()->CreateActor<CommonSkillEffect>(UpdateOrder::Ability);
+			EffectPos = BeamDir * LongDistance + GetPos();
+			CommonSkillEffect* BeamUnitEffectPtr = CurLeveLPtr->CreateActor<CommonSkillEffect>(UpdateOrder::Ability);
 			if (nullptr == BeamUnitEffectPtr)
 			{
 				MsgBoxAssert("생성한 Effect가 Null입니다.");
 				return;
 			}
+
 			BeamUnitEffectPtr->init("Resources\\Effect\\SkillEffect", "BeamEffect_1x1_8x8.bmp", EffectPos);
-			BeamUnitEffectPtr->SetExpressionTime(BEAMEFFECTTIME);
+			BeamUnitEffectPtr->SetExpressionTime(EffectDuration);
 			BeamUnitEffectPtr->SetActorCollision(BeamOrder, BeamType, float4{ 16.0f , 16.0f });
 
 
@@ -203,6 +215,10 @@ void BeamEffect::Update(float _Delta)
 	}
 }
 
+
+
+
+/* ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ */
 
 
 void BeamEffect::LevelEnd()

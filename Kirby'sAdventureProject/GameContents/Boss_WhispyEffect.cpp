@@ -1,12 +1,13 @@
 #include "Boss_WhispyEffect.h"
 #include "ContentsEnum.h"
+#include "GlobalContents.h"
+
 
 #include <GameEnginePlatform/GameEngineWindow.h>
 #include <GameEnginePlatform/GameEngineWindowTexture.h>
 #include <GameEngineCore/GameEngineRenderer.h>
-#include <GameEngineCore/ResourcesManager.h>
 
-#include "GlobalContents.h"
+
 #include "WhispyWood.h"
 
 
@@ -59,6 +60,8 @@ void Boss_WhispyEffect::init(const float4& _MasterPos, const float4& _MaterScale
 }
 
 
+
+/* �ѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤ� */
 
 
 void Boss_WhispyEffect::Update(float _Delta)
@@ -144,7 +147,7 @@ void Boss_WhispyEffect::ReleaseThisList()
 
 
 
-
+/* �ѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤ� */
 
 
 void Boss_WhispyEffect::LevelEnd()

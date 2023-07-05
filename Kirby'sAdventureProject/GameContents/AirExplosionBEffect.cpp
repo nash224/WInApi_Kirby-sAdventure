@@ -40,6 +40,9 @@ void AirExplosionBEffect::init(const float4& _ExplosionPos)
 }
 
 
+/* �ѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤ� */
+
+
 void AirExplosionBEffect::Update(float _Delta)
 {
 	if (MainRenderer->IsAnimationEnd())
@@ -49,6 +52,9 @@ void AirExplosionBEffect::Update(float _Delta)
 	}
 }
 
+
+
+/* �ѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤ� */
 
 
 void AirExplosionBEffect::LevelEnd()

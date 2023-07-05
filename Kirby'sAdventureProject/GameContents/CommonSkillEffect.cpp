@@ -20,6 +20,8 @@ CommonSkillEffect::~CommonSkillEffect()
 }
 
 
+
+
 void CommonSkillEffect::Start()
 {
 	MainRenderer = CreateRenderer(RenderOrder::AbillityEffect);
@@ -42,6 +44,10 @@ void CommonSkillEffect::init(const std::string& _Path, const std::string& _FileN
 
 	SetPos(_Pos);
 }
+
+
+/* �ѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤ� */
+
 
 void CommonSkillEffect::Update(float _Delta)
 {
@@ -67,6 +73,9 @@ void CommonSkillEffect::Update(float _Delta)
 }
 
 
+
+
+/* �ѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤ� */
 
 
 void CommonSkillEffect::LevelEnd()

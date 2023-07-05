@@ -1,17 +1,13 @@
 #pragma once
 #include "SkillEffect.h"
 
-#define BEAMEFFECTTIME 0.15f
-#define BEAMEFFECTFRAMECHANGETIME 0.03f
 
-#define BEAMEFFECTSHORTDISTANCE 48.0f
-#define BEAMEFFECTMIDDLEDISTANCE 96.0f
-#define BEAMEFFECTLONGDISTANCE 144.0f
-
-
-// 설명 :
+// 설명 : Waddle Doo 만이 허가된 빔 공격입니다. 하지만 걸어다니다 커비에게 봉변을 당합니다.
 class BeamEffect : public SkillEffect
 {
+public:
+	static bool BeamEndValue;
+
 public:
 	// constrcuter destructer
 	BeamEffect();
@@ -29,32 +25,36 @@ public:
 
 protected:
 
-	// Level
 private:
+	// GameEngineObject override
 	void Start() override;
 	void Update(float _Delta) override;
+
+
+	// GameEngineLevel override
 	void LevelEnd() override;
 
 
+
+
 	// this
-	// Effect Logic
 	float4 MasterScale = float4::ZERO;
+
 	int BeamChangePosCount = 0;
 	int EffectPosNumber = 7;
+
+	const float EffectDuration = 0.15f;
+	const float FrameChangeTime  = 0.03f;
 	float EffectFrameChangeTime = 0.0f;
 
-public:
-	static bool BeamEndValue;
-
-private:
+	const float ShortDistance = 48.0f;
+	const float MiddleDistance = 96.0f;
+	const float LongDistance = 144.0f;
 
 
 	// Collision
 	CollisionType BeamType = CollisionType::Max;
 	CollisionOrder BeamOrder = CollisionOrder::Max;
-
-
-
 
 };
 

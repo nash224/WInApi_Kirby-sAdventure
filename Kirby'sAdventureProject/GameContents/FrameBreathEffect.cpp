@@ -1,14 +1,12 @@
 #include "FrameBreathEffect.h"
 #include "ContentsEnum.h"
+#include "GlobalContents.h"
+
 
 #include <GameEngineBase/GameEngineRandom.h>
-#include <GameEnginePlatform/GameEngineWindow.h>
-#include <GameEnginePlatform/GameEngineWindowTexture.h>
 #include <GameEnginePlatform/GameEngineSound.h>
 #include <GameEngineCore/GameEngineRenderer.h>
-#include <GameEngineCore/ResourcesManager.h>
 
-#include "GlobalContents.h"
 
 
 FrameBreathEffect::FrameBreathEffect()
@@ -55,10 +53,22 @@ void FrameBreathEffect::init(const float4& _Pos, const float4& _MaterScale, cons
 
 	if (EffectDir.X < 0.0f)
 	{
+		if (nullptr == MainRenderer)
+		{
+			MsgBoxAssert("랜더러가 널일 이유가 없어..");
+			return;
+		}
+
 		MainRenderer->ChangeAnimation("Left_FireEffect");
 	}
 	else if (EffectDir.X >= 0.0f)
 	{
+		if (nullptr == MainRenderer)
+		{
+			MsgBoxAssert("랜더러가 널일 이유가 없어..");
+			return;
+		}
+
 		MainRenderer->ChangeAnimation("Right_FireEffect");
 	}
 
@@ -80,6 +90,10 @@ void FrameBreathEffect::init(const float4& _Pos, const float4& _MaterScale, cons
 }
 
 
+
+/* ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ */
+
+
 void FrameBreathEffect::Update(float _Delta)
 {
 	if (true == IsPassGround)
@@ -95,7 +109,7 @@ void FrameBreathEffect::Update(float _Delta)
 
 void FrameBreathEffect::GroundPassUpdate(float _Delta)
 {
-	if (GetLiveTime() > FRAMEBREATHEFFECTDURATION)
+	if (GetLiveTime() > EffectDuration)
 	{
 		Death();
 		EffectPointerRelease();
@@ -116,7 +130,7 @@ void FrameBreathEffect::GroundPassUpdate(float _Delta)
 	}
 
 
-	float EffectSpeed = FRAMEBREATHEFFECTDISTANCE / FRAMEBREATHEFFECTDURATION;
+	float EffectSpeed = EffectDistance / EffectDuration;
 	AddPos(EffectDir * EffectSpeed * _Delta);
 }
 
@@ -127,6 +141,9 @@ void FrameBreathEffect::GroundNotPassUpdate(float _Delta)
 }
 
 
+
+
+/* ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ */
 
 
 void FrameBreathEffect::LevelEnd()

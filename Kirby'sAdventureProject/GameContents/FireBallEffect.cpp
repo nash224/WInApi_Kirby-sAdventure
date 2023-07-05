@@ -63,6 +63,10 @@ void FireBallEffect::init(const float4& _Pos, const float4& _MaterScale, const f
 }
 
 
+
+/* �ѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤ� */
+
+
 void FireBallEffect::Update(float _Delta)
 {
 	float4 WinScale = GameEngineWindow::MainWindow.GetScale();
@@ -80,10 +84,12 @@ void FireBallEffect::Update(float _Delta)
 	AbilityToActorCollisionCheck(CollisionOrder::PlayerBody, true);
 
 
-	AddPos(EffectDir * FIREBALLEFFECTSPEED * _Delta);
+	AddPos(EffectDir * EffectSpeed * _Delta);
 }
 
 
+
+/* �ѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤ� */
 
 
 void FireBallEffect::LevelEnd()

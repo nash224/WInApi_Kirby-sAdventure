@@ -31,10 +31,16 @@ public:
 protected:
 
 private:
-	float ExpressionTime = 0.0f;
-
+	// GameEngineObject override
 	void Start() override;
 	void Update(float _Delta) override;
+
+
+	// GameEngineLevel override
 	void LevelEnd() override;
+
+
+	// this
+	float ExpressionTime = 0.0f;
 };
 

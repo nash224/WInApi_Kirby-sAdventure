@@ -1,15 +1,9 @@
 #include "ExhaleEffect.h"
 #include "ContentsEnum.h"
-
-#include <GameEngineBase/GameEngineRandom.h>
-#include <GameEnginePlatform/GameEngineWindow.h>
-#include <GameEnginePlatform/GameEngineWindowTexture.h>
-#include <GameEngineCore/GameEngineRenderer.h>
-#include <GameEngineCore/ResourcesManager.h>
-#include <GameEngineCore/GameEngineSprite.h>
-
 #include "GlobalContents.h"
-#include "ActorUtils.h"
+
+
+#include <GameEngineCore/GameEngineRenderer.h>
 
 
 ExhaleEffect::ExhaleEffect()
@@ -44,6 +38,14 @@ void ExhaleEffect::init(const float4& _MasterPos, const float4& _MasterScale, co
 {
 	EffectDir = _EffectDir;
 
+
+
+	if (nullptr == MainRenderer)
+	{
+		MsgBoxAssert("랜더러가 널일 이유가 없어..");
+		return;
+	}
+
 	if (_EffectDir.X > 0.0f)
 	{
 		MainRenderer->SetTexture("Right_ExhaleEffect_1x1_16x16.bmp");
@@ -57,25 +59,29 @@ void ExhaleEffect::init(const float4& _MasterPos, const float4& _MasterScale, co
 	
 	if (EffectDir.X < 0.0f)
 	{
-		CurrentSpeed = -EXHALEEFFECTDISTANCE;
+		CurrentSpeed = -EffectDistance;
 	}
 	else if (EffectDir.X > 0.0f)
 	{
-		CurrentSpeed = EXHALEEFFECTDISTANCE;
+		CurrentSpeed = EffectDistance;
 	}
 }
 
 
+/* ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ */
+
+
+
 void ExhaleEffect::Update(float _Delta)
 {
-	if (GetLiveTime() < EXHALEEFFECTFORWARDTIME)
+	if (GetLiveTime() < ForwardTime)
 	{
-		float DecelerationSpeed = EXHALEEFFECTDISTANCE / EXHALEEFFECTFORWARDTIME;
+		float DecelerationSpeed = EffectDistance / ForwardTime;
 		DecelerationUpdate(_Delta, DecelerationSpeed);
 		HorizontalUpdate(_Delta);
 	}
 
-	if (GetLiveTime() > EXHALEEFFECTTIME)
+	if (GetLiveTime() > EffectTime)
 	{
 		Death();
 		EffectPointerRelease();
@@ -86,6 +92,9 @@ void ExhaleEffect::Update(float _Delta)
 }
 
 
+
+
+/* ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ */
 
 
 void ExhaleEffect::LevelEnd()
