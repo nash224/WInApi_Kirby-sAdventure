@@ -28,6 +28,11 @@ BrontoBurt::~BrontoBurt()
 void BrontoBurt::Start()
 {
 	MainRenderer = CreateRenderer(RenderOrder::Play);
+	if (nullptr == MainRenderer)
+	{
+		MsgBoxAssert("렌더를 불러오지 못했습니다.");
+		return;
+	}
 
 	GlobalContents::SpriteFileLoad("Left_AerialEnemy.bmp", "Resources\\Unit\\Grunt", 3, 3);
 	GlobalContents::SpriteFileLoad("Right_AerialEnemy.bmp", "Resources\\Unit\\Grunt", 3, 3);
@@ -61,6 +66,7 @@ void BrontoBurt::Start()
 	SetCheckPoint(Scale);
 
 	Dir = ActorDir::Left;
+	SetName("Bronto Burt");
 
 
 	BodyCollision = CreateCollision(CollisionOrder::MonsterBody);
@@ -391,6 +397,10 @@ void BrontoBurt::EnemyCollisionCheck()
 	}
 }
 
+
+
+
+/* ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ */
 
 
 void BrontoBurt::Render(float _Delta)

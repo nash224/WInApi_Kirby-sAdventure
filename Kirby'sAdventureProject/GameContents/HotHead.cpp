@@ -28,6 +28,11 @@ HotHead::~HotHead()
 void HotHead::Start()
 {
 	MainRenderer = CreateRenderer(RenderOrder::Play);
+	if (nullptr == MainRenderer)
+	{
+		MsgBoxAssert("렌더러를 생성하지 못했습니다.");
+		return;
+	}
 
 	GlobalContents::SpriteFileLoad("Left_PowerEnemy.bmp", "Resources\\Unit\\Grunt", 6, 5);
 	GlobalContents::SpriteFileLoad("Right_PowerEnemy.bmp", "Resources\\Unit\\Grunt", 6, 5);
@@ -55,6 +60,7 @@ void HotHead::Start()
 	SetCheckPoint(Scale);
 
 	Dir = ActorDir::Left;
+	SetName("Hot Head");
 
 
 	BodyCollision = CreateCollision(CollisionOrder::MonsterBody);
@@ -85,13 +91,12 @@ void HotHead::init(const std::string& _FileName, HotHeadState _State, const floa
 
 /* ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ */
 
+
 void HotHead::Update(float _Delta)
 {
 	GroundCheck();
 
 	StateUpdate(_Delta);
-
-	//CheckOverScreen();
 }
 
 void HotHead::StateUpdate(float _Delta)
@@ -136,7 +141,8 @@ void HotHead::ChangeRespawnState()
 	ChangeState(RespawnState);
 }
 
-/* ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ */
+
+
 
 
 void HotHead::WalkStart()
@@ -209,6 +215,7 @@ void HotHead::FireBallChargingStart()
 {
 	StateTime = 0.0f;
 	IsChangeState = false;
+
 	GetKirbyDirection();
 	ChangeAnimationState("FireBall");
 }
@@ -241,6 +248,7 @@ void HotHead::FireBallStart()
 	float4 DistanceToKriby = GetKirbyOpponentDistance();
 	float EffectDeg = DistanceToKriby.AngleDeg();
 
+	// 각도 제한 
 	if (DistanceToKriby.X < 0.0f)
 	{
 		if (EffectDeg < SemicircleAngle - FireBall_HighAngle)
@@ -267,7 +275,17 @@ void HotHead::FireBallStart()
 
 
 
-	FireBallEffect* FireBallEffectPtr = GetLevel()->CreateActor<FireBallEffect>(UpdateOrder::Ability);
+	GameEngineLevel* CurLevePtr = GetLevel();
+	if (nullptr == CurLevePtr)
+	{
+		MsgBoxAssert("레벨을 불러오지 못했습니다.");
+		return;
+	}
+
+
+
+	// 발사!
+	FireBallEffect* FireBallEffectPtr = CurLevePtr->CreateActor<FireBallEffect>(UpdateOrder::Ability);
 	if (nullptr == FireBallEffectPtr)
 	{
 		MsgBoxAssert("액터가 Null 입니다..");
@@ -289,6 +307,7 @@ void HotHead::FireBallUpdate(float _Delta)
 		StateTime = 0.0f;
 		++WobbleCount;
 
+		// 부들부들 떨음
 		if (ActorDir::Left == Dir)
 		{
 			if (1 == WobbleCount % 3)
@@ -340,7 +359,9 @@ void HotHead::FlameBreathChargingStart()
 {
 	StateTime = 0.0f;
 	IsChangeState = false;
+
 	GetKirbyDirection();
+
 	ChangeAnimationState("FlameBreathCharging");
 }
 
@@ -375,12 +396,21 @@ void HotHead::FlameBreathUpdate(float _Delta)
 {
 	StateTime += _Delta;
 
+	// 부들부들 떨음
 	if (StateTime > HOTHEADWOBBLETIME)
 	{
 		StateTime = 0.0f;
 		++WobbleCount;
 
-		FrameBreathEffect* FrameBreathEffectPtr = GetLevel()->CreateActor<FrameBreathEffect>(UpdateOrder::Ability);
+
+		GameEngineLevel* CurLevePtr = GetLevel();
+		if (nullptr == CurLevePtr)
+		{
+			MsgBoxAssert("레벨을 불러오지 못했습니다.");
+			return;
+		}
+
+		FrameBreathEffect* FrameBreathEffectPtr = CurLevePtr->CreateActor<FrameBreathEffect>(UpdateOrder::Ability);
 		if (nullptr == FrameBreathEffectPtr)
 		{
 			MsgBoxAssert("액터를 생성하지 못했습니다.");
@@ -438,6 +468,9 @@ void HotHead::FlameBreathUpdate(float _Delta)
 }
 
 
+
+
+
 void HotHead::EnemyCollisionCheck()
 {
 	if (true == IsInhaledStateOn)
@@ -452,6 +485,9 @@ void HotHead::EnemyCollisionCheck()
 		return;
 	}
 }
+
+
+
 
 
 void HotHead::Render(float _Delta)

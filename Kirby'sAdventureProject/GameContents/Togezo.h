@@ -46,38 +46,52 @@ public:
 	void init(const std::string& _FileName, TogezoState _State, const float4& _Pos);
 
 protected:
-	// 상태패턴 함수
-	TogezoState State = TogezoState::Max;
-	TogezoState RespawnState = TogezoState::Max;
+
+private:
+	// GameEngineObject 상속
+	void Start() override;
+	void Update(float _Delta) override;
+	void Render(float _Delta) override;
 
 
-	bool IsRollingSpeedZero = false;
-	float RollingSpeedZeroTime = 0.0f;
-	int BounceCount = 0;
-
-
-	void StateUpdate(float _Delta);
-	void ChangeState(TogezoState _State);
+	// Enemy 상속
 	void ChangeRespawnState() override;
 
 
 
-	void WalkStart();
-	void BounceStart();
-	void RollStart();
+	// this
+	// 상태패턴 함수
+	TogezoState State = TogezoState::Max;
+	TogezoState RespawnState = TogezoState::Max;
 
+	void StateUpdate(float _Delta);
+	void ChangeState(TogezoState _State);
+
+
+
+
+
+
+	// 상태
+	void WalkStart();
 	void WalkUpdate(float _Delta);
+
+	void BounceStart();
 	void BounceUpdate(float _Delta);
+
+	int BounceCount = 0;
+
+
+	void RollStart();
 	void RollUpdate(float _Delta);
 
+	bool IsRollingSpeedZero = false;
+	float RollingSpeedZeroTime = 0.0f;
 
 
+
+	// 충돌
 	void EnemyCollisionCheck();
-
-private:
-	void Start() override;
-	void Update(float _Delta) override;
-	void Render(float _Delta) override;
 
 
 

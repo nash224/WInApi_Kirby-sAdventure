@@ -97,6 +97,8 @@ void PoppyBrosJr::Start()
 	SetCheckPoint(Scale);
 
 	Dir = ActorDir::Left;
+	SetName("PoppyBros & Jr");
+
 	ChangeState(NormalState::Idle);
 
 
@@ -116,6 +118,10 @@ void PoppyBrosJr::Start()
 	GlobalContents::SoundFileLoad("Jr_Sound.wav", "Resources\\SoundResources\\EffectVoice");
 }
 
+
+/* ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ */
+
+
 void PoppyBrosJr::Update(float _Delta)
 {
 	GroundCheck();
@@ -132,6 +138,7 @@ void PoppyBrosJr::AppleRunStart()
 
 	StateTime = 0.0f;
 	IsChangeState = false;
+
 	ChangeAnimationState("AppleRun");
 }
 
@@ -141,7 +148,7 @@ void PoppyBrosJr::AppleRunUpdate(float _Delta)
 {
 	StateTime += _Delta;
 
-	if (StateTime >= POPPYBROSJRCHANGETIME)
+	if (StateTime >= StateChangeTime)
 	{
 		IsChangeState = true;
 	}
@@ -152,7 +159,6 @@ void PoppyBrosJr::AppleRunUpdate(float _Delta)
 		return;
 	}
 
-	EnemyCollisionCheck();
 
 	BlockedByGround();
 	BlockedByWall();
@@ -163,6 +169,8 @@ void PoppyBrosJr::AppleRunUpdate(float _Delta)
 		GravityLimit(_Delta);
 		VerticalUpdate(_Delta);
 	}
+
+	EnemyCollisionCheck();
 }
 
 
@@ -179,7 +187,7 @@ void PoppyBrosJr::EscapeUpdate(float _Delta)
 {
 	StateTime += _Delta;
 
-	if (StateTime >= POPPYBROSJRCHANGETIME)
+	if (StateTime >= StateChangeTime)
 	{
 		IsChangeState = true;
 	}
@@ -190,7 +198,6 @@ void PoppyBrosJr::EscapeUpdate(float _Delta)
 		return;
 	}
 
-	EnemyCollisionCheck();
 
 	BlockedByGround();
 	BlockedByWall();
@@ -201,6 +208,8 @@ void PoppyBrosJr::EscapeUpdate(float _Delta)
 		GravityLimit(_Delta);
 		VerticalUpdate(_Delta);
 	}
+
+	EnemyCollisionCheck();
 }
 
 
@@ -216,7 +225,7 @@ void PoppyBrosJr::IdleUpdate(float _Delta)
 {
 	StateTime += _Delta;
 
-	if (StateTime >= POPPYBROSJRCHANGETIME)
+	if (StateTime >= StateChangeTime)
 	{
 		IsChangeState = true;
 	}
@@ -227,7 +236,6 @@ void PoppyBrosJr::IdleUpdate(float _Delta)
 		return;
 	}
 
-	EnemyCollisionCheck();
 
 	BlockedByGround();
 	BlockedByWall();
@@ -238,6 +246,8 @@ void PoppyBrosJr::IdleUpdate(float _Delta)
 		GravityLimit(_Delta);
 		VerticalUpdate(_Delta);
 	}
+
+	EnemyCollisionCheck();
 }
 
 
@@ -246,6 +256,7 @@ void PoppyBrosJr::JumpStart()
 	StateTime = 0.0f;
 	AbleJump = true;
 	CurrentJumpDistance = 0.0f;
+
 	GravityReset();
 
 	// 사운드 재생
@@ -262,17 +273,16 @@ void PoppyBrosJr::JumpUpdate(float _Delta)
 		return;
 	}
 
-	EnemyCollisionCheck();
 
-	float JumpPower = POPPYBROSJRJUMPDISTANCE / POPPYBROSJRJUMPTIME;
+	float JumpPower = JumpDistance / JumpDuration;
 	CurrentJumpDistance += JumpPower * _Delta;
 
-	if (CurrentJumpDistance > POPPYBROSJRJUMPDISTANCE)
+	if (CurrentJumpDistance > JumpDistance)
 	{
 		AbleJump = false;
 	}
 
-	if (CurrentJumpDistance < POPPYBROSJRJUMPDISTANCE && true == AbleJump)
+	if (CurrentJumpDistance < JumpDistance && true == AbleJump)
 	{
 		SetGravityVector(float4::UP * JumpPower);
 	}
@@ -281,23 +291,37 @@ void PoppyBrosJr::JumpUpdate(float _Delta)
 	{
 		Dir = ActorDir::Right;
 		CurrentSpeed = -CurrentSpeed;
+
+		if (nullptr == MainRenderer)
+		{
+			MsgBoxAssert("충돌체를 불러오지 못했습니다.");
+			return;
+		}
+
 		MainRenderer->ChangeAnimation("Right_Jump");
 	}
 	else if (true == CheckRightWall())
 	{
 		Dir = ActorDir::Left;
 		CurrentSpeed = -CurrentSpeed;
+
+		if (nullptr == MainRenderer)
+		{
+			MsgBoxAssert("충돌체를 불러오지 못했습니다.");
+			return;
+		}
+
 		MainRenderer->ChangeAnimation("Left_Jump");
 	}
 
 	if (ActorDir::Left == Dir)
 	{
-		AddPos(float4::LEFT * POPPYBROSJRSPEED * _Delta);
+		AddPos(float4::LEFT * Jump_XSpeed * _Delta);
 	}
 
 	if (ActorDir::Right == Dir)
 	{
-		AddPos(float4::RIGHT * POPPYBROSJRSPEED * _Delta);
+		AddPos(float4::RIGHT * Jump_XSpeed * _Delta);
 	}
 
 
@@ -310,6 +334,9 @@ void PoppyBrosJr::JumpUpdate(float _Delta)
 	}
 	GravityLimit(_Delta);
 	VerticalUpdate(_Delta);
+
+
+	EnemyCollisionCheck();
 }
 
 
@@ -318,7 +345,9 @@ void PoppyBrosJr::FallStart()
 	StateTime = 0.0f;
 	AbleJump = true;
 	CurrentJumpDistance = 0.0f;
+
 	GravityReset();
+
 	ChangeAnimationState("Fall");
 }
 
@@ -330,29 +359,42 @@ void PoppyBrosJr::FallUpdate(float _Delta)
 		return;
 	}
 
-	EnemyCollisionCheck();
 
 	if (true == CheckLeftWall())
 	{
 		Dir = ActorDir::Right;
 		CurrentSpeed = -CurrentSpeed;
+
+		if (nullptr == MainRenderer)
+		{
+			MsgBoxAssert("충돌체를 불러오지 못했습니다.");
+			return;
+		}
+
 		MainRenderer->ChangeAnimation("Right_Fall");
 	}
 	else if (true == CheckRightWall())
 	{
 		Dir = ActorDir::Left;
 		CurrentSpeed = -CurrentSpeed;
+
+		if (nullptr == MainRenderer)
+		{
+			MsgBoxAssert("충돌체를 불러오지 못했습니다.");
+			return;
+		}
+
 		MainRenderer->ChangeAnimation("Left_Fall");
 	}
 
 	if (ActorDir::Left == Dir)
 	{
-		AddPos(float4::LEFT * POPPYBROSJRSPEED * _Delta);
+		AddPos(float4::LEFT * Jump_XSpeed * _Delta);
 	}
 
 	if (ActorDir::Right == Dir)
 	{
-		AddPos(float4::RIGHT * POPPYBROSJRSPEED * _Delta);
+		AddPos(float4::RIGHT * Jump_XSpeed * _Delta);
 	}
 
 
@@ -362,9 +404,14 @@ void PoppyBrosJr::FallUpdate(float _Delta)
 	Gravity(_Delta);
 	GravityLimit(_Delta);
 	VerticalUpdate(_Delta);
+
+
+	EnemyCollisionCheck();
 }
 
 
+
+/* ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ */
 
 
 void PoppyBrosJr::Render(float _Delta)

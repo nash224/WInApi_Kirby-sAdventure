@@ -26,8 +26,10 @@ public:
 	void init(const std::string& _FileName, PengiState _State, const float4& _Pos);
 
 
-	// 레벨 상속
+
+
 private:
+	// GameEngineObject 상속
 	void Start() override;
 	void Update(float _Delta) override;
 	void Render(float _Delta) override;
@@ -35,12 +37,12 @@ private:
 	
 
 	// this
-private:
-	// 상태패턴 함수
+	// FSM
 	PengiState State = PengiState::Max;
 
 	void StateUpdate(float _Delta);
 	void ChangeState(PengiState _State);
+
 
 	void IdleStart();
 	void IdleUpdate(float _Delta);

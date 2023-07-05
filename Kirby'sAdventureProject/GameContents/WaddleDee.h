@@ -1,9 +1,9 @@
 #pragma once
 #include "NormalEnemies.h"
 
-#define WaddleSpeed 80.0f
 
-// 설명 :
+// 설명 : 단순히 걷기만 할뿐인 잡몹입니다. 
+// TMI) Waddle Doo 와 사촌입니다.
 class WaddleDee : public NormalEnemies
 {
 public:
@@ -19,13 +19,20 @@ public:
 
 protected:
 
-	void WalkStart() override;
-	void WalkUpdate(float _Delta) override;
-
 private:
+	// GameEngineObject 상속
 	void Start() override;
 	void Update(float _Delta) override;
 	void Render(float _Delta) override;
+
+
+	// NormalEnemies 상속
+	void WalkStart() override;
+	void WalkUpdate(float _Delta) override;
+
+
+	const float WaddleSpeed = 80.0f;
+
 
 };
 

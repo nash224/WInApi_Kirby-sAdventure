@@ -28,6 +28,11 @@ Scarfy::~Scarfy()
 void Scarfy::Start()
 {
 	MainRenderer = CreateRenderer(RenderOrder::Play);
+	if (nullptr == MainRenderer)
+	{
+		MsgBoxAssert("렌더를 불러오지 못했습니다.");
+		return;
+	}
 
 	GlobalContents::SpriteFileLoad("Left_AerialEnemy.bmp", "Resources\\Unit\\Grunt", 3, 3);
 	GlobalContents::SpriteFileLoad("Right_AerialEnemy.bmp", "Resources\\Unit\\Grunt", 3, 3);
@@ -55,6 +60,7 @@ void Scarfy::Start()
 	SetCheckPoint(Scale);
 
 	Dir = ActorDir::Left;
+	SetName("Scarfy");
 
 
 	BodyCollision = CreateCollision(CollisionOrder::MonsterBody);
@@ -139,7 +145,6 @@ void Scarfy::ChangeRespawnState()
 	ChangeState(RespawnState);
 }
 
-/* ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ */
 
 
 void Scarfy::IdleStart()
@@ -148,6 +153,7 @@ void Scarfy::IdleStart()
 	IsChangeState = false;
 	IsGravityReverse = false;
 	ChangeGravityDistance = RespawnLocation.Y + SCARFYFLIGHTCHANGRAVITYCONVERSIONPOINT;
+
 	GravityReset();
 
 	ChangeAnimationState("Idle");
@@ -208,7 +214,9 @@ void Scarfy::TransFormingBeforeStart()
 	StateTime = 0.0f;
 	IsChangeState = false;
 	WobbleCount = 0;
+
 	GravityReset();
+
 	ChangeAnimationState("TransFormingBefore");
 }
 
@@ -336,7 +344,9 @@ void Scarfy::FollowingStart()
 {
 	StateTime = 0.0f;
 	IsChangeState = false;
+
 	GetKirbyDirection();
+
 	ChangeAnimationState("Following");
 }
 
@@ -359,8 +369,6 @@ void Scarfy::FollowingUpdate(float _Delta)
 	}
 
 
-	// 충돌 검사
-	EnemyCollisionCheck();
 
 
 	// 커비를 향해 날아감
@@ -368,6 +376,10 @@ void Scarfy::FollowingUpdate(float _Delta)
 	KirbyUnitVector *= SCARFYFOLLOWINGSPEED;
 
 	AddPos(KirbyUnitVector * _Delta);
+
+
+	// 충돌 검사
+	EnemyCollisionCheck();
 }
 
 
@@ -377,6 +389,7 @@ void Scarfy::BombStart()
 	IsChangeState = false;
 	BombCount = 0;
 	IsInhaledStateOn = false;
+
 	ChangeAnimationState("Bomb");
 }
 
@@ -405,7 +418,14 @@ void Scarfy::BombUpdate(float _Delta)
 	// 시간되면 터짐
 	if (30 == BombCount)
 	{
-		AirExplosionEffect* AirExplosionEffectPtr = GetLevel()->CreateActor<AirExplosionEffect>(UpdateOrder::Ability);
+		GameEngineLevel* CurLevelPtr = GetLevel();
+		if (nullptr == CurLevelPtr)
+		{
+			MsgBoxAssert("레벨을 불러오지 못했습니다.");
+			return;
+		}
+
+		AirExplosionEffect* AirExplosionEffectPtr = CurLevelPtr->CreateActor<AirExplosionEffect>(UpdateOrder::Ability);
 		if (nullptr == AirExplosionEffectPtr)
 		{
 			MsgBoxAssert("액터가 Null 일리가 없어..");
@@ -435,16 +455,22 @@ void Scarfy::EnemyCollisionCheck()
 
 
 
-
-
 void Scarfy::HittedStart()
 {
 	StateTime = 0.0f;
 	IsChangeState = false;
 	IsHitted = true;
 
+
+	GameEngineLevel* CurLevelPtr = GetLevel();
+	if (nullptr == CurLevelPtr)
+	{
+		MsgBoxAssert("레벨을 불러오지 못했습니다.");
+		return;
+	}
+
 	// 맞으면 Bomb
-	AirExplosionEffect* AirExplosionEffectPtr = GetLevel()->CreateActor<AirExplosionEffect>(UpdateOrder::Ability);
+	AirExplosionEffect* AirExplosionEffectPtr = CurLevelPtr->CreateActor<AirExplosionEffect>(UpdateOrder::Ability);
 	if (nullptr == AirExplosionEffectPtr)
 	{
 		MsgBoxAssert("액터가 Null 일리가 없어..");
@@ -465,6 +491,9 @@ void Scarfy::HittedUpdate(float _Delta)
 	Off();
 }
 
+
+
+/* ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ */
 
 
 void Scarfy::Render(float _Delta)
@@ -545,8 +574,4 @@ void Scarfy::ThisDebugTriggerRender(HDC _dc)
 			LineTo(_dc, ActorScenePos.iX() + static_cast<int>(SCARFYRECOGNITIONRANGE), WinScale.iY());
 		}
 	}
-
-
-
-
 }

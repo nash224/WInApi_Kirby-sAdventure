@@ -23,22 +23,22 @@ public:
 
 protected:
 
-	void IdleStart() override;
-	void SweepStart() override;
-
-
-	void IdleUpdate(float _Delta) override;
-	void SweepUpdate(float _Delta) override;
-
 private:
-	size_t SweepCount = 0;
-
-
+	// GameEngineObject 상속
 	void Start() override;
 	void Update(float _Delta) override;
 	void Render(float _Delta) override;
 
 
+	// NormalEnemies 상속
+	// 상태 패턴
+	void IdleStart() override;
+	void IdleUpdate(float _Delta) override;
+
+	void SweepStart() override;
+	void SweepUpdate(float _Delta) override;
+
+	size_t SweepCount = 0;
 
 
 };

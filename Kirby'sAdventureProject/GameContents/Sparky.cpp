@@ -66,6 +66,7 @@ void Sparky::Start()
 	SetCheckPoint(Scale);
 
 	Dir = ActorDir::Left;
+	SetName("Sparky");
 
 
 	// 충돌
@@ -113,8 +114,6 @@ void Sparky::SetCheckPoint(const float4& _ScaleSize)
 	StairRightBottomCheckPoint = { _ScaleSize.X + SPARKYLONGJUMPSTAIRCOGNIZANCE , -CHECKGAP };
 	StairRightTopCheckPoint = { _ScaleSize.X + SPARKYLONGJUMPSTAIRCOGNIZANCE , -CHECKSTAIRHEIGHT + -CHECKGAP };
 }
-
-
 
 
 void Sparky::init(const std::string& _FileName, SparkyState _State, const float4& _Pos)
@@ -220,6 +219,7 @@ void Sparky::IdleStart()
 	StateTime = 0.0f;
 	IsChangeState = false;
 	CurrentSpeed = 0.0f;
+
 	GravityReset();
 	ChangeAnimationState("Idle");
 }
@@ -290,8 +290,10 @@ void Sparky::FrontJumpStart()
 	IsChangeState = false;
 	AbleJump = true;
 	CurrentJumpDistance = 0.0f;
+
 	GravityReset();
 	GetKirbyDirection();
+
 	ChangeAnimationState("FrontJump");
 }
 
@@ -335,11 +337,27 @@ void Sparky::FrontJumpUpdate(float _Delta)
 	if (true == CheckLeftWall())
 	{
 		Dir = ActorDir::Right;
+
+
+		if (nullptr == MainRenderer)
+		{
+			MsgBoxAssert("렌더러를 불러오지 못했습니다.");
+			return;
+		}
+
 		MainRenderer->ChangeAnimation("Right_FrontJump");
 	}
 	else if (true == CheckRightWall())
 	{
 		Dir = ActorDir::Left;
+
+
+		if (nullptr == MainRenderer)
+		{
+			MsgBoxAssert("렌더러를 불러오지 못했습니다.");
+			return;
+		}
+
 		MainRenderer->ChangeAnimation("Left_FrontJump");
 	}
 
@@ -373,8 +391,10 @@ void Sparky::StanceJumpStart()
 	IsChangeState = false;
 	AbleJump = true;
 	CurrentJumpDistance = 0.0f;
+
 	GravityReset();
 	GetKirbyDirection();
+
 	ChangeAnimationState("StanceJump");
 }
 
@@ -556,6 +576,13 @@ void Sparky::SparkStart()
 	IsChangeState = false;
 	AbilityStartDeltaTime = 0.0f;
 	SparkCoolDown = 0.0f;
+
+
+	if (nullptr == AbilityCollision)
+	{
+		MsgBoxAssert("충돌체를 불러오지 못했습니다.");
+		return;
+	}
 	AbilityCollision->On();
 	ChangeAnimationState("Spark");
 }
@@ -569,7 +596,21 @@ void Sparky::SparkUpdate(float _Delta)
 	{
 		SparkCoolDown = 0.0f;
 
-		SparkEffect* SparkEffectPtr = GetLevel()->CreateActor<SparkEffect>(UpdateOrder::Ability);
+
+		GameEngineLevel* CurLevelPtr = GetLevel();
+		if (nullptr == CurLevelPtr)
+		{
+			MsgBoxAssert("레벨을 불렁오지 못했습니다");
+			return;
+		}
+
+		SparkEffect* SparkEffectPtr = CurLevelPtr->CreateActor<SparkEffect>(UpdateOrder::Ability);
+		if (nullptr == SparkEffectPtr)
+		{
+			MsgBoxAssert("액터를 생성하지 못했습니다.");
+			return;
+		}
+
 		float Degree = GameEngineRandom::MainRandom.RandomFloat(0.0f, 360.0f);
 		float4 EffectDir = float4::GetUnitVectorFromDeg(Degree);
 		SparkEffectPtr->init(GetPos(), Scale, EffectDir);
@@ -589,6 +630,12 @@ void Sparky::SparkUpdate(float _Delta)
 
 	if (true == IsChangeState)
 	{
+		if (nullptr == AbilityCollision)
+		{
+			MsgBoxAssert("충돌체를 불러오지 못했습니다.");
+			return;
+		}
+
 		AbilityCollision->Off();
 		ChangeState(SparkyState::Idle);
 		return; 
@@ -597,6 +644,7 @@ void Sparky::SparkUpdate(float _Delta)
 	EnemyCollisionCheck();
 	EnemyAbilityAttack();
 }
+
 
 
 void Sparky::EnemyCollisionCheck()
@@ -614,6 +662,9 @@ void Sparky::EnemyCollisionCheck()
 	}
 }
 
+
+
+/* ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ */
 
 
 void Sparky::Render(float _Detla)

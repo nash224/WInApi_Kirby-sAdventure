@@ -28,6 +28,11 @@ SwordKnight::~SwordKnight()
 void SwordKnight::Start()
 {
 	MainRenderer = CreateRenderer(RenderOrder::Play);
+	if (nullptr == MainRenderer)
+	{
+		MsgBoxAssert("렌더러를 생성하지 못했습니다.");
+		return;
+	}
 
 	GlobalContents::SpriteFileLoad("Left_SwordKnight.bmp", "Resources\\Unit\\Grunt", 7, 3);
 	GlobalContents::SpriteFileLoad("Right_SwordKnight.bmp", "Resources\\Unit\\Grunt", 7, 3);
@@ -55,7 +60,7 @@ void SwordKnight::Start()
 	SetCheckPoint(Scale);
 
 	Dir = ActorDir::Left;
-
+	SetName("Sword Knight");
 
 
 
@@ -88,6 +93,8 @@ void SwordKnight::Start()
 	// 사운드 로드
 	GlobalContents::SoundFileLoad("SwordKnight_AttackSound.wav", "Resources\\SoundResources\\EffectVoice");
 }
+
+
 
 void SwordKnight::init(const std::string& _FileName, SwordKnightState _State, const float4& _Pos)
 {
@@ -162,8 +169,10 @@ void SwordKnight::PendulumStrideStart()
 {
 	AbilityCoolDown = 0.0f;
 	IsChangeState = false;
+
 	GravityReset();
 	GetKirbyDirection();
+
 	if (ActorDir::Left == Dir)
 	{
 		CurrentSpeed = SWORDKNIGHTSPEED;
@@ -172,6 +181,8 @@ void SwordKnight::PendulumStrideStart()
 	{
 		CurrentSpeed = -SWORDKNIGHTSPEED;
 	}
+
+
 	ChangeAnimationState("PendulumStride");
 }
 
@@ -179,7 +190,7 @@ void SwordKnight::PendulumStrideUpdate(float _Delta)
 {
 	AbilityCoolDown += _Delta;
 
-
+	// 사정거리 안이면
 	if (AbilityCoolDown > SWORDKNIGHTSLASHCOOLDOWN &&
 		SWORDKNIGHTRANGEDETECTION > abs(Kirby::GetMainKirby()->GetPos().X - GetPos().X))
 	{
@@ -187,6 +198,8 @@ void SwordKnight::PendulumStrideUpdate(float _Delta)
 		IsChangeState = true;
 	}
 
+
+	// 랜덤으로 스킬 발동
 	if (true == IsChangeState)
 	{
 		int ActionNumber = GameEngineRandom::MainRandom.RandomInt(2, 5) / 3 + 1;
@@ -445,13 +458,13 @@ void SwordKnight::ReversingSlashStart()
 		return;
 	}
 
+	AbilityCollision->On();
 
 
 	// 사운드 재생
 	GameEngineSound::SoundPlay("SwordKnight_AttackSound.wav");
 
 
-	AbilityCollision->On();
 	ChangeAnimationState("ReversingSlash");
 }
 
@@ -512,6 +525,9 @@ void SwordKnight::EnemyCollisionCheck()
 
 
 
+/* ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ */
+
+
 void SwordKnight::Render(float _Delta)
 {
 	if (false == VegetableValleyPlayLevel::Level_DebugRenderValue)
@@ -537,7 +553,7 @@ void SwordKnight::Render(float _Delta)
 }
 
 
-
+// 디버깅 모드 텍스트
 void SwordKnight::ThisDebugRender(HDC _dc, int& _RenderNumber, const int _TextXPos, const int _TextYPos)
 {
 	if (0.0f != AbilityCoolDown)
@@ -552,6 +568,7 @@ void SwordKnight::ThisDebugRender(HDC _dc, int& _RenderNumber, const int _TextXP
 }
 
 
+// 디버깅 모드 도형
 void SwordKnight::ThisDebugTriggerRender(HDC _dc)
 {
 	float4 WinScale = GameEngineWindow::MainWindow.GetScale();

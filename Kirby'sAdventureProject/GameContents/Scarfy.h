@@ -30,7 +30,9 @@ enum class ScarfyState
 	Max,
 };
 
-// 설명 :
+
+// 설명 : 귀엽게 생긴 비행형 몬스터지만, 방심해서는 안됩니다. 
+// TMI ) 이 몬스터는 다른 이면이 있습니다.
 class Scarfy : public AerialEnemies
 {
 public:
@@ -47,43 +49,57 @@ public:
 	void init(const std::string& _FileName, ScarfyState _State, const float4& _Pos);
 
 protected:
+
+private:
+	// GameEngineObject 상속
+	void Start() override;
+	void Update(float _Delta) override;
+	void Render(float _Delta) override;
+
+
+	// Enemy 상속
+	void HittedStart() override;
+	void HittedUpdate(float _Delta) override;
+
+
+	// FSM
 	ScarfyState State = ScarfyState::Max;
 	ScarfyState RespawnState = ScarfyState::Max;
 
-	bool IsGravityReverse = false;
-	int WobbleCount = 0;
-	int BombCount = -1;
-
-
-	// 상태패턴 함수
 	void StateUpdate(float _Delta);
 	void ChangeState(ScarfyState _State);
 	void ChangeRespawnState() override;
 
 
+	// 상태
 	void IdleStart();
-	void TransFormingBeforeStart();
-	void TransFormingAfterStart();
-	void FollowingStart();
-	void BombStart();
-	void HittedStart() override;
-
-
 	void IdleUpdate(float _Delta);
+
+	bool IsGravityReverse = false;
+
+
+	void TransFormingBeforeStart();
 	void TransFormingBeforeUpdate(float _Delta);
+
+	int WobbleCount = 0;
+
+
+	void TransFormingAfterStart();
 	void TransFormingAfterUpdate(float _Delta);
+
+	void FollowingStart();
 	void FollowingUpdate(float _Delta);
+
+	void BombStart();
 	void BombUpdate(float _Delta);
-	void HittedUpdate(float _Delta) override;
+
+	int BombCount = -1;
 
 
+	// 충돌
 	void EnemyCollisionCheck();
 
 
-private:
-	void Start() override;
-	void Update(float _Delta) override;
-	void Render(float _Delta) override;
 
 
 	// 디버깅

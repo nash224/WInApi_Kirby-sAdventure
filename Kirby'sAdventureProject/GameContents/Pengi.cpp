@@ -130,7 +130,7 @@ void Pengi::IdleUpdate(float _Delta)
 }
 
 
-
+// 전시용 뿐이여서 충돌 처리는 빨려들어가는 상태밖에 없습니다.
 void Pengi::EnemyCollisionCheck()
 {
 	if (true == IsInhaledStateOn)
@@ -139,6 +139,9 @@ void Pengi::EnemyCollisionCheck()
 		return;
 	}
 }
+
+
+/* ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ */
 
 
 void Pengi::Render(float _Delta)

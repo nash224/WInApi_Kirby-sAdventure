@@ -25,6 +25,11 @@ Togezo::~Togezo()
 void Togezo::Start()
 {
 	MainRenderer = CreateRenderer(RenderOrder::Play);
+	if (nullptr == MainRenderer)
+	{
+		MsgBoxAssert("렌더러를 생성하지 못했습니다.");
+		return;
+	}
 
 	GlobalContents::SpriteFileLoad("Left_PowerEnemy.bmp", "Resources\\Unit\\Grunt", 6, 5);
 	GlobalContents::SpriteFileLoad("Right_PowerEnemy.bmp", "Resources\\Unit\\Grunt", 6, 5);
@@ -46,6 +51,7 @@ void Togezo::Start()
 	SetCheckPoint(Scale);
 
 	Dir = ActorDir::Left;
+	SetName("Togezo");
 
 
 	BodyCollision = CreateCollision(CollisionOrder::MonsterBody);
@@ -93,10 +99,10 @@ void Togezo::Update(float _Delta)
 	GroundCheck();
 
 	StateUpdate(_Delta);
-
-	//CheckOverScreen();
 }
 
+
+// 상태 업데이트
 void Togezo::StateUpdate(float _Delta)
 {
 	switch (State)
@@ -111,6 +117,8 @@ void Togezo::StateUpdate(float _Delta)
 	}
 }
 
+
+// 상태 변경
 void Togezo::ChangeState(TogezoState _State)
 {
 	if (_State != State || _State == RespawnState)
@@ -130,6 +138,8 @@ void Togezo::ChangeState(TogezoState _State)
 	State = _State;
 }
 
+
+// 순수가상함수 Level에서 호출
 void Togezo::ChangeRespawnState()
 {
 	ChangeState(RespawnState);
@@ -198,6 +208,7 @@ void Togezo::WalkUpdate(float _Delta)
 }
 
 
+
 void Togezo::BounceStart()
 {
 	StateTime = 0.0f;
@@ -211,7 +222,7 @@ void Togezo::BounceStart()
 
 void Togezo::BounceUpdate(float _Delta)
 {
-
+	// 공이 튀기는 모습
 	if (true == GetGroundState() && 0.0f < GetGravityVector().Y)
 	{
 		switch (BounceCount)
@@ -348,6 +359,8 @@ void Togezo::RollUpdate(float _Delta)
 }
 
 
+
+// 충돌 처리 분기
 void Togezo::EnemyCollisionCheck()
 {
 	if (true == IsInhaledStateOn)
@@ -363,6 +376,10 @@ void Togezo::EnemyCollisionCheck()
 	}
 }
 
+
+
+
+/* ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ */
 
 
 void Togezo::Render(float _Delta)

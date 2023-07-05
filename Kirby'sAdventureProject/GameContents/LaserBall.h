@@ -47,8 +47,8 @@ public:
 	void init(const std::string& _FileName, LaserBallState _State, const float4& _Pos);
 
 
-	// 레벨 상속
 private:
+	// GameEngineObject 상속
 	void Start() override;
 	void Update(float _Delta) override;
 	void Render(float _Delta) override;
@@ -56,36 +56,39 @@ private:
 
 
 	// Enemy 상속
-private:
-	void StateUpdate(float _Delta);
 	void ChangeRespawnState() override;
 
 
 
 	// this
-private:
-	// 상태패턴
+	// FSM
 	LaserBallState State = LaserBallState::Max;
 	LaserBallState RespawnState = LaserBallState::Max;
 
+	void StateUpdate(float _Delta);
 	void ChangeState(LaserBallState _State);
 
 
 	void FlyStart();
-	void ChargingStart();
-	void ShootStart();
-	void RunAwayStart();
-
 	void FlyUpdate(float _Delta);
+
+	void ChargingStart();
 	void ChargingUpdate(float _Delta);
+
+	int ChargingCount = -1;
+
+
+	void ShootStart();
 	void ShootUpdate(float _Delta);
+
+	int ShootCount = 0;
+
+
+	void RunAwayStart();
 	void RunAwayUpdate(float _Delta);
 
 
 
-	// Shoot 패턴
-	int ChargingCount = -1;
-	int ShootCount = 0;
 
 
 	// 충돌

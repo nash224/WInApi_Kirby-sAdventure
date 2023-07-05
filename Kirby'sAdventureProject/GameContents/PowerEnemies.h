@@ -1,7 +1,9 @@
 #pragma once
 #include "Enemy.h"
 
-// 설명 : 파워 몬스터의 부모 클래스입니다. 능력에 관한 기능이 있습니다.
+
+
+// 설명 : 파워 몬스터의 부모 클래스입니다. 하위 클래스에 능력에 관한 기능을 제공해줍니다.
 class PowerEnemies : public Enemy
 {
 public:
@@ -16,7 +18,6 @@ public:
 	PowerEnemies& operator=(PowerEnemies&& _Other) noexcept = delete;
 
 
-	//this
 protected:
 	// 상태 및 방향
 	float AbilityStartDeltaTime = 0.0f;

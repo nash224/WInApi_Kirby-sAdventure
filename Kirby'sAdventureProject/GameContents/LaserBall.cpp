@@ -58,6 +58,7 @@ void LaserBall::Start()
 	SetCheckPoint(Scale);
 
 	Dir = ActorDir::Left;
+	SetName("Laser Ball");
 
 
 	// 충돌
@@ -161,6 +162,7 @@ void LaserBall::FlyUpdate(float _Delta)
 	float4 KirbyPos = Kirby::GetMainKirby()->GetPos();
 	float4 OpponentDistance = KirbyPos - LaserBallPos;
 
+	// 쏠수 있는 범위에 있으면 충전 상태
 	if (LASERBALLSHOOTVERTICALDETECTRANGE > abs(OpponentDistance.Y) &&
 		LASERBALLSHOOTDETECTMINRANGE < abs(OpponentDistance.X) && 
 		abs(OpponentDistance.X) < LASERBALLSHOOTDETECTMAXRANGE)
@@ -176,10 +178,9 @@ void LaserBall::FlyUpdate(float _Delta)
 
 	EnemyCollisionCheck();
 
-	// 플레이어가 나와의 거리가 300.0f 보다 작으면
+	// 플레이어가 나와의 X축 거리가 300.0f 보다 작으면 아래로 이동
 	if (LASERBALLRUNAWAYDETECTRANGE > abs(OpponentDistance.X))
 	{
-		// 커비가 아래에 있다면
 		if (LaserBallPos.Y < KirbyPos.Y) 
 		{
 			if (OpponentDistance.Y < LASERBALLVERTICALDETECTRANGE)
@@ -215,6 +216,7 @@ void LaserBall::FlyUpdate(float _Delta)
 		}
 	}
 
+	// 일정 거리보다 가까우면 도망가고 멀면 쫗아옴
 	if (OpponentDistance.X < LASERBALLRUNAWAYDETECTRANGE && KirbyPos.X > LaserBallPos.X)
 	{
 		if (ActorDir::Right == Dir)
@@ -265,8 +267,10 @@ void LaserBall::ChargingStart()
 {
 	StateTime = 0.0f;
 	IsChangeState = false;
+
 	ChargingCount = GameEngineRandom::MainRandom.RandomInt(4, 12);
 	ShootCount = (ChargingCount - 4) / 2 + 1;
+
 	GetKirbyDirection();
 	ChangeAnimationState("Charging");
 }
@@ -301,7 +305,20 @@ void LaserBall::ShootUpdate(float _Delta)
 {
 	if (true == MainRenderer->IsAnimationEnd())
 	{
-		LaserEffect* LaserEffect1 = GetLevel()->CreateActor<LaserEffect>(UpdateOrder::Ability);
+		GameEngineLevel* CurLevePtr = GetLevel();
+		if (nullptr == CurLevePtr)
+		{
+			MsgBoxAssert("레벨을 불러오지 못했습니다.");
+			return;
+		}
+
+		LaserEffect* LaserEffect1 = CurLevePtr->CreateActor<LaserEffect>(UpdateOrder::Ability);
+		if (nullptr == LaserEffect1)
+		{
+			MsgBoxAssert("액터를 생성하지 못했습니다.");
+			return;
+		}
+
 		LaserEffect1->init(GetPos(), Scale, GetAbilityDir());
 		LaserEffect1->SetActorCollision(CollisionOrder::MonsterAbility, CollisionType::Rect);
 		--ShootCount;
@@ -325,6 +342,7 @@ void LaserBall::RunAwayStart()
 {
 	StateTime = 0.0f;
 	IsChangeState = false;
+
 	GetKirbyDirection();
 	ChangeAnimationState("RunAway");
 }
@@ -350,6 +368,8 @@ void LaserBall::RunAwayUpdate(float _Delta)
 }
 
 
+
+
 void LaserBall::EnemyCollisionCheck()
 {
 	if (true == IsInhaledStateOn)
@@ -364,6 +384,10 @@ void LaserBall::EnemyCollisionCheck()
 		return;
 	}
 }
+
+
+
+/* ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ */
 
 
 void LaserBall::Render(float _Delta)

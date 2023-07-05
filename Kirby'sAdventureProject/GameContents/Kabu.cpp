@@ -29,6 +29,11 @@ Kabu::~Kabu()
 void Kabu::Start()
 {
 	MainRenderer = CreateRenderer(RenderOrder::Play);
+	if (nullptr == MainRenderer)
+	{
+		MsgBoxAssert("렌더러를 생성하지 못했습니다.");
+		return;
+	}
 
 
 	GlobalContents::SpriteFileLoad("Left_NormalEnemy.bmp", "Resources\\Unit\\Grunt", 4, 5);
@@ -54,6 +59,9 @@ void Kabu::Start()
 	SetCheckPoint(Scale);
 
 	Dir = ActorDir::Left;
+	SetName("Kabu");
+
+
 	ChangeState(NormalState::Idle);
 
 
@@ -71,6 +79,10 @@ void Kabu::Start()
 
 
 
+
+/* ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ */
+
+
 void Kabu::Update(float _Delta)
 {
 	GroundCheck();
@@ -80,11 +92,14 @@ void Kabu::Update(float _Delta)
 
 
 
+
 void Kabu::IdleStart()
 {
 	StateTime = 0.0f;
 	IsChangeState = false;
+
 	GetKirbyDirection();
+
 	ChangeAnimationState("Idle");
 
 }
@@ -104,7 +119,6 @@ void Kabu::IdleUpdate(float _Delta)
 		return; 
 	}
 
-	EnemyCollisionCheck();
 
 	BlockedByGround();
 	BlockedByWall();
@@ -115,13 +129,17 @@ void Kabu::IdleUpdate(float _Delta)
 		GravityLimit(_Delta);
 		VerticalUpdate(_Delta);
 	}
+
+	EnemyCollisionCheck();
 }
+
 
 
 void Kabu::SitStart()
 {
 	StateTime = 0.0f;
 	IsChangeState = false;
+
 	ChangeAnimationState("Sit");
 }
 
@@ -140,7 +158,6 @@ void Kabu::SitUpdate(float _Delta)
 		return; 
 	}
 
-	EnemyCollisionCheck();
 
 	BlockedByGround();
 	BlockedByWall();
@@ -151,7 +168,10 @@ void Kabu::SitUpdate(float _Delta)
 		GravityLimit(_Delta);
 		VerticalUpdate(_Delta);
 	}
+
+	EnemyCollisionCheck();
 }
+
 
 
 void Kabu::JumpStart()
@@ -163,11 +183,13 @@ void Kabu::JumpStart()
 	IsChangeState = false;
 	AbleJump = true;
 
+	// 점프 비율 설정
 	int RatioNumber = GameEngineRandom::MainRandom.RandomInt(0,2);
 	JumpRatio += static_cast<float>(RatioNumber) * 0.5f;
 
 	GetKirbyDirection();
 	GravityReset();
+
 	ChangeAnimationState("Jump");
 }
 
@@ -191,7 +213,6 @@ void Kabu::JumpUpdate(float _Delta)
 		return;
 	}
 
-	EnemyCollisionCheck();
 
 
 	if (true == AbleJump)
@@ -227,12 +248,26 @@ void Kabu::JumpUpdate(float _Delta)
 	{
 		Dir = ActorDir::Right;
 		CurrentSpeed = -CurrentSpeed;
+
+		if (nullptr == MainRenderer)
+		{
+			MsgBoxAssert("충돌체를 불러오지 못했습니다.");
+			return;
+		}
+
 		MainRenderer->ChangeAnimation("Right_Jump");
 	}
 	else if (true == CheckRightWall())
 	{
 		Dir = ActorDir::Left;
 		CurrentSpeed = -CurrentSpeed;
+
+		if (nullptr == MainRenderer)
+		{
+			MsgBoxAssert("충돌체를 불러오지 못했습니다.");
+			return;
+		}
+
 		MainRenderer->ChangeAnimation("Left_Jump");
 	}
 
@@ -254,8 +289,15 @@ void Kabu::JumpUpdate(float _Delta)
 	}
 	HorizontalSpeedLimit(KABUMAXSPEED);
 	HorizontalUpdate(_Delta);
+
+
+
+	EnemyCollisionCheck();
 }
 
+
+
+/* ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ */
 
 
 void Kabu::Render(float _Delta)

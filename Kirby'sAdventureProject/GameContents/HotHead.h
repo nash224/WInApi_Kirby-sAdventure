@@ -50,46 +50,63 @@ public:
 	void init(const std::string& _FileName, HotHeadState _State, const float4& _Pos);
 
 
+protected:
 
-	// Level 상속
 private:
+	// GameEngineObject 상속
 	void Start() override;
 	void Update(float _Delta) override;
 	void Render(float _Delta) override;
 
 
-protected:
-	// 상태패턴 함수
+	// Enemy 상속
+	void ChangeRespawnState() override;
+
+
+
+	// this
+	// FSM
 	HotHeadState State = HotHeadState::Max;
 	HotHeadState RespawnState = HotHeadState::Max;
-
-	int WobbleCount = 0;
 
 
 	void StateUpdate(float _Delta);
 	void ChangeState(HotHeadState _State);
-	void ChangeRespawnState() override;
+
+
+
+
 
 
 	void WalkStart();
-	void FireBallChargingStart();
-	void FireBallStart();
-	void FlameBreathChargingStart();
-	void FlameBreathStart();
-
 	void WalkUpdate(float _Delta);
+
+	void FireBallChargingStart();
 	void FireBallChargingUpdate(float _Delta);
+
+	void FireBallStart();
 	void FireBallUpdate(float _Delta);
+
+	int WobbleCount = 0;
+	const float FireBall_HighAngle = 18.0f;
+	const float SemicircleAngle = 180.0f;
+
+
+	void FlameBreathChargingStart();
 	void FlameBreathChargingUpdate(float _Delta);
+
+	void FlameBreathStart();
 	void FlameBreathUpdate(float _Delta);
 
+
+
+
+	// 충돌
 	void EnemyCollisionCheck();
 
-	const float SemicircleAngle = 180.0f;
-	const float FireBall_HighAngle = 18.0f;
 
 
-
+	// 디버깅 
 	void ThisDebugRender(HDC _dc, int& _RenderNumber, const int _TextXPos, const int _TextYPos);
 	void ThisDebugTriggerRender(HDC _dc);
 

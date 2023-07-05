@@ -21,7 +21,7 @@ enum class NormalState
 };
 
 
-// 설명 :
+// 설명 : 노말 몬스터의 상위 클래스입니다. 단순한 패턴이기 때문에 FSM 기능을 제공해줍니다. 
 class NormalEnemies : public Enemy
 {
 public:
@@ -39,16 +39,21 @@ public:
 
 	virtual void init(const std::string& _FileName, NormalState _State, const float4& _Pos);
 
+
 protected:
-	NormalState State = NormalState::Max;
-	NormalState RespawnState = NormalState::Max;
-
-
-	void StateUpdate(float _Delta);
-	void ChangeState(NormalState _State);
+	// Enemy 상속
 	void ChangeRespawnState() override;
 
 
+	// FSM
+	NormalState State = NormalState::Max;
+	NormalState RespawnState = NormalState::Max;
+
+	void StateUpdate(float _Delta);
+	void ChangeState(NormalState _State);
+
+
+	// 상태 패턴
 	virtual void AppleRunStart() {}
 	virtual void EscapeStart() {}
 	virtual void IdleStart() {}
@@ -76,6 +81,8 @@ protected:
 	virtual void SweepUpdate(float _Delta) {}
 
 
+
+	// 충돌
 	void EnemyCollisionCheck();
 
 private:

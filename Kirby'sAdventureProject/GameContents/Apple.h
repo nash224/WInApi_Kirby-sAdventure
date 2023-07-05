@@ -21,6 +21,11 @@ public:
 	void init(const float4& _SummonPos);
 
 
+	// 초기화
+	void ReleaseThisList();
+
+protected:
+
 private:
 	// 레벨 상속
 	void Start() override;
@@ -28,25 +33,22 @@ private:
 	void Render(float _Delta) override;
 
 
+
 	// NormalEnemies 상속
-protected:
-
 	void IdleStart() override;
-	void FallStart() override;
-	void BounceStart() override;
-	void RollStart() override;
-	void BounceMoveStart() override;
-
-
 	void IdleUpdate(float _Delta) override;
+
+	void FallStart() override;
 	void FallUpdate(float _Delta) override;
+
+	void BounceStart() override;
 	void BounceUpdate(float _Delta) override;
+
+	void RollStart() override;
 	void RollUpdate(float _Delta) override;
+
+	void BounceMoveStart() override;
 	void BounceMoveUpdate(float _Delta) override;
-
-
-
-
 
 	void HittedStart() override;
 	void HittedUpdate(float _Delta) override;
@@ -54,9 +56,6 @@ protected:
 	void BeInhaledRelease() override;
 
 
-	
-
-private:
 
 
 	// this
@@ -68,16 +67,6 @@ private:
 
 	bool IsSecondBounce = false;
 	bool StopBounce = false;
-
-
-
-public:
-	// 초기화
-	void ReleaseThisList();
-
-
-
-private:
 
 
 };

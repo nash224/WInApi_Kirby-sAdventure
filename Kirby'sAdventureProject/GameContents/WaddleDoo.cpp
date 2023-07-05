@@ -28,6 +28,12 @@ WaddleDoo::~WaddleDoo()
 void WaddleDoo::Start()
 {
 	MainRenderer = CreateRenderer(RenderOrder::Play);
+	if (nullptr == MainRenderer)
+	{
+		MsgBoxAssert("렌더러를 생성하지 못했습니다.");
+		return;
+	}
+
 
 	GlobalContents::SpriteFileLoad("Left_PowerEnemy.bmp", "Resources\\Unit\\Grunt", 6, 5);
 	GlobalContents::SpriteFileLoad("Right_PowerEnemy.bmp", "Resources\\Unit\\Grunt", 6, 5);
@@ -52,6 +58,7 @@ void WaddleDoo::Start()
 	SetCheckPoint(Scale);
 
 	Dir = ActorDir::Left;
+	SetName("Waddle Doo");
 
 
 	BodyCollision = CreateCollision(CollisionOrder::MonsterBody);
@@ -358,6 +365,7 @@ void WaddleDoo::ActivateAbilityStart()
 		return;
 	}
 
+	// 빔 로직 소환
 	BeamEffect* BeamEffectPtr = CurLevePtr->CreateActor<BeamEffect>(UpdateOrder::Ability);
 	if (nullptr == BeamEffectPtr)
 	{
@@ -391,6 +399,8 @@ void WaddleDoo::ActivateAbilityUpdate(float _Delta)
 }
 
 
+
+// 충돌 체크 분기
 void WaddleDoo::EnemyCollisionCheck()
 {
 	if (true == IsInhaledStateOn)
@@ -407,6 +417,7 @@ void WaddleDoo::EnemyCollisionCheck()
 }
 
 
+/* ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ */
 
 
 void WaddleDoo::Render(float _Delta)

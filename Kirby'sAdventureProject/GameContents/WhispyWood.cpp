@@ -64,14 +64,16 @@ void WhispyWood::Start()
 	Scale = WHISPYWOOD_SCALE;
 
 	Dir = ActorDir::Left;
+	SetPos(WHISPYWOOD_RESPAWNLOCATION - float4{ 0.0f, Scale.Half().Y});
+
+	ChangeState(WhispyWoodState::Idle);
+	Attribute = AttributeType::None;
+
+	SetName("Whispy Wood");
 
 	Boss_Map_X_Center = 264.0f;
 
 
-	SetPos(WHISPYWOOD_RESPAWNLOCATION - float4{ 0.0f, Scale.Half().Y});
-	ChangeState(WhispyWoodState::Idle);
-
-	Attribute = AttributeType::None;
 
 
 
@@ -106,6 +108,25 @@ void WhispyWood::Update(float _Delta)
 
 	StateUpdate(_Delta);
 }
+
+
+
+void WhispyWood::DebugShortcut()
+{
+	if (false == VegetableValleyPlayLevel::Level_DebugRenderValue)
+	{
+		return;
+	}
+
+
+
+	if (true == GameEngineInput::IsDown('B'))
+	{
+		m_BossHp = 1;
+	}
+}
+
+
 
 void WhispyWood::StateUpdate(float _Delta)
 {
@@ -143,7 +164,7 @@ void WhispyWood::ChangeState(WhispyWoodState _State)
 }
 
 
-/* ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ */
+
 
 
 void WhispyWood::IdleStart()
@@ -194,6 +215,7 @@ void WhispyWood::IdleUpdate(float _Delta)
 	float4 KirbyPos = KirbyPtr->GetPos();
 
 
+	// 지정 범위에 들어오면 UI에게 피를 채워달라고 요청
 	if (false == BossUIPtr->IsBossStaminaFull && KirbyPos.Y > BossFindPlayer_Y_Distance)
 	{
 		GameEngineTime::MainTimer.SetTimeScale(UpdateOrder::Player, 0.0f);
@@ -382,6 +404,7 @@ void WhispyWood::WhispyUpdate(float _Delta)
 				return;
 			}
 
+			// 사과 생성후 리스트에 넣음
 			Boss_WhispyEffect* Boss_WhispyEffectPtr = CurLevelPtr->CreateActor<Boss_WhispyEffect>(UpdateOrder::Ability);
 			if (nullptr == Boss_WhispyEffectPtr)
 			{
@@ -413,10 +436,12 @@ void WhispyWood::WhispyUpdate(float _Delta)
 }
 
 
+
 void WhispyWood::FrownStart()
 {
 	IsImmune = true;
 
+	// Shake Call
 	VegetableValleyPlayLevel::RequestShakeCountToLevel(2);
 
 
@@ -464,6 +489,7 @@ void WhispyWood::KaonashiStart()
 	GameEngineTime::MainTimer.SetTimeScale(UpdateOrder::Ability, 0.0f);
 
 
+	// Shake Call And Shake Power Adjustment
 	VegetableValleyPlayLevel::RequestShakeCountToLevel(6);
 	VegetableValleyPlayLevel::RequestShakeMagnitudeToLevel(6.0f);
 
@@ -668,6 +694,10 @@ void WhispyWood::LevelStart()
 
 
 
+
+/* ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ */
+
+
 void WhispyWood::Render(float _Delta)
 {
 	if (false == VegetableValleyPlayLevel::Level_DebugRenderValue)
@@ -788,6 +818,7 @@ void WhispyWood::ThisDebugRender(HDC _dc, int& _RenderNumber, const int _TextXPo
 }
 
 
+/* ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ */
 
 
 void WhispyWood::LevelEnd()
@@ -805,18 +836,3 @@ void WhispyWood::LevelEnd()
 	}
 }
 
-
-void WhispyWood::DebugShortcut()
-{
-	if (false == VegetableValleyPlayLevel::Level_DebugRenderValue)
-	{
-		return;
-	}
-
-
-
-	if (true == GameEngineInput::IsDown('B'))
-	{
-		m_BossHp = 1;
-	}
-}

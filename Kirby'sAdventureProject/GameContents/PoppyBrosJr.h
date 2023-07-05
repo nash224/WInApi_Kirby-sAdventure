@@ -6,13 +6,8 @@
 
 
 
-#define POPPYBROSJRSPEED 100.0f
-#define POPPYBROSJRCHANGETIME 0.1f
 
-#define POPPYBROSJRJUMPTIME 0.05f
-#define POPPYBROSJRJUMPDISTANCE 5.0f
-
-// 설명 :
+// 설명 : 사과를 매우 좋아하는 난쟁이입니다. 
 class PoppyBrosJr : public NormalEnemies
 {
 public:
@@ -29,25 +24,39 @@ public:
 
 protected:
 
-	void AppleRunStart() override;
-	void EscapeStart() override;
-	void IdleStart() override;
-	void JumpStart() override;
-	void FallStart() override;
-
-
-	void AppleRunUpdate(float _Delta) override;
-	void EscapeUpdate(float _Delta) override;
-	void IdleUpdate(float _Delta) override;
-	void JumpUpdate(float _Delta) override;
-	void FallUpdate(float _Delta) override;
-
 private:
 
-
+	// GameEngineObject 상속
 	void Start() override;
 	void Update(float _Delta) override;
 	void Render(float _Delta) override;
+
+
+	// this
+	const float StateChangeTime = 0.1f;
+
+
+	void AppleRunStart() override;
+	void AppleRunUpdate(float _Delta) override;
+
+	void EscapeStart() override;
+	void EscapeUpdate(float _Delta) override;
+
+	void IdleStart() override;
+	void IdleUpdate(float _Delta) override;
+
+	void JumpStart() override;
+	void JumpUpdate(float _Delta) override;
+
+	const float JumpDistance = 5.0f;
+	const float Jump_XSpeed = 100.0f;
+	const float JumpDuration= 0.05f;
+
+
+	void FallStart() override;
+	void FallUpdate(float _Delta) override;
+
+
 
 
 

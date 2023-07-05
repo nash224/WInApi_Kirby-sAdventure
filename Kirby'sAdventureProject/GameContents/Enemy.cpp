@@ -252,6 +252,7 @@ void Enemy::BeInhaledUpdate(float _Delta)
 
 	float4 KirbyPos = KirbyPtr->GetPos();
 
+	// 커비가 움직이기 때문에 목표위치를 바꿔줌
 	InhaleTargetPos = KirbyPos - MyInhaledStartPos;
 	InhaleTargetPosXDistance = InhaleTargetPos.X;
 	InhaleTargetPosYDistance = InhaleTargetPos.Y;

@@ -54,6 +54,8 @@ void BroomHatter::Start()
 	SetCheckPoint(Scale);
 
 	Dir = ActorDir::Left;
+	SetName("Broom Hatter");
+
 	ChangeState(NormalState::Idle);
 
 
@@ -75,6 +77,9 @@ void BroomHatter::Start()
 	GlobalContents::SoundFileLoad("HatterSound.wav", "Resources\\SoundResources\\EffectVoice");
 }
 
+
+
+/* ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ */
 
 
 void BroomHatter::Update(float _Delta)
@@ -109,7 +114,6 @@ void BroomHatter::IdleUpdate(float _Delta)
 		return; 
 	}
 
-	EnemyCollisionCheck();
 
 	BlockedByGround();
 	BlockedByWall();
@@ -120,6 +124,10 @@ void BroomHatter::IdleUpdate(float _Delta)
 		GravityLimit(_Delta);
 		VerticalUpdate(_Delta);
 	}
+
+
+
+	EnemyCollisionCheck();
 }
 
 
@@ -167,8 +175,16 @@ void BroomHatter::SweepUpdate(float _Delta)
 {
 	if (CurrentSpeed == 0.0f)
 	{
+		GameEngineLevel* CurLevelPtr = GetLevel();
+		if (nullptr == CurLevelPtr)
+		{
+			MsgBoxAssert("레벨을 불러오지 못했습니다.");
+			return;
+		}
+
+
 		float4 EffectDir = GetDirUnitVector();
-		DustEffect* DustEffectPtr = GetLevel()->CreateActor<DustEffect>(UpdateOrder::Ability);
+		DustEffect* DustEffectPtr = CurLevelPtr->CreateActor<DustEffect>(UpdateOrder::Ability);
 		if (nullptr == DustEffectPtr)
 		{
 			MsgBoxAssert("Null 일리가 없어..");
@@ -184,19 +200,32 @@ void BroomHatter::SweepUpdate(float _Delta)
 
 
 
-	EnemyCollisionCheck();
 
 
 	if (true == CheckLeftWall() || LeftGroundIsCliff())
 	{
 		Dir = ActorDir::Right;
 		CurrentSpeed = -CurrentSpeed;
+
+		if (nullptr == MainRenderer)
+		{
+			MsgBoxAssert("충돌체를 불러오지 못했습니다.");
+			return;
+		}
+
 		MainRenderer->ChangeAnimation("Right_Sweep");
 	}
 	else if (true == CheckRightWall() || RightGroundIsCliff())
 	{
 		Dir = ActorDir::Left;
 		CurrentSpeed = -CurrentSpeed;
+
+		if (nullptr == MainRenderer)
+		{
+			MsgBoxAssert("충돌체를 불러오지 못했습니다.");
+			return;
+		}
+
 		MainRenderer->ChangeAnimation("Left_Sweep");
 	}
 
@@ -213,9 +242,15 @@ void BroomHatter::SweepUpdate(float _Delta)
 	DecelerationUpdate(BROOMHATTERDECELERATIONSPEED, _Delta);
 	HorizontalSpeedLimit(BROOMHATTERMAXSPEED);
 	HorizontalUpdate(_Delta);
+
+
+	EnemyCollisionCheck();
 }
 
 
+
+
+/* ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ */
 
 
 void BroomHatter::Render(float _Delta)

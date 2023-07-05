@@ -65,23 +65,22 @@ public:
 	void init(const std::string& _FileName, SparkyState _State, const float4& _Pos);
 
 
-	// 레벨
+protected:
+
 private:
+	// GameEngineObject 상속
 	void Start() override;
 	void Update(float _Delta) override;
 	void Render(float _Detla) override;
 
 
-
-	// Enemy
-protected:
+	// Enemy 상속
 	void ChangeRespawnState() override;
 
 
-	// this
-protected:
 
-	// 상태패턴
+	// this
+	// FSM
 	SparkyState State = SparkyState::Max;
 	SparkyState RespawnState = SparkyState::Max;
 
@@ -89,9 +88,17 @@ protected:
 	void ChangeState(SparkyState _State);
 
 
-	int RemainStanceJumpCount = 0;
-	float CurrentJumpDistance = 0.0f;
-	float SparkCoolDown = 0.0f;
+	// 비트맵 감지
+	void SetCheckPoint(const float4& _ScaleSize) override;
+
+	float4 StairLeftBottomCheckPoint = float4::ZERO;
+	float4 StairLeftTopCheckPoint = float4::ZERO;
+
+	float4 StairRightBottomCheckPoint = float4::ZERO;
+	float4 StairRightTopCheckPoint = float4::ZERO;
+
+
+
 
 
 
@@ -101,35 +108,35 @@ protected:
 
 
 	void IdleStart();
-	void FrontJumpStart();
-	void StanceJumpStart();
-	void LongJumpStart();
-	void LandingStart();
-	void SparkStart();
-
 	void IdleUpdate(float _Delta);
+
+	float CurrentJumpDistance = 0.0f;
+
+
+	void FrontJumpStart();
 	void FrontJumpUpdate(float _Delta);
+
+	void StanceJumpStart();
 	void StanceJumpUpdate(float _Delta);
+
+	int RemainStanceJumpCount = 0;
+
+
+	void LongJumpStart();
 	void LongJumpUpdate(float _Delta);
+
+	void LandingStart();
 	void LandingUpdate(float _Delta);
+
+	void SparkStart();
 	void SparkUpdate(float _Delta);
 
+	float SparkCoolDown = 0.0f;
 
 
+	// 충돌
 	void EnemyCollisionCheck();
 
-
-
-private:
-
-	// 계단을 점프해서 오르기 위한 추가 로직
-	float4 StairLeftBottomCheckPoint = float4::ZERO;
-	float4 StairLeftTopCheckPoint = float4::ZERO;
-
-	float4 StairRightBottomCheckPoint = float4::ZERO;
-	float4 StairRightTopCheckPoint = float4::ZERO;
-
-	void SetCheckPoint(const float4& _ScaleSize) override;
 
 
 

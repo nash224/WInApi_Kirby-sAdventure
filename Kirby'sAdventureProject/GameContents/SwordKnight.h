@@ -49,39 +49,53 @@ public:
 	void init(const std::string& _FileName, SwordKnightState _State, const float4& _Pos);
 
 protected:
-	// 상태패턴 함수
-	SwordKnightState State = SwordKnightState::Max;
-	SwordKnightState RespawnState = SwordKnightState::Max;
-
-	float AbilityCoolDown = 0.0f;
 
 
-	void StateUpdate(float _Delta);
-	void ChangeState(SwordKnightState _State);
+private:
+	// GameEngineObject 상속
+	void Start() override;
+	void Update(float _Delta) override;
+	void Render(float _Delta) override;
+
+
+	// Enemy 상속
 	void ChangeRespawnState() override;
 
 
 
-	void PendulumStrideStart();
-	void RaiseSwordStart();
-	void SlashStart();
-	void UnderhandStart();
-	void ReversingSlashStart();
+	// this
+	// 상태패턴 함수
+	SwordKnightState State = SwordKnightState::Max;
+	SwordKnightState RespawnState = SwordKnightState::Max;
 
+	void StateUpdate(float _Delta);
+	void ChangeState(SwordKnightState _State);
+
+
+
+	void PendulumStrideStart();
 	void PendulumStrideUpdate(float _Delta);
+
+	float AbilityCoolDown = 0.0f;
+
+
+	void RaiseSwordStart();
 	void RaiseSwordUpdate(float _Delta);
+
+	void SlashStart();
 	void SlashUpdate(float _Delta);
+
+	void UnderhandStart();
 	void UnderhandUpdate(float _Delta);
+
+	void ReversingSlashStart();
 	void ReversingSlashUpdate(float _Delta);
 
 
 
+	// 충돌
 	void EnemyCollisionCheck();
 
-private:
-	void Start() override;
-	void Update(float _Delta) override;
-	void Render(float _Delta) override;
 
 
 

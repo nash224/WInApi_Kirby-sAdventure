@@ -100,7 +100,7 @@ void Apple::init(const float4& _SummonPos)
 }
 
 
-
+/* ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ */
 
 
 void Apple::Update(float _Delta)
@@ -185,7 +185,6 @@ void Apple::FallUpdate(float _Delta)
 
 
 
-	EnemyCollisionCheck();
 
 
 
@@ -200,6 +199,8 @@ void Apple::FallUpdate(float _Delta)
 		GravityLimit(_Delta);
 		VerticalUpdate(_Delta);
 	}
+
+	EnemyCollisionCheck();
 }
 
 
@@ -403,8 +404,15 @@ void Apple::HittedStart()
 	StateTime = 0.0f;
 	IsChangeState = false;
 
+	GameEngineLevel* CurLevelPtr = GetLevel();
+	if (nullptr == CurLevelPtr)
+	{
+		MsgBoxAssert("레벨을 불러오지 못했습니다.");
+		return;
+	}
 
-	CrossDeathEffect* CrossDeathEffectPtr = GetLevel()->CreateActor<CrossDeathEffect>(UpdateOrder::Ability);
+
+	CrossDeathEffect* CrossDeathEffectPtr = CurLevelPtr->CreateActor<CrossDeathEffect>(UpdateOrder::Ability);
 	if (nullptr == CrossDeathEffectPtr)
 	{
 		MsgBoxAssert("액터가 Null 일리가 없어..");
@@ -436,6 +444,9 @@ void Apple::ReleaseThisList()
 	std::list<Apple*>& AppleList = WhispyWoodPtr->GetAppleList();
 	AppleList.remove(this);
 }
+
+
+/* ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ */
 
 
 

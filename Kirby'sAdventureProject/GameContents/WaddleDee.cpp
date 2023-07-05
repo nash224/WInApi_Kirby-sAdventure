@@ -27,6 +27,12 @@ WaddleDee::~WaddleDee()
 void WaddleDee::Start() 
 {
 	MainRenderer = CreateRenderer(RenderOrder::Play);
+	if (nullptr == MainRenderer)
+	{
+		MsgBoxAssert("렌더러를 생성하지 못했습니다.");
+		return;
+	}
+
 
 	GlobalContents::SpriteFileLoad("Left_NormalEnemy.bmp", "Resources\\Unit\\Grunt", 4,5);
 	GlobalContents::SpriteFileLoad("Right_NormalEnemy.bmp", "Resources\\Unit\\Grunt", 4, 5);
@@ -43,10 +49,21 @@ void WaddleDee::Start()
 	Dir = ActorDir::Left;
 
 	BodyCollision = CreateCollision(CollisionOrder::MonsterBody);
+	if (nullptr == BodyCollision)
+	{
+		MsgBoxAssert("충돌체를 불러오지 못했습니다.");
+		return;
+	}
+
 	BodyCollision->SetCollisionPos(float4{ 0.0f , -SMALLTYPECOLLISIONSCALE.hY() });
 	BodyCollision->SetCollisionScale(SMALLTYPECOLLISIONSCALE);
 	BodyCollision->SetCollisionType(CollisionType::Rect);
 }
+
+
+
+/* ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ */
+
 
 
 void WaddleDee::Update(float _Delta) 
@@ -55,6 +72,7 @@ void WaddleDee::Update(float _Delta)
 
 	StateUpdate(_Delta);
 }
+
 
 
 void WaddleDee::WalkStart()
@@ -75,11 +93,25 @@ void WaddleDee::WalkUpdate(float _Delta)
 	if (true == CheckLeftWall() || LeftGroundIsCliff())
 	{
 		Dir = ActorDir::Right;
+
+		if (nullptr == MainRenderer)
+		{
+			MsgBoxAssert("충돌체를 불러오지 못했습니다.");
+			return;
+		}
+
 		MainRenderer->ChangeAnimation("Right_Walk");
 	}
 	else if (true == CheckRightWall() || RightGroundIsCliff())
 	{
 		Dir = ActorDir::Left;
+
+		if (nullptr == MainRenderer)
+		{
+			MsgBoxAssert("충돌체를 불러오지 못했습니다.");
+			return;
+		}
+
 		MainRenderer->ChangeAnimation("Left_Walk");
 	}
 
@@ -102,6 +134,7 @@ void WaddleDee::WalkUpdate(float _Delta)
 }
 
 
+/* ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ */
 
 
 void WaddleDee::Render(float _Delta)

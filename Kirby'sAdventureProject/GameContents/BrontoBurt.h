@@ -44,47 +44,67 @@ public:
 	void init(const std::string& _FileName, BrontoState _State, const float4& _Pos);
 
 protected:
-	BrontoState State = BrontoState::Max;
-	BrontoState RespawnState = BrontoState::Max;
-
-	// 업데이트 및 리스폰
-	void StateUpdate(float _Delta);
-	void ChangeState(BrontoState _State);
-	void ChangeRespawnState() override;
-
-
-	// 상태패턴
-	void IdleStart();
-	void RiseStart();
-	void FlyStart();
-	void WaveFlightRiseStart();
-	void WaveFlightFallStart();
-
-	void IdleUpdate(float _Delta);
-	void RiseUpdate(float _Delta);
-	void FlyUpdate(float _Delta);
-	void WaveFlightRiseUpdate(float _Delta);
-	void WaveFlightFallUpdate(float _Delta);
-
-	void EnemyCollisionCheck();
-
 
 private:
-	bool IsFlyVertically = false;
-	bool IsGoForward = false;
-	bool StopRise = false;
-	bool IsChangeGravityReverse = false;
-	int WaveFlightCountBasedFall = 0;
-	float RiseDistance = 0.0f;
-	float ParabolicRiseStartDistance = 0.0f;
-
-
+	// GameEngineObject 상속
 	void Start() override;
 	void Update(float _Delta) override;
 	void Render(float _Delta) override;
 
 
+	// Enmey 상속
+	void ChangeRespawnState() override;
 
+
+	// FSM
+	BrontoState State = BrontoState::Max;
+	BrontoState RespawnState = BrontoState::Max;
+
+	void StateUpdate(float _Delta);
+	void ChangeState(BrontoState _State);
+
+	bool IsFlyVertically = false;
+
+
+	// 상태
+	void IdleStart();
+	void IdleUpdate(float _Delta);
+
+
+	void RiseStart();
+	void RiseUpdate(float _Delta);
+
+	bool StopRise = false;
+	float RiseDistance = 0.0f;
+
+
+	void FlyStart();
+	void FlyUpdate(float _Delta);
+
+	bool IsGoForward = false;
+
+
+	void WaveFlightRiseStart();
+	void WaveFlightRiseUpdate(float _Delta);
+
+	bool IsChangeGravityReverse = false;
+	int WaveFlightCountBasedFall = 0;
+	float ParabolicRiseStartDistance = 0.0f;
+
+
+	void WaveFlightFallStart();
+	void WaveFlightFallUpdate(float _Delta);
+
+
+
+
+
+
+
+
+
+	// 충돌
+	void EnemyCollisionCheck();
 
 
 	// 디버깅

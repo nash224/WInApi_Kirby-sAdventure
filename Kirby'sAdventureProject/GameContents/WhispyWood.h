@@ -1,6 +1,9 @@
 #pragma once
 #include "Boss.h"
+
+
 #include <list>
+
 
 #define WHISPYWOOD_SCALE float4{ 144.0f , 264.0f }
 #define WHISPYWOOD_RESPAWNLOCATION float4 { 600.0f , 621.0f }
@@ -65,42 +68,37 @@ public:
 
 
 private:
-	// 상태패턴 관련
+	// GameEngineObject 상속
+	void Start() override;
+	void Update(float _Delta) override;
+	void Render(float _Delta) override;
+
+
+	// GameEngineLevel 상속
+	void LevelStart() override;
+	void LevelEnd() override;
+
+
+	// this
+	// FSM
 	WhispyWoodState State = WhispyWoodState::Max;
 	WhispyWoodState PrevState = WhispyWoodState::Max;
-
 
 	void StateUpdate(float _Delta);
 	void ChangeState(WhispyWoodState _State);
 
 
+
+	// 상태
 	void IdleStart();
-	void SummonAppleStart();
-	void WhispyStart();
-	void FrownStart();
-	void KaonashiStart();
-	void CryingFaceStart();
-
-
 	void IdleUpdate(float _Delta);
-	void SummonAppleUpdate(float _Delta);
-	void WhispyUpdate(float _Delta);
-	void FrownUpdate(float _Delta);
-	void KaonashiUpdate(float _Delta);
-	void CryingFaceUpdate(float _Delta);
 
-
-	void EnemyCollisionCheck();
-
-
-private:
 	const float BossFindPlayer_Y_Distance = 500.0f;
 
-	// 보스 숏컷
-	void DebugShortcut();
 
+	void SummonAppleStart();
+	void SummonAppleUpdate(float _Delta);
 
-	// SummonApple 관련
 	bool IsCharge_SummonAppleCount = false;
 	bool IsReCharge_SummonAppleCount = false;
 	int TwinkleCount = 0;
@@ -112,34 +110,39 @@ private:
 	const float SummonApple_Max_Width = 460.0f;
 
 
-	// Whispy 관련
+	void WhispyStart();
+	void WhispyUpdate(float _Delta);
+
 	int Whispy_RemainCount = -1;
 	const float Whispy_FireCycle = 0.4f;
 	float Whispy_ReChargeTime = 0.0f;
 
 
+	void FrownStart();
+	void FrownUpdate(float _Delta);
 
-	// Frown 관련
 	bool IsImmune = false;
 
+	void KaonashiStart();
+	void KaonashiUpdate(float _Delta);
 
+	void CryingFaceStart();
+	void CryingFaceUpdate(float _Delta);
 
-	// stiack 관련
 	const float4 StickTargetPos = float4{ 288.0f , 415.0f };
 
 
-private:
-	void Start() override;
-	void Update(float _Delta) override;
-	void Render(float _Delta) override;
-
-	void LevelStart() override;
-	void LevelEnd() override;
+	// 충돌
+	void EnemyCollisionCheck();
 
 
 
+
+
+	// 디버깅
 	void ThisDebugRender(HDC _dc, int& _RenderNumber, const int _TextXPos, const int _TextYPos);
 
-
+	// 보스 숏컷
+	void DebugShortcut();
 };
 

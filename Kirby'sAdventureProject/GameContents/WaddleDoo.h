@@ -71,26 +71,30 @@ private:
 
 
 	// 상태
-	int WobbleCount = 0;
-	size_t WobbleFrame = -1;
-	int BombCount = -1;
-	int EndCount = -1;
-	float CurrentJumpDistance = 0.0f;
-
-
 	void WalkStart();
 	void WalkUpdate(float _Delta);
+
 	void JumpStart();
 	void JumpUpdate(float _Delta);
+
+	float CurrentJumpDistance = 0.0f;
+
 
 	void WobbleStart();
 	void WobbleUpdate(float _Delta);
 
+	int WobbleCount = 0;
+	size_t WobbleFrame = -1;
+
+
 	void ActivateAbilityStart();
 	void ActivateAbilityUpdate(float _Delta);
 
+	int EndCount = -1;
 
 
+
+	// 충돌
 	void EnemyCollisionCheck();
 
 
