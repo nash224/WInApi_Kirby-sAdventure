@@ -387,7 +387,7 @@ void VegetableValleyHub::VegetableValleyStage_1_Func()
 
 
 	// 첫번째 스테이지에 들어가면
-	if (true == IsPlayerEnter && KirbyPos.X > 260.0f && KirbyPos.X < 320.0f)
+	if (true == IsPlayerEnter && KirbyPos.X > 240.0f && KirbyPos.X < 320.0f)
 	{
 		if (nullptr == Stage1.DoorPtr)
 		{

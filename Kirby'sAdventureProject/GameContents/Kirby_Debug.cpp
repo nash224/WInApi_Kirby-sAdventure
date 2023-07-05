@@ -131,6 +131,14 @@ void Kirby::KirbysDebugShortcut(float _Delta)
 		return;
 	}
 
+	// Å«º°
+	if (true == GameEngineInput::IsDown('J'))
+	{
+		Star.SwallowedEnemyNumber = 2;
+		ChangeState(KirbyState::Contain_Idle);
+		return;
+	}
+
 }
 
 
@@ -541,5 +549,91 @@ void Kirby::KeyDownRender(HDC _dc)
 		std::string Text = "";
 		Text += "LShift";
 		TextOutA(_dc, KeyDownPos.iX() - 220, KeyDownPos.iY(), Text.c_str(), static_cast<int>(Text.size()));
+	}
+
+
+	if (true == GameEngineInput::IsPress('M'))
+	{
+		int ModeMenuNumber = 0;
+
+		{
+			std::string Text = "";
+			Text += "Mode Cheat Menu : ";
+			TextOutA(_dc, KeyDownPos.iX() - 200, KeyDownPos.iY() + DebugRenderText_YInter * ModeMenuNumber - 400, Text.c_str(), static_cast<int>(Text.size()));
+
+			ModeMenuNumber++;
+		}
+
+
+		{
+			std::string Text = "";
+			Text += "Key P : Thorn";
+			TextOutA(_dc, KeyDownPos.iX() - 200, KeyDownPos.iY() + DebugRenderText_YInter * ModeMenuNumber - 400, Text.c_str(), static_cast<int>(Text.size()));
+
+			ModeMenuNumber++;
+		}
+
+
+		{
+			std::string Text = "";
+			Text += "Key O : Sword";
+			TextOutA(_dc, KeyDownPos.iX() - 200, KeyDownPos.iY() + DebugRenderText_YInter * ModeMenuNumber - 400, Text.c_str(), static_cast<int>(Text.size()));
+
+			ModeMenuNumber++;
+		}
+
+
+		{
+			std::string Text = "";
+			Text += "Key I : Ice";
+			TextOutA(_dc, KeyDownPos.iX() - 200, KeyDownPos.iY() + DebugRenderText_YInter * ModeMenuNumber - 400, Text.c_str(), static_cast<int>(Text.size()));
+
+			ModeMenuNumber++;
+		}
+
+
+		{
+			std::string Text = "";
+			Text += "Key U : Beam";
+			TextOutA(_dc, KeyDownPos.iX() - 200, KeyDownPos.iY() + DebugRenderText_YInter * ModeMenuNumber - 400, Text.c_str(), static_cast<int>(Text.size()));
+
+			ModeMenuNumber++;
+		}
+
+
+		{
+			std::string Text = "";
+			Text += "Key Y : Fire";
+			TextOutA(_dc, KeyDownPos.iX() - 200, KeyDownPos.iY() + DebugRenderText_YInter * ModeMenuNumber - 400, Text.c_str(), static_cast<int>(Text.size()));
+
+			ModeMenuNumber++;
+		}
+
+
+		{
+			std::string Text = "";
+			Text += "Key K : Spark";
+			TextOutA(_dc, KeyDownPos.iX() - 200, KeyDownPos.iY() + DebugRenderText_YInter * ModeMenuNumber - 400, Text.c_str(), static_cast<int>(Text.size()));
+
+			ModeMenuNumber++;
+		}
+
+
+		{
+			std::string Text = "";
+			Text += "Key L : Laser";
+			TextOutA(_dc, KeyDownPos.iX() - 200, KeyDownPos.iY() + DebugRenderText_YInter * ModeMenuNumber - 400, Text.c_str(), static_cast<int>(Text.size()));
+
+			ModeMenuNumber++;
+		}
+
+
+		{
+			std::string Text = "";
+			Text += "Key J : Large Star";
+			TextOutA(_dc, KeyDownPos.iX() - 200, KeyDownPos.iY() + DebugRenderText_YInter * ModeMenuNumber - 400, Text.c_str(), static_cast<int>(Text.size()));
+
+			ModeMenuNumber++;
+		}
 	}
 }

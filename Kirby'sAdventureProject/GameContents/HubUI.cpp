@@ -259,7 +259,7 @@ void HubUI::LevelStartStamina()
 	}
 
 
-	for (size_t i = KirbyPtr->m_KirbyHp; i < StaminaRenderer_vec.size(); i++)
+	for (int i = KirbyPtr->m_KirbyHp; i < StaminaRenderer_vec.size(); i++)
 	{
 		GameEngineRenderer* StaminaRenderer = StaminaRenderer_vec[i];
 		if (nullptr == StaminaRenderer)

@@ -461,7 +461,7 @@ void PlayUI::OuchState(float _Delta)
 			// 피가 0일때 모든 Hp Off
 			if (0 == KirbyPtr->m_KirbyHp)
 			{
-				for (size_t i = 0; i < StaminaRenderer_vec.size(); i++)
+				for (int i = 0; i < StaminaRenderer_vec.size(); i++)
 				{
 					GameEngineRenderer* StaminaRenderer = StaminaRenderer_vec[i];
 					if (nullptr == StaminaRenderer)
@@ -486,7 +486,7 @@ void PlayUI::OuchState(float _Delta)
 				StaminaRenderer_Off->Off();
 
 
-				for (size_t i = 0; i < KirbyPtr->m_KirbyHp; i++)
+				for (int i = 0; i < KirbyPtr->m_KirbyHp; i++)
 				{
 					GameEngineRenderer* StaminaRenderer = StaminaRenderer_vec[i];
 					if (nullptr == StaminaRenderer)
@@ -531,7 +531,7 @@ void PlayUI::OuchState(float _Delta)
 					IsIncresing_Hp = true;
 				}
 
-				for (size_t i = 0; i < m_KirbySteminaCount + 1; i++)
+				for (int i = 0; i < m_KirbySteminaCount + 1; i++)
 				{
 					GameEngineRenderer* StaminaRenderer = StaminaRenderer_vec[i];
 					if (nullptr == StaminaRenderer)
@@ -581,7 +581,7 @@ void PlayUI::ScoreState()
 	}
 
 	// 점수 렌더링
-	for (size_t i = 0; i < ScoreRenderer_vec.size(); i++)
+	for (int i = 0; i < ScoreRenderer_vec.size(); i++)
 	{
 		GameEngineRenderer* ScoreRendererPtr = ScoreRenderer_vec[i];
 		if (nullptr == ScoreRendererPtr)
@@ -637,7 +637,7 @@ void PlayUI::LevelStartStamina()
 
 
 	// 커비 체력
-	for (size_t i = KirbyPtr->m_KirbyHp; i < StaminaRenderer_vec.size(); i++)
+	for (int i = KirbyPtr->m_KirbyHp; i < StaminaRenderer_vec.size(); i++)
 	{
 		GameEngineRenderer* StaminaRenderer = StaminaRenderer_vec[i];
 		if (nullptr == StaminaRenderer)

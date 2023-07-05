@@ -125,6 +125,13 @@ void WhispyWood::DebugShortcut()
 	{
 		m_BossHp = 1;
 	}
+
+
+
+	if (true == GameEngineInput::IsDown('V'))
+	{
+		++TwinkleCount;
+	}
 }
 
 
@@ -735,6 +742,16 @@ void WhispyWood::ThisDebugRender(HDC _dc, int& _RenderNumber, const int _TextXPo
 
 		++_RenderNumber;
 	}
+
+
+	{
+		std::string Text = "";
+		Text += "Char Key V : ++TwinkleCount";
+		TextOutA(_dc, _TextXPos, _TextYPos - _RenderNumber * DebugRenderText_YInter, Text.c_str(), static_cast<int>(Text.size()));
+
+		++_RenderNumber;
+	}
+
 
 
 

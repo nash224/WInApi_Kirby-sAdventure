@@ -393,7 +393,7 @@ void BossUI::BossAppearance(float _Delta)
 		Boss_Stamina_Full_Time = 0.0f;
 
 		// 2번 피를 채움
-		for (size_t i = 0; i < 2; i++)
+		for (int i = 0; i < 2; i++)
 		{
 			GameEngineRenderer* Boss_Stamina_RendererPtr = Boss_StaminaRenderer[UI_BossStamina];
 			if (nullptr == Boss_Stamina_RendererPtr)
@@ -446,7 +446,7 @@ void BossUI::OuchState(float _Delta)
 			// 피가 0일때 모든 Hp Off
 			if (0 == KirbyPtr->m_KirbyHp)
 			{
-				for (size_t i = 0; i < StaminaRenderer_vec.size(); i++)
+				for (int i = 0; i < StaminaRenderer_vec.size(); i++)
 				{
 					GameEngineRenderer* StaminaRenderer = StaminaRenderer_vec[i];
 					if (nullptr == StaminaRenderer)
@@ -471,7 +471,7 @@ void BossUI::OuchState(float _Delta)
 				StaminaRenderer_Off->Off();
 
 
-				for (size_t i = 0; i < KirbyPtr->m_KirbyHp; i++)
+				for (int i = 0; i < KirbyPtr->m_KirbyHp; i++)
 				{
 					GameEngineRenderer* StaminaRenderer = StaminaRenderer_vec[i];
 					if (nullptr == StaminaRenderer)
@@ -516,7 +516,7 @@ void BossUI::BossStaminaState(float _Delta)
 
 	if (UI_BossStamina != Current_BossHp)
 	{
-		for (size_t i = Current_BossHp; i < UI_BossStamina; i++)
+		for (int i = Current_BossHp; i < UI_BossStamina; i++)
 		{
 			if (i < 0)
 			{
@@ -584,7 +584,7 @@ void BossUI::ChangePortrait_ByeBye()
 			return;
 		}
 
-		for (size_t i = 0; i < StaminaRenderer_vec.size(); i++)
+		for (int i = 0; i < StaminaRenderer_vec.size(); i++)
 		{
 			GameEngineRenderer* StaminaRenderer = StaminaRenderer_vec[i];
 			if (nullptr == StaminaRenderer)
@@ -650,7 +650,7 @@ void BossUI::LevelStartStamina()
 
 
 	// 커비 체력
-	for (size_t i = KirbyPtr->m_KirbyHp; i < StaminaRenderer_vec.size(); i++)
+	for (int i = KirbyPtr->m_KirbyHp; i < StaminaRenderer_vec.size(); i++)
 	{
 		GameEngineRenderer* StaminaRenderer = StaminaRenderer_vec[i];
 		if (nullptr == StaminaRenderer)
@@ -672,7 +672,7 @@ void BossUI::LevelStartStamina()
 void BossUI::LevelEnd()
 {
 	// 보스 스태미나 설정 초기화
-	for (size_t i = 0; i < Boss_StaminaRenderer.size(); i++)
+	for (int i = 0; i < Boss_StaminaRenderer.size(); i++)
 	{
 		GameEngineRenderer* StaminaRenderer = Boss_StaminaRenderer[i];
 		if (nullptr == StaminaRenderer)

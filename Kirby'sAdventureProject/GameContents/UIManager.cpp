@@ -187,7 +187,7 @@ void UIManager::StaminaState()
 		m_KirbySteminaCount = 6;
 
 
-		for (size_t i = 0; i < StaminaRenderer_vec.size(); i++)
+		for (int i = 0; i < StaminaRenderer_vec.size(); i++)
 		{
 			GameEngineRenderer* StaminaRenderer = StaminaRenderer_vec[i];
 			if (nullptr == StaminaRenderer)

@@ -112,7 +112,7 @@ void VegetableValleyPlayLevel::SetPlayerPosAndCameraPos(const float4& _PlayerPos
 // 몹 리스폰 함수
 void VegetableValleyPlayLevel::CheckRespawnEnemy()
 {
-	for (size_t i = 0; i < LevelEnemy.size(); i++)
+	for (int i = 0; i < LevelEnemy.size(); i++)
 	{
 		Enemy* Enemy = LevelEnemy[i];
 		Enemy->RespawnTrigger();
@@ -291,14 +291,6 @@ void VegetableValleyPlayLevel::CameraFocus(float _Delta)
 		{
 			CameraPtr->SetPos(float4{ CameraPos.X  , BackGroundScale.Y - WinScale.Y + CurrentUIScale.Y });
 		}
-	}
-
-
-
-	if (true == GameEngineInput::IsDown('N'))
-	{
-		NextLevelTriggerOn = false;
-		GameEngineCore::ChangeLevel("VegetableValley12");
 	}
 }
 
