@@ -315,7 +315,7 @@ void Kirby::KirbyDebugRender(HDC _dc)
 		std::string Text = "";
 
 		Text += "현재 모드 : ";
-		Text += CurMode;
+0		Text += CurMode;
 		TextOutA(_dc, 2, 2 + TextRenderNum * DebugRenderText_YInter, Text.c_str(), static_cast<int>(Text.size()));
 
 		++TextRenderNum;

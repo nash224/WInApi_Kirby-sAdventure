@@ -414,6 +414,8 @@ void Kirby::ChangeAnimationState(const std::string& _StateName, int _StartFrame/
 		break;
 	}
 
+	CurMode = ModeName;
+
 	ModeName += AnimationName;
 
 	CurState = _StateName;
