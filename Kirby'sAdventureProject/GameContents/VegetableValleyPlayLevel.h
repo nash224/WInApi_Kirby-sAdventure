@@ -8,7 +8,7 @@
 
 
 // 사운드 볼륨 최대
-#define MAX_VOLUME_AMOUNT 1.0f
+#define MAX_VOLUME_AMOUNT 20.0f
 
 
 // 설명 : Contents Level 의 부모입니다. 자식 레벨에게 필요한 기능을 제공해줍니다.
@@ -143,7 +143,7 @@ public:
 private:
 	float SoundVolPressKeyTime = 0.0f;
 	const float SoundVol_OneTime_AmountOfChange = 0.2f;
-	const float SoundVol_KeyDownCycle = 0.2f;
+	const float SoundVol_KeyDownCycle = 0.15f;
 
 	void RePlayBGM();
 
