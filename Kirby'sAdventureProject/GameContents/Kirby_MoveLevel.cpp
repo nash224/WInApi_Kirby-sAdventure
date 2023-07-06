@@ -343,6 +343,11 @@ void Kirby::StageClearWalkStart()
 	IsChangeState = false;
 	IsReachedStarStick = false;
 
+	if (AbilityStar::Normal != Mode && AbilityStar::Max != Mode)
+	{
+		DropAbility();
+	}
+
 
 	// º¸½º¸Ê Áß¾Ó XÁÂÇ¥
 	GameEngineLevel* CurLevelPtr = GetLevel();

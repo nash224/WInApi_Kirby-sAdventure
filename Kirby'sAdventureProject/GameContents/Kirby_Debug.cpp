@@ -61,6 +61,12 @@ void Kirby::KirbysDebugShortcut(float _Delta)
 	//	return;
 	//}
 
+
+	if (AbilityStar::Max != Mode && AbilityStar::Normal != Mode)
+	{
+		return;
+	}
+
 	// ¾óÀ½
 	if (true == GameEngineInput::IsDown('I'))
 	{
@@ -559,7 +565,7 @@ void Kirby::KeyDownRender(HDC _dc)
 		{
 			std::string Text = "";
 			Text += "Mode Cheat Menu : ";
-			TextOutA(_dc, KeyDownPos.iX() - 200, KeyDownPos.iY() + DebugRenderText_YInter * ModeMenuNumber - 400, Text.c_str(), static_cast<int>(Text.size()));
+			TextOutA(_dc, KeyDownPos.iX() - 150, KeyDownPos.iY() + DebugRenderText_YInter * ModeMenuNumber - 400, Text.c_str(), static_cast<int>(Text.size()));
 
 			ModeMenuNumber++;
 		}
@@ -568,7 +574,7 @@ void Kirby::KeyDownRender(HDC _dc)
 		{
 			std::string Text = "";
 			Text += "Key P : Thorn";
-			TextOutA(_dc, KeyDownPos.iX() - 200, KeyDownPos.iY() + DebugRenderText_YInter * ModeMenuNumber - 400, Text.c_str(), static_cast<int>(Text.size()));
+			TextOutA(_dc, KeyDownPos.iX() - 150, KeyDownPos.iY() + DebugRenderText_YInter * ModeMenuNumber - 400, Text.c_str(), static_cast<int>(Text.size()));
 
 			ModeMenuNumber++;
 		}
@@ -577,7 +583,7 @@ void Kirby::KeyDownRender(HDC _dc)
 		{
 			std::string Text = "";
 			Text += "Key O : Sword";
-			TextOutA(_dc, KeyDownPos.iX() - 200, KeyDownPos.iY() + DebugRenderText_YInter * ModeMenuNumber - 400, Text.c_str(), static_cast<int>(Text.size()));
+			TextOutA(_dc, KeyDownPos.iX() - 150, KeyDownPos.iY() + DebugRenderText_YInter * ModeMenuNumber - 400, Text.c_str(), static_cast<int>(Text.size()));
 
 			ModeMenuNumber++;
 		}
@@ -586,7 +592,7 @@ void Kirby::KeyDownRender(HDC _dc)
 		{
 			std::string Text = "";
 			Text += "Key I : Ice";
-			TextOutA(_dc, KeyDownPos.iX() - 200, KeyDownPos.iY() + DebugRenderText_YInter * ModeMenuNumber - 400, Text.c_str(), static_cast<int>(Text.size()));
+			TextOutA(_dc, KeyDownPos.iX() - 150, KeyDownPos.iY() + DebugRenderText_YInter * ModeMenuNumber - 400, Text.c_str(), static_cast<int>(Text.size()));
 
 			ModeMenuNumber++;
 		}
@@ -595,7 +601,7 @@ void Kirby::KeyDownRender(HDC _dc)
 		{
 			std::string Text = "";
 			Text += "Key U : Beam";
-			TextOutA(_dc, KeyDownPos.iX() - 200, KeyDownPos.iY() + DebugRenderText_YInter * ModeMenuNumber - 400, Text.c_str(), static_cast<int>(Text.size()));
+			TextOutA(_dc, KeyDownPos.iX() - 150, KeyDownPos.iY() + DebugRenderText_YInter * ModeMenuNumber - 400, Text.c_str(), static_cast<int>(Text.size()));
 
 			ModeMenuNumber++;
 		}
@@ -604,7 +610,7 @@ void Kirby::KeyDownRender(HDC _dc)
 		{
 			std::string Text = "";
 			Text += "Key Y : Fire";
-			TextOutA(_dc, KeyDownPos.iX() - 200, KeyDownPos.iY() + DebugRenderText_YInter * ModeMenuNumber - 400, Text.c_str(), static_cast<int>(Text.size()));
+			TextOutA(_dc, KeyDownPos.iX() - 150, KeyDownPos.iY() + DebugRenderText_YInter * ModeMenuNumber - 400, Text.c_str(), static_cast<int>(Text.size()));
 
 			ModeMenuNumber++;
 		}
@@ -613,7 +619,7 @@ void Kirby::KeyDownRender(HDC _dc)
 		{
 			std::string Text = "";
 			Text += "Key K : Spark";
-			TextOutA(_dc, KeyDownPos.iX() - 200, KeyDownPos.iY() + DebugRenderText_YInter * ModeMenuNumber - 400, Text.c_str(), static_cast<int>(Text.size()));
+			TextOutA(_dc, KeyDownPos.iX() - 150, KeyDownPos.iY() + DebugRenderText_YInter * ModeMenuNumber - 400, Text.c_str(), static_cast<int>(Text.size()));
 
 			ModeMenuNumber++;
 		}
@@ -622,7 +628,7 @@ void Kirby::KeyDownRender(HDC _dc)
 		{
 			std::string Text = "";
 			Text += "Key L : Laser";
-			TextOutA(_dc, KeyDownPos.iX() - 200, KeyDownPos.iY() + DebugRenderText_YInter * ModeMenuNumber - 400, Text.c_str(), static_cast<int>(Text.size()));
+			TextOutA(_dc, KeyDownPos.iX() - 150, KeyDownPos.iY() + DebugRenderText_YInter * ModeMenuNumber - 400, Text.c_str(), static_cast<int>(Text.size()));
 
 			ModeMenuNumber++;
 		}
@@ -631,7 +637,7 @@ void Kirby::KeyDownRender(HDC _dc)
 		{
 			std::string Text = "";
 			Text += "Key J : Large Star";
-			TextOutA(_dc, KeyDownPos.iX() - 200, KeyDownPos.iY() + DebugRenderText_YInter * ModeMenuNumber - 400, Text.c_str(), static_cast<int>(Text.size()));
+			TextOutA(_dc, KeyDownPos.iX() - 150, KeyDownPos.iY() + DebugRenderText_YInter * ModeMenuNumber - 400, Text.c_str(), static_cast<int>(Text.size()));
 
 			ModeMenuNumber++;
 		}
