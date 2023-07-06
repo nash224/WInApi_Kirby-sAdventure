@@ -228,6 +228,7 @@ void Enemy::BeInhaledStart()
 	StateTime = 0.0f;
 	IsChangeState = false;
 	CurrentSpeed = 0.0f;
+	GravityReset();
 
 	IsInhaledStateOn = false;
 	BodyCollision->Off();
