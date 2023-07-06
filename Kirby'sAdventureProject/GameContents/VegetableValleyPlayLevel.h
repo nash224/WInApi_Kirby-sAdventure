@@ -8,7 +8,7 @@
 
 
 // 사운드 볼륨 최대
-#define MAX_VOLUME_AMOUNT 20.0f
+#define MAX_VOLUME_AMOUNT 5.0f
 
 
 // 설명 : Contents Level 의 부모입니다. 자식 레벨에게 필요한 기능을 제공해줍니다.
