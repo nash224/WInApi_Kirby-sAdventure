@@ -180,6 +180,7 @@ void Kirby::InhaleAbilityStart()
 
 	// 사운드 재생
 	InhaleSound = GameEngineSound::SoundPlay("Kirby_Inhale.wav");
+	IsInhaleSoundNow = true;
 }
 
 
@@ -373,7 +374,11 @@ void Kirby::InhaleAbilityUpdate(float _Delta)
 				KirbyBodyCollision->On();
 			}
 
-			InhaleSound.Stop();
+			if (true == IsInhaleSoundNow)
+			{
+				InhaleSound.Stop();
+				IsInhaleSoundNow = false;
+			}
 			ChangeState(KirbyState::Contain_Idle);
 			return;
 		}
@@ -386,7 +391,11 @@ void Kirby::InhaleAbilityUpdate(float _Delta)
 		Star.SwallowedPowerEnemyNumber;
 		InhaleEffectCollision->Off();
 
-		InhaleSound.Stop();
+		if (true == IsInhaleSoundNow)
+		{
+			InhaleSound.Stop();
+			IsInhaleSoundNow = false;
+		}
 		ChangeState(KirbyState::ReleaseSpecialAbility);
 		return;
 	}
@@ -544,6 +553,14 @@ void Kirby::CheckKirbyCollision()
 					IsHitted = false;
 					return;
 				}
+
+
+				if (true == IsInhaleSoundNow)
+				{
+					InhaleSound.Stop();
+					IsInhaleSoundNow = false;
+				}
+
 
 				if (1 == m_KirbyHp)
 				{

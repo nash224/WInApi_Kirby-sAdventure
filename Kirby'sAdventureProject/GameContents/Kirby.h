@@ -359,6 +359,7 @@ private:
 	void InhaleAbilityUpdate(float _Delta);
 
 	GameEngineSoundPlayer InhaleSound;
+	bool IsInhaleSoundNow = false;
 
 
 	// 커비의 별 변수 

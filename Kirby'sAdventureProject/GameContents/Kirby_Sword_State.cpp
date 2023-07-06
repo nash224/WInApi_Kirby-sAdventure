@@ -185,7 +185,7 @@ void Kirby::SwordAbilityUpdate(float _Delta)
 
 
 	// X축 속도 업데이트
-	DecelerationUpdate(_Delta);
+	ActorUtils::DecelerationUpdate(_Delta, DecelerationSpeed);
 	HorizontalUpdate(_Delta);
 }
 
