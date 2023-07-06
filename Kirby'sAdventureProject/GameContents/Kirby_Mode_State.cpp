@@ -508,6 +508,11 @@ void Kirby::CheckKirbyCollision()
 {
 	if (true == Cheat_NoneBodyCollision)
 	{
+		if (true == IsHitted)
+		{
+			IsHitted = false;
+		}
+
 		return;
 	}
 

@@ -676,7 +676,7 @@ void Sparky::Render(float _Detla)
 		ActorCollisionDetectionPointRender();
 	}
 
-
+	
 	if (false == VegetableValleyPlayLevel::Level_DebugRenderValue)
 	{
 		return;
