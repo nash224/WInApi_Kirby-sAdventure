@@ -131,10 +131,18 @@ void SkillEffect::AbilityToActorCollisionCheck(CollisionOrder _ActorBodyCol, boo
 				return;
 			}
 
+			if (true == Actor->IsHitted)
+			{
+				continue;
+			}
+
+
 			// 몬스터 상태 변경 트리거 On
 			Actor->IsHitted = true;
 
 
+
+			// 스킬의 처리는?
 			if (true == _IsDeath)
 			{
 				IsAbilityCollisionCheck = true;
@@ -185,10 +193,17 @@ void SkillEffect::AbilityToBossCollisionCheck(CollisionOrder _ActorBodyCol, int 
 				return;
 			}
 
+			if (true == Actor->IsHitted)
+			{
+				continue;
+			}
+
+
 			// 몬스터 상태 변경 트리거 On
 			Actor->IsHitted = true;
 			Actor->m_BossHp -= _Damage;
 
+			// 스킬의 처리는?
 			if (true == _IsDeath)
 			{
 				SkillDeathEffect();
