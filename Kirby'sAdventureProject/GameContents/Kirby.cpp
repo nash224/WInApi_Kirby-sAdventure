@@ -794,6 +794,12 @@ void Kirby::KirbyBodyCollisonOff()
 
 void Kirby::Render(float _Detla)
 {
+	if (true == VegetableValleyPlayLevel::Level_SwitchBitMapRenderValue)
+	{
+		ActorCollisionDetectionPointRender();
+	}
+
+
 	if (false == VegetableValleyPlayLevel::Level_DebugRenderValue)
 	{
 		return;
@@ -815,7 +821,6 @@ void Kirby::Render(float _Detla)
 	ThisDebugRender(dc);
 	KeyDownRender(dc);
 
-	ActorCollisionDetectionPointRender();
 }
 
 

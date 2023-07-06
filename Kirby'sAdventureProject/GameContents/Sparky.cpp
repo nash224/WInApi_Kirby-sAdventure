@@ -670,6 +670,13 @@ void Sparky::EnemyCollisionCheck()
 
 void Sparky::Render(float _Detla)
 {
+
+	if (true == VegetableValleyPlayLevel::Level_SwitchBitMapRenderValue)
+	{
+		ActorCollisionDetectionPointRender();
+	}
+
+
 	if (false == VegetableValleyPlayLevel::Level_DebugRenderValue)
 	{
 		return;
@@ -690,7 +697,6 @@ void Sparky::Render(float _Detla)
 	EnemyDebugRender(dc, TextRenderNum, TextXPos, TextYPos);
 	ThisDebugRender(dc, TextRenderNum, TextXPos, TextYPos);
 
-	ActorCollisionDetectionPointRender();
 }
 
 
