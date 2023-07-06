@@ -142,7 +142,7 @@ public:
 
 private:
 	float SoundVolPressKeyTime = 0.0f;
-	const float SoundVol_OneTime_AmountOfChange = 0.05f;
+	const float SoundVol_OneTime_AmountOfChange = 0.2f;
 	const float SoundVol_KeyDownCycle = 0.2f;
 
 	void RePlayBGM();

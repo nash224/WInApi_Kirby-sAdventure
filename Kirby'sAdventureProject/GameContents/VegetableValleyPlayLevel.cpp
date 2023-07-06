@@ -405,7 +405,7 @@ void VegetableValleyPlayLevel::LevelDebugShortcut(float _Delta)
 			{
 				SoundVol += SoundVol_OneTime_AmountOfChange;
 
-				if (SoundVol > 1.0f)
+				if (SoundVol > 20.0f)
 				{
 					SoundVol = 1.0f;
 				}
