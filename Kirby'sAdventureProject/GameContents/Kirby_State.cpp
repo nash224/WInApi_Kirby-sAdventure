@@ -348,7 +348,16 @@ void Kirby::WalkUpdate(float _Delta)
 void Kirby::RunStart()
 {
 	StateTime = 0.0f;
-	DustEffect* DustEffectPtr = GetLevel()->CreateActor<DustEffect>(UpdateOrder::Ability);
+
+
+	GameEngineLevel* CurLevelPtr = GetLevel();
+	if (nullptr == CurLevelPtr)
+	{
+		MsgBoxAssert("레벨을 불러오지 못했습니다.");
+		return;
+	}
+
+	DustEffect* DustEffectPtr = CurLevelPtr->CreateActor<DustEffect>(UpdateOrder::Ability);
 	if (nullptr == DustEffectPtr)
 	{
 		MsgBoxAssert("액터 생성에 실패했습니다.");
@@ -474,8 +483,14 @@ void Kirby::TurnStart()
 	}
 
 
+	GameEngineLevel* CurLevelPtr = GetLevel();
+	if (nullptr == CurLevelPtr)
+	{
+		MsgBoxAssert("레벨을 불러오지 못했습니다.");
+		return;
+	}
 
-	DustEffect* DustEffectPtr = GetLevel()->CreateActor<DustEffect>(UpdateOrder::Ability);
+	DustEffect* DustEffectPtr = CurLevelPtr->CreateActor<DustEffect>(UpdateOrder::Ability);
 	if (nullptr == DustEffectPtr)
 	{
 		MsgBoxAssert("액터 생성을 하지 못했습니다.");
@@ -952,7 +967,16 @@ void Kirby::BounceStart()
 	StateTime = 0.0f;
 	IsChangeState = false;
 
-	HitObjectEffect* HitObjectEffectPtr = GetLevel()->CreateActor<HitObjectEffect>();
+
+
+	GameEngineLevel* CurLevelPtr = GetLevel();
+	if (nullptr == CurLevelPtr)
+	{
+		MsgBoxAssert("레벨을 불러오지 못했습니다.");
+		return;
+	}
+
+	HitObjectEffect* HitObjectEffectPtr = CurLevelPtr->CreateActor<HitObjectEffect>();
 	if (nullptr == HitObjectEffectPtr)
 	{
 		MsgBoxAssert("액터를 생성하지 못했습니다.");
@@ -1024,7 +1048,15 @@ void Kirby::LandingStart()
 	StateTime = 0.0f;
 	IsChangeState = false;
 
-	HitObjectEffect* HitObjectEffectPtr = GetLevel()->CreateActor<HitObjectEffect>();
+
+	GameEngineLevel* CurLevelPtr = GetLevel();
+	if (nullptr == CurLevelPtr)
+	{
+		MsgBoxAssert("레벨을 불러오지 못했습니다.");
+		return;
+	}
+
+	HitObjectEffect* HitObjectEffectPtr = CurLevelPtr->CreateActor<HitObjectEffect>();
 	if (nullptr == HitObjectEffectPtr)
 	{
 		MsgBoxAssert("이펙트 생성을 하지 못했습니다.");
@@ -1309,7 +1341,15 @@ void Kirby::LowerAttackUpdate(float _Delta)
 	{
 		Duration = 0.0f;
 
-		DustEffect* DustEffectPtr = GetLevel()->CreateActor<DustEffect>(UpdateOrder::Ability);
+
+		GameEngineLevel* CurLevelPtr = GetLevel();
+		if (nullptr == CurLevelPtr)
+		{
+			MsgBoxAssert("레벨을 불러오지 못했습니다.");
+			return;
+		}
+
+		DustEffect* DustEffectPtr = CurLevelPtr->CreateActor<DustEffect>(UpdateOrder::Ability);
 		if (nullptr == DustEffectPtr)
 		{
 			MsgBoxAssert("액터가 Null 입니다");
@@ -1357,7 +1397,15 @@ void Kirby::HittheWallStart()
 	CurrentSpeed = 0.0f;
 	IsChangeState = false;
 
-	HitObjectEffect* HitObjectEffectPtr = GetLevel()->CreateActor<HitObjectEffect>(UpdateOrder::Ability);
+
+	GameEngineLevel* CurLevelPtr = GetLevel();
+	if (nullptr == CurLevelPtr)
+	{
+		MsgBoxAssert("레벨을 불러오지 못했습니다.");
+		return;
+	}
+
+	HitObjectEffect* HitObjectEffectPtr = CurLevelPtr->CreateActor<HitObjectEffect>(UpdateOrder::Ability);
 	if (nullptr == HitObjectEffectPtr)
 	{
 		MsgBoxAssert("액터 생성을 하지 못했습니다.");
@@ -1425,7 +1473,15 @@ void Kirby::HittheCeilingStart()
 	IsChangeState = false;
 	GravityReset();
 
-	HitObjectEffect* HitObjectEffectPtr = GetLevel()->CreateActor<HitObjectEffect>(UpdateOrder::Ability);
+
+	GameEngineLevel* CurLevelPtr = GetLevel();
+	if (nullptr == CurLevelPtr)
+	{
+		MsgBoxAssert("레벨을 불러오지 못했습니다.");
+		return;
+	}
+
+	HitObjectEffect* HitObjectEffectPtr = CurLevelPtr->CreateActor<HitObjectEffect>(UpdateOrder::Ability);
 	if (nullptr == HitObjectEffectPtr)
 	{
 		MsgBoxAssert("액터 생성을 하지 못했습니다.");
@@ -1706,8 +1762,16 @@ void Kirby::ExhaleAttackStart()
 	ChangeKirbyBodyState(KirbyBodyState::Little);
 
 
+
+	GameEngineLevel* CurLevelPtr = GetLevel();
+	if (nullptr == CurLevelPtr)
+	{
+		MsgBoxAssert("레벨을 불러오지 못했습니다.");
+		return;
+	}
+
 	// 임펙트 설정
-	ExhaleEffect* ExhaleEffectPtr = GetLevel()->CreateActor<ExhaleEffect>(UpdateOrder::Ability);
+	ExhaleEffect* ExhaleEffectPtr = CurLevelPtr->CreateActor<ExhaleEffect>(UpdateOrder::Ability);
 	if (nullptr == ExhaleEffectPtr)
 	{
 		MsgBoxAssert("액터가 Null 입니다.");
