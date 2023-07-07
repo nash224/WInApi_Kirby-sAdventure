@@ -57,7 +57,6 @@ private:
 
 
 	// Init 
-	void HubRendererSet();
 	void LivesAniRendererSet();
 	void LivesNumberRendererSet();
 	void StaminaCountRendererSet();

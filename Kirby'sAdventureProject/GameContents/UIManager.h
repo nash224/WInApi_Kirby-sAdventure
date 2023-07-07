@@ -48,6 +48,7 @@ protected:
 	const float4 NumberScale = float4{ 24.0f, 24.0f };
 
 
+	void HubRendererSet(const std::string& _FileName, const std::string& _Path);
 	void PortraitRendererSet(const float4& _RenderPos);
 
 

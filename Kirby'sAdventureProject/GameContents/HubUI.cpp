@@ -23,43 +23,10 @@ HubUI::~HubUI()
 
 void HubUI::Start()
 {
-	HubRendererSet();
+	HubRendererSet("HubUI.bmp", "Resources\\UI");
 	PortraitRendererSet(HUB_PORTRAITLOCATION);
 	LivesNumberRendererSet();
 	StaminaCountRendererSet();
-}
-
-
-
-// UI 이미지 로드
-void HubUI::HubRendererSet()
-{
-	// UI 패널
-	MainUIRenderer = CreateUIRenderer(RenderOrder::PlayUI);
-	if (nullptr == MainUIRenderer)
-	{
-		MsgBoxAssert("렌더러가 Null 입니다..");
-		return;
-	}
-
-
-	GameEngineWindowTexture* Texture = GlobalContents::TextureFileLoad("HubUI.bmp", "Resources\\UI");
-	if (nullptr == Texture)
-	{
-		MsgBoxAssert("UI 텍스처가 널일리가 없어");
-		return;
-	}
-
-	UIScale = Texture->GetScale();
-	float4 WinScale = GameEngineWindow::MainWindow.GetScale();
-
-
-	SetPos(float4{ 0.0f , WinScale.Y - UIScale.Y });
-
-	// 크기 및 위치 설정
-	MainUIRenderer->SetTexture("HubUI.bmp");
-	MainUIRenderer->SetRenderPos(UIScale.Half());
-	MainUIRenderer->SetRenderScale(UIScale);
 }
 
 

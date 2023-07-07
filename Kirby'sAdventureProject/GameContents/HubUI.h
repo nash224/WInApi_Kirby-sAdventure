@@ -49,8 +49,6 @@ private:
 	const float4 HUB_StaminaScale = float4{ 24.0f, 24.0f };
 
 
-	void HubRendererSet();
-
 	void LivesNumberRendererSet();
 
 	void StaminaCountRendererSet();

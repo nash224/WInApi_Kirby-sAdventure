@@ -27,7 +27,8 @@ BossUI::~BossUI()
 
 void BossUI::Start()
 {
-	HubRendererSet();
+	HubRendererSet("BossUI.bmp", "Resources\\UI");
+	EndingRendererSet();
 	LivesAniRendererSet();
 	PortraitRendererSet(PORTRAITLOCATION);
 	LivesNumberRendererSet();
@@ -38,36 +39,8 @@ void BossUI::Start()
 
 
 // UI 이미지 세팅
-void BossUI::HubRendererSet()
+void BossUI::EndingRendererSet()
 {
-	// UI 패널
-	MainUIRenderer = CreateUIRenderer(RenderOrder::PlayUI);
-	if (nullptr == MainUIRenderer)
-	{
-		MsgBoxAssert("렌더러가 Null 입니다..");
-		return;
-	}
-
-	GameEngineWindowTexture* Texture = GlobalContents::TextureFileLoad("BossUI.bmp", "Resources\\UI");
-	if (nullptr == Texture)
-	{
-		MsgBoxAssert("UI 텍스처가 널일리가 없어");
-		return;
-	}
-
-	UIScale = Texture->GetScale();
-	float4 WinScale = GameEngineWindow::MainWindow.GetScale();
-
-
-	SetPos(float4{ 0.0f , WinScale.Y - UIScale.Y });
-
-
-	MainUIRenderer->SetTexture("BossUI.bmp");
-	MainUIRenderer->SetRenderPos(UIScale.Half());
-	MainUIRenderer->SetRenderScale(UIScale);
-
-
-
 	// 엔딩 패널 렌더러
 	EndingPanelRenderer = CreateUIRenderer(RenderOrder::PlayUI);
 	if (nullptr == EndingPanelRenderer)

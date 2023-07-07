@@ -70,7 +70,7 @@ private:
 
 
 	// Start
-	void HubRendererSet();
+	void EndingRendererSet();
 	void LivesAniRendererSet();
 	void LivesNumberRendererSet();
 	void StaminaCountRendererSet();

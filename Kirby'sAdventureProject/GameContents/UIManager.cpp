@@ -2,6 +2,7 @@
 #include "ContentsEnum.h"
 #include "GlobalContents.h"
 
+#include <GameEnginePlatform/GameEngineWindow.h>
 #include <GameEngineCore/GameEngineRenderer.h>
 #include <GameEngineCore/GameEngineSprite.h>
 
@@ -22,6 +23,39 @@ UIManager::UIManager()
 
 UIManager::~UIManager() 
 {
+}
+
+
+
+
+// UI 이미지 세팅
+void UIManager::HubRendererSet(const std::string& _FileName, const std::string& _Path)
+{
+	// UI 패널
+	MainUIRenderer = CreateUIRenderer(RenderOrder::PlayUI);
+	if (nullptr == MainUIRenderer)
+	{
+		MsgBoxAssert("렌더러가 Null 입니다..");
+		return;
+	}
+
+	GameEngineWindowTexture* Texture = GlobalContents::TextureFileLoad(_FileName, _Path);
+	if (nullptr == Texture)
+	{
+		MsgBoxAssert("UI 텍스처가 널일리가 없어");
+		return;
+	}
+
+	UIScale = Texture->GetScale();
+	float4 WinScale = GameEngineWindow::MainWindow.GetScale();
+
+
+	SetPos(float4{ 0.0f , WinScale.Y - UIScale.Y });
+
+
+	MainUIRenderer->SetTexture(_FileName);
+	MainUIRenderer->SetRenderPos(UIScale.Half());
+	MainUIRenderer->SetRenderScale(UIScale);
 }
 
 

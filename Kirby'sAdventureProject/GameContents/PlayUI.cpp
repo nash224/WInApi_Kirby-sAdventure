@@ -29,53 +29,13 @@ PlayUI::~PlayUI()
 
 void PlayUI::Start()
 {
-	HubRendererSet();
+	HubRendererSet("MainUI.bmp", "Resources\\UI");
 	LivesAniRendererSet();
 	PortraitRendererSet(PORTRAITLOCATION);
 	LivesNumberRendererSet();
 	StaminaCountRendererSet();
 	ScoreRendererSet();
 }
-
-
-
-
-// UI창 로드
-void PlayUI::HubRendererSet()
-{
-	// UI 패널
-	MainUIRenderer = CreateUIRenderer(RenderOrder::PlayUI);
-	if (nullptr == MainUIRenderer)
-	{
-		MsgBoxAssert("렌더러가 Null 입니다..");
-		return;
-	}
-
-
-	GameEngineWindowTexture* Texture = GlobalContents::TextureFileLoad("MainUI.bmp", "Resources\\UI");
-	if (nullptr == Texture)
-	{
-		MsgBoxAssert("UI 텍스처가 널일리가 없어");
-		return;
-	}
-
-	UIScale = Texture->GetScale();
-	float4 WinScale = GameEngineWindow::MainWindow.GetScale();
-
-
-	SetPos(float4{ 0.0f , WinScale.Y - UIScale.Y });
-
-
-	MainUIRenderer->SetTexture("MainUI.bmp");
-	MainUIRenderer->SetRenderPos(UIScale.Half());
-	MainUIRenderer->SetRenderScale(UIScale);
-
-
-
-	SetName("PlayUI");
-}
-
-
 
 
 
