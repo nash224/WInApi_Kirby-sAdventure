@@ -33,7 +33,7 @@ void PlayUI::Start()
 	LivesAniRendererSet();
 	PortraitRendererSet(PORTRAITLOCATION);
 	LivesNumberRendererSet();
-	StaminaCountRendererSet();
+	StaminaCountRendererSet("UI_LifeBar_3x1_24x42.bmp", "Resources\\UI", PLAY_STAMINAFIRSTNUMBERLOCATION);
 	ScoreRendererSet();
 }
 
@@ -113,121 +113,6 @@ void PlayUI::LivesNumberRendererSet()
 }
 
 
-
-
-
-// 스태미나 이미지 로드
-void PlayUI::StaminaCountRendererSet()
-{
-	// UI StaminaAnimation
-	GameEngineRenderer* First_StaminaRenderer = CreateUIRenderer(RenderOrder::PlayUI);
-	if (nullptr == First_StaminaRenderer)
-	{
-		MsgBoxAssert("렌더러가 Null 입니다..");
-		return;
-	}
-
-	GameEngineRenderer* Second_StaminaRenderer = CreateUIRenderer(RenderOrder::PlayUI);
-	if (nullptr == Second_StaminaRenderer)
-	{
-		MsgBoxAssert("렌더러가 Null 입니다..");
-		return;
-	}
-
-	GameEngineRenderer* Third_StaminaRenderer = CreateUIRenderer(RenderOrder::PlayUI);
-	if (nullptr == Third_StaminaRenderer)
-	{
-		MsgBoxAssert("렌더러가 Null 입니다..");
-		return;
-	}
-
-	GameEngineRenderer* Fourth_StaminaRenderer = CreateUIRenderer(RenderOrder::PlayUI);
-	if (nullptr == Fourth_StaminaRenderer)
-	{
-		MsgBoxAssert("렌더러가 Null 입니다..");
-		return;
-	}
-
-	GameEngineRenderer* Fifth_StaminaRenderer = CreateUIRenderer(RenderOrder::PlayUI);
-	if (nullptr == Fifth_StaminaRenderer)
-	{
-		MsgBoxAssert("렌더러가 Null 입니다..");
-		return;
-	}
-
-	GameEngineRenderer* Sixth_StaminaRenderer = CreateUIRenderer(RenderOrder::PlayUI);
-	if (nullptr == Sixth_StaminaRenderer)
-	{
-		MsgBoxAssert("렌더러가 Null 입니다..");
-		return;
-	}
-
-
-	// Sprite Scale
-	GameEngineSprite* Sprite = GlobalContents::SpriteFileLoad("UI_LifeBar_3x1_24x42.bmp", "Resources\\UI", 3, 1);
-	if (nullptr == Sprite)
-	{
-		MsgBoxAssert("UI 텍스처가 널일리가 없어");
-		return;
-	}
-
-	float4 StaminaScale = Sprite->GetSprite(0).RenderScale;
-
-	StaminaRenderer_vec.reserve(6);
-
-	// Set Stamina Render
-	First_StaminaRenderer->CreateAnimation("StaminaRemain", "UI_LifeBar_3x1_24x42.bmp", 0, 1, 0.6f, true);
-	First_StaminaRenderer->CreateAnimation("StaminaNone", "UI_LifeBar_3x1_24x42.bmp", 2, 2, 0.6f, false);
-	First_StaminaRenderer->ChangeAnimation("StaminaRemain");
-	First_StaminaRenderer->SetRenderPos(PLAY_STAMINAFIRSTNUMBERLOCATION + StaminaScale.Half());
-	StaminaRenderer_vec.push_back(First_StaminaRenderer);
-
-
-
-	Second_StaminaRenderer->CreateAnimation("StaminaRemain", "UI_LifeBar_3x1_24x42.bmp", 0, 1, 0.6f, true);
-	Second_StaminaRenderer->CreateAnimation("StaminaNone", "UI_LifeBar_3x1_24x42.bmp", 2, 2, 0.6f, false);
-	Second_StaminaRenderer->ChangeAnimation("StaminaRemain");
-	Second_StaminaRenderer->SetRenderPos(PLAY_STAMINAFIRSTNUMBERLOCATION + float4{ StaminaScale.X * 1.0f , 0.0f } + StaminaScale.Half());
-	StaminaRenderer_vec.push_back(Second_StaminaRenderer);
-
-
-
-	Third_StaminaRenderer->CreateAnimation("StaminaRemain", "UI_LifeBar_3x1_24x42.bmp", 0, 1, 0.6f, true);
-	Third_StaminaRenderer->CreateAnimation("StaminaNone", "UI_LifeBar_3x1_24x42.bmp", 2, 2, 0.6f, false);
-	Third_StaminaRenderer->ChangeAnimation("StaminaRemain");
-	Third_StaminaRenderer->SetRenderPos(PLAY_STAMINAFIRSTNUMBERLOCATION + float4{ StaminaScale.X * 2.0f , 0.0f } + StaminaScale.Half());
-	StaminaRenderer_vec.push_back(Third_StaminaRenderer);
-
-
-
-	Fourth_StaminaRenderer->CreateAnimation("StaminaRemain", "UI_LifeBar_3x1_24x42.bmp", 0, 1, 0.6f, true);
-	Fourth_StaminaRenderer->CreateAnimation("StaminaNone", "UI_LifeBar_3x1_24x42.bmp", 2, 2, 0.6f, false);
-	Fourth_StaminaRenderer->ChangeAnimation("StaminaRemain");
-	Fourth_StaminaRenderer->SetRenderPos(PLAY_STAMINAFIRSTNUMBERLOCATION + float4{ StaminaScale.X * 3.0f , 0.0f } + StaminaScale.Half());
-	StaminaRenderer_vec.push_back(Fourth_StaminaRenderer);
-
-
-
-	Fifth_StaminaRenderer->CreateAnimation("StaminaRemain", "UI_LifeBar_3x1_24x42.bmp", 0, 1, 0.6f, true);
-	Fifth_StaminaRenderer->CreateAnimation("StaminaNone", "UI_LifeBar_3x1_24x42.bmp", 2, 2, 0.6f, false);
-	Fifth_StaminaRenderer->ChangeAnimation("StaminaRemain");
-	Fifth_StaminaRenderer->SetRenderPos(PLAY_STAMINAFIRSTNUMBERLOCATION + float4{ StaminaScale.X * 4.0f , 0.0f } + StaminaScale.Half());
-	StaminaRenderer_vec.push_back(Fifth_StaminaRenderer);
-
-
-
-	Sixth_StaminaRenderer->CreateAnimation("StaminaRemain", "UI_LifeBar_3x1_24x42.bmp", 0, 1, 0.6f, true);
-	Sixth_StaminaRenderer->CreateAnimation("StaminaNone", "UI_LifeBar_3x1_24x42.bmp", 2, 2, 0.6f, false);
-	Sixth_StaminaRenderer->ChangeAnimation("StaminaRemain");
-	Sixth_StaminaRenderer->SetRenderPos(PLAY_STAMINAFIRSTNUMBERLOCATION + float4{ StaminaScale.X * 5.0f , 0.0f } + StaminaScale.Half());
-	StaminaRenderer_vec.push_back(Sixth_StaminaRenderer);
-
-
-
-	// 사운드
-	GlobalContents::SoundFileLoad("Kirby_LowerHP.wav", "Resources\\SoundResources\\EffectVoice");
-	GlobalContents::SoundFileLoad("Boss_StaminaFullSound.wav", "Resources\\SoundResources\\EffectVoice");
-}
 
 
 

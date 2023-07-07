@@ -59,7 +59,6 @@ private:
 	// Init 
 	void LivesAniRendererSet();
 	void LivesNumberRendererSet();
-	void StaminaCountRendererSet();
 	void ScoreRendererSet();
 		
 

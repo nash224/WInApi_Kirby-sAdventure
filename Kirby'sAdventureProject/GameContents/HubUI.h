@@ -36,26 +36,27 @@ public:
 	HubUI& operator=(HubUI&& _Other) noexcept = delete;
 
 
-	// GameEngineObject 상속
 private:
+	// GameEngineObject 상속
 	void Start() override;
 	void Update(float _Delta) override;
+
+
 	void LevelStart() override;
 
 
 
 	// Start
 	// 초기 세팅
-	const float4 HUB_StaminaScale = float4{ 24.0f, 24.0f };
 
 
 	void LivesNumberRendererSet();
-
-	void StaminaCountRendererSet();
+	void StaminaCountRendererSet(const std::string& _FileName, const std::string& _Path, const float4& _StaminaFirstPos);
 
 
 
 	// LevelStart
 	void LevelStartStamina();
+	float4 HUB_StaminaScale = float4{ 24.0f , 24.0f };
 };
 

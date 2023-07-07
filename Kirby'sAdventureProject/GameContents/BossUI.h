@@ -73,7 +73,6 @@ private:
 	void EndingRendererSet();
 	void LivesAniRendererSet();
 	void LivesNumberRendererSet();
-	void StaminaCountRendererSet();
 	void BossStaminaRendererSet();
 
 

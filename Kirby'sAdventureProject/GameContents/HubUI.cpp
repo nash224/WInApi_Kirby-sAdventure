@@ -25,9 +25,48 @@ void HubUI::Start()
 {
 	HubRendererSet("HubUI.bmp", "Resources\\UI");
 	PortraitRendererSet(HUB_PORTRAITLOCATION);
-	LivesNumberRendererSet();
-	StaminaCountRendererSet();
+	LivesNumberRendererSet(); 
+	StaminaCountRendererSet("HUB_UI_LifeBar_2x1_24x24.bmp", "Resources\\UI", HUB_STAMINAFIRSTNUMBERLOCATION);
 }
+
+
+
+// 스태미나 숫자 세팅
+void HubUI::StaminaCountRendererSet(const std::string& _FileName, const std::string& _Path, const float4& _StaminaFirstPos)
+{
+	// Sprite Scale
+	GameEngineWindowTexture* Texture = GlobalContents::TextureFileLoad(_FileName, _Path);
+	if (nullptr == Texture)
+	{
+		MsgBoxAssert("UI 텍스처가 널일리가 없어");
+		return;
+	}
+
+	float4 StaminaScale = Texture->GetScale();
+
+
+	// UI StaminaAnimation
+	StaminaRenderer_vec.reserve(StaminaCount);
+	for (size_t i = 0; i < StaminaCount; i++)
+	{
+		GameEngineRenderer* StaminaRenderer = CreateUIRenderer(RenderOrder::PlayUI);
+		if (nullptr == StaminaRenderer)
+		{
+			MsgBoxAssert("렌더러가 Null 입니다..");
+			return;
+		}
+
+
+		// Set Stamina Render
+		StaminaRenderer->SetTexture(_FileName);
+		StaminaRenderer->SetCopyPos(float4::ZERO);
+		StaminaRenderer->SetCopyScale(StaminaScale);
+		StaminaRenderer->SetRenderPos(_StaminaFirstPos + float4{ StaminaScale.X * static_cast<float>(i), 0.0f } + StaminaScale.Half());
+		StaminaRenderer->SetRenderScale(StaminaScale);
+		StaminaRenderer_vec.push_back(StaminaRenderer);
+	}
+}
+
 
 
 
@@ -75,119 +114,6 @@ void HubUI::LivesNumberRendererSet()
 
 
 
-// 스태미나 숫자 세팅
-void HubUI::StaminaCountRendererSet()
-{
-	// UI StaminaAnimation
-	GameEngineRenderer* First_StaminaRenderer = CreateUIRenderer(RenderOrder::PlayUI);
-	if (nullptr == First_StaminaRenderer)
-	{
-		MsgBoxAssert("렌더러가 Null 입니다..");
-		return;
-	}
-
-	GameEngineRenderer* Second_StaminaRenderer = CreateUIRenderer(RenderOrder::PlayUI);
-	if (nullptr == Second_StaminaRenderer)
-	{
-		MsgBoxAssert("렌더러가 Null 입니다..");
-		return;
-	}
-
-	GameEngineRenderer* Third_StaminaRenderer = CreateUIRenderer(RenderOrder::PlayUI);
-	if (nullptr == Third_StaminaRenderer)
-	{
-		MsgBoxAssert("렌더러가 Null 입니다..");
-		return;
-	}
-
-	GameEngineRenderer* Fourth_StaminaRenderer = CreateUIRenderer(RenderOrder::PlayUI);
-	if (nullptr == Fourth_StaminaRenderer)
-	{
-		MsgBoxAssert("렌더러가 Null 입니다..");
-		return;
-	}
-
-	GameEngineRenderer* Fifth_StaminaRenderer = CreateUIRenderer(RenderOrder::PlayUI);
-	if (nullptr == Fifth_StaminaRenderer)
-	{
-		MsgBoxAssert("렌더러가 Null 입니다..");
-		return;
-	}
-
-	GameEngineRenderer* Sixth_StaminaRenderer = CreateUIRenderer(RenderOrder::PlayUI);
-	if (nullptr == Sixth_StaminaRenderer)
-	{
-		MsgBoxAssert("렌더러가 Null 입니다..");
-		return;
-	}
-
-
-	// Sprite Scale
-	GameEngineWindowTexture* Texture = GlobalContents::TextureFileLoad("HUB_UI_LifeBar_2x1_24x24.bmp", "Resources\\UI");
-	if (nullptr == Texture)
-	{
-		MsgBoxAssert("UI 텍스처가 널일리가 없어");
-		return;
-	}
-
-
-
-
-	// Set Stamina Render
-	First_StaminaRenderer->SetTexture("HUB_UI_LifeBar_2x1_24x24.bmp");
-	First_StaminaRenderer->SetCopyPos(float4::ZERO);
-	First_StaminaRenderer->SetCopyScale(HUB_StaminaScale);
-	First_StaminaRenderer->SetRenderPos(HUB_STAMINAFIRSTNUMBERLOCATION + HUB_StaminaScale.Half());
-	First_StaminaRenderer->SetRenderScale(HUB_StaminaScale);
-	StaminaRenderer_vec.push_back(First_StaminaRenderer);
-
-
-	Second_StaminaRenderer->SetTexture("HUB_UI_LifeBar_2x1_24x24.bmp");
-	Second_StaminaRenderer->SetCopyPos(float4::ZERO);
-	Second_StaminaRenderer->SetCopyScale(HUB_StaminaScale);
-	Second_StaminaRenderer->SetRenderPos(HUB_STAMINAFIRSTNUMBERLOCATION + float4{ HUB_StaminaScale.X , 0.0f } + HUB_StaminaScale.Half());
-	Second_StaminaRenderer->SetRenderScale(HUB_StaminaScale);
-	StaminaRenderer_vec.push_back(Second_StaminaRenderer);
-
-
-
-	Third_StaminaRenderer->SetTexture("HUB_UI_LifeBar_2x1_24x24.bmp");
-	Third_StaminaRenderer->SetCopyPos(float4::ZERO);
-	Third_StaminaRenderer->SetCopyScale(HUB_StaminaScale);
-	Third_StaminaRenderer->SetRenderPos(HUB_STAMINAFIRSTNUMBERLOCATION + float4{ HUB_StaminaScale.X * 2.0f, 0.0f } + HUB_StaminaScale.Half());
-	Third_StaminaRenderer->SetRenderScale(HUB_StaminaScale);
-	StaminaRenderer_vec.push_back(Third_StaminaRenderer);
-
-
-
-	Fourth_StaminaRenderer->SetTexture("HUB_UI_LifeBar_2x1_24x24.bmp");
-	Fourth_StaminaRenderer->SetCopyPos(float4::ZERO);
-	Fourth_StaminaRenderer->SetCopyScale(HUB_StaminaScale);
-	Fourth_StaminaRenderer->SetRenderPos(HUB_STAMINAFIRSTNUMBERLOCATION + float4{ HUB_StaminaScale.X * 3.0f, 0.0f } + HUB_StaminaScale.Half());
-	Fourth_StaminaRenderer->SetRenderScale(HUB_StaminaScale);
-	StaminaRenderer_vec.push_back(Fourth_StaminaRenderer);
-
-
-
-	Fifth_StaminaRenderer->SetTexture("HUB_UI_LifeBar_2x1_24x24.bmp");
-	Fifth_StaminaRenderer->SetCopyPos(float4::ZERO);
-	Fifth_StaminaRenderer->SetCopyScale(HUB_StaminaScale);
-	Fifth_StaminaRenderer->SetRenderPos(HUB_STAMINAFIRSTNUMBERLOCATION + float4{ HUB_StaminaScale.X * 4.0f, 0.0f } + HUB_StaminaScale.Half());
-	Fifth_StaminaRenderer->SetRenderScale(HUB_StaminaScale);
-	StaminaRenderer_vec.push_back(Fifth_StaminaRenderer);
-
-
-
-	Sixth_StaminaRenderer->SetTexture("HUB_UI_LifeBar_2x1_24x24.bmp");
-	Sixth_StaminaRenderer->SetCopyPos(float4::ZERO);
-	Sixth_StaminaRenderer->SetCopyScale(HUB_StaminaScale);
-	Sixth_StaminaRenderer->SetRenderPos(HUB_STAMINAFIRSTNUMBERLOCATION + float4{ HUB_StaminaScale.X * 5.0f, 0.0f } + HUB_StaminaScale.Half());
-	Sixth_StaminaRenderer->SetRenderScale(HUB_StaminaScale);
-	StaminaRenderer_vec.push_back(Sixth_StaminaRenderer);
-
-
-}
-
 
 
 
@@ -226,7 +152,7 @@ void HubUI::LevelStartStamina()
 	}
 
 
-	for (int i = KirbyPtr->m_KirbyHp; i < StaminaRenderer_vec.size(); i++)
+	for (int i = 0; i < StaminaRenderer_vec.size(); i++)
 	{
 		GameEngineRenderer* StaminaRenderer = StaminaRenderer_vec[i];
 		if (nullptr == StaminaRenderer)
@@ -235,6 +161,20 @@ void HubUI::LevelStartStamina()
 			return;
 		}
 
-		StaminaRenderer->SetCopyPos(float4{ HUB_StaminaScale.X , 0.0f });
+		StaminaRenderer->Off();
+	}
+
+
+
+	for (int i = 0; i < KirbyPtr->m_KirbyHp; i++)
+	{
+		GameEngineRenderer* StaminaRenderer = StaminaRenderer_vec[i];
+		if (nullptr == StaminaRenderer)
+		{
+			MsgBoxAssert("렌더러를 불러오지 못했습니다.");
+			return;
+		}
+
+		StaminaRenderer->On();
 	}
 }

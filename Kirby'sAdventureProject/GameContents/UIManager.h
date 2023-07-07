@@ -42,7 +42,6 @@ protected:
 	GameEngineRenderer* First_LivesRenderer = nullptr;
 	GameEngineRenderer* Second_LivesRenderer = nullptr;
 
-	std::vector<GameEngineRenderer*> StaminaRenderer_vec;
 
 
 	const float4 NumberScale = float4{ 24.0f, 24.0f };
@@ -50,6 +49,10 @@ protected:
 
 	void HubRendererSet(const std::string& _FileName, const std::string& _Path);
 	void PortraitRendererSet(const float4& _RenderPos);
+	void StaminaCountRendererSet(const std::string& _FileName, const std::string& _Path, const float4& _StaminaFirstPos);
+	std::vector<GameEngineRenderer*> StaminaRenderer_vec;
+
+	size_t StaminaCount = 6;
 
 
 

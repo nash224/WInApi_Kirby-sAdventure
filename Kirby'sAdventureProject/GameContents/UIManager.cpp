@@ -106,6 +106,48 @@ void UIManager::PortraitRendererSet(const float4& _RenderPos)
 
 
 
+// 스태미나 숫자 세팅
+void UIManager::StaminaCountRendererSet(const std::string& _FileName, const std::string& _Path, const float4& _StaminaFirstPos)
+{
+	// Sprite Scale
+	GameEngineSprite* Sprite = GlobalContents::SpriteFileLoad(_FileName, _Path, 3, 1);
+	if (nullptr == Sprite)
+	{
+		MsgBoxAssert("UI 텍스처가 널일리가 없어");
+		return;
+	}
+
+	float4 StaminaScale = Sprite->GetSprite(0).RenderScale;
+
+
+	// UI StaminaAnimation
+	StaminaRenderer_vec.reserve(StaminaCount);
+	for (size_t i = 0; i < StaminaCount; i++)
+	{
+		GameEngineRenderer* StaminaRenderer = CreateUIRenderer(RenderOrder::PlayUI);
+		if (nullptr == StaminaRenderer)
+		{
+			MsgBoxAssert("렌더러가 Null 입니다..");
+			return;
+		}
+
+		// Set Stamina Render
+		StaminaRenderer->CreateAnimation("StaminaRemain", _FileName, 0, 1, 0.6f, true);
+		StaminaRenderer->ChangeAnimation("StaminaRemain");
+
+		StaminaRenderer->SetRenderPos(_StaminaFirstPos + float4{ StaminaScale.X * static_cast<float>(i), 0.0f } + StaminaScale.Half());
+		StaminaRenderer_vec.push_back(StaminaRenderer);
+	}
+
+
+	// 사운드
+	GlobalContents::SoundFileLoad("Kirby_LowerHP.wav", "Resources\\SoundResources\\EffectVoice");
+	GlobalContents::SoundFileLoad("Boss_StaminaFullSound.wav", "Resources\\SoundResources\\EffectVoice");
+}
+
+
+
+
 
 /* ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ */
 
