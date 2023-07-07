@@ -50,7 +50,6 @@ private:
 	// 초기 세팅
 
 
-	void LivesNumberRendererSet();
 	void StaminaCountRendererSet(const std::string& _FileName, const std::string& _Path, const float4& _StaminaFirstPos);
 
 

@@ -49,6 +49,7 @@ protected:
 
 	void HubRendererSet(const std::string& _FileName, const std::string& _Path);
 	void PortraitRendererSet(const float4& _RenderPos);
+	void LivesNumberRendererSet(const float4& _Pos);
 	void StaminaCountRendererSet(const std::string& _FileName, const std::string& _Path, const float4& _StaminaFirstPos);
 	std::vector<GameEngineRenderer*> StaminaRenderer_vec;
 

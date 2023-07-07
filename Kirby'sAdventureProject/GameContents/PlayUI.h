@@ -58,8 +58,9 @@ private:
 
 	// Init 
 	void LivesAniRendererSet();
-	void LivesNumberRendererSet();
 	void ScoreRendererSet();
+
+	const size_t ScoreRenderer = 7;
 		
 
 

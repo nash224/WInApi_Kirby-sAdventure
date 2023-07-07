@@ -25,7 +25,7 @@ void HubUI::Start()
 {
 	HubRendererSet("HubUI.bmp", "Resources\\UI");
 	PortraitRendererSet(HUB_PORTRAITLOCATION);
-	LivesNumberRendererSet(); 
+	LivesNumberRendererSet(HUB_LIVESFIRSTNUMBERLOCATION);
 	StaminaCountRendererSet("HUB_UI_LifeBar_2x1_24x24.bmp", "Resources\\UI", HUB_STAMINAFIRSTNUMBERLOCATION);
 }
 
@@ -65,50 +65,6 @@ void HubUI::StaminaCountRendererSet(const std::string& _FileName, const std::str
 		StaminaRenderer->SetRenderScale(StaminaScale);
 		StaminaRenderer_vec.push_back(StaminaRenderer);
 	}
-}
-
-
-
-
-// 목숨 숫자 로드
-void HubUI::LivesNumberRendererSet()
-{
-	// 목숨 숫자 앞자리
-	First_LivesRenderer = CreateUIRenderer(RenderOrder::PlayUI);
-	if (nullptr == First_LivesRenderer)
-	{
-		MsgBoxAssert("렌더러가 Null 입니다..");
-		return;
-	}
-
-	// 목숨 숫자 뒷자리
-	Second_LivesRenderer = CreateUIRenderer(RenderOrder::PlayUI);
-	if (nullptr == Second_LivesRenderer)
-	{
-		MsgBoxAssert("렌더러가 Null 입니다..");
-		return;
-	}
-
-
-	GameEngineWindowTexture* Texture = GlobalContents::TextureFileLoad("UI_Number_10x1_24x24.bmp", "Resources\\UI");
-	if (nullptr == Texture)
-	{
-		MsgBoxAssert("UI 텍스처가 널일리가 없어");
-		return;
-	}
-
-	First_LivesRenderer->SetTexture("UI_Number_10x1_24x24.bmp");
-	First_LivesRenderer->SetCopyPos(float4{ 0.0f , 0.0f });
-	First_LivesRenderer->SetCopyScale(NumberScale);
-	First_LivesRenderer->SetRenderPos(HUB_LIVESFIRSTNUMBERLOCATION + NumberScale.Half());
-	First_LivesRenderer->SetRenderScale(NumberScale);
-
-
-	Second_LivesRenderer->SetTexture("UI_Number_10x1_24x24.bmp");
-	Second_LivesRenderer->SetCopyPos(float4{ NumberScale.X * static_cast<float>(m_LivesCount), 0.0f });
-	Second_LivesRenderer->SetCopyScale(NumberScale);
-	Second_LivesRenderer->SetRenderPos(HUB_LIVESFIRSTNUMBERLOCATION + float4{ NumberScale.X , 0.0f } + NumberScale.Half());
-	Second_LivesRenderer->SetRenderScale(NumberScale);
 }
 
 

@@ -32,7 +32,7 @@ void PlayUI::Start()
 	HubRendererSet("MainUI.bmp", "Resources\\UI");
 	LivesAniRendererSet();
 	PortraitRendererSet(PORTRAITLOCATION);
-	LivesNumberRendererSet();
+	LivesNumberRendererSet(PLAY_LIVESFIRSTNUMBERLOCATION);
 	StaminaCountRendererSet("UI_LifeBar_3x1_24x42.bmp", "Resources\\UI", PLAY_STAMINAFIRSTNUMBERLOCATION);
 	ScoreRendererSet();
 }
@@ -63,56 +63,7 @@ void PlayUI::LivesAniRendererSet()
 	LivesAniRenderer->CreateAnimationToFrame("UI_LivesAnimation", "UI_LivesAni_3x1_39x36.bmp", { 0, 1, 2, 1 }, 0.5f, true);
 	LivesAniRenderer->ChangeAnimation("UI_LivesAnimation");
 	LivesAniRenderer->SetRenderPos(Play_LIVESANILOCATION + LivesAniScale.Half());
-
-
 }
-
-
-
-
-
-// Lives 횟수 숫자 로드
-void PlayUI::LivesNumberRendererSet()
-{
-	// 목숨 숫자 앞자리
-	First_LivesRenderer = CreateUIRenderer(RenderOrder::PlayUI);
-	if (nullptr == First_LivesRenderer)
-	{
-		MsgBoxAssert("렌더러가 Null 입니다..");
-		return;
-	}
-
-	// 목숨 숫자 뒷자리
-	Second_LivesRenderer = CreateUIRenderer(RenderOrder::PlayUI);
-	if (nullptr == Second_LivesRenderer)
-	{
-		MsgBoxAssert("렌더러가 Null 입니다..");
-		return;
-	}
-
-
-	GameEngineWindowTexture* Texture = GlobalContents::TextureFileLoad("UI_Number_10x1_24x24.bmp", "Resources\\UI");
-	if (nullptr == Texture)
-	{
-		MsgBoxAssert("UI 텍스처가 널일리가 없어");
-		return;
-	}
-
-	First_LivesRenderer->SetTexture("UI_Number_10x1_24x24.bmp");
-	First_LivesRenderer->SetCopyPos(float4{ 0.0f , 0.0f });
-	First_LivesRenderer->SetCopyScale(NumberScale);
-	First_LivesRenderer->SetRenderPos(PLAY_LIVESFIRSTNUMBERLOCATION + NumberScale.Half());
-	First_LivesRenderer->SetRenderScale(NumberScale);
-
-
-	Second_LivesRenderer->SetTexture("UI_Number_10x1_24x24.bmp");
-	Second_LivesRenderer->SetCopyPos(float4{ NumberScale.X * static_cast<float>(m_LivesCount), 0.0f });
-	Second_LivesRenderer->SetCopyScale(NumberScale);
-	Second_LivesRenderer->SetRenderPos(PLAY_LIVESFIRSTNUMBERLOCATION + float4{ NumberScale.X , 0.0f } + NumberScale.Half());
-	Second_LivesRenderer->SetRenderScale(NumberScale);
-}
-
-
 
 
 
@@ -120,135 +71,23 @@ void PlayUI::LivesNumberRendererSet()
 // 점수 이미지 로드
 void PlayUI::ScoreRendererSet()
 {
-	// 점수 1번째 자리
-	GameEngineRenderer* First_ScoreRenderer = CreateUIRenderer(RenderOrder::PlayUI);
-	if (nullptr == First_ScoreRenderer)
+	ScoreRenderer_vec.reserve(ScoreRenderer);
+	for (size_t i = 0; i < ScoreRenderer; i++)
 	{
-		MsgBoxAssert("렌더러가 Null 입니다..");
-		return;
+		GameEngineRenderer* ScoreRenderer = CreateUIRenderer(RenderOrder::PlayUI);
+		if (nullptr == ScoreRenderer)
+		{
+			MsgBoxAssert("렌더러가 Null 입니다..");
+			return;
+		}
+
+		ScoreRenderer->SetTexture("UI_Number_10x1_24x24.bmp");
+		ScoreRenderer->SetCopyPos(float4::ZERO);
+		ScoreRenderer->SetCopyScale(NumberScale);
+		ScoreRenderer->SetRenderPos(PLAY_SCOREFIRSTNUMBERLOCATION + float4{ NumberScale.X * static_cast<float>(i) , 0.0f} + NumberScale.Half());
+		ScoreRenderer->SetRenderScale(NumberScale);
+		ScoreRenderer_vec.push_back(ScoreRenderer);
 	}
-
-	// 점수 2번째 자리
-	GameEngineRenderer* Second_ScoreRenderer = CreateUIRenderer(RenderOrder::PlayUI);
-	if (nullptr == Second_ScoreRenderer)
-	{
-		MsgBoxAssert("렌더러가 Null 입니다..");
-		return;
-	}
-
-	// 점수 3번째 자리
-	GameEngineRenderer* Third_ScoreRenderer = CreateUIRenderer(RenderOrder::PlayUI);
-	if (nullptr == Third_ScoreRenderer)
-	{
-		MsgBoxAssert("렌더러가 Null 입니다..");
-		return;
-	}
-
-	// 점수 4번째 자리
-	GameEngineRenderer* Fourth_ScoreRenderer = CreateUIRenderer(RenderOrder::PlayUI);
-	if (nullptr == Fourth_ScoreRenderer)
-	{
-		MsgBoxAssert("렌더러가 Null 입니다..");
-		return;
-	}
-
-	// 점수 5번째 자리
-	GameEngineRenderer* Fifth_ScoreRenderer = CreateUIRenderer(RenderOrder::PlayUI);
-	if (nullptr == Fifth_ScoreRenderer)
-	{
-		MsgBoxAssert("렌더러가 Null 입니다..");
-		return;
-	}
-
-	// 점수 6번째 자리
-	GameEngineRenderer* Sixth_ScoreRenderer = CreateUIRenderer(RenderOrder::PlayUI);
-	if (nullptr == Sixth_ScoreRenderer)
-	{
-		MsgBoxAssert("렌더러가 Null 입니다..");
-		return;
-	}
-
-	// 점수 7번째 자리
-	GameEngineRenderer* Seventh_ScoreRenderer = CreateUIRenderer(RenderOrder::PlayUI);
-	if (nullptr == Seventh_ScoreRenderer)
-	{
-		MsgBoxAssert("렌더러가 Null 입니다..");
-		return;
-	}
-
-
-	GameEngineWindowTexture* Texture = GlobalContents::TextureFileLoad("UI_Number_10x1_24x24.bmp", "Resources\\UI");
-	if (nullptr == Texture)
-	{
-		MsgBoxAssert("UI 텍스처가 널일리가 없어");
-		return;
-	}
-
-
-	ScoreRenderer_vec.reserve(7);
-
-	// Set Score Position and Render
-	First_ScoreRenderer->SetTexture("UI_Number_10x1_24x24.bmp");
-	First_ScoreRenderer->SetCopyPos(float4::ZERO);
-	First_ScoreRenderer->SetCopyScale(NumberScale);
-	First_ScoreRenderer->SetRenderPos(PLAY_SCOREFIRSTNUMBERLOCATION + NumberScale.Half());
-	First_ScoreRenderer->SetRenderScale(NumberScale);
-	ScoreRenderer_vec.push_back(First_ScoreRenderer);
-
-
-
-	Second_ScoreRenderer->SetTexture("UI_Number_10x1_24x24.bmp");
-	Second_ScoreRenderer->SetCopyPos(float4::ZERO);
-	Second_ScoreRenderer->SetCopyScale(NumberScale);
-	Second_ScoreRenderer->SetRenderPos(PLAY_SCOREFIRSTNUMBERLOCATION + float4{ NumberScale.X , 0.0f } + NumberScale.Half());
-	Second_ScoreRenderer->SetRenderScale(NumberScale);
-	ScoreRenderer_vec.push_back(Second_ScoreRenderer);
-
-
-
-	Third_ScoreRenderer->SetTexture("UI_Number_10x1_24x24.bmp");
-	Third_ScoreRenderer->SetCopyPos(float4::ZERO);
-	Third_ScoreRenderer->SetCopyScale(NumberScale);
-	Third_ScoreRenderer->SetRenderPos(PLAY_SCOREFIRSTNUMBERLOCATION + float4{ NumberScale.X * 2.0f , 0.0f } + NumberScale.Half());
-	Third_ScoreRenderer->SetRenderScale(NumberScale);
-	ScoreRenderer_vec.push_back(Third_ScoreRenderer);
-
-
-
-	Fourth_ScoreRenderer->SetTexture("UI_Number_10x1_24x24.bmp");
-	Fourth_ScoreRenderer->SetCopyPos(float4::ZERO);
-	Fourth_ScoreRenderer->SetCopyScale(NumberScale);
-	Fourth_ScoreRenderer->SetRenderPos(PLAY_SCOREFIRSTNUMBERLOCATION + float4{ NumberScale.X * 3.0f , 0.0f } + NumberScale.Half());
-	Fourth_ScoreRenderer->SetRenderScale(NumberScale);
-	ScoreRenderer_vec.push_back(Fourth_ScoreRenderer);
-
-
-
-	Fifth_ScoreRenderer->SetTexture("UI_Number_10x1_24x24.bmp");
-	Fifth_ScoreRenderer->SetCopyPos(float4::ZERO);
-	Fifth_ScoreRenderer->SetCopyScale(NumberScale);
-	Fifth_ScoreRenderer->SetRenderPos(PLAY_SCOREFIRSTNUMBERLOCATION + float4{ NumberScale.X * 4.0f, 0.0f } + NumberScale.Half());
-	Fifth_ScoreRenderer->SetRenderScale(NumberScale);
-	ScoreRenderer_vec.push_back(Fifth_ScoreRenderer);
-
-
-
-	Sixth_ScoreRenderer->SetTexture("UI_Number_10x1_24x24.bmp");
-	Sixth_ScoreRenderer->SetCopyPos(float4::ZERO);
-	Sixth_ScoreRenderer->SetCopyScale(NumberScale);
-	Sixth_ScoreRenderer->SetRenderPos(PLAY_SCOREFIRSTNUMBERLOCATION + float4{ NumberScale.X * 5.0f , 0.0f } + NumberScale.Half());
-	Sixth_ScoreRenderer->SetRenderScale(NumberScale);
-	ScoreRenderer_vec.push_back(Sixth_ScoreRenderer);
-
-
-
-	Seventh_ScoreRenderer->SetTexture("UI_Number_10x1_24x24.bmp");
-	Seventh_ScoreRenderer->SetCopyPos(float4::ZERO);
-	Seventh_ScoreRenderer->SetCopyScale(NumberScale);
-	Seventh_ScoreRenderer->SetRenderPos(PLAY_SCOREFIRSTNUMBERLOCATION + float4{ NumberScale.X * 6.0f , 0.0f } + NumberScale.Half());
-	Seventh_ScoreRenderer->SetRenderScale(NumberScale);
-	ScoreRenderer_vec.push_back(Seventh_ScoreRenderer);
-
 }
 
 
