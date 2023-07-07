@@ -79,6 +79,8 @@ void Kirby::UseAbilityStart()
 void Kirby::UseSpecialAbilityUpdate(float _Delta)
 {
 	UseAbilityUpdate(_Delta);
+
+	BlockedByAll();
 }
 
 
