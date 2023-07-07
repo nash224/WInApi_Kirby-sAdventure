@@ -410,7 +410,19 @@ void BrontoBurt::Render(float _Delta)
 	}
 
 
-	HDC dc = GameEngineWindow::MainWindow.GetBackBuffer()->GetImageDC();
+	GameEngineWindowTexture* BackBufferPtr = GameEngineWindow::MainWindow.GetBackBuffer();
+	if (nullptr == BackBufferPtr)
+	{
+		MsgBoxAssert("백버퍼를 불러오지 못했습니다.");
+		return;
+	}
+
+	HDC dc = BackBufferPtr->GetImageDC();
+	if (nullptr == dc)
+	{
+		MsgBoxAssert("핸들을 불러오지 못했습니다.");
+		return;
+	}
 
 	int TextRenderNum = 0;
 
@@ -430,6 +442,13 @@ void BrontoBurt::Render(float _Delta)
 
 void BrontoBurt::ThisDebugRender(HDC _dc, int& _RenderNumber, const int _TextXPos, const int _TextYPos)
 {
+	if (nullptr == _dc)
+	{
+		MsgBoxAssert("핸들을 불러오지 못했습니다.");
+		return;
+	}
+
+
 	{
 		std::string Text = "";
 		Text += "비행모드 : ";
@@ -457,7 +476,17 @@ void BrontoBurt::ThisDebugTriggerRender(HDC _dc)
 
 
 	float4 ActorPos = GetPos();
-	float4 KirbyPos = Kirby::GetMainKirby()->GetPos();
+
+	Kirby* KirbyPtr = Kirby::GetMainKirby();
+	if (nullptr == KirbyPtr)
+	{
+		MsgBoxAssert("커비를 불러오지 못했습니다.");
+		return;
+	}
+
+	float4 KirbyPos = KirbyPtr->GetPos();
+	
+
 	float4 OpponentDistance = KirbyPos - ActorPos;
 
 	if (BrontoState::Idle == State)

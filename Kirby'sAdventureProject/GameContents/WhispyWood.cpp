@@ -714,7 +714,19 @@ void WhispyWood::Render(float _Delta)
 	}
 
 
-	HDC dc = GameEngineWindow::MainWindow.GetBackBuffer()->GetImageDC();
+	GameEngineWindowTexture* BackBufferPtr = GameEngineWindow::MainWindow.GetBackBuffer();
+	if (nullptr == BackBufferPtr)
+	{
+		MsgBoxAssert("백버퍼를 불러오지 못했습니다.");
+		return;
+	}
+
+	HDC dc = BackBufferPtr->GetImageDC();
+	if (nullptr == dc)
+	{
+		MsgBoxAssert("핸들을 불러오지 못했습니다.");
+		return;
+	}
 
 	int TextRenderNum = 0;
 
@@ -732,6 +744,13 @@ void WhispyWood::Render(float _Delta)
 
 void WhispyWood::ThisDebugRender(HDC _dc, int& _RenderNumber, const int _TextXPos, const int _TextYPos)
 {
+	if (nullptr == _dc)
+	{
+		MsgBoxAssert("핸들을 불러오지 못했습니다.");
+		return;
+	}
+
+
 	float4 WinScale = GameEngineWindow::MainWindow.GetScale();
 
 

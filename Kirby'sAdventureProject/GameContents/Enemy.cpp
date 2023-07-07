@@ -61,13 +61,14 @@ void Enemy::ChangeAnimationState(const std::string& _StateName)
 // 커비를 바라보는 함수
 void Enemy::GetKirbyDirection()
 {
-	if (nullptr == Kirby::GetMainKirby())
+	Kirby* KirbyPtr = Kirby::GetMainKirby();
+	if (nullptr == KirbyPtr)
 	{
 		Dir = ActorDir::Left;
 		return;
 	}
 
-	float4 StartDir = Kirby::GetMainKirby()->GetPos() - GetPos();
+	float4 StartDir = KirbyPtr->GetPos() - GetPos();
 
 	if (StartDir.X < 0.0f)
 	{
@@ -185,9 +186,16 @@ void Enemy::HittedStart()
 	CurrentSpeed = 0.0f;
 	IsHitted = true;
 
+	GameEngineLevel* CurLevelPtr = GetLevel();
+	if (nullptr == CurLevelPtr)
+	{
+		MsgBoxAssert("현재 레벨을 불러오지 못했습니다.");
+		return;
+	}
+
 
 	// 별 이펙트 생성
-	CrossDeathEffect* CrossDeathEffectPtr = GetLevel()->CreateActor<CrossDeathEffect>(UpdateOrder::Ability);
+	CrossDeathEffect* CrossDeathEffectPtr = CurLevelPtr->CreateActor<CrossDeathEffect>(UpdateOrder::Ability);
 	if (nullptr == CrossDeathEffectPtr)
 	{
 		MsgBoxAssert("액터가 Null 일리가 없어..");
@@ -305,8 +313,24 @@ void Enemy::BeInhaledUpdate(float _Delta)
 // 몬스터가가 카메라 밖으로 나가면 Off
 void Enemy::CheckOverScreen()
 {
+
+	GameEngineLevel* curLevelPtr = GetLevel();
+	if (nullptr == curLevelPtr)
+	{
+		MsgBoxAssert("현재 레벨을 불러오지 못했습니다.");
+		return;
+	}
+
+	GameEngineCamera* CurCameraPtr = curLevelPtr->GetMainCamera();
+	if (nullptr == CurCameraPtr)
+	{
+		MsgBoxAssert("현재 카메라을 불러오지 못했습니다.");
+		return;
+	}
+
+	float4 CameraPos = CurCameraPtr->GetPos();
+
 	float4 WinScale = GameEngineWindow::MainWindow.GetScale();
-	float4 CameraPos = GetLevel()->GetMainCamera()->GetPos();
 
 	if (CameraPos.X > GetPos().X + CHECKOVERSCREENGAP || CameraPos.X + WinScale.X < GetPos().X - CHECKOVERSCREENGAP
 		|| CameraPos.Y > GetPos().Y + CHECKOVERSCREENGAP || CameraPos.Y + WinScale.Y < GetPos().Y - CHECKOVERSCREENGAP)
@@ -355,8 +379,32 @@ void Enemy::RespawnLocationOverCamera()
 void Enemy::RespawnTrigger()
 {
 	float4 WinScale = GameEngineWindow::MainWindow.GetScale();
-	float4 CameraPos = GetLevel()->GetMainCamera()->GetPos();
-	float4 KirbyPos = Kirby::GetMainKirby()->GetKirbyMovePos();
+
+	GameEngineLevel* curLevelPtr = GetLevel();
+	if (nullptr == curLevelPtr)
+	{
+		MsgBoxAssert("현재 레벨을 불러오지 못했습니다.");
+		return;
+	}
+
+	GameEngineCamera* CurCameraPtr = curLevelPtr->GetMainCamera();
+	if (nullptr == CurCameraPtr)
+	{
+		MsgBoxAssert("현재 카메라을 불러오지 못했습니다.");
+		return;
+	}
+
+	float4 CameraPos = CurCameraPtr->GetPos();
+
+
+	Kirby* KirbyPtr = Kirby::GetMainKirby();
+	if (nullptr == KirbyPtr)
+	{
+		MsgBoxAssert("커비를 불러오지 못했습니다.");
+		return;
+	}
+
+	float4 KirbyPos = KirbyPtr->GetKirbyMovePos();
 
 	RespawnLocationOverCamera();
 	if (CameraPos.X + WinScale.X + KirbyPos.X >= RespawnLocation.X &&

@@ -446,7 +446,20 @@ void VegetableValleyPlayLevel::DebugRender(float _Delta)
 		return;
 	}
 
-	HDC dc = GameEngineWindow::MainWindow.GetBackBuffer()->GetImageDC();
+	GameEngineWindowTexture* BackBufferPtr = GameEngineWindow::MainWindow.GetBackBuffer();
+	if (nullptr == BackBufferPtr)
+	{
+		MsgBoxAssert("백버퍼를 불러오지 못했습니다.");
+		return;
+	}
+
+	HDC dc = BackBufferPtr->GetImageDC();
+	if (nullptr == dc)
+	{
+		MsgBoxAssert("핸들을 불러오지 못했습니다.");
+		return;
+	}
+
 	int TextRenderNum = 0;
 
 	if (false == Level_DebugRenderValue && false == Level_SwitchBitMapRenderValue)
@@ -515,6 +528,11 @@ void VegetableValleyPlayLevel::OpenMenuRender(HDC _HDC, int& _RenderNumber)
 // 개발지 모드
 void VegetableValleyPlayLevel::DevModeRender(HDC _HDC, int& _RenderNumber, float _Delta)
 {
+	if (nullptr == _HDC)
+	{
+		MsgBoxAssert("핸들을 불러오지 못했습니다.");
+		return;
+	}
 
 	{
 		std::string Text = " F2 : 뒤로 가기";
@@ -642,6 +660,13 @@ void VegetableValleyPlayLevel::DevModeRender(HDC _HDC, int& _RenderNumber, float
 // 비트맵 디버깅 렌더러
 void VegetableValleyPlayLevel::ColAndBitMapRender(HDC _HDC, int& _RenderNumber)
 {
+	if (nullptr == _HDC)
+	{
+		MsgBoxAssert("핸들을 불러오지 못했습니다.");
+		return;
+	}
+
+
 	{
 		std::string Text = " F2 : 개발자 모드";
 		TextOutA(_HDC, Level_DebugRenderXPos, 2 + _RenderNumber * DebugRenderText_YInter, Text.c_str(), static_cast<int>(Text.size()));

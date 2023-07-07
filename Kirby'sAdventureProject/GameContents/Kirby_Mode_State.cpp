@@ -688,6 +688,11 @@ void Kirby::CheckKirbyAbilityCollision(GameEngineCollision* _CheckCol, int _Dama
 				return;
 			}
 
+			if (true == Monster->IsHitted)
+			{
+				continue;
+			}
+
 			// 몬스터 상태 변경 트리거 On
 			Monster->IsHitted = true;
 		}

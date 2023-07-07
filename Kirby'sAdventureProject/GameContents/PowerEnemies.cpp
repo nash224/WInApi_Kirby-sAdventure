@@ -59,6 +59,12 @@ void PowerEnemies::EnemyAbilityAttack()
 
 void PowerEnemies::PowerEnemyDebugRender(HDC _dc, int& _RenderNumber, const int _TextXPos, const int _TextYPos)
 {
+	if (nullptr == _dc)
+	{
+		MsgBoxAssert("핸들을 불러오지 못했습니다.");
+		return;
+	}
+
 	{
 		std::string Text = "";
 		Text += "Ability Collision : ";

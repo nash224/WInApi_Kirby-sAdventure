@@ -386,6 +386,7 @@ bool ActorUtils::IsSolidGround()
 	return false;
 }
 
+
 // 통과 가능한 벽인가?
 bool ActorUtils::IsPassableGround()
 {
@@ -403,7 +404,19 @@ bool ActorUtils::IsPassableGround()
 // 디버그용 체크 포인트 렌더
 void ActorUtils::ActorCollisionDetectionPointRender()
 {
-	HDC BackDC = GameEngineWindow::MainWindow.GetBackBuffer()->GetImageDC();
+	GameEngineWindowTexture* BackBufferPtr = GameEngineWindow::MainWindow.GetBackBuffer();
+	if (nullptr == BackBufferPtr)
+	{
+		MsgBoxAssert("백버퍼를 불러오지 못했습니다.");
+		return;
+	}
+
+	HDC BackDC = BackBufferPtr->GetImageDC();
+	if (nullptr == BackDC)
+	{
+		MsgBoxAssert("핸들을 불러오지 못했습니다.");
+		return;
+	}
 
 	CollisionData Data;
 

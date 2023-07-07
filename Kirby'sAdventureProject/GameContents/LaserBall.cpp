@@ -399,7 +399,19 @@ void LaserBall::Render(float _Delta)
 	}
 
 
-	HDC dc = GameEngineWindow::MainWindow.GetBackBuffer()->GetImageDC();
+	GameEngineWindowTexture* BackBufferPtr = GameEngineWindow::MainWindow.GetBackBuffer();
+	if (nullptr == BackBufferPtr)
+	{
+		MsgBoxAssert("백버퍼를 불러오지 못했습니다.");
+		return;
+	}
+
+	HDC dc = BackBufferPtr->GetImageDC();
+	if (nullptr == dc)
+	{
+		MsgBoxAssert("핸들을 불러오지 못했습니다.");
+		return;
+	}
 
 	int TextRenderNum = 0;
 
@@ -419,6 +431,13 @@ void LaserBall::Render(float _Delta)
 
 void LaserBall::ThisDebugRender(HDC _dc, int& _RenderNumber, const int _TextXPos, const int _TextYPos)
 {
+	if (nullptr == _dc)
+	{
+		MsgBoxAssert("핸들을 불러오지 못했습니다.");
+		return;
+	}
+
+
 	{
 		std::string Text = "";
 		Text += "Laser 탄환 수 : ";

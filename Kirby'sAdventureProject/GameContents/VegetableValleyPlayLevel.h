@@ -197,6 +197,7 @@ public:
 
 protected:
 	void DebugRender(float _Delta);
+
 	void OpenMenuRender(HDC _HDC, int& _RenderNumber);
 	void DevModeRender(HDC _HDC, int& _RenderNumber, float _Delta);
 	void ColAndBitMapRender(HDC _HDC, int& _RenderNumber);

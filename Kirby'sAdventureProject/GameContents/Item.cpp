@@ -23,7 +23,6 @@ Item::~Item()
 void Item::SetGroundTexture(const std::string& _GroundTextureName)
 {
 	GroundTexture = ResourcesManager::GetInst().FindTexture(_GroundTextureName);
-
 	if (nullptr == GroundTexture)
 	{
 		MsgBoxAssert(" 픽셀충돌 맵을 찾을 수 없습니다. " + _GroundTextureName);
