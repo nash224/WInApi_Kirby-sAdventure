@@ -38,21 +38,30 @@ void PowerEnemies::EnemyAbilityAttack()
 	std::vector<GameEngineCollision*> KirbyBodyCollision;
 	if (true == AbilityCollision->Collision(CollisionOrder::PlayerBody, KirbyBodyCollision, CollisionType::Rect, CollisionType::Rect))
 	{
-		GameEngineCollision* KirbyBody = KirbyBodyCollision[0];
-		if (nullptr == KirbyBody)
+		for (size_t i = 0; i < KirbyBodyCollision.size(); i++)
 		{
-			MsgBoxAssert("커비는 Null 입니다.");
-			return;
-		}
+			GameEngineCollision* KirbyBody = KirbyBodyCollision[i];
+			if (nullptr == KirbyBody)
+			{
+				MsgBoxAssert("커비는 Null 입니다.");
+				return;
+			}
 
-		ActorUtils* KirbyPtr = dynamic_cast<ActorUtils*>(KirbyBody->GetActor());
-		if (nullptr == KirbyPtr)
-		{
-			MsgBoxAssert("다운 캐스팅이 실패했습니다.");
-			return;
-		}
+			ActorUtils* KirbyPtr = dynamic_cast<ActorUtils*>(KirbyBody->GetActor());
+			if (nullptr == KirbyPtr)
+			{
+				MsgBoxAssert("다운 캐스팅이 실패했습니다.");
+				return;
+			}
 
-		KirbyPtr->IsHitted = true;
+
+			if (true == KirbyPtr->IsHitted)
+			{
+				continue;
+			}
+
+			KirbyPtr->IsHitted = true;
+		}
 	}
 }
 

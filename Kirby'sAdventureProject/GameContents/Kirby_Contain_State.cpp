@@ -741,14 +741,6 @@ void Kirby::Contain_GulpStart()
 
 		// Fade 설정
 		// Fade 해제해줄 때까지 On상태 => GetAbility 패턴에서 해제
-		GameEngineLevel* CurLevelPtr = GetLevel();
-		if (nullptr == CurLevelPtr)
-		{
-			MsgBoxAssert("레벨을 불러오지 못했습니다.");
-			return;
-		}
-
-
 		FadeObject* LevelFade = CurLevelPtr->CreateActor<FadeObject>(UpdateOrder::UI);
 		if (nullptr == LevelFade)
 		{
@@ -761,6 +753,7 @@ void Kirby::Contain_GulpStart()
 		
 		// 시간 설정
 		GameEngineTime::MainTimer.SetAllTimeScale(0.0f);
+		GameEngineTime::MainTimer.SetTimeScale(UpdateOrder::BackGround, 1.0f);
 		GameEngineTime::MainTimer.SetTimeScale(UpdateOrder::Player, 1.0f);
 		GameEngineTime::MainTimer.SetTimeScale(UpdateOrder::Other, 1.0f);
 		GameEngineTime::MainTimer.SetTimeScale(UpdateOrder::UI, 1.0f);

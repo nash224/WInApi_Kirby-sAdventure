@@ -814,6 +814,11 @@ void Kirby::Render(float _Detla)
 	}
 
 	HDC dc = BackBufferPtr->GetImageDC();
+	if (nullptr == dc)
+	{
+		MsgBoxAssert("핸들을 불러오지 못했습니다.");
+		return;
+	}
 
 
 

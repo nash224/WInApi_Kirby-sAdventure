@@ -32,7 +32,7 @@ void BossUI::Start()
 	LivesAniRendererSet();
 	PortraitRendererSet(PORTRAITLOCATION);
 	LivesNumberRendererSet(BOSS_LIVESFIRSTNUMBERLOCATION);
-	StaminaCountRendererSet("UI_LifeBar_3x1_24x42.bmp", "Resources\\UI", BOSS_STAMINA_FIRSTNUMBERLOCATION);
+	StaminaCountRendererSet("UI_LifeBar_3x1_24x42.bmp", "Resources\\UI", BOSS_STAMINAFIRSTNUMBERLOCATION);
 	BossStaminaRendererSet();
 }
 

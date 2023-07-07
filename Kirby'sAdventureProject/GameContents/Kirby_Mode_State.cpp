@@ -546,6 +546,11 @@ void Kirby::CheckKirbyCollision()
 				return;
 			}
 
+			if (true == Monster->IsHitted)
+			{
+				continue;
+			}
+
 			// 맞았고
 			Monster->IsHitted = true;
 
@@ -613,6 +618,11 @@ void Kirby::CheckKirbyCollision()
 			{
 				MsgBoxAssert("다운 캐스팅 오류입니다.");
 				return;
+			}
+
+			if (true == Monster->IsHitted)
+			{
+				continue;
 			}
 
 			Monster->IsHitted = true;
@@ -738,6 +748,11 @@ void Kirby::CheckKirbyAbilityToBossCollision(GameEngineCollision* _CheckCol, int
 			{
 				MsgBoxAssert("다운 캐스팅 오류입니다.");
 				return;
+			}
+
+			if (true == Actor->IsHitted)
+			{
+				continue;
 			}
 
 			// 몬스터 상태 변경 트리거 On
