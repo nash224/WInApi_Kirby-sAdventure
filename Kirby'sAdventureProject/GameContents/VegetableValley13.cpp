@@ -12,7 +12,7 @@
 #include "FadeObject.h"
 #include "Kirby.h"
 #include "WhispyWood.h"
-#include "ContentsObject.h"
+#include "EndingPlank.h"
 
 
 
@@ -176,7 +176,7 @@ void VegetableValley13::EndingCredit(float _Delta)
 
 
 		// 판자 생성
-		ContentsObject* PlankPtr = CreateActor<ContentsObject>(UpdateOrder::UI);
+		EndingPlank* PlankPtr = CreateActor<EndingPlank>(UpdateOrder::UI);
 		if (nullptr == PlankPtr)
 		{
 			MsgBoxAssert("액터를 생성하지 못했습니다.");

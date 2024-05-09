@@ -218,7 +218,7 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="ContentsObject.h">
+    <ClInclude Include="EndingPlank.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -538,7 +538,7 @@
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="ContentsObject.cpp">
+    <ClCompile Include="EndingPlank.cpp">
       <SubType>
       </SubType>
     </ClCompile>

@@ -1,4 +1,4 @@
-#include "ContentsObject.h"
+#include "EndingPlank.h"
 #include "ContentsEnum.h"
 #include "GlobalContents.h"
 
@@ -9,16 +9,16 @@
 #include "VegetableValleyPlayLevel.h"
 
 
-ContentsObject::ContentsObject()
+EndingPlank::EndingPlank()
 {
 }
 
-ContentsObject::~ContentsObject()
+EndingPlank::~EndingPlank()
 {
 }
 
 
-void ContentsObject::Start()
+void EndingPlank::Start()
 {
 	// 兄希君 持失
 	MainRenderer = CreateRenderer(RenderOrder::BackGroundEffect);
@@ -38,7 +38,7 @@ void ContentsObject::Start()
 }
 
 
-void ContentsObject::init(const float4& _PlankPos)
+void EndingPlank::init(const float4& _PlankPos)
 {
 	SetPos(_PlankPos);
 }

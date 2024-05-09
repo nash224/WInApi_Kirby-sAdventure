@@ -204,7 +204,7 @@
     <ClInclude Include="VegetableValleyCutScene.h">
       <Filter>Level\03.Scene</Filter>
     </ClInclude>
-    <ClInclude Include="ContentsObject.h">
+    <ClInclude Include="EndingPlank.h">
       <Filter>Global\Object\Objects</Filter>
     </ClInclude>
     <ClInclude Include="KirbyBanner.h">
@@ -477,7 +477,7 @@
     <ClCompile Include="VegetableValleyCutScene.cpp">
       <Filter>Level\03.Scene</Filter>
     </ClCompile>
-    <ClCompile Include="ContentsObject.cpp">
+    <ClCompile Include="EndingPlank.cpp">
       <Filter>Global\Object\Objects</Filter>
     </ClCompile>
     <ClCompile Include="KirbyBanner.cpp">
